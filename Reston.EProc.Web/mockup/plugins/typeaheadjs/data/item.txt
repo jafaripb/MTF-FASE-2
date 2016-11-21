@@ -1,0 +1,9 @@
+[
+	{
+		"id":"1",
+		"label":"Bata merah",
+		"satuan":"biji",
+		"harga":"2000"
+	}
+]
+

@@ -1,0 +1,403 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+      <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<link rel="stylesheet" href="dist/site.css">
+	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+	
+  </head>
+ <body class="hold-transition skin-blue sidebar-collapse sidebar-mini  fixed">
+    <div class="wrapper">
+
+      
+    <div id="header">
+        <header class="main-header">
+            <!-- Logo -->
+            <a class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu pull-left">
+                    <ul class="nav navbar-nav">
+                        <li>	<a id="judul-page" href="#">Master Data EPROC</a></li>
+                    </ul>
+                </div>
+                <div class="navbar-custom-menu">
+                    <ul id="menu-top" class="nav navbar-nav">
+                        <li>
+                            <div id="searchForm" class="pull-right" style="padding-top:10px;padding-right:5px">
+                                <form action="" class="search-form">
+                                    <div class="form-group has-feedback">
+                                        <label for="search" class="sr-only">Search</label>
+                                        <input type="text" class="form-control" name="search" id="search">
+                                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </nav>
+        </header>
+    </div>
+          <!-- Left side column. contains the logo and sidebar -->
+      <div id="menu"  >
+          <aside class="main-sidebar" >
+            <!-- sidebar: style can be found in sidebar.less -->
+             <section class="sidebar" >
+			    <!--<div class="user-panel" ng-controller="user">				
+				    <div class="pull-left info">
+					    <p class="title" ng-bind="user.nama"></p>
+					    <p class="deskripsi" ng-bind="user.divisi"></p>
+				    </div>
+				    <div class="pull-right image image-profile">
+					    <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+				    </div>
+			    </div>-->
+              <!-- sidebar menu: : style can be found in sidebar.less -->
+              <ul class="sidebar-menu"  ng-controller="side-menu">
+               <!-- <li class="header">MAIN NAVIGATION</li>-->
+             
+			    <li class="treeview" ng-repeat="menu in menus">
+				    <a href="{{menu.url}}">
+				        <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+				    </a>				
+			    </li>
+              </ul>
+            </section>
+            <!-- /.sidebar -->
+          </aside>
+     </div>
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+    		 <section class="content">
+
+			<!-- Default box -->
+			<div class="box box-primary box-white">
+										
+				<div class="box-body form-horizontal">	
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Cari</h3>
+							<div class="box-tools pull-right">
+							</div>
+						</div>
+						<div class="box-body">	
+								<div class="row">
+									<div class="col-md-12">
+										<form class="form-horizontal label-kanan">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Nama</label>
+                                            <div class="col-sm-4">
+                                                <input id="nama_item" type="text" class="form-control " placeholder="kode/nama/deskripsi">
+                                            </div>
+                                        </div>	
+										</form>
+									</div>
+								</div>
+								<div class="row ">
+										<div class="col-md-12">
+												<div class="submitgray button-row">
+													<button id="cari" class="btn btn-primary " type="submit">Cari</button>
+                                                    <button id="tambah" class="btn btn-success" onclick="NewItem()" type="submit">Tambah Data Baru</button>
+												</div>
+										</div> 
+									</div>
+						</div>
+                        <div class="box-body">
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs" id="myTab">
+                                    <li class="active" data-ctr="0"><a href="javascript:changeTab(0)" id="tab-periode">Periode Anggaran</a></li>
+                                    <li data-ctr="1"><a href="javascript:changeTab(1)" id="tab-unitkerja">Unit Kerja Pemohon</a></li>
+                                    <li data-ctr="2"><a href="javascript:changeTab(2)" id="tab-jenisbelanja">Jenis Belanja</a></li>
+                                    <li data-ctr="3"><a href="javascript:changeTab(3)" id="tab-jenispekerjaan">Jenis Pekerjaan</a></li>
+                                    <li data-ctr="4"><a href="javascript:changeTab(4)" id="tab-matauang">Mata Uang</a></li>
+                                    <li data-ctr="5"><a href="javascript:changeTab(5)" id="tab-region">Region</a></li>
+                                    <li data-ctr="6"><a href="javascript:changeTab(6)" id="tab-satuan">Satuan</a></li>
+                                    <li data-ctr="7"><a href="javascript:changeTab(7)" id="tab-bank">Bank</a></li>
+                                </ul>
+                                <div class="tab-content" style="overflow:visible">
+                                    <div id="periode" class="tab-pane active" style="overflow:visible">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <table id="example1" class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Code</th>
+                                                            <th>Name</th>
+                                                            <th>Desc</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="unitkerja" class="tab-pane">
+                                        
+                                    </div>
+                                    <div id="jenisbelanja" class="tab-pane">
+                                        
+                                    </div>
+                                    <div id="jenispekerjaan" class="tab-pane">
+
+                                    </div>
+                                    <div id="matauang" class="tab-pane">
+
+                                    </div>
+                                    <div id="region" class="tab-pane">
+
+                                    </div>
+                                    <div id="satuan" class="tab-pane">
+
+                                    </div>
+                                    <div id="bank" class="tab-pane">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+					</div>
+					</div>
+				</div>	
+		</section><!-- /.content -->
+    
+		</div><!-- /.content-wrapper -->
+       
+	   <footer class="main-footer">
+        <!--<div class="pull-right hidden-xs">
+          <b>Version</b> 1.0.0
+        </div>
+        <strong>Supplier Relation Management</strong> -->
+	    </footer>
+    </div><!-- ./wrapper -->
+     <div class="modal" id="modal-create" role="dialog" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title">Insert Master Data : <strong id="qualifier"></strong></h4>
+                 </div>
+                 <div class="modal-content">
+                     <div class="col-md-12">
+                         <div class="form-horizontal">
+                             <div class="col-md-12">
+                                 <div class="form-group">
+                                     <label>Kode</label>
+                                     <input type="text" id="kode" class="form-control" />
+                                 </div>
+                             </div>
+                             <div class="col-md-12">
+                                 <div class="form-group">
+                                     <label>Nama</label>
+                                     <input type="text" id="nama" class="form-control" />
+                                 </div>
+                             </div>
+                             <div class="col-md-12">
+                                 <div class="form-group">
+                                     <label>Deskripsi</label>
+                                     <input type="text" id="deskripsi" class="form-control" />
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" onclick="submitCreate()" class="btn btn-success">Submit</button>
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                 </div>
+             </div><!-- /.modal-content -->
+         </div><!-- /.modal-dialog -->
+     </div><!-- /.modal -->
+
+     <div class="modal" id="modal-delete" role="dialog" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title">Delete Confirmation : <strong id="qualifier"></strong></h4>
+                 </div>
+                 <div class="modal-content">
+                     <input type="hidden" id="idToDelete"/>
+                     <div class="col-md-12">
+                         <p>
+                             Anda akan menghapus data ini, Anda yakin?
+                             <br/><br /><br />
+                         </p>
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" onclick="submitDelete()" class="btn btn-success">Submit</button>
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                 </div>
+             </div><!-- /.modal-content -->
+         </div><!-- /.modal-dialog -->
+     </div><!-- /.modal -->
+	
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    
+	 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="plugins/jQueryUItotop/easing.js"></script>
+	<script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>	
+     <script src="plugins/angular/angular.min.js"></script>
+      <script src="dist/js/app.min.js"></script>
+     <script type="text/javascript" src="site.js"></script>
+     <script src="dist/js/menu.js"></script>
+	 <script>
+	     
+         var table;
+         var urls = ["AddPeriodeAnggaran", "AddUnitKerja", "AddJenisBelanja", "AddJenisPekerjaan",
+                        "AddCurrency", "AddRegion", "AddSatuan", "AddBank"];
+         var urls_tbl = ["GetTblPeriodeAnggaran", "GetTblUnitKerja", "GetTblJenisPembelanjaan", "GetTblJenisPekerjaan",
+                        "GetTblCurrency", "GetTblRegion", "GetTblSatuan", "GetTblBank"];
+
+         function NewItem() {
+             var text = $("#myTab li.active a").html();
+             $("#modal-create #qualifier").html(text);
+             $("#modal-create").modal('show');
+         }
+
+         function submitCreate() {
+             var kode = $("#kode").val();
+             var nama = $("#nama").val();
+             var deskripsi = $("#deskripsi").val();
+             var index = $("#myTab li.active").data("ctr");
+             var url = "api/ReferenceData/"+urls[index];
+             $.ajax({
+                 url: url,
+                 //dataType: 'json',
+                 data: {code : kode, nama : nama, deskripsi: deskripsi},
+                 success: function (data) {
+                     $("#modal-create").modal('hide');
+                     table.ajax.reload();
+                     alert(data);
+                 },
+                 complete: function (xhr) {
+                     ajaxCompleteProcess(xhr);
+                 }
+             });
+         }
+
+         function generateTable(url) {
+             table = $('#example1').DataTable({
+                 "ajax": 'api/ReferenceData/'+url,
+                 "columns": [
+                     { "data": "Code" },
+                     { "data": "Name" },
+                     { "data": "Desc" },
+                     { "data": "null", "width": "3%" }
+                 ],
+                 "columnDefs": [
+                          {
+                              "render": function (data, type, row) {
+                                  return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
+                              },
+                              "targets": 0,
+                              "orderable": false
+                          },
+                          {
+                              "render": function (data, type, row) {
+                                  return '<a class="btn btn-xs btn-danger remove-item" href="javascript:deleteItem(' + row.id + ')" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                              },
+                              "targets": 3,
+                              "orderable": false
+                          }
+                 ],
+                 "paging": true,
+                 "lengthChange": false,
+                 "searching": true,
+                 "ordering": true,
+                 "info": true,
+                 "autoWidth": false
+             });
+         }
+
+         $(function () {
+           $().UItoTop({ easingType: 'easeOutQuart' });
+           generateTable("GetTblPeriodeAnggaran");
+          
+			$("#example1_filter").hide();
+		    $("#cari").on("click",function(){
+			    var nama_item = $("#nama_item").val();
+			    table.columns(0).search( nama_item ).draw();
+			    //table.columns(1).search(nama_item).draw();
+			    //table.columns(2).search(nama_item).draw();
+		});
+		
+		
+         });
+
+         function viewDetail() {
+
+         }
+
+         function deleteItem(id) {
+             //alert("about to delete: "+id);
+             $("#modal-delete").modal('show');
+             $("#modal-delete #idToDelete").val(id);
+         }
+
+         function submitDelete() {
+             var id = $("#modal-delete #idToDelete").val();
+             $.ajax({
+                 url: "api/ReferenceData/DeleteReferenceData/"+id,
+                 success: function (data) {
+                     $("#modal-delete").modal('hide');
+                     table.ajax.reload();
+                     alert(data);
+                 },
+                 complete: function (xhr) {
+                     ajaxCompleteProcess(xhr);
+                 }
+             });
+         }
+        
+         function changeTab(idx) {
+             $("#myTab li").removeClass('active');
+             $("[data-ctr=" + idx + "]").addClass('active');
+             table.destroy();
+             generateTable(urls_tbl[idx]);
+         }
+    </script>
+	<!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+    
+  </body>
+</html>

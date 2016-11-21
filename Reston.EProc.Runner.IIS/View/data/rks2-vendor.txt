@@ -1,0 +1,7 @@
+{"data":[{"item":"Item Group","satuan":"","jumlah":"","hps":"","total":""},
+{"item":"<p style=\"padding-left:45px\">item sub group</p>","satuan":"","jumlah":"","hps":"","total":""},
+{"item":"<p style=\"padding-left:90px\">Item 1</p>","satuan":"Buah","jumlah":"100","hps":"<input type=\"text\" class=\"form-control\" />","total":""},
+{"item":"<p style=\"padding-left:90px\">Item 2 </p>","satuan":"Buah","jumlah":"5","hps":"<input type=\"text\" class=\"form-control\" />","total":""},
+{"item":"<p style=\"padding-left:45px\">Item sub group </p>","satuan":"","jumlah":"","hps":"","total":""},
+{"item":"<p style=\"padding-left:90px\">Item 1</p>","satuan":"unit","jumlah":"1","hps":"<input type=\"text\" class=\"form-control\" />","total":""}]
+}

@@ -1,0 +1,7 @@
+{"data":[{"item":"Item Group","satuan":"","jumlah":"","hps":"","total":"Rp.1.305.000"},
+{"item":"<p style=\"padding-left:45px\">item sub group</p>","satuan":"","jumlah":"","hps":"","total":"Rp.1.005.000"},
+{"item":"<p style=\"padding-left:90px\">Item 1</p>","satuan":"Buah","jumlah":"100","hps":"Rp.10.000,­","total":"Rp.1.000.000"},
+{"item":"<p style=\"padding-left:90px\">Item 2 </p>","satuan":"Buah","jumlah":"5","hps":"Rp.1.000,­","total":"Rp.5.000"},
+{"item":"<p style=\"padding-left:45px\">Item sub group </p>","satuan":"","jumlah":"","hps":"","total":"Rp.300.000"},
+{"item":"<p style=\"padding-left:90px\">Item 1</p>","satuan":"unit","jumlah":"1","hps":"Rp.300.000","total":"Rp.300.000"}]
+}

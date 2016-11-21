@@ -1,0 +1,15 @@
+[
+	{
+		"id":"1",
+		"title":"PENGADAAN SPARE PART POMPA NATIONAL FIELD PRABUMULIH",
+		"link":"purchase-requests-detail.html",
+		"action1":"Terima",
+		"action2":"Tolak",
+		"desc":"PAR­14121100, Lelang tertutup, satu berkas, price matching.",
+		"jadwal":"<i class='fa fa-fw fa-calendar'></i>-",
+		"vendor":"<i class='fa fa-fw fa-users'></i>-",
+		"dokument":"<i class='fa fa-fw fa-files-o'></i>Internal memo <a href='#'><i class='fa fa-fw  fa-download'></i></a>,Rencana Kerja<a href="#"><i class='fa fa-fw  fa-download'></i></a>",
+		"user":"<img src='dist/img/avatar04.png' height='18px' class='user-image' alt='User Image'>Fajar Gunawan,<img  src='dist/img/avatar.png' height='18px' class='user-image' alt='User Image'>Sukamto"
+	}
+]
+

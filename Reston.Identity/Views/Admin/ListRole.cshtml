@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "ListRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>
+    Role Management
+</h1>
+<div class="well">
+    
+    <div class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Name"
+                   data-mvcgrid-type="filter" data-mvcgrid-option="NameRole" />
+        </div>
+
+        <button type="button" class="btn btn-default" data-mvcgrid-apply-filter="click">Apply</button>
+    </div>
+</div>
+
+@Html.MVCGrid("ListRole")
+
+<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Delete Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Are you Sure, You want to delete this ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn blue" id="btnContinueDelete">Continue</button>
+                <button type="button" class="btn default" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+            function DeleteRole(value) {
+
+                $('#basic').modal({ backdrop: 'static', keyboard: false })
+                .one('click', '#btnContinueDelete', function () {
+                    DeleteRoleValidation(value); // submit the form
+                });
+
+             }
+
+
+
+            function DeleteRoleValidation(value) {
+                $('#basic').modal("hide");
+                waitingDialog.showloading("Proses Harap Tunggu")
+
+                $.ajax({
+                    url: "@Url.Action("DeleteRole", "Admin")",
+                    method: "POST",
+                    data: { rolename: value },
+                    success: function (data, textStatus, jqXHR) {
+                        waitingDialog.hideloading();
+                        MVCGrid.reloadGrid('ListRole');
+                        
+
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+
+                        waitingDialog.hideloading();
+                        
+                    }
+                });
+            }
+        </script>
+
+}
+
+

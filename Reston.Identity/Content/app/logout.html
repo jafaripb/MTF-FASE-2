@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html ng-app="app" ng-controller="LayoutCtrl">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8" />
+    <title>{siteName}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="apple-touch-icon" href="pages/ico/60.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{siteUrl}/content/pages/ico/76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="pages/ico/120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="pages/ico/152.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <link href="{siteUrl}/content/app/assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" />
+    <link href="{siteUrl}/content/app/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="{siteUrl}/content/app/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link href="{siteUrl}/content/app/assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="{siteUrl}/content/app/assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="{siteUrl}/content/app/assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="{siteUrl}/content/app/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+    <link class="main-stylesheet" href="/content/app/pages/css/pages.css" rel="stylesheet" type="text/css" />
+    <!--[if lte IE 9]>
+        <link href="pages/css/ie9.css" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    <script type="text/javascript">
+        window.onload = function () {
+            // fix for windows 8
+            if (navigator.appVersion.indexOf("Windows NT 6.2") != -1)
+                document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="{siteUrl}/content/pages/css/windows.chrome.fix.css" />'
+        }
+    </script>
+</head>
+<body class="fixed-header">
+
+    <div class="page-container">
+        <div class="header ">
+
+            <div class=" pull-left sm-table">
+                <div class="header-inner">
+                    <div class="brand inline">
+                        <img src="{siteUrl}/content/app/assets/img/logo.png" alt="logo" data-src="{siteUrl}/content/app/assets/img/logo.png" data-src-retina="{siteUrl}/content/app/assets/img/logo.png" width="208" height="92">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class=" pull-right" ng-show="model.currentUser" ng-cloak>
+                <!-- START User Info-->
+                <div class="visible-lg visible-md m-t-10">
+                    <div class="pull-left p-r-10 p-t-10 fs-16 font-heading">
+                        <span class="text-master">{{model.currentUser}}</span>
+                    </div>
+                    <div class="dropdown pull-right">
+                        <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="thumbnail-wrapper d32 circular inline m-t-5">
+                                <img src="{siteUrl}/content/app/assets/img/profiles/avatar.png" alt="" data-src="/content/app/assets/img/profiles/avatar.png" data-src-retina="/content/app/assets/img/profiles/avatar.png" width="32" height="32">
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu profile-dropdown" role="menu">
+                            <li ng-show="model.loginWithDifferentAccountUrl">
+                                <a href="{{model.loginWithDifferentAccountUrl}}" ng-show="model.loginWithDifferentAccountUrl"><i class="pg-settings_small"></i> Login With Different Account</a>
+                            </li>
+
+                            <li class="bg-master-lighter">
+                                <a href="{{model.logoutUrl}}" class="clearfix">
+                                    <span class="pull-left">Logout</span>
+                                    <span class="pull-right"><i class="pg-power"></i></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- END User Info-->
+            </div>
+        </div>
+
+        
+        <div class="page-content-wrapper">
+            <div class="content">
+                <div class='container page-logout' ng-cloak>
+                    <div class="page-header">
+                        <h1>Logout</h1>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <p>Apakah anda yakin ingin keluar dari aplikasi {{model.siteName}}?</p>
+                            <form name="form" method="post" action="{{model.logoutUrl}}">
+                                <anti-forgery-token token="model.antiForgery"></anti-forgery-token>
+
+                                <fieldset>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary">Ya, Keluar</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+     </div>
+
+        <script id='modelJson' type='application/json'>
+            {model}
+        </script>
+    <script src="{siteUrl}/content/app/assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/modernizr.custom.js" type="text/javascript"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/jquery-bez/jquery.bez.min.js"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script type="text/javascript" src="{siteUrl}/content/app/assets/plugins/bootstrap-select2/select2.min.js"></script>
+    <script type="text/javascript" src="{siteUrl}/content/app/assets/plugins/classie/classie.js"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
+    <script src="{siteUrl}/content/app/assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+    <!-- END VENDOR JS -->
+    <!-- BEGIN CORE TEMPLATE JS -->
+    <script src="{siteUrl}/content/app/pages/js/pages.min.js"></script>
+    <!-- END CORE TEMPLATE JS -->
+    <!-- BEGIN PAGE LEVEL JS -->
+    <script src="{siteUrl}/content/app/assets/js/scripts.js" type="text/javascript"></script>
+    <!-- END PAGE LEVEL JS -->
+    <script src="{siteUrl}/content/libs/angular/angular.1.2.13.min.js"></script>
+    <script src="{siteUrl}/content/libs/encoder/encoder.min.js"></script>
+    <script src="{siteUrl}/content/app/app.js"></script>
+</body>
+</html>
+
+

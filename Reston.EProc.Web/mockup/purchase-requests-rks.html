@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/select2/select2.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	<link href="dist/site.css" rel="stylesheet" />
+	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+	<link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+	<link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" /> 
+	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+	<link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+	<link rel="stylesheet" href="dist/app.css">	
+	<link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+	<link rel='stylesheet' href='plugins/datatables/extensions/Responsive/css/dataTables.responsive.css' />
+	
+		<style type="text/css">
+		form.jp-navbar-form {
+			padding-top:3px;
+			padding-left:50px;
+			margin:0;
+		}
+		.clear-margin{
+			margin:0 !important;
+			padding-top:3px;
+			padding-left:250px;
+		}
+	
+
+    /* Custom Styles */
+    ul.nav-tabs{
+        width: 200px;
+        margin-top: 20px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+    }
+    ul.nav-tabs li{
+        margin: 0;
+        border-top: 1px solid #ddd;
+    }
+    ul.nav-tabs li:first-child{
+        border-top: none;
+    }
+    ul.nav-tabs li a{
+        margin: 0;
+        padding: 8px 16px;
+        border-radius: 0;
+    }
+    ul.nav-tabs li.active a, ul.nav-tabs li.active a:hover{
+        color: #fff;
+        background: #0088cc;
+        border: 1px solid #0088cc;
+    }
+    ul.nav-tabs li:first-child a{
+        border-radius: 4px 4px 0 0;
+    }
+    ul.nav-tabs li:last-child a{
+        border-radius: 0 0 4px 4px;
+    }
+    ul.nav-tabs.affix{
+        top: 30px; /* Set the top position of pinned element */
+    }
+</style>
+  </head>
+ <body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed"  data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+      
+     <div id="header">
+        <header class="main-header">
+        <!-- Logo -->
+        <a  class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span> 
+            <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span> 
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            </a>
+	        <div class="navbar-custom-menu pull-left"> 
+	        <ul class="nav navbar-nav">
+		       <li>	<a id="judul-page" href="#">RAB (PR-10001)</a></li> 
+	        </ul>
+	        </div>
+            <div class="navbar-custom-menu">            
+            <ul id="menu-top" class="nav navbar-nav">
+                <li>
+                    <li><a  id="simpan" title="Simpan" href="#" ><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+            
+                </li> 
+			</ul>
+            </div>
+        </nav>
+        </header>
+    </div>
+          <!-- Left side column. contains the logo and sidebar -->
+    <div id="menu"  >
+          <aside class="main-sidebar" >
+            <!-- sidebar: style can be found in sidebar.less -->
+             <section class="sidebar" >
+			    <div class="user-panel" ng-controller="user">				
+				    <div class="pull-left info">
+					    <p class="title" ng-bind="user.nama"></p>
+					    <p class="deskripsi" ng-bind="user.divisi"></p>
+				    </div>
+				    <div class="pull-right image image-profile">
+					    <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+				    </div>
+			    </div>
+              <!-- sidebar menu: : style can be found in sidebar.less -->
+              <ul class="sidebar-menu"  ng-controller="side-menu">
+               <!-- <li class="header">MAIN NAVIGATION</li>-->
+             
+			    <li class="treeview" ng-repeat="menu in menus">
+				    <a href="{{menu.url}}">
+				        <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+				    </a>				
+			    </li>
+              </ul>
+            </section>
+            <!-- /.sidebar -->
+          </aside>
+     </div>
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+    
+		 <section class="content">
+
+			<!-- Default box -->
+			
+			 <div class="box box-primary box-white" >
+				<div class="box-body ">	
+					<div class="row">
+						<div class="col-md-10">
+							<div id="notif">
+							</div>
+						</div>
+					</div>	
+					<div class="col-md-10">
+						<form role="form" class="jp-form">
+							<div class="row" >
+								<div class="form-group">
+									<div class="form-group">
+										<label style="font-size:large;display:block">Judul Pengadaan</label>
+										<label style="display:block">Pekerjaan Flow Well Analysis Untuk Field Badak</label>											
+									</div>
+								</div>
+							</div>	
+							<div class="row" >				
+								<div class="form-group col-md-6">
+									<label style="display:block">HPS Total </label>
+									<label style="display:block">Rp.552.000.000,-</label>
+								</div>
+							</div>
+							<div class="row">	
+								<div class="row">
+									<div class="col-md-12">
+										<div class="padtop  button-row">
+											<a id="left" class="btn btn-xs btn-primary" ><span class="fa   fa-outdent"></span></a>
+											<a id="right" class="btn btn-xs btn-primary" ><span class="fa  fa-indent"></span></a>
+											<a id="edit" class="btn btn-xs btn-primary" ><span class="fa  fa-edit"></span></a>
+											<a id="take" class="btn btn-xs btn-primary" ><span class="fa  fa-edit"></span></a>	
+																			
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<table id="example1" class="table table-bordered table-bordered table-hover" width="100%">
+											<thead>
+											  <tr>
+												<th>Item</th>
+												<th>Satuan</th>
+												<th>Jumlah</th>
+												<th>HPS Satuan</th>
+												<th>Total</th>
+												<th>action</th>
+											  </tr>
+											</thead>
+											<tbody>
+												
+											</tbody>
+										  </table>
+										
+									</div>											
+								</div>
+							</div>						
+						</form>							
+					</div>	
+				</div>
+			</div>
+			
+			
+		</section><!-- /.content -->
+		</div>
+	
+       
+	   <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0.0
+        </div>
+        <strong>Pengadaan-e</strong> 
+	    </footer>
+    </div><!-- ./wrapper -->
+	
+	<!--chat-->
+	<div id="chat">
+        <div class="chat-window" style="right: 10px;">
+        <div class="chat-window-title">
+	        <div class="text">Online (2)</div>
+        </div>
+        <div class="chat-window-content" style="height: 300px;">
+	        <div class="chat-window-inner-content user-list" style="height: 100px;">
+		        <div class="user-list-item" data-val-id="2">
+			        <img class="profile-picture" src="dist/img/avatar.png">
+			        <div class="profile-status online"></div>
+			        <div class="content-chat">User 1</div>
+		        </div>
+		        <div class="user-list-item" data-val-id="2">
+			        <img class="profile-picture"  src="dist/img/avatar2.png">
+			        <div class="profile-status online"></div>
+			        <div class="content-chat">User 2</div>
+		        </div>
+	        </div>
+        </div>
+        </div>
+        <div id="divContainer">
+        </div>
+	</div>
+	
+	
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Add Item</h4>
+      </div>
+
+	<div class="modal-body ">
+        <iframe id="info" class="iframe" name="info" seamless="" height="100%" width="100%"></iframe>
+      </div>
+
+    </div>
+  </div>
+</div> <!-- /#myModal -->
+<!-- Modal -->
+<div class="modal modal-info" id="hpsmodal" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Modal Info</h4>
+	  </div>
+	  <div class="modal-body">
+		<p>Sebelum melampirkan HPS, berkas Pengadaan harus disimpan terlebih dahulu. &hellip;</p>
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" id="simpanhps" class="btn btn-outline ">Simpan & Lanjutkan</button>
+		<button type="button" class="btn btn-outline " data-dismiss="modal">Batal</button>		
+	  </div>
+	</div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal modal-info" id="hpsmodal-list" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Modal Info</h4>
+	  </div>
+	  <div class="modal-body">
+		<p>Pilih format HPS yang akan digunakan . &hellip;</p>
+		
+		<a href="#" class="btn btn-default">Format RAB</a> <a href="purchase-requests-rks.html" class="btn btn-default">Format RKS</a> <a href="#" class="btn btn-default">Unggah Berkas</a>
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-outline " data-dismiss="modal">Batal</button>		
+	  </div>
+	</div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+  
+	<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="plugins/jQueryUItotop/easing.js"></script>
+	<script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+	<script src="plugins/JQueryValidation/jquery.validate.js"></script>
+	<script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+	<script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+	<script src="plugins/accounting/accounting.js"></script>	
+	<script src="dist/site.js"></script>	
+	 <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+    <script src='plugins/fullcalendar/lang/id.js'></script>
+	<script src="plugins/typeaheadjs/typeahead.bundle.min.js"></script>
+	<script src="plugins/typeaheadjs/handlebars.js"></script>
+	<script src="plugins/typeaheadjs/bootstrap-tagsinput.js"></script>
+	 <script  src='plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js' ></script>
+     
+    <script src="dist/js/app.min.js"></script>
+    <script src="chatjs/chat.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+     <script src="plugins/typeaheadjs/typeahead.bundle.min.js"></script>
+	<script src="plugins/typeaheadjs/handlebars.js"></script>
+	<script src="plugins/typeaheadjs/bootstrap-tagsinput.js"></script>
+	 <script src="plugins/typeaheadjs/app_bs3.js"></script>
+	  <script>
+	 var notifadd = "<div class='alert alert-success alert-dismissable'>" +
+                          "<button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>" +
+                                  "<h4><i class='icon fa fa-check'></i>Behasil</h4><p>Data Behasil di Tambah</p></div>";
+	var eventsSource = [
+           // { id: 1, title: 'Kegiatan yang tidak privat', start: new Date(), url: 'google.com', className: 'ev-mine', viewer: ['Budi', 'Admin', 'user1', 'user2', 'user3', 'user4', 'user5'] },
+            { id: 2, title: 'Aanwizing ',"deskripsi":"Aanwizing Usulan Renovasi Ruangan", start: new Date(), url: 'google.com', className: 'ev-mine' },
+            { id: 3, title: 'Buka Amplop',"deskripsi":"Buka Amplop Dekorasi Ruangan", start: new Date(), end: new Date(), url: 'google.com', className: 'ev-other', confirmation: null },
+            { id: 4, title: 'Kegiatan dengan judul yang cukup panjang', start: new Date(2015, 5, 21), end: new Date(2015, 5, 22), url: 'google.com', className: 'ev-other' }
+			 
+			 
+		];						
+	var table;
+	var app = angular.module("app", []);
+	app.controller('side-menu', ['$scope', '$http', function ($scope, $http) {
+	    $scope.menus = [];
+	    $http.get("data/menu.json")
+           .then(function (response) {
+               $scope.menus = response.data;
+           });
+	}]);
+
+	app.controller('user', ['$scope', '$http', function ($scope, $http) {
+	    $scope.user = {};
+	    $http.get("data/user.json")
+           .then(function (response) {
+               $scope.user = response.data;
+           });
+	}]);
+      $(function () {
+	   $("#myNav").affix({
+			offset: { 
+				top: 100 
+			}
+		});
+		$("#buat_hps").on("click",function(){
+			 $("#hpsmodal").modal("show");			
+		});
+		$("#simpanhps").on("click",function(){
+			 $("#hpsmodal").modal("hide");
+			 $("#hpsmodal-list").modal("show");			
+		});
+	 $(".tab-content").show();
+	  $(".datepicker").datepicker({
+			showOtherMonths: true,
+			format: "dd/mm/yy",
+			changeYear: true,
+			changeMonth: true,
+			yearRange: "-90:+4", //+4 Years from now
+			onSelect: function (dateStr) {
+				$('#form_reg').validate().element(this);
+			}
+		});
+         $().UItoTop({ easingType: 'easeOutQuart' });
+        table=$('#example1').DataTable({
+          "paging": false,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": false,
+          "info": false,
+          "autoWidth": true,
+		  responsive: true,
+		  "ajax": "data/rks2.txt",
+			"columns": [
+				{ "data": "item" },
+				{ "data": "satuan" },
+				{ "data": "jumlah" },
+				{ "data": "hps" },
+				{ "data": "total" },
+				{ "data": "null","width":"3%" }
+			],
+			"columnDefs": [
+                    
+                    {
+                        "render": function (data, type, row) {
+                            return '<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';								
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    }
+                ]
+		  
+        });
+		$("#addVendor").on("click",function(){
+		if (!$("#form_reg").valid() )
+            return false;
+		else {
+		
+			$("#notif").html(notifadd);
+			$('html, body').animate({ scrollTop: $('#notif').offset().top }, 'slow');
+		}
+		});
+		
+			hitungHargaItem();
+		$("#example1").on("click",".remove-item",function(){
+			var vl = $(this).closest('tr')[0];
+			table.rows(vl).remove().draw();
+			hitungHargaItem();
+		});
+		$("#example1").on("input propertychange paste",".jmlItem",function(e){
+			var vl = $(this).closest('tr')[0];
+			var rowIndex = $('#example1 tr').index(vl);
+			var jum =$(this).val();
+			table.cell( rowIndex-1,1  ).data( '<input type="text" class="form-control jmlItem" value="'+jum+'" placeholder="Jumlah">' ).draw();
+			hitungHargaItem();
+		});
+		
+		$("#example1 thead tr").dblclick(function(){
+			var jumRow=table.data().length;
+			var noItem=1;			
+			addNewItem();			
+			var index=table.row(jumRow).index();
+			//$("#example1 tbody tr:eq('"+index+"')").attr("parent",1);
+			clearInputInRow(index);
+		});
+		$("#example1").on('keydown', '.item', function(e) { 
+			var keyCode = e.keyCode || e.which; 
+			var JumKolom = 6;//$(this).parent().parent().children().length;
+				if (keyCode == 9) { 
+					e.preventDefault(); 
+					
+					var tr = $(this).closest('tr')[0];
+					var rowIndex = $('#example1 tr').index(tr);
+					var colIndex = $(this).parent().parent().children().index($(this).parent());
+					var val = $(this).val();
+
+					
+					if(colIndex+1==1 ){
+						table.cell(rowIndex-1,colIndex).data("<p>"+val+"</p>" ).draw();
+						$("#example1 tbody tr:eq('"+(rowIndex-1)+"')").find("td:eq("+(colIndex)+") p").attr("padding-left","0");
+					}
+					else{
+						table.cell( rowIndex-1,colIndex).data( val ).draw();						
+					}
+					console.log(JumKolom+" "+colIndex);
+					if(JumKolom-2>colIndex){						
+						
+						if(colIndex+1==0 ){
+							var valEl=$("#example1 tbody tr:eq('"+(rowIndex-1)+"')").find("td:eq("+(colIndex+1)+") p").text();
+						
+							table.cell( rowIndex-1,colIndex+1).data( '<input type="text" value="'+valEl+'"  class="form-control item" >' ).draw();
+						}
+						else{
+							var valEl=$("#example1 tbody tr:eq('"+(rowIndex-1)+"')").find("td:eq("+(colIndex+1)+")").text();
+						
+							table.cell( rowIndex-1,colIndex+1).data( '<input type="text" value="'+valEl+'"  class="form-control item" >' ).draw();
+						}
+						if(colIndex+1==1 ){
+							$("#example1 tbody tr:eq('"+(rowIndex-1)+"')").find("input").addClass("namaItem");
+						}
+						if(colIndex+1==2 ){
+							$("#example1 tbody tr:eq('"+(rowIndex-1)+"')").find("input").addClass("satuan");
+							
+						}
+						if(colIndex+1==5 ){
+							var tr=$(this).closest('tr')[0];
+							var jumlah=parseInt($("#example1 tbody tr:eq('"+(rowIndex-1)+"')").find("td:eq(3)").text());
+							var hargaSatuan=parseInt($("#example1 tbody tr:eq('"+(rowIndex-1)+"')").find("td:eq(4)").text());
+							var total=jumlah*hargaSatuan;
+							if(!isNaN(total)){
+								table.cell( rowIndex-1,colIndex+1).data( '<input type="text" value="'+total+'"  class="form-control item" >' ).draw();
+								hitungHargaItem();
+							}
+							
+						}
+						$("#example1 tbody tr:eq('"+(rowIndex-1)+"')").find("input").focus();
+					}
+					else{
+						addNewItem();
+						$("#example1 tbody tr:eq('"+rowIndex+"')").find("input").focus();
+						hitungHargaItem();
+					}
+					
+				} 
+		});
+		$("#example1").on('dblclick', 'td', function(e) { 
+			 if ( $(this).hasClass('selected') ) {
+				$(this).removeClass('selected');
+			}
+			else {
+				table.$('td.selected').removeClass('selected');
+				$(this).addClass('selected');
+			}
+			clearInputInRow2();
+		});
+		
+		$("#edit").on("click", function(){
+			var tdtEl=$("#example1").find("td.selected");				
+			var val=tdtEl.text();
+			var rowIndex = $('#example1 tr').index($(tdtEl).closest('tr')[0]);
+			clearInputInRow(rowIndex);
+			var colIndex = $(tdtEl).parent().children().index($(tdtEl));	
+			if(colIndex+1==2 ){
+				table.cell( rowIndex-1,colIndex).data( '<input type="text" value="'+val+'" class="form-control item satuan" >' ).draw();				
+			}
+			else if(colIndex+1==1 ){
+				table.cell( rowIndex-1,colIndex).data( '<input type="text" value="'+val+'" class="form-control item namaItem" >' ).draw();				
+			}
+			else{
+				table.cell( rowIndex-1,colIndex).data( '<input type="text" value="'+val+'" class="form-control item" >' ).draw();
+			}
+			$(tdtEl).removeClass('selected');
+			//item_initialize();
+		});
+		
+		$("#right").on("click",function(){
+			var tdtEl=$("#example1").find("td.selected");
+			var nextPadding=$(tdtEl).children().attr("padding-left");	
+			
+			var intPadd=parseInt(nextPadding)+15;
+			$(tdtEl).children().css("padding-left",intPadd+"px");
+			$(tdtEl).children().attr("padding-left",intPadd);
+			var rowIndex = $('#example1 tr').index($(tdtEl).closest('tr')[0]);
+			var colIndex = $(tdtEl).parent().children().index($(tdtEl));	
+			var val=$(tdtEl).html();
+			console.log(val);
+			table.cell( rowIndex-1,colIndex).data( val ).draw();	
+		});
+		$("#left").on("click",function(){
+			var tdtEl=$("#example1").find("td.selected");
+			var nextPadding=$(tdtEl).children().attr("padding-left");
+			
+			if(parseInt(nextPadding)>0){
+				var intPadd=parseInt(nextPadding)-15;
+				$(tdtEl).children().css("padding-left",intPadd+"px");
+				$(tdtEl).children().attr("padding-left",intPadd);
+			}
+			var rowIndex = $('#example1 tr').index($(tdtEl).closest('tr')[0]);
+			var colIndex = $(tdtEl).parent().children().index($(tdtEl));	
+			var val=$(tdtEl).html();
+			table.cell( rowIndex-1,colIndex).data( val ).draw();	
+		});
+		$("#take").on("click",function(){
+			datatableToJson(table);
+		});
+          
+		$("#example1").on('keydown.autocomplete', ".namaItem", function() {
+			
+			$(this).autocomplete({
+				source: "data/item.txt",
+				minLength: 2,
+				select: function (event, ui) {
+					//$("#id_lecture").val(ui.item.id_lecture);
+					$(this).parent().next().html(ui.item.satuan);
+					$(this).parent().next().next().next().html(ui.item.harga);
+					
+				}
+			}).data("ui-autocomplete")._renderItem = function (ul, item) {
+			    var html='<div class="vendor">' +
+                        '<div class="box-typehead-content">' +
+                          '<span class="box-typehead-title-auto">' + item.label + '</span>' +
+                          '<span class="box-typehead-desk-auto"> ' + item.region + ' /</span>' +
+                          '<span class="box-typehead-desk-auto"> ' + item.satuan + ' /</span>' +
+                          '<span class="box-typehead-desk-auto"> ' + item.harga + '</span>' +
+                        '</div>' +
+                    '</div>'
+			    return $("<li class='item'>")
+                    .data("item.autocomplete", item)
+                    .append(html)
+                    .appendTo(ul);
+			    
+			};
+		});
+		$("#example1").on('click', ".remove-item", function() {
+			var vl = $(this).closest('tr')[0];
+			table.row(vl.rowIndex).remove().draw();
+		});
+		
+      });
+
+      function item_initialize(){
+          var item = new Bloodhound({
+              datumTokenizer: function (d) { return Bloodhound.tokenizers.whitespace(d.text); },
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              //limit:Number.MAX_VALUE, // I do not know how to get total number ...
+              remote: {
+                  url: 'data/item.txt'
+              }
+          });
+
+          item.initialize();
+          $('.namaItem').typeahead(null, {
+              name: 'item',
+              display: 'label',
+              source: item.ttAdapter(),
+              templates: {
+                  empty: [
+                    '<div class="empty-message">',
+                      'NOT FOUND!!!',
+                    '</div>'
+                  ].join('\n'),
+                  suggestion: Handlebars.compile(
+                      '<div class="vendor">' +
+					        '<div class="box-typehead-content">' +
+					          '<span class="box-typehead-title" style="font-size:1.2em">{{label}}</span>' +
+					          '<span class="box-typehead-desk">{{satuan}}</span>' +
+					          '<span class="box-typehead-desk">{{harga}}</span>' +
+					        '</div>' +
+				        '</div>'
+                      )
+              }
+          }).on('typeahead:selected', function (obj, datum) {
+              $(this).closest("td").next().html(datum.satuan);
+              $(this).closest("td").next().next().next().html(datum.harga);
+
+          });
+      }
+	  function addNewItem(){
+		table.row.add({"item":'<input type="text" class="form-control item namaItem " >',
+						"satuan":"",
+						"jumlah":"",
+						"hps":"",
+						"total":""								
+					}).draw();
+		var jumRow=table.data().length;	
+		table.cell( (jumRow-1),5).data( '<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>' ).draw();
+	}
+	  function addItem(item){
+			var jumRow=table.data().length;	
+			var nextNo=1;
+			if(jumRow>0){
+				var data=table.row(jumRow-1).data();			
+				nextNo=parseInt(data[0])+1;
+			}
+			table.row.add( [ nextNo, item[1], item[2],'<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>'] ).draw();
+	 }
+	 function clearInputInRow(indexTr){
+		if(indexTr>0){		
+			var inputs=$("#example1 tbody tr:eq('"+(indexTr-1)+"')").find("input");
+				inputs.each(function(){
+					var val=$(this).val();
+					var colIndex=$(this).parent().parent().children().index($(this).parent());
+					table.cell( (indexTr-1),colIndex).data( val ).draw();
+				});
+			}
+	 }
+	  function clearInputInRow2(){
+		//console.log($("#example1 tbody td").find("input"));
+	      var inputs = $("#example1 tbody td").find("input");
+	 	inputs.each(function(){
+			var val=$(this).val();
+			var vlRow = $(this).parent().closest('tr')[0];
+			//var rowIndex=vlRow
+			console.log(vlRow.rowIndex);
+			var colIndex=$(this).parent().parent().children().index($(this).parent());
+			table.cell( (vlRow.rowIndex-1),colIndex).data( val ).draw();
+		});
+		
+	 }
+	  function hitungHargaItem(){
+		var totalHarga=0;
+		table.rows().every( function () {
+			var d = this.data();
+			var harga=d[2];
+			d.counter++; // update data source for the row
+			harga=parseInt(UnformatFloat(harga));
+			this.invalidate(); // invalidate the data DataTables has cached for this row
+			totalHarga=totalHarga+harga;
+			
+		} );
+		
+		
+		var estimasiCost=accounting.formatNumber(totalHarga,{ thousand : "."});
+		$("#estimated_cost").val(estimasiCost);
+	  }
+	  function datatableToJson(table){
+		
+			var data=[];
+			table.rows().every( function () {
+				var itemObj= {};
+				var d = this.data();
+				itemObj.item=d[0];
+				itemObj.satuan=d[1];
+				itemObj.jumlah=d[2];
+				itemObj.hps=d[3];
+				itemObj.total=d[4];
+				data.push(itemObj);
+				
+			} );
+			console.log(JSON.stringify(data));
+		  }
+    </script>
+  </body>
+</html>

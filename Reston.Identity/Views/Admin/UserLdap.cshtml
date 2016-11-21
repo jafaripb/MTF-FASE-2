@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "UserLdap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .hiddentd>button{
+        display: none !important;
+        visibility: hidden;
+    }
+    .hiddentd{
+        visibility: visible;
+    }
+</style>
+<h1>
+    LDAP Accounts
+</h1>
+<div class="well">
+    <div class="form-inline">
+        <div class="form-group">
+            <label>Search Account</label>
+            <input type="text" class="form-control" placeholder="Username"
+                   data-mvcgrid-type="filter" data-mvcgrid-option="UserPrincipalName" />
+            <button type="button" class="btn btn-default" data-mvcgrid-apply-filter="click">Apply</button>
+        </div>
+        
+    </div>
+</div>
+
+@Html.MVCGrid("UserLdapFiltering")
+
+@section scripts
+{
+    <script>
+        function LinkedAccount(value) {
+
+            waitingDialog.showloading("Proses Harap Tunggu");
+
+                $.ajax({
+                    url: "@Url.Action("LinkedAccount", "Admin")",
+                    method: "POST",
+                    data: { username : value },
+                success: function (data, textStatus, jqXHR) {
+                    waitingDialog.hideloading();
+                    MVCGrid.reloadGrid('UserLdapFiltering');
+                    waitingDialog.showresult("Sukses", data.message);
+                    window.location = "@Url.Action("DetailUser","Admin")/"+value;
+                    setTimeout(function () {
+                        waitingDialog.hideresult();
+                    }, 1000);
+                    
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                    waitingDialog.hideloading();
+                    waitingDialog.showresult("Gagal",jqXHR.responseJSON.message);
+
+                    setTimeout(function () {
+                        waitingDialog.hideresult();
+                    }, 1000);
+                }
+            });
+        }
+    </script> 
+    
+}

@@ -1,0 +1,86 @@
+﻿@using Reston.Identity.Helper;
+
+@{
+    bool isAdmin = false;
+    var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
+    if (claimsIdentity != null)
+    {
+        isAdmin = claimsIdentity.HasClaim(IdLdapConstants.Claims.Role, IdLdapConstants.App.Roles.IdLdapAdminRole );
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - EPROC Identity Service</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        .navbar-inverse {
+            background-color: #08205c;
+            border: white;
+        }
+        .navbar-brand {
+            color:white !important;
+        }
+        .navbar-inverse .navbar-nav>li {
+            color:white !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("EPROC Identity Server", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (!this.User.Identity.IsAuthenticated) { 
+                    <li>@Html.ActionLink("Admin", "UserLdap", "Admin")</li>
+                    }
+
+                    @if (isAdmin)
+                    {
+                    @*<li>@Html.ActionLink("User Ldap", "UserLdap", "Admin")</li>*@
+                    <li>@Html.ActionLink("Users", "UserId", "Admin")</li>
+                    @*<li>@Html.ActionLink("New User", "CreateUser", "Admin")</li>*@
+                    <li>@Html.ActionLink("Roles", "ListRole", "Admin")</li>
+                    <li><a href="http://localhost:49559/">EPROC Master Data</a></li>
+                        
+                    }
+                   
+                </ul>
+                <ul class="nav navbar-nav pull-right">
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <li class="navbar-right">@Html.ActionLink("Log Out", "Signout", "Header")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - EPROC Identity Service</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script src="~/MVCGridHandler.axd/script.js"></script>
+    <script src="~/Scripts/app.js"></script>
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>

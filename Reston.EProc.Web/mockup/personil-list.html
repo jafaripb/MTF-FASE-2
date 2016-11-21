@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/select2/select2.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+	<link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" /> 
+	<link rel="stylesheet" href="dist/site.css">
+  </head>
+ <body >
+      <!-- Content Wrapper. Contains page content -->
+			<!-- Default box -->
+			   <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title"><input type="text" class="form-control" placeholder="cari personil" id="search" /></h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  <ul class="products-list product-list-in-box">
+                    
+                  </ul>
+                </div><!-- /.box-body -->
+                <div class="box-footer text-center">
+                  <a class="uppercase" href="javascript::;">Lihat Lengkap</a>
+                </div><!-- /.box-footer -->
+              </div>
+						
+			
+      
+	  
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+   
+   
+	 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="plugins/jQueryUItotop/easing.js"></script>
+	<script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+	
+	 <script>
+      $(function () {
+        var table=$('#example1').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+		  "columnDefs": [
+			
+			{ "width":"4%","targets": [ 0 ]}
+		  ]
+        });
+		$("body").hide();
+		$("#menu").load("menu.html");
+		$("#header").load("menu-header.html");
+		$("#chat").load("chat.html");
+		$("body").show();
+		
+		$.getScript( "dist/js/app.min.js" );
+		$.getScript( "chatjs/chat.js" );
+		$(".remove-vendor").on("click", function () {
+				var vl = $(this).closest('tr')[0];
+                $("#row_index").val(vl.rowIndex);
+                $("#ModalHapus").modal("show");
+            });
+		$("#eveHapus").on("click", function () {
+				var index=$("#row_index").val();
+				//var el=$('#example1 tr').eq(index);
+                table.row(index).remove().draw();
+                $("#ModalHapus").modal("hide");
+            });
+			$("#example1_filter").hide();
+		$("#cari").on("click",function(){
+		//alert($("#nama_pengguna").val());
+			//if($("#nama_pengguna").val()!="")//table.columns(1).search( this.value ).draw();			
+			table.columns(0).search( $("#nama_pengguna").val() ).draw();
+			//if($("#nama_perusahaan").val()!="")
+			table.search($("#nama_perusahaan").val()).draw();
+		});
+		$(".checks").on("click",function(){	
+			if ($(this).is(':checked')) {
+				 var vl = $(this).closest('tr')[0];
+                var item = table.row(vl).data();				
+				parent.addVendor(item);
+			}
+		});
+		 $("#nama_perusahaan").on("input propertychange paste", function (e) {
+               var nama_item=$("#nama_perusahaan").val();
+				table.columns(1).search( nama_item ).draw();
+            });
+		$(".products-list").on("click",".item",function(){
+			
+			if($(this).hasClass("item-bg-blue-light"))
+				$(this).removeClass("item-bg-blue-light");
+			else {
+				$(this).addClass("item-bg-blue-light");
+				var obj_personil={id:$(this).children().find(".id-personil").val(),logo:$(this).children().find("img").attr("src"),nama:$(this).children().find(".nama").text(),devisi:$(this).children().find(".devisi").text()}
+				parent.addPersonil(obj_personil,".listperson-pic");
+			}
+		});
+		loadPersonil();
+      });
+	  function loadPersonil(){
+		$.getJSON( "data/personil.json", function( data ) {			
+			$.each(data, function(i, item) {
+					var html='<li class="item">'+   
+								'<div class="product-img">'+
+									'<img alt="Product Image" src="'+item.logo+'">'+
+								'</div>'+
+								'<div class="product-info-collaps">'+
+									'<input class="id-personil" type="hidden" value="'+item.id+'" />'+
+									'<a class="product-title nama" >'+item.nama+'</a>'+
+									'<span class="pegadaan-description devisi">'+item.divisi+'</span>'+
+								'</div>'+
+							'</li>';
+					$(".products-list").append(html);
+			  });
+		});
+	  }
+    </script>
+  </body>
+</html>

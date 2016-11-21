@@ -1,0 +1,31 @@
+[
+	{
+		"id":"1",
+		"label":"Bata merah",
+		"satuan":"biji",
+		"harga":"2000",
+		"region":"Region I"
+	},
+	{
+		"id":"2",
+		"label":"Semen Holcim",
+		"satuan":"biji",
+		"harga":"2000",
+		"region":"Region I"
+	},
+	{
+		"id":"3",
+		"label":"Semen Holcim",
+		"satuan":"sak",
+		"harga":"110000",
+		"region":"Region I"
+	},
+	{
+		"id":"4",
+		"label":"Semen Tiga roda",
+		"satuan":"sak",
+		"harga":"120000",
+		"region":"Region I"
+	}
+]
+

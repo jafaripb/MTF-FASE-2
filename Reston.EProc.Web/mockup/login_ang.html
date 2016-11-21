@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>meetometer</title>
+
+</head>
+<body ng-app="app">
+    <div data-role="page" ng-controller="meetingController">
+        <div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+            <form>
+                <div style="padding:10px 20px;">
+                    <span style="color: #ff0000">{{loginErrorMessage}}</span>
+                    <h3>Please sign in</h3>
+                    <label for="un" class="ui-hidden-accessible">Username:</label>
+                    <input type="text" name="user" id="un" ng-model="username" placeholder="username" data-theme="a">
+                    <label for="pw" class="ui-hidden-accessible">Password:</label>
+                    <input type="password" name="pass" id="pw" ng-model="password" placeholder="password" data-theme="a">
+                    <button ng-click="vm.login()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Sign in</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div data-role="header">
+            <h1>meetometer</h1>
+            <a href="#popupLogin" ng-show="!authentication.isAuthorized" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-check ui-btn-icon-left ui-btn-a ui-btn-right" data-transition="pop">Sign in</a>
+            <a ng-click="vm.logout()" ng-show="authentication.isAuthorized" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-check ui-btn-icon-left ui-btn-a ui-btn-right">Sign out</a>
+        </div>
+
+    </div>
+    
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+
+    <script src="plugins/amplifyjs/amplify.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+
+    <script src="angApp/login.ang.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+﻿@model IdLdap.Models.ViewModelNewRole
+@{
+    ViewBag.Title = "CreateNewRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create Role</h2>
+
+@using (Ajax.BeginForm("CreateNewRole", new AjaxOptions()
+                                {
+                                    InsertionMode = InsertionMode.Replace,
+                                    OnBegin = "onBeginSubmit()",
+                                    OnSuccess = "SuccessFormContact(data, status, xhr)",
+                                    OnFailure = "FailFormContact(xhr, status, error)",
+
+                                }))
+{
+
+    <br />
+
+    <div class="form-group">
+        <label>Role name :</label>
+        @Html.TextBoxFor(model => model.RoleUser.Name, new { @class = "form-control", @placeholder = "Isi nama role" })
+    </div>
+    @Html.ValidationMessageFor(model => model.RoleUser.Name, null, new { @class = "text-danger", @style = "font-style:italic; font-size:12px" })
+
+
+    <div class="row">
+        <div class="col-sm-3">
+            <button type="submit" class="btn btn-primary btn-block">Buat</button>
+        </div>
+    </div>
+}
+
+
+
+@section scripts
+{
+    <script>
+     function onBeginSubmit(){
+         waitingDialog.showloading("Proses Harap Tunggu");
+     }
+     function SuccessFormContact(data, status, xhr){
+         waitingDialog.hideloading();
+     }
+     function FailFormContact(xhr, status, error) {
+         waitingDialog.hideloading();
+     }
+
+    </script>
+}

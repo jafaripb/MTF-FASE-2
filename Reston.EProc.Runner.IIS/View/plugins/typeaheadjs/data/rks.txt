@@ -1,0 +1,7 @@
+{"data":[
+	{"no":"","pekerjaan":"<p>RUKO</p>","satuan":"","jumlah":"","harga":"","nilai":"","keterangan":""},
+	{"no":"1","pekerjaan":"<p>Kontruksi</p>","satuan":"","jumlah":"","harga":"","nilai":"","keterangan":""},
+	{"no":"1.1","pekerjaan":"<p style=\"padding-left: 15px;\" padding=\"15\">Bata merah</p>","satuan":"biji","jumlah":"10","harga":"2000","nilai":"20000","keterangan":""},
+	{"no":"1.2","pekerjaan":"<p style=\"padding-left: 15px;\" padding=\"15\">Semen</p>","satuan":"sak","jumlah":"1","harga":"100000","nilai":"100000","keterangan":""}
+	]
+}

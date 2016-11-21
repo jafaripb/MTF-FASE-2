@@ -1,0 +1,829 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style>
+        .box-c:hover {
+            cursor: pointer;
+            background: #B3EEFB;
+        }
+
+        .vd {
+            cursor: pointer;
+        }
+
+        .collapse.in {
+            padding-left: 0px;
+            padding-top: 0px;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Informasi Detail Rekanan</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar" ng-app="app">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-10" id="section-1">
+                        <div class="box box-primary box-white">
+                            <div class="box-body">
+                                <div class="col-md-12">
+
+                                    <p style="text-align:center">
+                                        <label class="judul-pengadaan" id="Nama"></label>
+                                        <i class="text text-muted" id="TipeVendor"></i>
+                                        <br />
+                                        <i id="Alamat"></i><br />
+                                        <i id="Alamat2"></i>
+                                    </p>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <p><b>Kontak Perusahaan:</b></p>
+                                    <ul class="list-unstyled" id="KontakPerusahaan"></ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <p><b>Key Persons:</b></p>
+                                    <ul class="list-unstyled" id="KeyPersons"></ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <p><b>Info Bank:</b></p>
+                                    <ul class="list-unstyled" id="BankInfo"></ul>
+                                </div>
+                                <div class="col-md-2">
+                                    <p><b>Status:</b></p>
+                                    <p id="Status"></p>
+                                    <p><b>Nomor Pengajuan:</b></p>
+                                    <p><b id="NoPengajuan"></b></p>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12" id="section-2">
+                                        <div class="panel-header-white">
+                                            <span class="title-header" id="section-2">Legalitas</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row" id="Legalitas">
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" id="section-3">
+                                        <div class="panel-header-white">
+                                            <span class="title-header" id="section-4">Verifikasi</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div id="perlaksanaan" class="tab-pane">
+                                            <div class="box-body">
+                                                <div class="box-group" id="accordion1">
+                                                    <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                                                    <div class="panel box box-primary">
+                                                        <div class="box-header with-border">
+                                                            <h4 class="box-title">
+                                                                <a data-toggle="collapse" data-parent="#accordion1" href="#collapseOne1">
+                                                                    Desk Checking
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOne1" class="panel-collapse collapse in">
+                                                            <div class="box-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-10">
+                                                                        <div class="form-group">
+                                                                            <label>Catatan : </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-10">
+                                                                        <div class="form-group">
+                                                                            <textarea id="desk-checking-comment" class="form-control"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <button class="btn btn-sm btn-success" onclick="deskCheckingSubmit()">Submit</button>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <input type="checkbox" id="desk-checking-tick" /> <span id="desk-checking-tick-msg">Semua dokumen telah diverifikasi tanpa ada masalah.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.box-body -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div id="perlaksanaan" class="tab-pane">
+                                            <div class="box-body">
+                                                <div class="box-group" id="accordion2">
+                                                    <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                                                    <div class="panel box box-primary">
+                                                        <div class="box-header with-border">
+                                                            <h4 class="box-title">
+                                                                <a data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                                                                    By Phone
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseTwo" class="panel-collapse collapse in">
+                                                            <div class="box-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-10">
+                                                                        <div class="form-group">
+                                                                            <label>Catatan : </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-10">
+                                                                        <div class="form-group">
+                                                                            <textarea id="by-phone-comment" class="form-control"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <button class="btn btn-sm btn-success" onclick="byPhoneSubmit()">Submit</button>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <input type="checkbox" id="by-phone-tick" /> <span id="by-phone-tick-msg">Verifikasi by phone tidak ada masalah.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.box-body -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div id="perlaksanaan" class="tab-pane">
+                                            <div class="box-body">
+                                                <div class="box-group" id="accordion2">
+                                                    <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                                                    <div class="panel box box-primary">
+                                                        <div class="box-header with-border">
+                                                            <h4 class="box-title">
+                                                                <a data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                                                                    Site Visit
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseThree" class="panel-collapse collapse in">
+                                                            <div class="box-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-10">
+                                                                        <div class="form-group">
+                                                                            <label>Catatan : </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-10">
+                                                                        <div class="form-group">
+                                                                            <textarea id="site-visit-comment" class="form-control"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <button class="btn btn-sm btn-success" onclick="siteVisitSubmit()">Submit</button>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <input type="checkbox" id="site-visit-tick" /> <span id="site-visit-tick-msg">Site visit telah dilakukan.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.box-body -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div id="v-s" class="col-md-6" style="display:none">
+                                        <h2><label class="label label-success pull-right"><span class="fa fa-check-circle-o"></span> Telah Diverifikasi</label></h2>
+                                    </div>
+                                    <div id="v-t" class="col-md-6" style="display:none">
+                                        <h2><label class="label label-danger pull-right"><span class="fa fa-times-circle-o"></span> Ditolak</label></h2>
+                                    </div>
+                                    <div class="col-md-6 nv div-verifikasi" style="display:none">
+                                        <button class="btn btn-lg btn-success pull-right" onclick="showVerifikasi()">Verifikasi</button>
+                                    </div>
+                                    <div class="col-md-6 nv">
+                                        <button class="btn btn-lg btn-danger" onclick="showTolak()">Tolak</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+
+        </div><!-- /.content-wrapper -->
+        <aside class="control-sidebar control-sidebar-light control-sidebar-open" id="side-kanan">
+            <!-- Create the tabs -->
+
+            <ul class="nav nav-tabs nav-stacked">
+                <li><a href="#section-1">Atas</a></li>
+                <li class="rk"><a href="#section-2">Legalitas</a></li>
+                <li class="rk"><a href="#section-3">Verifikasi</a></li>
+            </ul>
+            <div class="box box-white">
+                <div class="box-header with-border">
+                    <h3 class="box-title text-blue-mtf box-riwayat"><a>Riwayat</a></h3>
+                </div><!-- /.box-header -->
+                <!--<div class="box-body" ng-controller="history">
+                    <ul class="products-list product-list-in-box">
+                        <li class="item" ng-repeat="histori in history" style="padding-top:1px">
+                            <div class="riwayat-info">
+                                <span class="title"><a href="purchase-requests-detail.html" ng-bind="histori.nama"></a></span>
+                                <span class="pegadaan-description" ng-bind="histori.tanggal">
+                                </span>
+                                <span class="pegadaan-item" ng-bind="histori.deskripsi">
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>-->
+            </div>
+            <!-- Tab panes -->
+
+        </aside><!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.0.0
+            </div>
+            <strong>Pengadaan-e</strong>
+        </footer>
+    </div><!-- ./wrapper -->
+
+    <div id="ModalVerifikasi" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Konfirmasi Verifikasi Vendor</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Dengan mengetuk tombol verifikasi di bawah, maka Anda telah menyatakan bahwa informasi mengenai rekanan yang bersangkutan adalah valid berdasarkan metode verifikasi yang telah dilakukan.<br />
+                        Vendor yang telah divalidasi dan dinyatakan verified akan mendapatkan akses masuk ke dalam sistem serta dapat mengikuti kegiatan pengadaan yang diselenggarakan oleh Mandiri Tunas Finance.<br />
+                        <br />
+
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button id="konfirmasi-verifikasi" onclick="Verifikasi()" type="button" class="btn btn-success">Verifikasi</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="ModalTolak" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Konfirmasi Penolakan Pengajuan Vendor</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Dengan mengetuk tombol Tolak di bawah, maka Anda telah menyatakan bahwa vendor yang bersangkutan dinyatakan tidak lolos verifikasi karena berbagai alasan.<br />
+                        Vendor yang tidak lolos proses verifikasi tidak bisa mengikuti kegiatan pengadaan yang dilakukan oleh Mandiri Tunas Finance.
+                        <br />
+                        Alasan penolakan:
+                    </p>
+                    <textarea id="tolak-reason" maxlength="1000"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button id="tolak-verifikasi" type="button" onclick="Tolak()" class="btn btn-warning">Tolak</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="setujui" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Verifikasi Rekanan</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Anda akan MENYETUJUI rekanan ybs sebagai rekanan baru untuk MTF.<br /> Mohon isikan informasi terkait verifikasi rekanan di bawah ini.</p>
+                    <div class="form-group">
+                        <label>Metode Verifikasi</label>
+                        <select class="form-control">
+                            <option>Desk Checking</option>
+                            <option>Site Visit</option>
+                            <option>By Phone</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Catatan</label>
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="v-setujui" type="button" class="btn btn-success">SETUJU</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">BATAL</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="tolak" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Penolakan Rekanan</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Anda akan MENOLAK rekanan ybs sebagai rekanan baru untuk MTF.</p>
+                    <p>Tuliskan alasan penolakan:</p>
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button id="v-tolak" type="button" class="btn btn-success">TOLAK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">BATAL</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="view-doc-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen webkitallowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script type="text/javascript" src="site.js"></script>
+    <script type="text/javascript" src="dist/js/menu.js"></script>
+    <script>
+        var id = '0';
+        //angular
+
+        //end angular
+        $(function () {
+            var nid = getParameterByName('no');
+            if (nid != '0') id = nid;
+
+            $.ajax({
+                url: "/Api/Registrasi/GetVendorDetail?no=" + id,
+                success: function (data) {
+                    if (data) {
+                        var tipevendor = data.TipeVendor == 0 ? " (perseorangan)" : data.TipeVendor == 1 ? " (ukm)" : " (bukan ukm)";
+                        $("#Nama").html(data.Nama);
+                        $("#TipeVendor").html(tipevendor);
+                        $("#Alamat").html(data.Alamat);
+                        $("#Alamat2").html(data.Kota + "," + data.Provinsi + " " + data.KodePos);
+                        if (data.Website)
+                            $("#KontakPerusahaan").append('<li title="Website Perusahaan"> <span class="fa fa-globe"> </span> ' + data.Website + '</li>');
+                        if (data.Email)
+                            $("#KontakPerusahaan").append('<li title="Email Perusahaan"> <span class="fa fa-envelope-o"> </span> ' + data.Email + '</li>');
+                        if (data.Telepon)
+                            $("#KontakPerusahaan").append('<li title="Telepon"> <span class="fa fa-phone"> </span> ' + data.Telepon + '</li>');
+                        for (var vp in data.VendorPerson) {
+                            //personArray.push({ Nama: data.VendorPerson[vp].Nama, Jabatan: data.VendorPerson[vp].Jabatan, Telepon: data.VendorPerson[vp].Telepon, Email: data.VendorPerson[vp].Email });
+                            var strp = "<li>";
+                            strp += data.VendorPerson[vp].Nama ? ' <span class="fa fa-user" title="Nama"> </span> ' + data.VendorPerson[vp].Nama : "";
+                            strp += data.VendorPerson[vp].Jabatan ? ' <span class="fa fa-chevron-up"  title="Jabatan"> </span> ' + data.VendorPerson[vp].Jabatan : "";
+                            strp += data.VendorPerson[vp].Telepon ? ' <span class="fa fa-phone"  title="Telepon"> </span> ' + data.VendorPerson[vp].Telepon : "";
+                            strp += '</li>';
+                            $("#KeyPersons").append(strp);
+                        }
+                        if (data.BankInfo.Nama)
+                            $("#BankInfo").append('<li title="Nama Bank"> <span class="fa fa-bank"> </span> ' + data.BankInfo.Nama + '</li>');
+                        if (data.BankInfo.Cabang)
+                            $("#BankInfo").append('<li title="Cabang"> <span class="fa fa-bank"> </span> ' + data.BankInfo.Cabang + '</li>');
+                        if (data.BankInfo.NomorRekening)
+                            $("#BankInfo").append('<li title="Nomor Rekening"> <span class="fa fa-bank"> </span> ' + data.BankInfo.NomorRekening + '</li>');
+                        if (data.BankInfo.NamaRekening)
+                            $("#BankInfo").append('<li title="Nama pada rekening"> <span class="fa fa-user"> </span> ' + data.BankInfo.NamaRekening + '</li>');
+                        console.log(data.StatusAkhir);
+                        if (data.StatusAkhir == 'NEW')
+                            $("#Status").html("<span class='label label-default'>BARU</span>");
+                        else if (data.StatusAkhir == 'PASS_1')
+                            $("#Status").html("<span class='label label-primary'>VERIFIKASI 1/3</span>");
+                        else if (data.StatusAkhir == 'PASS_2')
+                            $("#Status").html("<span class='label label-primary'>VERIFIKASI 2/3</span>");
+                        else if (data.StatusAkhir == 'PASS_3')
+                            $("#Status").html("<span class='label label-primary'>VERIFIKASI 3/3</span>");
+                        else if (data.StatusAkhir == 'VERIFIED') {
+                            $("#Status").html("<span class='label label-success'>TERVERIFIKASI</span>");
+                            $(".nv").hide();
+                            $("#v-s").show();
+                        }
+                        else if (data.StatusAkhir == 'REJECTED') {
+                            $("#Status").html("<span class='label label-danger'>DITOLAK</span>");
+                            $(".nv").hide();
+                            $("#v-t").show();
+                        }
+                        else if (data.StatusAkhir == 'UPDATED')
+                            $("#Status").html("<span class='label label-warning'>PENGAJUAN PERUBAHAN</span>");
+                        if (data.NoPengajuan)
+                            $("#NoPengajuan").html(data.NoPengajuan);
+                        var guid0 = '00000000-0000-0000-0000-000000000000';
+                        if (data.NPWP.id && data.NPWP.id != guid0)
+                            $("#Legalitas").append('<div class="col-md-4">' +
+                                            '<div class="box box-folder-vendor" onclick="OpenFile(\'' + data.NPWP.id + '\')">' +
+                                                '<div class="box-header with-border">' +
+                                                   ' <h3 class="box-title text-blue-mtf box-riwayat">NPWP - ' + data.NPWP.Nomor + '</h3></div>' +
+                                                '<div class="box-body">' +
+                                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
+                        if (data.PKP.id && data.PKP.id != guid0)
+                            $("#Legalitas").append('<div class="col-md-4">' +
+                                            '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + data.PKP.id + '\')">' +
+                                                '<div class="box-header with-border">' +
+                                                   ' <h3 class="box-title text-blue-mtf box-riwayat">PKP - ' + data.PKP.Nomor + '</h3></div>' +
+                                                '<div class="box-body">' +
+                                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
+                        if (data.KTP.id && data.KTP.id != guid0)
+                            $("#Legalitas").append('<div class="col-md-4">' +
+                                            '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + data.KTP.id + '\')">' +
+                                                '<div class="box-header with-border">' +
+                                                   ' <h3 class="box-title text-blue-mtf box-riwayat">KTP - ' + data.KTP.Nomor + '</h3></div>' +
+                                                '<div class="box-body">' +
+                                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
+                        if (data.NPWPPemilik.id && data.NPWPPemilik.id != guid0)
+                            $("#Legalitas").append('<div class="col-md-4">' +
+                                            '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + data.NPWPPemilik.id + '\')">' +
+                                                '<div class="box-header with-border">' +
+                                                   ' <h3 class="box-title text-blue-mtf box-riwayat">NPWPPemilik - ' + data.NPWPPemilik.Nomor + '</h3></div>' +
+                                                '<div class="box-body">' +
+                                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
+                        if (data.KTPPemilik.id && data.KTPPemilik.id != guid0)
+                            $("#Legalitas").append('<div class="col-md-4">' +
+                                            '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + data.KTPPemilik.id + '\')">' +
+                                                '<div class="box-header with-border">' +
+                                                   ' <h3 class="box-title text-blue-mtf box-riwayat">KTPPemilik - ' + data.KTPPemilik.Nomor + '</h3></div>' +
+                                                '<div class="box-body">' +
+                                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
+                        if (data.DOMISILI.id && data.DOMISILI.id != guid0)
+                            $("#Legalitas").append('<div class="col-md-4">' +
+                                            '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + data.DOMISILI.id + '\')">' +
+                                                '<div class="box-header with-border">' +
+                                                   ' <h3 class="box-title text-blue-mtf box-riwayat">DOMISILI - ' + data.DOMISILI.Nomor + '</h3></div>' +
+                                                '<div class="box-body">' +
+                                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
+                        if (data.Akta.id && data.Akta.id != guid0)
+                            $("#Legalitas").append('<div class="col-md-4">' +
+                                            '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + data.Akta.id + '\')">' +
+                                                '<div class="box-header with-border">' +
+                                                   ' <h3 class="box-title text-blue-mtf box-riwayat">Akta - ' + data.Akta.Nomor + '</h3></div>' +
+                                                '<div class="box-body">' +
+                                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
+                        if (data.AktaTerakhir.id && data.AktaTerakhir.id != guid0)
+                            $("#Legalitas").append('<div class="col-md-4">' +
+                                            '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + data.AktaTerakhir.id + '\')">' +
+                                                '<div class="box-header with-border">' +
+                                                   ' <h3 class="box-title text-blue-mtf box-riwayat">Akta Terakhir - ' + data.AktaTerakhir.Nomor + '</h3></div>' +
+                                                '<div class="box-body">' +
+                                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
+                        if (data.SIUP.id && data.SIUP.id != guid0)
+                            $("#Legalitas").append('<div class="col-md-4">' +
+                                            '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + data.SIUP.id + '\')">' +
+                                                '<div class="box-header with-border">' +
+                                                   ' <h3 class="box-title text-blue-mtf box-riwayat">SIUP - ' + data.SIUP.Nomor + '</h3></div>' +
+                                                '<div class="box-body">' +
+                                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
+                        if (data.TDP.id && data.TDP.id != guid0)
+                            $("#Legalitas").append('<div class="col-md-4">' +
+                                            '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + data.TDP.id + '\')">' +
+                                                '<div class="box-header with-border">' +
+                                                   ' <h3 class="box-title text-blue-mtf box-riwayat">TDP - ' + data.TDP.Nomor + '</h3></div>' +
+                                                '<div class="box-body">' +
+                                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
+                        if (data.SIUJK.id && data.SIUJK.id != guid0)
+                            $("#Legalitas").append('<div class="col-md-4">' +
+                                            '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + data.SIUJK.id + '\')">' +
+                                                '<div class="box-header with-border">' +
+                                                   ' <h3 class="box-title text-blue-mtf box-riwayat">SIUJK - ' + data.SIUJK.Nomor + '</h3></div>' +
+                                                '<div class="box-body">' +
+                                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
+                        console.log("PKP id: " + data.SIUJK.id);
+                    }
+                },
+                complete: function (xhr, textStatus) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+
+            $.ajax({
+                url: 'api/Registrasi/getstatusverifikasi?no=' + id,
+                success: function (data) {
+                    if (data.length < 1) return;
+                    else {
+                        var vPass = 0;
+                        for (var i in data) {
+
+                            if (data[i].Metode == 'DESK') {
+                                $("#desk-checking-comment").html(data[i].Comment);
+                                $(".div-verifikasi").show();
+                                vPass++;
+                            }
+                            if (data[i].Metode == 'PHONE') {
+                                $("#by-phone-comment").html(data[i].Comment);
+                                vPass++;
+                            }
+                            if (data[i].Metode == 'VISIT') {
+                                $("#site-visit-comment").html(data[i].Comment);
+                                vPass++;
+                            }
+
+                        } console.log("jimbisss");
+                        console.log(vPass);
+                        if (vPass == 3) {
+                            $(".div-verifikasi").show();
+                        }
+                    }
+                }
+            });
+
+            $("#desk-checking-tick").click(function () {
+                var setuju = $("#desk-checking-tick").prop('checked');
+                var msg = $("#desk-checking-tick-msg").html();
+                if (setuju) {
+                    $("#desk-checking-comment").val(msg);
+                    return;
+                }
+                $("#desk-checking-comment").val('');
+            });
+            $("#by-phone-tick").click(function () {
+                var setuju = $("#by-phone-tick").prop('checked');
+                var msg = $("#by-phone-tick-msg").html();
+                if (setuju) {
+                    $("#by-phone-comment").val(msg);
+                    return;
+                }
+                $("#by-phone-comment").val('');
+            });
+            $("#site-visit-tick").click(function () {
+                var setuju = $("#site-visit-tick").prop('checked');
+                var msg = $("#site-visit-tick-msg").html();
+                if (setuju) {
+                    $("#site-visit-comment").val(msg);
+                    return;
+                }
+                $("#site-visit-comment").val('');
+            });
+
+            $(".box-c").click(function () {
+                $("#view-siup").modal('show');
+            });
+            $("#myNav").affix({
+                offset: {
+                    top: 100
+                }
+            });
+            $().UItoTop({ easingType: 'easeOutQuart' });
+            $(".datepicker").datepicker({
+                showOtherMonths: true,
+                format: "dd/mm/yy",
+                changeYear: true,
+                changeMonth: true,
+                yearRange: "-90:+4", //+4 Years from now
+
+            });
+            $.getScript("dist/js/app.min.js");
+
+            $("#example1_filter").hide();
+
+
+        });
+
+        function viewDocDetail(id) {
+            $.ajax({
+                url: "api/Registrasi/OpenFile/" + id
+            });
+        }
+
+        function OpenFile(id) {
+            $.ajax({
+                url: "api/Registrasi/ViewFile/" + id,
+                success: function (response) {
+                    console.log(response);
+                    if (response.id != "") {
+                        var bUrl = "/ViewerNotSupported.html?m=registrasi&id=";
+                        if (response.contentType.indexOf("image/") != -1)
+                            bUrl = "/ImageViewer.html?m=registrasi&id=";
+                        else if (response.contentType.indexOf("application/pdf") != -1)
+                            bUrl = "/api/Registrasi/OpenFile/";
+                        bUrl += response.id;
+                        $("#docViewFrame").attr("src", bUrl);
+                        $("#view-doc-modal").modal("show");
+                    }
+                }
+            });
+        }
+
+        function deskCheckingSubmit() {
+            var comment = $("#desk-checking-comment").val();
+            var idv = id;
+            if (id != 0 && comment.length > 0) {
+                $.ajax({
+                    url: 'api/Registrasi/DeskVerification?no=' + id + "&comment=" + comment,
+                    success: function (message) {
+                        if (message) window.location.reload();
+                    },
+                    complete: function (xhr, textStatus) {
+                        ajaxCompleteProcess(xhr);
+                    }
+                });
+            }
+        }
+
+        function byPhoneSubmit() {
+            var comment = $("#by-phone-comment").val();
+            var idv = id;
+            if (id != 0 && comment.length > 0) {
+                $.ajax({
+                    url: 'api/Registrasi/PhoneVerification?no=' + id + "&comment=" + comment,
+                    success: function (message, textStatus, xhr) {
+                        if (message) window.location.reload();
+                    },
+                    complete: function (xhr, textStatus) {
+                        ajaxCompleteProcess(xhr);
+                    }
+                });
+            }
+        }
+
+        function siteVisitSubmit() {
+            var comment = $("#site-visit-comment").val();
+            var idv = id;
+            if (id != 0 && comment.length > 0) {
+                $.ajax({
+                    url: 'api/Registrasi/VisitVerification?no=' + id + "&comment=" + comment,
+                    success: function (message) {
+                        //alert(message);
+                        if (message) window.location.reload();
+                    },
+                    complete: function (xhr, textStatus) {
+                        ajaxCompleteProcess(xhr);
+                    }
+                });
+            }
+        }
+
+        function showVerifikasi() {
+            $("#ModalVerifikasi").modal('show');
+        }
+
+        function showTolak() {
+            $("#ModalTolak").modal('show');
+        }
+
+        function Verifikasi() {
+            $("#ModalVerifikasi").modal('hide');
+            $.ajax({
+                url: "/api/Registrasi/VerifyVendor?no=" + id,
+                success: function (data) {
+                    //alert(data);
+                    window.location.href = "rekanan-detail.html?id=" + data;
+                },
+                complete: function (xhr, textStatus) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+
+        function Tolak() {
+            $("#ModalTolak").modal('hide');
+            $.ajax({
+                url: "/api/Registrasi/RejectVendor?no=" + id,
+                success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                },
+                complete: function (xhr, textStatus) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+
+
+    </script>
+    <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+
+</body>
+
+</html>

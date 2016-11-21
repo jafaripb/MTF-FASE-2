@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+<link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<style>
+		 .label-kanan label{
+				  text-align:left !important;
+				  font-weight: 100!important;
+		}
+	</style>	
+  </head>
+ <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="@Url.Content("~/")" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"><img src="dist/img/images.png" width="50px" /></span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><img src="dist/img/images.png" width="100px" /></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <div class="navbar-custom-menu">            
+            <ul class="nav navbar-nav">		
+                <li class="dropdown user user-menu">
+                    <!-- Menu Toggle Button -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <!-- The user image in the navbar-->
+                       <img  src="dist/img/avatar04.png" class="user-image" alt="User Image">
+                      <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                      <span class="hidden-xs">User</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <!-- The user image in the menu -->
+                      <li class="user-header">
+                         <img  src="dist/img/avatar04.png" class="img-circle" alt="User Image">
+                        <p>
+                          User - Bank Mandiri
+                          <small>Member since Nov. 2012</small>
+                        </p>
+                      </li>
+                      <!-- Menu Body -->
+                     
+                      <!-- Menu Footer-->
+                      <li class="user-footer">
+                        <div class="pull-left">
+                          <a href="#" class="btn btn-default btn-flat">Profile</a>
+                        </div>
+                        <div class="pull-right">
+                          <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>	
+				<li>
+				  <a href="" >Sign out</a>
+				</li>			  
+            </ul>
+          </div>
+        </nav>
+      </header>
+    
+          <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+		
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+            <li class="header">MAIN NAVIGATION</li>
+               
+				<li><a href="dashboard.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                <li class="treeview">
+                  <a href="#">
+                    <i class="fa fa-folder"></i> <span>Master Data Management</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </a>
+                  <ul class="treeview-menu">
+                    <li><a href="@Url.Content("~/")masterdata/dosen"><i class="fa fa-circle-o"></i>Data 1</a></li>
+                    <li>
+					    <a href="#">
+						    <i class="fa fa-folder"></i> <span>Data 2</span>
+						    <i class="fa fa-angle-left pull-right"></i>
+					     </a>
+					    <ul class="treeview-menu">
+						    <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Sub Data 2</a></li>
+					    </ul>
+				    </li>
+
+                  </ul>
+                </li>
+            
+             
+           
+             <li class="treeview">
+              <a href="#">
+                <i class="fa fa-folder"></i> <span>Vendor Management</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+				 <li>
+					    <a href="#">
+						    <i class="fa fa-folder"></i> <span>Vendor Identification,</span>
+						    <i class="fa fa-angle-left pull-right"></i>
+					     </a>
+					    <ul class="treeview-menu">
+						    <li><a href="vendor-registration.html"><i class="fa fa-circle-o"></i>Vendor Registration</a></li>
+							<li><a href="vendor-re-registration.html"><i class="fa fa-circle-o"></i>Vendor Re-Registration</a></li>
+					    </ul>
+				    </li>
+                <li><a href="vendor-evaluation.html"><i class="fa fa-circle-o"></i>Vendor Evaluation</a></li>
+                <li><a href="product-list.html"><i class="fa fa-circle-o"></i>Product List</a></li>
+              </ul>
+            </li>
+          
+             <li class="treeview active">
+                <a href="#">
+                <i class="fa fa-folder"></i> <span>Sourcing</span>
+                <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                <li ><a href="master-penawaran.html"><i class="fa fa-circle-o"></i>Master Penawaran Harga</a></li>
+				<li ><a href=""><i class="fa fa-circle-o"></i>Master Supplier</a></li>
+				<li class="active"><a href="catalog-undangan-pengadaan-barang.html"><i class="fa fa-circle-o"></i>PR</a></li>
+                </ul>
+            </li>
+            
+            <li class="treeview ">
+                <a href="#">
+                <i class="fa fa-folder "></i> <span>Collaborative Procurement</span>
+                <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+					<li ><a href="memorandum-pengadaan-barang.html"><i class="fa fa-circle-o"></i>Memorandum Pengadaan</a></li>
+					<li><a href="permintaan-pengadaan-barang.html"><i class="fa fa-circle-o"></i>Permintaan Pengadaan </a></li>
+					<li><a href="surat-pesan-barang.html"><i class="fa fa-circle-o"></i>Surat Pesan Barang</a></li>
+					<li><a href="laporan-penerimaan.html"><i class="fa fa-circle-o"></i>Laporan Penerimaan</a></li>
+					<li><a href="penerimaan-invoice.html"><i class="fa fa-circle-o"></i>Penerimaan Invoice</a></li>
+                </ul>
+            </li>
+             <li class="treeview">
+                <a href="#">
+                <i class="fa fa-folder"></i> <span> Reporting Management</span>
+                <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                <li><a href="reporting.html"><i class="fa fa-circle-o"></i>Reporting</a></li>
+                </ul>
+            </li>
+             <li class="treeview">
+                <a href="#">
+                <i class="fa fa-folder"></i> <span> Spend Analysis</span>
+                <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                <li><a href="spend-analysis.html"><i class="fa fa-circle-o"></i>Spend Analysis</a></li>
+                </ul>
+            </li>
+            
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+	  <section class="content-header">
+          <h1>
+            Evaluasi Vendor Pengadaan Barang
+          </h1>
+        </section>
+		<section class="content">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box">
+							<div class="box-header with-border">
+								<h3 class="box-title">Data Vendor</h3>
+								<div class="box-tools pull-right">
+								<button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+							   
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-md-12 label-kanan ">
+										
+										
+										<div class="form-group">
+											<label  class="col-sm-2 control-label">Nama Perusahaan</label>
+											<label class="col-sm-10 control-label"><strong>PT.Bangun Jaya</strong></label>																			
+										</div>
+										<div class="form-group">
+											<label  class="col-sm-2 control-label">Kode Vendor</label>
+											<label  class="col-sm-10 control-label"><strong>VV001</strong></label>																			
+										</div>
+										<div class="form-group">
+											<label  class="col-sm-2 control-label">Kualifikasi</label>
+											<label  class="col-sm-10 control-label"><strong>M:Menengah</strong></label>																			
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+					<div class="box">
+							<div class="box-header with-border">
+								<h3 class="box-title">Data Penawaran</h3>
+								<div class="box-tools pull-right">
+								<button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+							   
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-md-12 label-kanan ">
+										<div class="form-group">
+											<label  class="col-sm-4 control-label">No&tanggal Penawaran</label>
+											<label class="col-sm-6 control-label"><strong>009&25-12-2015</strong></label>																			
+										</div>
+										<div class="form-group">
+											<label  class="col-sm-4 control-label">Jangka Waktu Penawaran</label>
+											<label  class="col-sm-6 control-label"><strong>30</strong></label>																			
+										</div>
+										<div class="form-group">
+											<label  class="col-sm-4 control-label">Jangka Waktu Pemenuhan</label>
+											<label  class="col-sm-6 control-label"><strong>30</strong></label>																			
+										</div>
+										<div class="form-group">
+											<label  class="col-sm-4 control-label">Jangka Waktu Pembayaran</label>
+											<label  class="col-sm-6 control-label"><strong>30</strong></label>																			
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+					<div class="box">
+						<div class="box-header">
+						  <h3 class="box-title">Rincian Negoisasi</h3>
+						</div><!-- /.box-header -->
+						<div class="box-body">
+							
+						  <table id="example1" class="table table-bordered table-striped">
+							<thead>
+							  <tr>
+								<th>No</th>
+								<th>Nama Barang</th>
+								<th>Satuan</th>
+								<th>Jumlah</th>
+								<th>Harga Penawaran</th>
+								<th>Harga Konfirmasi</th>
+								<th>Harga Total Konfirmasi</th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr>
+								<td>1</td>
+								<td>Atap Holo</td>
+								<td>meter</td>
+								<td>100</td>
+								<td>10000000</td>
+								<td><input type="text" class="form-control "  value="10000000"/></td>
+								<td>10000000</td>
+							  </tr>
+							  <tr>
+								<td>2</td>
+								<td>Pembuatan Garasi</td>
+								<td>meter</td>
+								<td>50</td>
+								<td>5000000</td>
+								<td><input type="text" class="form-control "  value="5000000"/></td>
+								<td>5000000</td>
+							 </tr>
+							</tbody>
+						  </table>
+						</div><!-- /.box-body -->
+				  </div><!-- /.box -->
+				  
+					</div>
+				</div>
+			</div>
+		</section>
+    
+    </div><!-- /.content-wrapper -->
+       <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0.0
+        </div>
+         <strong>Supplier Relation Management</strong> 
+	    </footer>
+    </div><!-- ./wrapper -->
+
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/app.min.js"></script>
+	<script src="datetimepicker/moment.min.js"></script>
+	 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>
+	
+	 <script>
+      $(function () {
+        $('#example12').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+		 $(".datetime").datetimepicker({
+                format: "D MMMM YYYY",
+                locale: 'id'
+
+            });
+      });
+    </script>
+  </body>
+</html>

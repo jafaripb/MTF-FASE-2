@@ -1,0 +1,12 @@
+[
+  { "id": 1,  "menu": "Dashboard",  "url": "dashboard.html",  "css": "fa fa-bar-chart"  },
+  { "id": 2 , "menu": "Approval", "url": "approval.html","css":"fa fa-external-link" },
+  { "id": 3,  "menu": "Pengadaan-e",  "url": "pengadaan-list.html", "css": "fa fa-cubes"  },
+  { "id": 4 , "menu": "Repository HPS", "url": "repository-rks.html","css":"fa fa-book"   },
+	{ "id": 5 , "menu": "Rekanan", "url": "rekanan.html","css":"fa fa-vimeo"   },
+	{ "id": 6 , "menu": "Katalog-e", "url": "eCatalogue2.html","css":"fa fa-book"   },
+	{ "id": 7 , "menu": "Report", "url": "report.html","css":"fa fa-file-excel-o"   },
+  { "id": 8,  "menu": "Manajemen Kontrak",  "url": "kontrak.html",  "css": "fa fa-folder-o" },
+  { "id": 9 ,  "menu": "Sistem Monitoring",  "url": "sistem-monitoring.html",  "css": "fa fa-tv" },
+	{ "id": 10 , "menu": "LogOut", "url": "Api/Header/Signout","css":"fa fa-sign-out"   }
+]

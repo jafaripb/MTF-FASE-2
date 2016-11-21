@@ -1,0 +1,193 @@
+﻿@model IdLdap.Models.ViewModelUserDetail
+@{
+    ViewBag.Title = "DetailUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h1>
+        Edit Account <span>: @Model.UserDetail.UserName</span>
+        <small class="subject"></small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-sm-8">
+        <idm-message message="feedback"></idm-message>
+    </div>
+</div>
+
+<div ng-show="user">
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#tab1" role="tab" data-toggle="tab">Properties</a></li>
+        <li class=""><a href="#tab2" role="tab" data-toggle="tab">Roles</a></li>
+        @if (!Model.UserDetail.IsLdapUser)
+        {
+            <li class=""><a href="#tab3" role="tab" data-toggle="tab">Ubah Password</a></li>
+        }
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="tab1">
+            <div class="line">
+
+                @using (Ajax.BeginForm("UpdateUserProperty", new AjaxOptions()
+                                {
+                                    InsertionMode = InsertionMode.Replace,
+                                    OnBegin = "onBeginSubmit()",
+                                    OnSuccess = "SuccessFormContact(data, status, xhr)",
+                                    OnFailure = "FailFormContact(xhr, status, error)",
+                                    
+                                }))
+                 {
+                    
+                        <br/>
+                        <div class="form-group">
+                            @Html.HiddenFor(model => model.UserDetail.UserName)
+                        </div>
+
+                        <div class="form-group">
+                            <label>User ID: </label>
+                            @Model.UserDetail.Id
+                        </div>
+                        <div class="form-group">
+                            <label>Display Name:</label>
+                            @Html.DisplayTextFor(model => model.UserDetail.DisplayName)
+                        </div>
+                        <div class="form-group">
+                            <label>User LDAP:</label>
+                            @Html.DisplayTextFor(model => model.UserDetail.IsLdapUser)
+                        </div>  
+                        <div class="form-group form-inline">
+                            <label>Position/Jabatan:</label>
+                            @Html.TextBoxFor(model => model.UserDetail.Position, new { @class = "form-control", @placeholder = "Isikan Jabatan Anda" })
+                        </div>
+                            @Html.ValidationMessageFor(model => model.UserDetail.Position, null, new { @class = "text-danger", @style = "font-style:italic; font-size:12px" })
+
+                        @*<div class="form-group">
+                            <label for="email">Phone Number:</label>
+                            @Html.TextBoxFor(model => model.UserDetail.PhoneNumber, new { @class = "form-control", @placeholder = "Isikan No.Tlp anda" })
+                        </div>
+                            @Html.ValidationMessageFor(model => model.UserDetail.Email, null, new { @class = "text-danger", @style = "font-style:italic; font-size:12px" })*@
+
+                        <div class="form-group">
+                            <label for="email">Lock Out:</label>
+                            @Html.CheckBoxFor(model => model.UserDetail.LockoutEnabled, new {  })
+                        </div>
+                            @Html.ValidationMessageFor(model => model.UserDetail.LockoutEnabled, null, new { @class = "text-danger", @style = "font-style:italic; font-size:12px" })
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-primary btn-block">Ubah</button>
+                            </div>
+                        </div>
+                 }
+
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="tab2">
+            <div class="user-roles">
+                @using (Ajax.BeginForm("UpdateUserRole", new AjaxOptions()
+                                {
+                                    InsertionMode = InsertionMode.Replace,
+                                    OnBegin = "onBeginSubmit()",
+                                    OnSuccess = "SuccessFormContact(data, status, xhr)",
+                                    OnFailure = "FailFormContact(xhr, status, error)",
+
+                                }))
+                 {
+                    <br/>
+                    <div class="form-group">
+                        @Html.HiddenFor(model => model.UserDetail.UserName)
+                    </div>
+                    
+                    for (int i = 0; i < Model.RoleUser.Count(); i++)
+                    {
+                    <div class="form-group">
+                        @Html.CheckBoxFor(x => x.RoleUser[i].Selected, new { })
+                        @Html.HiddenFor(x=> x.RoleUser[i].Name)
+                        <label for="role">
+                            @Model.RoleUser[i].Name <small><i>(@Model.RoleUser[i].RoleDescription)</i></small>
+                        </label>
+                        <span></span>
+                    </div>
+                    }
+                                  
+                    <div class="row">
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-primary btn-block">Ubah</button>
+                            </div>
+                     </div>
+                }
+            </div>
+        </div>
+        @if (!Model.UserDetail.IsLdapUser) { 
+        <div role="tabpanel" class="tab-pane" id="tab3">
+            <div class="row section">
+                
+
+                @using (Ajax.BeginForm("UpdateUserPassword", new AjaxOptions()
+                                {
+                                    //InsertionMode = InsertionMode.Replace,
+                                    OnBegin = "onBeginSubmit()",
+                                    OnSuccess = "SuccessFormContact(data, status, xhr)",
+                                    OnFailure = "FailFormContact(xhr, status, error)",
+                                    OnComplete = "Complete(xhr,status,error)"
+                                }))
+                {
+
+                    <br />
+                    <div class="form-group">
+                        @Html.HiddenFor(model => model.UserDetail.UserName)
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">New Password:</label>
+                        @Html.TextBoxFor(model => model.UserDetail.NewPassword, new { @class = "form-control", @type = "password", @placeholder = "Isi password" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.UserDetail.NewPassword, null, new { @class = "text-danger", @style = "font-style:italic; font-size:12px" })
+
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn btn-primary btn-block">Ubah</button>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+            
+        </div>
+        }
+    </div>
+
+ 
+</div>
+
+
+@section scripts
+{
+    <script>
+        function onBeginSubmit() {
+            alert("u want it?");
+         waitingDialog.showloading("Proses Harap Tunggu");
+         
+     }
+     function SuccessFormContact(data, status, xhr){
+         waitingDialog.hideloading();
+         alert(data.msg);
+     }
+     function FailFormContact(xhr, status, error) {
+         waitingDialog.hideloading();
+         //alert(error);
+     }
+     function Complete(xhr, status, error) {
+        //alert(error);
+     }
+
+    </script>
+}
+

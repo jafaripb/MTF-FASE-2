@@ -1,0 +1,9 @@
+[ 
+	{ \"id\": 1 , \"menu\": \"Dashboard\", \"url\": \"dashboard.html\",\"css\":\"fa fa-circle-o\"   },
+	{ \"id\": 2 , \"menu\": \"Pengadaan-e\", \"url\": \"pengadaan-list.html\",\"css\":\"fa fa-cubes\"   },
+	{ \"id\": 3 , \"menu\": \"Rekanan\", \"url\": \"rekanan.html\",\"css\":\"fa fa-vimeo\"   },
+	{ \"id\": 4 , \"menu\": \"Katalog-e\", \"url\": \"eCatalogue2.html\",\"css\":\"fa fa-book\"   },
+	{ \"id\": 5 , \"menu\": \"Tim\", \"url\": \"dashboard.html\",\"css\":\"fa fa-users\"   },
+	{ \"id\": 6 , \"menu\": \"Audit\", \"url\": \"dashboard.html\",\"css\":\"fa fa-folder\"   },
+	{ \"id\": 7 , \"menu\": \"Setelan\", \"url\": \"dashboard.html\",\"css\":\"fa fa-gear\"   }
+]

@@ -1,0 +1,6 @@
+[ 
+	{ "id": 1 , "menu": "Dashboard", "url": "dashboard.html","css":"fa fa-circle-o"   },
+	{ "id": 2 , "menu": "Pengadaan-e", "url": "pengadaan-rekanan.html","css":"fa fa-cubes"   },
+	{ "id": 5 , "menu": "Profil Saya", "url": "rekanan-side-terdaftar.html","css":"fa fa-user"   },
+	{ "id": 7 , "menu": "Setelan", "url": "dashboard.html","css":"fa fa-gear"   }
+]

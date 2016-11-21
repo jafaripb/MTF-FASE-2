@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	
+	<link rel="stylesheet" href="dist/site.css">
+	<style>
+        .p3 {
+            display:none
+        }
+        .pengajuan-info-lanjutan {
+            display:none
+        }
+    </style>
+  </head>
+ <body class="hold-transition skin-blue  sidebar-collapse fixed">
+    <div class="wrapper">
+
+      
+    <div id="header">
+        <header class="main-header">
+            <!-- Logo -->
+            <a class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                
+                <div class="navbar-custom-menu pull-left">
+                    <ul class="nav navbar-nav">
+                        <li>	<a id="judul-page" href="#">Cek Status</a></li>
+                        <!--<li>	<a id="judul-page" href="#">Pendaftaran Rekanan</a></li>
+                        <li>	<a id="judul-page" href="#">Login</a></li>-->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+    </div>
+      <div class="content-wrapper">
+    
+
+		 <section class="content">
+
+			<div class="box box-primary box-white">
+				
+				<div class="box-body">	
+					<div class="col-md-offset-1 col-md-10">	
+						<div class="row p1">
+							<div class="box box-white">
+							<div class="box-header with-border">
+							  <h3 class="box-title" id="section-0">Cek status pengajuan</h3>
+							  <div class="box-tools pull-right">
+								
+							  </div>
+							</div><!-- /.box-header -->
+							<div class="box-body">
+								<div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nomor Pengajuan:</label>
+                                        <input type="text" id="no" />
+                                    </div>
+								</div>	
+                                <div class="">
+                                    <button class="btn btn-sm btn-success" id="go-cek">Cek</button>
+                                </div>
+							
+							</div><!-- /.box-body -->
+						  </div>
+						</div>
+                        <div class="row p3">
+                            <div class="box box-mtf">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title" id="section-0">Pengajuan Rekanan</h3>
+                                    <div class="box-tools pull-right">
+
+                                    </div>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="col-md-8">
+                                        <p>
+                                            Nomor Pengajuan: <b id="no-pengajuan"></b>
+                                        </p>
+                                        <p>
+                                            Tanggal Pengajuan: <b id="tgl-pengajuan"></b>
+                                        </p>
+                                        <p>
+                                            Status Pengajuan: <label class="label label-primary" id="status-pengajuan"></label>
+                                        </p>
+                                        <p id="nope-pengajuan" style="display:none">
+                                            <i>Tidak ada pengajuan dengan nomor ini.</i>
+                                        </p>
+                                        <p class="pengajuan-info-lanjutan">
+                                            Kirimkan dokumen-dokumen terkait yang Anda lampirkan pada pendaftaran ini ke alamat berikut dalam jangka waktu <strong>5 hari kerja</strong> sejak pengajuan ini dibuat
+                                            dengan menyertakan nomor pengajuan pada sampul terluar
+                                            .
+                                        </p>
+                                        <p class="pengajuan-info-lanjutan" style="margin-left:40px">
+                                            <b>PT Mandiri Tunas Finance</b><br />
+                                            Graha Mandiri Lt.3A <br />
+                                            Jl. Imam Bonjol No.61 <br />
+                                            Jakarta 10310<br />
+                                        </p>
+                                        <p class="pengajuan-info-lanjutan">
+                                            Jika dalam <strong>5 hari kerja</strong> dokumen belum kami terima, maka pengajuan Anda dianggap tidak berlaku (void). Anda dapat melakukan pengajuan lagi setelahnya.
+                                        </p>
+                                        <!--<button class="btn btn-sm btn-warning" id="p3-detail">Detail</button>-->
+                                    </div>
+                                    <div class="col-md-5">
+
+                                    </div>
+
+                                </div><!-- /.box-body -->
+                                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                            </div>
+                        </div>
+					</div>	
+					
+					
+				</div>
+					</div>
+					
+		</section><!-- /.content -->
+    
+		</div><!-- /.content-wrapper -->
+     
+	   <footer class="main-footer">
+        
+	    </footer>
+    </div><!-- ./wrapper -->
+	
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+         
+  </body>
+</html>
+<script type="text/javascript">
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    $(function () {
+        var no = getParameterByName("no");
+        if (no) {
+            req(no);
+            $("#no").val(no);
+        }
+        $("#go-cek").click(function () {
+            var rno = $("#no").val();
+            if(rno.length>0)
+                req(rno)
+        });
+        function req(n) {
+            $.ajax({
+                url: "/api/registrasi/getStatusRegistrasi?no=" + n,
+                success: function (data) {
+                    console.log(data);
+                    $("#no-pengajuan").html(n);
+                    if (data.status) {
+                        $("#tgl-pengajuan").html(data.tanggal);
+                        $("#status-pengajuan").html(data.status);
+                        $(".pengajuan-info-lanjutan").show();
+                    }
+                    else {
+                        $("#tgl-pengajuan").html('');
+                        $("#status-pengajuan").html('');
+                        $(".pengajuan-info-lanjutan").hide();
+                        $("#nope-pengajuan").show();
+                    }
+                    $(".p3").show();
+                }
+            });
+        }
+    })
+</script>

@@ -1,0 +1,5 @@
+[ 
+	{ "id": 2 , "menu": "Pengadaan-e", "url": "pengadaan-list.html","css":"fa fa-cubes"   },
+	{ "id": 3 , "menu": "Rekanan", "url": "rekanan.html","css":"fa fa-vimeo"   },
+	{ "id": 5 , "menu": "LogOut", "url": "Api/Header/Signout","css":"fa fa-sign-out"   }
+]

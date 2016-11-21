@@ -1,0 +1,32 @@
+{"data":
+	{
+		"hps": 
+			[
+				{"item":"Total", "satuan": "","jumlah":"", "harga":"300000"},
+				{"item":"<p>Renovasi Ruangan 104</p>", "satuan": "", "jumlah":"", "harga":""},
+				{"item":"<p style='padding-left:40px'>Semen</p>", "satuan": "sak", "jumlah":"10", "harga":"100000"},
+				{"item":"<p style='padding-left:40px'>Bata Merah</p>", "satuan": "biji", "jumlah":"100", "harga":"200000"}
+			],
+		"vendors":
+			[
+                {
+                    "nama": "PT Bumi Langit",
+                    "items": [ { "harga": "320000" }, { "harga": "" }, { "harga": "110000" }, { "harga": "210000" } ]
+                },
+
+                {
+                    "nama": "PT Gerhana",
+                    "items": [ { "harga": "340000" }, { "harga": "" }, { "harga": "110000" }, { "harga": "230000" } ]
+                },
+                {
+                    "nama": "PT Rembulan",
+                    "items": [ { "harga": "360000" }, { "harga": "" }, { "harga": "120000" }, { "harga": "240000" } ]
+                },
+                {
+                    "nama": "PT Jaya Raharja",
+                    "items": [ { "harga": "390000" }, { "harga": "" }, { "harga": "140000" }, { "harga": "250000" } ]
+                }
+
+			]
+	}
+}

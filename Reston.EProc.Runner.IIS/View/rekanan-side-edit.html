@@ -1,0 +1,919 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/select2/select2.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<link rel="stylesheet" href="dist/site.css">
+	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+	<link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" /> 
+	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+	<link rel="stylesheet" href="dropzone.css">
+	<style>
+		.dz-error-mark{
+			/*display:none !important;*/
+		}
+		.dropzone{
+			height: 80%;
+		}
+	</style>
+  </head>
+ <body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+      
+    <div id="header">
+        <header class="main-header">
+            <!-- Logo -->
+            <a class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu pull-left">
+                    <ul class="nav navbar-nav">
+                        <li>	<a id="judul-page" href="#">Profil Anda</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+    </div>
+          <!-- Left side column. contains the logo and sidebar -->
+      <div id="menu">
+          <aside class="main-sidebar" ng-app="app" >
+        <!-- sidebar: style can be found in sidebar.less -->
+         <section class="sidebar" >
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu"  ng-controller="side-menu">
+           <!-- <li class="header">MAIN NAVIGATION</li>-->
+             
+			<li class="treeview" ng-repeat="menu in menus">
+				<a href="{{menu.url}}">
+				    <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+				</a>				
+			</li>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+      </div>
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+    
+
+		 <section class="content">
+
+			<div class="box box-primary box-white">
+				
+				<div class="box-body">	
+					<div class="col-md-10">	
+						
+						<div class="row p3">
+							<div class="box box-white">
+							<div class="box-header with-border">
+							  <h3 class="box-title" id="section-0">Pengajuan Rekanan</h3>
+							  <div class="box-tools pull-right">
+								
+							  </div>
+							</div><!-- /.box-header -->
+							<div class="box-body">
+								<div class="col-md-7">
+									<p>Nomor Pengajuan: 2015020001
+									</p>
+									<p>Tanggal Pengajuan: 9 Februari 2016
+									</p>
+									<p>Status Pengajuan: <label class="label label-primary">Diajukan</label>
+									
+									</p>
+									<button class="btn btn-sm btn-warning" id="p3-detail">Detail</button>
+								</div>	
+								<div class="col-md-5">
+								
+								</div>
+							
+							</div><!-- /.box-body -->
+							<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+						  </div>
+						</div>
+                        <form action="/Api/Vendor/EditVendor" method="post">
+                            <input type="hidden" name="id" value="" />
+                            <div class="row p2">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title" id="section-1">Jenis Perusahaan</h3>
+                                        <div class="box-tools pull-right">
+
+                                        </div>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+
+                                        <div class="row form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Jenis Usaha</label>
+                                                <div class="col-sm-4">
+                                                    <select id="sub_kategori" name="TipeVendor" class="form-control select2 required" style="width: 100%;">
+                                                        <option selected="selected" value="">--Pilih--</option>
+                                                        <option value="1">Perorangan</option>
+                                                        <option value="2">UKM</option>
+                                                        <option value="3">Bukan UKM</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.box-body -->
+
+                                </div>
+                            </div>
+                            <div class="row p2">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title" id="section-1">Informasi Perusahaan</h3>
+                                        <div class="box-tools pull-right">
+
+                                        </div>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+
+                                        <div class="box-body">
+                                            <div class="box box-mtf">
+                                                <div class="box-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-horizontal">
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">Nama Perusahaan</label>
+                                                                <div class="col-sm-10">
+                                                                    <input name="Nama" type="text" class="form-control required" placeholder="Nama Perusahaan">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">Alamat</label>
+                                                                <div class="col-sm-10">
+                                                                    <input name="Alamat" type="text" class="form-control required" placeholder="Alamat Lengkap">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">Provinsi</label>
+                                                                <div class="col-sm-4">
+                                                                    <select id="sub_kategori" name="Provinsi" class="form-control select2 required" style="width: 100%;">
+                                                                        <option selected="selected" value="">--Pilih--</option>
+                                                                        <option value="1">DKI Jakarta</option>
+                                                                        <option value="2">Jawa Barat</option>
+                                                                        <option value="3">Jawa Tengah</option>
+                                                                        <option value="4">Banten</option>
+                                                                    </select>
+                                                                </div>
+                                                                <label class="col-sm-2 control-label">Kabupaten/Kota</label>
+                                                                <div class="col-sm-4">
+                                                                    <select name="Kota" class="form-control select2 required" style="width: 100%;">
+                                                                        <option selected="selected" value="">--Pilih--</option>
+                                                                        <option value="1">Jakarta</option>
+                                                                        <option value="2">Bandung</option>
+                                                                        <option value="3">Semarang</option>
+                                                                        <option value="4">Serang</option>
+                                                                        <option value="4">Kota 1</option>
+                                                                        <option value="4">Kota 2</option>
+                                                                        <option value="4">Kota 3</option>
+                                                                        <option value="4">Kota 4</option>
+                                                                        <option value="4">Kota 5</option>
+                                                                        <option value="4">Kota 6</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">Kode Pos</label>
+                                                                <div class="col-sm-4">
+                                                                    <input name="KodePos" type="text" class="form-control" placeholder="Kode Pos">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">Website</label>
+                                                                <div class="col-sm-4">
+                                                                    <input name="Website" type="text" class="form-control" placeholder="website.com">
+                                                                </div>
+                                                                <label class="col-sm-2 control-label">Email</label>
+                                                                <div class="col-sm-4">
+                                                                    <input name="Email" type="text" class="form-control" placeholder="vendor@website.com">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">Telepon</label>
+                                                                <div class="col-sm-4">
+                                                                    <input name="Telepon" type="text" class="form-control" placeholder="(021) 322 454">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.box-body -->
+
+                                </div>
+                            </div>
+                            <div class="row p2">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title" id="section-2">Pajak</h3>
+                                        <div class="box-tools pull-right">
+
+                                        </div>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="box-body">
+                                            <div class="box box-mtf">
+                                                <div class="box-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-horizontal">
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">NPWP</label>
+                                                                <div class="col-sm-4">
+                                                                    <input name="NPWP.Nomor" type="text" class="form-control" placeholder="Nomor NPWP">
+                                                                </div>
+                                                                <label class="col-sm-2 control-label">Nomor PKP</label>
+                                                                <div class="col-sm-4">
+                                                                    <input name="PKP.Nomor" type="text" class="form-control" placeholder="Nomor PKP">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-sm-6">
+                                                                    <div id="FileNpwp" action="api/Vendor/UploadFile?tipe=NPWP" class="dropzone"></div>
+                                                                    <input name="NPWP.id" type="hidden" >
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div id="FilePkp" action="api/Vendor/UploadFile?tipe=PKP" class="dropzone"></div>
+                                                                    <input name="PKP.id" type="hidden">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.box-body -->
+
+                                </div>
+                            </div>
+                            <div class="row p2">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title" id="section-3">Akta Pendirian</h3>
+                                        <div class="box-tools pull-right">
+
+                                        </div>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="box-body">
+                                            <div class="box box-mtf">
+                                                <div class="box-body">
+                                                    <div class="row form-horizontal">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="col-sm-1 control-label">Nomor</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="Akta.Nomor" type="text" class="form-control" placeholder="Nomor Akta">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Notaris</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="Akta.Notaris" type="text" class="form-control" placeholder="Notaris">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Tanggal</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="Akta.Tanggal" type="text" class="form-control datepicker" placeholder="Tanggal">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div id="FileAkta0" action="api/Vendor/UploadFile?tipe=AKTA" class="dropzone"></div>
+                                                                <input name="Akta.id" type="hidden">
+                                                            </div>
+                                                        </div>
+                                                        <h3>Akta Perubahan Terakhir</h3>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="col-sm-1 control-label">Nomor</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="AktaTerakhir.Nomor" type="text" class="form-control" placeholder="Nomor Akta">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Notaris</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="AktaTerakhir.Notaris" type="text" class="form-control" placeholder="Notaris">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Tanggal</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="AktaTerakhir.Tanggal" type="text" class="form-control datepicker" placeholder="Tanggal">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div id="FileAkta1" action="api/Vendor/UploadFile?tipe=AKTA" class="dropzone"></div>
+                                                                <input name="AktaTerakhir.id" type="hidden">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.box-body -->
+
+                                </div>
+                            </div>
+                            <div class="row p2">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title" id="section-4">Izin Usaha</h3>
+                                        <div class="box-tools pull-right">
+
+                                        </div>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="box-body">
+                                            <div class="box box-mtf">
+                                                <div class="box-body">
+                                                    <h3>Tanda Daftar Perusahaan</h3>
+                                                    <div class="row form-horizontal">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="col-sm-1 control-label">Nomor</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="TDP.Nomor" type="text" class="form-control" placeholder="Nomor">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Instansi</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="TDP.Instansi" type="text" class="form-control" placeholder="Instansi">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Berlaku s/d</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="TDP.MasaBerlaku" type="text" class="form-control datepicker" placeholder="Kadaluarsa">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-1 control-label">Klasifikasi</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="TDP.Klasifikasi" type="text" class="form-control" placeholder="Klasifikasi">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Kualifikasi</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="TDP.Kualifikasi" type="text" class="form-control" placeholder="Kualifikasi">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div id="FileTdp" action="api/Vendor/UploadFile?tipe=TDP" class="dropzone"></div>
+                                                                <input name="TDP.id" type="hidden">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <h3>SIUP</h3>
+                                                    <div class="row form-horizontal">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="col-sm-1 control-label">Nomor</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="SIUP.Nomor" type="text" class="form-control" placeholder="Nomor">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Instansi</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="SIUP.Instansi" type="text" class="form-control" placeholder="Instansi">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Berlaku s/d</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="SIUP.MasaBerlaku" type="text" class="form-control datepicker" placeholder="Kadaluarsa">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-1 control-label">Klasifikasi</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="SIUP.Klasifikasi" type="text" class="form-control" placeholder="Klasifikasi">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Kualifikasi</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="SIUP.Kualifikasi" type="text" class="form-control" placeholder="Kualifikasi">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div id="FileSiup" action="api/Vendor/UploadFile?tipe=SIUP" class="dropzone"></div>
+                                                                <input name="SIUP.id" type="hidden">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <h3>SIUJK</h3>
+                                                    <div class="row form-horizontal">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="col-sm-1 control-label">Nomor</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="SIUJK.Nomor" type="text" class="form-control" placeholder="Nomor">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Instansi</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="SIUJK.Instansi" type="text" class="form-control" placeholder="Instansi">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Berlaku s/d</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="SIUJK.MasaBerlaku" type="text" class="form-control datepicker" placeholder="Kadaluarsa">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-1 control-label">Klasifikasi</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="SIUJK.Klasifikasi" type="text" class="form-control" placeholder="Klasifikasi">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Kualifikasi</label>
+                                                                <div class="col-sm-3">
+                                                                    <input name="SIUJK.Kualifikasi" type="text" class="form-control" placeholder="Kualifikasi">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div id="FileSiujk" action="api/Vendor/UploadFile?tipe=SIUJK" class="dropzone"></div>
+                                                                <input name="SIUJK.id" type="hidden">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.box-body -->
+
+                                </div>
+                            </div>
+                            <div class="row p2">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title" id="section-5">Key Persons</h3>
+                                        <div class="box-tools pull-right">
+
+                                        </div>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="box-body">
+                                            <div class="box box-mtf">
+                                                <div class="box-body">
+                                                    <div class="row">
+
+                                                        <div class="col-md-12 form-horizontal">
+                                                            <div class="form-group" id="p2-persons">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-1 control-label">Nama</label>
+                                                                <div class="col-sm-2">
+                                                                    <input id="p2-pname" type="text" class="form-control" placeholder="Nama">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Jabatan</label>
+                                                                <div class="col-sm-2">
+                                                                    <input id="p2-pjab" type="text" class="form-control" placeholder="Jabatan">
+                                                                </div>
+                                                                <label class="col-sm-1 control-label">Telepon</label>
+                                                                <div class="col-sm-2">
+                                                                    <input id="p2-ptelp" type="text" class="form-control" placeholder="Telepon">
+                                                                </div>
+                                                                <div class="col-sm-2">
+                                                                    <input type="button" class="btn btn-primary pull-right" id="p2-addperson" value="Tambah" />
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.box-body -->
+
+                                </div>
+                            </div>
+                            <div class="row p2">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title" id="section-6">Rekening Bank</h3>
+                                        <div class="box-tools pull-right">
+
+                                        </div>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="box-body">
+                                            <div class="box box-mtf">
+                                                <div class="box-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-horizontal">
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">Nama Bank</label>
+                                                                <div class="col-sm-4">
+                                                                    <select name="BankInfo.Nama" class="form-control select2 required" style="width: 100%;">
+                                                                        <option selected="selected" value="">--Pilih--</option>
+                                                                        <option value="1">Mandiri</option>
+                                                                        <option value="2">BNI</option>
+                                                                        <option value="3">CIMB Niaga</option>
+                                                                        <option value="4">BRI</option>
+                                                                        <option value="4">Bukopin</option>
+                                                                        <option value="4">BCA</option>
+                                                                    </select>
+                                                                </div>
+                                                                <label class="col-sm-2 control-label">Cabang</label>
+                                                                <div class="col-sm-4">
+                                                                    <input name="BankInfo.Cabang" type="text" class="form-control" placeholder="Cabang">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">Nomor Rekening</label>
+                                                                <div class="col-sm-4">
+                                                                    <input name="BankInfo.NomorRekening" type="text" class="form-control" placeholder="Nama">
+                                                                </div>
+                                                                <label class="col-sm-2 control-label">Nama pada Rekening</label>
+                                                                <div class="col-sm-4">
+                                                                    <input name="BankInfo.NamaRekening" type="text" class="form-control" placeholder="Nama Pada Rekening">
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.box-body -->
+
+                                </div>
+                            </div>
+                            <div class="row p2">
+                                <div class="col-md-6">
+                                    <input type="submit" value="Terbangkan" class="btn btn-lg btn-success pull-right" />
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-lg btn-success pull-right" id="p2-ajukan" onclick="return false;">Ajukan</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-lg btn-danger" id="p2-batal" onclick="return false;">Batal</button>
+                                </div>
+                            </div>
+                        </form>
+					</div>	
+					
+					
+				</div>
+					
+					
+		</section><!-- /.content -->
+    
+		</div><!-- /.content-wrapper -->
+     
+        <aside class="control-sidebar control-sidebar-light control-sidebar-open" id="side-kanan">
+            <ul class="nav nav-tabs nav-stacked">
+                <li><a href="#section-1">Informasi Perusahaan</a></li>
+                <li><a href="#section-2">Pajak</a></li>
+                <li><a href="#section-3">Akta Pendirian</a></li>
+                <li><a href="#section-4">Izin Usaha</a></li>
+                <li><a href="#section-5">Key Persons</a></li>
+                <li><a href="#section-6">Rekening Bank</a></li>
+            </ul>
+        </aside> 
+        <div class="control-sidebar-bg"></div> 
+
+	   <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0.0
+        </div>
+        <strong>Supplier Relation Management</strong> 
+	    </footer>
+    </div><!-- ./wrapper -->
+	
+	<div id="ModalHapus" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+		<input type="hidden" id="row_index" />
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Persetujuan</h4>
+		  </div>
+		  <div class="modal-body">
+			<p>
+				Dengan mengetuk tombol SETUJU berikut maka Anda menyatakan bahwa Anda berhak secara hukum untuk mewakili badan usaha yang yada yada lorem ipsum legal stuff goes here, pakta integritas yeah sure i will sign it.
+			</p>
+		  </div>
+		  <div class="modal-footer">
+			<button id="p2-setuju" type="button" class="btn btn-success" >SETUJU</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">TIDAK SETUJU</button>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+	<div id="p3-begin" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+		<input type="hidden" id="row_index" />
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Informasi</h4>
+		  </div>
+		  <div class="modal-body">
+			<p>
+				Kirimkan dokumen-dokumen terkait yang Anda lampirkan pada pendaftaran ini ke alamat berikut dalam jangka waktu x hari kerja sejak pengajuan ini dibuat.
+				<br/><br/>
+				<b>PT Mandiri Tunas Finance</b><br/>
+				Graha Mandiri Lt.3A <br/>
+				Jl. Imam Bonjol No.61 <br/>
+				Jakarta 10310<br/><br/>
+
+
+				Tulis atau cetak dan rekatkan nomor dan/atau sandi QR berikut pada sampul terluar <br/><br/>
+			</p><p align="center">
+				<b>Nomor Pengajuan: 2015020001</b>
+				<br/>
+				<img width="190px" height="190px" src="qrcode.jpg" />
+				<br/>
+				<input type="button" class="btn btn-xs btn-success" value="Cetak"/>
+				<br/>
+				<br/>
+			</p><p>
+				Jika dalam x hari dokumen belum kami terima, maka pengajuan Anda dianggap tidak berlaku (void). Anda dapat melakukan pengajuan lagi setelahnya.
+			</p>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal" id="p2-setuju-ok">OK</button>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+	
+	<!--chat-->
+	<!--<div id="chat"></div>
+	-->
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+	<script src="dropzone.js"></script>
+    
+	 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="plugins/jQueryUItotop/easing.js"></script>
+	<script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>	
+     <script src="plugins/angular/angular.min.js"></script>
+     <script type="text/javascript" src="site.js"></script>
+	 <script>
+         var vid = 12;
+         var pid = getParameterByName("id");
+         vid = pid ? pid : vid;
+         var personArray = [];
+
+	     var app = angular.module("app", []);
+	     app.controller('side-menu', ['$scope', '$http', function ($scope, $http) {
+	         $scope.menus = [];
+	         $http.get("data/menu-vendor.json")
+                .then(function (response) {
+                    $scope.menus = response.data;
+                });
+	     }]);
+
+	     app.controller('user' , ['$scope', '$http', function ($scope, $http) {
+	         $scope.user = {};
+	         $http.get("data/user.json")
+                .then(function (response) {
+                    $scope.user = response.data;
+                });
+	     }]);
+      $(function () {
+          //JIMBIS STARTS HERE
+
+          $.ajax({
+              url: "/Api/Vendor/GetVendorDetail/"+vid,
+              success: function (data) {
+                  if (data) {
+                      $("[name='Nama']").val(data.Nama);
+                      $("[name='Alamat']").val(data.Alamat);
+                      $("[name='Provinsi']").val(data.Provinsi);
+                      $("[name='Kota']").val(data.Kota);
+                      $("[name='KodePos']").val(data.KodePos);
+                      $("[name='Website']").val(data.Website);
+                      $("[name='Email']").val(data.Email);
+                      $("[name='Telepon']").val(data.Telepon);
+                      $("[name='BankInfo.Nama']").val(data.BankInfo.NamaBank);
+                      $("[name='BankInfo.NamaRekening']").val(data.BankInfo.NamaRekening);
+                      $("[name='BankInfo.NomorRekening']").val(data.BankInfo.NomorRekening);
+                      $("[name='BankInfo.Cabang']").val(data.BankInfo.Cabang);
+                      for (var vp in data.VendorPerson) {
+                          personArray.push({ Nama: data.VendorPerson[vp].Nama, Jabatan: data.VendorPerson[vp].Jabatan, Telepon: data.VendorPerson[vp].Telepon, Email: data.VendorPerson[vp].Email });
+                      }
+                      redrawPerson();
+                      $("[name='NPWP.id']").val(data.NPWP.id);
+                      $("[name='PKP.id']").val(data.PKP.id);
+                      $("[name='Akta.id']").val(data.Akta.id);
+                      $("[name='AktaTerakhir.id']").val(data.AktaTerakhir.id);
+                      $("[name='TDP.id']").val(data.TDP.id);
+                      $("[name='SIUP.id']").val(data.SIUP.id);
+                      $("[name='SIUJK.id']").val(data.SIUJK.id);
+                  }
+              }
+          });
+
+
+          var dzOption = {
+              maxFilesize: 5,
+              //url: 'api/Vendor/UploadFile?tipe=NPWP',
+              maxFiles: 1,
+              acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
+              accept: function (file, done) {
+                  console.log("uploaded");
+                  done();
+              },
+              success: function (file, response) {
+                  $("[name='NPWP.id']").val(response);
+              },
+              init: function () {
+                  this.on("addedfile", function () {
+                      if (this.files[1] != null) {
+                          this.removeFile(this.files[0]);
+                      }
+                  });
+              }
+          };
+          Dropzone.options.FileNpwp = dzOption;
+          var dzPkp = {
+              maxFilesizw: dzOption.maxFilesize, maxFiles: dzOption.maxFiles, acceptedFiles: dzOption.acceptedFiles,
+              accept: dzOption.accept, init: dzOption.init, success: function (file, response) { $("[name='PKP.id']").val(response); }
+          };
+          Dropzone.options.FilePkp = dzPkp;
+          var dzAkta0 = {
+              maxFilesizw: dzOption.maxFilesize, maxFiles: dzOption.maxFiles, acceptedFiles: dzOption.acceptedFiles,
+              accept: dzOption.accept, init: dzOption.init, success: function (file, response) { $("[name='Akta.id']").val(response); }
+          };
+          Dropzone.options.FileAkta0 = dzAkta0;
+          var dzAkta1 = {
+              maxFilesizw: dzOption.maxFilesize, maxFiles: dzOption.maxFiles, acceptedFiles: dzOption.acceptedFiles,
+              accept: dzOption.accept, init: dzOption.init, success: function (file, response) { $("[name='AktaTerakhir.id']").val(response); }
+          };
+          Dropzone.options.FileAkta1 = dzAkta1;
+          var dzTdp = {
+              maxFilesizw: dzOption.maxFilesize, maxFiles: dzOption.maxFiles, acceptedFiles: dzOption.acceptedFiles,
+              accept: dzOption.accept, init: dzOption.init, success: function (file, response) { $("[name='TDP.id']").val(response); }
+          };
+          Dropzone.options.FileTdp = dzTdp;
+          var dzSiup = {
+              maxFilesizw: dzOption.maxFilesize, maxFiles: dzOption.maxFiles, acceptedFiles: dzOption.acceptedFiles,
+              accept: dzOption.accept, init: dzOption.init, success: function (file, response) { $("[name='SIUP.id']").val(response); }
+          };
+          Dropzone.options.FileSiup = dzSiup;
+          var dzSiujk = {
+              maxFilesizw: dzOption.maxFilesize, maxFiles: dzOption.maxFiles, acceptedFiles: dzOption.acceptedFiles,
+              accept: dzOption.accept, init: dzOption.init, success: function (file, response) { $("[name='SIUJK.id']").val(response); }
+          };
+          Dropzone.options.FileSiujk = dzSiujk;
+          
+
+		
+		$(".p3").hide();
+		
+		$("#p2-ajukan").click(function(){
+			//INPUT VALIDATION
+			$("#ModalHapus").modal('show');
+		});
+		$("#p2-setuju").click(function(){
+			//INPUT VALIDATION
+			$("#p3-begin").modal('show');
+		});
+		$("#p2-setuju-ok").click(function(){
+			//INPUT VALIDATION
+			$("#ModalHapus").modal('hide');
+			$("#p3-begin").modal('hide');
+			$(".p2").hide();
+			$(".p3").show();
+		});
+		$("#p2-batal").click(function(){
+			$(".p2").hide();
+		});
+		$("#p2-addperson").click(function(){
+			//console.log("aa");
+			var n = $("#p2-pname").val();
+			var j = $("#p2-pjab").val();
+			console.log(n+'  '+j);
+			$("#p2-persons").append(
+			'<div><div class="col-md-2 p2-p">Nama:</div>'+
+			'<div class="col-md-3 p2-p">'+n+'</div>'+
+			'<div class="col-md-2 p2-p">Jabatan:</div>'+
+			'<div class="col-md-3 p2-p">'+j+'</div>'+
+			'<div class="col-md-2 pull-right p2-p"><input type="button" class="btn btn-xs btn-danger" onclick="del(this)" value="Buang" /></div></div>'
+			);
+		});
+		
+		$("#p3-detail").click(function(){
+			$(".p3").hide();
+			$(".p2").show();
+		});
+
+		$(".datepicker").datepicker({
+		    //showOtherMonths: true,
+		    format: "yyyy/mm/dd"
+		    //changeYear: true,
+		    //changeMonth: true
+		    //yearRange: "-90:+4", //+4 Years from now
+
+		});
+	  
+	  //JIMBIS ENDS HERE
+	  $("#myNav").affix({
+			offset: { 
+				top: 100 
+			}
+		});
+       $().UItoTop({ easingType: 'easeOutQuart' });
+	    $(".datepicker").datepicker({
+			showOtherMonths: true,
+			format: "dd/mm/yy",
+			changeYear: true,
+			changeMonth: true,
+			yearRange: "-90:+4", //+4 Years from now
+			
+		});
+        		
+		$.getScript( "dist/js/app.min.js" );
+		$.getScript( "chatjs/chat.js" );
+		$(".remove-vendor").on("click", function () {
+				var vl = $(this).closest('tr')[0];
+                $("#row_index").val(vl.rowIndex);
+                $("#ModalHapus").modal("show");
+            });
+		$("#eveHapus").on("click", function () {
+				var index=$("#row_index").val();
+				//var el=$('#example1 tr').eq(index);
+                table.row(index).remove().draw();
+                $("#ModalHapus").modal("hide");
+            });
+			$("#example1_filter").hide();
+		$("#cari").on("click",function(){
+			var kategori=$("#kategori option:selected").text();
+			var subKategori=$("#sub_kategori option:selected").text();
+			var nama_item=$("#nama_item").val();
+			table.columns(0).search( nama_item ).draw();
+			//table.columns(1).search( kategori ).draw();
+			//table.columns(2).search( subKategori ).draw();
+		});
+		
+		
+      });
+	  
+      function redrawPerson() {
+          console.log("redrawing, length:" + personArray.length);
+          $("#p2-persons").html('');//clearing view
+          for (var i = 0; i < personArray.length; i++) {
+              $("#p2-persons").append(
+              '<div class="col-md-12"><div class="col-md-1 p2-p">Nama:</div>' +
+              '<div class="col-md-2 p2-p"><input name="VendorPerson[' + (i) + '].Nama" type="text" value="' + personArray[i].Nama + '" class="form-control" /></div>' +
+              '<div class="col-md-1 p2-p">Jabatan:</div>' +
+              '<div class="col-md-2 p2-p"><input name="VendorPerson[' + (i) + '].Jabatan" type="text" value="' + personArray[i].Jabatan + '" class="form-control" /></div>' +
+              '<div class="col-md-1 p2-p">Telepon:</div>' +
+              '<div class="col-md-2 p2-p"><input name="VendorPerson[' + (i) + '].Telepon" type="text" value="' + personArray[i].Telepon + '" class="form-control" /></div>' +
+              '<div class="col-md-3 pull-right p2-p"><input type="button" class="btn btn-xs btn-danger" onclick="del(' + i + ')" value="Buang" /></div><br /></div>'
+              );
+          }
+
+      }
+
+      function del(s) {
+          //console.lo("deleteing index: " + s);
+          personArray.splice(s, 1);
+          redrawPerson();
+      }
+    </script>
+	<!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+    
+  </body>
+</html>

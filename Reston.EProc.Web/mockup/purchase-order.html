@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/select2/select2.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<link rel="stylesheet" href="dist/site.css">
+	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+	<link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" /> 
+	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+	
+  </head>
+ <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      
+    <div id="header"></div>
+          <!-- Left side column. contains the logo and sidebar -->
+      <div id="menu"></div>
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+    
+		<section class="content-header">
+			<h1>Purchase Request - List PO</h1>
+		</section>
+
+		 <section class="content">
+
+			<!-- Default box -->
+			<div class="box box-primary box-mtf-header-backgroud">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel-header">
+								<span class="title-header">List PO</span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel-toolbar top clearfix">
+								<ul>
+									<!--<li><a title="Add Purchase Request" href="purchase-requests-add.html" ><i class="fa fa-plus fa-fw" style="color:green"></i>Add Purchase Request</a></li>
+-->									
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+				<div class="box-body form-horizontal">	
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Cari Berdasarkan</h3>
+							<div class="box-tools pull-right">
+							</div>
+						</div>
+						<div class="box-body">	
+								<div class="row">
+									<div class="col-md-12">
+										<form class="form-horizontal label-kanan">
+											
+										<div class="form-group">
+											<label  class="col-sm-2 control-label">No PR</label>
+											<div class="col-sm-10">
+												<input id="no_pr" type="text" class="form-control "  placeholder="No PR">
+											</div>
+										</div>	
+										<div class="form-group">
+											<label  class="col-sm-2 control-label">Document Date</label>
+											<div class="col-sm-10">
+												<input id="document_date" type="text" class="form-control datepicker" >
+											</div>
+										</div>
+										<div class="form-group">
+											<label  class="col-sm-2 control-label">Need Date</label>
+											<div class="col-sm-10">
+												<input id="need_date" type="text" class="form-control datepicker"  >
+											</div>
+										</div>
+										</form>
+									</div>											
+								</div>
+								<div class="row ">
+									<div class="col-md-12">
+											<div class="submitgray button-row">
+												<button id="cari" class="btn btn-primary " type="submit">Cari</button>
+											</div>
+									</div> 
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										 <table id="example1" class="jp-table">
+											<thead>
+											  <tr>
+												<th>No PR</th>
+												<th>Document Date</th>
+												<th>Need Date</th>
+												<th>Harga Perkiraan</th>
+												<th>Action</th>
+											  </tr>
+											</thead>
+											<tbody>
+											 
+											  <tr>
+												<td>PR0001</td>
+												<td>12-2-2016</td>
+												<td>15-4-2015</td>
+												<td>1000000</td>
+												<td><a class="btn btn-xs btn-success action-pr" href="purchase-order-vendor.html" title="Order"><span class="fa fa-book"></span></a>
+												</td>
+											  </tr>
+											  
+											  <tr>
+												<td>PR0001</td>
+												<td>12-2-2016</td>
+												<td>15-4-2015</td>
+												<td>1000000</td>
+												<td><a class="btn btn-xs btn-success action-pr" href="purchase-order-vendor.html" title="Approval"><span class="fa fa-book"></span></a></td>
+											  </tr>
+											</tbody>
+										  </table>
+										
+									</div>											
+								</div>
+						</div>
+					</div>
+					</div>
+				</div>	
+		</section><!-- /.content -->
+    
+		</div><!-- /.content-wrapper -->
+       
+	   <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0.0
+        </div>
+        <strong>Supplier Relation Management</strong> 
+	    </footer>
+    </div><!-- ./wrapper -->
+	
+	<div id="ModalHapus" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+		<input type="hidden" id="row_index" />
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Hapus Vendor</h4>
+		  </div>
+		  <div class="modal-body">
+			<p>Yakin Vendor ini dihapus?</p>
+		  </div>
+		  <div class="modal-footer">
+			<button id="eveHapus" type="button" class="btn btn-default" >Remove</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+	
+	<!--chat-->
+	<div id="chat"></div>
+	
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    
+	 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="plugins/jQueryUItotop/easing.js"></script>
+	<script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>	
+	 <script>
+      $(function () {
+       $().UItoTop({ easingType: 'easeOutQuart' });
+        var table=$('#example1').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+		$("body").hide();
+		$("#menu").load("menu.html");
+		$("#header").load("menu-header.html");
+		$("#chat").load("chat.html");
+		$("body").show();
+		
+		$.getScript( "dist/js/app.min.js" );
+		$.getScript( "chatjs/chat.js" );
+		$(".remove-vendor").on("click", function () {
+				var vl = $(this).closest('tr')[0];
+                $("#row_index").val(vl.rowIndex);
+                $("#ModalHapus").modal("show");
+            });
+		$("#eveHapus").on("click", function () {
+				var index=$("#row_index").val();
+				//var el=$('#example1 tr').eq(index);
+                table.row(index).remove().draw();
+                $("#ModalHapus").modal("hide");
+            });
+			$("#example1_filter").hide();
+		$("#cari").on("click",function(){
+			var kategori=$("#kategori option:selected").text();
+			var subKategori=$("#sub_kategori option:selected").text();
+			var nama_item=$("#nama_item").val();
+			table.columns(0).search( nama_item ).draw();
+			//table.columns(1).search( kategori ).draw();
+			//table.columns(2).search( subKategori ).draw();
+		});
+		
+		
+      });
+	  
+    </script>
+	<!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+    
+  </body>
+</html>

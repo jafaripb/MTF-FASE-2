@@ -1,0 +1,45 @@
+{"data":[
+	{
+		"id":"1",
+		"nama_perusahaan":"PT.Bersatu Maju",
+		"Kontak":"Pujo",
+		"telepon":"080001234",
+		"email":"pujo@bersatumaju.com"
+	},
+	{
+		"id":"2",
+		"nama_perusahaan":"PT.Maju Terus",
+		"Kontak":"Angraeni",
+		"telepon":"081101234",
+		"email":"angreani@majuterus.com"
+	},
+	{
+		"id":"2",
+		"nama_perusahaan":"PT.Kontruksi Aman",
+		"Kontak":"Tika",
+		"telepon":"082201234",
+		"email":"tika@kontruksiaman.com"
+	},
+	{
+		"id":"3",
+		"nama_perusahaan":"PT.Cahaya Alam",
+		"Kontak":"Bahrul",
+		"telepon":"083301234",
+		"email":"bahrul@cahayaalam.com"
+	},
+	{
+		"id":"4",
+		"nama_perusahaan":"PT.Segar Dalam",
+		"Kontak":"Dudung",
+		"telepon":"084401234",
+		"email":"dudung@segardalam.com"
+	},
+	{
+		"id":"5",
+		"nama_perusahaan":"PT.Jatuh Bangun",
+		"Kontak":"Wanara",
+		"telepon":"055301234",
+		"email":"wanara@jatuhbangun.com"
+	}
+]
+}

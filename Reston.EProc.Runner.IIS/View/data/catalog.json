@@ -1,0 +1,9 @@
+{ "data" :  
+    [
+        { "id": 1, "name": "Bata Merah", "region": "1", "price": "2500", "unit": "buah", "lastUpdate": "2016-02-22 17:56", "source": "Migration" },
+        { "id": 2, "name": "Semen Holcim", "region": "1", "price": "120000", "unit": "sak", "lastUpdate": "2016-02-22 17:56", "source": "Migration" },
+        { "id": 3, "name": "Semen Holcim", "region": "2", "price": "110000", "unit": "sak", "lastUpdate": "2016-02-22 17:56", "source": "Migration" },
+        { "id": 4, "name": "Semen Holcim", "region": "3", "price": "125000", "unit": "sak", "lastUpdate": "2016-02-22 17:56", "source": "Migration" },
+        { "id": 5, "name": "Semen Tiga Roda", "region": "1", "price": "89000", "unit": "sak", "lastUpdate": "2016-02-22 17:56", "source": "Migration" }
+    ]
+}

@@ -1,0 +1,14 @@
+<div>
+    <img id="image" src="" />
+</div>
+<script type="text/javascript" src="site.js"></script>
+<script type="text/javascript">
+    
+    //document.onload(function () {
+    var foo = getParameterByName('id'); // "lorem"
+    //var bar = getParameterByName('bar'); // "" (present with empty value)
+    //var baz = getParameterByName('baz'); // "" (present with no value)
+    //var qux = getParameterByName('qux'); // null (absent)
+    document.getElementById("image").setAttribute("src", "/api/pengadaane/openfile?file"+foo);
+    //});
+</script>

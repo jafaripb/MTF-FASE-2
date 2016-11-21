@@ -1,0 +1,6 @@
+[ { "PersonilId": 1 , "Nama": "Fajar Gunawan"   , "divisi": "staff","distibutor":"distributor utama","logo":"dist/img/avatar04.png"   },
+  { "PersonilId": 2 , "Nama": "Sukamto"   , "divisi": "staff","distibutor":"distributor utama","logo":"dist/img/avatar.png"   },
+  { "PersonilId": 3 , "Nama": "Sartika H"   , "divisi": "staff","distibutor":"distributor utama","logo":"dist/img/avatar2.png"   },
+  { "PersonilId": 4 , "Nama": "Angreani"   , "divisi": "staff","distibutor":"distributor utama","logo":"dist/img/avatar3.png"   },
+  { "PersonilId": 6 , "Nama": "Ardan"   , "divisi": "staff","distibutor":"distributor utama","logo":"dist/img/avatar5.png"   }
+]

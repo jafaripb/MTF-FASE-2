@@ -1,0 +1,426 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/select2/select2.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<link rel="stylesheet" href="dist/site.css">
+	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+	<link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" /> 
+	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+	<style>
+        
+        .form-validation-error {
+            border: 1px solid #d85b5b;
+            /*border-radius: 7px;*/
+        }
+
+        .form-validation-error:focus { 
+            outline: none;
+            border-color: #f52424;
+            box-shadow: 0 0 5px #f52424;
+        }
+    </style>
+  </head>
+ <body class="hold-transition skin-blue sidebar-mini sidebar-collapse sidebar-mini fixed">
+    <div class="wrapper">
+
+      
+    <div id="header">
+        <header class="main-header">
+            <!-- Logo -->
+            <a class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu pull-left">
+                    <ul class="nav navbar-nav">
+                        <li>	<a id="judul-page" href="#">Katalog-E</a></li>
+                    </ul>
+                </div>
+                <div class="navbar-custom-menu">
+                    <ul id="menu-top" class="nav navbar-nav">
+                        
+                        </ul>
+                </div>
+            </nav>
+        </header>
+    </div>
+          <!-- Left side column. contains the logo and sidebar -->
+      <div id="menu">
+          <aside class="main-sidebar" >
+            <!-- sidebar: style can be found in sidebar.less -->
+             <section class="sidebar" >
+			  <!--  <div class="user-panel" ng-controller="user">				
+				    <div class="pull-left info">
+					    <p class="title" ng-bind="user.nama"></p>
+					    <p class="deskripsi" ng-bind="user.divisi"></p>
+				    </div>
+				    <div class="pull-right image image-profile">
+					    <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+				    </div>
+			    </div>-->
+              <!-- sidebar menu: : style can be found in sidebar.less -->
+              <ul class="sidebar-menu"  ng-controller="side-menu">
+               <!-- <li class="header">MAIN NAVIGATION</li>-->
+             
+			    <li class="treeview" ng-repeat="menu in menus">
+				    <a href="{{menu.url}}">
+				        <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+				    </a>				
+			    </li>
+              </ul>
+            </section>
+            <!-- /.sidebar -->
+          </aside>
+      </div>
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+    		 <section class="content">
+
+			<!-- Default box -->
+			<div class="box box-primary box-white">
+										
+				<div class="box-body form-horizontal">	
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Cari Berdasarkan</h3>
+							<div class="box-tools pull-right">
+							</div>
+						</div>
+						<div class="box-body">	
+                            <form id="formProduk" action="/Api/Produk/SaveProduk" method="post" onsubmit="return validateForm()">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Nama Barang</label>
+                                            <div class="col-sm-4">
+                                                <input name="Nama" type="text" maxlength="150" class="form-control " placeholder="Nama Item">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Deskripsi</label>
+                                            <div class="col-sm-4">
+                                                <textarea name="Deskripsi" maxlength="255" class="form-control"></textarea>
+                                                <!--<input type="text" class="form-control " placeholder="Deskripsi">-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Satuan</label>
+                                            <div class="col-sm-4">
+                                                <!--<input name="Satuan" type="text" maxlength="20" class="form-control " placeholder="Satuan">-->
+                                                <select name="Satuan" class="form-control">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Klasifikasi</label>
+                                            <div class="col-sm-4">
+                                                <select id="Klasifikasi" class="form-control">
+                                                    <option value="0">SIPIL</option>
+                                                    <option value="1">NONSIPIL</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Kategori</label>
+                                            <div class="col-sm-4">
+                                                <select id="ListKategori" class="form-control">
+                                                    <option value="0">-- Pilih Kategori --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><b>Spesifikasi Barang</b></label>
+                                        </div>
+                                        <div class="form-group" id="AtributList">
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Spesifikasi</label>
+                                            <div class="col-sm-3">
+                                                <input id="inputAtributNama" type="text" maxlength="100" class="form-control " placeholder="Nama Atribut">
+                                            </div>
+                                            <label class="col-sm-1 control-label">Detail</label>
+                                            <div class="col-sm-2">
+                                                <input id="inputAtributNilai" type="text" maxlength="255" class="form-control " placeholder="Nilai">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input onclick="tambahAtribut()" type="button" class="btn btn-success" value="Tambah">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-1">
+                                        <button class="btn btn-primary " type="submit">Simpan</button>
+                                    </div>
+                                    <div class="col-md-3" id="newKat" style="display:none">
+                                        <input id="NamaKategori" name="Spesifikasi.NamaKategori" class="form-control" type="text" placeholder="Masukkan Nama Kategori">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input id="boolNew" type="checkbox" name="Spesifikasi.Baru" /> Simpan spesifikasi sebagai kategori baru
+                                    </div>
+                                </div>
+                            </form>
+						</div>
+						<div class="box-body">	
+								
+						</div>
+					</div>
+					</div>
+				</div>	
+		</section><!-- /.content -->
+    
+		</div><!-- /.content-wrapper -->
+       
+	   <footer class="main-footer">
+        <!--<div class="pull-right hidden-xs">
+          <b>Version</b> 1.0.0
+        </div>
+        <strong>Supplier Relation Management</strong> -->
+	    </footer>
+    </div><!-- ./wrapper -->
+	<!--chat-->
+	<!--<div id="chat"></div>-->
+	
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+     <script src="dist/js/app.min.js"></script>
+	 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="plugins/jQueryUItotop/easing.js"></script>
+	<script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>	
+      <script src="plugins/angular/angular.min.js"></script>
+     <script type="text/javascript" src="site.js"></script>
+     <script src="dist/js/menu.js"></script>
+
+	 <script>
+         var atributList = [];
+
+         $(function () {
+             SetListSatuan();
+             //template kategori
+             $.ajax({
+                 url: "/api/Produk/GetTemplateKategoriSpesifikasi",
+                 success: function (data) {
+                     for (var i in data) { 
+                         $("#ListKategori").append('<option value="'+data[i].Id+'">'+data[i].Nama+'</option>');
+                     }
+                 },
+                 complete: function (xhr, textStatus) {
+                     ajaxCompleteProcess(xhr);
+                 }
+             });
+
+             $("#boolNew").change(function () {
+                 var v = $("#boolNew").prop('checked');
+                 if (v)
+                     $("#newKat").show()
+                 else {
+                     $("#newKat").hide()
+                     $("#NamaKategori").val('');
+                 }
+             });
+
+             $("#ListKategori").change(function () {
+                 var nv = $("#ListKategori").val();
+                 //console.log("a" + nv);
+                 if (nv == 0) {
+                     atributList = new Array();
+                     redrawAtributList();
+                     return;
+                 }
+                 else { 
+                     $.ajax({
+                         url: "api/Produk/GetDaftarAtributSpesifikasi/" + nv,
+                         success: function (data) {
+                             if(data){
+                                 atributList = [];
+                                 for (var i in data) {
+                                     atributList.push({nama: data[i].Nama, nilai:''});
+                                 }
+                                 redrawAtributList();
+                             }
+                         },
+                         complete: function (xhr, textStatus) {
+                             ajaxCompleteProcess(xhr);
+                         }
+                     });
+                 }
+             });
+
+
+           $().UItoTop({ easingType: 'easeOutQuart' });
+       
+		    //$("body").hide();
+		    //$("#menu").load("menu.html");
+		    //$("#header").load("menu-header.html");
+		    //$("#chat").load("chat.html");
+		    //$("body").show();
+		
+		    //$.getScript( "dist/js/app.min.js" );
+		    //$.getScript( "chatjs/chat.js" );
+		    $(".remove-vendor").on("click", function () {
+				    var vl = $(this).closest('tr')[0];
+                    $("#row_index").val(vl.rowIndex);
+                    $("#ModalHapus").modal("show");
+                });
+		    $("#eveHapus").on("click", function () {
+				    var index=$("#row_index").val();
+				    //var el=$('#example1 tr').eq(index);
+                    table.row(index).remove().draw();
+                    $("#ModalHapus").modal("hide");
+                });
+			    $("#example1_filter").hide();
+		    $("#cari").on("click",function(){
+			    var kategori=$("#kategori option:selected").text();
+			    var subKategori=$("#sub_kategori option:selected").text();
+			    var nama_item=$("#nama_item").val();
+			    table.columns(0).search( nama_item ).draw();
+			    //table.columns(1).search( kategori ).draw();
+			    //table.columns(2).search( subKategori ).draw();
+		    });
+		
+		
+         });
+
+         function SetListSatuan() {
+             $.ajax({
+                 url: "/api/ReferenceData/GetAllSatuan",
+                 success: function (data) {
+                     for (var i in data) {
+                         $("[name=Satuan]").append("<option value='" + data[i].Name + "'>" + data[i].Name + "</option>");
+                     }
+                 },
+                 complete: function (xhr, textStatus) {
+                     ajaxCompleteProcess(xhr);
+                 }
+             });
+         }
+
+         var frm = $('#formProduk');
+         frm.submit(function (ev) {
+             var v = validateForm();
+             console.log("send or not: " + v);
+             if (v) { 
+                 $.ajax({
+                     type: frm.attr('method'),
+                     url: frm.attr('action'),
+                     data: frm.serialize(),
+                     success: function (data) {
+                         //alert('ok');
+                         window.location.href = "catalog-detail.html?id=" + data;
+                     },
+                     complete: function (xhr, textStatus) {
+                         ajaxCompleteProcess(xhr);
+                     }
+                 });
+             }
+             ev.preventDefault();
+         });
+
+         function validateForm() {
+             console.log("begin validation");
+             var v = true;
+             $('.form-validation-error').removeClass('form-validation-error');
+             if ($("[name='Nama']").val() == '') {
+                 $("[name='Nama']").addClass('form-validation-error');
+                 v = false;
+             }
+             if ($("[name='Deskripsi']").val() == '') {
+                 $("[name='Deskripsi']").addClass('form-validation-error');
+                 v = false;
+             }
+             if ($("[name='Satuan']").val() == '') {
+                 $("[name='Satuan']").addClass('form-validation-error');
+                 v = false;
+             }
+             var newKategori = $("#boolNew").prop('checked');
+             //console.log("newkat= "+newKategori);
+             if (newKategori && $("[name='Spesifikasi.NamaKategori']").val()=='') {
+                 $("[name='Spesifikasi.NamaKategori']").addClass('form-validation-error');
+                 v = false;
+             }
+             if (!v) $("form .form-validation-error").first().focus();
+             return v;
+         }
+
+         function tambahAtribut() {
+             var nama = $("#inputAtributNama").val();
+             var nilai = $("#inputAtributNilai").val();
+             if (!nama || nama == ''){
+                 alert("Nama harap diisi.");
+                 return;
+             }
+             atributList.push({
+                nama: nama, nilai: nilai
+             });
+             redrawAtributList();
+             
+         }
+
+         function redrawAtributList() {
+             $("#AtributList").html('');
+             var s = "";
+             for (var i in atributList) {
+                 console.log(atributList[i].nama + "  --  " + atributList[i].nilai);
+             s += '<div class="row" style="margin-bottom:2px"><label class="col-sm-2 control-label">Spesifikasi '+ (i) +'</label>' +
+                                             '<div class="col-sm-3">' +
+                                                 '<input name="Spesifikasi.DaftarAtribut['+i+'].NamaAtribut" type="text" class="form-control" value="'+atributList[i].nama+'"></div>' +
+                                             '<label class="col-sm-1 control-label">Detail</label>' +
+                                             '<div class="col-sm-2">' +
+                                                 '<input name="Spesifikasi.DaftarAtribut[' + i + '].Nilai" type="text" class="form-control " value="' + atributList[i].nilai + '"></div>' +
+                                                 '<input type="button" value="Hapus" onclick="hapusAtribut('+i+')">'+
+                                                 '</div>';
+             }
+             $("#AtributList").append(s);
+         }
+
+         function hapusAtribut(i) {
+             atributList.splice(i, 1);
+             redrawAtributList();
+         }
+	  
+    </script>
+	<!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+    
+  </body>
+</html>

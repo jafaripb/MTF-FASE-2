@@ -1,0 +1,13 @@
+{ "data" :  
+    [
+        { "id": 1, "name": "Bata Merah", "region": "1", "price": "500", "unit": "buah", "lastUpdate": "2014-09-30 17:56", "source": "Migration", "user": "Admin", "spec": "Bata Merah Tanah Liat" },
+        { "id": 2, "name": "Bata Merah", "region": "1", "price": "670", "unit": "buah", "lastUpdate": "2014-11-04 17:56", "source": "Google search, bukalapak, rata2", "user": "user333", "spec": "Bata Merah Tanah Liat" },
+        { "id": 3, "name": "Bata Merah", "region": "1", "price": "800", "unit": "buah", "lastUpdate": "2015-01-17 17:56", "source": "Perkiraan berdasarkan info vendor A,B,C,dan D", "user": "user401", "spec": "Bata Merah Tanah Liat" },
+        { "id": 4, "name": "Bata Merah", "region": "1", "price": "1000", "unit": "buah", "lastUpdate": "2015-06-22 17:56", "source": "Pembelian p-18712","user": "System", "spec": "Bata Merah Tanah Liat" },
+        { "id": 5, "name": "Bata Merah", "region": "1", "price": "2000", "unit": "buah", "lastUpdate": "2015-09-13 17:56", "source": "Pembelian p-19004","user": "System", "spec": "Bata Merah Tanah Liat" },
+        { "id": 6, "name": "Bata Merah", "region": "1", "price": "2300", "unit": "buah", "lastUpdate": "2015-11-14 17:56", "source": "Pembelian p-19121","user": "System", "spec": "Bata Merah Tanah Liat" },
+        { "id": 7, "name": "Bata Merah", "region": "1", "price": "2400", "unit": "buah", "lastUpdate": "2016-00-24 17:56", "source": "Pembelian p-19128","user": "System", "spec": "Bata Merah Tanah Liat" },
+        { "id": 8, "name": "Bata Merah", "region": "1", "price": "2300", "unit": "buah", "lastUpdate": "2016-01-11 17:56", "source": "Penyesuaian 2016 dr berbagai sumber","user": "user401", "spec": "Bata Merah Tanah Liat" },
+        { "id": 9, "name": "Bata Merah", "region": "1", "price": "2500", "unit": "buah", "lastUpdate": "2016-02-22 17:56", "source": "Pembelian p-19121","user": "System", "spec": "Bata Merah Tanah Liat" }
+    ]
+}

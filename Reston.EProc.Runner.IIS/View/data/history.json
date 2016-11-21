@@ -1,0 +1,21 @@
+[
+	{
+		"id":"1",
+		"tanggal":"12-04-2016",
+		"nama":"jimbis",
+		"deskripsi":"mengubah field klarifikasi menjadi 16-05-2016"
+	},
+	{
+		"id":"2",
+		"tanggal":"15-04-2016",
+		"nama":"Dimas",
+		"deskripsi":"mengubah field Negosiasi menjadi 18-05-2016"
+	},
+	{
+		"id":"2",
+		"tanggal":"17-04-2016",
+		"nama":"Taufik Nugroho",
+		"deskripsi":"mengubah field Penentu Pemenang menjadi 1-06-2016"
+	}
+]
+

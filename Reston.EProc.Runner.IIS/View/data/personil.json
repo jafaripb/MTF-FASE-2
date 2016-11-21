@@ -1,0 +1,8 @@
+[ 
+  { "PersonilId": "154f3748-ac3b-43e1-add7-81fb2f437b38" , "Nama": "farhan", "Jabatan": "staff","distibutor":"distributor utama","logo":"dist/img/avatar04.png"   },
+  { "PersonilId": "616d7855-6836-4099-a7f9-9d5984c295f3" , "Nama": "lina", "Jabatan": "staff","distibutor":"distributor utama","logo":"dist/img/avatar.png"   },
+  { "PersonilId": "6ce3a405-ca4f-4900-9f91-6b21bb95b3d3" , "Nama": "dina","Jabatan": "staff","distibutor":"distributor utama","logo":"dist/img/avatar2.png"   },
+  { "PersonilId": "8aa7a8ca-cad5-4429-b50c-79c4193f0595" , "Nama": "affan","Jabatan": "staff","distibutor":"distributor utama","logo":"dist/img/avatar3.png"   },
+  { "PersonilId": "a405e4ac-9472-4cf8-a9f2-6e16697f87c6" , "Nama": "ardi", "Jabatan": "staff","distibutor":"distributor utama","logo":"dist/img/avatar5.png"   },
+ { "PersonilId": "684c8cf6-3613-4a5b-9ef0-682ac3c1ebdb" , "Nama": "ronald", "Jabatan": "staff","distibutor":"distributor utama","logo":"dist/img/avatar5.png"   }
+]

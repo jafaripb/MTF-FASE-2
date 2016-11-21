@@ -1,0 +1,7 @@
+[ { "id": "4c0af140-341a-4e84-a1b9-7a64c06a2275" , "Nama": "PT. Anugrah Kharisma Jaya"   ,"distibutor":"distributor utama","kontak":"Sukamto" ,"Telepon":"081234567","email":"sukamto@anugrah.com"  },
+  { "id": "cbc0954c-a1b2-442e-8ad8-74225b850ba9" , "Nama": "PT. Anugrah Parmindo Lestari","distibutor":"distributor utama","kontak":"Suryadi","Telepon":"081234567" ,"email":"suryadi@parmindo.com"   },
+  { "id": "dd44db02-2ce1-49e6-8cc0-135237800ce2" , "Nama": "PT. Anzen Pakarindo", "kualifikasi": "Sesuai Kualifikasi","distibutor":"distributor utama","kontak":"Ajeng","Telepon":"081234567" ,"email":"ajeng@anzen.com"   },
+  { "id": "27d1b7cc-b4e4-48f0-8afe-c075a372ed79", "Nama": "PT. AON Indonesia", "kualifikasi": "Sesuai Kualifikasi","distibutor":"distributor utama","kontak":"Yadi","Telepon":"081234567" ,"email":"yadi@aon.com"   },
+  { "id": "d34df88a-6567-44ba-b90d-3ef278373543", "Nama": "PT. Antam Tbk", "kualifikasi": "Sesuai Kualifikasi","distibutor":"distributor utama","kontak":"tama","Telepon":"081234567" ,"email":"tama@antam.com"   },
+  { "id": "0b0b4580-19c9-4be7-a4f0-c80e7729bf39" , "Nama": "PT. Bangun Tjipta Pratama"   , "kualifikasi": "Sesuai Kualifikasi","distibutor":"distributor utama","kontak":"bangkit" ,"Telepon":"081234567" ,"email":"bankit@bangun.com"  }
+]

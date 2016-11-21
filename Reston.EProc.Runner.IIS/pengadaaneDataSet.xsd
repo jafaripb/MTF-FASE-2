@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="pengadaaneDataSet" targetNamespace="http://tempuri.org/pengadaaneDataSet.xsd" xmlns:mstns="http://tempuri.org/pengadaaneDataSet.xsd" xmlns="http://tempuri.org/pengadaaneDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="JimbisEntities" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="JimbisEntities (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.JimbisEntities.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="VendorTableAdapter" GeneratorDataComponentClassName="VendorTableAdapter" Name="Vendor" UserDataComponentName="VendorTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="JimbisEntities (Web.config)" DbObjectName="pengadaane.vendor.Vendor" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Nama FROM vendor.Vendor</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Nama" DataSetColumn="Nama" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="pengadaaneDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="pengadaaneDataSet" msprop:Generator_UserDSName="pengadaaneDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Vendor" msprop:Generator_TableClassName="VendorDataTable" msprop:Generator_TableVarName="tableVendor" msprop:Generator_TablePropName="Vendor" msprop:Generator_RowDeletingName="VendorRowDeleting" msprop:Generator_RowChangingName="VendorRowChanging" msprop:Generator_RowEvHandlerName="VendorRowChangeEventHandler" msprop:Generator_RowDeletedName="VendorRowDeleted" msprop:Generator_UserTableName="Vendor" msprop:Generator_RowChangedName="VendorRowChanged" msprop:Generator_RowEvArgName="VendorRowChangeEvent" msprop:Generator_RowClassName="VendorRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Nama" msprop:Generator_ColumnVarNameInTable="columnNama" msprop:Generator_ColumnPropNameInRow="Nama" msprop:Generator_ColumnPropNameInTable="NamaColumn" msprop:Generator_UserColumnName="Nama" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

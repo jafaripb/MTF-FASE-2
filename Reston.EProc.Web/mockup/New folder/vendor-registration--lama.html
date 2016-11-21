@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/select2/select2.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<link href="dist/site.css" rel="stylesheet" />
+	<style>
+		 .label-kanan label{
+				  text-align:left !important;
+				  font-weight: 100!important;
+		}
+	</style>	
+  </head>
+ <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="@Url.Content("~/")" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"><img src="dist/img/images.png" width="50px" /></span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><img src="dist/img/images.png" width="100px" /></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <div class="navbar-custom-menu">            
+            <ul class="nav navbar-nav">		
+                <li class="dropdown user user-menu">
+                    <!-- Menu Toggle Button -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <!-- The user image in the navbar-->
+                       <img  src="dist/img/avatar04.png" class="user-image" alt="User Image">
+                      <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                      <span class="hidden-xs">User</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <!-- The user image in the menu -->
+                      <li class="user-header">
+                         <img  src="dist/img/avatar04.png" class="img-circle" alt="User Image">
+                        <p>
+                          User - Bank Mandiri
+                          <small>Member since Nov. 2012</small>
+                        </p>
+                      </li>
+                      <!-- Menu Body -->
+                     
+                      <!-- Menu Footer-->
+                      <li class="user-footer">
+                        <div class="pull-left">
+                          <a href="#" class="btn btn-default btn-flat">Profile</a>
+                        </div>
+                        <div class="pull-right">
+                          <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>	
+				<li>
+				  <a href="" >Sign out</a>
+				</li>			  
+            </ul>
+          </div>
+        </nav>
+      </header>
+    
+          <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+         <section class="sidebar">
+		
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+            <li class="header">MAIN NAVIGATION</li>
+               
+				
+                <li class="treeview">
+                  <a href="#">
+                    <i class="fa fa-folder"></i> <span>Admin</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </a>
+                  <ul class="treeview-menu">
+                    <li><a href="@Url.Content("~/")masterdata/dosen"><i class="fa fa-circle-o"></i>Application</a></li>
+                    
+					<li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Master Data Management</a></li>
+					   
+
+                  </ul>
+                </li>
+            
+             
+           
+             <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-folder"></i> <span>Vendor Management</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+					<li class="active"><a href="vendor-registration.html"><i class="fa fa-circle-o"></i>Vendor Registration</a></li>
+					<li><a href="vendor-list.html"><i class="fa fa-circle-o"></i>Vendor List & Approvals</a></li>
+					<li><a href="vendor-evaluation.html"><i class="fa fa-circle-o"></i>Vendor Performance </a></li>
+					<li><a href="vendor-evaluation.html"><i class="fa fa-circle-o"></i>Vendor Evaluation </a></li>
+					<li><a href="product-list.html"><i class="fa fa-circle-o"></i>Vendor Bidding </a></li>
+					<li><a href="product-list.html"><i class="fa fa-circle-o"></i>Expediting</a></li>
+					<li><a href="product-list.html"><i class="fa fa-circle-o"></i>Good Received</a></li>
+					<li><a href="product-list.html"><i class="fa fa-circle-o"></i>Service Acceptance</a></li>
+              </ul>
+            </li>
+			 <li class="treeview">
+              <a href="#">
+                <i class="fa fa-folder"></i> <span>Approvals</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+					<li><a href="surat-pesan-barang.html"><i class="fa fa-circle-o"></i>Approvals and Cancellations</a></li>
+              </ul>
+            </li>
+           <li class="treeview ">
+                <a href="#">
+                <i class="fa fa-folder"></i> <span>Collaborative</span>
+                <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                <li ><a href="memorandum-pengadaan-barang.html"><i class="fa fa-circle-o"></i>eCatalogue </a></li>
+				<li ><a href="permintaan-pengadaan-barang.html"><i class="fa fa-circle-o"></i>Purchace Requests </a></li>
+				<li><a href="laporan-penerimaan.html"><i class="fa fa-circle-o"></i>Purchase Orders </a></li>
+                </ul>
+            </li>
+             <li class="treeview ">
+                <a href="#">
+                <i class="fa fa-folder"></i> <span>Sourcing</span>
+                <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+					<li ><a href="master-penawaran.html"><i class="fa fa-circle-o"></i>Create RKS</a></li>
+					<li ><a href=""><i class="fa fa-circle-o"></i>Vendor Selections</a></li>
+					<li ><a href="catalog-undangan-pengadaan-barang.html"><i class="fa fa-circle-o"></i>Tendering Management </a></li>
+					<li ><a href="catalog-undangan-pengadaan-barang.html"><i class="fa fa-circle-o"></i>Evaluasi Harga </a></li>
+					<li ><a href="catalog-undangan-pengadaan-barang.html"><i class="fa fa-circle-o"></i>Negotiation </a></li>
+					<li ><a href="catalog-undangan-pengadaan-barang.html"><i class="fa fa-circle-o"></i>Penentuan Pemenang </a></li>
+					<li ><a href="catalog-undangan-pengadaan-barang.html"><i class="fa fa-circle-o"></i>Vendor Bidding  </a></li>
+                </ul>
+            </li>
+            
+           
+            <li class="treeview ">
+                <a href="#">
+                <i class="fa fa-folder"></i> <span>Dashboard & Reporting</span>
+                <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                <li><a href="reporting.html"><i class="fa fa-circle-o"></i>Reporting Management</a></li>
+				 <li><a href="index.html"><i class="fa fa-circle-o"></i>Spend Analysis</a></li>
+                </ul>
+            </li>
+			<li class="treeview active">
+                <a href="#">
+                <i class="fa fa-folder"></i> <span>Contract Management</span>
+                <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                <li><a href="reporting.html"><i class="fa fa-circle-o"></i> Create SPK +PKS</a></li>
+                </ul>
+            </li>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+    
+		<section class="content-header">
+			<h1>Vendor Management - Form Registration</h1>
+		</section>
+
+		 <section class="content">
+
+			<!-- Default box -->
+			
+			 <div class="box box-primary box-mtf-header-backgroud">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel-header">
+								<span class="title-header">Form Registration</span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel-toolbar top clearfix">
+								<ul>
+									<li><a title="User List" href="vendor-list.html"><i class="fa fa-fw fa-arrow-left" style="color:green"></i>Back to List</a></li>
+									<li><a title="Add User" href="vendor-registration.html" ><i class="fa fa-plus fa-fw" style="color:green"></i>Tambah Vendor</a></li>      										
+								</ul>
+							</div>
+						</div>
+					</div>				  
+					<form class="form-horizontal label-kanan">
+					<div class="box-body">
+						<div class="box box-mtf">
+							<div class="box-header with-border ">
+								<h3 class="box-title">Data Account Pengguna</h3>
+								
+							</div>
+							<div class="box-body">							
+									
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="no" class="col-sm-2 control-label">Nama Pengguna</label>
+													<div class="col-sm-3">
+														<input type="text" class="form-control" id="item_type" placeholder="Nama Pengguna">
+													</div>
+													<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Ketik Ulang Password</label>
+													<div class="col-sm-3">
+														<input type="text" class="form-control" id="item_type" placeholder="Ketik Ulang Password">
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="item_type" class="col-sm-2  control-label">User ID</label>
+													<div class="col-sm-3">
+														<input type="text" class="form-control" id="item_type" placeholder="User ID">
+													</div>
+													<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Password</label>
+													<div class="col-sm-3">
+														<input type="text" class="form-control" id="item_type" placeholder="Password">
+													</div>
+												</div>													
+											</div>											
+										</div>
+									
+							</div>
+						</div>
+						<div class="box box-mtf">
+							<div class="box-header with-border">
+								<h3 class="box-title">Data Perusahaan</h3>
+							</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Nama Perusahaan</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="item_type" placeholder="Nama Perusahaan">
+											</div>							
+											<label for="item_type" class="col-sm-2  col-sm-offset-1 control-label">Pemimpin Perusahaan</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="item_type" placeholder="Pemimpin Perusahaan">
+											</div>											
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Kualifikasi Perusahaan</label>
+											<div class="col-sm-3">
+												<select class="form-control select2" style="width: 100%;">
+												  <option selected="selected">--Pilih--</option>
+												  <option>Malaysia</option>
+												  <option>Singapura</option>
+												  <option>Thailand</option>
+												</select>
+											</div>		
+											<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Bidang Usaha Perusahaan</label>
+											<div class="col-sm-3">
+												<select class="form-control select2" style="width: 100%;">
+													 <option selected="selected">--Pilih--</option>			
+													  <option >Jakarta</option>
+													  <option>Jawa Barat</option>
+													  <option>Jawa Timur</option>
+													  <option>Bali</option>
+												</select>
+											</div>											
+										</div>
+										
+										<div class="form-group">
+											<label for="alamat" class="col-sm-2 control-label">Alamat</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="alamat" placeholder="Alamat">
+											</div>		
+											<label for="kota" class="col-sm-2 col-sm-offset-1 control-label">Kota</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="kota" placeholder="Kota">
+											</div>											
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Kode Pos</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="item_type" placeholder="Kode Pos">
+											</div>	
+											<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Propinsi</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="item_type" placeholder="Propinsi">
+											</div>		
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Telepon</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="item_type" placeholder="Telepon">
+											</div>			
+											<label for="item_type" class="col-sm-2 col-sm-offset-1  control-label">Fax</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="item_type" placeholder="Fax">
+											</div>	
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Kontak Perusahaan</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="item_type" placeholder="Kontak Perusahaan">
+											</div>							
+											<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Alamat Email</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="item_type" placeholder="Alamat Email">
+											</div>											
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Home Page Perusahaan</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="item_type" placeholder="Home Page Perusahaan">
+											</div>	
+											<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Dokumen</label>
+											<div class="col-sm-3">
+												<input type="file" id="exampleInputFile">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row ">
+							<div class="col-md-12">
+									<div class="submitgray button-row">
+										<button class="btn btn-primary " type="submit">Submit</button>
+									</div>
+							</div> 
+						</div>
+					</div>
+					</form>	
+			</div>
+		</section><!-- /.content -->
+    
+		</div><!-- /.content-wrapper -->
+       
+	   <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0.0
+        </div>
+        <strong>Supplier Relation Management</strong> 
+	    </footer>
+    </div><!-- ./wrapper -->
+
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/app.min.js"></script>
+	 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+	
+	 <script>
+      $(function () {
+       // $("#example1").DataTable();
+        $('#example1').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "UserId";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .fctrl {
+       
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+            line-height: 1.428571429;
+    }
+</style>
+<div class="container">
+    <h1>
+        User Management
+    </h1>
+    <div class="well">
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Search Account</label><br />
+                    <input type="text" class="fctrl" placeholder="Username"
+                           data-mvcgrid-type="filter" data-mvcgrid-option="UserName" />
+                    <button type="button" class="btn btn-default" data-mvcgrid-apply-filter="click">Apply</button>
+                    @Html.ActionLink("Link LDAP Accounts", "UserLdap", "Admin", new { @class = "btn btn-success" })
+                </div>
+            </div>
+            @*<div class="form-group">
+                
+            </div>*@
+        </div>
+    </div>
+
+    @Html.MVCGrid("UserId")
+
+
+    <div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    Are you Sure, You want to delete this ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn blue" id="btnContinueDelete">Continue</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        function DeleteAccount(value) {
+
+            $('#basic').modal({ backdrop: 'static', keyboard: false })
+            .one('click', '#btnContinueDelete', function () {
+                DeleteAccountValidation(value); // submit the form
+            });
+
+        }
+
+
+
+        function DeleteAccountValidation(value) {
+            $('#basic').modal("hide");
+            waitingDialog.showloading("Proses Harap Tunggu")
+
+            $.ajax({
+                url: "@Url.Action("DeleteUser", "Admin")",
+                method: "POST",
+                data: { username: value },
+                success: function (data, textStatus, jqXHR) {
+                    waitingDialog.hideloading();
+                    MVCGrid.reloadGrid('UserId');
+
+
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                    waitingDialog.hideloading();
+
+                }
+            });
+        }
+    </script>
+}

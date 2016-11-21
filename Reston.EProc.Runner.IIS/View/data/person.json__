@@ -1,0 +1,5 @@
+[ 
+	{ "value":1,"text": "Fajar Gunawan","divisi":"staff","logo":"dist/img/avatar04.png"},
+	{ "value":2,"text": "Sukamto","divisi":"staff","logo":"dist/img/avatar.png"},
+	{ "value":3,"text": "Budiman","divisi":"staff","logo":"dist/img/avatar.png"}
+]

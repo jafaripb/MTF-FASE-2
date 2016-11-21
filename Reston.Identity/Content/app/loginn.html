@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html >
+<head>
+</head>
+<body class="fixed-header   ">
+   <form id="form-login" method="post" class="p-t-15" role="form" action="">                    
+                    <!-- START Form Control-->
+                    <div class="form-group form-group-default">
+                        <label>Login</label>
+                        <div class="controls">
+                            <input type="text" name="username" placeholder="Username atau Ldap User" class="form-control" ng-model="model.username" required>
+                        </div>
+                    </div>
+                    <!-- END Form Control-->
+                    <!-- START Form Control-->
+                    <div class="form-group form-group-default">
+                        <label>Password</label>
+                        <div class="controls">
+                            <input type="password" class="form-control" name="password" ng-model="model.password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <!-- START Form Control-->
+                    <div class="row">
+                        <div class="col-md-6 no-padding" ng-show="model.allowRememberMe">
+                            <div class="checkbox ">
+                                <input type="checkbox" value="1" id="checkbox1" ng-model="model.rememberMe">
+                                <label for="checkbox1">Biarkan saya tetap masuk.</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="model.errorMessage">
+                        <div class="col-md-12 sm-p-t-15">
+                            <div class="alert alert-danger" role="alert">
+                                <button class="close" data-dismiss="alert"></button>
+                                <strong>Error : {{model.errorMessage}} </strong>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- END Form Control-->
+                    <button class="btn btn-primary btn-cons m-t-10" ng-disabled="form.$invalid">Masuk</button>
+                    <a href="javascript:forgotPwd()"><span class="btn btn-default btn-cons m-t-10">Lupa Password</span></a>
+                    <div class="row">
+                        <strong>Belum punya akun? <a href="http://localhost:49559/registrasi.html">Daftar sebagai Rekanan Baru MTF.</a></strong>
+                    </div>
+                    <div class="row">
+                        <small>Sudah mendaftar tetapi belum mendapat akses ke sistem?</small><strong> <a href="http://localhost:49559/registrasi.html">Lacak status pengajuan Anda di sini.</a></strong>
+                    </div>
+                </form>
+</body>
+</html>

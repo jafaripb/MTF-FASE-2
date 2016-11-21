@@ -1,0 +1,55 @@
+﻿@model IdLdap.Models.ViewModelNewUser
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create User</h2>
+
+@using (Ajax.BeginForm("NewUser", new AjaxOptions()
+                                {
+                                    InsertionMode = InsertionMode.Replace,
+                                    OnBegin = "onBeginSubmit()",
+                                    OnSuccess = "SuccessFormContact(data, status, xhr)",
+                                    OnFailure = "FailFormContact(xhr, status, error)",
+
+                                }))
+{
+
+    <br />
+
+    <div class="form-group">
+        <label>Username :</label>
+        @Html.TextBoxFor(model => model.UserDetail.UserName, new { @class = "form-control", @placeholder = "Isikan Username Anda" })
+    </div>
+    @Html.ValidationMessageFor(model => model.UserDetail.UserName, null, new { @class = "text-danger", @style = "font-style:italic; font-size:12px" })
+
+    <div class="form-group">
+        <label for="email">Password:</label>
+        @Html.TextBoxFor(model => model.UserDetail.NewPassword, new { @class = "form-control", @type = "password", @placeholder = "Isi passoword" })
+    </div>
+    @Html.ValidationMessageFor(model => model.UserDetail.NewPassword, null, new { @class = "text-danger", @style = "font-style:italic; font-size:12px" })
+
+ 
+    <div class="row">
+        <div class="col-sm-3">
+            <button type="submit" class="btn btn-primary btn-block">Buat</button>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    <script>
+     function onBeginSubmit(){
+         waitingDialog.showloading("Proses Harap Tunggu");
+     }
+     function SuccessFormContact(data, status, xhr){
+         waitingDialog.hideloading();
+     }
+     function FailFormContact(xhr, status, error) {
+         waitingDialog.hideloading();
+     }
+
+    </script>
+}

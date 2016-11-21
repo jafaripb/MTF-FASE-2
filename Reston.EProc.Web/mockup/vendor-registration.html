@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/select2/select2.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<link href="dist/site.css" rel="stylesheet" />
+	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+	<link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+	<link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" /> 
+  </head>
+ <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      <div id="header"></div>
+    
+          <!-- Left side column. contains the logo and sidebar -->
+     <div id="menu"></div>
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+    
+		<section class="content-header">
+			<h1>Vendor Management - Form Registration</h1>
+		</section>
+
+		 <section class="content">
+
+			<!-- Default box -->
+			
+			 <div class="box box-primary box-mtf-header-backgroud">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel-header">
+								<span class="title-header">Form Registration</span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel-toolbar top clearfix">
+								<ul>
+									<li><a title="User List" href="vendor-list.html"><i class="fa fa-fw fa-arrow-left" style="color:green"></i>Back to List</a></li>
+									<li><a title="Add User" href="vendor-registration.html" ><i class="fa fa-plus fa-fw" style="color:green"></i>Tambah Vendor</a></li>      										
+								</ul>
+							</div>
+						</div>
+					</div>		
+					<div class="row">
+						<div class="col-md-12">
+							<div id="notif">
+							</div>
+						</div>
+					</div>					
+					<form id="form_reg" class="form-horizontal label-kanan">
+					<div class="box-body">
+						<div class="box box-mtf">
+							<div class="box-header with-border ">
+								<h3 class="box-title">Vendor Account</h3>
+								
+							</div>
+							<div class="box-body">							
+									
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="no" class="col-sm-2 control-label">Nama Pengguna</label>
+													<div class="col-sm-3">
+														<input type="text" class="form-control" id="item_type" placeholder="Nama Pengguna">
+													</div>
+													<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Ketik Ulang Password</label>
+													<div class="col-sm-3">
+														<input type="text" class="form-control" id="item_type" placeholder="Ketik Ulang Password">
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="item_type" class="col-sm-2  control-label">User ID</label>
+													<div class="col-sm-3">
+														<input type="text" class="form-control" id="item_type" placeholder="User ID">
+													</div>
+													<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Password</label>
+													<div class="col-sm-3">
+														<input type="text" class="form-control" id="item_type" placeholder="Password">
+													</div>
+												</div>													
+											</div>											
+										</div>
+									
+							</div>
+						</div>
+						<div class="box box-mtf">
+							<div class="box-header with-border">
+								<h3 class="box-title">Informasi Umum Perusahaan</h3>
+							</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-md-10">
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Title</label>
+											<div class="col-sm-3">
+												<select class="form-control select2" style="width: 100%;">
+												  <option selected disabled>--Title--</option>
+												  <option>PT</option>
+												  <option>CV</option>
+												</select>												
+											</div>		
+											<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Nama</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="item_type" placeholder="Company Name">
+											</div>	
+										</div>
+										<div class="form-group">																		
+											<label for="item_type" class="col-sm-2  control-label">Negara</label>
+											<div class="col-sm-3">
+												<select class="form-control select2" style="width: 100%;">
+												  <option>Indonesia</option>
+												  <option>Singapura</option>
+												  <option>Malaysia</option>
+												</select>
+											</div>	
+											<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Region</label>
+											<div class="col-sm-3">
+												<select class="form-control select2" style="width: 100%;">
+												  <option selected disabled>--Region--</option>
+												  <option>Regional I</option>
+												  <option>Regional II</option>
+												  <option>Regional III</option>
+												  <option>Regional IV</option>
+												</select>
+											</div>	
+										</div>
+										<div class="form-group">																		
+											<label for="item_type" class="col-sm-2  control-label">Lokasi</label>
+											<div class="col-sm-3">
+												<select class="form-control select2" style="width: 100%;">
+												  <option selected="selected">--Lokasi--</option>
+												  <option>DKI Jakarta</option>
+												  <option>Jawa Barat</option>
+												  <option>Jawa Timur</option>
+												</select>
+											</div>	
+											<label for="item_type" class="col-sm-2 col-sm-offset-1  control-label">Kota</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="city" placeholder="City">
+											</div>					
+											
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2  control-label">Jalan</label>
+											<div class="col-sm-3">
+												<textarea class="form-control" name="jalan"></textarea>
+											</div>
+											<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Postal Code</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="Postal_Code" placeholder="Postal Code">
+											</div>	
+										</div>
+										<div class="form-group">
+																							
+										</div>	
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2  control-label">NPWP</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="tax_number" placeholder="Tax Number"> 
+											</div>	
+											<div class="col-sm-3">
+												 <input type="file" id="exampleInputFile" value="Upload Tax Card" >
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="box box-mtf">
+							<div class="box-header with-border">
+								<h3 class="box-title">Informasi Bank</h3>
+							</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-md-10">
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Negara</label>
+											<div class="col-sm-4">
+												<select class="form-control select2" style="width: 100%;">
+												  <option>Indonesia</option>
+												  <option>Malaysia</option>
+												</select>
+												
+											</div>									
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Bank Account</label>
+											<div class="col-sm-4">
+												<input type="text" class="form-control" id="bank_account" placeholder="Bank Account">
+											</div>									
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Account Holder</label>
+											<div class="col-sm-4">
+												<input type="text" class="form-control" id="account_holder" placeholder="Account Holder">
+											</div>									
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="box box-mtf">
+							<div class="box-header with-border">
+								<h3 class="box-title">Kontak</h3>
+							</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-md-10">
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Contact Name</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="contact_name" placeholder="Contact Name">
+											</div>
+											<label for="item_type" class="col-sm-2 col-sm-offset-1 control-label">Fax</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="fax" placeholder="Fax">
+											</div>	
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Telepon</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="telephone" placeholder="Telephone">
+											</div>				
+											<label for="item_type" class="col-sm-2 col-sm-offset-1  control-label">Email</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="email" placeholder="Email">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Handphone</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control required" id="telephone" placeholder="Telephone">
+											</div>									
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="box box-mtf">
+							<div class="box-header with-border">
+								<h3 class="box-title">Upload Document</h3>
+							</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-md-10">
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Akta Pendirian</label>
+											<div class="col-sm-3">
+												<input type="file" id="exampleInputFile" value="Upload Tax Card" >												
+											</div>									
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">TDP</label>
+											<div class="col-sm-6">
+												<input type="file" id="exampleInputFile" value="Upload Tax Card" >
+											</div>									
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">SIUP</label>
+											<div class="col-sm-4">
+												<input type="file" id="exampleInputFile" value="Upload Tax Card" >
+											</div>									
+										</div>										
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">SPT Terakhir</label>
+											<div class="col-sm-4">
+												<input type="file" id="exampleInputFile" value="Upload Tax Card" >
+											</div>									
+										</div>
+										<div class="form-group">
+											<label for="item_type" class="col-sm-2 control-label">Serifikat/License</label>
+											<div class="col-sm-4">
+												<input type="file" id="exampleInputFile" value="Upload Tax Card" >
+											</div>									
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row ">
+							<div class="col-md-12">
+									<div class="submitgray button-row">
+										<button id="addVendor" class="btn btn-primary " type="button">Simpan</button>
+									</div>
+							</div> 
+						</div>
+					</div>
+					</form>	
+			</div>
+		</section><!-- /.content -->
+    
+		</div><!-- /.content-wrapper -->
+       
+	   <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0.0
+        </div>
+        <strong>Supplier Relation Management</strong> 
+	    </footer>
+    </div><!-- ./wrapper -->
+	
+	<!--chat-->
+	<div id="chat"></div>
+	
+	
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    
+	<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="plugins/jQueryUItotop/easing.js"></script>
+	<script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+	<script src="plugins/JQueryValidation/jquery.validate.js"></script>
+	 <script>
+	 var notifadd = "<div class='alert alert-success alert-dismissable'>" +
+                          "<button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>" +
+                                    "<h4><i class='icon fa fa-check'></i>Behasil</h4><p>Data Behasil di Tambah</p></div>";
+      $(function () {
+         $().UItoTop({ easingType: 'easeOutQuart' });
+        $('#example1').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+		$("body").hide();
+		$("#menu").load("menu.html");
+		$("#header").load("menu-header.html");
+		$("#chat").load("chat.html");
+		$("body").show();
+		
+		$.getScript( "dist/js/app.min.js" );
+		$.getScript( "chatjs/chat.js" );
+		$("#addVendor").on("click",function(){
+		if (!$("#form_reg").valid() )
+            return false;
+		else {
+		
+			$("#notif").html(notifadd);
+			$('html, body').animate({ scrollTop: $('#notif').offset().top }, 'slow');
+		}
+		});
+      });
+    </script>
+  </body>
+</html>

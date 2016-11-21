@@ -1,0 +1,19 @@
+<div>
+    <p style="text-align: center">
+        <h2>No Preview Available.</h2>
+       <button onclick="Download()">Click to Download.</button>
+    </p>
+</div>
+
+<script type="text/javascript" src="site.js"></script>
+<script type="text/javascript">
+    
+    function Download() {
+        var foo = getParameterByName('id'); // "lorem"
+        var modul = getParameterByName('m'); // "lorem"
+        if (modul)
+            window.location.href = "/api/"+modul+"/openfile/" + foo;
+        else
+            window.location.href = "/api/dokumen/openfile/" + foo;
+    }
+</script>
