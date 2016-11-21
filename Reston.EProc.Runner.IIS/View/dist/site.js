@@ -1,6 +1,4 @@
-﻿
-  
-function UnformatFloat(value) {
+﻿function UnformatFloat(value) {
     if (value != null && value!="")
         return value.toString().replace(/\./g, "");
     else value;
@@ -25,6 +23,7 @@ function SetListRegion(el) {
     });
 }
 
+
 function downloadFileUsingForm(url) {
     var form = document.createElement("form");
     form.method = "post";
@@ -33,6 +32,7 @@ function downloadFileUsingForm(url) {
     form.submit();
     document.body.removeChild(form);
 }
+
 
 function SetListProvinsi(el) {
     $.ajax({
@@ -45,6 +45,7 @@ function SetListProvinsi(el) {
     });
 }
 
+
 function SetListPeriode(el) {
     $.ajax({
         url: "/api/ReferenceData/GetAllPeriodeAnggaran",
@@ -55,6 +56,7 @@ function SetListPeriode(el) {
         }
     });
 }
+
 
 function SetListUnitKerja(el) {
     $.ajax({
@@ -67,6 +69,7 @@ function SetListUnitKerja(el) {
     });
 }
 
+
 function SetListJenisPekerjaan(el) {
     $.ajax({
         url: "/api/ReferenceData/GetAllJenisPekerjaan",
@@ -77,6 +80,7 @@ function SetListJenisPekerjaan(el) {
         }
     });
 }
+
 
 function SetListJenisPembelanjaan(el) {
     $.ajax({
@@ -94,6 +98,7 @@ function SetListJenisPembelanjaan(el) {
  *
  * @author Eugene Maslovich <ehpc@em42.ru>
  */
+
 
 var waitingDialog = waitingDialog || (function ($) {
     'use strict';

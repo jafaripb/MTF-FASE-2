@@ -147,7 +147,7 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" name="start-date" class="form-control pull-right datepicker" value="">
+                                                    <input type="text" name="start-date" class="form-control pull-right datepicker" value="2016-09-01">
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-2">
@@ -156,7 +156,7 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" name="end-date" class="form-control pull-right datepicker" value="">
+                                                    <input type="text" name="end-date" class="form-control pull-right datepicker" value="2016-11-30">
                                                 </div>
                                             </div>
                                         </div>
@@ -168,14 +168,14 @@
                                                     <label class="title"><h4>% Waktu</h4></label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label class="title"><h4 class="text-bold" style="color:red;">83%</h4></label>
+                                                    <label class="title"><h4 class="text-bold" style="color:red;">84%</h4></label>
                                                 </div>
                                                     <div class="clear"></div>
                                                 <div class="col-md-4">
                                                     <label class="title"><h4>% Penyelesaian</h4></label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label class="title"><h4 class="text-bold">60%</h4></label>
+                                                    <label class="title"><h4 class="text-bold">57%</h4></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -192,60 +192,137 @@
                                                 <div class="tab-pane active" id="pekerjaan">
                                                     <table class="table table-bordered">
                                                         <tr>
-                                                            <td style="text-align:center; font-weight:bold;">No.</td>
-                                                            <td style="text-align:left; font-weight:bold;">Nama Pekerjaan</td>
-                                                            <td style="text-align:center; font-weight:bold;">Klasifikasi</td>
-                                                            <td style="text-align:center; font-weight:bold;">Bobot Pekerjaan</td>
-                                                            <td style="text-align:center; font-weight:bold;">% Progress</td>
-                                                            <td style="text-align:center; font-weight:bold;">% Penyelesaian</td>
+                                                            <td class="tengah text-bold">No.</td>
+                                                            <td class="tengah text-bold">Nama Pekerjaan</td>
+                                                            <td class="tengah text-bold">Bobot Pekerjaan</td>
+                                                            <td class="tengah text-bold">% Progress</td>
+                                                            <td class="tengah text-bold">% Penyelesaian</td>
+                                                            <td class="tengah text-bold">Start Date</td>
+                                                            <td class="tengah text-bold">End Date</td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="text-align:center;">1</td>
+                                                            <td class="tengah">1</td>
                                                             <td>Pembangunan Pondasi</td>
-                                                            <td>Sipil</td>
                                                             <td><input type="text" class="form-control" value="10%" style="width:100%; text-align:center"></td>
                                                             <td><input type="text" class="form-control" value="100%" style="width:100%; text-align:center"></td>
-                                                            <td style="text-align:center;">10%</td>
+                                                            <td class="tengah">10%</td>
+                                                            <td class="tengah">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
+                                                                </div>
+                                                            </td>
+                                                            <td class="tengah">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="text-align:center;">2</td>
+                                                            <td class="tengah">2</td>
                                                             <td>Pembangunan Tiang-tiang penyangga</td>
-                                                            <td>Non Sipil</td>
                                                             <td><input type="text" class="form-control" value="20%" style="width:100%; text-align:center"></td>
                                                             <td><input type="text" class="form-control" value="50%" style="width:100%; text-align:center"></td>
-                                                            <td style="text-align:center;">10%</td>
+                                                            <td class="tengah">10%</td>
+                                                            <td class="tengah">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
+                                                                </div>
+                                                            </td>
+                                                            <td class="tengah">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="text-align:center;">3</td>
+                                                            <td class="tengah">3</td>
                                                             <td>Pembangunan Atap Gedung</td>
-                                                            <td>Sipil</td>
                                                             <td><input type="text" class="form-control" value="30%" style="width:100%; text-align:center"></td>
                                                             <td><input type="text" class="form-control" value="50%" style="width:100%; text-align:center"></td>
-                                                            <td style="text-align:center;">15%</td>
+                                                            <td class="tengah">15%</td>
+                                                            <td class="tengah">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
+                                                                </div>
+                                                            </td>
+                                                            <td class="tengah">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="text-align:center;">4</td>
+                                                            <td class="tengah">4</td>
                                                             <td>Dinding</td>
-                                                            <td>Sipil</td>
                                                             <td><input type="text" class="form-control" value="20%" style="width:100%; text-align:center"></td>
                                                             <td><input type="text" class="form-control" value="50%" style="width:100%; text-align:center"></td>
-                                                            <td style="text-align:center;">10%</td>
+                                                            <td class="tengah">10%</td>
+                                                            <td class="tengah">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
+                                                                </div>
+                                                            </td>
+                                                            <td class="tengah">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="text-align:center;">5</td>
+                                                            <td class="tengah">5</td>
                                                             <td>Lantai</td>
-                                                            <td>Sipil</td>
                                                             <td><input type="text" class="form-control" value="20%" style="width:100%; text-align:center"></td>
                                                             <td><input type="text" class="form-control" value="60%" style="width:100%; text-align:center"></td>
-                                                            <td style="text-align:center;">12%</td>
+                                                            <td class="tengah">12%</td>
+                                                            <td class="tengah">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
+                                                                </div>
+                                                            </td>
+                                                            <td class="tengah">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="text-align:center; font-weight:bold;">#</td>
-                                                            <td style="text-align:center; font-weight:bold;">Total</td>
-                                                            <td></td>
-                                                            <td style="text-align:center; font-weight:bold;">100%</td>
-                                                            <td style="text-align:center; font-weight:bold;"></td>
-                                                            <td style="text-align:center; font-weight:bold;">57%</td>
+                                                            <td class="tengah text-bold">#</td>
+                                                            <td class="tengah text-bold">Total</td>
+                                                            <td class="tengah text-bold">100%</td>
+                                                            <td class="tengah text-bold"></td>
+                                                            <td class="tengah text-bold">57%</td>
+                                                            <td class="tengah text-bold">-</td>
+                                                            <td class="tengah text-bold">-</td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -373,60 +450,117 @@
                                                     </table>
                                                 </div>
                                                 <div class="tab-pane" id="documents">
-                                                    <table class="table table-bordered">
-                                                        <tr>
-                                                            <td class="tengah" style="font-weight:bold;">No.</td>
-                                                            <td class="kiri" style="font-weight:bold;">Keterangan</td>
-                                                            <td class="tengah" style="font-weight:bold;">Dokumen</td>
-                                                            <td class="tengah" style="font-weight:bold;">Tanggal Upload</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="tengah">1</td>
-                                                            <td>Pembayaran 1</td>
-                                                            <td>
-                                                                <div class="" id="pembayaran1-add">
-                                                                    <div id="FilePembayaran1" action="api/Dokumen/UploadFile?tipe=Pembayaran1"></div>
-                                                                    <input name="Pembayaran1.id" type="hidden">
-                                                                    <input name="Pembayaran1.File" type="hidden">
-                                                                    <input name="Pembayaran1.ContentType" type="hidden">
-                                                                </div>
-                                                            </td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="tengah">2</td>
-                                                            <td>Pembayaran 2</td>
-                                                            <td>
-                                                                <div class="" id="pembayaran2-add">
-                                                                    <div id="FilePembayaran2" action="api/Dokumen/UploadFile?tipe=Pembayaran2"></div>
-                                                                    <input name="Pembayaran2.id" type="hidden">
-                                                                    <input name="Pembayaran2.File" type="hidden">
-                                                                    <input name="Pembayaran2.ContentType" type="hidden">
-                                                                </div>
-                                                            </td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
+                                                    <ul class="nav nav-tabs">
+                                                        <li class="active"><a href="#dok-pekerjaan" data-toggle="tab">Pekerjaan</a></li>
+                                                        <li><a href="#dok-pembayaran" data-toggle="tab">Pembayaran</a></li>
+                                                    </ul>
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active" id="dok-pekerjaan">
+                                                            <table class="table table-bordered" style="margin-top:30px;">
+                                                                <tr>
+                                                                    <td class="tengah" style="font-weight:bold;">No.</td>
+                                                                    <td class="kiri" style="font-weight:bold;">Keterangan</td>
+                                                                    <td class="tengah" style="font-weight:bold;">Dokumen</td>
+                                                                    <td class="tengah" style="font-weight:bold;">Tanggal Upload</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="tengah">1</td>
+                                                                    <td>Pembangunan Pondasi</td>
+                                                                    <td>
+                                                                        <div class="" id="pekerjaan1-add">
+                                                                            <div id="FilePekerjaan1" action="api/Dokumen/UploadFile?tipe=Pembayaran1"></div>
+                                                                            <input name="Pekerjaan1.id" type="hidden">
+                                                                            <input name="Pekerjaan1.File" type="hidden">
+                                                                            <input name="Pekerjaan1.ContentType" type="hidden">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="tengah">
+                                                                        <div class="input-group date">
+                                                                            <div class="input-group-addon">
+                                                                                <i class="fa fa-calendar"></i>
+                                                                            </div>
+                                                                            <input type="text" class="form-control pull-right datepicker" value="">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="tengah">2</td>
+                                                                    <td>Pembangunan Tiang-tiang penyangga</td>
+                                                                    <td>
+                                                                        <div class="" id="pekerjaan2-add">
+                                                                            <div id="FilePekerjaan2" action="api/Dokumen/UploadFile?tipe=Pembayaran2"></div>
+                                                                            <input name="Pekerjaan2.id" type="hidden">
+                                                                            <input name="Pekerjaan2.File" type="hidden">
+                                                                            <input name="Pekerjaan2.ContentType" type="hidden">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="tengah">
+                                                                        <div class="input-group date">
+                                                                            <div class="input-group-addon">
+                                                                                <i class="fa fa-calendar"></i>
+                                                                            </div>
+                                                                            <input type="text" class="form-control pull-right datepicker" value="">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div class="tab-pane" id="dok-pembayaran">
+                                                            <table class="table table-bordered" style="margin-top:30px;">
+                                                                <tr>
+                                                                    <td class="tengah" style="font-weight:bold;">No.</td>
+                                                                    <td class="kiri" style="font-weight:bold;">Keterangan</td>
+                                                                    <td class="tengah" style="font-weight:bold;">Dokumen</td>
+                                                                    <td class="tengah" style="font-weight:bold;">Tanggal Upload</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="tengah">1</td>
+                                                                    <td>Pembayaran 1</td>
+                                                                    <td>
+                                                                        <div class="" id="pembayaran1-add">
+                                                                            <div id="FilePembayaran1" action="api/Dokumen/UploadFile?tipe=Pembayaran1"></div>
+                                                                            <input name="Pembayaran1.id" type="hidden">
+                                                                            <input name="Pembayaran1.File" type="hidden">
+                                                                            <input name="Pembayaran1.ContentType" type="hidden">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="tengah">
+                                                                        <div class="input-group date">
+                                                                            <div class="input-group-addon">
+                                                                                <i class="fa fa-calendar"></i>
+                                                                            </div>
+                                                                            <input type="text" class="form-control pull-right datepicker" value="">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="tengah">2</td>
+                                                                    <td>Pembayaran 2</td>
+                                                                    <td>
+                                                                        <div class="" id="pembayaran2-add">
+                                                                            <div id="FilePembayaran2" action="api/Dokumen/UploadFile?tipe=Pembayaran2"></div>
+                                                                            <input name="Pembayaran2.id" type="hidden">
+                                                                            <input name="Pembayaran2.File" type="hidden">
+                                                                            <input name="Pembayaran2.ContentType" type="hidden">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="tengah">
+                                                                        <div class="input-group date">
+                                                                            <div class="input-group-addon">
+                                                                                <i class="fa fa-calendar"></i>
+                                                                            </div>
+                                                                            <input type="text" class="form-control pull-right datepicker" value="">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
-                                    </div><!-- /.box-body -->
+                                </div><!-- /.box-body -->
                                 <div class="box-footer text-center">
                                     <!--<a id="A1" class="uppercase">Berikutnya
                                     </a>-->
@@ -526,6 +660,8 @@
 		  autoclose: true
 		});
 
+		generateDropZone('Pekerjaan1');
+		generateDropZone('Pekerjaan2');
 		generateDropZone('Pembayaran1');
 		generateDropZone('Pembayaran2');
 

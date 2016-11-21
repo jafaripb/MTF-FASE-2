@@ -81,14 +81,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>    <a id="judul-page" href="#">APPROVAL</a></li>
-                        </ul>
-                    </div>
-                    <div class="navbar-custom-menu">
-                        <ul id="menu-top" class="nav navbar-nav">
-                            <li id="cetak" style="display:before"><a title="Cetak" href="#"><i class="fa fa-fw fa-print" style="font-size:20px;color:white"></i>Cetak</a></li>
-                            <li id="tambah" style="display:after"><a title="Simpan" href="#"><i class="fa fa-fw fa-save" style="font-size:20px;color:white"></i>Simpan</a></li>
-                            <li id="loader" style="display:none"> <img src="Images/ajax-loader.gif" /></li>
+                            <li>    <a id="judul-page" href="#">LIST TO DO</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -129,361 +122,41 @@
                     <div class="col-md-12">
                         <div id="perlu_perhatian">
                             <div class="box box-white">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">Approval</h3>
-                                </div><!-- /.box-header -->
                                 <div class="box-body">
                                     </br>
                                     <div class="form-group col-md-3">
                                         <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="text" class="form-control pull-right" id="datepicker" value="November-2016">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <!-- search form -->
-                                        <div class="input-group" style="width:400px;">
-                                            <input type="text" name="q" class="form-control" placeholder="Search...">
-                                                <span class="input-group-btn">
-                                                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-                                                </span>
-                                        </div>
-                                    </div>
+                                    			<h3 class="box-title text-blue-mtf cursor-pointer repository" style="margin-left: 60px; font-weight: bold;">List To Do !</h3>
+                                        	</div>
+                                    	</div>
                                     </br></br></br></br>
                                     <div class="head">
-                                        <table class="table" style="border-style:none; width:600px; min-height:100px; margin-left:50px;">
+                                        <table class="table" style="border-style:none; width:600px; min-height:100px; margin-left:110px;">
                                             <tr>
-                                                <td style="text-align:left; font-weight:bold;">Approval</td>
-                                                <td style="text-align:center; font-weight:bold;">Perencanaan</td>
-                                                <td style="text-align:center; font-weight:bold;">Pemenang</td>
+                                                <td class="rata_kiri text-bold">Approval Perencanaan Belum di Setujui</td>
+                                                <td class="tengah text-bold"><a href="approval-perencanaan-belum-disetujui.html">3</a></td>
+                                                                                               
                                             </tr>
                                             <tr>
-                                                <td>Belum Disetujui</td>
-                                                <td style="text-align:center; color:red; font-weight:bold;">3</td>
-                                                <td style="text-align:center; color:red; font-weight:bold; ">5</td>
+                                                <td class="rata_kiri text-bold">Approval Perencanaan Sudah di Setujui</td>
+                                                <td class="tengah text-bold"><a href="approval-perencanaan-sudah-disetujui.html">5</a></td>
+                                                                                               
                                             </tr>
                                             <tr>
-                                                <td>Disetujui</td>
-                                                <td style="text-align:center; border-top:solid thin;">100</td>
-                                                <td style="text-align:center; border-top:solid thin;">100</td>
+                                                <td class="rata_kiri text-bold">Approval Persetujuan Pemenang Belum di Setujui</td>
+                                                <td class="tengah text-bold"><a href="approval-persetujuan-pemenang-belum-disetujui.html">5</a></td>
+                                                                                               
+                                            </tr>
+                                            <tr>
+                                                <td class="rata_kiri text-bold">Approval Persetujuan Pemenang Sudah di Setujui</td>
+                                                <td style="text-align:center; color:black; font-weight:bold;"><a href="approval-persetujuan-pemenang-sudah-disetujui.html">7</a></td>
+                                                                                               
                                             </tr>
                                         </table>
                                     </div>
-                                    <div class="col-md-10">
-                                        <!-- Custom Tabs -->
-                                        <div class="nav-tabs-custom">
-                                            <ul class="nav nav-tabs">
-                                                <li class="active"><a href="#approval_perencanaan" data-toggle="tab">Approval Perencanaan</a></li>
-                                                <li><a href="#approval_persetujuan_perencanaan" data-toggle="tab">Approval Persetujuan Pemenang</a></li>
-                                            </ul>
-                                            <div class="tab-content">
-                                                <div class="tab-pane active" id="approval_perencanaan">
-                                                    <ul class="nav nav-tabs">
-                                                        <li class="active"><a href="#not_approved_yet" data-toggle="tab">Not Approved Yet</a></li>
-                                                        <li><a href="#approved" data-toggle="tab">Approved</a></li>
-                                                    </ul>
-                                                    <div class="tab-content">
-                                                        <!-- tab-pane Not Approved Yet-->
-                                                        <div class="tab-pane active" id="not_approved_yet">
-                                                            <table class="table table-bordered" id="example1" style="margin-top:20px;">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <td class="tengah text-bold" style="width:350px;">Nama Pekerjaan</td>
-                                                                        <td class="tengah text-bold" style="width:150px;">Total</td>
-                                                                        <td class="tengah text-bold" style="width:150px;">Approved</td>
-                                                                        <td class="tengah text-bold" style="width:400px;">Note</td>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td><a href="approval-detail.html">Pembangunan Kantor Cabang Bali</a></td>
-                                                                        <td style="text-align:right;">900.000.000</td>
-                                                                        <td>
-                                                                            <select style="width:100%;" class="form-control">
-                                                                                <option selected="selected">Submitted</option>
-                                                                                <option>Not Approved Yet</option>
-                                                                                <option>Approved</option>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><a href="approval-detail.html">Pembelian ATK Divisi Perencanaan</a></td>
-                                                                        <td style="text-align:right;">200.000.000</td>
-                                                                        <td>
-                                                                            <select style="width:100%;" class="form-control">
-                                                                                <option selected="selected">Submitted</option>
-                                                                                <option>Not Approved</option>
-                                                                                <option>Approved</option>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><a href="approval-detail.html">Perbaikan Gedung Cabang di Bali</a></td>
-                                                                        <td style="text-align:right;">700.000.000</td>
-                                                                        <td>
-                                                                            <select style="width:100%;" class="form-control">
-                                                                                <option selected="selected">Submitted</option>
-                                                                                <option>Not Approved</option>
-                                                                                <option>Approved</option>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <!-- tab-pane Approved-->
-                                                        <div class="tab-pane" id="approved">
-                                                            <table class="table table-bordered" style="margin-top:20px;">
-                                                                <tr>
-                                                                    <td style="text-align:center; width:350px; font-weight:bold;">Nama Pekerjaan</td>
-                                                                    <td style="text-align:center; width:150px; font-weight:bold;">Total</td>
-                                                                    <td style="text-align:center; width:150px; font-weight:bold;">Approved</td>
-                                                                    <td style="text-align:center; width:400px; font-weight:bold;">Note</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><a href="#">Pembangunan Kantor Cabang Jepara</a></td>
-                                                                    <td style="text-align:right;">900.000.000</td>
-                                                                    <td>
-                                                                        <select style="width:100%;" class="form-control">
-                                                                            <option>Submitted</option>
-                                                                            <option>Not Approved Yet</option>
-                                                                            <option selected="selected">Approved</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><a href="#">Pembelian Perbaikan Furniture Kantor</a></td>
-                                                                    <td style="text-align:right;">500.000.000</td>
-                                                                    <td>
-                                                                        <select style="width:100%;" class="form-control">
-                                                                            <option>Submitted</option>
-                                                                            <option>Not Approved</option>
-                                                                            <option selected="selected">Approved</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><a href="#">Perbaikan Gedung Cabang di Jepara</a></td>
-                                                                    <td style="text-align:right;">400.000.000</td>
-                                                                    <td>
-                                                                        <select style="width:100%;" class="form-control">
-                                                                            <option>Submitted</option>
-                                                                            <option>Not Approved</option>
-                                                                            <option selected="selected">Approved</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><a href="#">Pengadaan ATK Cabang Tangerang</a></td>
-                                                                    <td style="text-align:right;">500.000.000</td>
-                                                                    <td>
-                                                                        <select style="width:100%;" class="form-control">
-                                                                            <option>Submitted</option>
-                                                                            <option>Not Approved</option>
-                                                                            <option selected="selected">Approved</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    <!-- /.tab-pane -->
-                                                    </div>
-                                                </div>
-                                                <!-- /.tab-pane -->
-                                                <div class="tab-pane" id="approval_persetujuan_perencanaan">
-                                                    <ul class="nav nav-tabs">
-                                                        <li class="active"><a href="#not_approved_yet2" data-toggle="tab">Not Approved Yet</a></li>
-                                                        <li><a href="#approved2" data-toggle="tab">Approved</a></li>
-                                                    </ul>
-                                                    <div class="tab-content">
-                                                        <div class="tab-pane active" id="not_approved_yet2">
-                                                            <table class="table table-bordered" style="margin-top:20px;">
-                                                                <tr>
-                                                                    <td style="text-align:center; width:350px; font-weight:bold;">Nama Pekerjaan</td>
-                                                                    <td style="text-align:center; width:150px; font-weight:bold;">Total</td>
-                                                                    <td style="text-align:center; width:200px; font-weight:bold;">Approved Pemenang</td>
-                                                                    <td style="text-align:center; width:400px; font-weight:bold;">Note</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><a href="#">Pembangunan Kantor Cabang Jakarta</a></td>
-                                                                    <td style="text-align:right;">600.000.000</td>
-                                                                    <td>
-                                                                        <select style="width:100%;" class="form-control">
-                                                                            <option selected="selected">Submitted</option>
-                                                                            <option>Not Approved Yet</option>
-                                                                            <option>Approved</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><a href="#">Pembelian Mobil Operasional</a></td>
-                                                                    <td style="text-align:right;">2.000.000.000</td>
-                                                                    <td>
-                                                                        <select style="width:100%;" class="form-control">
-                                                                            <option selected="selected">Submitted</option>
-                                                                            <option>Not Approved</option>
-                                                                            <option>Approved</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><a href="#">Perbaikan Gedung Pusat</a></td>
-                                                                    <td style="text-align:right;">900.000.000</td>
-                                                                    <td>
-                                                                        <select style="width:100%;" class="form-control">
-                                                                            <option selected="selected">Submitted</option>
-                                                                            <option>Not Approved</option>
-                                                                            <option>Approved</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><a href="#">Pengadaan ATK di Cabang Jakarta</a></td>
-                                                                    <td style="text-align:right;">500.000.000</td>
-                                                                    <td>
-                                                                        <select style="width:100%;" class="form-control">
-                                                                            <option selected="selected">Submitted</option>
-                                                                            <option>Not Approved</option>
-                                                                            <option>Approved</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><a href="#">Pengadaan ATK di Cabang Tangerang</a></td>
-                                                                    <td style="text-align:right;">500.000.000</td>
-                                                                    <td>
-                                                                        <select style="width:100%;" class="form-control">
-                                                                            <option selected="selected">Submitted</option>
-                                                                            <option>Not Approved</option>
-                                                                            <option>Approved</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                        <!-- /.tab-pane -->
-                                                        <div class="tab-pane" id="approved2">
-                                                            <table class="table table-bordered" style="margin-top:20px;">
-                                                        <tr>
-                                                            <td style="text-align:center; width:350px; font-weight:bold;">Nama Pekerjaan</td>
-                                                            <td style="text-align:center; width:150px; font-weight:bold;">Total</td>
-                                                            <td style="text-align:center; width:200px; font-weight:bold;">Approved Pemenang</td>
-                                                            <td style="text-align:center; width:400px; font-weight:bold;">Note</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><a href="#">Pembangunan Kantor Cabang Depok</a></td>
-                                                            <td style="text-align:right;">1.000.000.000</td>
-                                                            <td>
-                                                                <select style="width:100%;" class="form-control">
-                                                                    <option selected="selected">Submitted</option>
-                                                                    <option>Not Approved Yet</option>
-                                                                    <option>Approved</option>
-                                                                </select>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><a href="#">Pembelian Motor Operasional</a></td>
-                                                            <td style="text-align:right;">200.000.000</td>
-                                                            <td>
-                                                                <select style="width:100%;" class="form-control">
-                                                                    <option selected="selected">Submitted</option>
-                                                                    <option>Not Approved</option>
-                                                                    <option>Approved</option>
-                                                                </select>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><a href="#">Perbaikan Gedung Cabang Depok</a></td>
-                                                            <td style="text-align:right;">200.000.000</td>
-                                                            <td>
-                                                                <select style="width:100%;" class="form-control">
-                                                                    <option selected="selected">Submitted</option>
-                                                                    <option>Not Approved</option>
-                                                                    <option>Approved</option>
-                                                                </select>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><a href="#">Pengadaan ATK Cabang Bogor</a></td>
-                                                            <td style="text-align:right;">100.000.000</td>
-                                                            <td>
-                                                                <select style="width:100%;" class="form-control">
-                                                                    <option selected="selected">Submitted</option>
-                                                                    <option>Not Approved</option>
-                                                                    <option>Approved</option>
-                                                                </select>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><a href="#">Pengadaan ATK KPC Cabang Depok</a></td>
-                                                            <td style="text-align:right;">350.000.000</td>
-                                                            <td>
-                                                                <select style="width:100%;" class="form-control">
-                                                                    <option selected="selected">Submitted</option>
-                                                                    <option>Not Approved</option>
-                                                                    <option>Approved</option>
-                                                                </select>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><a href="#">Perawatan AC Mandiri KCP Tebet</a></td>
-                                                            <td style="text-align:right;">200.000.000</td>
-                                                            <td>
-                                                                <select style="width:100%;" class="form-control">
-                                                                    <option selected="selected">Submitted</option>
-                                                                    <option>Not Approved</option>
-                                                                    <option>Approved</option>
-                                                                </select>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><a href="#">Pengadaan Acara Puncak Ulang Tahun Mandiri</a></td>
-                                                            <td style="text-align:right;">2.000.000.000</td>
-                                                            <td>
-                                                                <select style="width:100%;" class="form-control">
-                                                                    <option selected="selected">Submitted</option>
-                                                                    <option>Not Approved</option>
-                                                                    <option>Approved</option>
-                                                                </select>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                        </tr>
-                                                    </table>
-                                                        </div>
-                                                    <!-- /.tab-pane -->
-                                                    </div>
-                                                </div>
-                                            <!-- /.tab-pane -->
-                                            </div>
-                                        <!-- /.tab-content -->
-                                        </div>
                                     <!-- nav-tabs-custom -->
                                     </div>
                                 </div><!-- /.box-body -->
-                                <div class="box-footer text-center">
-                                    <!--<a id="A1" class="uppercase">Berikutnya
-                                    </a>-->
-                                </div><!-- /.box-footer -->
                             </div>
                         </div>
                     </div>

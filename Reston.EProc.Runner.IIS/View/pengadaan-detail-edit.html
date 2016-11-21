@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html ng-app="app">
   <head>
     <meta charset="utf-8">
@@ -950,8 +950,8 @@
 				nextNo=parseInt(data[0])+1;
 			}
 			table.row.add( [ nextNo, item[1], item[2],'<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>'] ).draw();
-	 }
-	  function hitungHargaItem(){
+	  }
+	  function hitungHargaItem() {
 		var totalHarga=0;
 		table.rows().every( function () {
 			var d = this.data();
