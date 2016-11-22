@@ -52,6 +52,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Nullable<DateTime> ModifiedOn { get; set; }
         public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<DateTime> TanggalMenyetujui { get; set; }
+        public Nullable<Decimal> Pagu { get; set; }
         public virtual ICollection<DokumenPengadaan> DokumenPengadaans { get; set; }
         public virtual ICollection<KandidatPengadaan> KandidatPengadaans { get; set; }
         public virtual ICollection<JadwalPengadaan> JadwalPengadaans { get; set; }

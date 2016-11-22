@@ -254,6 +254,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Certificates\idsrv3test.pfx" />
     <Content Include="Content\app\app.bak.js" />
     <Content Include="Content\app\loginn.html" />
     <Content Include="Content\app\redirect-login.js" />
@@ -865,7 +866,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Certificates\DevRoot.cer" />
     <Content Include="Certificates\idsrv3test.cer" />
-    <Content Include="Certificates\idsrv3test.pfx" />
     <Content Include="Content\app\assets\less\style.less" />
     <Content Include="Content\app\assets\plugins\boostrapv3\css\bootstrap-theme.css.map" />
     <Content Include="Content\app\assets\plugins\boostrapv3\css\bootstrap.css.map" />
