@@ -52,21 +52,24 @@ $(function () {
         "ordering": false,
         "info": false,
         "autoWidth": true,
-        //responsive: true,
         "ajax": ($("#rksId").val() == "") ? "Api/Rks/getRks?id=" + id_rks : "Api/Rks/getRks?id=" + $("#rksId").val(),
-        //"ajax": "data/rks2.txt",
         "columns": [
+            { "data": "judul" },
             { "data": "item" },
             { "data": "satuan" },
             { "data": "jumlah", "className": "tengah" },
             { "data": "hps", "className": "rata_kanan" },
             { "data": "total", "className": "rata_kanan" },
             { "data": "keterangan", "className": "rata_kiri" },
-            { "data": "null", "width": "3%" }
+            { "data": "null" }
         ],
         "columnDefs": [
-             {
+            {
                  "render": function (data, type, row) {
+                     if (row.level == 0)
+                     {
+                         return "";
+                     }
                      if (row.jumlah != null) {
                          var str = "'" + row.jumlah + "'";
                          var arrstr = str.split(" ");
@@ -82,34 +85,38 @@ $(function () {
                      }
                      else return row.jumlah;
                  },
-                 "targets": 2,
+                 "targets": 3,
                  "orderable": false
              },
-            {
-                "render": function (data, type, row) {
-
-                    if (row.hps != null) {
-                        var str = "'" + row.hps + "'";
-                        var arrstr = str.split(" ");
-                        if (arrstr.length > 1)
-                            return row.hps;
-                        else {
-                            var xHps = row.hps.toString().replace(",", ".");
-                            var zz = accounting.formatNumber(xHps, { thousand: ".", decimal: ",", precision: 2 });
-
-                            if (xHps > 0)
-                                return zz;
-                            else return "";
-                        }
-                    }
-                    else return row.hps;
-                },
-                "targets": 3,
-                "orderable": false
-            },
-                {
+             {
                     "render": function (data, type, row) {
+                        if (row.level == 0) {
+                            return "";
+                        }
+                        if (row.hps != null) {
+                            var str = "'" + row.hps + "'";
+                            var arrstr = str.split(" ");
+                            if (arrstr.length > 1)
+                                return row.hps;
+                            else {
+                                var xHps = row.hps.toString().replace(",", ".");
+                                var zz = accounting.formatNumber(xHps, { thousand: ".", decimal: ",", precision: 2 });
 
+                                if (xHps > 0)
+                                    return zz;
+                                else return "";
+                            }
+                        }
+                        else return row.hps;
+                    },
+                    "targets": 4,
+                    "orderable": false
+             },
+             {
+                    "render": function (data, type, row) {
+                        if (row.level == 0) {
+                            return "";
+                        }
                         if (row.hps == "" || row.jumlah == "" || row.jumlah == null || row.hps == null) {
                             return row.total;
                         }
@@ -131,19 +138,17 @@ $(function () {
                             return accounting.formatNumber(tot, { thousand: ".", decimal: ",", precision: 2 });
 
                         }
-                        //if(row.total!="")
-                        //    return accounting.formatNumber(row.total, { thousand: "." });
-                        //else return "";
                     },
-                    "targets": 4,
+                    "targets": 5,
                     "orderable": false
                 },
                 {
                     "render": function (data, type, row) {
-                        return '<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ' +
-                            '<a class="btn btn-xs btn-success sisip-item" title="Sisipikan"><span class="fa fa-plus"></span></a>';
+                        return ' <a class="btn btn-xs btn-warning sisip-judul" title="Tambah Judul"><span class="fa fa-plus"></span></a> ' +
+                        ' <a class="btn btn-xs btn-success sisip-item" title="Tambah Item"><span class="fa fa-plus"></span></a> ' +
+                            ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ' ;
                     },
-                    "targets": 6,
+                    "targets": 7,
                     "orderable": false
                 }
         ],
@@ -164,8 +169,6 @@ $(function () {
     });
     $().UItoTop({ easingType: 'easeOutQuart' });
 
-
-
     $("#example1").on("click", ".remove-item", function () {
         var vl = $(this).closest('tr')[0];
         table.rows(vl).remove().draw();
@@ -179,20 +182,14 @@ $(function () {
         hitungHargaItem();
     });
 
-    $("#add").on("click", function () {
-        if ($("#simpan").attr("attr2") != "unsave") return false;
-        var rowIndex = table.data().length;
-        var noItem = 1;
-        if (rowIndex > 0) {
-            loadDataToDatatable(rowIndex, rowIndex - 1)
-        }
-        else addNewItem();
+    $(".add-judul").on("click", function () {
+        addNewJudul();
     });
 
     $("#example1").on("click", ".sisip-item", function () {
-
         var newData = {};
         newData.RKSHeaderId = $("#idRks").val();
+        newData.judul = '';
         newData.item = '<input type="text" class="form-control item namaItem " >';
         newData.satuan = '<input type="text" class="form-control item satuan" >';
         newData.jumlah = '<input type="text" class="form-control item jumlah" >';
@@ -202,9 +199,39 @@ $(function () {
         var baris = $(this).parent().closest("tr").index();
         //baris = baris;
         table.row.add(newData).draw();
-
+        
         var currentPage = table.page();
 
+        //move added row to desired index (here the row we clicked on)
+        var index = baris,
+            rowCount = table.data().length - 1,
+            insertedRow = table.row(rowCount).data(),
+            tempRow;
+
+        for (var i = rowCount; i > index; i--) {
+            tempRow = table.row(i - 1).data();
+            table.row(i).data(tempRow);
+            table.row(i - 1).data(insertedRow);
+        }
+        //refresh the page
+        table.page(currentPage).draw(false);
+    });
+
+    $("#example1").on("click", ".sisip-judul", function () {
+        var newData = {};
+        newData.RKSHeaderId = $("#idRks").val();
+        newData.judul = '<input type="text" class="form-control item namaJudul">';
+        newData.item = '';
+        newData.satuan = '';
+        newData.jumlah = '';
+        newData.hps = '';//ui.item.satuan;
+        newData.total = '';
+        newData.keterangan = '';
+        var currentPage = table.page();
+        var baris = $(this).parent().closest("tr").index();
+        //baris = baris;
+        table.row.add(newData).draw();
+        var currentPage = table.page();
         //move added row to desired index (here the row we clicked on)
         var index = baris,
             rowCount = table.data().length - 1,
@@ -227,7 +254,7 @@ $(function () {
 
     $("#example1").on('keydown', '.item', function (e) {
         var keyCode = e.keyCode || e.which;
-        var JumKolom = 6;//$(this).parent().parent().children().length;       
+        var JumKolom = 7;//$(this).parent().parent().children().length;       
 
         var tr = $(this).closest('tr')[0];
         var rowIndex = $('#example1 tr').index(tr);
@@ -247,9 +274,9 @@ $(function () {
                 }
             }
             //hitung total per baris
-
         }
     });
+
     function loadDataToDatatable(rowIndex, baris) {
         var jumlah = $("#example1 tbody tr:eq('" + (rowIndex - 1) + "')").find("td:eq('2') input").val();
         var hps = $("#example1 tbody tr:eq('" + (rowIndex - 1) + "')").find("td:eq('3') input").val();
@@ -268,7 +295,6 @@ $(function () {
             totalBaris = parseFloat(xJum) * parseFloat(xHps);
         //var baris = $(this).parent().closest("tr").index();
         var oldRowData = table.row(baris).data();
-
 
         //$(this).focus();
         var newData = {};
@@ -296,6 +322,7 @@ $(function () {
         addNewData(baris, newData);
         addNewItem();
     }
+
     $("#example1").on('dblclick', 'td', function (e) {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -339,6 +366,7 @@ $(function () {
         // console.log(val);
         table.cell(rowIndex - 1, colIndex).data(val).draw();
     });
+
     $(".left").on("click", function () {
         var tdtEl = $("#example1").find("td.selected");
         var nextPadding = $(tdtEl).children().attr("padding-left");
@@ -360,7 +388,6 @@ $(function () {
     });
 
     $("#example1").on('keydown.autocomplete', ".namaItem", function () {
-
         $(this).autocomplete({
             //source: "data/item.txt",
             //source:"api/Produk/GetAllProduk",
@@ -391,7 +418,6 @@ $(function () {
                 });
             },
             select: function (event, ui) {
-
                 var baris = $(this).parent().closest("tr").index();
                 var oldRowData = table.row(baris).data();
                 //$(this).focus();
@@ -427,7 +453,6 @@ $(function () {
     });
 
     $("#example1").on('keydown.autocomplete', ".satuan", function () {
-
         $(this).autocomplete({
             //source: "data/item.txt",
             //source:"api/Produk/GetAllProduk",
@@ -466,9 +491,7 @@ $(function () {
                 .data("item.autocomplete", item)
                 .append(html)
                 .appendTo(ul);
-
         };
-
     });
 
     $("#example1").on('click', ".remove-item", function () {
@@ -499,7 +522,6 @@ $(function () {
         objRKSHeader.Klasifikasi = $("#Klasifikasi option:selected").val();
         objRKSHeader.RKSDetailTemplate = datatableToJson(table);
         console.log(datatableToJson(table));
-
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
             method: "POST",
@@ -528,7 +550,6 @@ $(function () {
     $("#kembali").on("click", function () {
         window.location.replace("http://" + window.location.host + "/repository-rks.html");
     });
-
 });
 
 function addHeaderAfterSave() {
@@ -573,7 +594,6 @@ function colectData() {
 
         addNewData(baris, newData);
     });
-
     hitungHargaItem();
 }
 
@@ -608,7 +628,6 @@ function reInputData() {
         addNewData(baris, newData);
     });
 }
-
 
 function item_initialize() {
     var item = new Bloodhound({
@@ -648,6 +667,35 @@ function item_initialize() {
     });
 }
 
+function addNewJudul() {
+    table.row.add({
+        "judul": '<input type="text" class="form-control item namaJudul">',
+        "item": '',
+        "satuan": '',
+        "jumlah": '',
+        "hps": '',
+        "total": '',
+        "keterangan": '',
+        "level":0
+    }).draw();
+    var jumRow = table.data().length;
+    table.cell((jumRow - 1), 7).data('<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>').draw();
+    $("#example1 tbody tr:eq('" + (jumRow - 1) + "') td:eq(0)").find("input").focus();
+}
+
+function subTotal() {
+    table.row.add({
+        "judul": '',
+        "item": '',
+        "satuan": '',
+        "jumlah": '',
+        "hps": 'AAA',
+        "total": '',
+        "keterangan": '',
+        "level": 0
+    }).draw();
+}
+
 function addNewItem() {
     table.row.add({
         "item": '<input type="text" class="form-control item namaItem " >',
@@ -657,7 +705,7 @@ function addNewItem() {
         "keterangan": '<textarea class="form-control keterangan"></textarea>'
     }).draw();
     var jumRow = table.data().length;
-    table.cell((jumRow - 1), 6).data('<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>').draw();
+    table.cell((jumRow - 1), 7).data('<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>').draw();
     $("#example1 tbody tr:eq('" + (jumRow - 1) + "') td:eq(0)").find("input").focus();
 
 }
