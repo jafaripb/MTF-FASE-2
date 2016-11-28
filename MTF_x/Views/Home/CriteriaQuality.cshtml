@@ -1,0 +1,79 @@
+﻿@model MTF_x.Models.KriteriaKualifikasi
+
+@{
+    ViewBag.Title = "CriteriaQuality";
+}
+
+<div class="content-wrapper">
+    <div class="container">
+        <!-- Main content -->
+        <section class="content">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h2>Kriteria Kualifikasi</h2>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="text-bold" style="width:200px;"> No. Pengadaan</td>
+                            <td> @Html.DisplayFor(p=>p.NoPengadaan)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="width:200px;"> Nama Pengadaan</td>
+                            <td>@Html.DisplayFor(p=>p.NamaPengadaan)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="width:200px;"> Kualifikasi</td>
+                            <td> @Html.DisplayFor(p=>p.Kualifikasi)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="width:200px;"> Lokasi Pengadaan</td>
+                            <td> @Html.DisplayFor(p=>p.LokasiPengadaan)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="background-color:#013066; color:#fff; width:200px;"> Pengalaman</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="width:200px;"> Jenis Pengadaan</td>
+                            <td> @Html.DisplayFor(p=>p.JenisPengadaan)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="width:200px;"> Memiliki Pengalaman Pekerjaan Sejenis Minimal</td>
+                            <td> @Html.DisplayFor(p=>p.Pengalaman)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="width:200px;"> Dengan Nilai Kontrak Minimal Rp.</td>
+                            <td> @Html.DisplayFor(p=>p.NilaiKontrakMinimum)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="width:200px;"> Tahun</td>
+                            <td> @Html.DisplayFor(p=>p.Tahun)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="background-color:#013066; color:#fff; width:200px;"> Izin Usaha</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="width:200px;"> Memiliki Ijin Usaha</td>
+                            <td> @Html.DisplayFor(p=>p.IjinUsaha)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="background-color:#013066; color:#fff; width:200px;"> Klasifikasi</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold" style="width:200px;"> Memiliki Klasifikasi</td>
+                            <td> @Html.Raw(Html.Encode(Model.Klasifikasi).Replace("\n", "<br />"))</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- /.box-body -->
+            <!-- /.box -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.container -->
+
+</div>
