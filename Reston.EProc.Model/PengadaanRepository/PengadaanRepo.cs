@@ -357,6 +357,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                               JenisPembelanjaan = b.JenisPembelanjaan,
                                               MataUang = b.MataUang,
                                               PeriodeAnggaran = b.PeriodeAnggaran,
+                                              Pagu=b.Pagu,
                                               Region = b.Region,
                                               Provinsi = b.Provinsi,
                                               KualifikasiRekan = b.KualifikasiRekan,
@@ -1151,6 +1152,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     Mpengadaan.TitleDokumenLain = pengadaan.TitleDokumenLain;
                     Mpengadaan.TitleBerkasRujukanLain = pengadaan.TitleBerkasRujukanLain;
                     Mpengadaan.ModifiedBy = UserId;
+                    Mpengadaan.Pagu = pengadaan.Pagu;
                     Mpengadaan.Status = pengadaan.Status;
                     Mpengadaan.ModifiedOn = DateTime.Now;
                     if (Mpengadaan.JadwalPengadaans != null)

@@ -1,0 +1,87 @@
+﻿@model MTF_x.Models.Pengadaan
+
+@{
+    ViewBag.Title = "DetailData";
+}
+
+<div class="content-wrapper">
+    <div class="container">
+        <!-- Main content -->
+        <section class="content">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="approval_perencanaan">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#pengumuman" data-toggle="tab">Pengumuman</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <!-- tab-pane Pengadaan Barang-->
+                                <div class="tab-pane active" id="pengadaan_barang">
+                                    <div class="col-md-12" style="margin:20px 0px 20px 0px;">
+                                        <p>Untuk dapat mengikuti pekerjaan ini. Silahkan <a href="registrasi.html" class="text-bold"> Registrasi</a> atau <a href="" class="text-bold"> Login</a> Perusahaan Anda.</p>
+                                    </div>
+                                    <table class="table table-bordered" style="margin-top:30px;">
+                                        <tr>
+                                            <td class="text-bold" style="width:200px; background-color:#ccddff; font-size:13px;">No. Pengadaan</td>
+                                            <td style="font-size:13px;" colspan="4">@Html.DisplayFor(p=>p.NoPengadaan)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Nama Pengadaan</td>
+                                            <td style="font-size:13px;" colspan="4"> @Html.DisplayFor(p => p.Judul)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Tanggal Pembuatan</td>
+                                            <td style="font-size:13px;" colspan="4"> @Html.DisplayFor(p => p.CreatedOn)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Lingkup Pekerjaan</td>
+                                            <td style="font-size:13px;" colspan="4"> ??? </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Keterangan</td>
+                                            <td style="font-size:13px;" colspan="4"> @Html.DisplayFor(p => p.Keterangan)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Tahap Pengadaan Saat Ini</td>
+                                            <td style="font-size:13px;" colspan="4"> <a href="#">@Html.DisplayFor(p => p.Status)</a> </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Nilai Pagu</td>
+                                            <td style="font-size:13px;"> @{
+                                                                             decimal d = 0;
+
+                                                                             if (Model.Pagu != null)
+                                                                             {
+                                                                                 d = Model.Pagu.Value;
+                                                                             }
+
+
+                                                                         }@Html.Display(d.ToString("N0"))</td>
+                                            <td class="text-bold" style="width:200px; background-color:#ccddff; font-size:13px;">Nilai HPS</td>
+                                            <td style="font-size:13px;"> ?? </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Lokasi Pekerjaan</td>
+                                            <td style="font-size:13px;" colspan="4">@Html.DisplayFor(p => p.Provinsi)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Kualifikasi Perusahaan</td>
+                                            <td style="font-size:13px;" colspan="4"> ?? </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Syarat Pekerjaan</td>
+                                            <td style="font-size:13px;" colspan="4">  <a href="@Url.Action("CriteriaQuality","Home",new{idGuid=Model.Id})" target="_blank">Lihat Syarat Kualifikasi</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+        </section>
+    </div>
+   
+</div>

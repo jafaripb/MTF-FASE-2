@@ -99,10 +99,6 @@
     <Compile Include="Identity\IdentityServiceExtensions.cs" />
     <Compile Include="Id\Clients.cs" />
     <Compile Include="Id\Scopes.cs" />
-    <Compile Include="Migrations\ClientConfiguration\201608090312215_InitialCreate.cs" />
-    <Compile Include="Migrations\ClientConfiguration\201608090312215_InitialCreate.Designer.cs">
-      <DependentUpon>201608090312215_InitialCreate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\ClientConfiguration\Configuration.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -132,9 +128,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\ClientConfiguration\201608090312215_InitialCreate.resx">
-      <DependentUpon>201608090312215_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\IdentityConfiguration\201601220648006_InitialCreate.resx">
       <DependentUpon>201601220648006_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>

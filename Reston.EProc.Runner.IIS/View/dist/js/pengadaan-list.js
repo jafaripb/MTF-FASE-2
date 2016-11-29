@@ -600,3 +600,18 @@ function renderDataPerluPerhatian(data) {
         }
     }
 }
+
+
+$("#pilih-tipe-pengadaan").on("click", function () {
+    BootstrapDialog.show({
+        title: 'Pilih Pengadaan',
+        message: '<a id="add_tertutup" href="pengadaan-add.html" class="btn bg-navy btn-flat margin">Pengadaan Tertutup</a> <a id="add_terbuka" href="pengadaan_add_terbuka.html" class="btn bg-orange btn-flat margin">Pengadaan Terbuka</a>',
+        buttons: [{
+            label: 'Close',
+            action: function (dialog) {
+
+                dialog.close();
+            }
+        }]
+    });
+});

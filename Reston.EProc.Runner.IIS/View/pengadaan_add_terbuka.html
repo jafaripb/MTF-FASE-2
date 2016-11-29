@@ -1,0 +1,963 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link href="dist/site.css" rel="stylesheet" />
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+    <link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel="stylesheet" href="dropzone.css">
+    <link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+    <link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+    <style type="text/css">
+        .dz-error-mark {
+            display: none !important;
+        }
+
+        .dropzone {
+            min-height: 50px;
+        }
+
+            .dropzone .dz-message {
+                margin: 0em 0;
+                text-align: center;
+            }
+
+        .clear-margin {
+            margin: 0 !important;
+            padding-top: 3px;
+            padding-left: 250px;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Tambah Pengadaan</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li><a id="A1" title="Simpan Ajukan" href="#" class="Setujui" style="display:none"><i class="fa fa-fw " style="font-size:20px;"></i>Setujui</a></li>
+                            <li><a id="A2" title="Simpan Ajukan" href="#" class="Tolak" style="display:none"><i class="fa fa-fw " style="font-size:20px;"></i>Tolak</a></li>
+                            <li><a id="SimpanAjukan" title="Simpan Ajukan" href="#" class="SimpanAjukan" style="display:none"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan & Ajukan</a></li>
+                            <li><a id="Simpan" title="Simpan" href="#" class="Simpan" style="display:none"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                            <li><a id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- <div class="user-panel" ng-controller="user">
+                         <div class="pull-left info">
+                             <p class="title" ng-bind="user.nama"></p>
+                             <p class="deskripsi" ng-bind="user.divisi"></p>
+                         </div>
+                         <div class="pull-right image image-profile">
+                             <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                         </div>
+                     </div>-->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+            <section class="content" id="section-1">
+                <!-- Default box -->
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="box box-primary box-white">
+                            <form id="formPengadaan" role="form" class="jp-form">
+                                <input type="hidden" id="pengadaanId" />
+                                <input type="hidden" id="isTeam" />
+                                <input type="hidden" id="isCreated" />
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div id="notif">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label class="title">Judul:</label>
+                                            <input type="text" class="form-control" name="Judul">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label class="title">Keterangan:</label>
+                                            <textarea class="form-control" name="Keterangan"></textarea>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="title">Aturan Pengadaan:</label>
+                                            <select disabled id="AturanPengadaan" class="form-control select2" name="AturanPengadaan" style="width: 100%;">
+                                                <!-- <option>Pengadaan Penunjukan Langsung </option>-->
+                                                <option selected value="Pengadaan Terbuka">Pengadaan Terbuka </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="title">Aturan Berkas:</label>
+                                            <select class="form-control select2" name="AturanBerkas" disabled style="width: 100%;">
+                                                <option value="Berkas Tunggal" selected>Berkas Tunggal</option>
+                                                <option>Berkas Terpisah </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="title">Aturan Penawaran:</label>
+                                            <select disabled class="form-control select2" name="AturanPenawaran" style="width: 100%;">
+                                                <option value="Price Matching">Price Matching</option>
+                                                <option value="Open Price">Open Price</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="panel-header-white">
+                                                <span class="title-header" id="section-2">Anggaran</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label class="title">Mata Uang:</label>
+                                            <select class="form-control select2" name="MataUang" disabled style="width: 100%;">
+                                                <option value="IDR" selected>Indonesia Rupiah</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="title">Priode Anggaran:</label>
+                                            <select class="form-control select2" name="PeriodeAnggaran" style="width: 100%;">
+                                                <option selected disabled>--Pilih--</option>
+                                            </select>
+                                        </div>
+                                        <!---
+                                        <div class="form-group col-md-6">
+                                            <label class="title">Kode Pengeluaran</label>
+                                            <input type="text" class="form-control" >
+                                        </div>
+                                        -->
+                                        <div class="form-group col-md-6">
+                                            <label class="title">Jenis Pembelanjaan:</label>
+                                            <select class="form-control select2" name="JenisPembelanjaan" style="width: 100%;">
+                                                <option selected disabled>--Pilih--</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label class="title" >Pagu</label>
+                                            <input type="text" class="form-control" name="Pagu">
+                                        </div>
+
+                                        <div id="BingkaiHps" class="form-group col-md-6">
+                                            <label style="font-size:small">HPS:</label>
+                                            <input type="text" class="form-control" disabled="disabled" name="HpsId">
+                                            <label><a id="buat_hps" status="0">Buat HPS</a></label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class=" panel-header-white">
+                                                <span class="title-header" id="sect1ion-3">Korespondensi Internal:</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <div class="form-group ">
+                                                <label class="title">Nomor Nota Internal:</label>
+                                                <input type="text" name="TitleDokumenNotaInternal" class="form-control">
+                                                <input type="hidden" name="FileDokumenNotaInternal" class="dropzoneFile" attr1="" attr2="" />
+                                                <div id="DokumenNotaInternal" attr="NOTA" action="/api/PengadaanE/UploadFile?tipe=NOTA" class="dropzone"></div>
+                                            </div>
+                                        </div>
+                                        <!--
+                                        <div class="form-group col-md-6">
+                                            <div class="form-group ">
+                                                <label class="title">Purchase Request</label>
+                                                <input type="text" class="form-control"  >
+                                                <div action="/upload-target" class="dropzone"></div>
+                                            </div>
+                                        </div>
+                                         -->
+                                        <div class="form-group col-md-6">
+                                            <label class="title">Unit Kerja Pemohon:</label>
+                                            <select class="form-control select2" name="UnitKerjaPemohon" style="width: 100%;">
+                                                <option selected disabled>--Pilih--</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label class="title">Dokumen Lainnya:</label>
+                                            <input type="text" name="TitleDokumenLain" class="form-control">
+                                            <input type="hidden" name="FileDokumenLain" class="dropzoneFile" attr1="" attr2="" />
+                                            <div id="DokumenLain" attr="DOKUMENLAIN" action="/api/PengadaanE/UploadFile?tipe=DOKUMENLAIN" class="dropzone"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class=" panel-header-white">
+                                                <span class="title-header" id="section-4">Spesifikasi</span>
+                                            </div>
+                                        </div>
+                                        <!--
+                                        <div class="col-md-12">
+                                            <label >Lokasi Pekerjaan</label>
+                                        </div>
+                                        -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="title">Wilayah Kerja/Region:</label>
+                                                <select name="Region" class="form-control select2" style="width: 100%;">
+                                                    <option selected disabled>--Region--</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="title">Provinsi:</label>
+                                                <select id="listProvinsi" name="Provinsi" class="form-control select2 required" style="width: 100%;"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="title">Kualifikasi Rekanan:</label>
+                                                <!--<select class="form-control select2" name="KualifikasiRekan" style="width: 100%;">
+                                                      <option selected disabled>--Select--</option>
+                                                      <option value="Usaha Kecil Menengah">Usaha Kecil Menengah</option>
+                                                      <option value="Bukan Usaha Kecil Menengah">Bukan Usaha Kecil Menengah</option>
+                                                      <option value="Perorangan">Perorangan</option>
+                                                </select>-->
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" id="ukm" attrid="" class="checkbox-kualifikasi" value="Usaha Kecil Menengah">Usaha Kecil Menengah</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" id="bukan-ukm" attrid="" class="checkbox-kualifikasi" value="Bukan Usaha Kecil Menengah">Bukan Usaha Kecil Menengah</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" id="perorangan" attrid="" class="checkbox-kualifikasi" value="Perorangan">Perorangan</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="title">Jenis Pekerjaan:</label>
+                                                <select class="form-control select2" name="JenisPekerjaan" style="width: 100%;">
+                                                    <option selected disabled>--Jenis Pekerjaan--</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="title">Berkas Rujukan Lainnya:</label>
+                                            <input type="text" name="TitleBerkasRujukanLain" class="form-control">
+                                            <input type="hidden" name="FileBerkasRujukanLain" class="dropzoneFile" attr1="" attr2="" />
+                                            <div id="BerkasRujukanLain" attr="BerkasRujukanLain" action="/api/PengadaanE/UploadFile?tipe=BerkasRujukanLain" class="dropzone"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class=" panel-header-white">
+                                                <span class="title-header" id="section-pembobotan">Kriteria Pembobotan</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="kreteriaPembobotan">
+
+                                    </div>
+                                    <div class="row" id="BingkaiKandidat">
+                                        <div class="col-md-12">
+                                            <div class=" panel-header-white">
+                                                <span class="title-header" id="section-5">Kandidat</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>
+                                                <!--<a id="addVendorItem">Tambah</a>-->
+                                                <a id="addVendorItem" style="margin-top:10px;margin-bottom:10px" class="btn btn-sm btn-social btn-bitbucket">
+                                                    <i class="fa fa-plus"></i>
+                                                    Tambah Kandidat
+                                                </a>
+                                            </label>
+                                        </div>
+                                        <div class="listkandidat col-md-12">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="panel-header-white">
+                                                <span class="title-header" id="section-6">Jadwal</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <!--<input type="hidden" class="jadwal" attr1="Aanwijzing" attr2="" attr3="" />-->
+                                        <div class="form-group col-md-4">
+                                            <label class="title">Pengumuman:</label>
+                                            <input id="pendaftaran" name="pendaftaran" nextjadwal="#pendaftaran_sampai" beforejadwal="" attr1="dari" attr2="" attr3="Pengumuman" type="text" class="pendaftaran form-control datepicker dateJadwal">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="title">s/d</label>
+                                            <input id="pendaftaran_sampai" disabled="disabled" name="pendaftaran" nextjadwal="#aanwijzing" beforejadwal="#pengumuman" attr1="sampai" attr2="" attr3="Pengumuman" type="text" class="pendaftaran form-control datepicker dateJadwal">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <!--<input type="hidden" class="jadwal" attr1="Aanwijzing" attr2="" attr3="" />-->
+                                        <div class="form-group col-md-4">
+                                            <label class="title">Aanwijzing:</label>
+                                            <input id="aanwijzing" disabled="disabled" name="Aanwijzing" nextjadwal="#pengisian_harga" beforejadwal="#pengumuman_sampai" attr1="dari" attr2="" attr3="Aanwijzing" type="text" class="Aanwijzing form-control datepicker dateJadwal">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <input type="hidden" class="jadwal" attr1="pengisian_harga" attr2="" attr3="" />
+                                        <div class="form-group col-md-4">
+                                            <label class="title">Pengisian Harga:</label>
+                                            <input id="pengisian_harga" disabled="disabled" nextjadwal="#pengisian_harga_sampai" beforejadwal="#aanwijzing" name="pengisian_harga" attr1="dari" type="text" class="pengisian_harga form-control datepicker dateJadwal">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="title">s/d</label>
+                                            <input id="pengisian_harga_sampai" disabled="disabled" nextjadwal="#buka_amplop" beforejadwal="#pengisian_harga" type="text" name="pengisian_harga" attr1="sampai" class="pengisian_harga form-control datepicker dateJadwal">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <input type="hidden" class="jadwal" attr1="buka_amplop" attr2="" attr3="" />
+                                        <div class="form-group col-md-4">
+                                            <label class="title">Buka Amplop:</label>
+                                            <input id="buka_amplop" disabled="disabled" attr1="dari" nextjadwal="#buka_amplop_sampai" beforejadwal="#pengisian_harga_sampai" name="buka_amplop" type="text" class="buka_amplop form-control datepicker dateJadwal">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="title">s/d</label>
+                                            <input id="buka_amplop_sampai" disabled="disabled" name="buka_amplop" nextjadwal="#penilaian" beforejadwal="#buka_amplop" attr1="sampai" type="text" class="buka_amplop form-control datepicker dateJadwal">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <input type="hidden" class="jadwal" attr1="penilaian" attr2="" attr3="" />
+                                        <div class="form-group col-md-4">
+                                            <label class="title">Penilaian Kandidat:</label>
+                                            <input id="penilaian" disabled="disabled" attr1="dari" nextjadwal="#penilaian_sampai" beforejadwal="#buka_amplop_sampai" name="penilaian" type="text" class="penilaian form-control datepicker dateJadwal">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="title">s/d</label>
+                                            <input id="penilaian_sampai" disabled="disabled" name="penilaian" nextjadwal="#klarifikasi" beforejadwal="#penilaian" attr1="sampai" type="text" class="penilaian form-control datepicker dateJadwal">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <input type="hidden" class="jadwal" attr1="klarifikasi" attr2="" attr3="" />
+                                        <div class="form-group col-md-4">
+                                            <label class="title">Klarifikasi & Negosiasi:</label>
+                                            <input id="klarifikasi" name="klarifikasi" disabled="disabled" nextjadwal="#klarifikasi_sampai" beforejadwal="#penilaian_sampai" attr1="dari" type="text" class="klarifikasi form-control datepicker dateJadwal">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="title">s/d</label>
+                                            <input id="klarifikasi_sampai" disabled="disabled" name="klarifikasi" nextjadwal="#penentuan_pemenang" beforejadwal="#klarifikasi" attr1="sampai" type="text" class="klarifikasi form-control datepicker dateJadwal">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <input type="hidden" class="jadwal" attr1="penentuan_pemenang" attr2="" attr3="" />
+                                        <div class="col-md-4 form-group">
+                                            <label class="title">Penentuan Pemenang:</label>
+                                            <input id="penentuan_pemenang" disabled="disabled" name="penentuan_pemenang" nextjadwal="" beforejadwal="#klarifikasi_sampai" attr1="dari" type="text" class="penentuan_pemenang form-control datepicker dateJadwal">
+                                        </div>
+                                    </div>
+                                    <!-- kalender
+                                    <div class="col-md-8">
+                                        <div style="margin:10px;">
+                                            <div id="calendar"></div>
+                                        </div>
+                                    </div>
+                                    -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class=" panel-header-white">
+                                                <span class="title-header" id="section-7">Personil</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>
+                                                <!--<a id="addPerson-pic" class="addPerson" attr1=".listperson-pic" >Tambah PIC</a>-->
+                                                <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <i class="fa fa-plus"></i>
+                                                    Tambah PIC
+                                                </a>
+                                            </label>
+
+                                            <div class="listperson-pic">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>
+                                                <!--<a id="addPerson-tim" class="addPerson" attr1=".listperson-tim" >Tambah Tim</a>-->
+                                                <a id="addPerson-tim" attr1=".listperson-tim" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <i class="fa fa-plus"></i>
+                                                    Tambah Tim
+                                                </a>
+                                            </label>
+                                            <div class="listperson-tim">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>
+                                                <!--<a id="addPerson-staff" class="addPerson" attr1=".listperson-staff" >Tambah User</a>-->
+                                                <a id="addPerson-staff" attr1=".listperson-staff" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <i class="fa fa-plus"></i>
+                                                    Tambah User
+                                                </a>
+                                            </label>
+                                            <div class="listperson-staff">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>
+                                                <!--<a id="addPerson-controller" class="addPerson" attr1=".listperson-controller" >Tambah Controller</a>-->
+                                                <a id="addPerson-controller" attr1=".listperson-controller" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <i class="fa fa-plus"></i>
+                                                    Tambah Controller
+                                                </a>
+                                            </label>
+                                            <div class="listperson-controller">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>
+                                                <!--<a id="addPerson-complaince" class="addPerson" attr1=".listperson-compliance" >Tambah Compliance</a>-->
+                                                <a id="addPerson-complaince" attr1=".listperson-compliance" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <i class="fa fa-plus"></i>
+                                                    Tambah Compliance
+                                                </a>
+                                            </label>
+                                            <div class="listperson-compliance">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p></p>
+
+                                </div>
+                                <div class="box-footer clearfix" style="text-align:center;">
+                                    <button class="pull-middle btn btn-primary btn-lmedia Setujui" style="display:none">Setujui </button>
+                                    <button class="pull-middle btn btn-primary btn-lmedia Tolak" style="display:none">Tolak </button>
+                                    <button class="pull-middle btn btn-primary btn-lmedia SimpanAjukan" style="display:none">Simpan & Ajukan <i class="fa fa-save"></i></button>
+                                    <button class="pull-middle btn btn-primary btn-lmedia Simpan" style="display:none">Simpan <i class="fa fa-save"></i></button>
+                                    <button class="pull-middle btn btn-primary btn-lmedia Hapus" style="display:none">Hapus <i class="fa fa-trash"></i></button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div>
+        <aside class="control-sidebar control-sidebar-light control-sidebar-open">
+            <!-- Create the tabs -->
+
+            <ul class="nav nav-tabs nav-stacked" id="side-kanan">
+                <li class="active"><a href="#section-1">Atas</a></li>
+                <li><a href="#section-2">Anggaran</a></li>
+                <li><a href="#section-3">Korespondensi Internal</a></li>
+                <li><a href="#section-4">Spesifikasi</a></li>
+                <li><a href="#section-5">Kandidat</a></li>
+                <li><a href="#section-6">Jadwal</a></li>
+                <li><a href="#section-7">Personil</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+
+        </aside><!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+    <!--chat-->
+    <!--<div id="chat">
+        <div class="chat-window" style="right: 10px;">
+        <div class="chat-window-title">
+            <div class="text">Online (2)</div>
+        </div>
+        <div class="chat-window-content" style="height: 300px;">
+            <div class="chat-window-inner-content user-list" style="height: 100px;">
+                <div class="user-list-item" data-val-id="2">
+                    <img class="profile-picture" src="dist/img/avatar.png">
+                    <div class="profile-status online"></div>
+                    <div class="content-chat">User 1</div>
+                </div>
+                <div class="user-list-item" data-val-id="2">
+                    <img class="profile-picture"  src="dist/img/avatar2.png">
+                    <div class="profile-status online"></div>
+                    <div class="content-chat">User 2</div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div id="divContainer">
+        </div>
+    </div-->
+    >
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 id="title-modal" class="modal-title"></h4>
+                </div>
+
+                <div class="modal-body">
+                    <iframe id="info" class="iframe" name="info" seamless="" height="100%" width="100%"></iframe>
+                </div>
+
+            </div>
+        </div>
+    </div> <!-- /#myModal -->
+    <!-- Modal -->
+    <div class="modal" id="konfirmasi" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="TitleKonfirmasi">Konfirmasi</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="KontenConfirmasi"></p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" href="pengadaan-list.html" data-toggle="tooltip" title="Kembali Ke List Pengadaan">Kembali << </a>
+                    <button type="button" class="btn btn-default buat-baru" data-toggle="tooltip" title="Buat Pengadaan Baru" data-dismiss="modal">Buat Baru</button>
+                    <button type="button" class="btn btn-default " data-dismiss="modal" data-toggle="tooltip" title="Lanjutkan Membuat Pengadaan">Lanjutkan</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- Modal -->
+    <div class="modal" id="hpsmodal" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Konfirmasi</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Sebelum melampirkan HPS, berkas Pengadaan harus disimpan terlebih dahulu. &hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="simpanhps" class="btn btn-default ">Simpan & Lanjutkan</button>
+                    <button type="button" class="btn btn-default " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="hpsmodal-list" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Konfirmasi</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Pilih format HPS yang akan digunakan . &hellip;</p>
+                    <!--<a href="#" class="btn btn-default">Format RAB</a>   -->
+                    <a id="format-rks" href="rks.html" class="btn btn-default">Format RKS</a>
+                    <!--<a href="#" class="btn btn-default">Unggah Berkas</a>  -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="personilModal" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Daftar Personil</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="tipe-person-list" />
+                    <div class="box box-primary" ng-controller="PersonCtrl">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="cari personil" ng-model="search" id="search" />
+                                    <div class="input-group-addon">
+                                        <a href="#search"><i class="glyphicon glyphicon-search" ng-click="searchPerson()"></i></a>
+                                    </div>
+                                </div>
+                            </h3>
+                        </div>
+                        <div class="box-body">
+                            <ul class="products-list pop-personil-list product-list-in-box">
+                                <li class="item" ng-repeat="person in persons" ng-click="getPerson($event,person)">
+                                    <!--  <div class="product-img">
+                                          <img  src="{{person.logo}}">
+                                      </div>-->
+                                    <div class="product-info-collaps">
+                                        <input class="id-personil" type="hidden" value="{{person.Jabatan}}" />
+                                        <a class="product-title nama" ng-bind="person.Nama"></a>
+                                        <span class="pegadaan-description devisi" ng-bind="person.Jabatan"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer text-center">
+                            <a class="uppercase" id="pop-personil-next" ng-click="nextPerson($event,person)">Berikutnya</a>
+                        </div><!-- /.box-footer -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!--modal viewer js-->
+    <div id="view-doc-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen webkitallowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="konfirmasiFile" role="dialog" fileid="" attr1="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Konfirmasi</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="downloadFile" class="btn btn-default">Download</button>
+                    <button type="button" id="HapusFile" class="btn btn-default">Hapus</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- Modal -->
+    <div class="modal" id="KonfirmasiPic" role="dialog" fileid="" attr1="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">PIC Sudah Ada</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!--kilk persetujuan-->
+    <!-- Modal -->
+    <div class="modal" id="modal-persetujuan" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Konfirmasi</h4>
+                    <div class="modal-body">
+                        Dengan menekan tombal "lanjut" dokumen pengadaan ini akan diajukan pada Departemen Head Pengadaaan untuk dimintai persetujuan
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="anjukan-lanjutkan" class="btn btn-default">Lanjut</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!--endviewr-->
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <!--<script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/JQueryValidation/jquery.validate.js"></script>-->
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+    <script src="plugins/accounting/accounting.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+    <script src='plugins/fullcalendar/lang/id.js'></script>
+    <script src="plugins/typeaheadjs/typeahead.bundle.min.js"></script>
+    <script src="plugins/typeaheadjs/handlebars.js"></script>
+    <script src="plugins/typeaheadjs/bootstrap-tagsinput.js"></script>
+    <script src="plugins/typeaheadjs/app_bs3.js"></script>
+    <script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>
+    <script src="plugins/jQueryNumber/jquery.number.js"></script>
+
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <!-- <script src="chatjs/chat.js"></script>-->
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/pengadaan-add-terbuka.js"></script>
+    <script src="blockui/jquery.blockUI.js"></script>
+    <script src="dropzone.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script>
+        // $(document).ajaxStop($.unblockUI);
+        // var app = angular.module("app", []);
+        var table;
+        //Dropzone.options.DokumenNotaInternal = false;
+        //Dropzone.options.DokumenLain = false;
+        //Dropzone.options.BerkasRujukanLain = false;
+        //Dropzone.autoDiscover = false;
+
+
+
+
+        $(function () {
+            $("[name=HpsId]").number(true, 0, ",", ".");
+            //dropZoneInit("DokumenNotaInternal");
+            //dropZoneInit("DokumenLain");
+            //dropZoneInit("BerkasRujukanLain");
+            $("#myNav").affix({
+                offset: {
+                    top: 100
+                }
+            });
+
+            $(".tab-content").show();
+
+            //  $().UItoTop({ easingType: 'easeOutQuart' });
+            table = $('#example1').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "columnDefs": [
+                  { className: "rata_kanan", "targets": [2] },
+                  { "width": "2%", "targets": 0 },
+                  { "width": "75%", "targets": 1 },
+                  { "width": "20%", "targets": 2 },
+                  { "width": "3%", "targets": 3 }
+                ]
+            });
+            $("#addVendorItem").on("click", function () {
+                $("#title-modal").html("Daftar Vendor");
+                $("#myModal").modal("show");
+            });
+            $('#addVendorItem').click(function () {
+                $('.iframe').attr('src', '');
+                $('#myModal').on('shown.bs.modal', function () {      //correct here use 'shown.bs.modal' event which comes in bootstrap3
+                    $(this).find('iframe').attr('src', 'popup-vendor-list.html');
+                    $(this).find('.modal-body').css({
+                        height: '500px',
+                        'max-height': '100%'
+                    });
+                    $(this).find('.modal-content').css({
+                        // width:'700px'
+                    });
+                });
+                $('#myModal').modal({ show: true });
+            });
+            $(".addPerson").on("click", function () {
+                $("#title-modal").html("Daftar Personil")
+                $("#tipe-person-list").val($(this).attr("attr1"));
+                $("#personilModal").modal("show");
+                $(".item-bg-blue-light").each(function () {
+                    $(this).removeClass("item-bg-blue-light");
+                });
+            });
+
+
+
+            /*if(screen.width<800)
+               {
+                    $("#myScrollspy").hide();
+                    $("#chat").hide();
+                //jQuery('#hb-gotop').removeAttr("margin-left", "-0.9");
+                //jQuery('#hb-gotop').attr('style', 'margin-left: -0.7%');
+               }
+              else{
+                $("#chat").show();
+                $("#myScrollspy").show();
+              }*/
+
+            $("body").on("keypress", ".vendor-komen", function (e) {
+                console.log("fun");
+                if (e.which == 13) {
+                    console.log("enter");
+                    $(this).parent().text($(this).val());
+                }
+            });
+
+            $("#side-kanan").on("click", "li", function () {
+                $("#side-kanan").find("li").each(function () {
+                    $(this).removeClass("active");
+                });
+                $(this).addClass("active");
+            });
+        });
+
+        function addItem(item) {
+            var jumRow = table.data().length;
+            var nextNo = 1;
+            if (jumRow > 0) {
+                var data = table.row(jumRow - 1).data();
+                nextNo = parseInt(data[0]) + 1;
+            }
+            table.row.add([nextNo, item[1], item[2], '<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>']).draw();
+        }
+        function hitungHargaItem() {
+            var totalHarga = 0;
+            table.rows().every(function () {
+                var d = this.data();
+                var harga = d[2];
+                d.counter++; // update data source for the row
+                harga = parseInt(UnformatFloat(harga));
+                this.invalidate(); // invalidate the data DataTables has cached for this row
+                totalHarga = totalHarga + harga;
+
+            });
+
+
+            var estimasiCost = accounting.formatNumber(totalHarga, { thousand: "." });
+            $("#estimated_cost").val(estimasiCost);
+        }
+
+
+        app.controller('PersonCtrl', ['$scope', '$http', function ($scope, $http) {
+            $scope.persons = [];
+            //$http.get(LOGIN_PAGE + "admin/ListUser?start=0&limit=5&name=")
+            $http.get("api/pengadaane/getUsers?start=0&limit=5&name=")
+               .then(function (response) {
+                   $scope.persons = response.data.Users;
+               });
+            $scope.getPerson = function ($event, person) {
+                if ($($event.currentTarget).hasClass("item-bg-blue-light")) {
+                    $($event.currentTarget).removeClass("item-bg-blue-light");
+                }
+                else {
+                    $($event.currentTarget).addClass("item-bg-blue-light");
+                    addPersonil(person, $("#tipe-person-list").val());
+                }
+            }
+            $scope.searchPerson = function () {
+                $http.get("api/pengadaane/getUsers?start=0&limit=5&name=" + $("#search").val())
+                  .then(function (response) {
+                      $scope.persons = response.data.Users;
+                      if (jum >= response.data.totalRecord) $("#pop-personil-next").html("");
+                      else $("#pop-personil-next").html("Berikutnya");
+                  });
+            }
+            $scope.nextPerson = function () {
+                var jum = $(".pop-personil-list").find("li").length;
+                $http.get("api/pengadaane/getUsers?start=" + jum + "&limit=5&name=" + $("#search").val())
+                  .then(function (response) {
+
+                      $.each(response.data.Users, function (index, value) {
+                          $scope.persons.push(value);
+                          jum = jum + 1;
+                      });
+                      if (jum >= response.data.totalRecord) $("#pop-personil-next").html("");
+
+                  });
+            }
+        }]);
+
+        /*function vendor(items) {
+		  // console.log(items);
+		    app.controller('VendorCtrl', ['$scope', '$http', function ($scope, $http) {
+                  $scope.vendors = items;
+		    }]);
+		}*/
+    </script>
+</body>
+</html>

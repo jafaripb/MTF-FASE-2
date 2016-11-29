@@ -52,6 +52,8 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public string AturanPenawaran { get; set; }
         public Nullable<int> StatusBintang { get; set; }
         public string MataUang { get; set; }
+
+        public decimal? Pagu { get; set; }
         public string PeriodeAnggaran { get; set; }
         public string JenisPembelanjaan { get; set; }
         public Nullable<Guid> HpsId { get; set; }

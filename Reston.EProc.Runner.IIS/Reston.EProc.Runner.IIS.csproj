@@ -170,6 +170,7 @@
     <Content Include="View\create-rks.html" />
     <Content Include="View\dist\js\create-rks.js" />
     <Content Include="View\dist\js\notifikasi-rekanan.js" />
+    <Content Include="View\dist\js\pengadaan-add-terbuka.js" />
     <Content Include="View\dist\js\riwayat-pengadaan.js" />
     <Content Include="View\dist\js\pengadaan-list-2-8-16.js" />
     <Content Include="View\dist\js\rks-gatot.js" />
@@ -321,6 +322,7 @@
     <Content Include="View\pengadaan-detail.html" />
     <Content Include="View\pengadaan-list.html" />
     <Content Include="View\pengadaan-rekanan.html" />
+    <Content Include="View\pengadaan_add_terbuka.html" />
     <Content Include="View\personil-controller-list.html" />
     <Content Include="View\personil-list.html" />
     <Content Include="View\personil-staff-list.html" />
@@ -1685,9 +1687,12 @@
     <Content Include="View\plugins\typeaheadjs\handlebars.js" />
     <Content Include="View\plugins\typeaheadjs\typeahead.bundle.min.js" />
     <Content Include="View\popup-vendor-list.html" />
+    <Content Include="View\proc-detail.html" />
+    <Content Include="View\procurement.html" />
     <Content Include="View\registrasi-verifikasi.html" />
     <Content Include="View\registrasi.html" />
     <Content Include="View\registrasibystaff.html" />
+    <Content Include="View\regulasi.html" />
     <Content Include="View\rekanan-detail.html" />
     <Content Include="View\rekanan-klarifikasi-harga.html" />
     <Content Include="View\rekanan-rks.html" />
