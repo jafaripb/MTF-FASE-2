@@ -201,7 +201,7 @@ $(function () {
         $(this).attr("attr", parseInt($(this).attr("attr")) + 1);
     });
 
-    function addNewJudul(lastgroup) {
+    function addNewJudul(lastgrup) {
         table.row.add({
             "judul": '',
             "item": '',
@@ -211,16 +211,16 @@ $(function () {
             "total": 0,
             "keterangan": '',
             "level": 0,
-            "group": lastgroup + 1
+            "grup": lastgrup + 1
         }).draw();
         var jumRow = table.data().length;
         table.cell((jumRow - 1), 7).data(' <a class="btn btn-xs btn-success sisip-item" title="Tambah Item"><span class="fa fa-plus"></span></a> ' +
                 ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ').draw();
         // $("#example1 tbody tr:eq('" + (jumRow - 1) + "') td:eq(0)").find("input").focus();
-        subTotal(lastgroup);
+        subTotal(lastgrup);
     }
 
-    function subTotal(lastgroup) {
+    function subTotal(lastgrup) {
         var newData = {};
         newData.RKSHeaderId = $("#idRks").val();
         newData.judul = '';
@@ -232,7 +232,7 @@ $(function () {
         newData.keterangan = '';
         newData.action = '';
         newData.level = 2;
-        newData.grp = lastgroup + 1;
+        newData.grup = lastgrup + 1;
         var currentPage = table.page();
         var baris = $(this).parent().closest("tr").index();
         table.row.add(newData).draw();
@@ -332,18 +332,18 @@ $(function () {
         var total = 0;
         var index = 0;
         var subtotal = 0;
-        var before_group = 0;
+        var before_grup = 0;
         table.rows().every(function () {
             var d = this.data();
-            var current_group = d.grp;
+            var current_grup = d.grup;
            
-            if (before_group != 0 && before_group == current_group && d.level == 1) {
+            if (before_grup != 0 && before_grup == current_grup && d.level == 1) {
                 subtotal = subtotal + parseFloat(d.total);
                 total = total + parseFloat(d.total);
                 console.log(subtotal);
             }
             else {
-                if (before_group == 0 && d.level == 1) {
+                if (before_grup == 0 && d.level == 1) {
                     subtotal = subtotal + parseFloat(d.total);  
                 }
                 else {
@@ -356,12 +356,63 @@ $(function () {
                 }
             }
             index++;
-            before_group = current_group;
+            before_grup = current_grup;
             this.invalidate(); // invalidate the data DataTables has cached for this row       
         });
-        $(".add-judul").attr("attr", before_group + 1);
+        $(".add-judul").attr("attr", before_grup + 1);
         $('#totalRKS').text(accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 }));
     }
+
+    $("body").on("keydown.autocomplete", ".list-rks", function () {
+        $(this).autocomplete({
+            appendTo: ".eventInsForm",
+            minLength: 2,
+            source: function (request, response) {
+                $.ajax({
+                    url: 'api/Rks/GetRks?klarifikasi=' + $("#Klasifikasi option:selected").val(),
+                    data: request,
+                    success: function (data) {
+                        response($.map(data.aaData, function (item) {
+                            return {
+                                Title: item.Title,
+                                Id: item.Id
+                            }
+                        }))
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $(this).val(ui.item.Title);
+                $(this).attr("idrks", ui.item.Id);
+                return false;
+            }
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            var html = '<div class="vendor">' +
+                    '<div class="box-typehead-content">' +
+                      '<span class="box-typehead-title-auto">' + item.Title + '</span>' +
+                    '</div>' +
+                '</div>'
+            return $("<li class='item'>")
+                .data("item.autocomplete", item)
+                .append(html)
+                .appendTo(ul);
+
+        };
+    });
+
+    $(".load-get-rks").on("click", function () {
+        waitingDialog.showloading("Proses Harap Tunggu");
+        $.ajax({
+            method: "POST",
+            url: "Api/PengadaanE/saveRksFromTemplate?RksId=" + $(".list-rks").attr("idrks") + "&PengadaanId=" + $("#pengadaanId").val(),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                waitingDialog.hideloading();
+                window.location.reload();
+            }
+        });
+    });
 
     $("#example1").on("click", ".sisip-item-atas", function () {
         var judul = $(this).attr('attrJudul');
@@ -379,7 +430,7 @@ $(function () {
         var currentPage = table.page();
         var baris = $(this).parent().closest("tr").index();
         var beforeRowData = table.row(baris).data();
-        newData.grp = beforeRowData.group;
+        newData.grup = beforeRowData.grup;
         //baris = baris;
         table.row.add(newData).draw();
 
@@ -416,7 +467,7 @@ $(function () {
         var currentPage = table.page();
         var baris = $(this).parent().closest("tr").index();
         var beforeRowData = table.row(baris).data();
-        newData.grp = beforeRowData.group;
+        newData.grup = beforeRowData.grup;
         //baris = baris;
         table.row.add(newData).draw();
 
@@ -531,17 +582,6 @@ $(function () {
         
     });
 
-    $(".load-get-rks").on("click", function () {
-        $.ajax({
-            method: "POST",
-            url: "Api/PengadaanE/saveRksFromTemplate?RksId=" + $(".list-rks").attr("idrks") + "&PengadaanId=" + $("#pengadaanId").val(),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                window.location.reload();
-            }
-        });
-    });
 
     $(".save-template-hps").on("click", function () {
 
@@ -760,7 +800,7 @@ function datatableToJson(table) {
     table.rows().every(function () {
         data.push(this.data());
         //var odt = this.data();
-        //odt.group = odt.group;
+        //odt.grup = odt.grup;
         //data.push(odt);
     });
     //console.log(JSON.stringify(data));
