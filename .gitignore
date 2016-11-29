@@ -832,3 +832,5 @@ Reston.Helper/Migrations/201608260739168_init2.Designer.cs
 Reston.Identity.Repository/Migrations/ClientConfiguration/Copy of Configuration.cs
 Reston.Identity.Repository/Migrations/ClientConfiguration/Copy of Seeder.cs
 Reston.Helper/Migrations/201608260739168_init2.resx
+/Reston.EProc.Runner.IIS/Download/Report/Temp/*.docx
+/Reston.EProc.Runner.IIS/View/create-rks - Copy.html
