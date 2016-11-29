@@ -22,6 +22,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         DataTableRksDetailTemplate GetRksDetail(Guid Id);
         VWRKSTemplate getRksHeader(Guid Id);
         RKSHeader MapRksFromTemplate(Guid RksTempalteId, Guid PengadaanId);
+        RKSHeaderTemplate getRksTemplate(Guid Id);
     }
     public class RksRepo : IRksRepo
     {
@@ -79,12 +80,16 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 Id = b.Id,
                 hps = b.hps,
                 item = b.item,
+                judul = b.judul,
+                level = b.level,
+                group = b.group,
+                total = b.jumlah * b.hps,
                 ItemId = b.ItemId,
                 jumlah = b.jumlah,
                 RKSHeaderTemplateId = b.RKSHeaderTemplateId,
                 satuan = b.satuan,
                 keterangan = b.keterangan
-            }).ToList();
+            }).OrderBy(d=>d.group).ThenBy(d=>d.level).ToList();
             
             return dtTable;
         }
@@ -100,6 +105,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     MRKSHeader.Klasifikasi = rks.Klasifikasi;
                     MRKSHeader.Title = rks.Title;
                     MRKSHeader.Klasifikasi = rks.Klasifikasi;
+                    MRKSHeader.Region = rks.Region;
                     MRKSHeader.Description = rks.Description;
                     MRKSHeader.ModifiedBy = UserId;
                     MRKSHeader.ModifiedOn = DateTime.Now;
@@ -109,8 +115,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
                         {
                             RKSDetailTemplate rksdetail = ctx.RKSDetailTemplate.Find(item.Id);
                             rksdetail.item = item.item;
+                            rksdetail.judul = item.judul;
+                            rksdetail.level = item.level;
+                            rksdetail.group = item.group;
                             rksdetail.hps = item.hps;
-                            rksdetail.item = item.item;
                             rksdetail.ItemId = item.ItemId;
                             rksdetail.jumlah = item.jumlah;
                             rksdetail.satuan = item.satuan;
@@ -123,6 +131,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                             RKSDetailTemplate newrksdetail = new RKSDetailTemplate();
                             newrksdetail.hps = item.hps;
                             newrksdetail.item = item.item;
+                            newrksdetail.judul = item.judul;
+                            newrksdetail.level = item.level;
+                            newrksdetail.group = item.group;
                             newrksdetail.ItemId = item.ItemId;
                             newrksdetail.jumlah = item.jumlah;
                             newrksdetail.satuan = item.satuan;
@@ -197,8 +208,18 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 Id = oData.Id,
                 Deskripsi = oData.Description,
                 Klasifikasi = oData.Klasifikasi,
+                Region = oData.Region,
                 Title = oData.Title
             };
+        }
+
+        public RKSHeaderTemplate getRksTemplate(Guid Id)
+        {
+            //return ctx.RKSHeaderTemplate.Find(Id);
+            var rkstemplate = ctx.RKSHeaderTemplate.Find(Id);
+            var detailrkstemplate = ctx.RKSDetailTemplate.Where(d=>d.RKSHeaderTemplateId==rkstemplate.Id).OrderBy(d=>d.group).ThenBy(d=>d.level);
+            rkstemplate.RKSDetailTemplate = detailrkstemplate.ToList();
+            return rkstemplate;
         }
 
         public RKSHeader MapRksFromTemplate(Guid RksTempalteId, Guid PengadaanId)
@@ -210,6 +231,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
             foreach (var item in odataRksTempalte.RKSDetailTemplate)
             {
                 RKSDetail oRksDetail = new RKSDetail();
+                oRksDetail.judul = item.judul;
+                oRksDetail.level = item.level;
+                oRksDetail.grup = item.group;
                 oRksDetail.item = item.item;
                 oRksDetail.ItemId = item.ItemId;
                 oRksDetail.jumlah = item.jumlah;

@@ -1255,19 +1255,26 @@ namespace Reston.Pinata.Model.PengadaanRepository
             RKSHeader rksHeader = ctx.RKSHeaders.Where(d => d.PengadaanId == id).FirstOrDefault();
             if (rksHeader != null)
             {
-                List<VWRKSDetail> VWRksDEtail = (from b in rksHeader.RKSDetails
-                                                 select new VWRKSDetail
-                                                 {
-                                                     Id = b.Id,
-                                                     hps = b.hps,
-                                                     item = b.item,
-                                                     ItemId = b.ItemId,
-                                                     jumlah = b.jumlah,
-                                                     RKSHeaderId = b.RKSHeaderId,
-                                                     satuan = b.satuan,
-                                                     keterangan = b.keterangan
-                                                 }).ToList();
-                return VWRksDEtail;
+                var rksDetails = rksHeader.RKSDetails.OrderBy(d=>d.grup).ThenBy(d=>d.level).ToList();
+                List<VWRKSDetail> lstVWRksDetail = new List<VWRKSDetail>();
+                foreach (var item in rksDetails)
+                {
+                    VWRKSDetail dVWRKSDetail = new VWRKSDetail();
+                    dVWRKSDetail.judul = item.judul;
+                    dVWRKSDetail.level = item.level;
+                    dVWRKSDetail.grup = item.grup;
+                    dVWRKSDetail.item = item.item;
+                    dVWRKSDetail.satuan = item.satuan;
+                    dVWRKSDetail.jumlah = item.jumlah;
+                    dVWRKSDetail.hps = item.hps;
+                    dVWRKSDetail.keterangan = item.keterangan;
+                    if(item.hps!=null&& item.jumlah != null)
+                    {
+                        dVWRKSDetail.total = item.hps.Value * item.jumlah.Value;
+                    }
+                    lstVWRksDetail.Add(dVWRKSDetail);
+                }
+                return lstVWRksDetail;
             }
             return new List<VWRKSDetail>();
         }
@@ -1353,7 +1360,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                 if (item.Id != Guid.Empty)
                                 {
                                     RKSDetail rksdetail = ctx.RKSDetails.Find(item.Id);
-                                    rksdetail.item = item.item;
+                                    rksdetail.judul = item.judul;
+                                    rksdetail.level = item.level;
+                                    rksdetail.grup = item.grup;
                                     rksdetail.hps = item.hps;
                                     rksdetail.item = item.item;
                                     rksdetail.ItemId = item.ItemId;
@@ -1368,6 +1377,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                     RKSDetail newrksdetail = new RKSDetail();
                                     newrksdetail.hps = item.hps;
                                     newrksdetail.item = item.item;
+                                    newrksdetail.judul = item.judul;
+                                    newrksdetail.level = item.level;
+                                    newrksdetail.grup = item.grup;
                                     newrksdetail.ItemId = item.ItemId;
                                     newrksdetail.jumlah = item.jumlah;
                                     newrksdetail.satuan = item.satuan;
@@ -1381,7 +1393,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
                             var rksrequesIds = rks.RKSDetails.Select(d => d.Id);
                             var removeRksDetail = MRKSHeader.RKSDetails.Where(d => !rksrequesIds.Contains(d.Id));
                             ctx.RKSDetails.RemoveRange(removeRksDetail);
-
                         }
                         else
                         {
@@ -1407,6 +1418,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         public VWRKSHeaderPengadaan GetRKSHeaderPengadaan(Guid id)
         {
+            //var oData = ctx.RKSHeaderTemplate.Find(Id);
             Pengadaan Mpengadaan = ctx.Pengadaans.Find(id);
             if (Mpengadaan == null) return new VWRKSHeaderPengadaan();
             VWRKSHeaderPengadaan MrksHeder = (from b in ctx.RKSHeaders
@@ -4371,7 +4383,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 //                   .Where(x => x.GroupPengadaan == groupstatus)
 //                   from c in ctx.PersonilPengadaans
 //                   .Where(x => x.PersonilId == UserId).DefaultIfEmpty()
-//                   group b by new
+//                   grup b by new
 //                   {
 //                       b.Id,
 //                       b.Judul,

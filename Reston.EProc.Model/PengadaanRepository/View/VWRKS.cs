@@ -18,6 +18,9 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<Guid> Id { get; set; }
         public Nullable<Guid> RKSHeaderId { get; set; }
         public Nullable<Guid> ItemId { get; set; }
+        public string judul { get; set; }
+        public Nullable<int> level { get; set; }
+        public int? grup { get; set; }
         public string item { get; set; }
         public string satuan { get; set; }
         public Nullable<decimal> jumlah { get; set; }
@@ -115,7 +118,8 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public string Title { get; set; }
         public String  Deskripsi { get; set; }
         public KlasifikasiPengadaan Klasifikasi { get; set; }
-        public List<VWRKSDetail> VWRKSDetails { get; set; }
+        public String Region { get; set; }
+        public List<VWRKSDetailTemplate> VWRKSDetails { get; set; }
     }
 
     public class DataTable
@@ -148,9 +152,13 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<Guid> RKSHeaderTemplateId { get; set; }
         public Nullable<Guid> ItemId { get; set; }
         public string item { get; set; }
+        public string judul { get; set; }
+        public Nullable<int> level{ get; set; }
+        public Nullable<int> group { get; set; }
         public string satuan { get; set; }
         public Nullable<decimal> jumlah { get; set; }
         public Nullable<decimal> hps { get; set; }
+        public Nullable<decimal> total { get; set; }
         public string keterangan { get; set; }
         public Nullable<DateTime> CreateOn { get; set; }
         public Nullable<Guid> CreateBy { get; set; }

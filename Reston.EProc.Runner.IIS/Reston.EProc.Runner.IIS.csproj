@@ -1806,6 +1806,7 @@
     <Content Include="Download\Report\Template\template-hps.docx" />
     <Content Include="Download\Report\Template\undangan pemenanga.docx" />
     <Content Include="data\menu-staff-admin.json" />
+    <Content Include="Download\Report\Template\template-hps-new.docx" />
     <None Include="pengadaaneDataSet1.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>pengadaaneDataSet1.Designer.cs</LastGenOutput>

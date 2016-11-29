@@ -1,28 +1,6 @@
 ﻿var id_rks = window.location.hash.replace("#", "");
 var status;
 var table;
-//var app = angular.module("app", []);
-//app.controller('side-menu', ['$scope', '$http', function ($scope, $http) {
-//    $scope.menus = [];
-//    $http.get("data/menu.json")
-//       .then(function (response) {
-//           $scope.menus = response.data;
-//       });
-//}]);
-
-//app.controller('user', ['$scope', '$http', function ($scope, $http) {
-//    $scope.user = {};
-//    $http.get("data/user.json")
-//       .then(function (response) {
-//           $scope.user = response.data;
-//       });
-//}]);
-//var dataHps;
-//$.ajax({
-//    url: "Api/Produk/GetAllProduk"
-//}).done(function (data) {
-//    dataHps = data.aaData;
-//});
 $(function () {
 
     //loadData();
@@ -81,99 +59,128 @@ $(function () {
         "ajax": ($("#pengadaanId").val() == "") ? "Api/PengadaanE/getRks?id=" + id_rks : "Api/PengadaanE/getRks?id=" + $("#pengadaanId").val(),
         //"ajax": "data/rks2.txt",
         "columns": [
-            { "data": "item" },
-            { "data": "satuan" },
-            { "data": "jumlah", "className": "tengah" },
-            { "data": "hps", "className": "rata_kanan" },
-            { "data": "total", "className": "rata_kanan" },
-            { "data": "keterangan", "className": "rata_kiri" },
-            { "data": "null", "width": "3%" }
+             { "data": "judul" },
+             { "data": "item" },
+             { "data": "satuan" },
+             { "data": "jumlah", "className": "tengah" },
+             { "data": "hps", "className": "rata_kanan" },
+             { "data": "total", "className": "rata_kanan" },
+             { "data": "keterangan", "className": "rata_kiri" },
+             { "data": "null" }
         ],
         "columnDefs": [
-             {
-                 "render": function (data, type, row) {
-                     if (row.jumlah != null) {
-                         var str = "'" + row.jumlah + "'";
-                         var arrstr = str.split(" ");
-                         if (arrstr.length > 1)
-                             return row.jumlah;
-                         else {
-                             var xJum = row.jumlah.toString().replace(",", ".");
-                             var zz = accounting.formatNumber(xJum, { thousand: ".", decimal: ",", precision: 2 });
-                             if (xJum > 0)
-                                 return zz;
-                             else return "";
-                         }
-                     }
-                     else return row.jumlah;
-                 },
-                 "targets": 2,
-                 "orderable": false
-             },
+            {
+                "render": function (data, type, row, meta) {
+                    if (row.level == 0) {
+                        //console.log(meta.row)
+                        //$("#example1 tr:eq(" + (meta.row+1) + ") td:eq(0)").attr("colspan", "7");
+                        //$("#example1 tr:eq(" + (meta.row +1)+ ") td").not(":eq(0)").remove();
+                        return '<input type="text" class="form-control item namaJudul" value="' + row.judul + '" style="font-weight:600; text-align:left; width:160px;">';
+                    }
+                    else return '';
+                },
+                "targets": 0,
+                "orderable": false
+            },
             {
                 "render": function (data, type, row) {
-
-                    if (row.hps != null) {
-                        var str = "'" + row.hps + "'";
-                        var arrstr = str.split(" ");
-                        if (arrstr.length > 1)
-                            return row.hps;
-                        else {
-                            var xHps = row.hps.toString().replace(",", ".");
-                            var zz = accounting.formatNumber(xHps, { thousand: ".", decimal: ",", precision: 2 });
-
-                            if (xHps > 0)
-                                return zz;
-                            else return "";
-                        }
+                    if (row.level == 1) {
+                        return '<input type="text" class="form-control item namaItem" value="' + row.item + '">';
                     }
-                    else return row.hps;
+                    else return '';
+                },
+                "targets": 1,
+                "orderable": false
+            },
+            {
+                "render": function (data, type, row) {
+                    if (row.level == 1) {
+                        return '<input type="text" class="form-control item satuan" value="' + row.satuan + '" style="text-align:center; width:120px;">';
+                    }
+                    else return '';
+                },
+                "targets": 2,
+                "orderable": false
+            },
+            {
+                "render": function (data, type, row) {
+                    if (row.level == 1) {
+                        return '<input type="text" class="form-control item jumlah" value="' + row.jumlah + '" style="width:100px; text-align:center;">';
+                    }
+                    else return "";
                 },
                 "targets": 3,
                 "orderable": false
             },
-                {
-                    "render": function (data, type, row) {
+             {
+                 "render": function (data, type, row) {
+                     if (row.level == 1) {
+                         return '<input type="text" class="form-control item hps" value="' + row.hps + '" style="width:150px;">';
+                     }
+                     else if (row.level == 2) {
+                         return "Sub Total";
+                     }
+                     else return "";
+                 },
+                 "targets": 4,
+                 "orderable": false
+             },
+             {
+                 "render": function (data, type, row) {
+                     if (row.level == 0) {
+                         return "";
+                     }
+                     if (row.level == 2) {
+                         return accounting.formatNumber(row.total, { thousand: ".", decimal: ",", precision: 2 });
+                     }
+                     if (row.hps == "" || row.jumlah == "" || row.jumlah == null || row.hps == null) {
+                         return row.total;
+                     }
+                     else {
+                         var xtoot = "";
+                         if (row.total != null) {
+                             xtoot = row.total.toString().replace(".", "");
+                             xtoot = xtoot.toString().replace(",", ".");
+                         }
+                         if ($.isNumeric(xtoot) && xtoot != "") {
+                             return accounting.formatNumber(xtoot, { thousand: ".", decimal: ",", precision: 2 });
+                         }
+                         var xJum = row.jumlah.toString().replace(".", "");
+                         xJum = row.jumlah.toString().replace(",", ".");
+                         var xHps = row.hps.toString().replace(".", "");
+                         xHps = row.hps.toString().replace(",", ".");
+                         var tot = xJum * xHps;
 
-                        if (row.hps == "" || row.jumlah == "" || row.jumlah == null || row.hps == null) {
-                            return row.total;
-                        }
-                        else {
-                            var xtoot = "";
-                            if (row.total != null) {
-                                xtoot = row.total.toString().replace(".", "");
-                                xtoot = xtoot.toString().replace(",", ".");
-                            }
-                            if ($.isNumeric(xtoot) && xtoot != "") {
-                                return accounting.formatNumber(xtoot, { thousand: ".", decimal: ",", precision: 2 });
-                            }
-                            var xJum = row.jumlah.toString().replace(".", "");
-                            xJum = row.jumlah.toString().replace(",", ".");
-                            var xHps = row.hps.toString().replace(".", "");
-                            xHps = row.hps.toString().replace(",", ".");
-                            var tot = xJum * xHps;
-
-                            return accounting.formatNumber(tot, { thousand: ".", decimal: ",", precision: 2 });
-
-                        }
-                        //if(row.total!="")
-                        //    return accounting.formatNumber(row.total, { thousand: "." });
-                        //else return "";
-                    },
-                    "targets": 4,
-                    "orderable": false
-                },
-                {
-                    "render": function (data, type, row) {
-                        return '<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ' +
-                            '<a class="btn btn-xs btn-success sisip-item" title="Sisipikan"><span class="fa fa-plus"></span></a>';
-                    },
-                    "targets": 6,
-                    "orderable": false
-                }
+                         return accounting.formatNumber(tot, { thousand: ".", decimal: ",", precision: 2 });
+                     }
+                 },
+                 "targets": 5,
+                 "orderable": false
+             },
+             {
+                 "render": function (data, type, row) {
+                     if (row.level == 1) {
+                         return '<textarea class="form-control keterangan" >' + row.keterangan + ' </textarea>';
+                     }
+                     else return "";
+                 },
+                 "targets": 6,
+                 "orderable": false
+             },
+             {
+                 "render": function (data, type, row) {
+                     return ' <a class="btn btn-xs btn-primary sisip-item-atas" attrJudul="' + row.judul + '" title="Tambah Item Atas"><span class="fa fa-hand-o-up"></span></a> ' +
+                         ' <a class="btn btn-xs btn-success sisip-item-bawah" attrJudul="' + row.judul + '" title="Tambah Item Bawah"><span class="fa fa-hand-o-down"></span></a> ' +
+                         ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ' +
+                         ' <a class="btn btn-xs btn-warning hitung" title="Hitung"><span class="fa fa-pencil"></span></a>';
+                 },
+                 "targets": 7,
+                 "orderable": false
+             }
         ],
         "rowCallback": function (row, data, index) {
             hitungHargaItemAwal();
+            Hitung();
         }
     });
 
@@ -189,42 +196,190 @@ $(function () {
     });
     $().UItoTop({ easingType: 'easeOutQuart' });
 
-
-
-    $("#example1").on("click", ".remove-item", function () {
-        var vl = $(this).closest('tr')[0];
-        table.rows(vl).remove().draw();
-        hitungHargaItem();
-    });
-    $("#example1").on("input propertychange paste", ".jmlItem", function (e) {
-        var vl = $(this).closest('tr')[0];
-        var rowIndex = $('#example1 tr').index(vl);
-        var jum = $(this).val();
-        table.cell(rowIndex - 1, 1).data('<input type="text" class="form-control jmlItem" value="' + jum + '" placeholder="Jumlah">').draw();
-        hitungHargaItem();
+    $(".add-judul").on("click", function () {
+        addNewJudul(parseInt($(this).attr("attr")));
+        $(this).attr("attr", parseInt($(this).attr("attr")) + 1);
     });
 
-    $("#add").on("click", function () {
-        if ($("#simpan").attr("attr2") != "unsave") return false;
-        var rowIndex = table.data().length;
-        var noItem = 1;
-        if (rowIndex > 0) {
-            loadDataToDatatable(rowIndex, rowIndex - 1)
-        }
-        else addNewItem();
-    });
+    function addNewJudul(lastgroup) {
+        table.row.add({
+            "judul": '',
+            "item": '',
+            "satuan": '',
+            "jumlah": '',
+            "hps": '',
+            "total": 0,
+            "keterangan": '',
+            "level": 0,
+            "group": lastgroup + 1
+        }).draw();
+        var jumRow = table.data().length;
+        table.cell((jumRow - 1), 7).data(' <a class="btn btn-xs btn-success sisip-item" title="Tambah Item"><span class="fa fa-plus"></span></a> ' +
+                ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ').draw();
+        // $("#example1 tbody tr:eq('" + (jumRow - 1) + "') td:eq(0)").find("input").focus();
+        subTotal(lastgroup);
+    }
 
-    $("#example1").on("click", ".sisip-item", function () {
-
+    function subTotal(lastgroup) {
         var newData = {};
         newData.RKSHeaderId = $("#idRks").val();
-        newData.item = '<input type="text" class="form-control item namaItem " >';
-        newData.satuan = '<input type="text" class="form-control item satuan" >';
-        newData.jumlah = '<input type="text" class="form-control item jumlah" >';
-        newData.hps = '<input type="text" class="form-control item hps" >';//ui.item.satuan;
-        newData.keterangan = '<textarea class="form-control keterangan"></textarea>';
+        newData.judul = '';
+        newData.item = '';
+        newData.satuan = '';
+        newData.jumlah = '';
+        newData.hps = 'Sub Total';
+        newData.total = '0';
+        newData.keterangan = '';
+        newData.action = '';
+        newData.level = 2;
+        newData.grp = lastgroup + 1;
         var currentPage = table.page();
         var baris = $(this).parent().closest("tr").index();
+        table.row.add(newData).draw();
+        var currentPage = table.page();
+    }
+
+    $("#example1").on("change", ".item", function () {
+        var elRow = $(this).parent().closest("tr");
+        var oldRowData = table.row(elRow.index()).data();
+        var newRowData = {};
+        newRowData.judul = '' + $(elRow).find(".namaJudul").val();
+        if (oldRowData.item == "") {
+            newRowData.item = "";
+            newRowData.satuan = "";
+            newRowData.jumlah = "";
+            newRowData.hps = "";
+            newRowData.keterangan = "";
+        }
+        else {
+            var totalHarga = (parseFloat($(elRow).find(".jumlah").val()) * parseFloat($(elRow).find(".hps").val()));
+            newRowData.item = $(elRow).find(".namaItem").val();
+            newRowData.satuan = $(elRow).find(".satuan").val();
+            newRowData.jumlah = $(elRow).find(".jumlah").val();
+            newRowData.hps = $(elRow).find(".hps").val();
+            newRowData.keterangan = $(elRow).find(".keterangan").val();
+            newRowData.total = totalHarga;
+        }
+        var el = $("#example1 tr td").find("input").find(".namaJudul[value=judul]");
+        addNewData(elRow.index(), newRowData);
+        Hitung();
+    });
+
+    $("#example1").on('keydown.autocomplete', ".namaItem", function () {
+        $(this).autocomplete({
+            //source: "data/item.txt",
+            //source:"api/Produk/GetAllProduk",
+            minLength: 2,
+            source: function (request, response) {
+                $.ajax({
+                    url: 'api/PengadaanE/GetItemByRegion?Region=' + $("#region").val(),
+                    data: request,
+                    success: function (data) {
+                        //var ParsedObject = $.parseJSON(data);
+                        response($.map(data.aaData, function (item) {
+                            return {
+                                ItemId: item.Id,
+                                label: item.Nama,
+                                region: item.Region,
+                                satuan: item.Satuan,
+                                harga: item.Price,
+                                spesifikasi: item.Spesifikasi
+                            }
+                        }))
+                    }
+                });
+            },
+            select: function (event, ui) {
+                var baris = $(this).parent().closest("tr").index();
+                var oldRowData = table.row(baris).data();
+
+                $(this).focus();
+                var newData = {};
+                newData.Id = oldRowData.Id;
+                newData.ItemId = ui.item.ItemId;
+                newData.RKSHeaderId = $("#idRks").val();
+                newData.hps = ui.item.harga;
+                newData.item = ui.item.label;
+                newData.jumlah = 1;
+                newData.satuan = ui.item.satuan;
+                newData.total = ui.item.harga;
+                newData.keterangan = ui.item.spesifikasi;
+                addNewData(baris, newData);
+
+                Hitung();
+
+                return false;
+            }
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            var html = '<div class="vendor">' +
+                    '<div class="box-typehead-content">' +
+                      '<span class="box-typehead-title-auto">' + item.label + '</span>' +
+                      '<span class="box-typehead-desk-auto"> ' + item.region + ' /</span>' +
+                      '<span class="box-typehead-desk-auto"> ' + item.satuan + ' /</span>' +
+                      '<span class="box-typehead-desk-auto"> ' + item.harga + '</span>' +
+                    '</div>' +
+                '</div>'
+            return $("<li class='item'>")
+                .data("item.autocomplete", item)
+                .append(html)
+                .appendTo(ul);
+
+        };
+
+    });
+
+    function Hitung() {
+        var total = 0;
+        var index = 0;
+        var subtotal = 0;
+        var before_group = 0;
+        table.rows().every(function () {
+            var d = this.data();
+            var current_group = d.grp;
+           
+            if (before_group != 0 && before_group == current_group && d.level == 1) {
+                subtotal = subtotal + parseFloat(d.total);
+                total = total + parseFloat(d.total);
+                console.log(subtotal);
+            }
+            else {
+                if (before_group == 0 && d.level == 1) {
+                    subtotal = subtotal + parseFloat(d.total);  
+                }
+                else {
+                    if (d.level == 2) {
+                        var oldRowData = table.row(index).data();
+                        oldRowData.total = subtotal;
+                        addNewData(index, oldRowData);
+                        subtotal = 0;
+                    }
+                }
+            }
+            index++;
+            before_group = current_group;
+            this.invalidate(); // invalidate the data DataTables has cached for this row       
+        });
+        $(".add-judul").attr("attr", before_group + 1);
+        $('#totalRKS').text(accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 }));
+    }
+
+    $("#example1").on("click", ".sisip-item-atas", function () {
+        var judul = $(this).attr('attrJudul');
+        var newData = {};
+        newData.RKSHeaderId = $("#idRks").val();
+        newData.judul = judul;
+        newData.item = '';
+        newData.satuan = '';
+        newData.jumlah = '';
+        newData.hps = '';//ui.item.satuan;
+        newData.total = 0;
+        newData.keterangan = '';
+        newData.action = '';
+        newData.level = 1;
+        var currentPage = table.page();
+        var baris = $(this).parent().closest("tr").index();
+        var beforeRowData = table.row(baris).data();
+        newData.grp = beforeRowData.group;
         //baris = baris;
         table.row.add(newData).draw();
 
@@ -245,146 +400,65 @@ $(function () {
         table.page(currentPage).draw(false);
     });
 
-    $("#example1").on('keydown', '.item', function (e) {
-        var keyCode = e.keyCode || e.which;
-        var JumKolom = 6;//$(this).parent().parent().children().length;       
-
-        var tr = $(this).closest('tr')[0];
-        var rowIndex = $('#example1 tr').index(tr);
-        var colIndex = $(this).parent().parent().children().index($(this).parent());
-        var val = $(this).val();
-        if (keyCode == 9 || keyCode == 13) {
-            $(".ui-autocomplete").remove();
-            if (keyCode == 9) {
-                e.preventDefault();
-                if (colIndex < 3) {
-                    //console.log(colIndex);
-                    $("#example1 tbody tr:eq(" + (rowIndex - 1) + ") td:eq(" + (colIndex + 1) + ")").find("input").focus();
-                }
-                else {
-                    var baris = $(this).parent().closest("tr").index();
-                    loadDataToDatatable(rowIndex, baris);
-                }
-            }
-            //hitung total per baris
-
-        }
-    });
-    function loadDataToDatatable(rowIndex, baris) {
-        var jumlah = $("#example1 tbody tr:eq('" + (rowIndex - 1) + "')").find("td:eq('2') input").val();
-        var hps = $("#example1 tbody tr:eq('" + (rowIndex - 1) + "')").find("td:eq('3') input").val();
-        var Item = $("#example1 tbody tr:eq('" + (rowIndex - 1) + "')").find("td:eq('0') input").val();
-        var satuan = $("#example1 tbody tr:eq('" + (rowIndex - 1) + "')").find("td:eq('1') input").val();
-        var keterangan = $("#example1 tbody tr:eq('" + (rowIndex - 1) + "')").find("td:eq('5') textarea").val();
-        hps = UnformatFloat(hps);
-        var totalBaris = 0;
-
-        var xJum = jumlah.toString().replace(".", "");
-        xJum = jumlah.toString().replace(",", ".");
-        var xHps = hps.toString().replace(".", "");
-        xHps = hps.toString().replace(",", ".");
-
-        if ($.isNumeric(xHps) == true && $.isNumeric(xJum) == true)
-            totalBaris = parseFloat(xJum) * parseFloat(xHps);
-        //var baris = $(this).parent().closest("tr").index();
-        var oldRowData = table.row(baris).data();
-
-
-        //$(this).focus();
+    $("#example1").on("click", ".sisip-item-bawah", function () {
+        var judul = $(this).attr('attrJudul');
         var newData = {};
-        newData.Id = oldRowData.Id;
-        newData.ItemId = oldRowData.ItemId;
         newData.RKSHeaderId = $("#idRks").val();
-        var xhps = hps.toString().replace(",", ".");
+        newData.judul = judul;
+        newData.item = '';
+        newData.satuan = '';
+        newData.jumlah = '';
+        newData.hps = '';//ui.item.satuan;
+        newData.total = 0;
+        newData.keterangan = '';
+        newData.action = '';
+        newData.level = 1;
+        var currentPage = table.page();
+        var baris = $(this).parent().closest("tr").index();
+        var beforeRowData = table.row(baris).data();
+        newData.grp = beforeRowData.group;
+        //baris = baris;
+        table.row.add(newData).draw();
 
-        if ($.isNumeric(xhps) == true)
-            newData.hps = '<input type="text" value="' + hps + '" class="form-control item" >';
-        else newData.hps = '<input type="text" class="form-control item" >';
+        var currentPage = table.page();
 
-        newData.item = '<input type="text" value="' + Item + '" class="form-control item namaItem" >'; //'<input type="text" value="' + ui.item.label + '"  class="form-control item namaItem " >';
+        //move added row to desired index (here the row we clicked on)
+        var index = baris,
+            rowCount = table.data().length - 1,
+            insertedRow = table.row(rowCount).data(),
+            tempRow;
 
-        var xjumlah = jumlah.toString().replace(",", ".");
-        if ($.isNumeric(xjumlah) == true)
-            newData.jumlah = '<input type="text" class="form-control item" value="' + jumlah + '"  >';
-        else newData.jumlah = '<input type="text" class="form-control item">';
-        newData.satuan = '<input type="text" value="' + satuan + '"  class="form-control item" >';//ui.item.satuan; 
-
-        console.log(totalBaris);
-        newData.total = accounting.formatNumber(totalBaris, { thousand: ".", decimal: ",", precision: 2 });
-
-        newData.keterangan = '<textarea class="form-control keterangan" >' + keterangan + '</textarea>';
-        addNewData(baris, newData);
-        addNewItem();
-    }
-    $("#example1").on('dblclick', 'td', function (e) {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
+        for (var i = rowCount; i > index + 1; i--) {
+            tempRow = table.row(i - 1).data();
+            table.row(i).data(tempRow);
+            table.row(i - 1).data(insertedRow);
         }
-        else {
-            table.$('td.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-        //clearInputInRow2();
+        //refresh the page
+        table.page(currentPage).draw(false);
     });
 
-    $(".edit").on("click", function () {
-        console.log($(this))
-        if ($("#simpan").attr("attr2") == "unsave") {
-            $(".edit").children().removeClass("fa-edit");
-            $(".edit").children().addClass("fa-check");
-            $("#simpan").attr("attr2", "save");
-            colectData();
-        }
-        else if ($("#simpan").attr("attr2") == "save") {
-            $(".edit").children().removeClass("fa-check");
-            $(".edit").children().addClass("fa-edit");
-            $("#simpan").attr("attr2", "unsave");
-            reInputData();
-        }
+    $("#example1").on("click", ".remove-item", function () {
+        var vl = $(this).closest('tr')[0];
+        table.rows(vl).remove().draw();
+        hitungHargaItem();
+    });
+    $("#example1").on("input propertychange paste", ".jmlItem", function (e) {
+        var vl = $(this).closest('tr')[0];
+        var rowIndex = $('#example1 tr').index(vl);
+        var jum = $(this).val();
+        table.cell(rowIndex - 1, 1).data('<input type="text" class="form-control jmlItem" value="' + jum + '" placeholder="Jumlah">').draw();
+        hitungHargaItem();
     });
 
-    $(".right").on("click", function () {
-        var tdtEl = $("#example1").find("td.selected");
-
-        var nextPadding = $(tdtEl).children().attr("padding-left");
-        var intPadd = 15;
-        if (typeof nextPadding != "undefined") {
-            intPadd = parseInt(nextPadding) + 15;
-        }
-        $(tdtEl).children().css("padding-left", intPadd + "px");
-        $(tdtEl).children().attr("padding-left", intPadd);
-        var rowIndex = $('#example1 tr').index($(tdtEl).closest('tr')[0]);
-        var colIndex = $(tdtEl).parent().children().index($(tdtEl));
-        var val = $(tdtEl).html();
-        // console.log(val);
-        table.cell(rowIndex - 1, colIndex).data(val).draw();
-    });
-    $(".left").on("click", function () {
-        var tdtEl = $("#example1").find("td.selected");
-        var nextPadding = $(tdtEl).children().attr("padding-left");
-        var intPadd = 0;
-        if (typeof nextPadding != "undefined") {
-            intPadd = parseInt(nextPadding) - 15;
-        }
-        if (parseInt(nextPadding) > 0) {
-            $(tdtEl).children().css("padding-left", intPadd + "px");
-            $(tdtEl).children().attr("padding-left", intPadd);
-        }
-        var rowIndex = $('#example1 tr').index($(tdtEl).closest('tr')[0]);
-        var colIndex = $(tdtEl).parent().children().index($(tdtEl));
-        var val = $(tdtEl).html();
-        table.cell(rowIndex - 1, colIndex).data(val).draw();
-    });
     $(".take").on("click", function () {
         datatableToJson(table);
     });
 
     $("#example1").on('keydown.autocomplete', ".namaItem", function () {
-
         $(this).autocomplete({
             //source: "data/item.txt",
             //source:"api/Produk/GetAllProduk",
-            minLength: 2,
+            minLength: 1,
             source: function (request, response) {
                 $.ajax({
                     url: 'api/PengadaanE/GetItemByRegion?Region=' + $("#region").val(),
@@ -419,12 +493,12 @@ $(function () {
                 newData.Id = oldRowData.Id;
                 newData.ItemId = ui.item.ItemId;
                 newData.RKSHeaderId = $("#idRks").val();
-                newData.hps = '<input type="text" value="' + ui.item.harga + '" class="form-control item hps" >';
-                newData.item = '<input type="text" value="' + ui.item.label + '" class="form-control item namaItem" >'; //'<input type="text" value="' + ui.item.label + '"  class="form-control item namaItem " >';
-                newData.jumlah = '<input type="text" class="form-control item jumlah" value="1"  >';
-                newData.satuan = '<input type="text" value="' + ui.item.satuan + '"  class="form-control item satuan" >';//ui.item.satuan;
+                newData.hps = ui.item.harga;
+                newData.item = ui.item.label;
+                newData.jumlah = 1;
+                newData.satuan = ui.item.satuan;
                 newData.total = ui.item.harga;
-                newData.keterangan = '<textarea class="form-control keterangan" >' + ui.item.spesifikasi + '</textarea>';
+                newData.keterangan = ui.item.spesifikasi;
                 addNewData(baris, newData);
                 return false;
             }
@@ -446,101 +520,10 @@ $(function () {
 
     });
 
-    $("#example1").on('keydown.autocomplete', ".satuan", function () {
-
-        $(this).autocomplete({
-            //source: "data/item.txt",
-            //source:"api/Produk/GetAllProduk",
-            minLength: 2,
-            source: function (request, response) {
-                $.ajax({
-                    url: 'api/PengadaanE/GetAllSatuan',
-                    data: request,
-                    success: function (data) {
-                        //var ParsedObject = $.parseJSON(data);
-                        response($.map(data.aaData, function (item) {
-                            //return {
-                            //    label: item.UserName,
-                            //    value: item.UserId
-                            //};
-                            return {
-                                satuan: item.Satuan
-                            }
-                        }))
-                        //console.log(data.aaData);
-                        //return data.aaData;
-                    }
-                });
-            },
-            select: function (event, ui) {
-                $(this).val(ui.item.satuan);
-                return false;
-            }
-        }).data("ui-autocomplete")._renderItem = function (ul, item) {
-            var html = '<div class="vendor">' +
-                    '<div class="box-typehead-content">' +
-                      '<span class="box-typehead-title-auto">' + item.satuan + '</span>' +
-                    '</div>' +
-                '</div>'
-            return $("<li class='item'>")
-                .data("item.autocomplete", item)
-                .append(html)
-                .appendTo(ul);
-
-        };
-
-    });
 
     $("#example1").on('click', ".remove-item", function () {
         var vl = $(this).closest('tr')[0];
         table.row(vl.rowIndex).remove().draw();
-    });
-
-    $("body").on("keydown.autocomplete", ".list-rks", function () {
-
-        $(this).autocomplete({
-            //source: "data/item.txt",
-            //source:"api/Produk/GetAllProduk",
-            appendTo: ".eventInsForm",
-            minLength: 2,
-            source: function (request, response) {
-                $.ajax({
-                    url: 'api/Rks/GetRks?klarifikasi=' + $("#Klasifikasi option:selected").val(),
-                    data: request,
-                    success: function (data) {
-                        //var ParsedObject = $.parseJSON(data);
-                        response($.map(data.aaData, function (item) {
-                            //return {
-                            //    label: item.UserName,
-                            //    value: item.UserId
-                            //};
-                            return {
-                                Title: item.Title,
-                                Id: item.Id
-                            }
-                        }))
-                        //console.log(data.aaData);
-                        //return data.aaData;
-                    }
-                });
-            },
-            select: function (event, ui) {
-                $(this).val(ui.item.Title);
-                $(this).attr("idrks", ui.item.Id);
-                return false;
-            }
-        }).data("ui-autocomplete")._renderItem = function (ul, item) {
-            var html = '<div class="vendor">' +
-                    '<div class="box-typehead-content">' +
-                      '<span class="box-typehead-title-auto">' + item.Title + '</span>' +
-                    '</div>' +
-                '</div>'
-            return $("<li class='item'>")
-                .data("item.autocomplete", item)
-                .append(html)
-                .appendTo(ul);
-
-        };
     });
 
     $(".load-rks").on("click", function () {
@@ -599,7 +582,7 @@ $(function () {
                 waitingDialog.hideloading();
 
                 //  table.draw();//message
-                addHeaderAfterSave();
+                //addHeaderAfterSave();
 
                 $("#idRks").val(data.Id);
                 $("#konten-simpan").text(data.message);
@@ -637,71 +620,6 @@ function addHeaderAfterSave() {
     });
     hitungHargaItemAwal();
 }
-
-function colectData() {
-    var tr = $("#example1 tbody tr");
-    tr.each(function () {
-        var baris = $(this).index();
-        var oldRowData = table.row(baris).data();
-        var newData = {};
-
-        newData.Id = oldRowData.Id;
-        newData.ItemId = oldRowData.ItemId;
-        newData.RKSHeaderId = $("#idRks").val();
-        newData.item = "<p>" + $(this).find("td:eq(0) input").val() + "</p>";
-        newData.satuan = $(this).find("td:eq(1) input").val();
-
-        newData.jumlah = $(this).find("td:eq(2) input").val();
-        newData.hps = $(this).find("td:eq(3) input").val();//ui.item.satuan;
-        newData.keterangan = $(this).find("td:eq(5) textarea").val();
-
-        var xJum = newData.jumlah.toString().replace(".", "");
-        xJum = newData.jumlah.toString().replace(",", ".");
-        var xHps = newData.hps.toString().replace(".", "");
-        xHps = newData.hps.toString().replace(",", ".");
-
-        if ($.isNumeric(newData.jumlah) && $.isNumeric(newData.hps)) {
-            newData.total = xHps * xJum;
-        } else newData.total = "";
-
-        addNewData(baris, newData);
-    });
-
-    hitungHargaItem();
-}
-
-function reInputData() {
-    var tr = $("#example1 tbody tr");
-    if (tr.find("td").length < 1) return false;
-    var regex = /(<([^>]+)>)/ig;
-    tr.each(function () {
-        var baris = $(this).index();
-        var oldRowData = table.row(baris).data();
-        var newData = {};
-        var item = oldRowData.item.replace(regex, "");
-        newData.Id = oldRowData.Id;
-        newData.ItemId = oldRowData.ItemId;
-        newData.RKSHeaderId = $("#idRks").val();
-        newData.item = '<input type="text" value="' + item + '" class="form-control item namaItem " >';
-        newData.satuan = '<input type="text" value="' + (oldRowData.satuan == null ? "" : oldRowData.satuan) + '" class="form-control item satuan" >'; //'<input type="text" value="' + ui.item.label + '"  class="form-control item namaItem " >';
-        newData.jumlah = '<input type="text" value="' + (oldRowData.jumlah == null ? "" : oldRowData.jumlah.toString().replace(".", ",")) + '" class="form-control item jumlah" >';
-        newData.hps = '<input type="text" value="' + (oldRowData.hps == null ? "" : oldRowData.hps.toString().replace(".", ",")) + '" class="form-control item hps" >';//ui.item.satuan;
-        newData.keterangan = '<textarea class="form-control keterangan" >' + oldRowData.keterangan + ' </textarea>';
-        var total = 0;
-        var xJum = newData.jumlah.toString().replace(".", "");
-        xJum = newData.jumlah.toString().replace(",", ".");
-        var xHps = newData.hps.toString().replace(".", "");
-        xHps = newData.hps.toString().replace(",", ".");
-        if (oldRowData.jumlah != null && oldRowData.hps != null)
-            total = xJum * xHps;
-        if (total > 0)
-            newData.total = accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 });
-        else newData.total = "";
-        //console.log(newData)
-        addNewData(baris, newData);
-    });
-}
-
 
 function item_initialize() {
     var item = new Bloodhound({
@@ -838,25 +756,13 @@ function hitungHargaItem() {
 
 function datatableToJson(table) {
     var data = [];
+    var beforeJudul = "";
     table.rows().every(function () {
-        var itemObj = {};
-        var d = this.data();
-        itemObj.Id = d.Id
-        itemObj.item = d.item;
-        itemObj.satuan = d.satuan;
-        var xjum = d.jumlah.toString().replace(".", "");
-        xjum = xjum.replace(",", ".");
-        itemObj.jumlah = xjum;
-
-        var xHps = d.hps.toString().replace(".", "");
-        xHps = xHps.replace(",", ".");
-        itemObj.hps = xHps;
-
-        itemObj.keterangan = d.keterangan;
-        data.push(itemObj);
-        // console.log(d);
+        data.push(this.data());
+        //var odt = this.data();
+        //odt.group = odt.group;
+        //data.push(odt);
     });
-
     //console.log(JSON.stringify(data));
     return data;
 }
@@ -903,5 +809,4 @@ function loadData() {
         $("#region").val(data.Region)
     });
 }
-
 //console.log(id_rks);

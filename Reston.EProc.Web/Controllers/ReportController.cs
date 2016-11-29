@@ -31,12 +31,14 @@ namespace Reston.Pinata.WebService.Controllers
     public class ReportController : BaseController
     {
         private IPengadaanRepo _repository;
+        private IRksRepo _rksrepo;
         internal ResultMessage result = new ResultMessage();
         private string FILE_TEMP_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_TEMP"];
         private string FILE_DOKUMEN_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_DOC"];
         public ReportController()
         {
             _repository = new PengadaanRepo(new JimbisContext());
+            _rksrepo = new RksRepo(new JimbisContext());
         }
 
         public ReportController(PengadaanRepo repository)
@@ -1800,6 +1802,206 @@ namespace Reston.Pinata.WebService.Controllers
             return result;
         }
 
+        //Buat Word Create RKS New
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public HttpResponseMessage CetakHPSNew(Guid Id)
+        {
+            var rkstemplate = _rksrepo.getRksTemplate(Id);
+            //var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
+            string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\template-hps-new.docx";
+
+            string outputFileName = "Cetak-HPS" + UserId().ToString() + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+
+            string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
+
+            var streamx = new FileStream(fileName, FileMode.Open);
+            try
+            {
+                var doc = DocX.Load(streamx);//.Create(OutFileNama);
+                doc.ReplaceText("{judul}", rkstemplate.Title);
+                doc.ReplaceText("{deskripsi}", rkstemplate.Description);
+                doc.ReplaceText("{klasifikasi}", rkstemplate.Klasifikasi.ToString());
+                doc.ReplaceText("{region}", rkstemplate.Region);
+
+                var oVWRKSDetail = rkstemplate.RKSDetailTemplate;
+                var table = doc.AddTable(oVWRKSDetail.Count() + 1, 7);
+
+
+                int indexRow = 0;
+                table.Rows[indexRow].Cells[0].Paragraphs.First().Append("Nama");
+                table.Rows[indexRow].Cells[1].Paragraphs.First().Append("Item");
+                table.Rows[indexRow].Cells[2].Paragraphs.First().Append("Satuan");
+                table.Rows[indexRow].Cells[3].Paragraphs.First().Append("Jumlah");
+                table.Rows[indexRow].Cells[3].Width = 10;
+                table.Rows[indexRow].Cells[4].Paragraphs.First().Append("Hps Satuan");
+                table.Rows[indexRow].Cells[5].Paragraphs.First().Append("Total");
+                table.Rows[indexRow].Cells[6].Paragraphs.First().Append("Keterangan");
+                indexRow++;
+                decimal subtotal = 0;
+                decimal totalall = 0;
+                foreach (var item in oVWRKSDetail)
+                {
+                    if (item.level == 0)
+                    {
+                        table.Rows[indexRow].Cells[0].Paragraphs.First().Append(item.judul == null ? "" : item.judul.ToString());
+
+                    }
+                    else if (item.level == 1)
+                    {
+                        table.Rows[indexRow].Cells[1].Paragraphs.First().Append(item.item == null ? "" : Regex.Replace(item.item.ToString(), @"<.*?>", string.Empty));
+                        table.Rows[indexRow].Cells[2].Paragraphs.First().Append(item.satuan == null ? "" : item.satuan.ToString());
+                        table.Rows[indexRow].Cells[3].Paragraphs.First().Append(item.jumlah == null ? "" : item.jumlah.Value.ToString());
+                        table.Rows[indexRow].Cells[3].Width = 10;
+                        table.Rows[indexRow].Cells[4].Paragraphs.First().Append(item.hps == null ? "" : item.hps.Value.ToString("C", MyConverter.formatCurrencyIndo()));
+                        decimal? total = item.jumlah * item.hps;
+                        table.Rows[indexRow].Cells[5].Paragraphs.First().Append(total == null ? "" : total.Value.ToString("C", MyConverter.formatCurrencyIndo()));
+                        table.Rows[indexRow].Cells[6].Paragraphs.First().Append(item.keterangan);
+                        subtotal = subtotal + total.Value;
+                        totalall = totalall + total.Value;
+                    }
+                    else if (item.level == 2)
+                    {
+                        table.Rows[indexRow].Cells[4].Paragraphs.First().Append("Sub Total");
+                        table.Rows[indexRow].Cells[5].Paragraphs.First().Append(subtotal.ToString("C", MyConverter.formatCurrencyIndo()));
+                        subtotal = 0;
+                    }
+                    indexRow++;
+                }
+
+                doc.ReplaceText("{total}", totalall.ToString("C", MyConverter.formatCurrencyIndo()));
+
+                // Insert table at index where tag #TABLE# is in document.
+                //doc.InsertTable(table);
+                foreach (var paragraph in doc.Paragraphs)
+                {
+                    paragraph.FindAll("{tabel}").ForEach(index => paragraph.InsertTableAfterSelf((table)));
+                }
+                //Remove tag
+                doc.ReplaceText("{tabel}", "");
+
+                doc.SaveAs(OutFileNama);
+                streamx.Close();
+            }
+            catch
+            {
+                streamx.Close();
+            }
+
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(OutFileNama, FileMode.Open);
+            result.Content = new StreamContent(stream);
+            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = outputFileName
+            };
+
+            return result;
+        }
+
+        // Create RKS Excel New
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public HttpResponseMessage CetakHPSXLSNew(Guid Id)
+        {
+            var rkstemplate = _rksrepo.getRksTemplate(Id);
+            var spc = new System.Data.DataTable("Jimbis");
+            string outputFileName = "Cetak-HPS" + UserId().ToString() + "-" + DateTime.Now.ToString("dd-MM-yy") + ".xlsx";
+            string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
+
+            var ms = new System.IO.MemoryStream();
+            try
+            {
+                var oVWRKSDetail = rkstemplate.RKSDetailTemplate;
+                
+                using (var sl = new SpreadsheetLight.SLDocument())
+                {
+                    sl.SetCellValue(1, 1, "Judul");
+                    sl.SetCellValue(1, 2, rkstemplate.Title);
+                    sl.SetCellValue(2, 1, "Deskripsi");
+                    sl.SetCellValue(2, 2, rkstemplate.Description);
+                    sl.SetCellValue(3, 1, "Klasifikasi");
+                    sl.SetCellValue(3, 2, rkstemplate.Klasifikasi.ToString());
+                    sl.SetCellValue(4, 1, "Region");
+                    sl.SetCellValue(4, 2, rkstemplate.Region);
+
+                    var rowNum = 6;
+                    //write header
+                    sl.SetCellValue(rowNum, 1, "Nama");
+                    sl.SetCellValue(rowNum, 2, "Item");
+                    sl.SetCellValue(rowNum, 3, "Satuan");
+                    sl.SetCellValue(rowNum, 4, "Jumlah");
+                    sl.SetCellValue(rowNum, 5, "Hps");
+                    sl.SetCellValue(rowNum, 6, "Total");
+                    sl.SetCellValue(rowNum, 7, "Keterangan");
+                    rowNum++;
+                    //write data
+                    decimal subtotal = 0;
+                    decimal totalall = 0;
+                    foreach (var item in oVWRKSDetail)
+                    {
+                        if (item.level == 0)
+                        {
+                            sl.SetCellValue(rowNum, 1, (item.judul));
+                        }
+                        else if (item.level == 1)
+                        {
+                            sl.SetCellValue(rowNum, 2, Regex.Replace(item.item.ToString(), @"<.*?>", string.Empty));
+                            sl.SetCellValue(rowNum, 3, item.satuan);
+                            if (item.jumlah == null) sl.SetCellValue(rowNum, 4, "");
+                            else sl.SetCellValue(rowNum, 4, item.jumlah.Value);
+                            if (item.hps == null) sl.SetCellValue(rowNum, 5, "");
+                            else sl.SetCellValue(rowNum, 5, item.hps.Value.ToString("C", MyConverter.formatCurrencyIndo()));
+                            decimal? total = item.jumlah * item.hps;
+                            if (total == null) sl.SetCellValue(rowNum, 6, "");
+                            else sl.SetCellValue(rowNum, 6, total.Value.ToString("C", MyConverter.formatCurrencyIndo()));
+                            sl.SetCellValue(rowNum, 7, item.keterangan);
+                            subtotal = subtotal + total.Value;
+                            totalall = totalall + total.Value;
+                        }
+                        else if (item.level == 2)
+                        {
+                            sl.SetCellValue(rowNum, 5, "Sub Total");
+                            sl.SetCellValue(rowNum, 6, subtotal.ToString("C", MyConverter.formatCurrencyIndo()));
+                            subtotal = 0;
+                        }
+                        rowNum++;
+                    }
+
+                    sl.SetCellValue(5, 1, "Total HPS");
+                    sl.SetCellValue(5, 2, totalall.ToString("C", MyConverter.formatCurrencyIndo()));
+
+                    //add filter
+                    sl.SetColumnWidth(4, 12.0);
+                    sl.SetColumnWidth(5, 30.0);
+                    sl.SetColumnWidth(6, 30.0);
+                    sl.SaveAs(ms);
+                }
+
+            }
+            catch
+            {
+
+            }
+
+            ms.Position = 0;
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            //  var stream = new FileStream(ms, FileMode.Open);
+            result.Content = new StreamContent(ms);
+            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = outputFileName
+            };
+            return result;
+        }
+
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
@@ -1894,9 +2096,7 @@ namespace Reston.Pinata.WebService.Controllers
 
             var ms = new System.IO.MemoryStream();
             try
-            {
-
-
+            { 
                 var oVWRKSDetail = _repository.getRKSDetails(pengadaan.Id, UserId());
                 
                 using (var sl = new SpreadsheetLight.SLDocument())
@@ -1908,7 +2108,7 @@ namespace Reston.Pinata.WebService.Controllers
                     sl.SetCellValue(3, 1, "Unit Kerja");
                     sl.SetCellValue(3, 2, pengadaan.UnitKerjaPemohon == null ? "" : pengadaan.UnitKerjaPemohon);
 
-                    var rowNum = 4;
+                    var rowNum = 6;
                     //write header
                     sl.SetCellValue(rowNum, 1, "Item");
                     sl.SetCellValue(rowNum, 2, "Satuan");
@@ -1935,8 +2135,8 @@ namespace Reston.Pinata.WebService.Controllers
 
                     //add filter
                     sl.SetColumnWidth(3, 12.0);
-                    sl.SetColumnWidth(4, 45.0);
-                    sl.SetColumnWidth(5, 45.0);
+                    sl.SetColumnWidth(4, 30.0);
+                    sl.SetColumnWidth(5, 30.0);
 
                     sl.SaveAs(ms);
                 }
@@ -1949,7 +2149,7 @@ namespace Reston.Pinata.WebService.Controllers
 
             ms.Position = 0;
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-          //  var stream = new FileStream(ms, FileMode.Open);
+            //  var stream = new FileStream(ms, FileMode.Open);
             result.Content = new StreamContent(ms);
             //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -1959,12 +2159,7 @@ namespace Reston.Pinata.WebService.Controllers
                 FileName = outputFileName
             };
             return result;
-
         }
-
-
-
-
     }
 }
 

@@ -134,15 +134,6 @@
           <aside class="main-sidebar" >
             <!-- sidebar: style can be found in sidebar.less -->
              <section class="sidebar" >
-			 <!--   <div class="user-panel" ng-controller="user">				
-				    <div class="pull-left info">
-					    <p class="title" ng-bind="user.nama"></p>
-					    <p class="deskripsi" ng-bind="user.divisi"></p>
-				    </div>
-				    <div class="pull-right image image-profile">
-					    <img alt="User Image" class="img-circle" src="{{user.logo}}" >
-				    </div>
-			    </div>-->
               <!-- sidebar menu: : style can be found in sidebar.less -->
               <ul class="sidebar-menu"  ng-controller="side-menu">
                <!-- <li class="header">MAIN NAVIGATION</li>-->
@@ -175,67 +166,61 @@
 						</div>
 					</div>	
 					<div class="col-md-10">
-						<form role="form" class="jp-form">
-							<div class="row" >
-								<div class="form-group">
-									<div class="form-group judul-pengadaan">
-										<label id="judul"></label>											
-									</div>
-									<div class="form-group">
-										<label id="deskripsi"> </label>											
-									</div>										
-									<div class="form-group">
-										<label id="keterangan"></label>
-									</div>	
+                        <form role="form" class="jp-form">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="form-group judul-pengadaan">
+                                        <label id="judul"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="deskripsi"> </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="keterangan"></label>
+                                    </div>
                                     <!--<div class="form-group">
-										<label id="Status"></label>
-									</div>-->			
-								</div>
-							</div>	
-							<div class="row" >				
-								<div class="form-group col-md-6">
-									<label style="display:block"><b>Total HPS : </b></label>
-									<label style="display:block" id="totalRKS">0</label>
-								</div>
-							</div>
-							<div class="row">	
-								<div class="row">
-									<div class="col-md-12">
-										<div class="padtop  button-row">
-											<a id="left" class="left btn btn-primary" data-toggle="tooltip" title="Outdent Untuk Item Baris"><span class="fa fa-outdent"></span></a>
-											<a id="right" class="right btn  btn-primary" data-toggle="tooltip" title="Indent Untuk Item Baris" ><span class="fa fa-indent"></span></a>
-											<a id="edit" class="edit btn btn-primary" data-toggle="tooltip" title="Klik Button Ini Untuk Mengedit / Menyimpan RKS" ><span class="fa fa-check"></span></a>
-                                            <a id="add" alt="tambah baris" class="add btn btn-primary" data-toggle="tooltip" title="Tambah Item Baris" ><span class="fa fa-plus"></span></a>
-                                             <a  class="add btn btn-primary load-rks" data-toggle="tooltip" title="Load From Repository HPS" >Load From HPS Repository </a>
-                                              <a  class="add btn btn-primary save-template-hps" data-toggle="tooltip" title="Save To Repository HPS" >Save To HPS Repository </a>
-                                            
-											<!--<a id="take" class="btn btn-xs btn-primary" ><span class="fa  fa-edit"></span></a>	
-												-->								
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12">
+                    <label id="Status"></label>
+                </div>-->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label style="display:block"><b>Total HPS : </b></label>
+                                    <label style="display:block" id="totalRKS">0</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="padtop  button-row">
+                                            <a alt="tambah judul" class="add btn btn-primary add-judul" attr="0" data-toggle="tooltip" title="Tambah Judul"><span class="fa fa-plus"></span> Add Judul</a>
+                                            <a class="add btn btn-primary load-rks" data-toggle="tooltip" title="Load From Repository HPS">Load From HPS Repository </a>
+                                            <a class="add btn btn-primary save-template-hps" data-toggle="tooltip" title="Save To Repository HPS">Save To HPS Repository </a>
+                                            <!--<a id="take" class="btn btn-xs btn-primary" ><span class="fa  fa-edit"></span></a>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
                                         <input type="hidden" id="idRks" />
-									    <table id="example1" class="table table-bordered table-hover" width="100%">
-									        <thead>
-									            <tr>
-									                <th>Item</th>
-									                <th>Satuan</th>
-									                <th>Jumlah</th>
-									                <th>HPS Satuan</th>
-									                <th>Total</th>
-									                <th>Keterangan</th>
-									                <th>action</th>
-									            </tr>
-									        </thead>
-									        <tbody>
-												
-									        </tbody>
-									    </table>
-                                        
-                                        
-                                        <table style="display:none" id="example2" class="table table-bordered  editabletable" width="100%">
+                                        <table id="example1" class="table table-bordered table-hover" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th class="tengah">Nama</th>
+                                                    <th class="tengah">Item</th>
+                                                    <th class="tengah">Satuan</th>
+                                                    <th class="tengah">Jumlah</th>
+                                                    <th class="tengah">HPS Satuan</th>
+                                                    <th class="tengah">Total</th>
+                                                    <th class="tengah">Keterangan</th>
+                                                    <th class="tengah">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+
+
+                                        <!--<table style="display:none" id="example2" class="table table-bordered  editabletable" width="100%">
                                             <thead>
                                                 <tr>
                                                     <th>Item</th>
@@ -248,23 +233,11 @@
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
-                                        </table>
-									</div>											
-								</div>
-                                <div class="row">
-									<div class="col-md-12">
-										<div class="padtop  button-row">
-											<a id="A1" class="left btn btn-primary" data-toggle="tooltip" title="Outdent Untuk Item Baris"><span class="fa fa-outdent"></span></a>
-											<a id="A2" class="right btn  btn-primary" data-toggle="tooltip" title="Indent Untuk Item Baris" ><span class="fa fa-indent"></span></a>
-											<a id="A3" class="edit btn btn-primary" data-toggle="tooltip" title="Klik Button Ini Untuk Mengedit / Menyimpan RKS" ><span class="fa fa-check"></span></a>
-                                            <a id="a4" alt="tambah baris" class="add btn btn-primary" data-toggle="tooltip" title="Tambah Item Baris" ><span class="fa fa-plus"></span></a>
-											<!--<a id="take" class="btn btn-xs btn-primary" ><span class="fa  fa-edit"></span></a>	
-												-->								
-										</div>
-									</div>
-								</div>
-							</div>						
-						</form>							
+                                        </table>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </form>							
 					</div>	
 				</div>
 			</div>

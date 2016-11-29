@@ -158,6 +158,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Guid Id { get; set; }
         [ForeignKey("RKSHeader")]
         public Nullable<Guid> RKSHeaderId { get; set; }
+        public string judul { get; set; }
+        public Nullable<int> level { get; set; }
+        public int? grup { get; set; }
         public Nullable<Guid> ItemId { get; set; }
         public string item { get; set; }
         public string satuan { get; set; }
@@ -180,6 +183,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public String Title { get; set; }
         public String Description { get; set; }
         public KlasifikasiPengadaan Klasifikasi { get; set; }
+        public String Region { get; set; }
         public Nullable<decimal> Total { get; set; }
         public Nullable<DateTime> CreateOn { get; set; }
         public Nullable<Guid> CreateBy { get; set; }
@@ -196,6 +200,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Guid Id { get; set; }
         [ForeignKey("RKSHeaderTemplate")]
         public Nullable<Guid> RKSHeaderTemplateId { get; set; }
+        public string judul { get; set; }
+        public Nullable<int> level { get; set; }
+        public Nullable<int> group { get; set; }
         public Nullable<Guid> ItemId { get; set; }
         public string item { get; set; }
         public string satuan { get; set; }
