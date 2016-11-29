@@ -8,6 +8,7 @@ using Reston.Pinata.Model.JimbisModel;
 using Reston.Pinata.Model.PengadaanRepository;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Infrastructure;
+using Reston.Eproc.Model.Monitoring.Entities;
 
 namespace Reston.Pinata.Model
 {
@@ -96,6 +97,10 @@ namespace Reston.Pinata.Model
         public virtual DbSet<RiwayatDokumen> RiwayatDokumens { get; set; }
         public virtual DbSet<RKSHeaderTemplate> RKSHeaderTemplate { get; set; }
         public virtual DbSet<RKSDetailTemplate> RKSDetailTemplate { get; set; }
+        public virtual DbSet<MonitoringPekerjaan> MonitoringPekerjaans { get; set; }
+        public virtual DbSet<DetailPekerjaan> DetailPekerjaans { get; set; }
+        public virtual DbSet<JadwalProyek> JadwalProyeks { get; set; }
+
         public virtual DbSet<SysLog> SysLogs { get; set; }
         //workflow
         //public virtual DbSet<WorkflowMasterTemplate> WorkflowMasterTemplates { get; set; }

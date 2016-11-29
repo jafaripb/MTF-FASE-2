@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reston.Eproc.Model.Monitoring.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -59,6 +60,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual ICollection<PersonilPengadaan> PersonilPengadaans { get; set; }
         public virtual ICollection<RKSHeader> RKSHeaders { get; set; }
         public virtual ICollection<BintangPengadaan> BintangPengadaans { get; set; }
+        public virtual ICollection<MonitoringPekerjaan> MonitoringPekerjaans { get; set; }
     }
 
     [Table("DokumenPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]

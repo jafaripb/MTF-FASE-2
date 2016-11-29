@@ -176,6 +176,7 @@
     <Content Include="View\dist\js\rks-gatot.js" />
     <Content Include="View\dist\js\rks-format-decimal-indo-masih-gagal.js" />
     <Content Include="View\dist\js\rekanan-rks.bak.28-7-16.js" />
+    <Content Include="View\dist\js\sistem-monitoring.js" />
     <Content Include="View\kontrak.html" />
     <Content Include="View\kontrak-add.html" />
     <Content Include="View\dashboard.html" />
@@ -316,6 +317,8 @@
     <Content Include="View\menu-header.html" />
     <Content Include="View\menu-vendor.html" />
     <Content Include="View\menu.html" />
+    <Content Include="View\monitoring-proyek-add.html" />
+    <Content Include="View\monitoring-selection.html" />
     <Content Include="View\pengadaan-add.html" />
     <Content Include="View\pengadaan-arsip.html" />
     <Content Include="View\pengadaan-detail-edit.html" />
@@ -1714,6 +1717,8 @@
     <Content Include="View\rks-view.html" />
     <Content Include="View\rks.html" />
     <Content Include="View\repository-rks.html" />
+    <Content Include="View\sistem-monitoring-detail.html" />
+    <Content Include="View\sistem-monitoring.html" />
     <Content Include="View\site.js" />
     <Content Include="View\surat-pesan-barang.html" />
     <Content Include="View\vendor-list.html" />
