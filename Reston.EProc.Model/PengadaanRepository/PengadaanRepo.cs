@@ -3502,12 +3502,15 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                          Id = b.Id,
                                          hps = b.hps,
                                          item = b.item,
+                                         judul = b.judul,
+                                         level = b.level,
+                                         grup = b.grup,
                                          jumlah = b.jumlah,
                                          satuan = b.satuan,
                                          total = b.jumlah == null ? 0 : b.jumlah * b.hps,
                                          keterangan = b.keterangan
-                                     }).ToList();
-            hps.Add(new VWRKSDetail { item = "Total", total = hps.Sum(d => d.total) });
+                                     }).OrderBy(d => d.grup).ThenBy(d => d.level).ToList();
+            //hps.Add(new VWRKSDetail { item = "Total", total = hps.Sum(d => d.total) });
             return hps;
         }
 

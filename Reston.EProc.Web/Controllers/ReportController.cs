@@ -2021,36 +2021,54 @@ namespace Reston.Pinata.WebService.Controllers
             try
             {
                 var doc = DocX.Load(streamx);//.Create(OutFileNama);
-                doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
+                doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul);
                 doc.ReplaceText("{nomor_berita_acara}", pengadaan.NoPengadaan == null ? "" : pengadaan.NoPengadaan);
                 doc.ReplaceText("{pengadaan_unit_pemohon}", pengadaan.UnitKerjaPemohon == null ? "" : pengadaan.UnitKerjaPemohon);
 
-
                 var oVWRKSDetail = _repository.getRKSDetails(pengadaan.Id, UserId());
-                var table = doc.AddTable(oVWRKSDetail.Count() + 1, 6);
-
+                var table = doc.AddTable(oVWRKSDetail.Count() + 1, 7);
 
                 int indexRow = 0;
-                table.Rows[indexRow].Cells[0].Paragraphs.First().Append("Item");
-                table.Rows[indexRow].Cells[1].Paragraphs.First().Append("Satuan");
-                table.Rows[indexRow].Cells[2].Paragraphs.First().Append("Jumlah");
-                table.Rows[indexRow].Cells[2].Width = 10;
-                table.Rows[indexRow].Cells[3].Paragraphs.First().Append("Hps Satuan");
-                table.Rows[indexRow].Cells[4].Paragraphs.First().Append("Total");
-                table.Rows[indexRow].Cells[5].Paragraphs.First().Append("Keterangan");
+                table.Rows[indexRow].Cells[0].Paragraphs.First().Append("Nama");
+                table.Rows[indexRow].Cells[1].Paragraphs.First().Append("Item");
+                table.Rows[indexRow].Cells[2].Paragraphs.First().Append("Satuan");
+                table.Rows[indexRow].Cells[3].Paragraphs.First().Append("Jumlah");
+                table.Rows[indexRow].Cells[3].Width = 10;
+                table.Rows[indexRow].Cells[4].Paragraphs.First().Append("Hps Satuan");
+                table.Rows[indexRow].Cells[5].Paragraphs.First().Append("Total");
+                table.Rows[indexRow].Cells[6].Paragraphs.First().Append("Keterangan");
                 indexRow++;
+                decimal subtotal = 0;
+                decimal totalall = 0;
                 foreach (var item in oVWRKSDetail)
                 {
-                    table.Rows[indexRow].Cells[0].Paragraphs.First().Append(item.item == null ? "" : Regex.Replace(item.item.ToString(), @"<.*?>", string.Empty));
-                    table.Rows[indexRow].Cells[1].Paragraphs.First().Append(item.satuan == null ? "" : item.satuan.ToString());
-                    table.Rows[indexRow].Cells[2].Paragraphs.First().Append(item.jumlah == null ? "" : item.jumlah.Value.ToString("C", MyConverter.formatCurrencyIndoTanpaSymbol()));
-                    table.Rows[indexRow].Cells[2].Width = 10;
-                    table.Rows[indexRow].Cells[3].Paragraphs.First().Append(item.hps == null ? "" : item.hps.Value.ToString("C", MyConverter.formatCurrencyIndo()));
-                    table.Rows[indexRow].Cells[4].Paragraphs.First().Append(item.total == null ? "" : item.total == 0 ? "" : item.total.Value.ToString("C", MyConverter.formatCurrencyIndo()));
-                    table.Rows[indexRow].Cells[5].Paragraphs.First().Append(item.keterangan);
+                    if (item.level == 0)
+                    {
+                        table.Rows[indexRow].Cells[0].Paragraphs.First().Append(item.judul == null ? "" : item.judul.ToString());
+
+                    }
+                    else if (item.level == 1)
+                    {
+                        table.Rows[indexRow].Cells[1].Paragraphs.First().Append(item.item == null ? "" : Regex.Replace(item.item.ToString(), @"<.*?>", string.Empty));
+                        table.Rows[indexRow].Cells[2].Paragraphs.First().Append(item.satuan == null ? "" : item.satuan.ToString());
+                        table.Rows[indexRow].Cells[3].Paragraphs.First().Append(item.jumlah == null ? "" : item.jumlah.Value.ToString());
+                        table.Rows[indexRow].Cells[3].Width = 10;
+                        table.Rows[indexRow].Cells[4].Paragraphs.First().Append(item.hps == null ? "" : item.hps.Value.ToString("C", MyConverter.formatCurrencyIndo()));
+                        decimal? total = item.jumlah * item.hps;
+                        table.Rows[indexRow].Cells[5].Paragraphs.First().Append(total == null ? "" : total.Value.ToString("C", MyConverter.formatCurrencyIndo()));
+                        table.Rows[indexRow].Cells[6].Paragraphs.First().Append(item.keterangan);
+                        subtotal = subtotal + total.Value;
+                        totalall = totalall + total.Value;
+                    }
+                    else if (item.level == 2)
+                    {
+                        table.Rows[indexRow].Cells[4].Paragraphs.First().Append("Sub Total");
+                        table.Rows[indexRow].Cells[5].Paragraphs.First().Append(subtotal.ToString("C", MyConverter.formatCurrencyIndo()));
+                        subtotal = 0;
+                    }
                     indexRow++;
                 }
-
+                doc.ReplaceText("{total_hps}", totalall.ToString("C", MyConverter.formatCurrencyIndo()));
                 // Insert table at index where tag #TABLE# is in document.
                 //doc.InsertTable(table);
                 foreach (var paragraph in doc.Paragraphs)
@@ -2102,7 +2120,7 @@ namespace Reston.Pinata.WebService.Controllers
                 using (var sl = new SpreadsheetLight.SLDocument())
                 {
                     sl.SetCellValue(1, 1, "Judul Pengadaan");
-                    sl.SetCellValue(1, 2, pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
+                    sl.SetCellValue(1, 2, pengadaan.Judul == null ? "" : pengadaan.Judul);
                     sl.SetCellValue(2, 1, "Nomor Pengadaan");
                     sl.SetCellValue(2, 2, pengadaan.NoPengadaan == null ? "" : pengadaan.NoPengadaan);
                     sl.SetCellValue(3, 1, "Unit Kerja");
@@ -2110,33 +2128,53 @@ namespace Reston.Pinata.WebService.Controllers
 
                     var rowNum = 6;
                     //write header
-                    sl.SetCellValue(rowNum, 1, "Item");
-                    sl.SetCellValue(rowNum, 2, "Satuan");
-                    sl.SetCellValue(rowNum, 3, "Jumlah");
-                    sl.SetCellValue(rowNum, 4, "Hps");
-                    sl.SetCellValue(rowNum, 5, "Total");
-                    sl.SetCellValue(rowNum, 6, "Keterangan");
-
+                    sl.SetCellValue(rowNum, 1, "Nama");
+                    sl.SetCellValue(rowNum, 2, "Item");
+                    sl.SetCellValue(rowNum, 3, "Satuan");
+                    sl.SetCellValue(rowNum, 4, "Jumlah");
+                    sl.SetCellValue(rowNum, 5, "Hps");
+                    sl.SetCellValue(rowNum, 6, "Total");
+                    sl.SetCellValue(rowNum, 7, "Keterangan");
+                    rowNum++;
                     //write data
-
-                    foreach(var item in oVWRKSDetail)
+                    decimal subtotal = 0;
+                    decimal totalall = 0;
+                    foreach (var item in oVWRKSDetail)
                     {
+                        if (item.level == 0)
+                        {
+                            sl.SetCellValue(rowNum, 1, (item.judul));
+                        }
+                        else if (item.level == 1)
+                        {
+                            sl.SetCellValue(rowNum, 2, Regex.Replace(item.item.ToString(), @"<.*?>", string.Empty));
+                            sl.SetCellValue(rowNum, 3, item.satuan);
+                            if (item.jumlah == null) sl.SetCellValue(rowNum, 4, "");
+                            else sl.SetCellValue(rowNum, 4, item.jumlah.Value);
+                            if (item.hps == null) sl.SetCellValue(rowNum, 5, "");
+                            else sl.SetCellValue(rowNum, 5, item.hps.Value.ToString("C", MyConverter.formatCurrencyIndo()));
+                            decimal? total = item.jumlah * item.hps;
+                            if (total == null) sl.SetCellValue(rowNum, 6, "");
+                            else sl.SetCellValue(rowNum, 6, total.Value.ToString("C", MyConverter.formatCurrencyIndo()));
+                            sl.SetCellValue(rowNum, 7, item.keterangan);
+                            subtotal = subtotal + total.Value;
+                            totalall = totalall + total.Value;
+                        }
+                        else if (item.level == 2)
+                        {
+                            sl.SetCellValue(rowNum, 5, "Sub Total");
+                            sl.SetCellValue(rowNum, 6, subtotal.ToString("C", MyConverter.formatCurrencyIndo()));
+                            subtotal = 0;
+                        }
                         rowNum++;
-                        sl.SetCellValue(rowNum, 1, Regex.Replace(item.item.ToString(), @"<.*?>", string.Empty));
-                        sl.SetCellValue(rowNum, 2, item.satuan);
-                        if (item.jumlah == null)sl.SetCellValue(rowNum, 3,"");
-                        else sl.SetCellValue(rowNum, 3, item.jumlah.Value);
-                        if (item.hps == null) sl.SetCellValue(rowNum, 4, "");
-                        else sl.SetCellValue(rowNum, 4,item.hps.Value);
-                        if (item.total == null) sl.SetCellValue(rowNum, 5, "");
-                        else sl.SetCellValue(rowNum, 5, item.total.Value);
-                        sl.SetCellValue(rowNum, 6, item.keterangan);
                     }
+                    sl.SetCellValue(4, 1, "Total HPS");
+                    sl.SetCellValue(4, 2, totalall.ToString("C", MyConverter.formatCurrencyIndo()));
 
                     //add filter
-                    sl.SetColumnWidth(3, 12.0);
-                    sl.SetColumnWidth(4, 30.0);
+                    sl.SetColumnWidth(4, 12.0);
                     sl.SetColumnWidth(5, 30.0);
+                    sl.SetColumnWidth(6, 30.0);
 
                     sl.SaveAs(ms);
                 }
