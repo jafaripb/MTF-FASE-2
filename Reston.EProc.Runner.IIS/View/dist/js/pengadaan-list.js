@@ -346,12 +346,21 @@ function renderData(data) {
                  '</div>' +
                  '<div class="product-info pegadaan-info">';
         if (data[i].GroupPengadaan == 1) {
-            html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
-        }
+            if (data[i].AturanPengadaan == "Pengadaan Terbuka") {
+                 html = html + '<a href="pengadaan-terbuka-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+                }
+            else {
+                html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+             }
+         }
 
         if (data[i].GroupPengadaan == 2) {
-            html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf ">' + data[i].Judul + ' </a>';
-           
+            if (data[i].AturanPengadaan == "Pengadaan Terbuka") {
+                html = html + '<a href="pengadaan-terbuka-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+            }
+            else {
+                html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf ">' + data[i].Judul + ' </a>';
+            }
             if (data[i].Status == 0)
                 if (data[i].isCreated == 1 || data[i].isPIC == 1) {
                     html = html + '<span attrId="' + data[i].Id + '" class="label label-danger pull-right action HapusPengadaan">Hapus</span>';
@@ -361,8 +370,13 @@ function renderData(data) {
         }
 
         if (data[i].GroupPengadaan == 3) {
-            html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
-        }
+            if (data[i].AturanPengadaan == "Pengadaan Terbuka") {
+                html = html + '<a href="pengadaan-terbuka-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+            }
+            else {
+                html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+            }
+       }
 
 
         html = html + '<span class="product-description pegadaan-description">' +
@@ -482,8 +496,12 @@ function renderDataPerluPerhatian(data) {
                      '<span ><a href="#"><i class="fa fa-fw fa-star-o" ></i></a></span>' +
                  '</div>' +
                  '<div class="product-info pegadaan-info">';
-        html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
-
+        if (data[i].AturanPengadaan == "Pengadaan Terbuka") {
+            html = html + '<a href="pengadaan-terbuka-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+        }
+        else {
+            html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+        }
         if (data[i].Status == 1) {
             if (data[i].Approver == 1) {
                 html = html + '<span class="label label-danger pull-right action tolak" attrId="' + data[i].Id + '">Tolak</span>' +

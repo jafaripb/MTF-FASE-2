@@ -57,6 +57,7 @@ namespace Model.Helper
     {
         public static class Jadwal
         {
+            public static string Pendaftaran = "pendaftaran";
             public static string Aanwijzing = "Aanwijzing";
             public static string PengisianHarga = "pengisian_harga";
             public static string BukaAmplop = "buka_amplop";
