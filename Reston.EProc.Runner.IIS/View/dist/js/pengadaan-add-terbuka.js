@@ -409,6 +409,7 @@ function save(pengadaanHeader,attr1,status) {
     }
 }
 
+
 function getHeaderPengadaan() {
     var viewPengadaan = {};
     viewPengadaan.Judul = $("[name=Judul]").val();
@@ -1498,7 +1499,7 @@ $(function () {
 function aturanPengadaanView() {
     if ($("#AturanPengadaan").val() == "Pengadaan Terbuka") {
         //$("#BingkaiHps").hide();
-        $("#BingkaiKandidat").hide();
+        //$("#BingkaiKandidat").hide();
         $("#jadwal_pendaftaran").show();
         $("#aanwijzing").attr("disabled", "disabled");
 

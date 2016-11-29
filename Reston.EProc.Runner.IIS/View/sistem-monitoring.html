@@ -343,6 +343,68 @@
         $('.datepicker').datepicker({
           autoclose: true
         });
+
+        var table;
+        $(document).ready(function () {
+            table = $('#example1').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/Produk/GetAllProduk',
+                    "type": 'GET',
+                    "data": function (d) {
+                        //d.name = $("#nama_item").val();
+                       // d.region = $("#region option:selected").text();
+                       // d.kategori = $("#kategori option:selected").text();
+                       // d.klasifikasi = $("#klasifikasi").val();
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                        $('#example1').DataTable().clear().draw();
+                    }
+                },
+                //"ajax": 'api/Produk/GetAllProduk?name=' + $("#nama_item").val(),
+                "columns": [
+                    { "data": "Nama" },
+                    { "data": "Region" },
+                    { "data": "Klasifikasi" },
+                    { "data": "Price", "class": "rata_kanan_pad10" },
+                    { "data": "Satuan", "class": "tengah" },
+                    { "data": "LastUpdate", "class": "tengah" },
+                    { "data": "Source" },
+                    { "data": "null", "width": "3%", "class": "tengah" }
+                ],
+                "columnDefs": [
+                         {
+                             "render": function (data, type, row) {
+                                 return '<a href="catalog-detail.html?id=' + row.Id + '">' + data + '</a>';
+                             },
+                             "targets": 0,
+                             "orderable": false
+                         },
+                         {
+                             "render": function (data, type, row) {
+                                 return accounting.formatNumber(row.Price, { thousand: ".", decimal: ",", precision: 2 });
+                             },
+                             "targets": 3,
+                             "orderable": false
+                         },
+                         {
+                             "render": function (data, type, row) {
+                                 return '<a href="javascript:showDeleteConfirmation(' + row.Id + ')" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                             },
+                             "targets": 7,
+                             "orderable": false
+                         }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true
+            });
+        });
     </script>
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 
