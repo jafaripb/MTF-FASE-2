@@ -13,10 +13,16 @@ namespace Reston.Pinata.Model.Helper
     public static class Common
     {
         
-        public static DateTime ConvertDate(string date,string formatDate)
-        {            
-            DateTime Date = DateTime.ParseExact(date, formatDate, CultureInfo.InvariantCulture);
-            return Date;
+        public static DateTime? ConvertDate(string date,string formatDate)
+        {
+            try
+            {
+                DateTime Date = DateTime.ParseExact(date, formatDate, CultureInfo.InvariantCulture);
+                return Date;
+            }catch{
+                return null;
+            }
+            
         }
         public static string SaveSukses()
         {

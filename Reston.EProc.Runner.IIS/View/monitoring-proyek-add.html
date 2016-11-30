@@ -373,27 +373,25 @@
 		<h4 class="modal-title">Tambah Tahapan</h4>
 	  </div>
 	  <div class="modal-body">
-        <form id="form-tahapan-pekerjaan" role="form" class="jp-form">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group col-md-4">
-                        <label class="title">Nama Tahapan</label>
-                        <input type="text" class="form-control" name="nama-tahapan">
-                    </div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group col-md-4">
+					<label class="title">Nama Tahapan</label>
+					<input type="text" class="form-control" name="nama-tahapan">
+				</div>
+			</div>
+		</div>
+		<div class="row">
+            <div class="col-md-12">
+                <div class="form-group col-md-4">
+                    <label class="title">Tanggal</label>
+                    <input id="tanggal" type="text" class="pendaftaran form-control datepicker dateJadwal">
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group col-md-4">
-                        <label class="title">Tanggal</label>
-                        <input id="tanggal-tahapan" type="text" class="tanggal-tahapan form-control datepicker dateJadwal">
-                    </div>
-                </div>
-            </div>
-        </form>
-</div>
+		</div>
+	  </div>
 	  <div class="modal-footer">
-		<button type="button" onclick="" id="SimpanTahapan" class="btn btn-default ">Simpan</button>
+		<button type="button" id="SimpanTahapan" class="btn btn-default ">Simpan</button>
 		<button type="button" class="btn btn-default " data-dismiss="modal">Batal</button>		
 	  </div>
 	</div><!-- /.modal-content -->
@@ -633,8 +631,6 @@
 		  });
 	});
 
-    
-    // tambah draf perencanaan proyek (statusnya = draft)
 	function TambahProyekDraf()
 	{
 	    var nPengadaanId = $("#pengadaanId").val();

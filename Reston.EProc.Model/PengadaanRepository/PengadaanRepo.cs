@@ -48,6 +48,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         int DeletePengadaan(Guid Id, Guid UserId);
         int arsipkan(Guid Id, Guid UserId);
 
+        JadwalPelaksanaan getPelaksanaanPendaftaran(Guid PengadaanId);
+
         JadwalPelaksanaan getPelaksanaanAanwijing(Guid PengadaanId);
         JadwalPelaksanaan addPelaksanaanAanwijing(JadwalPelaksanaan pelaksanaanAanwijzing, Guid UserId);
         List<VWKehadiranKandidatAanwijzing> getKehadiranAanwijzings(Guid PengadaanId);
@@ -1750,6 +1752,34 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public List<PersonilPengadaan> getListPersonilPengadaan(Guid PengadaanId)
         {
             return ctx.PersonilPengadaans.Where(d => d.PengadaanId == PengadaanId).ToList();
+        }
+
+        public JadwalPelaksanaan getPelaksanaanPendaftaran(Guid PengadaanId)
+        {
+            //PelaksanaanAanwijzing MpelaksanaanAanwijzing = ctx.PelaksanaanAanwijzings.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault();
+            JadwalPelaksanaan MjadwalPelaksanaan = ctx.JadwalPelaksanaans.Where(d => d.PengadaanId == PengadaanId && d.statusPengadaan==EStatusPengadaan.DISETUJUI).FirstOrDefault();
+            if (MjadwalPelaksanaan != null)
+            {
+                JadwalPelaksanaan MOJadwalPelaksanaan = new JadwalPelaksanaan();
+                MOJadwalPelaksanaan.Id = MjadwalPelaksanaan.Id;
+                MOJadwalPelaksanaan.PengadaanId = MjadwalPelaksanaan.PengadaanId;
+                MOJadwalPelaksanaan.Mulai = MjadwalPelaksanaan.Mulai;
+                MOJadwalPelaksanaan.Sampai = MjadwalPelaksanaan.Sampai;
+                return MOJadwalPelaksanaan;
+            }
+            else
+            {
+                JadwalPelaksanaan MOJadwalPelaksanaan = new JadwalPelaksanaan();
+                JadwalPengadaan Mjadawal = ctx.JadwalPengadaans.Where(d => d.PengadaanId == PengadaanId && d.tipe == PengadaanConstants.Jadwal.Pendaftaran).FirstOrDefault();
+                if (Mjadawal != null)
+                {
+                    MOJadwalPelaksanaan.Mulai = Mjadawal.Mulai;
+                    MOJadwalPelaksanaan.Sampai = Mjadawal.Sampai;
+                    MOJadwalPelaksanaan.PengadaanId = PengadaanId;
+                    MOJadwalPelaksanaan.Pengadaan = null;
+                }
+                return MOJadwalPelaksanaan;
+            }
         }
 
         public JadwalPelaksanaan getPelaksanaanAanwijing(Guid PengadaanId)
