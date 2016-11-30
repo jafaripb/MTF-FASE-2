@@ -80,7 +80,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
     /////////////////////////////------------------------------------------------------------------------------
     // Monitoring Proyek
 
-    public class RencanaPekerjaan
+    public class RencanaProyek
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -88,8 +88,8 @@ namespace Reston.Eproc.Model.Monitoring.Entities
 
         [ForeignKey("Pengadaan")]
         public Guid PengadaanId { get; set; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
+        public Nullable<DateTime> StartDate { get; set; }
+        public Nullable<DateTime> EndDate { get; set; }
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }
@@ -103,14 +103,50 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [ForeignKey("Pengadaan")]
-        public Guid PengadaanId { get; set; }
+        [ForeignKey("RencanaProyek")]
+        public Guid ProyekId { get; set; }
         public string NamaTahapan { get; set; }
-        public string Tanggal { get; set; }
+        public Nullable<DateTime> Tanggal { get; set; }
+        public Nullable<DateTime> CreatedOn { get; set; }
+        public Nullable<Guid> CreatedBy { get; set; }
+        public Nullable<DateTime> ModifiedOn { get; set; }
+        public Nullable<Guid> ModifiedBy { get; set; }
+        public virtual RencanaProyek RencanaProyek { get; set; }
     }
 
     public class PICProyek
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
+        [ForeignKey("RencanaProyek")]
+        public Guid ProyekId { get; set; }
+        public Guid UserId { get; set; }
+        public string Nama { get; set; }
+        public string Jabatan { get; set; }
+        public string tipe { get; set; }
+        public Nullable<DateTime> CreatedOn { get; set; }
+        public Nullable<Guid> CreatedBy { get; set; }
+        public Nullable<DateTime> ModifiedOn { get; set; }
+        public Nullable<Guid> ModifiedBy { get; set; }
+        public virtual RencanaProyek RencanaProyek { get; set; }
+    }
+
+    public class DokumenProyek
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+
+        [ForeignKey("RencanaProyek")]
+        public Guid ProyekId { get; set; }
+        public string NamaDokumen { get; set; }
+        public string JenisDokumen { get; set; }
+        public Nullable<DateTime> CreatedOn { get; set; }
+        public Nullable<Guid> CreatedBy { get; set; }
+        public Nullable<DateTime> ModifiedOn { get; set; }
+        public Nullable<Guid> ModifiedBy { get; set; }
+        public virtual RencanaProyek RencanaProyek { get; set; }
     }
 }

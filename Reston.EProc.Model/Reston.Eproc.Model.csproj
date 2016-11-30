@@ -99,7 +99,9 @@
     <Compile Include="Monitoring\Entities\MonitoringPekerjaan.cs" />
     <Compile Include="Monitoring\Model\enum.cs" />
     <Compile Include="Monitoring\Model\ViewMonitoring.cs" />
+    <Compile Include="Monitoring\Model\ViewProyek.cs" />
     <Compile Include="Monitoring\Repository\MoritoringRepo.cs" />
+    <Compile Include="Monitoring\Repository\ProyekRepo.cs" />
     <Compile Include="MyClass.cs" />
     <Compile Include="PengadaanRepository\RksRepo.cs" />
     <Compile Include="PengadaanRepository\PengadaanRepo.cs" />
@@ -120,7 +122,9 @@
     <Compile Include="Repository\VendorRepo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
