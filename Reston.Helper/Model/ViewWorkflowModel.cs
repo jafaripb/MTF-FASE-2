@@ -16,4 +16,11 @@ namespace Reston.Helper.Model
         public Nullable<DocumentStatus> DocumentStatus { get; set; }
         public int WorkflowMasterTemplateId { get; set; }
     }
+
+    public class ViewWorkflowTemplate
+    {
+        public Guid? UserId { get; set; }
+        public WorkflowMasterTemplate WorkflowMasterTemplate { get; set; }
+        public List<WorkflowMasterTemplateDetail> WorkflowMasterTemplateDetails { get; set; }
+    }
 }
