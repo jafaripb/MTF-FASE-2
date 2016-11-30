@@ -92,6 +92,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         [ForeignKey("Pengadaan")]
         public Nullable<Guid> PengadaanId { get; set; }
         public Nullable<int> VendorId { get; set; }
+        public Nullable<int> isReady { get; set; }
         public virtual Pengadaan Pengadaan { get; set; }
     }
 
