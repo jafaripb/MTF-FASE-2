@@ -387,7 +387,7 @@
                                                                             <div class="row">
                                                                                 <div class="col-md-8">
                                                                                     <div class="form-group">
-                                                                                        <label class="title">Tanggal Berita Acara xcxcx</label>
+                                                                                        <label class="title">Tanggal Berita Acara</label>
                                                                                         <input id="input-ba-pendaftaran" type="text" class="form-control dateJadwalNoTime action-pelaksanaan">
                                                                                     </div>
                                                                                     <div class="form-group">
@@ -408,11 +408,7 @@
                                                                             <div class="form-group">
                                                                                 <label class="title">
                                                                                     Unduh Berita Acara
-                                                                                    <a class="download-dokumen download-berkas " attr1="berkas-aanwijzing"><i class="fa fa-fw  fa-download"></i></a>
-                                                                                </label>
-                                                                                <label class="title">
-                                                                                    Unduh Daftar Hadir
-                                                                                    <a class="download-berkas" attr1="daftar-hadir"><i class="fa fa-fw  fa-download"></i></a>
+                                                                                    <a class="download-dokumen download-berkas " attr1="berkas-pendaftaran"><i class="fa fa-fw  fa-download"></i></a>
                                                                                 </label>
                                                                             </div>
                                                                         </div>
@@ -441,20 +437,14 @@
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label class="title">Tanggal Aanwijzing</label>
-                                                                                <input type="text" class="form-control dateJadwal  jadwal-pelaksanaan-aanwijzing-dari action-pelaksanaan">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label class="title">s/d</label>
-                                                                                <input  type="text" class="form-control dateJadwal  jadwal-pelaksanaan-aanwijzing-sampai action-pelaksanaan">
+                                                                                <input id="#next-aanwijing-dari" type="text" class="form-control dateJadwal  jadwal-pelaksanaan-aanwijzing-dari action-pelaksanaan">
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-2">
                                                                             <div class="form-group">
-                                                                                <button id="btn-next-jadwal-aawijzing" class="btn btn-success pull-left next-step action-pelaksanaan" elDari="#next-submit-dari" elSampai="#next-submit-sampai" disabled="disabled">Save&NextStep</button>
+                                                                                <button id="btn-next-jadwal-aawijzing" class="btn btn-success pull-left next-step action-pelaksanaan" elDari="#next-aanwijing-dari" elSampai="" disabled="disabled">Save&NextStep</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -889,17 +879,17 @@
                                                                                 <input id="next-pemenang-dari" type="text" class="form-control dateJadwal">
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-4">
+                                                                     <!--   <div class="col-md-4">
                                                                             <div class="form-group" style="display:none">
                                                                                 <label class="title">s/d</label>
-                                                                                <input id="next-pemenang-sampai" type="text" class="form-control dateJadwal">
+                                                                                <input id="next-pemenang-sampai" type="text" class="form-control dateJadwal">elSampai="#next-pemenang-sampai"
                                                                             </div>
-                                                                        </div>
+                                                                        </div>-->
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-2">
                                                                             <div class="form-group">
-                                                                                <button id="btn-next-pemenang" class="btn btn-success pull-left next-step" elDari="#next-pemenang-dari" elSampai="#next-pemenang-sampai" disabled="disabled">Save&NextStep</button>
+                                                                                <button id="btn-next-pemenang" class="btn btn-success pull-left next-step" elDari="#next-pemenang-dari" elSampai="" disabled="disabled">Save&NextStep</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
