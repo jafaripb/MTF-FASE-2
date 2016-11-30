@@ -14,16 +14,12 @@ namespace MTF_x.Controllers
         PengadaanContext context = new PengadaanContext();
         public ActionResult Index()
         {
-           
-        
             return View();
-
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
@@ -41,34 +37,28 @@ namespace MTF_x.Controllers
                         where tipe='pendaftaran' and mulai <= getdate() and Sampai >= GETDATE())";
 
            // sql = @"select * from  pengadaan.pengadaan x";
-
             var dt = context.Pengadaan.SqlQuery(sql).ToList();
             return View(dt);
-
         }
 
         public ActionResult Announcement()
         {
-            var sql = @"select * from  pengadaan.pengadaan x 
-                        where aturanpengadaan = 'Pengadaan Terbuka' and x.Id in 
-                        (
-                            select distinct pengadaanid from pengadaan.JadwalPengadaan 
-                            where tipe='pendaftaran' and Sampai < GETDATE()
-                        )";
-
-            //sql = @"select * from  pengadaan.pengadaan x";
-
-            var dt = context.Pengadaan.SqlQuery(sql).ToList();
+            /* var sql = @"select * from  pengadaan.pengadaan x 
+                         where aturanpengadaan = 'Pengadaan Terbuka' and x.Id in 
+                         (
+                             select distinct pengadaanid from pengadaan.JadwalPengadaan 
+                             where tipe='pendaftaran' and Sampai < GETDATE()
+                         )";*/
+            var sql = @"select * from  pengadaan.pengadaan x where aturanpengadaan = 'Pengadaan Terbuka' and GroupPengadaan='1'";
+            var dt = context.Pengadaan.Where(d => d.AturanPengadaan== "Pengadaan Terbuka" & d.GroupPengadaan==EGroupPengadaan.DALAMPELAKSANAAN).ToList(); //context.Pengadaan.SqlQuery(sql).ToList();
 
             var list = new List<AnnouncementPengadaan>();
             foreach (var pengadaan in dt)
             {
                 var an = new AnnouncementPengadaan(pengadaan);
-                list.Add(an);
-                
+                list.Add(an);    
             }
             return View(list);
-
         }
 
         public ActionResult DetailData(Guid idGuid)

@@ -1545,6 +1545,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
             if (mdokPengadaan != null)
             {
                 mdokPengadaan.File = dokumenPengadaan.File;
+                mdokPengadaan.ModifiedOn = DateTime.Now;
+                mdokPengadaan.ModifiedBy = UserId;
                 Vendor oVendor = ctx.Vendors.Where(d => d.Owner == UserId).FirstOrDefault();
                 if (oVendor != null) mdokPengadaan.VendorId = oVendor.Id;
             }
@@ -1552,6 +1554,12 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 Vendor oVendor = ctx.Vendors.Where(d => d.Owner == UserId).FirstOrDefault();
                 if (oVendor != null) dokumenPengadaan.VendorId = oVendor.Id;
+                try
+                {
+                    dokumenPengadaan.CreateOn = DateTime.Now;
+                    dokumenPengadaan.CreateBy = UserId;
+                }
+                catch (Exception ex) { }
                 ctx.DokumenPengadaans.Add(dokumenPengadaan);
             }
             ctx.SaveChanges();

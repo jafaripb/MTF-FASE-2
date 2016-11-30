@@ -10,9 +10,13 @@ namespace Reston.Eproc.Model.Monitoring.Model
     public class ViewMonitoringSelection
     {
         public Guid Id { get; set; }
-        public string NamaPekejaan{ get; set; }
-        public decimal Nilai { get; set; }
+        public string NoPengadaan{ get; set; }
+        public string Judul { get; set; }
+        public string Pemenang { get; set; }
         public string Klasifikasi { get; set; }
+        public DateTime? TanggalPenentuanPemenang { get; set; }
+        public Decimal NilaiKontrak { get; set; }
+        public String PIC{ get; set; }
         public StatusMonitored Monitored { get; set; }
         public StatusSeleksi Status { get; set; }
     }

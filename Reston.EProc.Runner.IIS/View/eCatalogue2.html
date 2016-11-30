@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Mandiri Tunas Finance</title>
@@ -12,128 +12,122 @@
     <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-      <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
-	
-	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
-      <link href="plugins/datatables/extensions/responsive/css/datatables.responsive.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link href="plugins/datatables/extensions/responsive/css/datatables.responsive.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-	<link rel="stylesheet" href="dist/site.css">
-	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
-	
-  </head>
- <body class="hold-transition skin-blue sidebar-collapse sidebar-mini  fixed">
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+</head>
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini  fixed">
     <div class="wrapper">
-
-      
-    <div id="header">
-        <header class="main-header">
-            <!-- Logo -->
-            <a class="logo">
-                <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
-                <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
-            </a>
-            <!-- Header Navbar: style can be found in header.less -->
-            <nav class="navbar navbar-static-top" role="navigation">
-                <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
-                <div class="navbar-custom-menu pull-left">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a id="judul-page" href="#">Katalog-e</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="navbar-custom-menu">
-                    <ul id="menu-top" class="nav navbar-nav">
-                        <li>
-                            <!--<div id="searchForm" class="pull-right" style="padding-top:10px;padding-right:5px">
-                                <form action="" class="search-form">
-                                    <div class="form-group has-feedback">
-                                        <label for="search" class="sr-only">Search</label>
-                                        <input type="text" class="form-control" name="search" id="search">
-                                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                    </div>
-                                </form>
-                            </div>-->
-                        </li>
-                        <li><a title="Tambah" href="add-eCatalogue2.html"><i class="fa fa-plus " style="font-size:20px;color:green"></i></a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-    </div>
-          <!-- Left side column. contains the logo and sidebar -->
-      <div id="menu"  >
-          <aside class="main-sidebar" >
-            <!-- sidebar: style can be found in sidebar.less -->
-             <section class="sidebar" >
-			    <!--<div class="user-panel" ng-controller="user">				
-				    <div class="pull-left info">
-					    <p class="title" ng-bind="user.nama"></p>
-					    <p class="deskripsi" ng-bind="user.divisi"></p>
-				    </div>
-				    <div class="pull-right image image-profile">
-					    <img alt="User Image" class="img-circle" src="{{user.logo}}" >
-				    </div>
-			    </div>-->
-              <!-- sidebar menu: : style can be found in sidebar.less -->
-              <ul class="sidebar-menu"  ng-controller="side-menu">
-               <!-- <li class="header">MAIN NAVIGATION</li>-->
-             
-			    <li class="treeview" ng-repeat="menu in menus">
-				    <a href="{{menu.url}}">
-				        <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
-				    </a>				
-			    </li>
-              </ul>
-            </section>
-            <!-- /.sidebar -->
-          </aside>
-     </div>
-    
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-    		 <section class="content">
-
-			<!-- Default box -->
-			<div class="box box-primary box-white">
-										
-				<div class="box-body form-horizontal">	
-					<div class="box">
-						<div class="box-header with-border">
-							<h3 class="box-title">Cari Berdasarkan</h3>
-							<div class="box-tools pull-right">
-							</div>
-						</div>
-						<div class="box-body">	
-								<div class="row">
-									<div class="col-md-12">
-										<form class="form-horizontal label-kanan">
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">Item Name</label>
-                                            <div class="col-sm-4">
-                                                <input id="nama_item" type="text" class="form-control " placeholder="Nama Item">
-                                            </div>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a id="judul-page" href="#">Katalog-e</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li>
+                                <!--<div id="searchForm" class="pull-right" style="padding-top:10px;padding-right:5px">
+                                    <form action="" class="search-form">
+                                        <div class="form-group has-feedback">
+                                            <label for="search" class="sr-only">Search</label>
+                                            <input type="text" class="form-control" name="search" id="search">
+                                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
                                         </div>
-										
-										<div class="form-group">
-											<label  class="col-sm-2 control-label">Region</label>
-											<div class="col-sm-4">
-												<select id="region" class="form-control select2" style="width: 100%;">
-												  <option selected="selected" value=""></option>
-												  
-												</select>
-											</div>
-										</div>	
+                                    </form>
+                                </div>-->
+                            </li>
+                            <li><a title="Tambah" href="add-eCatalogue2.html"><i class="fa fa-plus " style="font-size:20px;color:green"></i></a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!--<div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.nama"></p>
+                            <p class="deskripsi" ng-bind="user.divisi"></p>
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                        </div>
+                    </div>-->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <!-- Default box -->
+                <div class="box box-primary box-white">
+                    <div class="box-body form-horizontal">
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Cari Berdasarkan</h3>
+                                <div class="box-tools pull-right">
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form class="form-horizontal label-kanan">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Item Name</label>
+                                                <div class="col-sm-4">
+                                                    <input id="nama_item" type="text" class="form-control " placeholder="Nama Item">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Region</label>
+                                                <div class="col-sm-4">
+                                                    <select id="region" class="form-control select2" style="width: 100%;">
+                                                        <option selected="selected" value=""></option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Klasifikasi</label>
                                                 <div class="col-sm-4">
@@ -145,247 +139,233 @@
                                                 </div>
                                             </div>
 
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">Kategori</label>
-                                            <div class="col-sm-4">
-                                                <select id="kategori" class="form-control select2" style="width: 100%;">
-                                                    <option selected="selected" value=""></option>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Kategori</label>
+                                                <div class="col-sm-4">
+                                                    <select id="kategori" class="form-control select2" style="width: 100%;">
+                                                        <option selected="selected" value=""></option>
 
-                                                </select>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>	
-										
-										</form>
-									</div>
-								</div>
-								<div class="row ">
-										<div class="col-md-12">
-												<div class="submitgray button-row">
-													<button id="cari" class="btn btn-primary " type="submit">Cari</button>
-                                                    <button id="tambah" class="btn btn-success" onclick="NewItem()" type="submit">Tambah Item Baru</button>
-												</div>
-										</div> 
-									</div>
-						</div>
-						<div class="box-body">	
-								<div class="row">
-										<div class="col-md-12">
-											 <table id="example1" class="table table-bordered">
-												<thead>
-												  <tr>
-													<th class="tengah">Name</th>
+
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-12">
+                                        <div class="submitgray button-row">
+                                            <button id="cari" class="btn btn-primary " type="submit">Cari</button>
+                                            <button id="tambah" class="btn btn-success" onclick="NewItem()" type="submit">Tambah Item Baru</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table id="example1" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th class="tengah">Name</th>
                                                     <!--<th>Label</th>-->
-													<th class="tengah">Region</th>
-                                                      <th class="tengah">Klasifikasi</th>
-													<th class="tengah">Price</th>
+                                                    <th class="tengah">Region</th>
+                                                    <th class="tengah">Klasifikasi</th>
+                                                    <th class="tengah">Price</th>
                                                     <th class="tengah">Unit</th>
-													<th class="tengah">Last Update</th>
-													<th class="tengah">Price Source</th>
-													<th class="tengah">Action</th>
-												  </tr>
-												</thead>
-												<tbody>
-												</tbody>
-											  </table>
-										</div>											
-									</div>
-						</div>
-					</div>
-					</div>
-				</div>	
-		</section><!-- /.content -->
-    
-		</div><!-- /.content-wrapper -->
-       
-	   <footer class="main-footer">
-        <!--<div class="pull-right hidden-xs">
-          <b>Version</b> 1.0.0
-        </div>
-        <strong>Supplier Relation Management</strong> -->
-	    </footer>
+                                                    <th class="tengah">Last Update</th>
+                                                    <th class="tengah">Price Source</th>
+                                                    <th class="tengah">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+            <!--<div class="pull-right hidden-xs">
+              <b>Version</b> 1.0.0
+            </div>
+            <strong>Supplier Relation Management</strong> -->
+        </footer>
     </div><!-- ./wrapper -->
 
-     <div id="DeleteModal" class="modal fade" role="dialog">
-         <div class="modal-dialog">
-             <input type="hidden" id="row_index" />
-             <!-- Modal content-->
+    <div id="DeleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
 
-             <div class="modal-content">
-                 
-                    <input type="hidden" id="IdProduk" name="IdProduk" />
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <input type="hidden" id="tobeDelete"/>
-                        <h4 class="modal-title">Konfirmasi penghapusan</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            Anda akan menghapus data ini?
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" value="Hapus" onclick="Delete()" class="btn btn-default">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
-                    </div>
-             </div>
+            <div class="modal-content">
+                <input type="hidden" id="IdProduk" name="IdProduk" />
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="tobeDelete" />
+                    <h4 class="modal-title">Konfirmasi penghapusan</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Anda akan menghapus data ini?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Hapus" onclick="Delete()" class="btn btn-default">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
 
-         </div>
-     </div>
-	
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    
-	 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
-	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
-     <script src="plugins/datatables/extensions/responsive/js/datatables.responsive.min.js"></script>
-	<script src="plugins/jQueryUItotop/easing.js"></script>
-	<script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>	
-     <script src="plugins/angular/angular.min.js"></script>
-      <script src="dist/js/app.min.js"></script>
-     <script type="text/javascript" src="site.js"></script>
-     <script src="dist/js/menu.js"></script>
-     <script src="plugins/accounting/accounting.js"></script>
-	 <script>
-         var table;
-         function NewItem() {
-             window.location.href = "add-eCatalogue2.html";
-         }
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/datatables/extensions/responsive/js/datatables.responsive.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script type="text/javascript" src="site.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="plugins/accounting/accounting.js"></script>
+    <script>
+        var table;
+        function NewItem() {
+            window.location.href = "add-eCatalogue2.html";
+        }
+        function SetListRegion() {
+            $.ajax({
+                url: "/api/ReferenceData/GetAllRegion",
+                success: function (data) {
+                    for (var i in data) {
+                        $("#region").append("<option value='" + data[i].Name + "'>" + data[i].Name + "</option>");
+                    }
+                },
+                complete: function (xhr, textStatus) {
+                    console.log(xhr.status);
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+        function SetListKategori() {
+            $.ajax({
+                url: "/api/Produk/GetAllKategori",
+                success: function (data) {
+                    for (var i in data) {
+                        $("#kategori").append("<option value='" + data[i] + "'>" + data[i] + "</option>");
+                    }
+                },
+                complete: function (xhr, textStatus) {
+                    //console.log(xhr.status);
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+        function showDeleteConfirmation(idd) {
+            $("#tobeDelete").val(idd);
+            $("#DeleteModal").modal('show');
+        }
+        function Delete(idd) {
+            $("#DeleteModal").modal('hide');
+            var v = 0;
+            if (!idd) {
+                v = $("#tobeDelete").val();
+            }
+            else v = idd
+            $.ajax({
+                url: "/api/Produk/DeleteProduk?id=" + v,
+                success: function (data) {
+                    table.draw();
+                },
+                complete: function (xhr, textStatus) {
+                    //console.log(xhr.status);
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+        $(function () {
+            SetListRegion();
+            SetListKategori();
+            table = $('#example1').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/Produk/GetAllProduk',
+                    "type": 'GET',
+                    "data": function (d) {
+                        d.name = $("#nama_item").val();
+                        d.region = $("#region option:selected").text();
+                        d.kategori = $("#kategori option:selected").text();
+                        d.klasifikasi = $("#klasifikasi").val();
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                        $('#example1').DataTable().clear().draw();
+                    }
+                },
+                //"ajax": 'api/Produk/GetAllProduk?name=' + $("#nama_item").val(),
+                "columns": [
+                    { "data": "Nama" },
+                    { "data": "Region" },
+                    { "data": "Klasifikasi" },
+                    { "data": "Price", "class": "rata_kanan_pad10" },
+                    { "data": "Satuan", "class": "tengah" },
+                    { "data": "LastUpdate", "class": "tengah" },
+                    { "data": "Source" },
+                    { "data": "null", "width": "3%", "class": "tengah" }
+                ],
+                "columnDefs": [
+                         {
+                             "render": function (data, type, row) {
+                                 return '<a href="catalog-detail.html?id=' + row.Id + '">' + data + '</a>';
+                             },
+                             "targets": 0,
+                             "orderable": false
+                         },
+                         {
+                             "render": function (data, type, row) {
+                                 return accounting.formatNumber(row.Price, { thousand: ".", decimal: ",", precision: 2 });
+                             },
+                             "targets": 3,
+                             "orderable": false
+                         },
+                         {
+                             "render": function (data, type, row) {
+                                 return '<a href="javascript:showDeleteConfirmation(' + row.Id + ')" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                             },
+                             "targets": 7,
+                             "orderable": false
+                         }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true
+            });
 
-         function SetListRegion() {
-             $.ajax({
-                 url: "/api/ReferenceData/GetAllRegion",
-                 success: function (data) {
-                     for (var i in data) {
-                         $("#region").append("<option value='" + data[i].Name + "'>" + data[i].Name + "</option>");
-                     }
-                 },
-                 complete: function (xhr, textStatus) {
-                     console.log(xhr.status);
-                     ajaxCompleteProcess(xhr);
-                 }
-             });
-         }
-
-         function SetListKategori() {
-             $.ajax({
-                 url: "/api/Produk/GetAllKategori",
-                 success: function (data) {
-                     for (var i in data) {
-                         $("#kategori").append("<option value='" + data[i] + "'>" + data[i] + "</option>");
-                     }
-                 },
-                 complete: function (xhr, textStatus) {
-                     //console.log(xhr.status);
-                     ajaxCompleteProcess(xhr);
-                 }
-             });
-         }
-
-         function showDeleteConfirmation(idd) {
-             $("#tobeDelete").val(idd);
-             $("#DeleteModal").modal('show');
-         }
-
-         function Delete(idd) {
-             $("#DeleteModal").modal('hide');
-             var v = 0;
-             if (!idd) {
-                 v = $("#tobeDelete").val();
-             }
-             else v = idd
-             $.ajax({
-                 url: "/api/Produk/DeleteProduk?id="+v,
-                 success: function (data) {
-                     table.draw();
-                 },
-                 complete: function (xhr, textStatus) {
-                     //console.log(xhr.status);
-                     ajaxCompleteProcess(xhr);
-                 }
-             });
-         }
-
-         $(function () {
-             SetListRegion();
-             SetListKategori();
-           table = $('#example1').DataTable({
-               "serverSide": true,
-               "searching": false,
-               "ajax": {
-                   "url": 'api/Produk/GetAllProduk',
-                   "type": 'GET',
-                   "data": function (d) {
-                       d.name = $("#nama_item").val();
-                       d.region = $("#region option:selected").text();
-                       d.kategori = $("#kategori option:selected").text();
-                       d.klasifikasi = $("#klasifikasi").val();
-                   },
-                   "error": function (jqXHR, textStatus, errorThrown) {
-                       $('#example1').DataTable().clear().draw();
-                   }
-               },
-               //"ajax": 'api/Produk/GetAllProduk?name=' + $("#nama_item").val(),
-               "columns": [
-                   { "data": "Nama" },
-                   { "data": "Region" },
-                   { "data": "Klasifikasi" },
-                   { "data": "Price", "class": "rata_kanan_pad10" },
-                   { "data": "Satuan", "class": "tengah" },
-                   { "data": "LastUpdate", "class": "tengah" },
-                   { "data": "Source" },
-                   { "data": "null", "width": "3%", "class": "tengah" }
-               ],
-               "columnDefs": [
-                        {
-                            "render": function (data, type, row) {
-                                return '<a href="catalog-detail.html?id='+row.Id+'">'+data+'</a>';
-                       },
-                       "targets": 0,
-                       "orderable": false
-                        },
-                        {
-                            "render": function (data, type, row) {
-                                return  accounting.formatNumber(row.Price, { thousand: ".", decimal: ",", precision: 2 }) ;
-                            },
-                            "targets": 3,
-                            "orderable": false
-                        },      
-                        {
-                            "render": function (data, type, row) {
-                                return '<a href="javascript:showDeleteConfirmation(' + row.Id + ')" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                            },
-                            "targets": 7,
-                            "orderable": false
-                        }
-               ],
-              "paging": true,
-              "lengthChange": false,
-              "searching": true,
-              "ordering": true,
-              "info": true,
-              "autoWidth": false,
-               "responsive": true
-           });
-
-			    $("#example1_filter").hide();
-		    $("#cari").on("click",function(){
-		        var region = $("#region option:selected").text();
-		        var nama_item = $("#nama_item").val();
-		        table.draw();
-			    //table.columns(0).search( nama_item ).draw();
-			    //table.columns(1).search( region ).draw();
-			    //table.columns(2).search( subKategori ).draw();
-		});
-		
-		
-         });
-        
+            $("#example1_filter").hide();
+            $("#cari").on("click", function () {
+                var region = $("#region option:selected").text();
+                var nama_item = $("#nama_item").val();
+                table.draw();
+                //table.columns(0).search( nama_item ).draw();
+                //table.columns(1).search( region ).draw();
+                //table.columns(2).search( subKategori ).draw();
+            });
+        });
     </script>
-	<!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
-    
-  </body>
+    <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+</body>
 </html>

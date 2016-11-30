@@ -45,24 +45,39 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             // filter berdasarkan pencarian
             dt.recordsFiltered=ctx.Pengadaans.Where(d=>d.Status==EStatusPengadaan.PEMENANG && d.Judul.Contains(search)  && 
                 d.DokumenPengadaans.Where(y => y.Tipe == TipeBerkas.SuratPerintahKerja).FirstOrDefault() != null
-                 && d.MonitoringPekerjaans.Where(x=>x.StatusMonitoring==StatusMonitored.TIDAK).Count()>0 &&   (d.MonitoringPekerjaans.Where(x=>x.StatusSeleksi==status).Count()>0|| status==null)).Count();     
+                 && d.MonitoringPekerjaans.Where(x=>x.StatusMonitoring==StatusMonitored.TIDAK).Count()==0 &&   (d.MonitoringPekerjaans.Where(x=>x.StatusSeleksi==status).Count()>0|| status==null)).Count();     
             
             var carimonitoring = ctx.Pengadaans.Where(d=>d.Status==EStatusPengadaan.PEMENANG && d.Judul.Contains(search)&&
                 d.DokumenPengadaans.Where(y => y.Tipe == TipeBerkas.SuratPerintahKerja).FirstOrDefault() != null &&
-                 d.MonitoringPekerjaans.Where(x=>x.StatusMonitoring!=StatusMonitored.TIDAK).Count()>0 && (d.MonitoringPekerjaans.Where(x => x.StatusSeleksi == status).Count() > 0 || status == null)).OrderByDescending(d => d.CreatedOn).Skip(start).Take(length).ToList();
+                 d.MonitoringPekerjaans.Where(x=>x.StatusMonitoring!=StatusMonitored.TIDAK).Count()==0 && (d.MonitoringPekerjaans.Where(x => x.StatusSeleksi == status).Count() > 0 || status == null)).OrderByDescending(d => d.CreatedOn).Skip(start).Take(length).ToList();
            
             List<ViewMonitoringSelection> LstnViewMonitoringSelection = new List<ViewMonitoringSelection>();
-            
-            foreach(var item in carimonitoring)
+            foreach (var item in carimonitoring)
             {
                 ViewMonitoringSelection nViewMonitoringSelection = new ViewMonitoringSelection();
 
+                var vendorId = ctx.PemenangPengadaans.Where(d => d.PengadaanId == item.Id).FirstOrDefault() == null ? 0 : 
+                     ctx.PemenangPengadaans.Where(d => d.PengadaanId == item.Id).FirstOrDefault().VendorId;
+                var vendor = ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault() == null ? "" :
+                     ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault().Nama;
+                var tanggalpenentuanpemenang = ctx.DokumenPengadaans.Where(d => d.PengadaanId == item.Id && d.Tipe==TipeBerkas.SuratPerintahKerja).FirstOrDefault();
+                var pic = ctx.PersonilPengadaans.Where(d => d.PengadaanId == item.Id).FirstOrDefault() == null ? "" :
+                     ctx.PersonilPengadaans.Where(d => d.PengadaanId == item.Id).FirstOrDefault().Nama;
+
                 nViewMonitoringSelection.Id = item.Id;
-                nViewMonitoringSelection.NamaPekejaan = item.Judul;
+                nViewMonitoringSelection.NoPengadaan = item.NoPengadaan;
+                nViewMonitoringSelection.Judul = item.Judul;
+                nViewMonitoringSelection.Pemenang = vendor;
                 nViewMonitoringSelection.Klasifikasi = item.JenisPekerjaan;
-                var RksHeader=ctx.RKSHeaders.Where(d=>d.PengadaanId==item.Id).FirstOrDefault();
-                var TotalHps = RksHeader!=null? ctx.RKSDetails.Where(d => d.RKSHeaderId == RksHeader.Id).Sum(d => d.jumlah == null ? 0 : d.jumlah * d.hps == null ? 0 : d.hps):0;
-                nViewMonitoringSelection.Nilai = TotalHps.Value;
+                nViewMonitoringSelection.TanggalPenentuanPemenang = tanggalpenentuanpemenang.CreateOn;
+                var RksHeader = ctx.RKSHeaders.Where(d => d.PengadaanId == item.Id).FirstOrDefault();
+                var TotalHps = RksHeader != null ? ctx.RKSDetails.Where(d => d.RKSHeaderId == RksHeader.Id).Sum(d => d.jumlah * d.hps == null ? 0 : d.jumlah * d.hps) : 0;
+                nViewMonitoringSelection.NilaiKontrak = TotalHps.Value;
+                nViewMonitoringSelection.PIC = pic;
+
+                //var RksHeader = ctx.RKSHeaders.Where(d => d.PengadaanId == item.Id).FirstOrDefault();
+                //var TotalHps = RksHeader != null ? ctx.RKSDetails.Where(d => d.RKSHeaderId == RksHeader.Id).Sum(d => d.jumlah == null ? 0 : d.jumlah * d.hps == null ? 0 : d.hps) : 0;
+                //nViewMonitoringSelection.NilaiKontrak = TotalHps.Value;
                 if (ctx.MonitoringPekerjaans.Where(d => d.PengadaanId == item.Id).FirstOrDefault() != null)
                 {
                     nViewMonitoringSelection.Monitored = ctx.MonitoringPekerjaans.Where(d => d.PengadaanId == item.Id).FirstOrDefault().StatusMonitoring.Value;
@@ -72,7 +87,6 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             }
             dt.data = LstnViewMonitoringSelection;
             return dt;
-
         }
 
         public ResultMessage Save(Guid nPengadaanId, StatusMonitored nStatusMonitoring, StatusSeleksi nStatusSeleksi,Guid UserId)

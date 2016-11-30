@@ -34,7 +34,6 @@
 	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
 	<link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
 	<link rel="stylesheet" href="dist/app.css">
-	<link rel="stylesheet" href="dropzone.css">
 	<link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
 	<link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
 		<style type="text/css">
@@ -86,7 +85,7 @@
                 <li><a  id="A2" title="Simpan Ajukan" href="#" class="Tolak" style="display:none" ><i class="fa fa-fw " style="font-size:20px;"></i>Tolak</a></li>-->
                 
                 <li><a  id="SimpanJalankan" title="Simpan Jalankan" href="#" class="SimpanJalankan"  ><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan & Jalankan</a></li>
-                <li><a  id="Simpan" title="Simpan" href="#" class="Simpan" style="display:none" ><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                <li><a  id="Simpan" title="Simpan" href="#" class="Simpan" ><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
                 
                 <!--<li><a  id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>-->
             </ul>
@@ -132,18 +131,18 @@
 				<div class="row">
 						<div class="col-md-10">
 							 <div class="box box-primary box-white" >
-                                 <form id="formPengadaan" role="form" class="jp-form">
+                                 <form id="form-rencana-proyek" role="form" class="jp-form">
 									 <input type="hidden" id="pengadaanId" />
                                      <input type="hidden" id="isTeam" />
                                      <input type="hidden" id="isCreated" />
+                                     <input type="hidden" id="status" value="draf">
 								<div class="box-body">						
 									<div class="row">
 										<div class="col-md-10">
 											<div id="notif">
 											</div>
 										</div>
-									</div>	
-
+									</div>
 										<div class="row">
 											<div class="col-md-12">
 												<div class="panel-header-white">										
@@ -187,50 +186,78 @@
 													    <input id="pendaftaran_sampai" disabled="disabled" nextJadwal="#aanwijzing" beforeJadwal="#pendaftaran" type="text" name="pendaftaran" attr1="sampai" class="pendaftaran form-control datepicker dateJadwal" >
 												</div>
 										</div>
-										<div class="row" id="BingkaiKandidat" >
+										<div class="row" id="" >
 											<div class="col-md-12">
 												<div class=" panel-header-white">
-													<span class="title-header" id="section-5">Tahapan</span>
+													<span class="title-header" id="section-5">Tahapan Pekerjaan</span>
 												</div>
 											</div>
                                             <div class="col-md-12">
 												<label >
                                                     <!--<a id="addVendorItem">Tambah</a>-->
-                                                     <a onclick="popuptahapan()" id="addVendorItem" style="margin-top:10px;margin-bottom:10px" class="btn btn-sm btn-social btn-bitbucket">
+                                                     <a onclick="TambahProyekDraf()" id="" style="margin-top:10px;margin-bottom:10px" class="btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
-                                                        Tambah Tahapan
+                                                        Tambah Tahapan Pekerjaan
                                                         </a>
 												</label>
 											</div>
-											<div class="listkandidat col-md-12" >	
-                                               											
-											</div>		
-											
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered" id="">
+                                                    <thead>
+                                                        <tr>
+                                                            <td class="tengah text-bold">Nama Pekerjaan</td>
+                                                            <td class="tengah text-bold">Nilai</td>
+                                                        </tr>
+                                                    </thead>
+                                                </table>		
+                                            </div>
 										</div>
+                                    <div class="row" id="">
+                                        <div class="col-md-12">
+                                            <div class=" panel-header-white">
+                                                <span class="title-header" id="section-5">Tahapan Pembayaran</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>
+                                                <!--<a id="addVendorItem">Tambah</a>-->
+                                                <a onclick="TambahProyekDraf()" id="" style="margin-top:10px;margin-bottom:10px" class="btn btn-sm btn-social btn-bitbucket">
+                                                    <i class="fa fa-plus"></i>
+                                                    Tambah Tahapan Pembayaran
+                                                </a>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered" id="">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="tengah text-bold">Nama Pekerjaan</td>
+                                                        <td class="tengah text-bold">Nilai</td>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
 										<div class="row">
 											<div class="col-md-12">
 												<div class=" panel-header-white">
 													<span class="title-header" id="section-7">Personil</span>
 												</div>
 											</div>
-											<div class="col-md-12">
-												<label >
+                                            <div class="col-md-12">
+                                                <label>
                                                     <!--<a id="addPerson-pic" class="addPerson" attr1=".listperson-pic" >Tambah PIC</a>-->
                                                     <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah PIC
-                                                        </a>
-												</label>	
+                                                    </a>
+                                                </label>
 
-												<div class="listperson-pic">													
-												</div>												
-											</div>
+                                                <div class="listperson-pic">
+                                                </div>
+                                            </div>
 										</div>
 
-										
-										
-										
-										
 								<div class="box-footer clearfix" style="text-align:center;">
                                     <button  class="pull-middle btn btn-primary btn-lmedia Setujui" style="display:none">Setujui </button>
                                     <button  class="pull-middle btn btn-primary btn-lmedia Tolak" style="display:none">Tolak </button>
@@ -248,7 +275,7 @@
           <aside class="control-sidebar control-sidebar-light control-sidebar-open">
         <!-- Create the tabs -->
         
-            <ul class="nav nav-tabs nav-stacked" id="side-kanan" >
+            <!--<ul class="nav nav-tabs nav-stacked" id="side-kanan" >
 				<li class="active"><a href="#section-1">Atas</a></li>
 				<li><a href="#section-2">Anggaran</a></li>
 				<li><a href="#section-3">Korespondensi Internal</a></li>
@@ -256,7 +283,7 @@
 				<li><a href="#section-5">Kandidat</a></li>
 				<li><a href="#section-6">Jadwal</a></li>
 				<li><a href="#section-7">Personil</a></li>
-			</ul>
+			</ul>-->
         
         <!-- Tab panes -->
       
@@ -303,14 +330,14 @@
 	<div class="modal-content">
 	  <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		<h4 class="modal-title">Konfirmasi</h4>
+		<h4 class="modal-title">Tambah Dokumen Tahapan</h4>
 	  </div>
 	  <div class="modal-body">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="form-group col-md-4">
 					<label class="title">Nama Dokumen</label>
-					<input type="text" class="form-control" name="nama-tahapan" disabled>
+					<input type="text" class="form-control" name="nama-tahapan">
 				</div>
 			</div>
 		</div>
@@ -323,25 +350,6 @@
                         <option value="">Dokumen Pembayaran</option>
                     </select>
 				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class=" panel-header-white">
-					<span class="title-header" id="section-7">Dokumen Pendukung</span>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<label >
-		            <!--<a id="addPerson-pic" class="addPerson" attr1=".listperson-pic" >Tambah PIC</a>-->
-		            <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
-		                <i class="fa fa-plus"></i>
-		                Dokumen Pendukung
-		                </a>
-				</label>	
-
-				<div class="listperson-pic">													
-				</div>												
 			</div>
 		</div>
 	  </div>
@@ -362,47 +370,30 @@
 	<div class="modal-content">
 	  <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		<h4 class="modal-title">Konfirmasi</h4>
+		<h4 class="modal-title">Tambah Tahapan</h4>
 	  </div>
 	  <div class="modal-body">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="form-group col-md-4">
-					<label class="title">Nama Tahapan</label>
-					<input type="text" class="form-control" name="nama-tahapan" disabled>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="form-group col-md-4">
-					<label class="title">Tanggal</label>
-					<input type="text" class="form-control" name="tanggal-tahapan" disabled>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class=" panel-header-white">
-					<span class="title-header" id="section-7">Dokumen Pendukung</span>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<label >
-		            <!--<a id="addPerson-pic" class="addPerson" attr1=".listperson-pic" >Tambah PIC</a>-->
-		            <a onclick="popupdokumen()" id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
-		                <i class="fa fa-plus"></i>
-		                Dokumen Pendukung
-		                </a>
-				</label>	
-
-				<div class="listperson-pic">													
-				</div>												
-			</div>
-		</div>
-	  </div>
+        <form id="form-tahapan-pekerjaan" role="form" class="jp-form">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group col-md-4">
+                        <label class="title">Nama Tahapan</label>
+                        <input type="text" class="form-control" name="nama-tahapan">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group col-md-4">
+                        <label class="title">Tanggal</label>
+                        <input id="tanggal-tahapan" type="text" class="tanggal-tahapan form-control datepicker dateJadwal">
+                    </div>
+                </div>
+            </div>
+        </form>
+</div>
 	  <div class="modal-footer">
-		<button type="button" id="simpanhps" class="btn btn-default ">Simpan & Lanjutkan</button>
+		<button type="button" onclick="" id="SimpanTahapan" class="btn btn-default ">Simpan</button>
 		<button type="button" class="btn btn-default " data-dismiss="modal">Batal</button>		
 	  </div>
 	</div><!-- /.modal-content -->
@@ -563,27 +554,17 @@
       <script src="dist/js/app.min.js"></script>
     <!-- <script src="chatjs/chat.js"></script>-->
      <script src="plugins/angular/angular.min.js"></script>
-      <script src="dist/js/pengadaan-add.js"></script>
      <script src="blockui/jquery.blockUI.js"></script>
-     <script src="dropzone.js"></script>
      <script src="dist/js/menu.js"></script>
 	  <script>
-	     // $(document).ajaxStop($.unblockUI);
-	     // var app = angular.module("app", []);
 	var table;
-	//Dropzone.options.DokumenNotaInternal = false;
-	//Dropzone.options.DokumenLain = false;
-	//Dropzone.options.BerkasRujukanLain = false;
-	      //Dropzone.autoDiscover = false;
-	
 	
 	
 
 	$(function () {
+	    
+
 	    $("[name=HpsId]").number(true, 0, ",", ".");
-	    //dropZoneInit("DokumenNotaInternal");
-	    //dropZoneInit("DokumenLain");
-	    //dropZoneInit("BerkasRujukanLain");
 	   $("#myNav").affix({
 			offset: { 
 				top: 100 
@@ -602,10 +583,8 @@
           "autoWidth": true,
 		  "columnDefs": [
 			{ className: "rata_kanan", "targets": [ 2 ] },
-			{ "width": "2%", "targets": 0 },
-			{ "width": "75%", "targets": 1 },
-			{ "width": "20%", "targets": 2 },
-			{ "width": "3%", "targets": 3 }
+			{ "width": "50%", "targets": 0 },
+			{ "width": "50%", "targets": 1 },
 		  ]
         });
 		$("#addVendorItem").on("click", function () {
@@ -626,6 +605,7 @@
 				});
 				$('#myModal').modal({show:true});				
 		});
+
 		$(".addPerson").on("click", function () {
 			$("#title-modal").html("Daftar Personil")
 			$("#tipe-person-list").val($(this).attr("attr1"));
@@ -636,18 +616,6 @@
          });
 		
 		
-
-		/*if(screen.width<800)
-		   { 
-				$("#myScrollspy").hide();
-				$("#chat").hide();
-			//jQuery('#hb-gotop').removeAttr("margin-left", "-0.9");
-			//jQuery('#hb-gotop').attr('style', 'margin-left: -0.7%');
-		   }
-		  else{
-			$("#chat").show();
-			$("#myScrollspy").show();
-		  }*/
 
 		  $("body").on("keypress",".vendor-komen",function(e){
 			console.log("fun");
@@ -663,7 +631,36 @@
 		      });
 		      $(this).addClass("active");
 		  });
-      });
+	});
+
+    
+    // tambah draf perencanaan proyek (statusnya = draft)
+	function TambahProyekDraf()
+	{
+	    var nPengadaanId = $("#pengadaanId").val();
+	    //var nStartDate = $("#pendaftaran").val();
+	    var nStartDate = moment($("#pendaftaran").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+	    //var nEnddate = $("#pendaftaran_sampai").val();
+	    var nEnddate = moment($("#pendaftaran_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+	    var nStatus = $("#status").val();
+
+	    $.ajax({
+	        method: "post",
+	        url: "api/Proyek/SimpanRencanaProyek",
+	        datatype: "json",
+	        data: {
+	            aPengadaanId: nPengadaanId,
+	            aStartDate: nStartDate,
+	            aEndDate: nEnddate,
+                aStatus : nStatus
+	        },
+	        success: function (d) {
+	            popuptahapan();
+	        }
+
+	    })
+	}
+	
 
 	function popuptahapan()
 	{
@@ -674,7 +671,272 @@
 	{
 		$("#dokumenup").modal("show");	
 	}
+    
+    // JS untuk pop Up di dalam pop up
+	$(document).on('show.bs.modal', '.modal', function (event) {
+	    var zIndex = 1040 + (10 * $('.modal:visible').length);
+	    $(this).css('z-index', zIndex);
+	    setTimeout(function () {
+	        $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+	    }, 0);
+	});
 
+    // JS untuk ambil id pengadaan
+	$(function () {
+	    var PengadaanID = gup("id-pengadaan");
+	    $("#pengadaanId").val(PengadaanID);
+        
+	    $.ajax({
+	        method: "post",
+	        url: "api/Proyek/TampilJudul?Id=" + PengadaanID,
+	        success: function (d) {
+	            console.log(d);
+	            $("[name=Judul]").val(d.Judul);
+	            $("[name=no-pengadaan]").val(d.NoPengadaan);
+	            $("[name=pelaksana]").val(d.Pelaksana);
+	        }
+	    })
+	})
+
+	function loadData(PengadaanID) {
+	    $.ajax({
+	        method: "POST",
+	        url: "Api/PengadaanE/detailPengadaan?Id=" + id_rks
+	    }).done(function (data) {
+	        loadHeaderPengadaan(data); // apa aja yang di tampilin
+
+	    });
+	}
+
+          // JS untuk personil
+	$(".addPerson").on("click", function () {
+	    $("#title-modal").html("Daftar Personil")
+	    $("#tipe-person-list").val($(this).attr("attr1"));
+	    $("#personilModal").modal("show");
+	    $(".item-bg-blue-light").each(function () {
+	        $(this).removeClass("item-bg-blue-light");
+	    });
+	});
+
+          // js url
+
+	function gup(name, url) {
+	    if (!url) url = location.href;
+	    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+	    var regexS = "[\\?&]" + name + "=([^&#]*)";
+	    var regex = new RegExp(regexS);
+	    var results = regex.exec(url);
+	    return results == null ? null : results[1];
+	}
+
+	function getListPersonil() {
+	    arrPersonilPengadaan = [];
+	    $(".list-personil").each(function () {
+	        objPersonilPengadaan = {};
+	        objPersonilPengadaan.PersonilId = $(this).val();
+	        objPersonilPengadaan.tipe = $(this).attr("attr1");
+	        objPersonilPengadaan.Nama = $(this).attr("attr2");
+	        objPersonilPengadaan.Jabatan = $(this).attr("attr3");
+	        arrPersonilPengadaan.push(objPersonilPengadaan);
+	    });
+	    return arrPersonilPengadaan;
+	}
+    
+	function LoadListPersonil(Personil, Status, xisTeam) {
+	    $(".listperson-pic").html("");
+	    $(".listperson-staff").html("");
+	    $(".listperson-controller").html("");
+	    $(".listperson-compliance").html("");
+	    $(".listperson-tim").html("");
+	    for (var item in Personil) {
+	        if (Personil[item].tipe == "pic")
+	            addLoadPersonil(Personil[item], ".listperson-pic", Status, xisTeam);
+	        if (Personil[item].tipe == "staff")
+	            addLoadPersonil(Personil[item], ".listperson-staff", Status, xisTeam);
+	        if (Personil[item].tipe == "tim")
+	            addLoadPersonil(Personil[item], ".listperson-tim", Status, xisTeam);
+	        if (Personil[item].tipe == "controller")
+	            addLoadPersonil(Personil[item], ".listperson-controller", Status, xisTeam);
+	        if (Personil[item].tipe == "compliance")
+	            addLoadPersonil(Personil[item], ".listperson-compliance", Status, xisTeam);
+	    }
+	}
+
+ 
+	function addPersonil(item, el) {
+    var peran = el.replace(".listperson-", "");
+    var objPersonilPengadaan = {};
+    objPersonilPengadaan.PersonilId = item.PersonilId;
+    objPersonilPengadaan.tipe = peran;
+    objPersonilPengadaan.Nama = item.Nama;
+    objPersonilPengadaan.Jabatan = item.Jabatan;
+    objPersonilPengadaan.PengadaanId = $("#pengadaanId").val();
+
+    if (peran == "pic" && $(el).children().length > 0) {
+        BootstrapDialog.show({
+            title: 'Konfirmasi',
+            message: 'PIC Sudah Ada!',
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+        return false;
+    }
+    if (isPersonileEksisPerPeran(item.PersonilId, el) == 1) {
+        BootstrapDialog.show({
+            title: 'Konfirmasi',
+            message: 'User yang Ingin ditambahkan Sudah Ada!',
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+        return false;
+    }
+
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/savePersonil",
+        dataType: "json",
+        data: JSON.stringify(objPersonilPengadaan),
+        contentType: 'application/json; charset=utf-8'
+    }).done(function (data) {
+        if (data.status == 200) {
+            html = '<a class="btn btn-app">' +
+                    '<input type="hidden" class="list-personil" attrId="'
+                        + data.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
+                        + item.Jabatan + '" value="' + item.PersonilId + '" />' +
+                    '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>' +
+                    '<i class="fa fa-user"></i>' +
+                    item.Nama +
+                  '</a>';
+            $(el).append(html);
+        }
+        else {
+            alert("error");
+        }
+    });
+   
+}
+
+function isPersonileEksis(idPersonil,elm) {
+    var status = 0;
+    $(".list-personil").each(function (index, el) {
+        if ($.trim($(el).val()) == $.trim(idPersonil)) {
+            status = 1;
+            return false;
+        }
+    });
+    return status;
+}
+
+function isPersonileEksisPerPeran(idPersonil, elm) {
+    var status = 0;
+    $(elm).find(".list-personil").each(function (index, el) {
+        if ($.trim($(el).val()) == $.trim(idPersonil)) {
+            status = 1;
+            return false;
+        }
+    });
+    return status;
+}
+
+function addLoadPersonil(item, el,status,xisTeam) {
+    var peran = el.replace(".listperson-", "");
+    var removeEL = '';
+    if (status == 0 && xisTeam==1) {
+        //removeEL = '<a class="pull-right btn-box-tool remove-person"><i class="fa fa-times"></i></a>';
+        removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';
+    }
+    html = '<a class="btn btn-app">' +
+                   '<input type="hidden" class="list-personil" attrId="'
+                       + item.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
+                       + item.Jabatan + '" value="' + item.PersonilId + '" />' +
+                   removeEL +
+                   '<i class="fa fa-user"></i>' +
+                   item.Nama +
+                 '</a>';
+    $(el).append(html);
+}
+
+    // date picker
+
+	$(".dateJadwal").datetimepicker({
+	    format: "DD MMMM YYYY HH:mm",
+	    locale: 'id',
+	    useCurrent: false,
+	    minDate: Date.now()
+
+	}).on('dp.change', function (e) {
+	    var jadwal = $(this).attr("name");
+	    var nextJadwal = $(this).attr("nextJadwal");
+	    var beforeJadwal = $(this).attr("beforeJadwal");
+	    var thisJadwal = moment($(this).val(), ["D MMMM YYYY HH:mm"], "id");
+	    if (nextJadwal != "") {
+	        var jadwalNext = moment($(nextJadwal).val(), ["D MMMM YYYY HH:mm"], "id");//.format("DD/MM/YYYY HH:mm");
+	        $(nextJadwal).data("DateTimePicker").minDate(e.date);
+	        $(nextJadwal).removeAttr("disabled");
+
+	        var jadwalNext = moment($(nextJadwal).val(), ["D MMMM YYYY HH:mm"], "id");
+	        var diff = thisJadwal.diff(jadwalNext);
+
+	        if ($(nextJadwal).val() != "")
+	            if (diff >= 0) {
+	                BootstrapDialog.show({
+	                    title: 'Konfirmasi',
+	                    message: 'Jadwal Tidak Boleh Lebih Besar dari Jadwal Berikutnya!',
+	                    buttons: [{
+	                        label: 'Close',
+	                        action: function (dialog) {
+	                            dialog.close();
+	                        }
+	                    }]
+	                });
+	                $(this).val("");
+	            }
+
+	    }
+	    if (beforeJadwal != "") {
+	        var jadwalBefore = moment($(beforeJadwal).val(), ["D MMMM YYYY HH:mm"], "id");
+	        var diff = thisJadwal.diff(jadwalBefore);
+
+	        if (diff <= 0) {
+	            BootstrapDialog.show({
+	                title: 'Konfirmasi',
+	                message: 'Jadwal Tidak Boleh Lebih Kecil!',
+	                buttons: [{
+	                    label: 'Close',
+	                    action: function (dialog) {
+	                        dialog.close();
+	                    }
+	                }]
+	            });
+	            $(this).val("");
+	        }
+
+	        if ($(beforeJadwal).val() == "") {
+	            BootstrapDialog.show({
+	                title: 'Konfirmasi',
+	                message: 'Isi Jadwal Sesuai Urutan!',
+	                buttons: [{
+	                    label: 'Close',
+	                    action: function (dialog) {
+	                        dialog.close();
+	                    }
+	                }]
+	            });
+	            $(this).val("");
+	        }
+	    }
+	});
+
+    
+    // bukan gw
 	  
 	  function addItem(item){
 			var jumRow=table.data().length;	

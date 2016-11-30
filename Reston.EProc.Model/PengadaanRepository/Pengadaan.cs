@@ -61,6 +61,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual ICollection<RKSHeader> RKSHeaders { get; set; }
         public virtual ICollection<BintangPengadaan> BintangPengadaans { get; set; }
         public virtual ICollection<MonitoringPekerjaan> MonitoringPekerjaans { get; set; }
+        public virtual ICollection<PemenangPengadaan> PemenangPengadaans { get; set; }
     }
 
     [Table("DokumenPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -77,6 +78,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string ContentType { get; set; }
         [MaxLength(255)]
         public string Title { get; set; }
+        public Nullable<DateTime> CreateOn { get; set; }
+        public Nullable<Guid> CreateBy { get; set; }
+        public Nullable<DateTime> ModifiedOn { get; set; }
+        public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<TipeBerkas> Tipe { get; set; }
         public Nullable<long> SizeFile { get; set; }
         public Nullable<int> VendorId { get; set; }

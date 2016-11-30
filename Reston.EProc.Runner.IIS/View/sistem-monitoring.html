@@ -86,15 +86,6 @@
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
-                            <li>
-                                <div id="searchForm" class="search-form" style="padding-top:10px;padding-right:5px">
-                                    <div class="form-group has-feedback">
-                                        <label for="search" class="sr-only">Search</label>
-                                        <input type="text" class="form-control" name="search" id="search">
-                                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                    </div>
-                                </div>
-                            </li>
                             <li id="tambah" style="display:none"><a title="Tambah" href="pengadaan-add.html"><i class="fa fa-plus " style="font-size:20px;color:green"></i></a></li>
                             <li id="loader" style="display:none"> <img src="Images/ajax-loader.gif" /></li>
                         </ul>
@@ -107,15 +98,6 @@
         <aside class="main-sidebar" ng-app="app">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                <!--<div class="user-panel" ng-controller="user">
-                    <div class="pull-left info">
-                        <p class="title" ng-bind="user.nama"></p>
-                        <p class="deskripsi" ng-bind="user.divisi"></p>
-                    </div>
-                    <div class="pull-right image image-profile">
-                        <img alt="User Image" class="img-circle" src="{{user.logo}}" >
-                    </div>
-                </div>-->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" ng-controller="side-menu">
                     <!-- <li class="header">MAIN NAVIGATION</li>-->
@@ -129,152 +111,98 @@
             </section>
             <!-- /.sidebar -->
         </aside>
-
+        
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <section class="content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="perlu_perhatian">
-                            <div class="box box-white">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">Sistem Monitoring</h3>
-                                </div><!-- /.box-header -->
-                                <div class="box-body">
-									<div class="form-group col-md-4">
-										<!-- search form -->
-										<div class="input-group">
-											<input type="text" name="q" class="form-control" placeholder="Search...">
-												<span class="input-group-btn">
-													<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-												</span>
-										</div>
-									</div>
-                                    <div class="clearfix"></div>
-                                    <div class="form-group col-md-12">
-                                        <h4 class="col-md-1">Klasifikasi</h4>
-                                        <div class="col-sm-3">
-                                            <select id="klasifikasi" class="form-control select2" style="width: 100%;">
-                                                <option selected="selected" value="">ALL</option>
-                                                <option value="0">NONSIPIL</option>
-                                                <option value="1">SIPIL</option>
-                                            </select>
+                <!-- Default box -->
+                <div class="box box-primary box-white">
+                    <div class="box-body form-horizontal">
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Sistem Monitoring</h3>
+                                <div class="box-tools pull-right"></div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-5">
+                                            <form class="form-horizontal label-kanan">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Judul</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="title" type="text" class="form-control " placeholder="Judul">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Klasifikasi</label>
+                                                    <div class="col-sm-8">
+                                                        <select id="klasifikasi" class="form-control select2" style="width: 100%;">
+                                                            <option selected="selected" value="">All</option>
+                                                            <option value="0">SIPIL</option>
+                                                            <option value="1">NONSIPIL</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-8">
+                                                <label class="control-label"><h4>Total Proyek Dalam Pelaksanaan</h4></label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label class="control-label"><h4 class="text-bold" style="color:blue;">3</h4></label><div class="clearfix"></div>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <label class="control-label"><h4>Total Proyek Lewat Waktu Pelaksanaan</h4></label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label class="control-label"><h4 class="text-bold" style="color:red;">5</h4></label><div class="clearfix"></div>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <label class="control-label"><h4>Total Proyek Mendekati Waktu Pelaksanaan</h4></label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label class="control-label"><h4 class="text-bold" style="color:orange;">4</h4></label>
+                                            </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-12">
+                                        <div class="submitgray button-row">
+                                            <button id="cari" class="btn btn-primary " type="submit">Cari</button>
                                         </div>
                                     </div>
-									<div class="col-md-10">
-                                        <div class="col-md-4">
-                                            <label class="title"><h4>Total Proyek Sedang Berjalan</h4></label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="title"><h4 class="text-bold" style="color:blue;">3</h4></label>
-                                        </div>
-									</div>
-                                    <div class="col-md-10">
-                                        <div class="col-md-4">
-                                            <label class="title"><h4>Total Proyek Sudah Lewat Jatuh Tempo</h4></label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="title"><h4 class="text-bold" style="color:red;">5</h4></label>
-                                        </div>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table id="example1" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td class="tengah text-bold">No. Pengadaan</td>
+                                                    <td class="rata_kiri text-bold">Nama Proyek</td>
+                                                    <td class="tengah text-bold">Pemenang</td>
+                                                    <td class="tengah text-bold">Klasifikasi</td>
+                                                    <td class="tengah text-bold">% Waktu</td>
+                                                    <td class="tengah text-bold">% Pekerjaan</td>
+                                                    <td class="tengah text-bold">% Pembayaran</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
                                     </div>
-                                    <div class="col-md-10">
-                                        <div class="col-md-4">
-                                            <label class="title"><h4>Total Proyek Sudah Deadline</h4></label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="title"><h4 class="text-bold" style="color:orange;">4</h4></label>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-									<div class="col-md-12" style="margin-top:10px;">
-										<table class="table table-bordered">
-											<tr>
-												<td class="tengah text-bold">No.</td>
-												<td class="rata_kiri text-bold">Nama Proyek</td>
-                                                <td class="tengah text-bold">Nama Vendor</td>
-												<td class="tengah text-bold">Klasifikasi</td>
-												<td class="tengah text-bold">% Pekerjaan</td>
-												<td class="tengah text-bold">% Pembayaran</td>
-											</tr>
-                                            <tr>
-                                                <td style="text-align:center;">1</td>
-                                                <td><a href="sistem-monitoring-detail.html">Pembangunan Kantor Cabang Bali</a></td>
-                                                <td>PT. Indosat Tbk</td>
-                                                <td>Sipil</td>
-                                                <td style="text-align:center;">20%</td>
-                                                <td style="text-align:center;">50%</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align:center;">2</td>
-                                                <td><a href="sistem-monitoring-detail.html">Pembelian ATK Divisi Perencanaan</a></td>
-                                                <td>PT. BCA Tbk</td>
-                                                <td>Non Sipil</a></td>
-                                                <td style="text-align:center;">30%</td>
-                                                <td style="text-align:center;">50%</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align:center;"></td>
-                                                <td></td>
-                                                <td>PT. Nusantara Secom Infotech</td>
-                                                <td>Sipil</td>
-                                                <td style="text-align:center;">20%</td>
-                                                <td style="text-align:center;">50%</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align:center;"></td>
-                                                <td></td>
-                                                <td>PT. Cemerlang Abadi</td>
-                                                <td>Sipil</td>
-                                                <td style="text-align:center;">30%</td>
-                                                <td style="text-align:center;">70%</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align:center;">3</td>
-                                                <td><a href="sistem-monitoring-detail.html">Perbaikan Gedung Cabang di Bali</a></td>
-                                                <td>PT. Telkomsel Indonesia</td>
-                                                <td>Sipil</td>
-                                                <td style="text-align:center;">40%</td>
-                                                <td style="text-align:center;">50%</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align:center;"></td>
-                                                <td></td>
-                                                <td>PT. XL Axiata</td>
-                                                <td>Sipil</td>
-                                                <td style="text-align:center;">30%</td>
-                                                <td style="text-align:center;">70%</td>
-                                            </tr>
-										</table>
-									</div>	
-								</div><!-- /.box-body -->
-                                <div class="box-footer text-center">
-                                    <!--<a id="A1" class="uppercase">Berikutnya
-                                    </a>-->
-                                </div><!-- /.box-footer -->
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section><!-- /.content -->
-        </div><!-- /.content-wrapper -->
-        <!-- <aside class="control-sidebar control-sidebar-light control-sidebar-open" id="side-kanan"> -->
-            <!-- Create the tabs -->
-            <!-- <ul class="nav nav-tabs nav-stacked">
-                <li><a href="#header">Atas</a></li>
-                <li><a href="#perlu-perhatian">Perlu Perhatian</a></li>
-                <li><a href="#section-1">Dalam Pelaksanaan</a></li>
-                <li><a href="#section-2">Belum Terjadwal</a></li>
-                <li><a href="#section-3">Arsip</a></li>
-
-            </ul> -->
-
-            <!-- Tab panes -->
-
-        <!-- </aside> --><!-- /.control-sidebar -->
-        <!-- Add the sidebar's background. This div must be placed
-             immediately after the control sidebar -->
+        </div><!-- /.content-wrapper -->    
         <div class="control-sidebar-bg"></div>
-
     </div><!-- ./wrapper -->
 
     <div id="ModalHapus" class="modal fade" role="dialog">
@@ -297,24 +225,6 @@
 
         </div>
     </div>
-
-    <!--
-    <div id="view-siup" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <input type="hidden" id="row_index" />
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        <iframe width="100%" style="min-height: 500px" src="/ViewerJS/#../contoh.pdf" allowfullscreen webkitallowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
 
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -339,66 +249,51 @@
     <script src="dist/js/pengadaan-list.js"></script>
     <script src="blockui/jquery.blockUI.js"></script>
     <script>
-        //Date picker
-        $('.datepicker').datepicker({
-          autoclose: true
-        });
-
         var table;
-        $(document).ready(function () {
+
+        $(function () {
             table = $('#example1').DataTable({
                 "serverSide": true,
                 "searching": false,
                 "ajax": {
-                    "url": 'api/Produk/GetAllProduk',
-                    "type": 'GET',
+                    "url": 'api/MonitoringSelection/List',
+                    "type": 'POST',
                     "data": function (d) {
-                        //d.name = $("#nama_item").val();
-                       // d.region = $("#region option:selected").text();
-                       // d.kategori = $("#kategori option:selected").text();
-                       // d.klasifikasi = $("#klasifikasi").val();
+                        d.search = $("#txtcari").val();
+                        d.status = "";
                     },
                     "error": function (jqXHR, textStatus, errorThrown) {
-                        $('#example1').DataTable().clear().draw();
+                        // $('#example1').DataTable().clear().draw();
                     }
                 },
-                //"ajax": 'api/Produk/GetAllProduk?name=' + $("#nama_item").val(),
+                //"ajax": 'api/MonitoringSelection/List?search=' + $("#search").val(),
                 "columns": [
-                    { "data": "Nama" },
-                    { "data": "Region" },
+                    { "data": "NoPengadaan" },
+                    { "data": "Judul" },
+                    { "data": "Pemenang" },
                     { "data": "Klasifikasi" },
-                    { "data": "Price", "class": "rata_kanan_pad10" },
-                    { "data": "Satuan", "class": "tengah" },
-                    { "data": "LastUpdate", "class": "tengah" },
-                    { "data": "Source" },
-                    { "data": "null", "width": "3%", "class": "tengah" }
+                    { "data": "null" },
+                    { "data": "null" },
+                    { "data": "null" },
                 ],
                 "columnDefs": [
-                         {
-                             "render": function (data, type, row) {
-                                 return '<a href="catalog-detail.html?id=' + row.Id + '">' + data + '</a>';
-                             },
-                             "targets": 0,
-                             "orderable": false
-                         },
-                         {
-                             "render": function (data, type, row) {
-                                 return accounting.formatNumber(row.Price, { thousand: ".", decimal: ",", precision: 2 });
-                             },
-                             "targets": 3,
-                             "orderable": false
-                         },
-                         {
-                             "render": function (data, type, row) {
-                                 return '<a href="javascript:showDeleteConfirmation(' + row.Id + ')" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                             },
-                             "targets": 7,
-                             "orderable": false
-                         }
+                    {
+                        "render": function (data, type, row) {
+                            return "";
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return "";
+                        },
+                        "targets": 6,
+                        "orderable": false
+                    },
                 ],
                 "paging": true,
                 "lengthChange": false,
-                "searching": true,
                 "ordering": true,
                 "info": true,
                 "autoWidth": false,
