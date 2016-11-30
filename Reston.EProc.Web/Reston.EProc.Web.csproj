@@ -214,7 +214,6 @@
     <Compile Include="Controllers\ReferenceDataController.cs" />
     <Compile Include="Controllers\RegistrasiController.cs" />
     <Compile Include="Controllers\DashboardController .cs" />
-    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\VendorController.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -80,34 +80,34 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rm = new ResultMessage();
             try
             {
-            var odata = ctx.MonitoringPekerjaans.Where(d=>d.PengadaanId==nPengadaanId).FirstOrDefault();
+                var odata = ctx.MonitoringPekerjaans.Where(d=>d.PengadaanId==nPengadaanId).FirstOrDefault();
 
-            if(odata!=null)
-            {
-                odata.StatusMonitoring = nStatusMonitoring;
-                odata.StatusSeleksi = nStatusSeleksi;
-                odata.ModifiedBy = UserId;
-                odata.ModifiedOn = DateTime.Now;
-            }
-            else
-            {
-
-                MonitoringPekerjaan m2 = new MonitoringPekerjaan
+                if(odata!=null)
                 {
-                    PengadaanId = nPengadaanId,
-                    StatusMonitoring = nStatusMonitoring,
-                    StatusSeleksi = nStatusSeleksi,
-                    CreatedBy = UserId,
-                    CreatedOn = DateTime.Now
-                };
+                    odata.StatusMonitoring = nStatusMonitoring;
+                    odata.StatusSeleksi = nStatusSeleksi;
+                    odata.ModifiedBy = UserId;
+                    odata.ModifiedOn = DateTime.Now;
+                }
+                else
+                {
 
-                ctx.MonitoringPekerjaans.Add(m2);
-            }
+                    MonitoringPekerjaan m2 = new MonitoringPekerjaan
+                    {
+                        PengadaanId = nPengadaanId,
+                        StatusMonitoring = nStatusMonitoring,
+                        StatusSeleksi = nStatusSeleksi,
+                        CreatedBy = UserId,
+                        CreatedOn = DateTime.Now
+                    };
+
+                    ctx.MonitoringPekerjaans.Add(m2);
+                }
 
             
-                ctx.SaveChanges(UserId.ToString());
-                rm.status = HttpStatusCode.OK;
-                rm.message = "Sukses";
+                    ctx.SaveChanges(UserId.ToString());
+                    rm.status = HttpStatusCode.OK;
+                    rm.message = "Sukses";
             }
             catch(Exception ex){
                 rm.status = HttpStatusCode.ExpectationFailed;

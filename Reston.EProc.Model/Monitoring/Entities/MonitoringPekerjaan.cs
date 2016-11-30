@@ -87,9 +87,10 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public Guid Id { get; set; }
 
         [ForeignKey("Pengadaan")]
-        public Guid PengadaanId { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
         public Nullable<DateTime> StartDate { get; set; }
         public Nullable<DateTime> EndDate { get; set; }
+        public string Status { get; set; }
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }

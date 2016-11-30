@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http;
 
 namespace Reston.EProc.Web.Controllers
 {
@@ -21,11 +22,21 @@ namespace Reston.EProc.Web.Controllers
             _repository = new ProyekRepo(new JimbisContext());
         }
 
-        public ViewProyekPerencanaan TampilJudul()
+        public IHttpActionResult TampilJudul()
         {
             Guid PengadaanId = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
 
-            return _repository.GetDataProyek(PengadaanId);
+            return Json( _repository.GetDataProyek(PengadaanId));
+        }
+
+        public IHttpActionResult SimpanRencanaProyek()
+        {
+            Guid xPengadaanId = Guid.Parse(HttpContext.Current.Request["aPengadaanId"].ToString());
+            DateTime? xStartDate = Common.ConvertDate(HttpContext.Current.Request["aStartDate"].ToString(), "dd/MM/yyyy HH:mm");
+            DateTime? xEndDate = Common.ConvertDate(HttpContext.Current.Request["aEndDate"].ToString(), "dd/MM/yyyy HH:mm");
+            string xStatus = HttpContext.Current.Request["aStatus"].ToString();
+
+            return Json(_repository.SimpanRencanaProyekRepo(xPengadaanId, xStatus, UserId(), xStartDate, xEndDate));
         }
     }
 }

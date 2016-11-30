@@ -1,9 +1,11 @@
-﻿using Reston.Eproc.Model.Monitoring.Model;
+﻿using Reston.Eproc.Model.Monitoring.Entities;
+using Reston.Eproc.Model.Monitoring.Model;
 using Reston.Pinata.Model;
 using Reston.Pinata.Model.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +14,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
     public interface IProyekRepo
     {
         ViewProyekPerencanaan GetDataProyek(Guid PengadaanId);
+        ResultMessage SimpanRencanaProyekRepo(Guid xPengadaanId,string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate);
+       
     }
 
     public class ProyekRepo : IProyekRepo
@@ -35,9 +39,47 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 Judul = oProyekPerencanaan.Judul,
                 NoPengadaan = oProyekPerencanaan.NoPengadaan,
                 Pelaksana=ctx.Vendors.Where(d =>d.Id == vendorId).FirstOrDefault() != null ? ctx.Vendors.Where(d =>d.Id == vendorId).FirstOrDefault().Nama : null,
-                TanggalMulai = proyek != null? proyek.Startdate: null,
-                TanggalSelesai = proyek != null? proyek.Enddate : null,
+                TanggalMulai = proyek != null? proyek.StartDate: null,
+                TanggalSelesai = proyek != null? proyek.EndDate : null,
             };
+        }
+
+        public ResultMessage SimpanRencanaProyekRepo(Guid xPengadaanId,string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate)
+        {
+            ResultMessage rm = new ResultMessage();
+
+            try
+            {
+                var odata = ctx.RencanaProyeks.Where(d=>d.PengadaanId==xPengadaanId).FirstOrDefault();
+
+                if(odata != null)
+                {
+
+                }
+                else
+                {
+                    RencanaProyek m2 = new RencanaProyek
+                    {
+                        PengadaanId = xPengadaanId,
+                        StartDate = xStartDate,
+                        EndDate = xEndDate,
+                        Status = xStatus,
+                        CreatedBy = UserId,
+                        CreatedOn = DateTime.Now
+                    };
+
+                    ctx.RencanaProyeks.Add(m2);
+                    ctx.SaveChanges(UserId.ToString());
+                    rm.status = HttpStatusCode.OK;
+                }
+            }
+            catch (Exception ex)
+            {
+                rm.status = HttpStatusCode.ExpectationFailed;
+                rm.message = ex.ToString();
+            }
+
+            return rm;
         }
     }
 
