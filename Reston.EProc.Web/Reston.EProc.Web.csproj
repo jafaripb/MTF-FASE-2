@@ -200,11 +200,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\MonitoringSelectionController.cs" />
     <Compile Include="Controllers\RksController.cs" />
     <Compile Include="Controllers\PengadaanEController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\ProdukController.cs" />
+    <Compile Include="Controllers\SistemMonitoringController.cs" />
     <Compile Include="Controllers\VendorActionController.cs" />
     <Compile Include="Controllers\HeaderController.cs" />
     <Compile Include="Controllers\loginController.cs" />
