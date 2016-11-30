@@ -126,7 +126,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         BeritaAcara getBeritaAcaraByTipe(Guid PengadaanId, TipeBerkas tipe, Guid UserId);
         int CekBukaAmplop(Guid PengadaanId);
         ViewVendors GetVendorById(int VendorId);
-        List<VWReportPengadaan> GetRepotPengadan(DateTime dari, DateTime sampai, Guid UserId);
+        List<VWReportPengadaan> GetRepotPengadan(DateTime? dari, DateTime? sampai, Guid UserId);
         int PembatalanPengadaan(VWPembatalanPengadaan vwPembatalan, Guid UserId);
         List<VWStaffCharges> GetSummaryTotal(DateTime dari, DateTime sampai, int limit = Int32.MaxValue, int skip = 0);
         List<VWStaffCharges> GetStaffCharges(string charge, DateTime dari, DateTime sampai, int limit = Int32.MaxValue, int skip = 0);
@@ -4064,7 +4064,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         }
 
-        public List<VWReportPengadaan> GetRepotPengadan(DateTime dari, DateTime sampai, Guid UserId)
+        public List<VWReportPengadaan> GetRepotPengadan(DateTime? dari, DateTime? sampai, Guid UserId)
         {
             var oReport = (from b in ctx.Pengadaans
                            //join c in ctx.BeritaAcaras on b.Id equals c.PengadaanId

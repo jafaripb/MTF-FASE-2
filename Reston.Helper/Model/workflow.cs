@@ -18,6 +18,8 @@ namespace Reston.Helper.Model
         public string DescValue { get; set; }
         public Nullable<DateTime> CreateOn { get; set; }
         public Nullable<Guid> CreateBy { get; set; }
+        public Nullable<DateTime> ModifiedOn { get; set; }
+        public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<ApprovalType> ApprovalType { get; set; }
     }
 
