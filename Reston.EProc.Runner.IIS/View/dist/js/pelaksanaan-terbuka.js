@@ -1030,7 +1030,9 @@ $(function () {
         var elSampai = $(this).attr("elSampai");
 
         var dari = moment($(elDari).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-        var sampai = moment($(elSampai).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+        var sampai = "";
+        if(elSampai!="")
+            sampai=moment($(elSampai).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
         var pengadaanId = $("#pengadaanId").val();
         $(this).attr("disabled", "disabled");
         var thisel=$(this);

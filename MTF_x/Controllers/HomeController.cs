@@ -9,13 +9,12 @@ using WebGrease.Css.Ast.Selectors;
 
 namespace MTF_x.Controllers
 {
+
     public class HomeController : Controller
     {
         PengadaanContext context = new PengadaanContext();
         public ActionResult Index()
         {
-           
-        
             return View();
 
         }
