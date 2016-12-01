@@ -108,6 +108,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public Guid ProyekId { get; set; }
         public string NamaTahapan { get; set; }
         public Nullable<DateTime> Tanggal { get; set; }
+        public string JenisTahapan {get; set;}
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }
