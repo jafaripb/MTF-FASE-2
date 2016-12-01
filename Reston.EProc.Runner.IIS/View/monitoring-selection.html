@@ -350,51 +350,9 @@
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            return row.NoPengadaan;
-                        },
-                        "targets": 0,
-                        "orderable": false
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return row.Judul;
-                        },
-                        "targets": 1,
-                        "orderable": false
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return row.Pemenang;
-                        },
-                        "targets": 2,
-                        "orderable": false
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return row.Klasifikasi;
-                        },
-                        "targets": 3,
-                        "orderable": false
-                    },
-                    {
-                        "render": function (data, type, row) {
                             return row.TanggalPenentuanPemenang;
                         },
                         "targets": 4,
-                        "orderable": false
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return row.NilaiKontrak;
-                        },
-                        "targets": 5,
-                        "orderable": false
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return row.PIC;
-                        },
-                        "targets": 6,
                         "orderable": false
                     },
                     {
@@ -530,57 +488,6 @@
                     { "data": "Status" },
                 ],
                 "columnDefs": [
-                         {
-                             "render": function (data, type, row) {
-                                 var html = '<select id="CBStatusMonitoring" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2">';
-                                 if (row.Monitored == 0) {
-                                     html = html + '<option selected value="0">Belum Ditentukan</option>';
-                                     html = html + '<option value="1">No</option>';
-                                     html = html + '<option  value="2">Yes</option>';
-
-                                 }
-                                 else if (row.Monitored == 1) {
-                                     html = html + '<option  value="0">Belum Ditentukan</option>';
-                                     html = html + '<option selected value="1">No</option>';
-                                     html = html + '<option  value="">Yes</option>';
-                                 }
-                                 else {
-
-                                     html = html + '<option  value="0">Belum Ditentukan</option>';
-                                     html = html + '<option  value="1">No</option>';
-                                     html = html + '<option selected value="">Yes</option>';
-                                 }
-                                 html = html + '</select>';
-                                 return html;
-                             },
-                             "targets": 3,
-                             "orderable": false
-                         },
-                         {
-                             "render": function (data, type, row) {
-                                 var html = '<select id="CBStatusSeleksi" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2">';
-                                 if (row.Status == 0) {
-                                     html = html + '<option selected value="0">Belum Ditentukan</option>';
-                                     html = html + '<option value="1">Inprogress</option>';
-                                     html = html + '<option value="2">Finished</option>';
-                                 }
-                                 else if (row.Status == 1) {
-                                     html = html + '<option value="0">Belum Ditentukan</option>';
-                                     html = html + '<option selected value="1">Inprogress</option>';
-                                     html = html + '<option value="2">Finished</option>';
-                                 }
-                                 else {
-                                     html = html + '<option value="0">Belum Ditentukan</option>';
-                                     html = html + '<option  value="1">Inprogree</option>';
-                                     html = html + '<option selected value="2">Finished</option>';
-                                 }
-
-                                 html = html + '</select>';
-                                 return html;
-                             },
-                             "targets": 4,
-                             "orderable": false
-                         },
                 ],
                 "paging": true,
                 "lengthChange": false,

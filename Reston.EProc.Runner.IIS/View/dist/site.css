@@ -144,6 +144,14 @@
             width: 0;
         }
 
+        .btn-app > .badge-left {
+            font-size: 10px;
+            font-weight: 400;
+            position: absolute;
+            right: 65px;
+            top: -3px;
+            }
+
         /*table */
 
  /*       

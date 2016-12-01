@@ -29,6 +29,13 @@ namespace Reston.EProc.Web.Controllers
             return Json( _repository.GetDataProyek(PengadaanId));
         }
 
+        public IHttpActionResult TampilTahapanPekerjaan()
+        {
+            Guid PengadaanId = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
+
+            return Json(_repository.GetDataPekerjaan(PengadaanId));
+        }
+
         public IHttpActionResult SimpanRencanaProyek()
         {
             Guid xPengadaanId = Guid.Parse(HttpContext.Current.Request["aPengadaanId"].ToString());

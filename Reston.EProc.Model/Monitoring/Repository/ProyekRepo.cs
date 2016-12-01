@@ -1,5 +1,6 @@
 ﻿using Reston.Eproc.Model.Monitoring.Entities;
 using Reston.Eproc.Model.Monitoring.Model;
+using Reston.Eproc.Model.Monitoring.Repository;
 using Reston.Pinata.Model;
 using Reston.Pinata.Model.Helper;
 using System;
@@ -14,6 +15,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
     public interface IProyekRepo
     {
         ViewProyekPerencanaan GetDataProyek(Guid PengadaanId);
+        DataTableViewTahapanPekerjaan GetDataPekerjaan(Guid PengadaanId);
         ResultMessage SimpanRencanaProyekRepo(Guid xPengadaanId,string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate);
        
     }
@@ -44,10 +46,38 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             };
         }
 
+        public DataTableViewTahapanPekerjaan GetDataPekerjaan(Guid PengadaanId)
+        {
+            DataTableViewTahapanPekerjaan tp = new DataTableViewTahapanPekerjaan();
+
+            var ProyekId = ctx.RencanaProyeks.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault().Id;
+
+            // record total yang tampil 
+            tp.recordsTotal = ctx.TahapanProyeks.Where(d => d.JenisTahapan == "Pekerjaan" && d.Id == ProyekId).Count();
+
+            // filter berdasarkan Id
+            tp.recordsFiltered = ctx.TahapanProyeks.Where(d => d.JenisTahapan == "Pekerjaan" && d.Id == ProyekId).Count();
+
+            var caritahapanpekerjaan = ctx.TahapanProyeks.Where(d => d.JenisTahapan == "Pekerjaan" && d.Id == ProyekId).ToList();
+
+            List<ViewListTahapanPekerjaan> vListTahapanPekerjaan = new List<ViewListTahapanPekerjaan>();
+            foreach (var item in caritahapanpekerjaan)
+            {
+                ViewListTahapanPekerjaan nViewListTahapanPekerjaan = new ViewListTahapanPekerjaan();
+
+                nViewListTahapanPekerjaan.Id = ProyekId;
+                nViewListTahapanPekerjaan.NamaTahapanPekerjaan = item.NamaTahapan;
+                nViewListTahapanPekerjaan.TanggalPekerjaan = item.Tanggal.Value;
+                nViewListTahapanPekerjaan.JenisTahapan = item.JenisTahapan;
+                vListTahapanPekerjaan.Add(nViewListTahapanPekerjaan);
+            }
+            tp.data = vListTahapanPekerjaan;
+            return tp;
+        }
+
         public ResultMessage SimpanRencanaProyekRepo(Guid xPengadaanId,string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate)
         {
             ResultMessage rm = new ResultMessage();
-
             try
             {
                 var odata = ctx.RencanaProyeks.Where(d=>d.PengadaanId==xPengadaanId).FirstOrDefault();
@@ -78,7 +108,6 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 rm.status = HttpStatusCode.ExpectationFailed;
                 rm.message = ex.ToString();
             }
-
             return rm;
         }
     }

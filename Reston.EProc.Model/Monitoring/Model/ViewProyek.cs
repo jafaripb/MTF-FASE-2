@@ -24,7 +24,6 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public string NamaTahapan { get; set; }
         public string TanggalTahapan { get; set; }
         public List<ViewDokumen> Dokumen { get; set; }
-
     }
 
     public class ViewDokumen
@@ -46,5 +45,21 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
         public List<ViewProyekPerencanaan> data { get; set; }
+    }
+
+    public class DataTableViewTahapanPekerjaan
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewListTahapanPekerjaan> data { get; set; }
+    }
+
+    public class ViewListTahapanPekerjaan
+    {
+        public Guid Id { get; set; }
+        public string NamaTahapanPekerjaan { get; set; }
+        public DateTime TanggalPekerjaan { get; set; }
+        public string JenisTahapan { get; set; }
     }
 }

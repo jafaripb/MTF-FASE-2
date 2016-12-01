@@ -1738,7 +1738,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                  Nama = c.Nama,
                                  PengadaanId = b.PengadaanId,
                                  VendorId = b.VendorId,
-                                 Telepon = c.Telepon
+                                 Telepon = c.Telepon,
+                                 isReady=b.isReady
                              }).ToList();
 
             return kandidats;

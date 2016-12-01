@@ -142,6 +142,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<Guid> PengadaanId { get; set; }
         public Nullable<int> VendorId { get; set; }
         public string Nama { get; set; }
+        public Nullable<int> isReady { get; set; }
         public string Telepon { get; set; }
     }
 
