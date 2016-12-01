@@ -17,6 +17,7 @@ namespace Reston.Helper.Repository
         ResultMessageLstWorkflowApprovals ListWorkflowApprovalByDocumentId(Guid DocumentId, int length, int start);
         ResultMessage CurrentApproveUserSegOrder(Guid DocumentId);
         ViewWorkflowState StatusDocument(Guid DocumentId);
+        ResultMessage SaveWorkFlow(ViewWorkflowTemplate oViewWorkflowTemplate);
     }
     public class WorkflowRepository : IWorkflowRepository
     {
@@ -369,9 +370,67 @@ namespace Reston.Helper.Repository
             }
             return result;
         }
-        
 
-        
+        public ResultMessage SaveWorkFlow(ViewWorkflowTemplate oViewWorkflowTemplate)
+        {
+            try
+            {
+                if (ctx.WorkflowMasterTemplates.Find(oViewWorkflowTemplate.WorkflowMasterTemplate.Id) != null)
+                {
+                    oViewWorkflowTemplate.WorkflowMasterTemplate.CreateBy = oViewWorkflowTemplate.UserId;
+                    oViewWorkflowTemplate.WorkflowMasterTemplate.CreateOn = DateTime.Now;
+                    ctx.WorkflowMasterTemplates.Add(oViewWorkflowTemplate.WorkflowMasterTemplate);
+                    ctx.SaveChanges();
+                    foreach (var item in oViewWorkflowTemplate.WorkflowMasterTemplateDetails)
+                    {
+                        item.Id = oViewWorkflowTemplate.WorkflowMasterTemplate.Id;
+                    }
+                    ctx.WorkflowMasterTemplateDetails.AddRange(oViewWorkflowTemplate.WorkflowMasterTemplateDetails);
+                    ctx.SaveChanges();
+
+                    result.Id = oViewWorkflowTemplate.WorkflowMasterTemplate.Id.ToString();
+                    result.message = Message.SUBMIT_SUKSES;
+                }
+                else
+                {
+                    var dtWorkflowMasterTemplate = ctx.WorkflowMasterTemplates.Find(oViewWorkflowTemplate.WorkflowMasterTemplate.Id);
+                    var dtWorkflowMasterTemplateDetail = ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == dtWorkflowMasterTemplate.Id);
+                    dtWorkflowMasterTemplate.NameValue = oViewWorkflowTemplate.WorkflowMasterTemplate.NameValue;
+                    dtWorkflowMasterTemplate.ModifiedOn = DateTime.Now;
+                    dtWorkflowMasterTemplate.ModifiedBy = oViewWorkflowTemplate.UserId;
+                    foreach (var item in oViewWorkflowTemplate.WorkflowMasterTemplateDetails)
+                    {
+                        if (item.Id != null)
+                        {
+                            var detail = ctx.WorkflowMasterTemplateDetails.Find(item.Id);
+                            detail.NameValue = item.NameValue;
+                            detail.SegOrder = item.SegOrder;
+                            detail.UserId = item.UserId;
+                            detail.WorkflowMasterTemplateId = dtWorkflowMasterTemplate.Id;
+                        }
+                        else
+                        {
+                            WorkflowMasterTemplateDetail newDetail = new WorkflowMasterTemplateDetail();
+                            newDetail.NameValue = item.NameValue;
+                            newDetail.SegOrder = item.SegOrder;
+                            newDetail.UserId = item.UserId;
+                            newDetail.WorkflowMasterTemplateId = dtWorkflowMasterTemplate.Id;
+                            ctx.WorkflowMasterTemplateDetails.Add(newDetail);
+                        }
+                        var detailrequesIds = oViewWorkflowTemplate.WorkflowMasterTemplateDetails.Select(d => d.Id);
+                        var removeRksDetail = dtWorkflowMasterTemplateDetail.Where(d => !detailrequesIds.Contains(d.Id));
+                        ctx.WorkflowMasterTemplateDetails.RemoveRange(removeRksDetail);
+                    }
+                    ctx.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.ToString();
+            }
+            return new ResultMessage();
+        }
+  
     }
 
     

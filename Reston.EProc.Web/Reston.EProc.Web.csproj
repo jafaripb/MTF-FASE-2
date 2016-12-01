@@ -202,6 +202,7 @@
   <ItemGroup>
     <Compile Include="Controllers\MonitoringSelectionController.cs" />
     <Compile Include="Controllers\ProyekController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RksController.cs" />
     <Compile Include="Controllers\PengadaanEController.cs">
       <SubType>Code</SubType>

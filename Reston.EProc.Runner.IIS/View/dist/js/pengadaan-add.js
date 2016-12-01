@@ -710,6 +710,7 @@ function addPersonil(item, el) {
                         + data.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
                         + item.Jabatan + '" value="' + item.PersonilId + '" />' +
                     '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>' +
+                    '<span class="badge-left check-person"><input type="checkbox"/></span>' +
                     '<i class="fa fa-user"></i>' +
                     item.Nama +
                   '</a>';
