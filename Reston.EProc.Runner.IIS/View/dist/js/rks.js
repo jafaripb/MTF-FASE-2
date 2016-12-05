@@ -635,7 +635,9 @@ $(function () {
         });
     });
     $("#kembali").on("click", function () {
-        window.location.replace("http://" + window.location.host + "/pengadaan-add.html#" + $("#pengadaanId").val());
+        if ($("#aturan-pengadaan").val()=="Pengadaan Terbuka")
+            window.location.replace("http://" + window.location.host + "/pengadaan_add_terbuka.html#" + $("#pengadaanId").val());
+        else window.location.replace("http://" + window.location.host + "/pengadaan-add.html#" + $("#pengadaanId").val());
     });
 
     $(".refresh").on("click", function () {
@@ -821,6 +823,7 @@ function loadData() {
     }).done(function (data) {
         $("#judul").text(data.Judul);
         $("#deskripsi").text(data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
+        $("#aturan-pengadaan").val(data.AturanPengadaan);
         $("#keterangan").text(data.Keterangan);
         $("#judul-page").html("RKS " + data.Judul);
         // $("#idRks").val(data.RKSHeaderId);

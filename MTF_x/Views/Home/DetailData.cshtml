@@ -18,9 +18,17 @@
                             <div class="tab-content">
                                 <!-- tab-pane Pengadaan Barang-->
                                 <div class="tab-pane active" id="pengadaan_barang">
+                                @if (!Request.IsAuthenticated){
                                     <div class="col-md-12" style="margin:20px 0px 20px 0px;">
                                         <p>Untuk dapat mengikuti pekerjaan ini. Silahkan <a href="http://localhost:49559/registrasi.html" target="_blank" class="text-bold"> Registrasi</a> atau <a href="http://localhost:7348/" target="_blank" class="text-bold"> Login</a> Perusahaan Anda.</p>
                                     </div>
+                                }
+                                 @if (Request.IsAuthenticated){
+                                    <div class="col-md-12" style="margin:20px 0px 20px 0px;">
+                                        <p>Klik Untuk Mendaftar Pengadaan ini <a href="daftar.html" class="text-bold"> Daftar</a></p>
+                                    </div>
+                                }
+
                                     <table class="table table-bordered" style="margin-top:30px;">
                                         <tr>
                                             <td class="text-bold" style="width:200px; background-color:#ccddff; font-size:13px;">No. Pengadaan</td>
