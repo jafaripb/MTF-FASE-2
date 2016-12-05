@@ -154,6 +154,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
         Reston.Helper.Util.ResultMessage saveReadyPersonil(Guid Id,int ready,Guid UserId);
         DataTablePengadaan List(string search, int start, int limit, EStatusPengadaan status, int more,int spk);
         VWCountListDokumen ListCount();
+        Reston.Helper.Util.ResultMessage CekPersetujuanPemenang(Guid Id, Guid UserId);
+        Reston.Helper.Util.ResultMessage SavePersetujuanPemenang(PersetujuanPemenang oPersetujuanPemenang, Guid UserId);
+        Reston.Helper.Util.ResultMessage DeletePersetujuanPemenang(Guid Id);
+        StatusPengajuanPemenang StatusPersetujuanPemenang(Guid PengadaanId);
+        PersetujuanPemenang ChangeStatusPersetujuanPemenang(Guid Id, StatusPengajuanPemenang status, Guid UserId);
+        PersetujuanPemenang getPersetujuanPemenangByPengadaanId(Guid PengadaanId);
+        PersetujuanPemenang getPersetujuanPemenangById(Guid Id);
     }
     public class PengadaanRepo : IPengadaanRepo
     {
@@ -884,7 +891,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
             DataTablePengadaan oData=new DataTablePengadaan();
             var dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status );
             if (more == 1 && status == EStatusPengadaan.DISETUJUI) dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status >= status && d.Status != EStatusPengadaan.ARSIP && d.Status != EStatusPengadaan.DITOLAK && d.Status != EStatusPengadaan.DIBATALKAN);
-            if(spk==1&& status==EStatusPengadaan.PEMENANG)dt=ctx.Pengadaans.Where(d => d.Judul.Contains(search)&& d.Status == status && d.DokumenPengadaans.Where(dd=>dd.Tipe==TipeBerkas.SuratPerintahKerja && dd.PengadaanId==d.Id).Count()>0);
+            if (spk == 1 && status == EStatusPengadaan.PEMENANG)
+            {
+                dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0);
+                
+            }
             if (spk == 0 && status == EStatusPengadaan.PEMENANG) dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() == 0);
             oData.recordsFiltered=dt.Count();
             oData.recordsTotal = ctx.Pengadaans.Count();
@@ -893,7 +904,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
             WorkflowTemplateId=d.WorkflowId,
             Region=d.Region,
             Status=d.Status,
+            StatusPersetujuanPemenang=d.PersetujuanPemenangs.FirstOrDefault()==null?StatusPengajuanPemenang.BELUMDIAJUKAN:d.PersetujuanPemenangs.FirstOrDefault().Status,
+            StatusPersetujuanPemenangName=d.PersetujuanPemenangs.FirstOrDefault()==null?StatusPengajuanPemenang.BELUMDIAJUKAN.ToString():d.PersetujuanPemenangs.FirstOrDefault().Status.ToString(),
             StatusName = d.Status.ToString(),
+            IdPersetujuanPemanang=d.PersetujuanPemenangs.FirstOrDefault()==null?Guid.Empty:d.PersetujuanPemenangs.FirstOrDefault().Id,
+            WorkflowPersetujuanPemenangTemplateId=d.PersetujuanPemenangs.FirstOrDefault()==null?null:d.PersetujuanPemenangs.FirstOrDefault().WorkflowId,
             JenisPekerjaan=d.JenisPekerjaan,
             AturanPengadaan=d.AturanPengadaan,
             Id=d.Id,
@@ -913,7 +928,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 PengadaanDiTolak = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.DITOLAK).Count(),
                 PengadaanButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN).Count(),
                 PemenangButuhPerSetujuan = ctx.Pengadaans.Where(d =>  d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() == 0).Count(),
-                PemenangDiSetujui = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0).Count()
+                PemenangDiSetujui = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0).Count()
             };
         }
 
@@ -4380,92 +4395,125 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
             return msg;
         }
-        //workflow
-        //public Pengadaan PersetujuanWorkflow(Guid Id, Guid UserId)
-        //{
-        //    Pengadaan oPengadaan = ctx.Pengadaans.Find(Id);
-        //    if (oPengadaan == null) return new Pengadaan();
-        //    var oPersonil = ctx.PersonilPengadaans.Where(d => d.PengadaanId == oPengadaan.Id );
-        //    if (oPersonil.Where(d=>d.tipe == PengadaanConstants.StaffPeranan.PIC).FirstOrDefault() == null) return new Pengadaan();
 
+        public Reston.Helper.Util.ResultMessage CekPersetujuanPemenang(Guid Id, Guid UserId)
+        {
+            if (ctx.Pengadaans.Find(Id) == null) return new Reston.Helper.Util.ResultMessage();
+            if (ctx.Pengadaans.Find(Id).PersetujuanPemenangs.Count() == 0) return new Reston.Helper.Util.ResultMessage();
+            if (ctx.Pengadaans.Find(Id).PersetujuanPemenangs.FirstOrDefault().Status==StatusPengajuanPemenang.APPROVED)
+            {
+                return new Reston.Helper.Util.ResultMessage()
+                {
+                    Id = Id.ToString(),
+                    message = "Pemenang Sudah Di Setujui",
+                    status = HttpStatusCode.OK
+                };
+            }
+            return new Reston.Helper.Util.ResultMessage();
+        }
 
-        //    Workflow nWorkflow = ctx.Workflows.Where(d => d.DocumentId == Id).FirstOrDefault();
-        //    if (nWorkflow == null)
-        //    {
-        //        return new Pengadaan();
-        //    }
-        //    else
-        //    {
-        //        WorkflowApproval oWorkflowApproval = ctx.WorkflowApprovals.Where(d => d.WorkflowId == nWorkflow.Id).OrderBy(d => d.SegOrder).LastOrDefault();
-               
-        //        var oWorkflowMasterTemplateDetail = ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == nWorkflow.WorkflowMasterTemplateId).OrderBy(d=>d.SegOrder);
-        //        var maxSegOrder = oWorkflowMasterTemplateDetail.LastOrDefault().SegOrder;
-        //        var curSegOrder = oWorkflowApproval.SegOrder;
-        //        var nextSegOrder = curSegOrder + 1;
-        //        var prevSegOrder = curSegOrder - 1;
-        //        var UserApporer = oPersonil.Where(d => d.tipe == PengadaanConstants.StaffPeranan.Controller).LastOrDefault().PersonilId;
-        //        if (oWorkflowApproval != null)
-        //        {
-        //            UserApporer = oWorkflowMasterTemplateDetail.Where(d => d.SegOrder == curSegOrder).FirstOrDefault().UserId;
-        //        }
-        //        if (UserId != UserApporer) return new Pengadaan();
-        //        oWorkflowApproval = new WorkflowApproval();
-        //        oWorkflowApproval.SegOrder = oWorkflowMasterTemplateDetail.FirstOrDefault().SegOrder;
-        //        oWorkflowApproval.UserId = UserId;
-        //        oWorkflowApproval.WorkflowId = nWorkflow.Id;
-        //        oWorkflowApproval.WorkflowStatusCode = 1;
-        //        ctx.WorkflowApprovals.Add(oWorkflowApproval);
+        public PersetujuanPemenang getPersetujuanPemenangByPengadaanId(Guid PengadaanId)
+        {
+            return ctx.PersetujuanPemenangs.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault();
+        }
+        public PersetujuanPemenang getPersetujuanPemenangById(Guid Id)
+        {
+            return ctx.PersetujuanPemenangs.Where(d => d.Id == Id).FirstOrDefault();
+        }
+        public Reston.Helper.Util.ResultMessage SavePersetujuanPemenang(PersetujuanPemenang oPersetujuanPemenang,Guid UserId)
+        {
+            try
+            {
 
-        //        if (oWorkflowMasterTemplateDetail.Where(d => d.SegOrder == curSegOrder).LastOrDefault().UserId != UserId) return new Pengadaan();
-        //        if (nWorkflow.LastStatusCode == 2) return new Pengadaan();
-        //        if (curSegOrder == maxSegOrder)
-        //        {
-        //            nWorkflow.NextUserId = null;
-        //            nWorkflow.PrevUserId = oWorkflowMasterTemplateDetail.Where(d => d.SegOrder == curSegOrder).LastOrDefault().UserId;
-        //            nWorkflow.NextStatusCode = null;
-        //            nWorkflow.LastStatusCode = 2;
-        //            oPengadaan.Status = EStatusPengadaan.DISETUJUI;
-        //        }
-        //        nWorkflow.NextUserId = oWorkflowMasterTemplateDetail.Where(d => d.SegOrder == nextSegOrder).LastOrDefault().UserId;
-        //        nWorkflow.NextStatusCode = 1;
-        //        nWorkflow.LastStatusCode = 1;
-        //        if (nextSegOrder == maxSegOrder)
-        //        {
-        //            nWorkflow.NextStatusCode = 2;
-        //            nWorkflow.LastStatusCode = 1;
-        //        }
-        //    }
-        //    ctx.SaveChanges();
-        //    return new Pengadaan();
-        //}
+                var oldData = ctx.PersetujuanPemenangs.Where(d => d.PengadaanId == oPersetujuanPemenang.PengadaanId).FirstOrDefault();
+                if (oldData == null)
+                {
+                    oPersetujuanPemenang.CreatedOn = DateTime.Now;
+                    oPersetujuanPemenang.CreatedBy = UserId;
+                    ctx.PersetujuanPemenangs.Add(oPersetujuanPemenang);
 
-        //public int AjukanWorkflow(Guid Id, Guid UserId, Guid WorkflowtemplateId)
-        //{
-        //    Pengadaan oPengadaan = ctx.Pengadaans.Find(Id);
-        //    if (oPengadaan == null) return 0;
-        //    var oPersonil = ctx.PersonilPengadaans.Where(d => d.PengadaanId == oPengadaan.Id);
-        //    if (oPersonil.Where(d => d.tipe == PengadaanConstants.StaffPeranan.PIC).FirstOrDefault() == null) return 0;
+                }
+                else
+                {
+                    oldData.Note = oPersetujuanPemenang.Note;
+                    oldData.Status = oPersetujuanPemenang.Status;
+                    oldData.WorkflowId = oPersetujuanPemenang.WorkflowId;
 
-        //    Workflow nWorkflow = ctx.Workflows.Where(d => d.DocumentId == Id).FirstOrDefault();
-        //    if (nWorkflow == null)
-        //    {
-        //        nWorkflow = new Workflow();
-        //        nWorkflow.DocumentId = Id;
-        //        nWorkflow.WorkflowMasterTemplateId = WorkflowtemplateId;
-        //        nWorkflow.NextUserId = oPersonil.Where(d => d.tipe == PengadaanConstants.StaffPeranan.Controller).FirstOrDefault().PersonilId;
-        //        nWorkflow.NextStatusCode = 1;
-        //        nWorkflow.LastStatusCode = 1;
-        //        ctx.Workflows.Add(nWorkflow);
-        //    }
-        //    else
-        //    {
-        //        return 0;                
-        //    }
-        //    oPengadaan.Status = EStatusPengadaan.AJUKAN;
-        //    ctx.SaveChanges();
-        //    return 1;
-        //}
+                }
+                ctx.SaveChanges(UserId.ToString());
+                return new Reston.Helper.Util.ResultMessage()
+                {
+                   Id=oldData==null?oPersetujuanPemenang.Id.ToString():oldData.Id.ToString(),
+                    message = Common.SaveSukses(),
+                    status = HttpStatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Reston.Helper.Util.ResultMessage() { 
+                    message=ex.ToString(),
+                    status=HttpStatusCode.ExpectationFailed                
+                };
+            }
+            
+        }
 
+        public Reston.Helper.Util.ResultMessage DeletePersetujuanPemenang(Guid Id)
+        {
+            try
+            {
+                var oldData = ctx.PersetujuanPemenangs.Find(Id);
+                if (oldData != null)
+                {
+                    ctx.PersetujuanPemenangs.Remove(oldData);
+                }
+                ctx.SaveChanges();
+                return new Reston.Helper.Util.ResultMessage()
+                {
+                    Id = Id.ToString(),
+                    message = Common.SaveSukses(),
+                    status = HttpStatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Reston.Helper.Util.ResultMessage()
+                {
+                    message = ex.ToString(),
+                    status = HttpStatusCode.ExpectationFailed
+                };
+            }
+
+        }
+
+        public StatusPengajuanPemenang StatusPersetujuanPemenang(Guid PengadaanId)
+        {
+            try
+            {
+
+                return ctx.PersetujuanPemenangs.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault().Status;
+            }
+            catch (Exception ex)
+            {
+                return StatusPengajuanPemenang.BELUMDIAJUKAN;
+            }
+
+        }
+        
+        public PersetujuanPemenang ChangeStatusPersetujuanPemenang(Guid Id, StatusPengajuanPemenang status, Guid UserId)
+        {
+            try
+            {
+                var odata = ctx.PersetujuanPemenangs.Find(Id);
+                odata.Status = status;
+                ctx.SaveChanges();
+                return odata;
+            }
+            catch
+            {
+                return new PersetujuanPemenang();
+            }
+        }
     }
 }
 

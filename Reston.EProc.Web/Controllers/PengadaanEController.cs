@@ -31,6 +31,7 @@ namespace Reston.Pinata.WebService.Controllers
     public class PengadaanEController : BaseController
     {
         string DocumentType = "eproc";
+        string DocumentTypePemenang = "pengajuan_pemenang";
         private IPengadaanRepo _repository;
         private IWorkflowRepository _workflowrepo;
         private IRksRepo _reporks;
@@ -143,7 +144,7 @@ namespace Reston.Pinata.WebService.Controllers
                                      new WorkflowMasterTemplateDetail()
                                         {
                                             NameValue = "Gen.By.System",
-                                            SegOrder = 2,
+                                            SegOrder = 3,
                                             UserId = DepHead[0]
                                         });
                         WorkflowMasterTemplate MasterTemplate = new WorkflowMasterTemplate()
@@ -732,10 +733,12 @@ namespace Reston.Pinata.WebService.Controllers
             List<VWRiwayatDokumen> lstRiwyat = new List<VWRiwayatDokumen>();
             try
             {
-                var riwayat = _repository.lstRiwayatDokumen(Id);
+                var riwayat = _repository.lstRiwayatDokumen(Id).OrderBy(d => d.ActionDate);
                 foreach (var item in riwayat)
                 {
-                    var userx = await userDetail(item.UserId.ToString());
+                    var userx=new Userx();
+                    if(item.UserId!=null)
+                         userx = await userDetail(item.UserId.ToString());
                     VWRiwayatDokumen nVWRiwayatDokumen = new VWRiwayatDokumen();
                     nVWRiwayatDokumen.Id = item.Id;
                     nVWRiwayatDokumen.Nama = userx.Nama;
@@ -1215,7 +1218,7 @@ namespace Reston.Pinata.WebService.Controllers
                              new WorkflowMasterTemplateDetail()
                              {
                                  NameValue = "Gen.By.System",
-                                 SegOrder = 2,
+                                 SegOrder = 3,
                                  UserId = DepHead[0]
                              });
                 WorkflowMasterTemplate MasterTemplate = new WorkflowMasterTemplate()
@@ -2642,6 +2645,13 @@ namespace Reston.Pinata.WebService.Controllers
             {
                 Directory.CreateDirectory(uploadPath + filePathSave);
             }
+            TipeBerkas t = (TipeBerkas)Enum.Parse(typeof(TipeBerkas), tipe);
+            if (t == TipeBerkas.SuratPerintahKerja)
+            {
+                if(_repository.CekPersetujuanPemenang(id,UserId()).status!=HttpStatusCode.OK){
+                    return InternalServerError();
+                }
+            }
 
             var s = await Request.Content.ReadAsStreamAsync();
             var provider = new MultipartMemoryStreamProvider();
@@ -2676,7 +2686,7 @@ namespace Reston.Pinata.WebService.Controllers
                 }
             }
             Guid DokumenId = Guid.NewGuid();
-            TipeBerkas t = (TipeBerkas)Enum.Parse(typeof(TipeBerkas), tipe);
+            //TipeBerkas t = (TipeBerkas)Enum.Parse(typeof(TipeBerkas), tipe);
             DokumenPengadaan dokumen = new DokumenPengadaan
             {
                 File = fileName,
@@ -2743,15 +2753,23 @@ namespace Reston.Pinata.WebService.Controllers
             int spk = Convert.ToInt32(HttpContext.Current.Request["spk"].ToString());
             EStatusPengadaan status = (EStatusPengadaan)Convert.ToInt32(HttpContext.Current.Request["status"].ToString());
             var data = _repository.List(search, start, length, status, more,spk);
-
+            
             foreach (var item in data.data)
             {
-                if (item.WorkflowTemplateId != null && item.WorkflowTemplateId != 0)
-                {
-                    List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), item.WorkflowTemplateId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
-                    if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.Approver = 1;
-                    item.lastApprover = _workflowrepo.isLastApprover(item.Id, item.WorkflowTemplateId.Value).Id;
-                }
+                if(item.Status==EStatusPengadaan.AJUKAN)
+                    if (item.WorkflowTemplateId != null && item.WorkflowTemplateId != 0)
+                    {
+                        List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), item.WorkflowTemplateId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
+                        if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.Approver = 1;
+                        item.lastApprover = _workflowrepo.isLastApprover(item.Id, item.WorkflowTemplateId.Value).Id;
+                    }
+                if(item.StatusPersetujuanPemenang==StatusPengajuanPemenang.PENDING)
+                    if (item.WorkflowPersetujuanPemenangTemplateId != null && item.WorkflowPersetujuanPemenangTemplateId != 0)
+                    {
+                        List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), item.WorkflowPersetujuanPemenangTemplateId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentTypePemenang, 0, 0);
+                        if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.ApproverPersetujuanPemenang = 1;
+                        item.lastApproverPersetujuanPemenang = _workflowrepo.isLastApprover(item.IdPersetujuanPemanang.Value, item.WorkflowPersetujuanPemenangTemplateId.Value).Id;
+                    }
             }
 
             return Json(data);
@@ -2815,6 +2833,256 @@ namespace Reston.Pinata.WebService.Controllers
                         if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                         {
                             _repository.ChangeStatusPengadaan(id, EStatusPengadaan.DISETUJUI, UserId());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.ToString();
+            }
+            return result;
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public int isApprovePemenang(Guid Id)
+        {
+            return _repository.CekPersetujuanPemenang(Id,UserId()).status==HttpStatusCode.OK?1:0;
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public async Task<ResultMessage> ajukanDokPemenang(Guid Id)
+        {
+            HttpStatusCode respon = HttpStatusCode.NotFound;
+            string message = "";
+            string idx = "0";
+            try
+            {
+
+                respon = HttpStatusCode.Forbidden;
+                message = "Erorr";
+                PersetujuanPemenang nPersetujuanPemenang = new PersetujuanPemenang();
+                nPersetujuanPemenang.PengadaanId = Id;
+                //nPersetujuanPemenang.Note
+                nPersetujuanPemenang.Status = StatusPengajuanPemenang.PENDING;
+                if (_repository.StatusPersetujuanPemenang(Id) > StatusPengajuanPemenang.BELUMDIAJUKAN && _repository.StatusPersetujuanPemenang(Id) != StatusPengajuanPemenang.REJECTED)
+                {
+                    return new ResultMessage
+                    {
+                        status = HttpStatusCode.ExpectationFailed,
+                        message = "Sudah Dalam Tahap Pengajuan"
+                    };
+                }
+                var result=_repository.SavePersetujuanPemenang(nPersetujuanPemenang, UserId());
+                if (result.status != HttpStatusCode.OK)
+                {
+                    return new ResultMessage
+                    {
+                        status = result.status,
+                        message = result.message
+                    };
+                }
+                
+                //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
+                decimal? RKS = _repository.getRKSDetails(Id, UserId()).Sum(d => d.hps * d.jumlah);
+
+
+                var vwpengadaan = _repository.GetPengadaanByiD(Id);
+                var DepHead = await listHead();
+                var DepManager = await listGuidManager();
+
+                #region BuatAtauUpdateTamplate
+
+                var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
+                                new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue="Gen.By.System",
+                                        SegOrder=1,
+                                        UserId=vwpengadaan.PersonilPengadaans.Where(d=>d.tipe=="controller").FirstOrDefault().PersonilId
+                                    },
+                                 new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue="Gen.By.System",
+                                        SegOrder=2,
+                                        UserId=DepManager[0]
+                                    }
+                            };
+                if (RKS > ValueBoundAprr) WorkflowMasterTemplateDetails.Add(
+                             new WorkflowMasterTemplateDetail()
+                             {
+                                 NameValue = "Gen.By.System",
+                                 SegOrder = 3,
+                                 UserId = DepHead[0]
+                             });
+                WorkflowMasterTemplate MasterTemplate = new WorkflowMasterTemplate()
+                {
+                    ApprovalType = ApprovalType.BERTINGKAT,
+                    CreateBy = UserId(),
+                    CreateOn = DateTime.Now,
+                    DescValue = "WorkFlow Pengadaan=> " + vwpengadaan.Judul,
+                    NameValue = "Generate By System ",
+                    WorkflowMasterTemplateDetails = WorkflowMasterTemplateDetails
+                };
+                var resultTemplate = _workflowrepo.SaveWorkFlow(MasterTemplate, UserId());
+                nPersetujuanPemenang.WorkflowId = Convert.ToInt32(resultTemplate.Id);
+                #endregion
+
+                if (nPersetujuanPemenang.WorkflowId != null)
+                {
+                    nPersetujuanPemenang.Status = StatusPengajuanPemenang.PENDING;
+                    var rPersetujuanPemenang = _repository.SavePersetujuanPemenang(nPersetujuanPemenang, UserId());
+                    respon = HttpStatusCode.OK;
+                    idx = rPersetujuanPemenang.Id;
+                    var resultx = _workflowrepo.PengajuanDokumen(new Guid(rPersetujuanPemenang.Id), nPersetujuanPemenang.WorkflowId.Value, DocumentTypePemenang);
+                    if (string.IsNullOrEmpty(resultx.Id))
+                    {
+                        result.message = resultx.message;
+                        result.Id = resultx.Id;
+                        return result;
+                    }
+                    message = Common.SaveSukses();
+                }
+                else
+                {
+                    var PersetujuanPemenang = _repository.DeletePersetujuanPemenang(nPersetujuanPemenang.Id);
+                    respon = HttpStatusCode.OK;
+                    message = Common.SaveSukses();
+                    idx = PersetujuanPemenang.Id.ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                respon = HttpStatusCode.NotImplemented;
+                message = ex.ToString();
+                idx = "0";
+            }
+            finally
+            {
+                result.status = respon;
+                result.message = message;
+                result.Id = idx;
+            }
+            //
+            return result;
+        }
+
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public IHttpActionResult StatusPemenang(Guid pengadaanId)
+        {
+            return Json(_repository.StatusPersetujuanPemenang(pengadaanId));
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public Reston.Helper.Util.ResultMessageWorkflowState persetujuanPemenangWithNote(Guid id, string Note)
+        {
+            var result = new Reston.Helper.Util.ResultMessageWorkflowState();
+            try
+            {
+                result = _workflowrepo.ApproveDokumen(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                if (!string.IsNullOrEmpty(result.Id))
+                {
+                    
+                    RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
+                    nRiwayatDokumen.Status = "Dokumen Persetujuan Pemenang DiSetujui Oleh: " + CurrentUser.UserName;
+                    nRiwayatDokumen.Comment = Note;
+                    nRiwayatDokumen.PengadaanId = _repository.getPersetujuanPemenangById(id).PengadaanId;
+                    nRiwayatDokumen.UserId = UserId();
+                    _repository.AddRiwayatDokumen(nRiwayatDokumen);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id);
+                    if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
+                    {
+                        _repository.ChangeStatusPersetujuanPemenang(id, StatusPengajuanPemenang.APPROVED, UserId());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.ToString();
+            }
+            return result;
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public Reston.Helper.Util.ResultMessageWorkflowState PenolakanPemenangWithWorkflow(Guid Id, string Note)
+        {
+            var result = new Reston.Helper.Util.ResultMessageWorkflowState();
+            try
+            {
+                result = _workflowrepo.ApproveDokumen(Id, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
+                if (result.data != null)
+                {
+                    if (result.data.DocumentStatus == Reston.Helper.Model.DocumentStatus.REJECTED)
+                    {
+                        _repository.ChangeStatusPersetujuanPemenang(Id, StatusPengajuanPemenang.REJECTED, UserId());
+                    
+                    }
+                    RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
+                    nRiwayatDokumen.Status = "Dokumen Persetujuan Ditolak Oleh: "+CurrentUser.UserName;
+                    nRiwayatDokumen.PengadaanId = _repository.getPersetujuanPemenangById(Id).PengadaanId;
+                    nRiwayatDokumen.Comment = Note;
+                    nRiwayatDokumen.UserId = UserId();
+                    _repository.AddRiwayatDokumen(nRiwayatDokumen);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(Id);
+                    if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
+                    {
+                        _repository.ChangeStatusPersetujuanPemenang(Id, StatusPengajuanPemenang.APPROVED, UserId());
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.ToString();
+            }
+            return result;
+        }
+
+        
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public Reston.Helper.Util.ResultMessageWorkflowState persetujuanPemenangWithNextApprover(Guid id, string Note, Guid userId)
+        {
+            var result = new Reston.Helper.Util.ResultMessageWorkflowState();
+            try
+            {
+                var oPersetujuanPemenang = _repository.getPersetujuanPemenangByPengadaanId(id);
+                WorkflowMasterTemplateDetail oDetailTempalte = new WorkflowMasterTemplateDetail();
+                oDetailTempalte.UserId = userId;
+                oDetailTempalte.NameValue = "Ditambah Oleh: " + UserId();
+                oDetailTempalte.WorkflowMasterTemplateId = oPersetujuanPemenang.WorkflowId.Value;
+                var oAddMasterTemplateDetail = _workflowrepo.AddMasterTemplateDetail(oPersetujuanPemenang.WorkflowId.Value, oDetailTempalte);
+                if (!string.IsNullOrEmpty(oAddMasterTemplateDetail.Id))
+                {
+                    result = _workflowrepo.ApproveDokumen(oPersetujuanPemenang.Id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                    if (!string.IsNullOrEmpty(result.Id))
+                    {
+                        RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
+                        nRiwayatDokumen.Status = "Dokumen Pemenang DiSetujui Oleh: "+CurrentUser.UserName;
+                        nRiwayatDokumen.Comment = Note;
+                        nRiwayatDokumen.PengadaanId = oPersetujuanPemenang.PengadaanId;
+                        nRiwayatDokumen.UserId = UserId();
+                        _repository.AddRiwayatDokumen(nRiwayatDokumen);
+                        ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(oPersetujuanPemenang.Id);
+                        if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
+                        {
+                            _repository.ChangeStatusPersetujuanPemenang(id, StatusPengajuanPemenang.APPROVED, UserId());
                         }
                     }
                 }

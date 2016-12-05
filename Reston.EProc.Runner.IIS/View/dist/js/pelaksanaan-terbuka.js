@@ -430,10 +430,12 @@ $(function () {
               acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
               accept: function (file, done) {
                   var jumFile = myDropzoneSuratPerintahKerja.files.length;
-                  if (jumFile > 1) {
+                  //jumFile > 1 &&
+                  if ( $("#isPemenangApproved").val() != 1) {
+
                       BootstrapDialog.show({
                           title: 'Konfirmasi',
-                          message: 'Berkas Sudah Adda',
+                          message: 'Dokumen Persetujan Pemenang Belum DiSetujui',
                           buttons: [{
                               label: 'Close',
                               action: function (dialog) {
@@ -1137,6 +1139,7 @@ $(function () {
     getListSubmitKlarifikasiRekanan();
     getListKlarifikasiRekanan();
     getAllKandidatPengadaan();
+    
 });
 
 $(function () {
@@ -2064,3 +2067,4 @@ function isSpkUploaded() {
         }
     });
 }
+

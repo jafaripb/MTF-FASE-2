@@ -45,6 +45,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
     public class ViewPengadaan
     {
         public Guid Id { get; set; }
+        public Guid? IdPersetujuanPemanang { get; set; }
         public string Judul { get; set; }
         public string Keterangan { get; set; }
         public string AturanPengadaan { get; set; }
@@ -68,6 +69,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public int nextStatus { get; set; }
         public string NoPengadaan { get; set; }
         public Nullable<int> Approver { get; set; }
+        public Nullable<int> ApproverPersetujuanPemenang { get; set; }
         public Nullable<int> isCreated { get; set; }
         public Nullable<int> isPIC { get; set; }
         public Nullable<int> isTEAM { get; set; }
@@ -78,6 +80,8 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
 
         public Nullable<EStatusPengadaan> Status { get; set; }
         public string StatusName { get; set; }
+        public Nullable<StatusPengajuanPemenang> StatusPersetujuanPemenang { get; set; }
+        public string StatusPersetujuanPemenangName { get; set; }        
         public Nullable<EGroupPengadaan> GroupPengadaan { get; set; }
         public Nullable<Guid> IdBerkasRujukanLain { get; set; }
         public Nullable<DateTime> CreatedOn { get; set; }
@@ -85,8 +89,10 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<int> isMasukKlarifikasi { get; set; }
         public List<RKSHeader> RKSHeaders { get; set; }
         public Nullable<int> WorkflowTemplateId { get; set; }
+        public Nullable<int> WorkflowPersetujuanPemenangTemplateId { get; set; }
         public Nullable<decimal> HPS { get; set; }
         public string lastApprover { get; set; }
+        public string lastApproverPersetujuanPemenang { get; set; }        
         public List<VWDokumenPengadaan> DokumenPengadaans { get; set; }
         public List<VWKandidatPengadaan> KandidatPengadaans { get; set; }
         public List<VWJadwalPengadaan> JadwalPengadaans { get; set; }

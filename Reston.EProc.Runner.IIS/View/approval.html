@@ -134,22 +134,22 @@
                                         <table class="table" style="border-style:none; width:600px; min-height:100px; margin-left:110px;">
                                             <tr>
                                                 <td class="rata_kiri text-bold">Dokumen Pengadaan yang Butuh Persetujuan</td>
-                                                <td class="tengah text-bold"><a href="approval-perencanaan-belum-disetujui.html" id="persetujuan-pengadaan">3</a></td>
+                                                <td class="tengah text-bold"><a href="approval-perencanaan-belum-disetujui.html" id="persetujuan-pengadaan"></a></td>
                                                                                                
                                             </tr>
                                             <tr>
                                                 <td class="rata_kiri text-bold">Dokumen Pengadaan yang Sudah di Setujui</td>
-                                                <td class="tengah text-bold"><a href="approval-perencanaan-sudah-disetujui.html" id="pengadaan-disetujui">5</a></td>
+                                                <td class="tengah text-bold"><a href="approval-perencanaan-sudah-disetujui.html" id="pengadaan-disetujui"></a></td>
                                                                                                
                                             </tr>
                                             <tr>
                                                 <td class="rata_kiri text-bold">Dokumen Persetujuan Pemenang yang Butuh Persetujuan</td>
-                                                <td class="tengah text-bold"><a href="approval-persetujuan-pemenang-belum-disetujui.html">5</a></td>
+                                                <td class="tengah text-bold"><a href="approval-persetujuan-pemenang-belum-disetujui.html" id="persetujuan-pemenang" ></a></td>
                                                                                                
                                             </tr>
                                             <tr>
                                                 <td class="rata_kiri text-bold">Dokumen Persetujuan Pemenang yang Sudah di Setujui</td>
-                                                <td style="text-align:center; color:black; font-weight:bold;"><a href="approval-persetujuan-pemenang-sudah-disetujui.html">7</a></td>
+                                                <td style="text-align:center; color:black; font-weight:bold;"><a href="approval-persetujuan-pemenang-sudah-disetujui.html"  id="pemenang-disetujui"></a></td>
                                                                                                
                                             </tr>
                                             <tr>
@@ -231,6 +231,8 @@
         $(function () {
             $("#persetujuan-pengadaan").text(0);
             $("#pengadaan-disetujui").text(0);
+            $("#persetujuan-pemenang").text(0);
+            $("#pemenang-disetujui").text(0);
             $.ajax({
                 url: 'api/PengadaanE/ListCount',
                 method: "GET",
@@ -238,6 +240,8 @@
                     if (data!=null) {
                         $("#persetujuan-pengadaan").text(data.PengadaanButuhPerSetujuan);
                         $("#pengadaan-disetujui").text(data.PengadaanDiSetujui);
+                        $("#persetujuan-pemenang").text(data.PemenangButuhPerSetujuan);
+                        $("#pemenang-disetujui").text(data.PemenangDiSetujui);
                     }
                 }
             });

@@ -439,13 +439,18 @@ namespace Reston.Helper.Repository
 
         public ResultMessage isLastApprover(Guid DocId, int TemplateId)
         {
-            var oWorkflowState=ctx.WorkflowStates.Where(d=>d.DocumentId==DocId && d.WorkflowMasterTemplateId==TemplateId && d.DocumentStatus==DocumentStatus.PENGAJUAN).FirstOrDefault();
-            var oTemplate = ctx.WorkflowMasterTemplates.Find(TemplateId).WorkflowMasterTemplateDetails.OrderBy(d=>d.SegOrder).LastOrDefault();
-            if (oWorkflowState == null || oTemplate==null)
-                result.Id = "0";
-            var diffSegOrder = oTemplate.SegOrder - oWorkflowState.CurrentSegOrder;
-            if (diffSegOrder == 0) result.Id = "1";
-            else result.Id = "0";
+            try
+            {
+
+                var oWorkflowState = ctx.WorkflowStates.Where(d => d.DocumentId == DocId && d.WorkflowMasterTemplateId == TemplateId && d.DocumentStatus == DocumentStatus.PENGAJUAN).FirstOrDefault();
+                var oTemplate = ctx.WorkflowMasterTemplates.Find(TemplateId).WorkflowMasterTemplateDetails.OrderBy(d => d.SegOrder).LastOrDefault();
+                if (oWorkflowState == null || oTemplate == null)
+                    result.Id = "0";
+                var diffSegOrder = oTemplate.SegOrder - oWorkflowState.CurrentSegOrder;
+                if (diffSegOrder == 0) result.Id = "1";
+                else result.Id = "0";
+            }
+            catch { result.Id = "0"; }
             return result;
         }
 

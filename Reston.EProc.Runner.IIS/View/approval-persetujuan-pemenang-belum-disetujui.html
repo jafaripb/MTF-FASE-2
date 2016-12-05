@@ -127,7 +127,7 @@
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="form-group col-md-12">
-                                        <label class="title"><h3>Dokumen Pengadaan yang Sudah di Setujui</h3></label>
+                                        <label class="title"><h3>Dokumen Persetujuan Pemenang yang Butuh Persetujuan </h3></label>
                                     </div>
                                     <div class="col-md-10" style="margin-left: 60px;">
                                         <table class="table table-bordered table-striped table-responsive" id="tbl-approval" style="margin-top:20px; ">
@@ -249,7 +249,7 @@
                     { "data": "Judul" },
                     { "data": "HPS", "className": "rata_kanan" },
                     { "data": "JenisPekerjaan" },
-                    { "data": "StatusName" },
+                    { "data": "StatusPersetujuanPemenangName" },
                     { "data": null },
                     { "data": null }
                 ],
@@ -266,7 +266,7 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            if (data.Approver == 1) return '<textarea class="form-control" attrid="' + data.Id + '"></textarea>';
+                            if (data.ApproverPersetujuanPemenang == 1) return '<textarea class="form-control" attrid="' + data.IdPersetujuanPemanang + '"></textarea>';
                             else return "";
                             //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
                         },
@@ -280,8 +280,8 @@
                             var html = ''
                             var detailHtml = "";
                             var nexApprover = "";
-                            if (data.Approver == 1) html += '<button class="setuju btn btn-flat btn-sm btn-primary" attrid="' + data.Id + '" >Setujui</button> <button class="tolak btn-flat btn-sm btn btn-danger" attrid="' + data.Id + '"  >Tolak</button>';
-                            if (data.lastApprover == "1" && data.Approver == 1) nexApprover += ' <button class="next-approver btn btn-flat btn-sm btn-info" attrid="' + data.Id + '" >Ekalasi</button>';
+                            if (data.ApproverPersetujuanPemenang == 1) html += '<button class="setuju btn btn-flat btn-sm btn-primary" attrid="' + data.IdPersetujuanPemanang + '" >Setujui</button> <button class="tolak btn-flat btn-sm btn btn-danger" attrid="' + data.IdPersetujuanPemanang + '"  >Tolak</button>';
+                            if (data.lastApproverPersetujuanPemenang == "1" && data.ApproverPersetujuanPemenang == 1) nexApprover += ' <button class="next-approver btn btn-flat btn-sm btn-info" attrid="' + data.Id + '" >Ekalasi</button>';
                             if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = ' <a href="pengadaan-detail.html#' + data.Id + '" class="product-title text-blue-mtf btn btn-success btn-sm btn-flat">Detail</a>';
                             else detailHtml = ' <a href="pengadaan-terbuka-detail.html#' + data.Id + '" class="btn btn-success btn-flat btn-sm product-title text-blue-mtf">Detail</a>';
                             html += nexApprover + detailHtml;
@@ -317,7 +317,7 @@
             });
             $("#tbl-approval").on("click", ".setuju", function () {
                 var note = $(this).closest('tr').find("textarea").val();
-                var pengadaanId = $(this).attr("attrid");
+                var IdPersetujuanPemanang = $(this).attr("attrid");
                 if (note == "") {
                     BootstrapDialog.show({
                         title: 'Konfirmasi',
@@ -333,7 +333,7 @@
                 }
 
                 $.ajax({
-                    url: 'api/PengadaanE/persetujuanWithNote?id=' + pengadaanId + "&Note=" + note,
+                    url: 'api/PengadaanE/persetujuanPemenangWithNote?id=' + IdPersetujuanPemanang + "&Note=" + note,
                     method: "GET",
                     success: function (data) {
                         var message = data.message;
@@ -354,7 +354,7 @@
             });
             $("#tbl-approval").on("click", ".tolak", function () {
                 var note = $(this).closest('tr').find("textarea").val();
-                var pengadaanId = $(this).attr("attrid");
+                var IdPersetujuanPemanang = $(this).attr("attrid");
                 if (note == "") {
                     BootstrapDialog.show({
                         title: 'Konfirmasi',
@@ -369,7 +369,7 @@
                     return false;
                 }
                 $.ajax({
-                    url: 'api/PengadaanE/PenolakanWithWorkflow?Id=' + pengadaanId + "&Note=" + note,
+                    url: 'api/PengadaanE/PenolakanPemenangWithWorkflow?Id=' + IdPersetujuanPemanang + "&Note=" + note,
                     method: "GET",
                     success: function (data) {
                         var message = data.message;
@@ -458,7 +458,7 @@
                 var userid = $("#user_table").find("input[type=checkbox]:checked").attr("attrid");
                 var pengadaanId = $("#pengadaanId").val();
                 $.ajax({
-                    url: 'api/PengadaanE/persetujuanWithNextApprover?Id=' + pengadaanId + "&Note=" + note + "&userId=" + userid,
+                    url: 'api/PengadaanE/persetujuanPemenangWithNextApprover?Id=' + pengadaanId + "&Note=" + note + "&userId=" + userid,
                     method: "GET",
                     success: function (data) {
                         var message = data.message;

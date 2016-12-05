@@ -536,7 +536,7 @@ function loadData(pengadaanId) {
         method: "POST",
         url: "Api/PengadaanE/detailPengadaan?Id=" + pengadaanId,
         dataType: "json"
-    }).done(function (data) {
+    }).done(function (data) {        
         $("#judul").text(data.Judul);
         $("#deskripsi").text((data.NoPengadaan == null ? "" : (data.NoPengadaan + ", ")) + data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
         if (data.AturanPengadaan == "Pengadaan Terbuka") $("#jadwal_pendaftaran").show();
@@ -560,6 +560,8 @@ function loadData(pengadaanId) {
         $("#isPersonil").val(data.isPersonil);
         $("#isPersonil").val(data.isPersonil);
         $("#State").val(data.Status);
+        isPemenangApproved(pengadaanId);
+        StatusPemenang(pengadaanId);
         if (data.isPIC == 0) {
             $(".action-pelaksanaan").attr("disabled", "disabled"); 
             $("button.action-pelaksanaan").remove();
@@ -1001,4 +1003,48 @@ function loadKeteranganDiBatalkan(Id) {
     });
 }
 
+function isPemenangApproved(Id) {
+    $.ajax({
+        url: "Api/PengadaanE/isApprovePemenang?Id=" + Id,
+        success: function (data) {
+            $("#isPemenangApproved").val(data);
+            if (data == 1) {
+                $(".bingkai-spk").show();
+                $(".bingkai-pengajuan-pemenang").remove();
+            }
+            else {
+                $(".bingkai-spk").remove();
+                $(".bingkai-pengajuan-pemenang").show();
+            }
+            if ($("#isPIC").val() != 1) $("#ajukan-pemenang").remove();
+        },
+        error: function (errormessage) {
+            $("#isPemenangApproved").val(data);
+        }
+    });
+    if ($("#isPIC").val() != 1) $("#ajukan-pemenang").remove();
+}
+
+function StatusPemenang(Id) {
+    $.ajax({
+        url: "Api/PengadaanE/StatusPemenang?pengadaanId=" + Id,
+        success: function (data) {
+            if (data == 0) {
+                $(".status-persetujuan-pemenang").text("Dokumen Pemenang Belum Diajukan");
+            }
+            if (data > 0) {
+                $(".ajukan-pemenang").attr("disabled", "disabled");
+                if (data == 1) $(".status-persetujuan-pemenang").text("Dokumen Pemenang Sedang Diajukan");
+                if (data == 2) $(".status-persetujuan-pemenang").text("Dokumen Pemenang Telah Disetujui");
+                if (data == 3) {
+                    $(".status-persetujuan-pemenang").text("Dokumen Pemenang  Ditolak");
+                    $(".ajukan-pemenang").removeAttr("disabled");
+                }
+            }
+        },
+        error: function (errormessage) {
+
+        }
+    });
+}
 

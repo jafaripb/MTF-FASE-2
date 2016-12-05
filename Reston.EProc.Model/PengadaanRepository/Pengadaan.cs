@@ -64,6 +64,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual ICollection<BintangPengadaan> BintangPengadaans { get; set; }
         public virtual ICollection<MonitoringPekerjaan> MonitoringPekerjaans { get; set; }
         public virtual ICollection<JadwalPelaksanaan> JadwalPelaksanaans { get; set; }
+        public virtual ICollection<PersetujuanPemenang> PersetujuanPemenangs { get; set; }
+        
     }
 
     [Table("DokumenPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -573,6 +575,23 @@ namespace Reston.Pinata.Model.PengadaanRepository
     }
 
 
+    [Table("PersetujuanPemenang", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
+    public class PersetujuanPemenang
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public StatusPengajuanPemenang Status { get; set; }
+        public string Note { get; set; }
+        public Nullable<int> WorkflowId { get; set; }
+        public  Nullable<DateTime> CreatedOn { get; set; }
+        public  Nullable<Guid> CreatedBy { get; set; }
+        public  Nullable<DateTime> ModifiedOn { get; set; }
+        public  Nullable<Guid> ModifiedBy { get; set; }
+        public virtual Pengadaan Pengadaan { get; set; }
+    }
+
     
 
     public enum EStatusPengadaan
@@ -608,5 +627,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
     public enum KlasifikasiPengadaan
     {
         SIPIL,NONSIPIL
+    }
+
+    public enum StatusPengajuanPemenang
+    {
+        BELUMDIAJUKAN,PENDING,APPROVED,REJECTED
     }
 }

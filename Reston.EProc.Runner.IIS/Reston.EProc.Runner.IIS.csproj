@@ -177,6 +177,8 @@
     <Content Include="View\cari-pengadaan.html" />
     <Content Include="View\catalog-detail.html" />
     <Content Include="View\dist\js\approval-pengajuan.js" />
+    <Content Include="View\dist\js\berita-acara-terbuka.js" />
+    <Content Include="View\dist\js\pelaksanaan-penentuan-pemenang.js" />
     <Content Include="View\dist\js\pelaksanaan-terbuka.js" />
     <Content Include="View\pengadaan-terbuka-detail.html" />
     <Content Include="View\create-rks.html" />
