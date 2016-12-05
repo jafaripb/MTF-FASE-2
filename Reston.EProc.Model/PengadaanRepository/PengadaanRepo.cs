@@ -9,15 +9,17 @@ using Reston.Pinata.Model.PengadaanRepository.View;
 using System.Configuration;
 using Reston.Pinata.Model.JimbisModel;
 using Reston.Pinata.Model.Helper;
+using System.Net;
 
 namespace Reston.Pinata.Model.PengadaanRepository
 {
     public interface IPengadaanRepo
     {
         ViewPengadaan GetPengadaan(Guid id, Guid UserID, int approver);
+        Pengadaan GetPengadaanByiD(Guid id);
 
         DataPagePengadaan GetPengadaans(string search, int start, int limit, Guid? UserId, List<string> Roles, EGroupPengadaan groupstatus, List<Guid> lstMenejer, List<Guid> listHead);
-        List<ViewPengadaan> GetPerhatianWorkflow(string search, int start, int limit, Guid? UserId, List<Reston.Helper.Model.ViewWorkflowModel> lstDocument);
+        List<ViewPengadaan> GetPerhatianWorkflow(string search, int start, int limit, Guid? UserId);
         List<Pengadaan> GetAllPengadaan();
 
         Pengadaan AddPengadaan(Pengadaan pengadaan, Guid UserId, List<Guid> manager);
@@ -149,10 +151,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
         //workflow
        // Pengadaan PersetujuanWorkflow(Guid Id, Guid UserId);
         //int AjukanWorkflow(Guid Id, Guid UserId, Guid WorkflowtemplateId);
+        Reston.Helper.Util.ResultMessage saveReadyPersonil(Guid Id,int ready,Guid UserId);
+        DataTablePengadaan List(string search, int start, int limit, EStatusPengadaan status, int more,int spk);
+        VWCountListDokumen ListCount();
     }
     public class PengadaanRepo : IPengadaanRepo
     {
         JimbisContext ctx;
+
         public PengadaanRepo(JimbisContext j)
         {
             ctx = j;
@@ -173,6 +179,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return 1;
         }
 
+        public Pengadaan GetPengadaanByiD(Guid id)
+        {
+            return ctx.Pengadaans.Find(id);
+
+        }
         public List<vwProduk> GetAllProduk(string term)
         {
             var oProduk = ctx.Produks.Where(d => d.Nama.Contains(term)).Take(15).ToList();
@@ -383,7 +394,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                                         Jabatan = bb.Jabatan,
                                                                         Nama = bb.Nama,
                                                                         PersonilId = bb.PersonilId,
-                                                                        tipe = bb.tipe
+                                                                        tipe = bb.tipe,
+                                                                        isReady=bb.isReady,
+                                                                        isMine=UserID==bb.PersonilId?1:0
                                                                     }).ToList(),
                                               KandidatPengadaans = (from bb in ctx.KandidatPengadaans
                                                                     join cc in ctx.Vendors on bb.VendorId equals cc.Id
@@ -754,7 +767,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return new List<ViewPengadaan>();
         }
 
-        public List<ViewPengadaan> GetPerhatianWorkflow(string search, int start, int limit, Guid? UserId, List<Reston.Helper.Model.ViewWorkflowModel> lstDocument)
+        public List<ViewPengadaan> GetPerhatianWorkflow(string search, int start, int limit, Guid? UserId)
         {
             search = search == null ? "" : search;
             if (limit > 0)
@@ -781,7 +794,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                         b.TitleBerkasRujukanLain,
                                                         b.CreatedBy,
                                                         b.CreatedOn,
-                                                        b.NoPengadaan
+                                                        b.NoPengadaan,
+                                                        b.WorkflowId
 
                                                     } into h
                                                     select new ViewPengadaan
@@ -791,6 +805,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                         TitleDokumenNotaInternal = h.Key.TitleDokumenNotaInternal,
                                                         TitleDokumenLain = h.Key.TitleDokumenLain,
                                                         TitleBerkasRujukanLain = h.Key.TitleBerkasRujukanLain,
+                                                        WorkflowTemplateId=h.Key.WorkflowId,
                                                        // Approver=(from bb in lstDocument where bb.CurrentUserId==UserId && bb.DocumentId==h.Key.Id select bb).Count()>0?1:0,
                                                         isCreated = UserId == h.Key.CreatedBy ? 1 : 0,
                                                         isPIC = (from xx in ctx.PersonilPengadaans
@@ -848,19 +863,58 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                         AturanPenawaran = h.Key.AturanPenawaran,
                                                         GroupPengadaan = h.Key.GroupPengadaan,
                                                         CreatedOn = h.Key.CreatedOn,
-                                                        NoPengadaan = h.Key.NoPengadaan
+                                                        NoPengadaan = h.Key.NoPengadaan,
                                                     }).OrderByDescending(x => x.CreatedOn).ToList();
-                foreach (var item in VWPengadaans)
-                {
-                    var cekApprover = lstDocument.Where(d => d.DocumentId == item.Id && d.CurrentUserId == UserId).Count();
-                    if (cekApprover > 0) item.Approver = 1;
-                    else item.Approver = 0;
-                }
+                //foreach (var item in VWPengadaans)
+                //{
+                //    var cekApprover = lstDocument.Where(d => d.DocumentId == item.Id && d.CurrentUserId == UserId&&d.WorkflowMasterTemplateId==item.WorkflowTemplateId).Count();
+                    
+                //    if (cekApprover > 0) item.Approver = 1;
+                //    else item.Approver = 0;
+                //}
                 
                 return VWPengadaans;
             }
 
             return new List<ViewPengadaan>();
+        }
+
+        public DataTablePengadaan List(string search, int start, int limit,EStatusPengadaan status,int more,int spk)
+        {
+            DataTablePengadaan oData=new DataTablePengadaan();
+            var dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status );
+            if (more == 1 && status == EStatusPengadaan.DISETUJUI) dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status >= status && d.Status != EStatusPengadaan.ARSIP && d.Status != EStatusPengadaan.DITOLAK && d.Status != EStatusPengadaan.DIBATALKAN);
+            if(spk==1&& status==EStatusPengadaan.PEMENANG)dt=ctx.Pengadaans.Where(d => d.Judul.Contains(search)&& d.Status == status && d.DokumenPengadaans.Where(dd=>dd.Tipe==TipeBerkas.SuratPerintahKerja && dd.PengadaanId==d.Id).Count()>0);
+            if (spk == 0 && status == EStatusPengadaan.PEMENANG) dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() == 0);
+            oData.recordsFiltered=dt.Count();
+            oData.recordsTotal = ctx.Pengadaans.Count();
+            oData.data = dt.OrderByDescending(d => d.CreatedOn).Take(limit).Skip(start).Select(d => new ViewPengadaan { 
+            Judul=d.Judul,
+            WorkflowTemplateId=d.WorkflowId,
+            Region=d.Region,
+            Status=d.Status,
+            StatusName = d.Status.ToString(),
+            JenisPekerjaan=d.JenisPekerjaan,
+            AturanPengadaan=d.AturanPengadaan,
+            Id=d.Id,
+            JadwalPengadaans = d.JadwalPengadaans.Select(dd => new VWJadwalPengadaan { Mulai = dd.Mulai, Sampai = dd.Sampai, tipe = dd.tipe }).ToList(),
+            JadwalPelaksanaans=d.JadwalPelaksanaans.Select(dd=>new VWJadwalPelaksanaan2{Mulai=dd.Mulai,Sampai=dd.Sampai,statusPengadaan=dd.statusPengadaan}).ToList(),
+            KandidatPengadaans = d.KandidatPengadaans.Select(dd => new VWKandidatPengadaan { Nama = dd.Vendor.Nama, Telepon = dd.Vendor.Telepon }).ToList(),
+            HPS=ctx.RKSHeaders.Where(dd=>dd.PengadaanId==d.Id).FirstOrDefault()==null?0:ctx.RKSHeaders.Where(dd=>dd.PengadaanId==d.Id).FirstOrDefault().RKSDetails.Sum(dx=>dx.hps*dx.jumlah==null?0:dx.hps*dx.jumlah),
+            PersonilPengadaans=d.PersonilPengadaans.Select(dd=>new VWPersonilPengadaan{PersonilId=dd.PersonilId,Nama=dd.Nama,tipe=dd.tipe,Jabatan=dd.Jabatan}).ToList()
+            }).ToList();
+            return oData;
+        }
+
+        public VWCountListDokumen ListCount()
+        {
+            return new VWCountListDokumen() {
+                PengadaanDiSetujui = ctx.Pengadaans.Where(d => d.Status >= EStatusPengadaan.DISETUJUI && d.Status != EStatusPengadaan.ARSIP && d.Status != EStatusPengadaan.DITOLAK && d.Status!=EStatusPengadaan.DIBATALKAN).Count(),
+                PengadaanDiTolak = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.DITOLAK).Count(),
+                PengadaanButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN).Count(),
+                PemenangButuhPerSetujuan = ctx.Pengadaans.Where(d =>  d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() == 0).Count(),
+                PemenangDiSetujui = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0).Count()
+            };
         }
 
         public List<ViewPengadaan> GetPengadaansForRekanan(int start, int limit, Guid? UserId, List<string> Roles, EGroupPengadaan groupstatus)
@@ -1157,6 +1211,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     Mpengadaan.Pagu = pengadaan.Pagu;
                     Mpengadaan.Status = pengadaan.Status;
                     Mpengadaan.ModifiedOn = DateTime.Now;
+                    Mpengadaan.WorkflowId = pengadaan.WorkflowId;
                     if (Mpengadaan.JadwalPengadaans != null)
                     {
                         ctx.JadwalPengadaans.RemoveRange(Mpengadaan.JadwalPengadaans);
@@ -1730,8 +1785,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                  Nama = c.Nama,
                                  PengadaanId = b.PengadaanId,
                                  VendorId = b.VendorId,
-                                 Telepon = c.Telepon,
-                                 isReady=b.isReady
+                                 Telepon = c.Telepon
                              }).ToList();
 
             return kandidats;
@@ -4299,6 +4353,33 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return lstRiwyatDokumen;
         }
 
+        public Reston.Helper.Util.ResultMessage saveReadyPersonil(Guid Id,int ready,Guid UserId)
+        {
+            var msg = new Reston.Helper.Util.ResultMessage();
+            try
+            {
+                var kandidat = ctx.Pengadaans.Find(Id).PersonilPengadaans.Where(d => d.PersonilId == UserId);
+                foreach (var item in kandidat)
+                {
+                    if (item.PersonilId != UserId)
+                    {
+                        msg.status = HttpStatusCode.Forbidden;
+                        msg.message = Common.Deny();
+                    }
+                    item.isReady = ready;
+                }
+                ctx.SaveChanges(UserId.ToString());
+                msg.status = HttpStatusCode.OK;
+                msg.message = Common.SaveSukses();
+                msg.Id = kandidat.FirstOrDefault().Id.ToString();
+            }
+            catch (Exception ex)
+            {
+                msg.status = HttpStatusCode.ExpectationFailed;
+                msg.message = ex.ToString();                
+            }
+            return msg;
+        }
         //workflow
         //public Pengadaan PersetujuanWorkflow(Guid Id, Guid UserId)
         //{

@@ -21,6 +21,7 @@ namespace Reston.Helper.Model
         public Nullable<DateTime> ModifiedOn { get; set; }
         public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<ApprovalType> ApprovalType { get; set; }
+        public virtual ICollection<WorkflowMasterTemplateDetail> WorkflowMasterTemplateDetails { get; set; }
     }
 
     [Table("WorkflowMasterTemplateDetails", Schema = SchemaConstants.WORKFLOW_SCHEMA_NAME)]
@@ -29,10 +30,12 @@ namespace Reston.Helper.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [ForeignKey("WorkflowMasterTemplates")]
         public int WorkflowMasterTemplateId { get; set; }
         public string NameValue { get; set; }
         public Nullable<Guid> UserId { get; set; }
         public int SegOrder { get; set; }
+        public virtual WorkflowMasterTemplate WorkflowMasterTemplates { get; set; }
     }
     
     [Table("WorkflowStates", Schema = SchemaConstants.WORKFLOW_SCHEMA_NAME)]

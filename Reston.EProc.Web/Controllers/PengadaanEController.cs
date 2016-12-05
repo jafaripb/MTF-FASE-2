@@ -23,6 +23,7 @@ using Reston.Helper.Repository;
 using Reston.Helper;
 using Reston.Helper.Util;
 using Reston.Helper.Model;
+using System.Web;
 
 
 namespace Reston.Pinata.WebService.Controllers
@@ -117,13 +118,49 @@ namespace Reston.Pinata.WebService.Controllers
                             }
                         }
 
-                        var resultx = _workflowrepo.PengajuanDokumen(vwpengadaan.Pengadaan.Id, TemplateId, DocumentType);
-                        if (string.IsNullOrEmpty(resultx.Id))
+                        var DepHead = await listHead();
+                        var DepManager = await listGuidManager();
+
+                        #region BuatAtauUpdateTamplate
+
+                        var getPersonil = _repository.getListPersonilPengadaan(vwpengadaan.Pengadaan.Id);
+
+                        var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
+                                new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue="Gen.By.System",
+                                        SegOrder=1,
+                                        UserId=getPersonil.Where(d=>d.tipe=="controller").FirstOrDefault().PersonilId
+                                    },
+                                 new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue="Gen.By.System",
+                                        SegOrder=2,
+                                        UserId=DepManager[0]
+                                    }
+                            };
+                        if (RKS > ValueBoundAprr) WorkflowMasterTemplateDetails.Add(
+                                     new WorkflowMasterTemplateDetail()
+                                        {
+                                            NameValue = "Gen.By.System",
+                                            SegOrder = 2,
+                                            UserId = DepHead[0]
+                                        });
+                        WorkflowMasterTemplate MasterTemplate = new WorkflowMasterTemplate()
                         {
-                            result.message = resultx.message;
-                            result.Id = resultx.Id;
-                            return result;
-                        }
+                            ApprovalType = ApprovalType.BERTINGKAT,
+                            CreateBy = UserId(),
+                            CreateOn = DateTime.Now,
+                            DescValue = "WorkFlow Pengadaan=> " + vwpengadaan.Pengadaan.Judul,
+                            NameValue = "Generate By System ",
+                            WorkflowMasterTemplateDetails = WorkflowMasterTemplateDetails
+                        };
+                        var resultTemplate = _workflowrepo.SaveWorkFlow(MasterTemplate,UserId());
+                        vwpengadaan.Pengadaan.WorkflowId = Convert.ToInt32(resultTemplate.Id);
+                        #endregion
+
+
+                        
                     }
                     catch (Exception ex)
                     {
@@ -131,9 +168,28 @@ namespace Reston.Pinata.WebService.Controllers
                         return result;
                     }
                 }
-                var pengadaan = _repository.AddPengadaan(vwpengadaan.Pengadaan, UserId(), await listGuidManager());
-                respon = HttpStatusCode.OK;
-                id = pengadaan.Id.ToString();
+                if (vwpengadaan.Pengadaan.WorkflowId != null)
+                {
+                    var pengadaan = _repository.AddPengadaan(vwpengadaan.Pengadaan, UserId(), await listGuidManager());
+                    respon = HttpStatusCode.OK;
+                    id = pengadaan.Id.ToString();
+                    var resultx = _workflowrepo.PengajuanDokumen(vwpengadaan.Pengadaan.Id, vwpengadaan.Pengadaan.WorkflowId.Value, DocumentType);
+                    if (string.IsNullOrEmpty(resultx.Id))
+                    {
+                        result.message = resultx.message;
+                        result.Id = resultx.Id;
+                        return result;
+                    }
+                    var ajukanPnegadaanId = _repository.AjukanPengadaan(pengadaan.Id, UserId(), await listGuidManager());
+                }
+                else
+                {
+                    vwpengadaan.Pengadaan.Status = EStatusPengadaan.DRAFT;
+                    var pengadaan = _repository.AddPengadaan(vwpengadaan.Pengadaan, UserId(), await listGuidManager());
+                    respon = HttpStatusCode.OK;
+                    message = Common.SaveSukses();
+                    id = pengadaan.Id.ToString();
+                }
             }
             catch (Exception ex)
             {
@@ -199,8 +255,6 @@ namespace Reston.Pinata.WebService.Controllers
             public int recordsFiltered { get; set; }
             public List<VWRKSDetailRekanan> data { get; set; }
         }
-
-
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
@@ -506,10 +560,18 @@ namespace Reston.Pinata.WebService.Controllers
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         public List<ViewPengadaan> getPerhatianPengadaanList(int start, int length, string search)
         {
-            List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
+            //List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
             
             //foreach(var item in getd
-            var lstPerhatianPengadaan = _repository.GetPerhatianWorkflow(search, start, length, UserId(),getDoc); // _repository.GetPerhatian(search, start, length, UserId(), Roles(), await isApprover(), await listGuidManager());
+            var lstPerhatianPengadaan = _repository.GetPerhatianWorkflow(search, start, length, UserId()); // _repository.GetPerhatian(search, start, length, UserId(), Roles(), await isApprover(), await listGuidManager());
+            foreach (var item in lstPerhatianPengadaan)
+            {
+                if (item.WorkflowTemplateId != null && item.WorkflowTemplateId != 0)
+                {
+                    List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), item.WorkflowTemplateId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
+                    if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.Approver = 1;
+                }
+            }
             return lstPerhatianPengadaan;
         }
 
@@ -541,6 +603,38 @@ namespace Reston.Pinata.WebService.Controllers
             {
                 result.message = ex.ToString();
             }            
+            return result;
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public Reston.Helper.Util.ResultMessageWorkflowState persetujuanWithNote(Guid id,string Note)
+        {
+            var result = new Reston.Helper.Util.ResultMessageWorkflowState();
+            try
+            {
+                result = _workflowrepo.ApproveDokumen(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                if (!string.IsNullOrEmpty(result.Id))
+                {
+                    RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
+                    nRiwayatDokumen.Status = "Dokumen Pengadaan DiSetujui";
+                    nRiwayatDokumen.Comment = Note;
+                    nRiwayatDokumen.PengadaanId = id;
+                    nRiwayatDokumen.UserId = UserId();
+                    _repository.AddRiwayatDokumen(nRiwayatDokumen);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id);
+                    if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
+                    {
+                        _repository.ChangeStatusPengadaan(id, EStatusPengadaan.DISETUJUI, UserId());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.ToString();
+            }
             return result;
         }
 
@@ -580,6 +674,45 @@ namespace Reston.Pinata.WebService.Controllers
             }
             return result;
         }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public Reston.Helper.Util.ResultMessageWorkflowState PenolakanWithWorkflow(Guid Id,string Note)
+        {
+            var result = new Reston.Helper.Util.ResultMessageWorkflowState();
+            try
+            {
+                result = _workflowrepo.ApproveDokumen(Id, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
+                if (result.data != null)
+                {
+                    if (result.data.DocumentStatus == Reston.Helper.Model.DocumentStatus.REJECTED)
+                    {
+                        _repository.TolakPengadaan(Id);
+                    }
+                    RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
+                    nRiwayatDokumen.Status = "Dokumen Pengadaan DiTolak";
+                    nRiwayatDokumen.PengadaanId = Id;
+                    nRiwayatDokumen.Comment = Note;
+                    nRiwayatDokumen.UserId = UserId();
+                    _repository.AddRiwayatDokumen(nRiwayatDokumen);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(Id);
+                    if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
+                    {
+                        _repository.ChangeStatusPengadaan(Id, EStatusPengadaan.DISETUJUI, UserId());
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.ToString();
+            }
+            return result;
+        }
+
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
@@ -869,6 +1002,15 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public ResultMessage SaveReadyPersonil(Guid Id, int ready)
+        {
+            return _repository.saveReadyPersonil(Id, ready, UserId());
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<JadwalPengadaan> GetJadwals(Guid PId)
         {
             return _repository.getListJadwalPengadaan(PId);
@@ -1048,26 +1190,83 @@ namespace Reston.Pinata.WebService.Controllers
                 //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
                 decimal? RKS = _repository.getRKSDetails(Id, UserId()).Sum(d => d.hps * d.jumlah);
                 var TemplateId = WorkflowTemplateId2;
-                if (RKS != null)
+
+                var vwpengadaan = _repository.GetPengadaanByiD(Id);
+                var DepHead = await listHead();
+                var DepManager = await listGuidManager();
+
+                #region BuatAtauUpdateTamplate
+
+                var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
+                                new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue="Gen.By.System",
+                                        SegOrder=1,
+                                        UserId=vwpengadaan.PersonilPengadaans.Where(d=>d.tipe=="controller").FirstOrDefault().PersonilId
+                                    },
+                                 new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue="Gen.By.System",
+                                        SegOrder=2,
+                                        UserId=DepManager[0]
+                                    }
+                            };
+                if (RKS > ValueBoundAprr) WorkflowMasterTemplateDetails.Add(
+                             new WorkflowMasterTemplateDetail()
+                             {
+                                 NameValue = "Gen.By.System",
+                                 SegOrder = 2,
+                                 UserId = DepHead[0]
+                             });
+                WorkflowMasterTemplate MasterTemplate = new WorkflowMasterTemplate()
                 {
-                    if (RKS > ValueBoundAprr)
+                    ApprovalType = ApprovalType.BERTINGKAT,
+                    CreateBy = UserId(),
+                    CreateOn = DateTime.Now,
+                    DescValue = "WorkFlow Pengadaan=> " + vwpengadaan.Judul,
+                    NameValue = "Generate By System ",                    
+                    WorkflowMasterTemplateDetails = WorkflowMasterTemplateDetails
+                };
+                var resultTemplate = _workflowrepo.SaveWorkFlow(MasterTemplate,UserId());
+                vwpengadaan.WorkflowId = Convert.ToInt32(resultTemplate.Id);
+                #endregion
+
+                    //masukan ke workflow
+                //var resultx = _workflowrepo.PengajuanDokumen(Id, TemplateId, DocumentType);
+                //if (!string.IsNullOrEmpty(resultx.Id))
+                //{
+                //    int result = _repository.AjukanPengadaan(Id, UserId(), await listGuidManager());
+                //    if (result == 1)
+                //    {
+                //        respon = HttpStatusCode.OK;
+                //        message = "Sukses";
+                //        idx = "1";
+                //    }
+                //}
+
+                if (vwpengadaan.WorkflowId != null)
+                {
+                    vwpengadaan.Status = EStatusPengadaan.AJUKAN;
+                    var pengadaan = _repository.AddPengadaan(vwpengadaan, UserId(), await listGuidManager());
+                    var pengadaanId = _repository.AjukanPengadaan(Id, UserId(), await listGuidManager());
+                    respon = HttpStatusCode.OK;
+                    idx = pengadaanId.ToString();
+                    var resultx = _workflowrepo.PengajuanDokumen(vwpengadaan.Id, vwpengadaan.WorkflowId.Value, DocumentType);
+                    if (string.IsNullOrEmpty(resultx.Id))
                     {
-                        TemplateId = WorkflowTemplateId1;
+                        result.message = resultx.message;
+                        result.Id = resultx.Id;
+                        return result;
                     }
                 }
-                
-                    //masukan ke workflow
-                var resultx = _workflowrepo.PengajuanDokumen(Id, TemplateId, DocumentType);
-                    if (!string.IsNullOrEmpty(resultx.Id))
-                    {
-                        int result = _repository.AjukanPengadaan(Id, UserId(), await listGuidManager());
-                        if (result == 1)
-                        {
-                            respon = HttpStatusCode.OK;
-                            message = "Sukses";
-                            idx = "1";
-                        }
-                    }
+                else
+                {
+                    vwpengadaan.Status = EStatusPengadaan.DRAFT;
+                    var pengadaan = _repository.AddPengadaan(vwpengadaan, UserId(), await listGuidManager());
+                    respon = HttpStatusCode.OK;
+                    message = Common.SaveSukses();
+                    idx= pengadaan.Id.ToString();
+                }
                    
             }
             catch (Exception ex)
@@ -2530,5 +2729,103 @@ namespace Reston.Pinata.WebService.Controllers
             }
             return filePathSave + uidFileName;
         }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public IHttpActionResult List()
+        {
+            string search = HttpContext.Current.Request["search[value]"].ToString();
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"].ToString());
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"].ToString());
+            int more = Convert.ToInt32(HttpContext.Current.Request["more"].ToString());
+            int spk = Convert.ToInt32(HttpContext.Current.Request["spk"].ToString());
+            EStatusPengadaan status = (EStatusPengadaan)Convert.ToInt32(HttpContext.Current.Request["status"].ToString());
+            var data = _repository.List(search, start, length, status, more,spk);
+
+            foreach (var item in data.data)
+            {
+                if (item.WorkflowTemplateId != null && item.WorkflowTemplateId != 0)
+                {
+                    List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), item.WorkflowTemplateId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
+                    if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.Approver = 1;
+                    item.lastApprover = _workflowrepo.isLastApprover(item.Id, item.WorkflowTemplateId.Value).Id;
+                }
+            }
+
+            return Json(data);
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public IHttpActionResult ListCount()
+        {
+            return Json(_repository.ListCount());
+        }
+
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        public async Task<IHttpActionResult> ListUsers()
+        {
+            string search = HttpContext.Current.Request["search[value]"].ToString();
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"].ToString());
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"].ToString());
+            var client = new HttpClient();
+            HttpResponseMessage reply = await client.GetAsync(
+                    string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + start + "&limit=" + length + "&filter=" + "&name=" + search));
+            string masterDataContent = await reply.Content.ReadAsStringAsync();
+            var masterData = JsonConvert.DeserializeObject<DataPageUsers>(masterDataContent);
+            DataTableUsers dt = new DataTableUsers();
+            dt.recordsTotal = masterData.totalRecord == null ? 0 : masterData.totalRecord.Value;
+            dt.recordsFiltered = masterData.totalRecord == null ? 0 : masterData.totalRecord.Value;
+            dt.data = masterData.Users;
+            return Json(dt);
+        }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public Reston.Helper.Util.ResultMessageWorkflowState persetujuanWithNextApprover(Guid id, string Note,Guid userId)
+        {
+            var result = new Reston.Helper.Util.ResultMessageWorkflowState();
+            try
+            {
+                var oPengadaan = _repository.GetPengadaanByiD(id);               
+
+                WorkflowMasterTemplateDetail oDetailTempalte = new WorkflowMasterTemplateDetail();
+                oDetailTempalte.UserId = userId;
+                oDetailTempalte.NameValue = "Ditambah Oleh: " + UserId();
+                oDetailTempalte.WorkflowMasterTemplateId = oPengadaan.WorkflowId.Value;
+                var oAddMasterTemplateDetail = _workflowrepo.AddMasterTemplateDetail(oPengadaan.WorkflowId.Value, oDetailTempalte);
+                if (!string.IsNullOrEmpty(oAddMasterTemplateDetail.Id))
+                {
+                    result = _workflowrepo.ApproveDokumen(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                    if (!string.IsNullOrEmpty(result.Id))
+                    {
+                        RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
+                        nRiwayatDokumen.Status = "Dokumen Pengadaan DiSetujui";
+                        nRiwayatDokumen.Comment = Note;
+                        nRiwayatDokumen.PengadaanId = id;
+                        nRiwayatDokumen.UserId = UserId();
+                        _repository.AddRiwayatDokumen(nRiwayatDokumen);
+                        ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id);
+                        if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
+                        {
+                            _repository.ChangeStatusPengadaan(id, EStatusPengadaan.DISETUJUI, UserId());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.ToString();
+            }
+            return result;
+        }
+
     }
+    
 }

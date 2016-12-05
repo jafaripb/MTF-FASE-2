@@ -84,13 +84,6 @@
                             <li>    <a id="judul-page" href="#">APPROVAL</a></li>
                         </ul>
                     </div>
-                    <div class="navbar-custom-menu">
-                        <ul id="menu-top" class="nav navbar-nav">
-                            <li id="cetak" style="display:before"><a title="Cetak" href="#"><i class="fa fa-fw fa-print" style="font-size:20px;color:white"></i>Cetak</a></li>
-                            <li id="tambah" style="display:after"><a title="Simpan" href="#"><i class="fa fa-fw fa-save" style="font-size:20px;color:white"></i>Simpan</a></li>
-                            <li id="loader" style="display:none"> <img src="Images/ajax-loader.gif" /></li>
-                        </ul>
-                    </div>
                 </nav>
             </header>
         </div>
@@ -134,55 +127,22 @@
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="form-group col-md-12">
-                                        <label class="title"><h3>Approval Perencanaan Belum di Setujui</h3></label>
+                                        <label class="title"><h3>Dokumen Pengadaan yang Sudah di Setujui</h3></label>
                                     </div>
                                     <div class="col-md-10" style="margin-left: 60px;">
-                                        <table class="table table-bordered" id="example1" style="margin-top:20px; ">
+                                        <table class="table table-bordered table-striped table-responsive" id="tbl-approval" style="margin-top:20px; ">
                                             <thead>
                                                 <tr>
-                                                    <td class="tengah text-bold" style="width:350px;">Nama Pekerjaan</td>
-                                                    <td class="tengah text-bold" style="width:150px;">Total</td>
-                                                    <td class="tengah text-bold" style="width:150px;">Approved</td>
-                                                    <td class="tengah text-bold" style="width:400px;">Note</td>
+                                                    <th></th>
+                                                    <th>Nama Pekerjaan</th>
+                                                    <th>HPS</th>
+                                                    <th>Klasifikasi</th>
+                                                    <th>Status</th>
+                                                    <th>Note</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td><a href="approval-detail.html">Pembangunan Kantor Cabang Bali</a></td>
-                                                    <td style="text-align:right;">900.000.000</td>
-                                                    <td>
-                                                        <select style="width:100%;" class="form-control">
-                                                            <option selected="selected">Submitted</option>
-                                                            <option>Not Approved Yet</option>
-                                                            <option>Approved</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><a href="approval-detail.html">Pembelian ATK Divisi Perencanaan</a></td>
-                                                    <td style="text-align:right;">200.000.000</td>
-                                                    <td>
-                                                        <select style="width:100%;" class="form-control">
-                                                            <option selected="selected">Submitted</option>
-                                                            <option>Not Approved</option>
-                                                            <option>Approved</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><a href="approval-detail.html">Perbaikan Gedung Cabang di Bali</a></td>
-                                                    <td style="text-align:right;">700.000.000</td>
-                                                    <td>
-                                                        <select style="width:100%;" class="form-control">
-                                                            <option selected="selected">Submitted</option>
-                                                            <option>Not Approved</option>
-                                                            <option>Approved</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><input type="text" class="form-control" value="" style="width:100%;"></td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -197,64 +157,42 @@
                 </div>
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
-        <!-- <aside class="control-sidebar control-sidebar-light control-sidebar-open" id="side-kanan"> -->
-            <!-- Create the tabs -->
-            <!-- <ul class="nav nav-tabs nav-stacked">
-                <li><a href="#header">Atas</a></li>
-                <li><a href="#perlu-perhatian">Perlu Perhatian</a></li>
-                <li><a href="#section-1">Dalam Pelaksanaan</a></li>
-                <li><a href="#section-2">Belum Terjadwal</a></li>
-                <li><a href="#section-3">Arsip</a></li>
-
-            </ul> -->
-
-            <!-- Tab panes -->
-
-        <!-- </aside> --><!-- /.control-sidebar -->
-        <!-- Add the sidebar's background. This div must be placed
-             immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
 
     </div><!-- ./wrapper -->
 
-    <div id="ModalHapus" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <input type="hidden" id="row_index" />
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Hapus Vendor</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Yakin Vendor ini dihapus?</p>
-                </div>
-                <div class="modal-footer">
-                    <button id="eveHapus" type="button" class="btn btn-default">Remove</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!--
-    <div id="view-siup" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <input type="hidden" id="row_index" />
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        <iframe width="100%" style="min-height: 500px" src="/ViewerJS/#../contoh.pdf" allowfullscreen webkitallowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
+    <!-- Modal -->
+        <div class="modal" id="users_modal" role="dialog"  aria-hidden="true">
+            <input type="hidden" id="next-userid"/>
+              <input type="hidden" id="note_user"/>
+             <input type="hidden" id="pengadaanId"/>
+            
+          <div class="modal-dialog">
+	        <div class="modal-content">
+	          <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="TitleKonfirmasi">User List</h4>
+	          </div>
+	          <div class="modal-body">
+		        <table class="table table-bordered table-striped table-responsive" id="user_table" style="margin-top:20px; ">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>User</th>
+                            <th>Jabatan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+	          </div>
+	          <div class="modal-footer">
+                  <a class="btn btn-default addWorkflowStep" data-toggle="tooltip" title="Setujui & Diteruskan" >Setujui & Diteruskan </a>	
+		        <button type="button" class="btn btn-default " data-dismiss="modal" >Close</button>		
+	          </div>
+	        </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -264,6 +202,7 @@
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
+    <script src="plugins/accounting/accounting.js"></script>	
     <script src="plugins/fastclick/fastclick.min.js"></script>
     <script src='plugins/fullcalendar/moment.min.js'></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
@@ -276,17 +215,298 @@
     <script src="dist/js/app.min.js"></script>
     <script src="plugins/angular/angular.min.js"></script>
     <script src="dist/js/menu.js"></script>
-    <script src="dist/js/pengadaan-list.js"></script>
     <script src="blockui/jquery.blockUI.js"></script>
+    <script src="dist/js/approval-pengajuan.js"></script>
     <script>
         //Date picker
         $('#datepicker').datepicker({
-          autoclose: true
+            autoclose: true
         });
+        var table;
+        var user_table;
+        $(function () {
+
+            table = $('#tbl-approval').DataTable({
+                "dom": '<"toolbar">frtip',
+                "serverSide": true,
+                "searching": true,
+                "ajax": {
+                    "url": 'api/Pengadaane/List',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.status = "1";
+                        d.more = "0";
+                        d.spk = "0";
+                    }
+                },
+                "columns": [
+                    {
+                        "className": 'details-control',
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ''
+                    },
+                    { "data": "Judul" },
+                    { "data": "HPS", "className": "rata_kanan" },
+                    { "data": "JenisPekerjaan" },
+                    { "data": "StatusName" },
+                    { "data": null },
+                    { "data": null }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            if (data != null)
+                                return accounting.formatNumber(data, { thousand: ".", decimal: ",", precision: 2 })
+                            else return "";
+                        },
+
+                        "targets": 2,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (data.Approver == 1) return '<textarea class="form-control" attrid="' + data.Id + '"></textarea>';
+                            else return "";
+                            //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
+                        },
+
+                        "targets": 5,
+                        "orderable": false
+                    },
+
+                    {
+                        "render": function (data, type, row) {
+                            var html = ''
+                            var detailHtml = "";
+                            var nexApprover = "";
+                            if (data.Approver == 1) html += '<button class="setuju btn btn-flat btn-sm btn-primary" attrid="' + data.Id + '" >Setujui</button> <button class="tolak btn-flat btn-sm btn btn-danger" attrid="' + data.Id + '"  >Tolak</button>';
+                            if (data.lastApprover == "1" && data.Approver == 1) nexApprover += ' <button class="next-approver btn btn-flat btn-sm btn-info" attrid="' + data.Id + '" >Ekalasi</button>';
+                            if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = ' <a href="pengadaan-detail.html#' + data.Id + '" class="product-title text-blue-mtf btn btn-success btn-sm btn-flat">Detail</a>';
+                            else detailHtml = ' <a href="pengadaan-terbuka-detail.html#' + data.Id + '" class="btn btn-success btn-flat btn-sm product-title text-blue-mtf">Detail</a>';
+                            html += nexApprover+detailHtml;
+                            return html;
+                        },
+
+                        "targets": 6,
+                        "orderable": false
+                    }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+
+            $('#tbl-approval tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+            $("#tbl-approval").on("click", ".setuju", function () {
+                var note = $(this).closest('tr').find("textarea").val();
+                var pengadaanId = $(this).attr("attrid");
+                if (note == "") {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Note Harus Diisi!',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                    return false;
+                }
+
+                $.ajax({
+                    url: 'api/PengadaanE/persetujuanWithNote?id=' + pengadaanId + "&Note=" + note,
+                    method: "GET",
+                    success: function (data) {
+                        var message = data.message;
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: message,
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                        table.draw();
+                    }
+                });
+
+            });
+            $("#tbl-approval").on("click", ".tolak", function () {
+                var note = $(this).closest('tr').find("textarea").val();
+                var pengadaanId = $(this).attr("attrid");
+                if (note == "") {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Note Harus Diisi!',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                    return false;
+                }
+                $.ajax({
+                    url: 'api/PengadaanE/PenolakanWithWorkflow?Id=' + pengadaanId + "&Note=" + note,
+                    method: "GET",
+                    success: function (data) {
+                        var message = data.message;
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: message,
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                        table.draw();
+                    }
+                });
+            });
+        });
+        $(function () {
+           
+            user_table = $("#user_table").DataTable({
+                "serverSide": true,
+                "searching": true,
+                "ajax": {
+                    "url": 'api/Pengadaane/ListUsers',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.status = "1";
+                        d.more = "0";
+                    }
+                },
+                "columns": [
+                    { "data": null },
+                    { "data": "Nama" },
+                    { "data": "jabatan" }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<input type="checkbox" class="check-user" attrId="' + data.PersonilId + '" />';
+                        },
+
+                        "targets": 0,
+                        "orderable": false
+                    }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+        $(function () {
+            $("body").on("click", ".next-approver", function () {
+                $("#users_modal").modal("show");
+                $("#note_user").val($(this).closest('tr').find("textarea").val());
+                $("#pengadaanId").val($(this).attr("attrid"));
+                console.log($(this).closest('tr').find("textarea"));
+            });
+            $("body").on("click", ".check-user", function () {
+                $(".check-user").prop("checked", false);
+                $(this).prop("checked", true);
+                $("#next-userid").val($(this).attr("attrId"));
+                //$("#note_user") check-user
+            });
+            $(".addWorkflowStep").on("click", function () {
+                var note = $("#note_user").val();
+                
+                if (note==""|| $("#user_table").find("input[type=checkbox]:checked").length == 0 || $("#user_table").find("input[type=checkbox]:checked").length > 1) {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Pilih Satu User dan note wajib diisi!',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                                
+                            }
+                        }]
+                    });
+                    return false;
+                }
+                
+                var userid = $("#user_table").find("input[type=checkbox]:checked").attr("attrid");
+                var pengadaanId = $("#pengadaanId").val();
+                $.ajax({
+                    url: 'api/PengadaanE/persetujuanWithNextApprover?Id=' + pengadaanId + "&Note=" + note + "&userId=" + userid,
+                    method: "GET",
+                    success: function (data) {
+                        var message = data.message;
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: message,
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                        table.draw();
+                        $("#users_modal").modal("close");
+                    }
+                });
+
+            });
+        });
+        function format(d) {
+            // `d` is the original data object for the row
+            var pic = $.grep(d.PersonilPengadaans, function (e) { return e.tipe == "pic"; });
+            var vendor = "";
+            for (var i in d.KandidatPengadaans) {
+                if (i == 0) vendor = d.KandidatPengadaans[i].Nama;
+                else {
+                    vendor += ", " + d.KandidatPengadaans[i].Nama;
+                }
+            }
+
+            return '<table class="table table-bordered table-striped table-responsive">' +
+                '<tr>' +
+                    '<td>PIC</td>' +
+                    '<td>' + pic[0].Nama + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td>Rekanan Terdaftar</td>' +
+                    '<td>' + vendor + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td>Extra info:</td>' +
+                    '<td>And any further details here (images etc)...</td>' +
+                '</tr>' +
+            '</table>';
+        }
+
     </script>
-    <script>
-        //alert('kipli')
-    </script>
-    <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+
 </body>
 </html>

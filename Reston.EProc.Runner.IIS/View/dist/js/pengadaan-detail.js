@@ -20,15 +20,6 @@ $(function () {
     $(".box-folder-vendor").on("click", function () {
         window.location.replace("http://localhost:49559/rekanan-detail.html");
     });
-    //$(".ubah-jadwal").on("click", function () {
-    //    if ($($(this).attr("attr1")).attr("disabled")) {
-    //        $($(this).attr("attr1")).removeAttr("disabled");
-    //        $(this).html('<i class="fa fa-fw fa-calendar"></i>Submit');
-    //    } else {
-    //        $($(this).attr("attr1")).attr("disabled", "");
-    //        $(this).html('<i class="fa fa-fw fa-calendar"></i>Rubah');
-    //    }
-    //});
     
     $("#tab-pelakasanaan").on("click", function () {
         $("#side-kanan").find(".rk").hide();
@@ -329,6 +320,19 @@ $(function () {
         
 
         if (cek == 0) return false;
+        if ($('.ready-checkbox').not(':checked').length > 0) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'Semua Personil Wajib Menceklis Kesiapan',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            return false;
+        }
 
         if ($("div.listperson-pic .btn-app").length == 0) {
             BootstrapDialog.show({
@@ -504,6 +508,25 @@ $(function () {
                     dialog.close();
                 }
             }]
+        });
+    });
+
+    $("body").on("click", ".ready-checkbox", function () {
+        var sendCheck = 0;
+        if ($(this).is(':checked')) {
+            sendCheck = 1;
+        }
+        var _this = $(this);
+        $.ajax({
+            url: "Api/PengadaanE/SaveReadyPersonil?Id=" + $("#pengadaanId").val() + "&ready=" + sendCheck,
+            method: "POST"
+        }).done(function (data) {
+            if ((data.Id == null || data.Id == "") && sendCheck == 1) {
+                _this.prop('checked', false);
+            }
+            if ((data.Id == null || data.Id == "") && sendCheck == 0) {
+                _this.prop('checked', true);
+            }
         });
     });
 });
@@ -913,14 +936,23 @@ function LoadListPersonil(Personil,isPic) {
 function addLoadPersonil(item, el,ispic) {
     var peran = el.replace(".listperson-", "");
     var removeEL = '';
-    if (ispic == 1) {
-        removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';
+    if (ispic == 1) {        
+    }
+    if (item.isReady == 1) {
+        if (item.isMine == 1 && item.Status==0)
+            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
+        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
+    }
+    else {
+        if (item.isMine == 1 && item.Status == 0)
+            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
+        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
     }
     html = '<a class="btn btn-app">' +
         '<input type="hidden" class="list-personil" attrId="'
                        + item.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
                        + item.Jabatan + '" value="' + item.PersonilId + '" />' +
-                  // removeEL +
+                   removeEL +
                    '<i class="fa fa-user"></i>' +
                    item.Nama +
                  '</a>';

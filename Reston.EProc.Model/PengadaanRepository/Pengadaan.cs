@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Reston.Pinata.Model.JimbisModel;
 
 namespace Reston.Pinata.Model.PengadaanRepository
 {
@@ -54,6 +55,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<DateTime> TanggalMenyetujui { get; set; }
         public Nullable<Decimal> Pagu { get; set; }
+        public Nullable<int> WorkflowId { get; set; }
         public virtual ICollection<DokumenPengadaan> DokumenPengadaans { get; set; }
         public virtual ICollection<KandidatPengadaan> KandidatPengadaans { get; set; }
         public virtual ICollection<JadwalPengadaan> JadwalPengadaans { get; set; }
@@ -61,6 +63,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual ICollection<RKSHeader> RKSHeaders { get; set; }
         public virtual ICollection<BintangPengadaan> BintangPengadaans { get; set; }
         public virtual ICollection<MonitoringPekerjaan> MonitoringPekerjaans { get; set; }
+        public virtual ICollection<JadwalPelaksanaan> JadwalPelaksanaans { get; set; }
     }
 
     [Table("DokumenPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -91,9 +94,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Guid Id { get; set; }
         [ForeignKey("Pengadaan")]
         public Nullable<Guid> PengadaanId { get; set; }
+        [ForeignKey("Vendor")]
         public Nullable<int> VendorId { get; set; }
-        public Nullable<int> isReady { get; set; }
         public virtual Pengadaan Pengadaan { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 
     [Table("KualifikasiKandidat", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -134,6 +138,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string Nama { get; set; }
         public string Jabatan { get; set; }
         public string tipe { get; set; }
+        public Nullable<int> isReady { get; set; }
         public virtual Pengadaan Pengadaan { get; set; }
     }
 

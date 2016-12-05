@@ -77,18 +77,22 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<int> isUser { get; set; }
 
         public Nullable<EStatusPengadaan> Status { get; set; }
+        public string StatusName { get; set; }
         public Nullable<EGroupPengadaan> GroupPengadaan { get; set; }
         public Nullable<Guid> IdBerkasRujukanLain { get; set; }
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<int> isMasukKlarifikasi { get; set; }
         public List<RKSHeader> RKSHeaders { get; set; }
-
+        public Nullable<int> WorkflowTemplateId { get; set; }
+        public Nullable<decimal> HPS { get; set; }
+        public string lastApprover { get; set; }
         public List<VWDokumenPengadaan> DokumenPengadaans { get; set; }
         public List<VWKandidatPengadaan> KandidatPengadaans { get; set; }
         public List<VWJadwalPengadaan> JadwalPengadaans { get; set; }
         public List<VWPersonilPengadaan> PersonilPengadaans { get; set; }
         public List<VWKualifikasiKandidat> KualifikasiKandidats { get; set; }
+        public List<VWJadwalPelaksanaan2> JadwalPelaksanaans { get; set; }
     }
 
     public class DataPagePengadaan
@@ -142,7 +146,6 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<Guid> PengadaanId { get; set; }
         public Nullable<int> VendorId { get; set; }
         public string Nama { get; set; }
-        public Nullable<int> isReady { get; set; }
         public string Telepon { get; set; }
     }
 
@@ -151,6 +154,14 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Guid Id { get; set; }
         public Nullable<Guid> PengadaanId { get; set; }
         public string tipe { get; set; }
+        public Nullable<DateTime> Mulai { get; set; }
+        public Nullable<DateTime> Sampai { get; set; }
+    }
+    public class VWJadwalPelaksanaan2
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public EStatusPengadaan? statusPengadaan { get; set; }
         public Nullable<DateTime> Mulai { get; set; }
         public Nullable<DateTime> Sampai { get; set; }
     }
@@ -172,6 +183,8 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public string Nama { get; set; }
         public string Jabatan { get; set; }
         public string tipe { get; set; }
+        public int? isReady{ get; set; }
+        public int? isMine { get; set; }
     }
 
     public class VWRKSHeaderPengadaan
@@ -323,16 +336,30 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public int Urutan { get; set; }
         public string JudulPengadaan { get; set; }
     }
-    //public class VWPembobotanPengadaanVendor
-    //{
-    //    public Guid Id { get; set; }
-    //    public Nullable<Guid> PengadaanId { get; set; }
-    //    public Nullable<int> VendorId { get; set; }
-    //    public String NamaVendor { get; set; }
-    //    public Nullable<Guid> KreteriaPembobotanId { get; set; }
-    //    public String NamaKriteria { get; set; }
-    //    public Nullable<int> Nilai { get; set; }
-    //    public Nullable<int> Bobot { get; set; }
-    //}
-    
+
+    public class DataTablePengadaan
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewPengadaan> data { get; set; }
+    }
+
+    public class DataTableUsers
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<Userx> data { get; set; }
+    }
+
+    public class VWCountListDokumen
+    {
+        public int PengadaanButuhPerSetujuan { get; set; }
+        public int PengadaanDiSetujui { get; set; }
+        public int PengadaanDiTolak { get; set; }
+        public int PemenangButuhPerSetujuan { get; set; }
+        public int PemenangDiSetujui { get; set; }
+        public int PemenangDiTolak { get; set; }
+    }
 }

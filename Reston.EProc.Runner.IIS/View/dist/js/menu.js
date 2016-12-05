@@ -1,8 +1,13 @@
-﻿var app = angular.module("app", []);
+﻿
+var app = angular.module("app", []);
+
 app.controller('side-menu', ['$scope', '$http', function ($scope, $http) {
+    console.log("sdsd");
     $scope.menus = [];
+    
     $http.get("Api/Header/GetMenu")
        .then(function (response) {
+           console.log(response);
            $scope.menus = response.data;
        });
 }]);

@@ -629,6 +629,7 @@ function loadData(pengadaanId) {
             $("#Status").text("Status Pengadaan : Aanwijzing");
            // cekState("Aanwijzing");
             $("#collapseOne").addClass("in");
+            $("#tab-pendaftaran").attr("data-toggle", "collapse");
             $("#tab-anwijzing").attr("data-toggle", "collapse");
         }
         if (data.Status == 4) {

@@ -151,7 +151,13 @@
             right: 65px;
             top: -3px;
             }
-
+        td.details-control {
+            background: rgba(0, 0, 0, 0) url("/dist/img/details_open.png") no-repeat scroll center center;
+            cursor: pointer;
+        }
+        tr.shown td.details-control {
+            background: rgba(0, 0, 0, 0) url("/dist/img/details_close.png") no-repeat scroll center center;
+        }
         /*table */
 
  /*       
