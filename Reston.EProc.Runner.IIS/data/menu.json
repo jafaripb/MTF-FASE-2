@@ -1,6 +1,6 @@
 [
   { "id": 1,  "menu": "Dashboard",  "url": "dashboard.html",  "css": "fa fa-bar-chart"  },
-  { "id": 2 , "menu": "Approval", "url": "approval.html","css":"fa fa-external-link" },
+  { "id": 2 , "menu": "List To Do", "url": "approval.html","css":"fa fa-external-link" },
   { "id": 3,  "menu": "Pengadaan-e",  "url": "pengadaan-list.html", "css": "fa fa-cubes"  },
   { "id": 4 , "menu": "Repository HPS", "url": "repository-rks.html","css":"fa fa-book"   },
 	{ "id": 5 , "menu": "Rekanan", "url": "rekanan.html","css":"fa fa-vimeo"   },

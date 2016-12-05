@@ -167,6 +167,10 @@
     <Content Include="View\bootstrap\js\bootstrap.min.js" />
     <Content Include="View\bootstrap\js\npm.js" />
     <Content Include="View\catalog-detail.html" />
+    <Content Include="View\dist\js\monitoring-proyek-add.js" />
+    <Content Include="View\dist\js\monitoring-proyek-add.min.js">
+      <DependentUpon>monitoring-proyek-add.js</DependentUpon>
+    </Content>
     <Content Include="View\dist\js\pelaksanaan-terbuka.js" />
     <Content Include="View\pengadaan-terbuka-detail.html" />
     <Content Include="View\create-rks.html" />
@@ -1789,6 +1793,7 @@
     <Content Include="datasetxx.xsc">
       <DependentUpon>datasetxx.xsd</DependentUpon>
     </Content>
+    <None Include="bundleconfig.json" />
     <None Include="datasetxx.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>datasetxx.Designer.cs</LastGenOutput>

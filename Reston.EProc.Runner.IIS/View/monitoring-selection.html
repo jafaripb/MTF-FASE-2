@@ -147,7 +147,7 @@
                                     <div class="col-md-12">
                                         <div class="nav-tabs-custom">
                                             <ul class="nav nav-tabs">
-                                                <li class="active"><a href="#all" data-toggle="tab">Semua</a></li>
+                                                <li class="active"><a href="#all" data-toggle="tab">Seleksi</a></li>
                                                 <li><a href="#inprogress" data-toggle="tab">Sedang Berjalan</a></li>
                                                 <li><a href="#finish" data-toggle="tab">Selesai</a></li>
                                             </ul>
@@ -159,7 +159,7 @@
                                                             <tr>
                                                                 <td class="tengah text-bold" >No. Pengadaan</td>
                                                                 <td class="tengah text-bold" >Nama Proyek</td>
-                                                                <td class="tengah text-bold" >Pemenang</td>
+                                                                <td class="tengah text-bold" >Vendor Pemenang</td>
                                                                 <td class="tengah text-bold">Klasifikasi</td>
                                                                 <td class="tengah text-bold" >Tanggal Penentuan Pemenang</td>
                                                                 <td class="tengah text-bold" >Nilai Kontrak</td>
@@ -333,22 +333,21 @@
                         d.status = "";
                     },
                     "error": function (jqXHR, textStatus, errorThrown) {
-                       // $('#example1').DataTable().clear().draw();
                     }
                 },
-                //"ajax": 'api/MonitoringSelection/List?search=' + $("#search").val(),
                 "columns": [
                     { "data": "NoPengadaan" },
                     { "data": "Judul" },
                     { "data": "Pemenang" },
                     { "data": "Klasifikasi" },
                     { "data": "TglPenentuanPemenang" },
-                    { "data": "NilaiKontrak" },
+                    { "data": "NilaiKontrak", "className": "rata_kanan" },
                     { "data": "PIC" },
                     { "data": "Monitor" },
                 ],
                 "columnDefs": [
                     {
+                        
                         "render": function (data, type, row) {
                             return row.TanggalPenentuanPemenang;
                         },
@@ -357,7 +356,15 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            return '<a href="monitoring-proyek-add.html?id-pengadaan='+row.Id+'" id="" class="btn btn-success ">Lanjutkan</a>';
+                            return numberWithCommas(row.NilaiKontrak);
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="monitoring-proyek-add.html?id-pengadaan='+row.Id+'" id="" class="btn btn-primary ">Ya</a>'+
+                                '<a href="#?id-pengadaan=' + row.Id + '" id="" class="btn btn-danger ">Tidak</a>';
                         },
                         "targets": 7,
                         "orderable": false
@@ -510,17 +517,11 @@
             console.log(ubahmonitored); //ini adalah DOM
             //var ubahmonitored = $('#CBStatusMonitoring');
             var jq = $(ubahmonitored); //jquery object, dibuat langsung dari DOM
-
             var p_id = jq.attr('atribut_id_pengadaan');
-
             console.log('nilai pengadaan id', jq.attr('atribut_id_pengadaan'));
-
             var cb_monitored = $('[atribut_id_pengadaan="' + p_id + '"]')[0].value;
-
             console.log('nilai ubahmonitored', cb_monitored);
-
             var cb_seleksi = $('[atribut_id_pengadaan="' + p_id + '"]')[1].value;
-
             console.log('nilai pengadaan id', cb_seleksi);
             //alert('Nilai:' + ubahmonitored.val() + 'id:' + ubahmonitored.attr('atribut_id_pengadaan'));
 
@@ -555,12 +556,10 @@
                         }]
                     });
                 }
-
             })
         }
 
         function fungsiupdate(ubahmonitored) {
-
             BootstrapDialog.show({
                 title: 'Konfirmasi',
                 message: 'Apakah Anda yakin ?',
@@ -579,6 +578,12 @@
             });
         }
 
+        // Fungsi Separator Thousand
+        function numberWithCommas(x) {
+            var parts = x.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parts.join(".");
+        }
     </script>
 </body>
 </html>
