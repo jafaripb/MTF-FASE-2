@@ -17,7 +17,7 @@ $(function () {
         }
         else {
 
-            window.location.replace("http://" + window.location.host + "/pengadaan-list.html");
+          //  window.location.replace("http://" + window.location.host + "/pengadaan-list.html");
             //$(location).attr('href', window.location.origin + "pengadaan-list.html");
         }
     }

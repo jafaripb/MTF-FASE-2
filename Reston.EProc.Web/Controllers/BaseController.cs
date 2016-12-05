@@ -102,11 +102,12 @@ namespace Reston.Pinata.WebService
             string filter = IdLdapConstants.App.Roles.IdLdapProcurementHeadRole;
            // var tokenRespones = await Reston.Identity.Client.Api.ClientTokenManagement.GetIdEPROCAPITokenAsync();
 
-           // client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AksesToken());
+            //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer ",  AksesToken());
 
             //original base address using appmgt instead
             //client.BaseAddress = new Uri("http://localhost:53080/");
-            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + AksesToken());
+            //client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage reply = await client.GetAsync(
                    string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + 0 + "&limit=" + 10 + "&filter=" + filter));

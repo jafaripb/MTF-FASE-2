@@ -13,11 +13,13 @@ namespace Reston.Helper.Repository
     {
         ResultMessage PengajuanDokumen(Guid DocumentId, int WorkflowTemplateId, string DokumentType);
         ResultMessageWorkflowState ApproveDokumen(Guid DocumentId, Guid UserId, String Comment, WorkflowStatusState oWorkflowStatusState);
-        List<ViewWorkflowModel> ListDocumentWorkflow(Guid UserId, DocumentStatus documentStatus, string DokumenType, int length, int start);
+        List<ViewWorkflowModel> ListDocumentWorkflow(Guid UserId,int WorkflowTemplateId, DocumentStatus documentStatus, string DokumenType, int length, int start);
         ResultMessageLstWorkflowApprovals ListWorkflowApprovalByDocumentId(Guid DocumentId, int length, int start);
         ResultMessage CurrentApproveUserSegOrder(Guid DocumentId);
         ViewWorkflowState StatusDocument(Guid DocumentId);
-        ResultMessage SaveWorkFlow(ViewWorkflowTemplate oViewWorkflowTemplate);
+        ResultMessage SaveWorkFlow(WorkflowMasterTemplate oViewWorkflowTemplate, Guid UserId);
+        ResultMessage isLastApprover(Guid DocId, int TemplateId);
+        ResultMessage AddMasterTemplateDetail(int TemplateId, WorkflowMasterTemplateDetail oWorkflowMasterTemplateDetail);
     }
     public class WorkflowRepository : IWorkflowRepository
     {
@@ -78,7 +80,7 @@ namespace Reston.Helper.Repository
             }  
             return result;            
         }
-
+        
         //aprrove pada satu tahap
         public ResultMessageWorkflowState ApproveDokumen(Guid DocumentId, Guid UserId, String Comment, WorkflowStatusState oWorkflowStatusState)
         {
@@ -190,7 +192,10 @@ namespace Reston.Helper.Repository
                 ctx.WorkflowApprovals.Add(oWorkflowApproval);
                 ctx.SaveChanges();
                 result.Id = oWorkflowApproval.Id.ToString();
-                result.message = Message.WORKFLOW_APPROVE_SUKSES;
+                if (oWorkflowStatusState == WorkflowStatusState.APPROVED)
+                    result.message = Message.WORKFLOW_APPROVE_SUKSES;
+                if (oWorkflowStatusState == WorkflowStatusState.REJECTED)
+                    result.message = Message.WORKFLOW_REJECT_SUKSES;
                 result.data = oWorkflow;
                 result.status = HttpStatusCode.OK;
             }
@@ -200,8 +205,8 @@ namespace Reston.Helper.Repository
             }
             return result;
         }
-     
-        public List<ViewWorkflowModel> ListDocumentWorkflow(Guid UserId,DocumentStatus documentStatus, string DokumenType, int length, int start)
+
+        public List<ViewWorkflowModel> ListDocumentWorkflow(Guid UserId, int WorkflowTemplateId ,DocumentStatus documentStatus, string DokumenType, int length, int start)
         {
             try
             {
@@ -209,7 +214,8 @@ namespace Reston.Helper.Repository
                             join c in ctx.WorkflowMasterTemplateDetails on b.WorkflowMasterTemplateId equals c.WorkflowMasterTemplateId
                             where c.UserId == UserId &&
                             b.DocumentStatus == documentStatus &&
-                            b.DocumentType == DokumenType&& b.CurrentSegOrder==c.SegOrder
+                            b.DocumentType == DokumenType&& b.CurrentSegOrder==c.SegOrder&&
+                            b.WorkflowMasterTemplateId==WorkflowTemplateId
                             select new ViewWorkflowModel { 
                                 WorkflowStateId =b.Id,
                                 DocumentId =b.DocumentId,
@@ -371,33 +377,31 @@ namespace Reston.Helper.Repository
             return result;
         }
 
-        public ResultMessage SaveWorkFlow(ViewWorkflowTemplate oViewWorkflowTemplate)
+        public ResultMessage SaveWorkFlow(WorkflowMasterTemplate oViewWorkflowTemplate,Guid UserId)
         {
             try
             {
-                if (ctx.WorkflowMasterTemplates.Find(oViewWorkflowTemplate.WorkflowMasterTemplate.Id) != null)
+                if (ctx.WorkflowMasterTemplates.Find(oViewWorkflowTemplate.Id) == null)
                 {
-                    oViewWorkflowTemplate.WorkflowMasterTemplate.CreateBy = oViewWorkflowTemplate.UserId;
-                    oViewWorkflowTemplate.WorkflowMasterTemplate.CreateOn = DateTime.Now;
-                    ctx.WorkflowMasterTemplates.Add(oViewWorkflowTemplate.WorkflowMasterTemplate);
-                    ctx.SaveChanges();
-                    foreach (var item in oViewWorkflowTemplate.WorkflowMasterTemplateDetails)
-                    {
-                        item.Id = oViewWorkflowTemplate.WorkflowMasterTemplate.Id;
-                    }
-                    ctx.WorkflowMasterTemplateDetails.AddRange(oViewWorkflowTemplate.WorkflowMasterTemplateDetails);
-                    ctx.SaveChanges();
-
-                    result.Id = oViewWorkflowTemplate.WorkflowMasterTemplate.Id.ToString();
-                    result.message = Message.SUBMIT_SUKSES;
+                    oViewWorkflowTemplate.CreateBy = UserId;
+                    oViewWorkflowTemplate.CreateOn = DateTime.Now;
+                    //ctx.WorkflowMasterTemplates.Add(dtWorkflowMasterTemplate);
+                    //ctx.SaveChanges();
+                    //foreach (var item in oViewWorkflowTemplate.WorkflowMasterTemplateDetails)
+                    //{
+                    //    item.Id = dtWorkflowMasterTemplate.Id;
+                    //}
+                    //ctx.WorkflowMasterTemplateDetails.AddRange(oViewWorkflowTemplate.WorkflowMasterTemplateDetails);
+                    ctx.WorkflowMasterTemplates.Add(oViewWorkflowTemplate);
+                    ctx.SaveChanges();                   
                 }
                 else
                 {
-                    var dtWorkflowMasterTemplate = ctx.WorkflowMasterTemplates.Find(oViewWorkflowTemplate.WorkflowMasterTemplate.Id);
+                    var dtWorkflowMasterTemplate = ctx.WorkflowMasterTemplates.Find(oViewWorkflowTemplate.Id);
                     var dtWorkflowMasterTemplateDetail = ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == dtWorkflowMasterTemplate.Id);
-                    dtWorkflowMasterTemplate.NameValue = oViewWorkflowTemplate.WorkflowMasterTemplate.NameValue;
+                    dtWorkflowMasterTemplate.NameValue = oViewWorkflowTemplate.NameValue;
                     dtWorkflowMasterTemplate.ModifiedOn = DateTime.Now;
-                    dtWorkflowMasterTemplate.ModifiedBy = oViewWorkflowTemplate.UserId;
+                    dtWorkflowMasterTemplate.ModifiedBy = UserId;
                     foreach (var item in oViewWorkflowTemplate.WorkflowMasterTemplateDetails)
                     {
                         if (item.Id != null)
@@ -423,14 +427,49 @@ namespace Reston.Helper.Repository
                     }
                     ctx.SaveChanges();
                 }
+                result.Id = oViewWorkflowTemplate.Id.ToString();
+                result.message = Message.SUBMIT_SUKSES;
             }
             catch (Exception ex)
             {
                 result.message = ex.ToString();
             }
-            return new ResultMessage();
+            return result;
         }
-  
+
+        public ResultMessage isLastApprover(Guid DocId, int TemplateId)
+        {
+            try
+            {
+
+                var oWorkflowState = ctx.WorkflowStates.Where(d => d.DocumentId == DocId && d.WorkflowMasterTemplateId == TemplateId && d.DocumentStatus == DocumentStatus.PENGAJUAN).FirstOrDefault();
+                var oTemplate = ctx.WorkflowMasterTemplates.Find(TemplateId).WorkflowMasterTemplateDetails.OrderBy(d => d.SegOrder).LastOrDefault();
+                if (oWorkflowState == null || oTemplate == null)
+                    result.Id = "0";
+                var diffSegOrder = oTemplate.SegOrder - oWorkflowState.CurrentSegOrder;
+                if (diffSegOrder == 0) result.Id = "1";
+                else result.Id = "0";
+            }
+            catch { result.Id = "0"; }
+            return result;
+        }
+
+        public ResultMessage AddMasterTemplateDetail(int TemplateId, WorkflowMasterTemplateDetail oWorkflowMasterTemplateDetail)
+        {
+            try
+            {
+                var oTemplateId = ctx.WorkflowMasterTemplates.Find(TemplateId);
+                if (oTemplateId == null) return new ResultMessage();
+                oWorkflowMasterTemplateDetail.SegOrder = oTemplateId.WorkflowMasterTemplateDetails.OrderBy(d => d.SegOrder).LastOrDefault().SegOrder + 1;
+                oTemplateId.WorkflowMasterTemplateDetails.Add(oWorkflowMasterTemplateDetail);
+                ctx.SaveChanges();
+                result.Id = oTemplateId.Id.ToString();
+            }
+            catch(Exception ex){
+                result.message = ex.ToString();            
+            }
+            return result;
+        }
     }
 
     

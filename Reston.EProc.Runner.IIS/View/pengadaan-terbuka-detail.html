@@ -139,6 +139,7 @@
             <input type="hidden" id="isTEAM" />
             <input type="hidden" id="State" />
             <input type="hidden" id="AturanPengadaan" />
+            <input type="hidden" id="isPemenangApproved" />
             <section class="content">
                 <!-- Default box -->
                 <div class="row">
@@ -420,7 +421,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <hr />
-                                                                    <div class="row kehadiran-kandidat">
+                                                                    <div class="row pendaftaran-kandidat">
 
                                                                     </div>
 
@@ -942,37 +943,19 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <!-- <div class="row">
+                                                                    <div class="row bingkai-pengajuan-pemenang" style="display:none">
                                                                           <div class="col-md-10">
                                                                              <div class="row">
-                                                                                    <div class="col-md-4">
-                                                                                         <div class="form-group">
-                                                                                             <label class="title">Tanggal Berita Acara</label>
-                                                                                             <input id="Text2" type="text"  class="form-control dateJadwalNoTime" >
-                                                                                         </div>
-                                                                                         <div class="form-group">
-                                                                                             <button class="btn btn-success pull-left save-tgl-ba" attr1="">Simpan</button>
-                                                                                         </div>
-                                                                                     </div>
-                                                                                 </div>
-                                                                             <div class="row">
-                                                                                   <div class="col-md-12">
-                                                                                         <div class="form-group ">
-                                                                                             <label class="title">Upload Lembar Disposisi</label>
-                                                                                             <div id="LembarDisposisi" attr="LembarDisposisi" action="/api/PengadaanE/UploadFile?tipe=LembarDisposisi" class="dropzone"></div>
-                                                                                         </div>
-                                                                                     </div>
-                                                                             </div>
+                                                                                <div class="col-md-4">
+                                                                                        <div class="form-group">
+                                                                                            <button class="btn btn-success pull-left ajukan-pemenang">Ajukan Pemenang</button>
+                                                                                            <label class="status-persetujuan-pemenang"></label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                          </div>
-                                                                         <div class="col-md-2">
-                                                                             <div class="form-group">
-                                                                                 <label class="title">Unduh Lembar Disposisi
-                                                                                     <a class="download-berkas" attr1="lembar-disposisi"><i class="fa fa-fw  fa-download"></i></a>
-                                                                                 </label>
-                                                                             </div>
-                                                                         </div>
-                                                                     </div>-->
-                                                                    <div class="row">
+                                                                     </div>
+                                                                    <div class="row bingkai-spk" style="display:none">
                                                                         <div class="col-md-10">
                                                                             <div class="row">
                                                                                 <div class="col-md-4">
@@ -1354,9 +1337,11 @@
     <script src="dist/js/pengadaan-terbuka-detail.js"></script>
     <script src="dist/js/pelaksanaan-terbuka.js"></script>
     <script src="dist/js/menu.js"></script>
-    <script src="dist/js/berita-acara.js"></script>
+    <script src="dist/js/berita-acara-terbuka.js"></script>
     <script src="dist/js/rubah-personil.js"></script>
     <script src="dist/js/riwayat-pengadaan.js"></script>
+    <script src="dist/js/pelaksanaan-penentuan-pemenang.js"></script>
+   
     <script></script>
 </body>
 </html>

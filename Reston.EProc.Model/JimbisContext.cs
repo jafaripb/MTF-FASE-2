@@ -108,6 +108,7 @@ namespace Reston.Pinata.Model
         public virtual DbSet<PICProyek> PICProyeks { get; set; }
         public virtual DbSet<DokumenProyek> DokumenProyeks { get; set; }
         public virtual DbSet<SysLog> SysLogs { get; set; }
+        public virtual DbSet<PersetujuanPemenang> PersetujuanPemenangs { get; set; }
         //workflow
         //public virtual DbSet<WorkflowMasterTemplate> WorkflowMasterTemplates { get; set; }
         //public virtual DbSet<WorkflowMasterTemplateDetail> WorkflowMasterTemplateDetails { get; set; }

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Reston.Pinata.Model.PengadaanRepository;
 
 namespace Reston.Pinata.Model.JimbisModel
 {
@@ -51,6 +52,7 @@ namespace Reston.Pinata.Model.JimbisModel
         public virtual ICollection<VendorPerson> VendorPerson { get; set; }
         public virtual ICollection<RiwayatPengajuanVendor> RiwayatPengajuanVendor { get; set; }
         public virtual ICollection<Dokumen> Dokumen { get; set; }
+        
     }
 
     [Table("BankInfo", Schema = JimbisContext.VENDOR_SCHEMA_NAME)]
