@@ -663,65 +663,31 @@ function addVendorLoad(item, kandidat) {
     $(".listkandidat").append(html);
 }
 
-function addPersonil(item, el) {
+function addLoadPersonil(item, el, status, xisTeam) {
     var peran = el.replace(".listperson-", "");
-    var objPersonilPengadaan = {};
-    objPersonilPengadaan.PersonilId = item.PersonilId;
-    objPersonilPengadaan.tipe = peran;
-    objPersonilPengadaan.Nama = item.Nama;
-    objPersonilPengadaan.Jabatan = item.Jabatan;
-    objPersonilPengadaan.PengadaanId = $("#pengadaanId").val();
-
-    if (peran == "pic" && $(el).children().length > 0) {
-        BootstrapDialog.show({
-            title: 'Konfirmasi',
-            message: 'PIC Sudah Ada!',
-            buttons: [{
-                label: 'Close',
-                action: function (dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-        return false;
+    var removeEL = '';
+    if (status == 0 && xisTeam == 1) {
+        //removeEL = '<a class="pull-right btn-box-tool remove-person"><i class="fa fa-times"></i></a>';
+        removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';
     }
-    if (isPersonileEksisPerPeran(item.PersonilId, el) == 1) {
-        BootstrapDialog.show({
-            title: 'Konfirmasi',
-            message: 'User yang Ingin ditambahkan Sudah Ada!',
-            buttons: [{
-                label: 'Close',
-                action: function (dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-        return false;
+    if (item.isReady == 1) {
+        if (item.isMine == 1 && item.Status == 0)
+            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
+        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
     }
-
-    $.ajax({
-        method: "POST",
-        url: "Api/PengadaanE/savePersonil",
-        dataType: "json",
-        data: JSON.stringify(objPersonilPengadaan),
-        contentType: 'application/json; charset=utf-8'
-    }).done(function (data) {
-        if (data.status == 200) {
-            html = '<a class="btn btn-app">' +
-                    '<input type="hidden" class="list-personil" attrId="'
-                        + data.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
-                        + item.Jabatan + '" value="' + item.PersonilId + '" />' +
-                    '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>' +
-                    '<i class="fa fa-user"></i>' +
-                    item.Nama +
-                  '</a>';
-            $(el).append(html);
-        }
-        else {
-            alert("error");
-        }
-    });
-   
+    else {
+        if (item.isMine == 1 && item.Status == 0)
+            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
+        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
+    } html = '<a class="btn btn-app">' +
+                   '<input type="hidden" class="list-personil" attrId="'
+                       + item.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
+                       + item.Jabatan + '" value="' + item.PersonilId + '" />' +
+                   removeEL +
+                   '<i class="fa fa-user"></i>' +
+                   item.Nama +
+                 '</a>';
+    $(el).append(html);
 }
 
 function isPersonileEksis(idPersonil,elm) {
@@ -746,23 +712,6 @@ function isPersonileEksisPerPeran(idPersonil, elm) {
     return status;
 }
 
-function addLoadPersonil(item, el,status,xisTeam) {
-    var peran = el.replace(".listperson-", "");
-    var removeEL = '';
-    if (status == 0 && xisTeam==1) {
-        //removeEL = '<a class="pull-right btn-box-tool remove-person"><i class="fa fa-times"></i></a>';
-        removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';
-    }
-    html = '<a class="btn btn-app">' +
-                   '<input type="hidden" class="list-personil" attrId="'
-                       + item.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
-                       + item.Jabatan + '" value="' + item.PersonilId + '" />' +
-                   removeEL +
-                   '<i class="fa fa-user"></i>' +
-                   item.Nama +
-                 '</a>';
-    $(el).append(html);
-}
 
 function viewFile(File) {
     $.ajax({
@@ -1046,6 +995,19 @@ $(function () {
             BootstrapDialog.show({
                 title: 'Konfirmasi',
                 message: 'Dokumen Nota Internal Wajib Diisi!',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            return false;
+        }
+        if ($('.ready-checkbox').not(':checked').length > 0) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'Semua Personil Wajib Menceklis Kesiapan',
                 buttons: [{
                     label: 'Close',
                     action: function (dialog) {

@@ -751,9 +751,16 @@ function addLoadPersonil(item, el,status,xisTeam) {
         //removeEL = '<a class="pull-right btn-box-tool remove-person"><i class="fa fa-times"></i></a>';
         removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';       
     }
-    if (item.isReady == 1)
-        removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
-    else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
+    if (item.isReady == 1) {
+        if (item.isMine == 1 && item.Status == 0)
+            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
+        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
+    }
+    else {
+        if (item.isMine == 1 && item.Status == 0)
+            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
+        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
+    }
     html = '<a class="btn btn-app">' +
                    '<input type="hidden" class="list-personil" attrId="'
                        + item.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'

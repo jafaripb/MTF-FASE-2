@@ -15,5 +15,6 @@ namespace MTF_x
         }
         public DbSet<Pengadaan> Pengadaan { get; set; }
         public DbSet<JadwalPengadaan> JadwalPengadaan { get; set; }
+        public DbSet<JadwalPelaksanaan> JadwalPelaksanaan { get; set; }
     }
 }

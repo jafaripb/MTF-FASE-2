@@ -41,23 +41,25 @@ namespace MTF_x.Controllers
 
            // sql = @"select * from  pengadaan.pengadaan x";
 
-            var dt = context.Pengadaan.SqlQuery(sql).ToList();
+            //var dt = context.Pengadaan.SqlQuery(sql).ToList();
+            var dt = context.Pengadaan.Where(d => d.Status == EStatusPengadaan.DISETUJUI && d.AturanPengadaan == "Pengadaan Terbuka"  ).ToList();
             return View(dt);
-
         }
 
         public ActionResult Announcement()
         {
-            var sql = @"select * from  pengadaan.pengadaan x 
-                        where aturanpengadaan = 'Pengadaan Terbuka' and x.Id in 
-                        (
-                            select distinct pengadaanid from pengadaan.JadwalPengadaan 
-                            where tipe='pendaftaran' and Sampai < GETDATE()
-                        )";
+//            var sql = @"select * from  pengadaan.pengadaan x 
+//                        where aturanpengadaan = 'Pengadaan Terbuka' and x.Id in 
+//                        (
+//                            select distinct pengadaanid from pengadaan.JadwalPengadaan 
+//                            where tipe='pendaftaran' and Sampai < GETDATE()
+//                        )";
 
             //sql = @"select * from  pengadaan.pengadaan x";
-
-            var dt = context.Pengadaan.SqlQuery(sql).ToList();
+           
+            
+            //var dt = context.Pengadaan.SqlQuery(sql).ToList();
+            var dt = context.Pengadaan.Where(d =>  d.AturanPengadaan == "Pengadaan Terbuka").ToList();
 
             var list = new List<AnnouncementPengadaan>();
             foreach (var pengadaan in dt)
@@ -66,6 +68,7 @@ namespace MTF_x.Controllers
                 list.Add(an);
                 
             }
+            
             return View(list);
 
         }
