@@ -15,6 +15,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
     {
         ViewProyekPerencanaan GetDataProyek(Guid PengadaanId);
         ResultMessage SimpanRencanaProyekRepo(Guid xPengadaanId,string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate);
+        ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, Guid UserId, DateTime? xTanggalPekerjaan);
        
     }
 
@@ -42,6 +43,39 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 TanggalMulai = proyek != null? proyek.StartDate: null,
                 TanggalSelesai = proyek != null? proyek.EndDate : null,
             };
+        }
+        
+        public  ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId,
+            string xNamaTahapanPekerjaan, string xJenisPekerjaan, Guid UserId, DateTime? xTanggalPekerjaan)
+        {
+            ResultMessage rkk = new ResultMessage();
+            try
+            {
+                var odata = ctx.RencanaProyeks.Where(d =>d.PengadaanId == xPengadaanId).FirstOrDefault();
+                var IdProyek = odata.Id;
+
+                TahapanProyek th = new TahapanProyek
+                {
+                   ProyekId = IdProyek,
+                   NamaTahapan = xNamaTahapanPekerjaan,
+                   Tanggal = xTanggalPekerjaan,
+                   CreatedOn = DateTime.Now,
+                   CreatedBy = UserId,
+                   JenisTahapan = xJenisPekerjaan
+
+                };
+
+                ctx.TahapanProyeks.Add(th);
+                ctx.SaveChanges(UserId.ToString());
+                rkk.status = HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                rkk.status = HttpStatusCode.ExpectationFailed;
+                rkk.message = ex.ToString();
+                
+            }
+            return rkk; ;
         }
 
         public ResultMessage SimpanRencanaProyekRepo(Guid xPengadaanId,string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate)
