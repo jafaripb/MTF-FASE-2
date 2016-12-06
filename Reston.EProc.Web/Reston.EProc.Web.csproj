@@ -201,7 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\MonitoringSelectionController.cs" />
-    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ProyekController.cs" />
     <Compile Include="Controllers\RksController.cs" />
     <Compile Include="Controllers\PengadaanEController.cs">
       <SubType>Code</SubType>
@@ -214,6 +214,7 @@
     <Compile Include="Controllers\ReferenceDataController.cs" />
     <Compile Include="Controllers\RegistrasiController.cs" />
     <Compile Include="Controllers\DashboardController .cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\VendorController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -235,9 +236,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="app.config" />
     <None Include="mockup\bootstrap\css\bootstrap.css.map" />
     <None Include="mockup\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <None Include="mockup\bootstrap\fonts\glyphicons-halflings-regular.svg" />

@@ -20,7 +20,7 @@
                                 <div class="tab-pane active" id="pengadaan_barang">
                                 @if (!Request.IsAuthenticated){
                                     <div class="col-md-12" style="margin:20px 0px 20px 0px;">
-                                        <p>Untuk dapat mengikuti pekerjaan ini. Silahkan <a href="registrasi.html" class="text-bold"> Registrasi</a> atau <a href="" class="text-bold"> Login</a> Perusahaan Anda.</p>
+                                        <p>Untuk dapat mengikuti pekerjaan ini. Silahkan <a href="http://localhost:49559/registrasi.html" target="_blank" class="text-bold"> Registrasi</a> atau <a href="http://localhost:7348/" target="_blank" class="text-bold"> Login</a> Perusahaan Anda.</p>
                                     </div>
                                 }
                                  @if (Request.IsAuthenticated){
@@ -55,22 +55,20 @@
                                             <td style="font-size:13px;" colspan="4"> <a href="#">@Html.DisplayFor(p => p.Status)</a> </td>
                                         </tr>
                                         <tr>
-                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Nilai Pagu</td>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Nilai HPS</td>
                                             <td style="font-size:13px;"> @{
                                                                              decimal d = 0;
 
-                                                                             if (Model.Pagu != null)
+                                                                             if (Model.HpsId != null)
                                                                              {
-                                                                                 d = Model.Pagu.Value;
+                                                                                 //d = Model.HpsId.Value;
                                                                              }
 
 
                                                                          }@Html.Display(d.ToString("N0"))</td>
-                                            <td class="text-bold" style="width:200px; background-color:#ccddff; font-size:13px;">Nilai HPS</td>
-                                            <td style="font-size:13px;"> ?? </td>
                                         </tr>
                                         <tr>
-                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Lokasi Pekerjaan</td>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Lokasi</td>
                                             <td style="font-size:13px;" colspan="4">@Html.DisplayFor(p => p.Provinsi)</td>
                                         </tr>
                                         <tr>

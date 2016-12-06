@@ -67,9 +67,6 @@ $(function () {
             {
                 "render": function (data, type, row, meta) {
                     if (row.level == 0) {
-                        //console.log(meta.row)
-                        //$("#example1 tr:eq(" + (meta.row+1) + ") td:eq(0)").attr("colspan", "7");
-                        //$("#example1 tr:eq(" + (meta.row +1)+ ") td").not(":eq(0)").remove();
                         return '<input type="text" class="form-control item namaJudul" value="' + row.judul + '" style="font-weight:600; text-align:left; width:160px;">';
                     }                                        
                     else return '';
@@ -110,7 +107,7 @@ $(function () {
              {
                     "render": function (data, type, row) {
                         if (row.level == 1) {
-                            return '<input type="text" class="form-control item hps" value="' + row.hps + '" style="width:150px;">';
+                            return '<input type="text" class="form-control item hps" onkeyup="numberWithCommas(this)" value="' + numberWithCommas(row.hps) + '" style="width:150px; text-align:right;">';
                         }
                         else if(row.level==2){
                             return "Sub Total";
@@ -178,6 +175,12 @@ $(function () {
             Hitung();
         }
     });
+
+    function numberWithCommas(x) {
+        var parts = x.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
+    }
 
     $(".datepicker").datepicker({
         showOtherMonths: true,

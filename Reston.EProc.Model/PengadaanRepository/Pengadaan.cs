@@ -82,9 +82,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string ContentType { get; set; }
         [MaxLength(255)]
         public string Title { get; set; }
+        public Nullable<DateTime> CreateOn { get; set; }
+        public Nullable<Guid> CreateBy { get; set; }
+        public Nullable<DateTime> ModifiedOn { get; set; }
+        public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<TipeBerkas> Tipe { get; set; }
         public Nullable<long> SizeFile { get; set; }
         public Nullable<int> VendorId { get; set; }
+
         public virtual Pengadaan Pengadaan { get; set; }
     }
 

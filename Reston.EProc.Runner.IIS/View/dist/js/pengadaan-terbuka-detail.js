@@ -475,6 +475,7 @@ $(function () {
             }
         });
     });
+
     $("body").on("click", ".box-rekanan", function () {
         var id = $(this).attr("vendorId");
         var pengadaanId = $("#pengadaanId").val();
@@ -542,7 +543,6 @@ function loadData(pengadaanId) {
         $("#isPIC").val(data.isPIC);
         $("#isTEAM").val(data.isTEAM);
         $("#isPersonil").val(data.isPersonil);
-        $("#isPersonil").val(data.isPersonil);
         $("#State").val(data.Status);
         isPemenangApproved(pengadaanId);
         StatusPemenang(pengadaanId);
@@ -550,7 +550,6 @@ function loadData(pengadaanId) {
             $(".action-pelaksanaan").attr("disabled", "disabled"); 
             $("button.action-pelaksanaan").remove();
         }
-
         if (data.isPIC == 1) {
             //$(".addPerson").show();
         }
@@ -575,7 +574,7 @@ function loadData(pengadaanId) {
         loadListKandidat(data.Id);
         hitungHPS($("#pengadaanId").val(), data.AturanPenawaran);
         loadJadwal(data.JadwalPengadaans);
-        LoadListPersonil(data.PersonilPengadaans, data.isPIC);
+        LoadListPersonil(data.PersonilPengadaans, data.dataPIC);
         loadKualifikas(data.KualifikasiKandidats);
         $("#lihatHps").attr("href", "rks.html#" + data.Id);
         if (data.AturanPenawaran == "Open Price") $("#lihatHps").remove();

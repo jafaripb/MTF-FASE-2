@@ -10,9 +10,13 @@ namespace Reston.Eproc.Model.Monitoring.Model
     public class ViewMonitoringSelection
     {
         public Guid Id { get; set; }
-        public string NamaPekejaan{ get; set; }
-        public decimal Nilai { get; set; }
+        public string NoPengadaan{ get; set; }
+        public string Judul { get; set; }
+        public string Pemenang { get; set; }
         public string Klasifikasi { get; set; }
+        public DateTime? TanggalPenentuanPemenang { get; set; }
+        public Decimal NilaiKontrak { get; set; }
+        public String PIC{ get; set; }
         public StatusMonitored Monitored { get; set; }
         public StatusSeleksi Status { get; set; }
     }
@@ -25,6 +29,22 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public int recordsFiltered { get; set; }
         public  List<ViewMonitoringSelection> data { get; set; }
     }
+    // ----------------------------------------------------------------------------------------------------------------------------
+    public class ViewProyekSistemMonitoring
+    {
+        public Guid id { get; set; }
+        public string NoKontrak { get; set; }
+        public string NamaProyek { get; set; }
+        public string NamaPelaksana { get; set; }
+        public string Klasifikasi { get; set; }        
+    }
+    public class DataTableViewProyekSistemMonitoring
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewProyekSistemMonitoring> data { get; set; }
+    }
 
     // ----------------------------------------------------------------------------------------------------------------------
 
@@ -36,4 +56,40 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public string Klasifikasi { get; set; }
 
     }
+    // --------------------------------------------------------------------------------------------------------------------------
+
+    public class ViewResumeProyek
+    {
+        public int ProyekDalamPelaksanaan { get; set; }
+        public int ProyekLewatWaktuPelaksanaan { get; set; }
+        public int ProyekMendekatiWaktuPelaksanaan { get; set; }
+    }
+
+    public class ViewDetailMonitoring
+    {
+        public Guid Id { get; set; }
+        public string NamaProyek { get; set; }
+        public Nullable<DateTime> StarDate { get; set; }
+        public Nullable<DateTime> EndDate { get; set; }
+
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------------------
+
+    public class ViewTableDetailPekerjaan
+    {
+        public Guid Id { get; set; }
+        public string NamaPekerjaan { get; set; }
+        public Nullable<DateTime> StartDate { get; set; }
+        public Nullable<DateTime> EndDate { get; set; }
+    }
+
+    public class DataTableViewProyekDetailMonitoring
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewTableDetailPekerjaan> data { get; set; }
+    }
+    
 }
