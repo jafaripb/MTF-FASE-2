@@ -47,25 +47,26 @@ $(function () {
                          });
                          if (cekRekananCheck > 0) {
                              if ($("#State").val() == 6)
-                                 BootstrapDialog.show({
-                                     title: 'Konfirmasi',
-                                     message: 'Dengan mengklik "Lanjutkan" Berarti State akan Berlanjut Ke state Berikutnya!',
-                                     buttons: [{
-                                         label: 'Lanjutkan',
-                                         action: function (dialog) {
-                                             done();
-                                             //nextState("klarifikasi");
-                                             dialog.close();
-                                         }
-                                     }, {
-                                         label: 'Batal',
-                                         action: function (dialog) {
-                                             myDropzoneBeritaAcaraPenilaian.removeFile(file);
-                                             dialog.close();
+                                 done();
+                                 //BootstrapDialog.show({
+                                 //    title: 'Konfirmasi',
+                                 //    message: 'Dengan mengklik "Lanjutkan" Berarti State akan Berlanjut Ke state Berikutnya!',
+                                 //    buttons: [{
+                                 //        label: 'Lanjutkan',
+                                 //        action: function (dialog) {
+                                 //            done();
+                                 //            //nextState("klarifikasi");
+                                 //            dialog.close();
+                                 //        }
+                                 //    }, {
+                                 //        label: 'Batal',
+                                 //        action: function (dialog) {
+                                 //            myDropzoneBeritaAcaraPenilaian.removeFile(file);
+                                 //            dialog.close();
 
-                                         }
-                                     }]
-                                 });
+                                 //        }
+                                 //    }]
+                                 //});
                              else {
                                  if ($("#State").val() > 6)
                                     done();
@@ -116,8 +117,8 @@ $(function () {
                          });
                      });
                      this.on("success", function (file, responseText) {
-                         if($("#State").val()==6)
-                            nextState("klarifikasi");
+                         //if($("#State").val()==6)
+                          //  nextState("klarifikasi");
                      });
                  }
              }

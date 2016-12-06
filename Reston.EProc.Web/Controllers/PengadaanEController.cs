@@ -2537,7 +2537,7 @@ namespace Reston.Pinata.WebService.Controllers
 
             ViewPengadaan oPengadaan = _repository.GetPengadaan(Id, UserId(), 0);
             int NextStatusPengadaan = (int)oPengadaan.Status;
-            if (oPengadaan.Status == EStatusPengadaan.DISETUJUI)
+            if (oPengadaan.Status == EStatusPengadaan.DISETUJUI && oPengadaan.AturanPengadaan=="Pengadaan Tertutup")
                 NextStatusPengadaan = (int)EStatusPengadaan.AANWIJZING;
             NextStatusPengadaan = NextStatusPengadaan + 1;
 

@@ -1075,7 +1075,7 @@ $(function () {
     $(".next-step").on("click", function () {
         var elDari = $(this).attr("elDari");
         var elSampai = $(this).attr("elSampai");
-
+        console.log($(elDari).val());
         var dari = moment($(elDari).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
         var sampai = "";
         if(elSampai!="")
