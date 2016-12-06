@@ -159,17 +159,17 @@
                                         <div role="form" class="jp-form row">
                                             <div class="col-md-6">
                                                 <div class="col-md-4">
-                                                    <label class="title"><h4>% Waktu</h4></label>
+                                                    <label class="title" ><h4>% Waktu</h4></label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label class="title"><h4 class="text-bold" style="color:red;">84%</h4></label>
+                                                    <label class="title" ><h4 class="text-bold" name="waktu-persen" style="color:red;" >84%</h4></label>
                                                 </div>
                                                     <div class="clear"></div>
                                                 <div class="col-md-4">
                                                     <label class="title"><h4>% Penyelesaian</h4></label>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label class="title"><h4 class="text-bold">57%</h4></label>
+                                                    <label class="title"><h4 name="persen-selesai" class="text-bold">57%</h4></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -553,6 +553,27 @@
                     $("[name=judul-utama]").text(d.NamaProyek);
                     $("[name=start-date]").val(d.StarDate);
                     $("[name=end-date]").val(d.EndDate);
+
+                    var date1 = moment(d.StarDate).format("MM/DD/YYYY").toString();
+                    var date2 = moment(d.EndDate).format("MM/DD/YYYY").toString();
+                    var curdate1 = new Date(date1);
+                    var curdate2 = new Date(date2);
+
+                    var timeDiff = Math.abs(curdate2.getTime() - curdate1.getTime());
+                    var TotalWaktuDisediakan = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+
+                    var today = new Date();
+                    
+                    var timeDiff2 = Math.abs(curdate2.getTime() - today.getTime());
+                    var TotalWaktuTersedia = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
+
+                    var PersentaseWaktu = (TotalWaktuTersedia / TotalWaktuDisediakan) * 100;
+                    //alert(PersentaseWaktu);
+
+
+                    $("[name=waktu-persen]").text(PersentaseWaktu + "%");
+
                 }
             })
         })
@@ -592,21 +613,21 @@
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            return '<input type="text" class="form-control bobot_pekerjaan" id="bobot_pekerjaan" value="">';
+                            return '<input type="text" class="form-control bobot_pekerjaan"  value="">';
                         },
                         "targets": 1,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
-                            return '<input type="text" class="form-control progres" id="progres" value="">';
+                            return '<input type="text" class="form-control progres" value="">';
                         },
                         "targets": 2,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
-                            return '<input type="text" class="form-control penyelesaian" id="penyelesaian" value="">';
+                            return '<input type="text" class="form-control penyelesaian"  value="">';
                         },
                         "targets": 3,
                         "orderable": false
@@ -636,7 +657,7 @@
             });
         });
 
-        $("#example1").on("change", ".bobot_pekerjaan", function () {
+        $("#example1").on("change input propertychange", ".bobot_pekerjaan", function () {
             var elRow = $(this).parent().closest("tr");
             var oldRowData = table.row(elRow.index()).data();
            
@@ -645,18 +666,31 @@
 
         function hitung() {
             var totalBobot = 0;
+            var totalSelesai = 0;
             $("#example1 tbody tr").each(function () {
-                totalBobot += $(this).find(".bobot_pekerjaan").val();
+                totalBobot += parseFloat($(this).find(".bobot_pekerjaan").val());
+                totalSelesai += parseFloat($(this).find(".penyelesaian").val());
+                //console.log(totalBobot);
                 if (totalBobot > 100) {
-                    $(this).find(".bobot_pekerjaan").val("");
+                    $(this).find(".bobot_pekerjaan").val(0);
                     return false;
                 }
-                var penyelesaian = ($(this).find(".bobot_pekerjaan").val() * $(this).find(".progres").val())/100;
-                $(this).find(".penyelesaian").val(penyelesaian);
+                if (parseFloat($(this).find(".progres").val()) > 100) $(this).find(".progres").val(0);
+                var penyelesaian = (parseFloat($(this).find(".bobot_pekerjaan").val()) * parseFloat($(this).find(".progres").val())) / 100;
+                if (penyelesaian > 0)
+                    $(this).find(".penyelesaian").val(penyelesaian);
+                else $(this).find(".penyelesaian").val(0);
+
             });
+            $("[name=persen-selesai]").text(totalSelesai + "%");
         }
 
-        $("#example1").on("change", ".progres", function () {
+        $("#example1").on("change input propertychange", ".penyelesaian", function () {
+            hitung();
+
+        });
+
+        $("#example1").on("change input propertychange", ".progres", function () {
             var elRow = $(this).parent().closest("tr");
             var oldRowData = table.row(elRow.index()).data();
             hitung();
