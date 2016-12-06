@@ -137,26 +137,20 @@
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
 									<div class="form-group col-md-12">
-										<label class="title"><h3>Proyek Pembangunan Kantor Cabang Bali</h3></label>
+										<label class="title"><h3 name="judul-utama">Proyek Pembangunan Kantor Cabang Bali</h3></label>
 									</div>
                                     <div class="form-group col-md-12">
                                         <div role="form" class="jp-form row">
                                             <div class="form-group col-md-2">
-                                                <label>Start Date</label>
+                                                <label>Tanggal Mulai</label>
                                                 <div class="input-group date">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                    <input type="text" name="start-date" class="form-control pull-right datepicker" value="2016-09-01">
+                                                    <input type="text" disabled name="start-date" class="form-control pull-right " >
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-2">
-                                                <label>End Date</label>
+                                                <label>Tanggal Selesai</label>
                                                 <div class="input-group date">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                    <input type="text" name="end-date" class="form-control pull-right datepicker" value="2016-11-30">
+                                                    <input type="text" disabled  name="end-date" class="form-control pull-right ">
                                                 </div>
                                             </div>
                                         </div>
@@ -190,140 +184,20 @@
                                             </ul>
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="pekerjaan">
-                                                    <table class="table table-bordered">
-                                                        <tr>
-                                                            <td class="tengah text-bold">No.</td>
-                                                            <td class="tengah text-bold">Nama Pekerjaan</td>
-                                                            <td class="tengah text-bold">Bobot Pekerjaan</td>
-                                                            <td class="tengah text-bold">% Progress</td>
-                                                            <td class="tengah text-bold">% Penyelesaian</td>
-                                                            <td class="tengah text-bold">Start Date</td>
-                                                            <td class="tengah text-bold">End Date</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="tengah">1</td>
-                                                            <td>Pembangunan Pondasi</td>
-                                                            <td><input type="text" class="form-control" value="10%" style="width:100%; text-align:center"></td>
-                                                            <td><input type="text" class="form-control" value="100%" style="width:100%; text-align:center"></td>
-                                                            <td class="tengah">10%</td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
-                                                                </div>
-                                                            </td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="tengah">2</td>
-                                                            <td>Pembangunan Tiang-tiang penyangga</td>
-                                                            <td><input type="text" class="form-control" value="20%" style="width:100%; text-align:center"></td>
-                                                            <td><input type="text" class="form-control" value="50%" style="width:100%; text-align:center"></td>
-                                                            <td class="tengah">10%</td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
-                                                                </div>
-                                                            </td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="tengah">3</td>
-                                                            <td>Pembangunan Atap Gedung</td>
-                                                            <td><input type="text" class="form-control" value="30%" style="width:100%; text-align:center"></td>
-                                                            <td><input type="text" class="form-control" value="50%" style="width:100%; text-align:center"></td>
-                                                            <td class="tengah">15%</td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
-                                                                </div>
-                                                            </td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="tengah">4</td>
-                                                            <td>Dinding</td>
-                                                            <td><input type="text" class="form-control" value="20%" style="width:100%; text-align:center"></td>
-                                                            <td><input type="text" class="form-control" value="50%" style="width:100%; text-align:center"></td>
-                                                            <td class="tengah">10%</td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
-                                                                </div>
-                                                            </td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="tengah">5</td>
-                                                            <td>Lantai</td>
-                                                            <td><input type="text" class="form-control" value="20%" style="width:100%; text-align:center"></td>
-                                                            <td><input type="text" class="form-control" value="60%" style="width:100%; text-align:center"></td>
-                                                            <td class="tengah">12%</td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
-                                                                </div>
-                                                            </td>
-                                                            <td class="tengah">
-                                                                <div class="input-group date">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </div>
-                                                                    <input type="text" class="form-control pull-right datepicker" value="November-2016">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="tengah text-bold">#</td>
-                                                            <td class="tengah text-bold">Total</td>
-                                                            <td class="tengah text-bold">100%</td>
-                                                            <td class="tengah text-bold"></td>
-                                                            <td class="tengah text-bold">57%</td>
-                                                            <td class="tengah text-bold">-</td>
-                                                            <td class="tengah text-bold">-</td>
-                                                        </tr>
+                                                    <table class="table table-bordered" id="example1">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="tengah text-bold">Nama Pekerjaan</td>
+                                                                <td class="tengah text-bold">Bobot Pekerjaan</td>
+                                                                <td class="tengah text-bold">% Progres</td>
+                                                                <td class="tengah text-bold">% Penyelesaian</td>
+                                                                <td class="tengah text-bold">Tanggal Mulai</td>
+                                                                <td class="tengah text-bold">Tanggal Selesai</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
                                                     </table>
                                                 </div>
                                                 <div class="tab-pane" id="pembayaran">
@@ -655,6 +529,149 @@
     <!-- SlimScroll -->
     <script src="dropzone.js"></script>
     <script>
+
+        // Tampil Data
+        function gup(name, url) {
+            if (!url) url = location.href;
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regexS = "[\\?&]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexS);
+            var results = regex.exec(url);
+            return results == null ? null : results[1];
+        }
+
+        $(function () {
+            var ID = gup("Id");
+            $("#ProyekId").val(ID);
+
+            //alert(ID);
+            $.ajax({
+                method: "post",
+                url: "api/MonitoringSelection/TampilJudulDetail?Id=" +ID,
+                success: function (d) {
+                    console.log(d);
+                    $("[name=judul-utama]").text(d.NamaProyek);
+                    $("[name=start-date]").val(d.StarDate);
+                    $("[name=end-date]").val(d.EndDate);
+                }
+            })
+        })
+
+        // table
+        // fungsi table
+        var table;
+
+        $(function () {
+            var ID = gup("Id");
+            $("#ProyekId").val(ID);
+
+            table = $('#example1').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/MonitoringSelection/ListProyekDetailMonitoring',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = "";
+                        d.klasifikasi = "";
+                        d.Id = ID;
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                        // $('#example1').DataTable().clear().draw();
+                    }
+                },
+                //"ajax": 'api/MonitoringSelection/List?search=' + $("#search").val(),
+                "columns": [
+                    { "data": "NamaPekerjaan" },
+                    { "data": "null" },
+                    { "data": "null" },
+                    { "data": "null" },
+                    { "data": "StartDate" },
+                    { "data": "EndDate" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<input type="text" class="form-control bobot_pekerjaan" id="bobot_pekerjaan" value="">';
+                        },
+                        "targets": 1,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<input type="text" class="form-control progres" id="progres" value="">';
+                        },
+                        "targets": 2,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<input type="text" class="form-control penyelesaian" id="penyelesaian" value="">';
+                        },
+                        "targets": 3,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return row.StartDate;
+                        },
+                        "targets": 4,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return row.EndDate;
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+        });
+
+        $("#example1").on("change", ".bobot_pekerjaan", function () {
+            var elRow = $(this).parent().closest("tr");
+            var oldRowData = table.row(elRow.index()).data();
+           
+            hitung();
+        });
+
+        function hitung() {
+            var totalBobot = 0;
+            $("#example1 tbody tr").each(function () {
+                totalBobot += $(this).find(".bobot_pekerjaan").val();
+                if (totalBobot > 100) {
+                    $(this).find(".bobot_pekerjaan").val("");
+                    return false;
+                }
+                var penyelesaian = ($(this).find(".bobot_pekerjaan").val() * $(this).find(".progres").val())/100;
+                $(this).find(".penyelesaian").val(penyelesaian);
+            });
+        }
+
+        $("#example1").on("change", ".progres", function () {
+            var elRow = $(this).parent().closest("tr");
+            var oldRowData = table.row(elRow.index()).data();
+            hitung();
+
+        });
+        //function HitungPersenPenyelesaian(){
+        //    var bobot_pekerjaan = $("#bobot_pekerjaan").val(ID);
+        //    var progres = $("#progres").val(ID);
+
+
+        //    var penyelesaian = 
+
+
+        //    };
+
 		//Date picker
 		$('.datepicker').datepicker({
 		  autoclose: true
