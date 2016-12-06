@@ -61,6 +61,7 @@ $(function () {
         //responsive: true,
         "ajax": "Api/PengadaanE/getRksKlarifikasiRekanan?id=" + $("#pengadaanId").val(),
         "columns": [
+            { "data":null },
             { "data": "item" },
             { "data": "keteranganItem" },
             { "data": "satuan" },            
@@ -70,6 +71,14 @@ $(function () {
             { "data": null }
         ],
         "columnDefs": [
+            {
+                "render": function (data, type, row) {
+                    if (row.level == 0) return row.judul;
+                    else return "";
+                },
+                "targets": 0,
+                "orderable": false
+            },
                 {
                     "render": function (data, type, row) {
                         //<input type="text" class="auto"  data-a-sign="€ " data-v-max="10000000000000000">
@@ -88,7 +97,7 @@ $(function () {
 
                         // $('input.harga-rekanan').autoNumeric({ aSep: '.', aDec: ',' });
                     },
-                    "targets": 4,
+                    "targets": 5,
                     "orderable": false
                 },
                 {
@@ -102,7 +111,7 @@ $(function () {
                         }
                         else return "";
                     },
-                    "targets": 5,
+                    "targets": 6,
                     "orderable": false
                 },
                 {
@@ -114,7 +123,7 @@ $(function () {
                         }
                         else return "";
                     },
-                    "targets": 6,
+                    "targets": 7,
                     "orderable": false
                 }
         ],
