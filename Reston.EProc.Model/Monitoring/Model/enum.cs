@@ -15,4 +15,9 @@ namespace Reston.Eproc.Model.Monitoring.Model
     {
         BELUMDITENTUKAN, INPROGRESS, FINISH,
     }
+
+    public enum Klasifikasi
+    {
+        SIPIL, NONSIPIL
+    }
 }

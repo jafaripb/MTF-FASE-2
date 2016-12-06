@@ -22,6 +22,51 @@ namespace Reston.EProc.Web.Controllers
             _repository = new MonitoringRepo(new JimbisContext());
         }
 
+        public IHttpActionResult ListProyek()
+        {
+            string search = HttpContext.Current.Request["search"].ToString();
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
+            string klasifikasi = HttpContext.Current.Request["klasifikasi"].ToString();
+
+            if(klasifikasi == "")
+            {
+                return Json(_repository.GetDataListProyekMonitoring(search, start, length, null));
+            }
+
+            Klasifikasi dklasifikasi = (Klasifikasi)Convert.ToInt32(klasifikasi);
+            return Json(_repository.GetDataListProyekMonitoring(search, start, length, dklasifikasi));
+        }
+
+        public IHttpActionResult ListProyekDetailMonitoring()
+        {
+            string search = HttpContext.Current.Request["search"].ToString();
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
+            Guid Id = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
+            string klasifikasi = HttpContext.Current.Request["klasifikasi"].ToString();
+
+            if (klasifikasi == "")
+            {
+                return Json(_repository.GetDataListProyekDetailMonitoring(search, start, length, Id, null));
+            }
+
+            Klasifikasi dklasifikasi = (Klasifikasi)Convert.ToInt32(klasifikasi);
+            return Json(_repository.GetDataListProyekDetailMonitoring(search, start, length, Id, dklasifikasi));
+        }
+
+        public IHttpActionResult TampilJudulDetail()
+        {
+            Guid ProyekId = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
+
+            return Json(_repository.GetDetailProyek(ProyekId));
+        }
+
+        public IHttpActionResult TampilJudul()
+        {
+            return Json(_repository.GetResumeProyek());
+        }
+
         public IHttpActionResult List()
         {
             string search = HttpContext.Current.Request["search"].ToString();

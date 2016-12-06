@@ -147,9 +147,9 @@
                                     <div class="col-md-12">
                                         <div class="nav-tabs-custom">
                                             <ul class="nav nav-tabs">
-                                                <li class="active"><a href="#all" data-toggle="tab">All</a></li>
-                                                <li><a href="#inprogress" data-toggle="tab">In Progress</a></li>
-                                                <li><a href="#finish" data-toggle="tab">Finished</a></li>
+                                                <li class="active"><a href="#all" data-toggle="tab">Semua</a></li>
+                                                <li><a href="#inprogress" data-toggle="tab">Sedang Berjalan</a></li>
+                                                <li><a href="#finish" data-toggle="tab">Selesai</a></li>
                                             </ul>
                                             <div class="tab-content">
                                                 <!--Tab All Klasifikasi-->
@@ -157,14 +157,17 @@
                                                     <table class="table table-bordered" id="example1">
                                                         <thead>
                                                             <tr>
-                                                                <td class="tengah text-bold" >Nama Pekerjaan</td>
-                                                                <td class="tengah text-bold" >Nilai</td>
-                                                                <td class="tengah text-bold" >Klasifikasi</td>
-                                                                <td class="tengah text-bold" >Monitored</td>
-                                                                <td class="tengah text-bold" >Status</td>
-                                                                <td class="tengah text-bold" >Monitor Action</td>
+                                                                <td class="tengah text-bold" >No. Pengadaan</td>
+                                                                <td class="tengah text-bold" >Nama Proyek</td>
+                                                                <td class="tengah text-bold" >Pemenang</td>
+                                                                <td class="tengah text-bold">Klasifikasi</td>
+                                                                <td class="tengah text-bold" >Tanggal Penentuan Pemenang</td>
+                                                                <td class="tengah text-bold" >Nilai Kontrak</td>
+                                                                <td class="tengah text-bold">PIC</td>
+                                                                <td class="tengah text-bold">Monitor</td>
                                                             </tr>
                                                         </thead>
+                                                        <tbody></tbody>
                                                     </table>
                                                 </div>
                                                 <!-- Tab In Progress Klasifikasi-->
@@ -172,13 +175,17 @@
                                                     <table class="table table-bordered" id="monitoring-inprogress">
                                                         <thead>
                                                             <tr>
-                                                                <td class="tengah text-bold" >Nama Pekerjaan</td>
-                                                                <td class="tengah text-bold" >Nilai</td>
-                                                                <td class="tengah text-bold" >Klasifikasi</td>
-                                                                <td class="tengah text-bold" >Monitored</td>
-                                                                <td class="tengah text-bold" >Status</td>
+                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">Judul</td>
+                                                                <td class="tengah text-bold">Pemenang</td>
+                                                                <td class="tengah text-bold">Klasifikasi</td>
+                                                                <td class="tengah text-bold">Tanggal Penentuan Pemenang</td>
+                                                                <td class="tengah text-bold">Nilai Kontrak</td>
+                                                                <td class="tengah text-bold">PIC</td>
+                                                                <td class="tengah text-bold">Monitor</td>
                                                             </tr>
                                                         </thead>
+                                                        <tbody></tbody>
                                                     </table>
                                                 </div>
                                                 <!-- Tab Finish-->
@@ -186,22 +193,24 @@
                                                     <table class="table table-bordered" id="monitoring-finish">
                                                         <thead>
                                                             <tr>
-                                                                <td class="tengah text-bold">Nama Pekerjaan</td>
-                                                                <td class="tengah text-bold">Nilai</td>
+                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">Judul</td>
+                                                                <td class="tengah text-bold">Pemenang</td>
                                                                 <td class="tengah text-bold">Klasifikasi</td>
-                                                                <td class="tengah text-bold">Monitored</td>
-                                                                <td class="tengah text-bold">Status</td>
+                                                                <td class="tengah text-bold">Tanggal Penentuan Pemenang</td>
+                                                                <td class="tengah text-bold">Nilai Kontrak</td>
+                                                                <td class="tengah text-bold">PIC</td>
+                                                                <td class="tengah text-bold">Monitor</td>
                                                             </tr>
                                                         </thead>
+                                                        <tbody></tbody>
                                                     </table>
                                                 </div>
 
                                             </div>
 
                                         </div>
-                                    </div>
-
-                                    
+                                    </div>  
                                 </div><!-- /.box-body -->
                                 <div class="box-footer text-center">
                                     <!--<a id="A1" class="uppercase">Berikutnya
@@ -329,84 +338,39 @@
                 },
                 //"ajax": 'api/MonitoringSelection/List?search=' + $("#search").val(),
                 "columns": [
-                    { "data": "NamaPekejaan" },
-                    { "data": "Nilai" },
+                    { "data": "NoPengadaan" },
+                    { "data": "Judul" },
+                    { "data": "Pemenang" },
                     { "data": "Klasifikasi" },
-                    { "data": "Monitored" },
-                    { "data": "Status" },
-                    { "data": "Status" },
+                    { "data": "TglPenentuanPemenang" },
+                    { "data": "NilaiKontrak" },
+                    { "data": "PIC" },
+                    { "data": "Monitor" },
                 ],
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            return '<a href="monitoring-proyek-add.html?id-pengadaan='+row.Id+'" id="" class="btn btn-default ">Simpan & Lanjutkan</a>';
+                            return row.TanggalPenentuanPemenang;
                         },
-
+                        "targets": 4,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="monitoring-proyek-add.html?id-pengadaan='+row.Id+'" id="" class="btn btn-success ">Lanjutkan</a>';
+                        },
+                        "targets": 7,
+                        "orderable": false
+                    },
+                    {
+                        "render": function numberWithCommas(d) {
+                            var parts = d.toString().split(".");
+                            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                            return parts.join(".");
+                        },
                         "targets": 5,
                         "orderable": false
                     },
-                        {
-                            "render": function (data, type, row) {
-                                return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                            },
-
-                            "targets": 1,
-                            "orderable": false
-                        },
-                         {
-                             "render": function (data, type, row) {
-                                 var html = '<select id="CBStatusMonitoring" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2 CBStatusMonitoring">';
-                                 if (row.Monitored == 0) {
-                                     html = html + '<option selected value="0">Belum Ditentukan</option>';
-                                     html = html + '<option value="1">No</option>';
-                                     html = html + '<option  value="2">Yes</option>';
-                                     
-                                 }
-                                 else if (row.Monitored == 1) {
-                                     html = html + '<option  value="0">Belum Ditentukan</option>';
-                                     html = html + '<option selected value="1">No</option>';
-                                     html = html + '<option  value="">Yes</option>';
-                                 }
-                                 else {
-
-                                     html = html + '<option  value="0">Belum Ditentukan</option>';
-                                     html = html + '<option  value="1">No</option>';
-                                     html = html + '<option selected value="">Yes</option>';
-                                 }
-                                 html = html + '</select>';
-                                 return html;
-                             },
-                             "targets": 3,
-                             "orderable": false
-                         },
-                         {
-                             "render": function (data, type, row) {
-                                 var html = '<select id="CBStatusSeleksi" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2">';
-                                 if(row.Status == 0)
-                                 {
-                                     html = html + '<option selected value="0">Belum Ditentukan</option>';
-                                     html = html + '<option value="1">Inprogress</option>';
-                                     html = html + '<option value="2">Finished</option>';
-                                 }
-                                 else if(row.Status == 1)
-                                 {
-                                     html = html + '<option value="0">Belum Ditentukan</option>';
-                                     html = html + '<option selected value="1">Inprogress</option>';
-                                     html = html + '<option value="2">Finished</option>';
-                                 }
-                                 else
-                                 {
-                                     html = html + '<option value="0">Belum Ditentukan</option>';
-                                     html = html + '<option  value="1">Inprogree</option>';
-                                     html = html + '<option selected value="2">Finished</option>';
-                                 }
-
-                                 html = html + '</select>';
-                                 return html;
-                             },
-                             "targets": 4,
-                             "orderable": false
-                         },
                 ],
                 "paging": true,
                 "lengthChange": false,
@@ -417,92 +381,92 @@
             });
         });
         
-        var table2;
+        //var table2;
 
-        $(function () {
-            table2 = $('#monitoring-inprogress').DataTable({
-                "serverSide": true,
-                "searching": false,
-                "ajax": {
-                    "url": 'api/MonitoringSelection/List',
-                    "type": 'POST',
-                    "data": function (d) {
-                        d.search = $("#txtcari").val();
-                        d.status = "1";
-                   },
-                    "error": function (jqXHR, textStatus, errorThrown) {
-                       // $('#example1').DataTable().clear().draw();
-                    }
-                },
-                //"ajax": 'api/MonitoringSelection/List?search=' + $("#search").val(),
-                "columns": [
-                    { "data": "NamaPekejaan" },
-                    { "data": "Nilai" },
-                    { "data": "Klasifikasi" },
-                    { "data": "Monitored" },
-                    { "data": "Status" },
-                ],
-                "columnDefs": [
-                         {
-                             "render": function (data, type, row) {
-                                 var html = '<select id="CBStatusMonitoring" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2 CBStatusMonitoring">';
-                                 if (row.Monitored == 0) {
-                                     html = html + '<option selected value="0">Belum Ditentukan</option>';
-                                     html = html + '<option value="1">No</option>';
-                                     html = html + '<option  value="2">Yes</option>';
+        //$(function () {
+        //    table2 = $('#monitoring-inprogress').DataTable({
+        //        "serverSide": true,
+        //        "searching": false,
+        //        "ajax": {
+        //            "url": 'api/MonitoringSelection/List',
+        //            "type": 'POST',
+        //            "data": function (d) {
+        //                d.search = $("#txtcari").val();
+        //                d.status = "1";
+        //           },
+        //            "error": function (jqXHR, textStatus, errorThrown) {
+        //               // $('#example1').DataTable().clear().draw();
+        //            }
+        //        },
+        //        //"ajax": 'api/MonitoringSelection/List?search=' + $("#search").val(),
+        //        "columns": [
+        //            { "data": "NamaPekerjaan" },
+        //            { "data": "Nilai" },
+        //            { "data": "Klasifikasi" },
+        //            { "data": "Monitored" },
+        //            { "data": "Status" },
+        //        ],
+        //        "columnDefs": [
+        //                 {
+        //                     "render": function (data, type, row) {
+        //                         var html = '<select id="CBStatusMonitoring" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2 CBStatusMonitoring">';
+        //                         if (row.Monitored == 0) {
+        //                             html = html + '<option selected value="0">Belum Ditentukan</option>';
+        //                             html = html + '<option value="1">No</option>';
+        //                             html = html + '<option  value="2">Yes</option>';
 
-                                 }
-                                 else if (row.Monitored == 1) {
-                                     html = html + '<option  value="0">Belum Ditentukan</option>';
-                                     html = html + '<option selected value="1">No</option>';
-                                     html = html + '<option  value="">Yes</option>';
-                                 }
-                                 else {
+        //                         }
+        //                         else if (row.Monitored == 1) {
+        //                             html = html + '<option  value="0">Belum Ditentukan</option>';
+        //                             html = html + '<option selected value="1">No</option>';
+        //                             html = html + '<option  value="">Yes</option>';
+        //                         }
+        //                         else {
 
-                                     html = html + '<option  value="0">Belum Ditentukan</option>';
-                                     html = html + '<option  value="1">No</option>';
-                                     html = html + '<option selected value="">Yes</option>';
-                                 }
-                                 html = html + '</select>';
-                                 return html;
-                             },
-                             "targets": 3,
-                             "orderable": false
-                         },
-                         {
-                             "render": function (data, type, row) {
-                                 var html = '<select id="CBStatusSeleksi" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2 CBStatusSeleksi">';
-                                 if (row.Status == 0) {
-                                     html = html + '<option selected value="0">Belum Ditentukan</option>';
-                                     html = html + '<option value="1">Inprogress</option>';
-                                     html = html + '<option value="2">Finished</option>';
-                                 }
-                                 else if (row.Status == 1) {
-                                     html = html + '<option value="0">Belum Ditentukan</option>';
-                                     html = html + '<option selected value="1">Inprogress</option>';
-                                     html = html + '<option value="2">Finished</option>';
-                                 }
-                                 else {
-                                     html = html + '<option value="0">Belum Ditentukan</option>';
-                                     html = html + '<option  value="1">Inprogree</option>';
-                                     html = html + '<option selected value="2">Finished</option>';
-                                 }
+        //                             html = html + '<option  value="0">Belum Ditentukan</option>';
+        //                             html = html + '<option  value="1">No</option>';
+        //                             html = html + '<option selected value="">Yes</option>';
+        //                         }
+        //                         html = html + '</select>';
+        //                         return html;
+        //                     },
+        //                     "targets": 3,
+        //                     "orderable": false
+        //                 },
+        //                 {
+        //                     "render": function (data, type, row) {
+        //                         var html = '<select id="CBStatusSeleksi" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2 CBStatusSeleksi">';
+        //                         if (row.Status == 0) {
+        //                             html = html + '<option selected value="0">Belum Ditentukan</option>';
+        //                             html = html + '<option value="1">Inprogress</option>';
+        //                             html = html + '<option value="2">Finished</option>';
+        //                         }
+        //                         else if (row.Status == 1) {
+        //                             html = html + '<option value="0">Belum Ditentukan</option>';
+        //                             html = html + '<option selected value="1">Inprogress</option>';
+        //                             html = html + '<option value="2">Finished</option>';
+        //                         }
+        //                         else {
+        //                             html = html + '<option value="0">Belum Ditentukan</option>';
+        //                             html = html + '<option  value="1">Inprogree</option>';
+        //                             html = html + '<option selected value="2">Finished</option>';
+        //                         }
 
-                                 html = html + '</select>';
-                                 return html;
-                             },
-                             "targets": 4,
-                             "orderable": false
-                         },
-                ],
-                "paging": true,
-                "lengthChange": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true
-            });
-        });
+        //                         html = html + '</select>';
+        //                         return html;
+        //                     },
+        //                     "targets": 4,
+        //                     "orderable": false
+        //                 },
+        //        ],
+        //        "paging": true,
+        //        "lengthChange": false,
+        //        "ordering": true,
+        //        "info": true,
+        //        "autoWidth": false,
+        //        "responsive": true
+        //    });
+        //});
 
 
         // tabel all
@@ -526,64 +490,13 @@
                 },
                 //"ajax": 'api/MonitoringSelection/List?search=' + $("#search").val(),
                 "columns": [
-                    { "data": "NamaPekejaan" },
+                    { "data": "NamaPekerjaan" },
                     { "data": "Nilai" },
                     { "data": "Klasifikasi" },
                     { "data": "Monitored" },
                     { "data": "Status" },
                 ],
                 "columnDefs": [
-                         {
-                             "render": function (data, type, row) {
-                                 var html = '<select id="CBStatusMonitoring" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2">';
-                                 if (row.Monitored == 0) {
-                                     html = html + '<option selected value="0">Belum Ditentukan</option>';
-                                     html = html + '<option value="1">No</option>';
-                                     html = html + '<option  value="2">Yes</option>';
-
-                                 }
-                                 else if (row.Monitored == 1) {
-                                     html = html + '<option  value="0">Belum Ditentukan</option>';
-                                     html = html + '<option selected value="1">No</option>';
-                                     html = html + '<option  value="">Yes</option>';
-                                 }
-                                 else {
-
-                                     html = html + '<option  value="0">Belum Ditentukan</option>';
-                                     html = html + '<option  value="1">No</option>';
-                                     html = html + '<option selected value="">Yes</option>';
-                                 }
-                                 html = html + '</select>';
-                                 return html;
-                             },
-                             "targets": 3,
-                             "orderable": false
-                         },
-                         {
-                             "render": function (data, type, row) {
-                                 var html = '<select id="CBStatusSeleksi" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2">';
-                                 if (row.Status == 0) {
-                                     html = html + '<option selected value="0">Belum Ditentukan</option>';
-                                     html = html + '<option value="1">Inprogress</option>';
-                                     html = html + '<option value="2">Finished</option>';
-                                 }
-                                 else if (row.Status == 1) {
-                                     html = html + '<option value="0">Belum Ditentukan</option>';
-                                     html = html + '<option selected value="1">Inprogress</option>';
-                                     html = html + '<option value="2">Finished</option>';
-                                 }
-                                 else {
-                                     html = html + '<option value="0">Belum Ditentukan</option>';
-                                     html = html + '<option  value="1">Inprogree</option>';
-                                     html = html + '<option selected value="2">Finished</option>';
-                                 }
-
-                                 html = html + '</select>';
-                                 return html;
-                             },
-                             "targets": 4,
-                             "orderable": false
-                         },
                 ],
                 "paging": true,
                 "lengthChange": false,

@@ -107,7 +107,8 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         [ForeignKey("RencanaProyek")]
         public Guid ProyekId { get; set; }
         public string NamaTahapan { get; set; }
-        public Nullable<DateTime> Tanggal { get; set; }
+        public Nullable<DateTime> TanggalMulai { get; set; }
+        public Nullable<DateTime> TanggalSelesai { get; set; }
         public string JenisTahapan {get; set;}
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
@@ -141,14 +142,14 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [ForeignKey("RencanaProyek")]
-        public Guid ProyekId { get; set; }
+        [ForeignKey("TahapanProyek")]
+        public Guid TahapanId { get; set; }
         public string NamaDokumen { get; set; }
         public string JenisDokumen { get; set; }
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }
         public Nullable<Guid> ModifiedBy { get; set; }
-        public virtual RencanaProyek RencanaProyek { get; set; }
+        public virtual TahapanProyek TahapanProyek { get; set; }
     }
 }
