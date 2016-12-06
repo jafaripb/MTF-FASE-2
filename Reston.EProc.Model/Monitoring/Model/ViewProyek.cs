@@ -24,7 +24,6 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public string NamaTahapan { get; set; }
         public string TanggalTahapan { get; set; }
         public List<ViewDokumen> Dokumen { get; set; }
-
     }
 
     public class ViewDokumen
@@ -46,5 +45,53 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
         public List<ViewProyekPerencanaan> data { get; set; }
+    }
+
+    public class DataTableViewDokumenTahapanPekerjaan
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewListTahapanDokumenPekerjaan> data { get; set; }
+    }
+
+    public class DataTableViewTahapanPekerjaan
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewListTahapan> data { get; set; }
+    }
+
+    public class DataTableViewTahapanPembayaran
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewListTahapan> data { get; set; }
+    }
+
+    public class ViewListTahapanDokumenPekerjaan
+    {
+        public Guid Id { get; set; }
+        public string NamaDokumen { get; set; }
+    }
+
+    public class ViewListTahapan
+    {
+        public Guid Id { get; set; }
+        public string NamaTahapan { get; set; }
+        public DateTime? TanggalMulai { get; set; }
+        public DateTime? TanggalSelesai { get; set; }
+        public string JenisTahapan { get; set; }
+    }
+
+    public class ViewUntukProyekAddPersonil
+    {
+        public Guid PengadaanId { get; set; }
+        public Guid UserId { get; set; }
+        public string Nama { get; set; }
+        public string Jabatan { get; set; }
+        public string tipe { get; set; }
     }
 }
