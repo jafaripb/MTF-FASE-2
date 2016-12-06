@@ -10,6 +10,7 @@ using System.Configuration;
 using Reston.Pinata.Model.JimbisModel;
 using Reston.Pinata.Model.Helper;
 using System.Net;
+using Reston.Eproc.Model.Monitoring.Model;
 
 namespace Reston.Pinata.Model.PengadaanRepository
 {
@@ -924,11 +925,12 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public VWCountListDokumen ListCount()
         {
             return new VWCountListDokumen() {
-                PengadaanDiSetujui = ctx.Pengadaans.Where(d => d.Status >= EStatusPengadaan.DISETUJUI && d.Status != EStatusPengadaan.ARSIP && d.Status != EStatusPengadaan.DITOLAK && d.Status!=EStatusPengadaan.DIBATALKAN).Count(),
+                PengadaanDiSetujui = ctx.Pengadaans.Where(d => d.Status >= EStatusPengadaan.DISETUJUI && d.Status != EStatusPengadaan.ARSIP && d.Status != EStatusPengadaan.DITOLAK && d.Status != EStatusPengadaan.DIBATALKAN).Count(),
                 PengadaanDiTolak = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.DITOLAK).Count(),
                 PengadaanButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN).Count(),
-                PemenangButuhPerSetujuan = ctx.Pengadaans.Where(d =>  d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() == 0).Count(),
-                PemenangDiSetujui = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0).Count()
+                PemenangButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() == 0).Count(),
+                PemenangDiSetujui = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0).Count(),
+                //MonitorSelection = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0).Count() && d.MonitoringPekerjaans.Where(x => x.StatusMonitoring != StatusMonitored.TIDAK).Count() == 0) && d.MonitoringPekerjaans.Where(x => x.StatusSeleksi == StatusSeleksi.BELUMDITENTUKAN).Count() > 0).Count()
             };
         }
 

@@ -245,8 +245,8 @@
                         "render": function (data, type, row) {
                             var html = ''
                             var detailHtml = "";
-                            if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = ' <a href="pengadaan-detail.html#' + data.Id + '" class="product-title text-blue-mtf btn btn-success btn-sm btn-flat">Detail</a>';
-                            else detailHtml = ' <a href="pengadaan-terbuka-detail.html#' + data.Id + '" class="btn btn-success btn-flat btn-sm product-title text-blue-mtf">Detail</a>';
+                            if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = ' <a href="pengadaan-detail.html#' + data.Id + '" class="product-title btn btn-success btn-sm btn-flat">Detail</a>';
+                            else detailHtml = ' <a href="pengadaan-terbuka-detail.html#' + data.Id + '" class="btn btn-success btn-flat btn-sm product-title">Detail</a>';
                             html += detailHtml;
                             return html;
                         },
