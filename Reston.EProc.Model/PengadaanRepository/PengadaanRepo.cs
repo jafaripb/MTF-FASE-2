@@ -1368,6 +1368,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                             jumlah = b.jumlah,
                                                             RKSHeaderId = b.RKSHeaderId,
                                                             satuan = b.satuan,
+                                                            level = b.level,
+                                                            grup = b.grup,
+                                                            judul=b.judul,
                                                             hargaEncript = ctx.HargaRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? "" : ctx.HargaRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().hargaEncrypt,
                                                             HargaRekananId = ctx.HargaRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? Guid.Empty : ctx.HargaRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().Id,
                                                             harga = ctx.HargaRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? 0 : ctx.HargaRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().harga,
@@ -1404,6 +1407,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                             jumlah = b.jumlah,
                                                             RKSHeaderId = b.RKSHeaderId,
                                                             satuan = b.satuan,
+                                                            level=b.level,
+                                                            grup=b.grup,
+                                                            judul = b.judul,
                                                             HargaRekananId = ctx.HargaKlarifikasiRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? Guid.Empty : ctx.HargaKlarifikasiRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().Id,
                                                             harga = ctx.HargaKlarifikasiRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? 0 : ctx.HargaKlarifikasiRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().harga,
                                                             keterangan = ctx.HargaKlarifikasiRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? "" : ctx.HargaKlarifikasiRekanans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().keterangan
@@ -3066,7 +3072,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                             harga = b.hps,
                                             item = b.item,
                                             jumlah = b.jumlah,
-                                            satuan = b.satuan
+                                            satuan = b.satuan,
+                                            level=b.level,
+                                            grup=b.grup
                                         }).ToList();
             newVWRKSVendors.hps = hps;
             decimal? totalHps = hps.Sum(d => d.harga * d.jumlah);
@@ -3131,7 +3139,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                             item = b.item,
                                             keteranganItem = b.keterangan,
                                             jumlah = b.jumlah,
-                                            satuan = b.satuan
+                                            satuan = b.satuan,
+                                            level=b.level,
+                                            grup=b.grup
                                         }).ToList();
             newVWRKSVendors.hps = hps;
             decimal? totalHps = hps.Sum(d => d.harga * d.jumlah);
@@ -3198,7 +3208,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                             harga = b.hps,
                                             item = b.item,
                                             jumlah = b.jumlah,
-                                            satuan = b.satuan
+                                            satuan = b.satuan,
+                                            grup=b.grup,
+                                            level=b.level,
+                                            judul=b.judul
                                         }).ToList();
             newVWRKSVendors.hps = hps;
             decimal? totalHps = hps.Sum(d => d.harga * d.jumlah);
@@ -3262,7 +3275,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                             harga = b.hps,
                                             item = b.item,
                                             jumlah = b.jumlah,
-                                            satuan = b.satuan
+                                            satuan = b.satuan,
+                                            level=b.level,
+                                            grup=b.grup,
+                                            judul=b.judul
                                         }).ToList();
             newVWRKSVendors.hps = hps;
             decimal? totalHps = hps.Sum(d => d.harga * d.jumlah);
@@ -3359,7 +3375,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                             harga = b.hps,
                                             item = b.item,
                                             jumlah = b.jumlah,
-                                            satuan = b.satuan
+                                            satuan = b.satuan,
+                                            level=b.level,
+                                            grup=b.grup
                                         }).ToList();
             newVWRKSVendors.hps = hps;
             decimal? totalHps = hps.Sum(d => d.harga * d.jumlah);
@@ -3436,7 +3454,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                             harga = b.hps,
                                             item = b.item,
                                             jumlah = b.jumlah,
-                                            satuan = b.satuan
+                                            satuan = b.satuan,
+                                            level=b.level,
+                                            grup=b.grup
                                         }).ToList();
             newVWRKSVendors.hps = hps;
             decimal? totalHps = hps.Sum(d => d.harga * d.jumlah);

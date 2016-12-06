@@ -166,6 +166,7 @@ function generateTable(pengadaanId) {
             //header table
             var str_row = "<thead style='background-color:#11C2D7'><tr>" +
                 '<th width="2%"></th>' +
+                '<th>Nama</th>' +
                 '<th>Item</th>' +
                 '<th>Satuan</th>' +
                 '<th>Jumlah</th>' +
@@ -178,8 +179,11 @@ function generateTable(pengadaanId) {
             //content table
             for (var i in data.hps) {//accounting.formatNumber(totalHarga, { thousand: "." })
                 str_row += "<tr>" +
-                    '<td>' + '<button data-idx="' + i + '" onclick="sortCol(this,' + i + ')" class="btn btn-xs btn-warning"><span class="fa fa-sort s-sort-symbol"></span></button>' + '</td>' +
-                    '<td>' + data.hps[i].item + '</td>';
+                    '<td>' + '<button data-idx="' + i + '" onclick="sortCol(this,' + i + ')" class="btn btn-xs btn-warning"><span class="fa fa-sort s-sort-symbol"></span></button>' + '</td>';
+                if (data.hps[i].level == 0)
+                    str_row += '<td>' + data.hps[i].judul + '</td>';
+                else str_row += '<td></td>';
+                str_row += '<td>' + data.hps[i].item + '</td>';
                 if (data.hps[i].harga > 0) {
                     if (data.hps[i].satuan !=null) str_row += '<td>' + data.hps[i].satuan + '</td>';
                     else str_row += '<td></td>';
@@ -238,7 +242,7 @@ function smallestValueInRowTable(table) {
         //var newD = d.splice(5, 5);
         var arr = [];
         $.each(d, function (index, val) {
-            if (index > 4) {
+            if (index > 5) {
                 arr.push(val);
             }
         });

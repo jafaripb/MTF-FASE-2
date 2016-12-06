@@ -36,8 +36,11 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<Guid> ItemId { get; set; }
         public Nullable<Guid> HargaRekananId { get; set; }
         public string item { get; set; }
+        public string judul { get; set; }
         public string keteranganItem { get; set; }
         public string satuan { get; set; }
+        public Nullable<int> level { get; set; }
+        public Nullable<int> grup { get; set; }
         public Nullable<decimal> harga { get; set; }
         public string hargaEncript { get; set; }
         public string keterangan { get; set; }
@@ -82,6 +85,9 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public string item { get; set; }
         public string keteranganItem { get; set; }
         public string satuan { get; set; }
+        public string judul { get; set; }
+        public int? level { get; set; }
+        public int? grup { get; set; }
         public Nullable<decimal> harga { get; set; }
         public Nullable<decimal> jumlah { get; set; }
     }
