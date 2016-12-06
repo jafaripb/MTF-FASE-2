@@ -76,14 +76,11 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Tambah Rencana Proyek</a></li>
+                            <li>	<a id="judul-page" href="#">Detail Rencana Pekerjaan</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
-                            <!--<li><a  id="A1" title="Simpan Ajukan" href="#" class="Setujui" style="display:none" ><i class="fa fa-fw " style="font-size:20px;"></i>Setujui</a></li>
-                            <li><a  id="A2" title="Simpan Ajukan" href="#" class="Tolak" style="display:none" ><i class="fa fa-fw " style="font-size:20px;"></i>Tolak</a></li>-->
-
                             <li><a id="SimpanJalankan" title="Simpan Jalankan" href="#" class="SimpanJalankan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan & Jalankan</a></li>
                             <li><a id="Simpan" title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
 
@@ -132,6 +129,7 @@
                     <div class="col-md-10">
                         <div class="box box-primary box-white">
                             <form id="form-rencana-proyek" role="form" class="jp-form">
+                                <input type="hidden" id="isPIC" />
                                 <input type="hidden" id="pengadaanId" />
                                 <input type="hidden" id="isTeam" />
                                 <input type="hidden" id="isCreated" />
@@ -153,19 +151,29 @@
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label class="title">Judul:</label>
-                                            <input type="text" class="form-control" name="Judul" disabled>
+                                            <input type="text" class="form-control" id="judul" disabled>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label class="title">No. Pengadaan:</label>
-                                            <input type="text" class="form-control" name="no-pengadaan" disabled>
+                                            <input type="text" class="form-control" id="no-pengadaan" disabled>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-4">
-                                            <label class="title">Pelaksana:</label>
-                                            <input type="text" class="form-control" name="pelaksana" disabled>
+                                            <label class="title">Vendor Pemenang:</label>
+                                            <input type="text" class="form-control" id="pelaksana" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label class="title">No. Kontrak:</label>
+                                            <input type="text" class="form-control" id="no-kontrak">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="title">Nilai Kontrak:</label>
+                                            <input type="text" class="form-control" id="nilai-kontrak" disabled>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -179,11 +187,11 @@
                                         <input type="hidden" class="jadwal" attr1="pendaftaran" attr2="" attr3="" />
                                         <div class="form-group col-md-4">
                                             <label class="title">Tanggal Mulai :</label>
-                                            <input id="pendaftaran" nextJadwal="#pendaftaran_sampai" name="pendaftaran" attr1="dari" type="text" class="pendaftaran form-control input-group datepicker dateJadwal">
+                                            <input id="pendaftaran" type="text" class="form-control input-group datepicker dateJadwal">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="title">Tanggal Selesai :</label>
-                                            <input id="pendaftaran_sampai" disabled="disabled" nextJadwal="#aanwijzing" beforeJadwal="#pendaftaran" type="text" name="pendaftaran" attr1="sampai" class="pendaftaran form-control input-group datepicker dateJadwal">
+                                            <input id="pendaftaran_sampai" type="text" class="form-control input-group datepicker dateJadwal">
                                         </div>
                                     </div>
                                     <div class="row" id="">
@@ -235,7 +243,8 @@
                                                 <thead>
                                                     <tr>
                                                         <td class="tengah text-bold">Nama Tahapan</td>
-                                                        <td class="tengah text-bold">Tanggal</td>
+                                                        <td class="tengah text-bold">Tanggal Mulai</td>
+                                                        <td class="tengah text-bold">Tanggal Selesai</td>
                                                         <td class="tengah text-bold">Action</td>
                                                     </tr>
                                                 </thead>
@@ -268,7 +277,6 @@
                                         <button class="pull-middle btn btn-primary btn-lmedia SimpanAjukan" style="display:none">Simpan & Ajukan <i class="fa fa-save"></i></button>
                                         <button class="pull-middle btn btn-primary btn-lmedia Simpan" style="display:none">Simpan <i class="fa fa-save"></i></button>
                                         <button class="pull-middle btn btn-primary btn-lmedia Hapus" style="display:none">Hapus <i class="fa fa-trash"></i></button>
-
                                     </div>
                             </form>
                         </div>
@@ -335,31 +343,30 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-8">
                                 <label class="title">Nama Dokumen Pekerjaan</label>
-                                <input type="text" class="form-control" name="nama-dokumen" id="nama-dokumen">
+                                <input type="text" class="form-control" id="nama-dokumen">
                                 <input type="hidden" id="id_tahapModalPekerjaan" />
-                                <input type="hidden" id="jenis-tahapanModalPekerjaan" value="pekerjaan" />
+                                <input type="hidden" id="jenis-tahapanModalPekerjaan" value="Pekerjaan" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="simpanhps" class="btn btn-default " onclick="TambahDokumenPekerjaan()">Simpan</button>
-                    <button type="button" class="btn btn-default " data-dismiss="modal">Batal</button>
+                    <button type="button" id="simpan" class="btn btn-primary " onclick="TambahDokumenPekerjaan()">Simpan</button>
+                    <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-bordered" id="dokumen-pekerjaan">
+                            <table class="table table-bordered" id="list-dokumen-pekerjaan">
                                 <thead>
                                     <tr>
-                                        <td class="tengah text-bold">Nama Dokumen</td>
+                                        <td class="tengah text-bold">Nama Dokumen Pekerjaan</td>
                                         <td class="tengah text-bold">Action</td>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
@@ -380,23 +387,40 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-8">
                                 <label class="title">Nama Dokumen Pembayaran</label>
-                                <input type="text" class="form-control" name="nama-dokumen-pembayaran" id="nama-dokumen-pembayaran">
+                                <input type="text" class="form-control" id="nama-dokumen-pembayaran">
                                 <input type="hidden" id="id_tahapModalPembayaran" />
-                                <input type="hidden" id="jenis-tahapanModalPembayaran" value="pembayaran" />
+                                <input type="hidden" id="jenis-tahapanModalPembayaran" value="Pembayaran" />
                             </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" id="simpan" class="btn btn-primary " onclick="TambahDokumenPembayaran()">Simpan</button>
+                        <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" id="simpanhps" class="btn btn-default " onclick="TambahDokumenPembayaran()">Simpan</button>
-                    <button type="button" class="btn btn-default " data-dismiss="modal">Batal</button>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" id="list-dokumen-pembayaran">
+                                <thead>
+                                    <tr>
+                                        <td class="tengah text-bold">Nama Dokumen Pembayaran</td>
+                                        <td class="tengah text-bold">Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <!-- ----------------------------------------------------------------------------------------------------------------- -->
+    <!--sdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadsadsad-->
+    <!--sdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadsadsad-->
+    <!-- Modal -->
     <div class="modal" id="tahapanup" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -416,25 +440,13 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-group col-md-6">
-                                    <label class="title">Tanggal Mulai Tahapan Pekerjaan</label>
-                                    <input id="tanggal-tahapan-pekerjaan" nextjadwal="#tanggal-tahapan-pekerjaan-sampai" name="tanggal-tahapan-pekerjaan" type="text" class="tanggal-tahapan form-control datepicker input-group dateJadwal">
+                                <div class="form-group col-md-5">
+                                    <label class="title">Tanggal Pekerjaan Mulai</label>
+                                    <input id="tanggal-pekerjaan-mulai" type="text" class="tanggal-tahapan form-control datepicker input-group dateJadwal">
                                 </div>
-                            </div>
-                        </div>
-                        <!--<div class="form-group col-md-4">
-                            <label class="title">Tanggal Mulai Tahapan Pekerjaan :</label>
-                            <input id="tanggal-tahapan-pekerjaan" nextjadwal="#tanggal-tahapan-pekerjaan-sampai" name="pendaftaran" attr1="dari" type="text" class="pekerjaan form-control input-group datepicker dateJadwal">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label class="title">Tanggal Selesai :</label>
-                            <input id="pendaftaran_sampai" disabled="disabled" nextjadwal="#aanwijzing" beforejadwal="#pendaftaran" type="text" name="pendaftaran" attr1="sampai" class="pendaftaran form-control input-group datepicker dateJadwal">
-                        </div>-->
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group col-md-6">
-                                    <label class="title">Tanggal Selesai Tahapan Pekerjaan</label>
-                                    <input id="tanggal-tahapan-pekerjaan-sampai" disabled="disabled" beforejadwal="#tanggal-tahapan-pekerjaan" type="text" class="tanggal-tahapan form-control datepicker input-group dateJadwal">
+                                <div class="form-group col-md-5">
+                                    <label class="title">Tanggal Pekerjaan Sampai</label>
+                                    <input id="tanggal-pekerjaan-selesai" type="text" class="tanggal-tahapan form-control datepicker input-group dateJadwal">
                                 </div>
                             </div>
                         </div>
@@ -469,9 +481,13 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-group col-md-6">
-                                    <label class="title">Tanggal Tahapan Pembayaran</label>
-                                    <input id="tanggal-tahapan-pembayaran" type="text" class="tanggal-tahapan form-control input-group datepicker dateJadwal">
+                                <div class="form-group col-md-5">
+                                    <label class="title">Tanggal Pembayaran Mulai</label>
+                                    <input id="tanggal-pembayaran-mulai" type="text" class="tanggal-tahapan form-control datepicker input-group dateJadwal">
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label class="title">Tanggal Pembayaran Sampai</label>
+                                    <input id="tanggal-pembayaran-selesai" type="text" class="tanggal-tahapan form-control datepicker input-group dateJadwal">
                                 </div>
                             </div>
                         </div>
@@ -599,6 +615,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    <!--Delete Modal Pekerjaan-->
     <div id="DeleteModalPekerjaan" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <input type="hidden" id="row_index" />
@@ -623,6 +640,7 @@
         </div>
     </div>
 
+    <!--Delete Modal Pembayaran-->
     <div id="DeleteModalPembayaran" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <input type="hidden" id="row_index" />
@@ -641,6 +659,54 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" value="Hapus" onclick="DeletePembayaran()" class="btn btn-default">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Delete Modal Dokumen Pekerjaan-->
+    <div id="DeleteModalDokumenPekerjaan" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="tobeDeleteDokumenPekerjaan" />
+                    <h4 class="modal-title">Konfirmasi penghapusan</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Anda akan menghapus data ini?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Hapus" onclick="DeleteDokumenPekerjaan()" class="btn btn-default">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Delete Modal Dokumen Pembayaran-->
+    <div id="DeleteModalDokumenPembayaran" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="tobeDeleteDokumenPembayaran" />
+                    <h4 class="modal-title">Konfirmasi penghapusan</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Anda akan menghapus data ini?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Hapus" onclick="DeleteDokumenPembayaran()" class="btn btn-default">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
                 </div>
             </div>
@@ -682,840 +748,6 @@
     <script src="plugins/angular/angular.min.js"></script>
     <script src="blockui/jquery.blockUI.js"></script>
     <script src="dist/js/menu.js"></script>
-    <script>
-        var table;
-        var table_pekerjaan;
-        var table_pembayaran;
-
-        var table_dokumen_pekerjaan;
-
-        function TampilDokumenPekerjaan()
-        {
-
-            //var idd_tahapan = id_tahapModalPekerjaan.val();
-            var idd_tahapan = $('#id_tahapModalPekerjaan').val();
-            console.log(idd_tahapan);
-            table_dokumen_pekerjaan = $('#dokumen-pekerjaan').DataTable({
-                "serverSide": true,
-                "searching": false,
-                "ajax": {
-                    "url": 'api/Proyek/TampilDokumenPekerjaan?Id=' + idd_tahapan,
-                    "type": 'POST',
-                    "data": function (d) {
-                        Id = d.Id;
-                    },
-                    "error": function (jqXHR, textStatus, errorThrown) {
-                    }
-                },
-                "columns": [
-
-                    { "data": "NamaDokumen" },
-                    { "data": "null" },
-                ],
-                "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            return ' <a tahapId="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                        },
-                        "targets": 1,
-                        "orderable": false
-                    },
-                ],
-                "paging": true,
-                "lengthChange": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-                "destroy": true,
-                "iDisplayLength": 3
-            })
-        }
-
-        $(function () {
-            var PengadaanID = gup("id-pengadaan");
-            $("#pengadaanId").val(PengadaanID);
-            table_pekerjaan = $('#tahapan-pekerjaan').DataTable({
-                "serverSide": true,
-                "searching": false,
-                "ajax": {
-                    "url": 'api/Proyek/TampilTahapanPekerjaan?Id=' + PengadaanID,
-                    "type": 'POST',
-                    "data": function (d) {
-                        Id = d.Id;
-                        <a href="menu.html">menu.html</a>
-                    },
-                    "error": function (jqXHR, textStatus, errorThrown) {
-                    }
-                },
-                "columns": [
-                    
-                    { "data": "NamaTahapan" },
-                    { "data": "TanggalMulai" },
-                    { "data": "TanggalSelesai" },
-                    { "data": "null" },
-                ],
-                "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            return ' <a  tahapId="' + row.Id + '"  class="btn btn-xs btn-info tambah-dokumen" title="Upload Dokumen Pekerjaan"><span class="fa fa-cloud-upload"></span> Dokumen </a> ' +
-                            ' <a tahapId="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                        },
-                        "targets": 3,
-                        "orderable": false
-                    },
-                ],
-                "paging": true,
-                "lengthChange": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true
-            });
-        });
-
-        $(function () {
-            var PengadaanID = gup("id-pengadaan");
-            $("#pengadaanId").val(PengadaanID);
-            table_pembayaran = $('#tahapan-pembayaran').DataTable({
-                "serverSide": true,
-                "searching": false,
-                "ajax": {
-                    "url": 'api/Proyek/TampilTahapanPembayaran?Id=' + PengadaanID,
-                    "type": 'POST',
-                    "data": function (d) {
-                        Id = d.Id;
-                    },
-                    "error": function (jqXHR, textStatus, errorThrown) {
-                    }
-                },
-                "columns": [
-                    { "data": "NamaTahapan" },
-                    { "data": "Tanggal" },
-                    { "data": "null" },
-                ],
-                "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            return ' <a onclick="TambahProyekDrafDokumenPembayaran()" tahapId="' + row.Id + '" class="btn btn-xs btn-info tambah-dokumen-pembayaran" title="Upload Dokumen Pembayaran"><span class="fa fa-cloud-upload"></span> Dokumen </a> ' +
-                            '<a tahapId="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                        },
-                        "targets": 2,
-                        "orderable": false
-                    },
-                ],
-                "paging": true,
-                "lengthChange": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true
-            });
-        });
-
-        //Tambah Dokumen Tahapan
-        // Nangkep Action + tambah atribut
-        $("#tahapan-pekerjaan").on("click", ".tambah-dokumen", function () {
-            TampilModalDokumen($(this).attr("tahapId"));
-            //alert($(this).attr("tahapId"))
-        });
-
-        //Tambah Dokumen Tahapan
-        // Nangkep Action + tambah atribut
-        $("#tahapan-pembayaran").on("click", ".tambah-dokumen-pembayaran", function () {
-            TampilModalDokumenPembayaran($(this).attr("tahapId"));
-            //alert($(this).attr("tahapId"))
-        });
-
-        // Hapus Tahapan Pekerjaan
-        $("#tahapan-pekerjaan").on("click", ".remove-item", function () {
-            showDeleteConfirmationPekerjaan($(this).attr("tahapId"));
-        });
-
-        // Hapus Tahapan Pekerjaan
-        $("#tahapan-pembayaran").on("click", ".remove-item", function () {
-            showDeleteConfirmationPembayaran($(this).attr("tahapId"));
-        });
-
-
-        // pop up tahapan pekerjaan
-        function popuptahapan() {
-            $("#tahapanup").modal("show");
-        }
-
-        // pop up tahapan pembayaran
-        function popuptahapanpembayaran() {
-            $("#tahapanuppem").modal("show");
-        }
-
-        // pop up modal dokumen pekerjaan
-        function TampilModalDokumen(id_tahapan) {
-            $("#id_tahapModalPekerjaan").val(id_tahapan);
-            $("#dokumenupPekerjaan").modal('show');
-            TampilDokumenPekerjaan();
-            //alert(id_tahapan);
-        }
-
-        // pop up modal dokumen pembayaran
-        function TampilModalDokumenPembayaran(id_tahapan) {
-            $("#id_tahapModalPembayaran").val(id_tahapan);
-            $("#dokumenupPembayaran").modal('show');
-            //alert(id_tahapan);
-        }
-
-        function showDeleteConfirmationPekerjaan(idd) {
-            $("#tobeDeletePekerjaan").val(idd);
-            $("#DeleteModalPekerjaan").modal('show');
-        }
-
-        function showDeleteConfirmationPembayaran(idd) {
-            $("#tobeDeletePembayaran").val(idd);
-            $("#DeleteModalPembayaran").modal('show');
-        }
-
-        // fungsi tambah dokumen tahapan pembayaran
-
-        function TambahDokumenPembayaran(id_tahapan) {
-
-            var id_tahapan = 0;
-
-            Id_Tahapan = $("#id_tahapModalPembayaran").val();
-            Jenis_Dokumen = $("#jenis-tahapanModalPembayaran").val();
-            Nama_Dokumen = $("#nama-dokumen-pembayaran").val();
-
-            alert(Id_Tahapan + "||" + Jenis_Dokumen + "||" + Nama_Dokumen);
-
-            //$.ajax({
-            //    method: "post",
-            //    url: "api/Proyek/SimpanTahapanPembayaranDokumen",
-            //    datatype: "json",
-            //    data: {
-            //        aId_Tahapan: Id_Tahapan,
-            //        aJenis_Tahapan: Jenis_Dokumen,
-            //        aNama_Dokumen: Nama_Dokumen
-            //    },
-            //    success: function (d) {
-            //        table.draw();
-            //        $("#dokumenupPembayaran").modal("hide");
-            //        Nama_Dokumen = $("#nama-dokumen-pembayaran").val("");
-            //        BootstrapDialog.show({
-            //            title: 'Konfirmasi',
-            //            message: 'Data Berhasil di Simpan',
-            //            buttons: [{
-            //                label: 'Close',
-            //                action: function (dialog) {
-            //                    dialog.close();
-            //                }
-            //            }]
-            //        });
-            //        table_pekerjaan.draw();
-            //    }
-            //})
-
-
-        }
-        
-        // fungsi tambah dokumen tahapan pekerjaan
-
-        function TambahDokumenPekerjaan(id_tahapan) {
-            //$("#DeleteModalPekerjaan").modal('hide');
-            var id_tahapan = 0;
-
-            Id_Tahapan = $("#id_tahapModalPekerjaan").val();
-            Jenis_Dokumen = $("#jenis-tahapanModalPekerjaan").val();
-            Nama_Dokumen = $("#nama-dokumen").val();
-
-            //alert(Id_Tahapan + "||" + Jenis_Dokumen + "||" + Nama_Dokumen);
-
-            $.ajax({
-                method: "post",
-                url: "api/Proyek/SimpanTahapanPekerjaanDokumen",
-                datatype: "json",
-                data: {
-                    aId_Tahapan: Id_Tahapan,
-                    aJenis_Tahapan: Jenis_Dokumen,
-                    aNama_Dokumen: Nama_Dokumen
-                },
-                success: function (d) {
-                    table_dokumen_pekerjaan.draw();
-                    Nama_Dokumen = $("#nama-dokumen").val("");
-                }
-            })
-        }
-
-        
-        // fungsi hapus tahapan
-        function DeletePekerjaan(idd) {
-            $("#DeleteModalPekerjaan").modal('hide');
-            var v = 0;
-            if (!idd) {
-                v = $("#tobeDeletePekerjaan").val();
-            }
-            else v = idd
-            $.ajax({
-                url: "/api/Proyek/delete?id=" + v,
-                success: function (data) {
-                    table_pekerjaan.draw();
-                },
-                complete: function (xhr, textStatus) {
-                    //console.log(xhr.status);
-                    ajaxCompleteProcess(xhr);
-                }
-            });
-        }
-
-        function DeletePembayaran(idd) {
-            $("#DeleteModalPembayaran").modal('hide');
-            var v = 0;
-            if (!idd) {
-                v = $("#tobeDeletePembayaran").val();
-            }
-            else v = idd
-            $.ajax({
-                url: "/api/Proyek/delete?id=" + v,
-                success: function (data) {
-                    table_pembayaran.draw();
-                },
-                complete: function (xhr, textStatus) {
-                    //console.log(xhr.status);
-                    ajaxCompleteProcess(xhr);
-                }
-            });
-        }
-
-        $(function () {
-            $("[name=HpsId]").number(true, 0, ",", ".");
-            $("#myNav").affix({
-                offset: {
-                    top: 100
-                }
-            });
-            $(".tab-content").show();
-            //  $().UItoTop({ easingType: 'easeOutQuart' });
-            table = $('#example1').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true,
-                "columnDefs": [
-                  { className: "rata_kanan", "targets": [2] },
-                  { "width": "50%", "targets": 0 },
-                  { "width": "50%", "targets": 1 },
-                ]
-            });
-            $("#addVendorItem").on("click", function () {
-                $("#title-modal").html("Daftar Vendor");
-                $("#myModal").modal("show");
-            });
-            $('#addVendorItem').click(function () {
-                $('.iframe').attr('src', '');
-                $('#myModal').on('shown.bs.modal', function () {      //correct here use 'shown.bs.modal' event which comes in bootstrap3
-                    $(this).find('iframe').attr('src', 'popup-vendor-list.html');
-                    $(this).find('.modal-body').css({
-                        height: '500px',
-                        'max-height': '100%'
-                    });
-                    $(this).find('.modal-content').css({
-                        // width:'700px'
-                    });
-                });
-                $('#myModal').modal({ show: true });
-            });
-
-            $(".addPerson").on("click", function () {
-                $("#title-modal").html("Daftar Personil")
-                $("#tipe-person-list").val($(this).attr("attr1"));
-                $("#personilModal").modal("show");
-                $(".item-bg-blue-light").each(function () {
-                    $(this).removeClass("item-bg-blue-light");
-                });
-            });
-
-            $("body").on("keypress", ".vendor-komen", function (e) {
-                console.log("fun");
-                if (e.which == 13) {
-                    console.log("enter");
-                    $(this).parent().text($(this).val());
-                }
-            });
-
-            $("#side-kanan").on("click", "li", function () {
-                $("#side-kanan").find("li").each(function () {
-                    $(this).removeClass("active");
-                });
-                $(this).addClass("active");
-            });
-        });
-
-        // Tambah Tahapan Pekerjaan
-        function TambahTahapanPekerjaan() {
-            var nPengadaanId = $("#pengadaanId").val();
-
-            var nNamaTahapanPekerjaan = $("#nama-tahapan-pekerjaan").val();
-
-            var nTanggalMulaiPekerjaan = moment($("#tanggal-tahapan-pekerjaan").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-            var nTanggalSelesaiPekerjaan = moment($("#tanggal-tahapan-pekerjaan-sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-
-            //var nTanggalPekerjaan = $("#tanggal-tahapan-pekerjaan").val();
-            var nJenisTahapan = 'Pekerjaan';
-
-            $.ajax({
-                method: "post",
-                url: "api/Proyek/SimpanTahapanPekerjaan",
-                datatype: "json",
-                data: {
-                    aPengdaanId: nPengadaanId,
-                    aNamaTahapanPekerjaan: nNamaTahapanPekerjaan,
-                    aTanggalMulaiPekerjaan: nTanggalMulaiPekerjaan,
-                    aTanggalSelesaiPekerjaan: nTanggalSelesaiPekerjaan,
-                    aJenisTahapan: nJenisTahapan
-                },
-                success: function (d) {
-                    table.draw();
-                    $("#tahapanup").modal("hide");
-                    $("#nama-tahapan-pekerjaan").val("");
-                    $("#tanggal-tahapan-pekerjaan").val("");
-                    $("#tanggal-tahapan-pekerjaan-sampai").val("");
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: 'Data Berhasil di Simpan',
-                        buttons: [{
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
-                            }
-                        }]
-                    });
-                    table_pekerjaan.draw();
-                }
-            })
-        }
-
-        // Tambah Tahapan Pembayaran
-        function TambahTahapanPembayaran() {
-            var nPengadaanId = $("#pengadaanId").val();
-
-            var nNamaTahapanPembayaran = $("#nama-tahapan-pembayaran").val();
-
-            var nTanggalPembayaran = moment($("#tanggal-tahapan-pembayaran").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-            //var nTanggalPekerjaan = $("#tanggal-tahapan-pekerjaan").val();
-            var nJenisTahapan = 'Pembayaran';
-
-            $.ajax({
-                method: "post",
-                url: "api/Proyek/SimpanTahapanPekerjaan",
-                datatype: "json",
-                data: {
-                    aPengdaanId: nPengadaanId,
-                    aNamaTahapanPekerjaan: nNamaTahapanPembayaran,
-                    aTanggalPekerjaan: nTanggalPembayaran,
-                    aJenisTahapan: nJenisTahapan
-                },
-                success: function (d) {
-                    $("#tahapanuppem").modal("hide");
-                    $("#nama-tahapan-pembayaran").val("");
-                    $("#tanggal-tahapan-pembayaran").val("");
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: 'Data Berhasil di Simpan',
-                        buttons: [{
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
-                            }
-                        }]
-                    });
-                    table_pembayaran.draw();
-                }
-            })
-        }
-
-        // Tambah Draf Perencanaan Proyek Pekerjaan(statusnya = draft)
-        function TambahProyekDrafPekerjaan() {
-            var nPengadaanId = $("#pengadaanId").val();
-            //var nStartDate = $("#pendaftaran").val();
-            var nStartDate = moment($("#pendaftaran").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-            //var nEnddate = $("#pendaftaran_sampai").val();
-            var nEnddate = moment($("#pendaftaran_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-            var nStatus = $("#status").val();
-
-            $.ajax({
-                method: "post",
-                url: "api/Proyek/SimpanRencanaProyek",
-                datatype: "json",
-                data: {
-                    aPengadaanId: nPengadaanId,
-                    aStartDate: nStartDate,
-                    aEndDate: nEnddate,
-                    aStatus: nStatus
-                },
-                success: function (d) {
-                    popuptahapan();
-                }
-            })
-        }
-
-
-        // Tambah Draf Perencanaan Proyek Pembayaran(statusnya = draft)
-        function TambahProyekDrafPembayaran() {
-            var nPengadaanId = $("#pengadaanId").val();
-            //var nStartDate = $("#pendaftaran").val();
-            var nStartDate = moment($("#pendaftaran").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-            //var nEnddate = $("#pendaftaran_sampai").val();
-            var nEnddate = moment($("#pendaftaran_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-            var nStatus = $("#status").val();
-
-            $.ajax({
-                method: "post",
-                url: "api/Proyek/SimpanRencanaProyek",
-                datatype: "json",
-                data: {
-                    aPengadaanId: nPengadaanId,
-                    aStartDate: nStartDate,
-                    aEndDate: nEnddate,
-                    aStatus: nStatus
-                },
-                success: function (d) {
-
-                    popuptahapanpembayaran();
-                }
-
-            })
-        }
-
-
-        // JS untuk pop Up di dalam pop up
-        $(document).on('show.bs.modal', '.modal', function (event) {
-            var zIndex = 1040 + (10 * $('.modal:visible').length);
-            $(this).css('z-index', zIndex);
-            setTimeout(function () {
-                $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
-            }, 0);
-        });
-
-        // JS untuk ambil id pengadaan
-        $(function () {
-            var PengadaanID = gup("id-pengadaan");
-            $("#pengadaanId").val(PengadaanID);
-
-            $.ajax({
-                method: "post",
-                url: "api/Proyek/TampilJudul?Id=" + PengadaanID,
-                success: function (d) {
-                    console.log(d);
-                    $("[name=Judul]").val(d.Judul);
-                    $("[name=no-pengadaan]").val(d.NoPengadaan);
-                    $("[name=pelaksana]").val(d.Pelaksana);
-                    $("[name=pendaftaran]").val(d.TanggalMulai);
-                    $("[name=pendaftaran_sampai]").val(d.TanggalSelesai);
-                }
-            })
-        })
-
-        function loadData(PengadaanID) {
-            $.ajax({
-                method: "POST",
-                url: "Api/PengadaanE/detailPengadaan?Id=" + id_rks
-            }).done(function (data) {
-                loadHeaderPengadaan(data); // apa aja yang di tampilin
-            });
-        }
-
-        // JS untuk personil
-        $(".addPerson").on("click", function () {
-            $("#title-modal").html("Daftar Personil")
-            $("#tipe-person-list").val($(this).attr("attr1"));
-            $("#personilModal").modal("show");
-            $(".item-bg-blue-light").each(function () {
-                $(this).removeClass("item-bg-blue-light");
-            });
-        });
-
-        // JS URL
-        function gup(name, url) {
-            if (!url) url = location.href;
-            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-            var regexS = "[\\?&]" + name + "=([^&#]*)";
-            var regex = new RegExp(regexS);
-            var results = regex.exec(url);
-            return results == null ? null : results[1];
-        }
-
-        function getListPersonil() {
-            arrPersonilPengadaan = [];
-            $(".list-personil").each(function () {
-                objPersonilPengadaan = {};
-                objPersonilPengadaan.PersonilId = $(this).val();
-                objPersonilPengadaan.tipe = $(this).attr("attr1");
-                objPersonilPengadaan.Nama = $(this).attr("attr2");
-                objPersonilPengadaan.Jabatan = $(this).attr("attr3");
-                arrPersonilPengadaan.push(objPersonilPengadaan);
-            });
-            return arrPersonilPengadaan;
-        }
-
-        function LoadListPersonil(Personil, Status, xisTeam) {
-            $(".listperson-pic").html("");
-            $(".listperson-staff").html("");
-            $(".listperson-controller").html("");
-            $(".listperson-compliance").html("");
-            $(".listperson-tim").html("");
-            for (var item in Personil) {
-                if (Personil[item].tipe == "pic")
-                    addLoadPersonil(Personil[item], ".listperson-pic", Status, xisTeam);
-                if (Personil[item].tipe == "staff")
-                    addLoadPersonil(Personil[item], ".listperson-staff", Status, xisTeam);
-                if (Personil[item].tipe == "tim")
-                    addLoadPersonil(Personil[item], ".listperson-tim", Status, xisTeam);
-                if (Personil[item].tipe == "controller")
-                    addLoadPersonil(Personil[item], ".listperson-controller", Status, xisTeam);
-                if (Personil[item].tipe == "compliance")
-                    addLoadPersonil(Personil[item], ".listperson-compliance", Status, xisTeam);
-            }
-        }
-
-        //Fungsi Untuk Tambah Personil
-        function addPersonil(item, el) {
-            var peran = el.replace(".listperson-", "");
-            var objPersonilProyek = {};
-            objPersonilProyek.UserId = item.PersonilId;
-            objPersonilProyek.tipe = peran;
-            objPersonilProyek.Nama = item.Nama;
-            objPersonilProyek.Jabatan = item.Jabatan;
-            objPersonilProyek.PengadaanId = $("#pengadaanId").val();
-
-            if (peran == "pic" && $(el).children().length > 0) {
-                BootstrapDialog.show({
-                    title: 'Konfirmasi',
-                    message: 'PIC Sudah Ada!',
-                    buttons: [{
-                        label: 'Close',
-                        action: function (dialog) {
-                            dialog.close();
-                        }
-                    }]
-                });
-                return false;
-            }
-            if (isPersonileEksisPerPeran(item.PersonilId, el) == 1) {
-                BootstrapDialog.show({
-                    title: 'Konfirmasi',
-                    message: 'User yang Ingin ditambahkan Sudah Ada!',
-                    buttons: [{
-                        label: 'Close',
-                        action: function (dialog) {
-                            dialog.close();
-                        }
-                    }]
-                });
-                return false;
-            }
-
-            $.ajax({
-                method: "POST",
-                url: "Api/Proyek/savePersonil",
-                dataType: "json",
-                data: JSON.stringify(objPersonilProyek),
-                contentType: 'application/json; charset=utf-8'
-            }).done(function (data) {
-                if (data.status == 200) {
-                    html = '<a class="btn btn-app">' +
-                            '<input type="hidden" class="list-personil" attrId="'
-                                + data.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
-                                + item.Jabatan + '" value="' + item.PersonilId + '" />' +
-                            '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>' +
-                            '<i class="fa fa-user"></i>' +
-                            item.Nama +
-                          '</a>';
-                    $(el).append(html);
-                    $("#personilModal").modal("hide");
-                }
-                else {
-                    alert("error");
-                }
-            });
-        }
-
-        function isPersonileEksis(idPersonil, elm) {
-            var status = 0;
-            $(".list-personil").each(function (index, el) {
-                if ($.trim($(el).val()) == $.trim(idPersonil)) {
-                    status = 1;
-                    return false;
-                }
-            });
-            return status;
-        }
-
-        function isPersonileEksisPerPeran(idPersonil, elm) {
-            var status = 0;
-            $(elm).find(".list-personil").each(function (index, el) {
-                if ($.trim($(el).val()) == $.trim(idPersonil)) {
-                    status = 1;
-                    return false;
-                }
-            });
-            return status;
-        }
-
-        function addLoadPersonil(item, el, status, xisTeam) {
-            var peran = el.replace(".listperson-", "");
-            var removeEL = '';
-            if (status == 0 && xisTeam == 1) {
-                //removeEL = '<a class="pull-right btn-box-tool remove-person"><i class="fa fa-times"></i></a>';
-                removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';
-            }
-            html = '<a class="btn btn-app">' +
-                           '<input type="hidden" class="list-personil" attrId="'
-                               + item.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
-                               + item.Jabatan + '" value="' + item.PersonilId + '" />' +
-                           removeEL +
-                           '<i class="fa fa-user"></i>' +
-                           item.Nama +
-                         '</a>';
-            $(el).append(html);
-        }
-
-        // date picker
-        $(".dateJadwal").datetimepicker({
-            format: "DD MMMM YYYY HH:mm",
-            locale: 'id',
-            useCurrent: false,
-            minDate: Date.now()
-
-        }).on('dp.change', function (e) {
-            var jadwal = $(this).attr("name");
-            var nextJadwal = $(this).attr("nextJadwal");
-            var beforeJadwal = $(this).attr("beforeJadwal");
-            var thisJadwal = moment($(this).val(), ["D MMMM YYYY HH:mm"], "id");
-            if (nextJadwal != "") {
-                var jadwalNext = moment($(nextJadwal).val(), ["D MMMM YYYY HH:mm"], "id");//.format("DD/MM/YYYY HH:mm");
-                $(nextJadwal).data("DateTimePicker").minDate(e.date);
-                $(nextJadwal).removeAttr("disabled");
-
-                var jadwalNext = moment($(nextJadwal).val(), ["D MMMM YYYY HH:mm"], "id");
-                var diff = thisJadwal.diff(jadwalNext);
-
-                if ($(nextJadwal).val() != "")
-                    if (diff >= 0) {
-                        BootstrapDialog.show({
-                            title: 'Konfirmasi',
-                            message: 'Jadwal Tidak Boleh Lebih Besar dari Jadwal Berikutnya!',
-                            buttons: [{
-                                label: 'Close',
-                                action: function (dialog) {
-                                    dialog.close();
-                                }
-                            }]
-                        });
-                        $(this).val("");
-                    }
-
-            }
-            if (beforeJadwal != "") {
-                var jadwalBefore = moment($(beforeJadwal).val(), ["D MMMM YYYY HH:mm"], "id");
-                var diff = thisJadwal.diff(jadwalBefore);
-
-                if (diff <= 0) {
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: 'Jadwal Tidak Boleh Lebih Kecil!',
-                        buttons: [{
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
-                            }
-                        }]
-                    });
-                    $(this).val("");
-                }
-
-                if ($(beforeJadwal).val() == "") {
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: 'Isi Jadwal Sesuai Urutan!',
-                        buttons: [{
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
-                            }
-                        }]
-                    });
-                    $(this).val("");
-                }
-            }
-        });
-
-
-        // bukan gw
-        function addItem(item) {
-            var jumRow = table.data().length;
-            var nextNo = 1;
-            if (jumRow > 0) {
-                var data = table.row(jumRow - 1).data();
-                nextNo = parseInt(data[0]) + 1;
-            }
-            table.row.add([nextNo, item[1], item[2], '<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>']).draw();
-        }
-        function hitungHargaItem() {
-            var totalHarga = 0;
-            table.rows().every(function () {
-                var d = this.data();
-                var harga = d[2];
-                d.counter++; // update data source for the row
-                harga = parseInt(UnformatFloat(harga));
-                this.invalidate(); // invalidate the data DataTables has cached for this row
-                totalHarga = totalHarga + harga;
-
-            });
-
-
-            var estimasiCost = accounting.formatNumber(totalHarga, { thousand: "." });
-            $("#estimated_cost").val(estimasiCost);
-        }
-
-
-        app.controller('PersonCtrl', ['$scope', '$http', function ($scope, $http) {
-            $scope.persons = [];
-            //$http.get(LOGIN_PAGE + "admin/ListUser?start=0&limit=5&name=")
-            $http.get("api/pengadaane/getUsers?start=0&limit=5&name=")
-               .then(function (response) {
-                   $scope.persons = response.data.Users;
-               });
-            $scope.getPerson = function ($event, person) {
-                if ($($event.currentTarget).hasClass("item-bg-blue-light")) {
-                    $($event.currentTarget).removeClass("item-bg-blue-light");
-                }
-                else {
-                    $($event.currentTarget).addClass("item-bg-blue-light");
-                    addPersonil(person, $("#tipe-person-list").val());
-                }
-            }
-            $scope.searchPerson = function () {
-                $http.get("api/pengadaane/getUsers?start=0&limit=5&name=" + $("#search").val())
-                  .then(function (response) {
-                      $scope.persons = response.data.Users;
-                      if (jum >= response.data.totalRecord) $("#pop-personil-next").html("");
-                      else $("#pop-personil-next").html("Berikutnya");
-                  });
-            }
-            $scope.nextPerson = function () {
-                var jum = $(".pop-personil-list").find("li").length;
-                $http.get("api/pengadaane/getUsers?start=" + jum + "&limit=5&name=" + $("#search").val())
-                  .then(function (response) {
-
-                      $.each(response.data.Users, function (index, value) {
-                          $scope.persons.push(value);
-                          jum = jum + 1;
-                      });
-                      if (jum >= response.data.totalRecord) $("#pop-personil-next").html("");
-
-                  });
-            }
-        }]);
-
-    </script>
+    <script src="dist/js/monitoring-proyek-add.js"></script>
 </body>
 </html>

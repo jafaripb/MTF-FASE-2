@@ -92,7 +92,7 @@
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
-                            <li><a id="arsipkan" title="Arisipkan" href="#" class="arsipkan" style="display:none"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Arsipkan</a></li>
+                            <li><a id="arsipkan" title="Arsipkan" href="#" class="arsipkan" style="display:none"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Arsipkan</a></li>
                             <li><a id="ajukan" title="Ajukan" href="#" class="SimpanAjukan" style="display:none"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Ajukan</a></li>
                             <li><a id="edit" title="Add Item" href="#" style="display:none"><i class="fa fa-fw fa-pencil-square-o " style="font-size:20px;"></i>Edit</a></li>
                             <li><a id="setujui" title="Setujui" href="#" class="Setujui" style="display:none"><i class="fa fa-fw " style="font-size:20px;"></i>Setujui</a></li>
@@ -859,37 +859,19 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <!-- <div class="row">
+                                                                    <div class="row bingkai-pengajuan-pemenang" style="display:none">
                                                                           <div class="col-md-10">
                                                                              <div class="row">
-                                                                                    <div class="col-md-4">
-                                                                                         <div class="form-group">
-                                                                                             <label class="title">Tanggal Berita Acara</label>
-                                                                                             <input id="Text2" type="text"  class="form-control dateJadwalNoTime" >
-                                                                                         </div>
-                                                                                         <div class="form-group">
-                                                                                             <button class="btn btn-success pull-left save-tgl-ba" attr1="">Simpan</button>
-                                                                                         </div>
-                                                                                     </div>
-                                                                                 </div>
-                                                                             <div class="row">
-                                                                                   <div class="col-md-12">
-                                                                                         <div class="form-group ">
-                                                                                             <label class="title">Upload Lembar Disposisi</label>
-                                                                                             <div id="LembarDisposisi" attr="LembarDisposisi" action="/api/PengadaanE/UploadFile?tipe=LembarDisposisi" class="dropzone"></div>
-                                                                                         </div>
-                                                                                     </div>
-                                                                             </div>
+                                                                                <div class="col-md-4">
+                                                                                        <div class="form-group">
+                                                                                            <button class="btn btn-success pull-left ajukan-pemenang">Ajukan Pemenang</button>
+                                                                                            <label class="status-persetujuan-pemenang"></label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                          </div>
-                                                                         <div class="col-md-2">
-                                                                             <div class="form-group">
-                                                                                 <label class="title">Unduh Lembar Disposisi
-                                                                                     <a class="download-berkas" attr1="lembar-disposisi"><i class="fa fa-fw  fa-download"></i></a>
-                                                                                 </label>
-                                                                             </div>
-                                                                         </div>
-                                                                     </div>-->
-                                                                    <div class="row">
+                                                                     </div>
+                                                                    <div class="row bingkai-spk">
                                                                         <div class="col-md-10">
                                                                             <div class="row">
                                                                                 <div class="col-md-4">
@@ -923,53 +905,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- <div class="panel box box-primary">
-                                                              <div class="box-header with-border">
-                                                                <h4 class="box-title text-blue-mtf">
-                                                                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">
-                                                                        Personil
-                                                                  </a>
-                                                                </h4>
-                                                              </div>
-                                                              <div id="collapse7" class="panel-collapse collapse">
-                                                                <div class="box-body">
-                                                                    <div class="row">
-                                                            <div class="col-md-12">
 
-                                                                <!--<label > PIC</label>
-                                                                <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
-                                                                     <i class="fa fa-plus"></i>
-                                                                    Rubah PIC
-                                                                    </a>
-                                                                <div class="listperson-pic">
-                                                                </div>
-                                                            </div>
-                                                          <div class="col-md-12">
-                                                                <label >Tim</label>
-                                                                <div class="listperson-tim">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <label >User</label>
-                                                                <div class="listperson-staff">
-
-                                                                </div>
-                                                            </div>
-                                                             <div class="col-md-12">
-                                                                <label >Controller</label>
-                                                                <div class="listperson-controller">
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <label >Compliance</label>
-                                                                <div class="listperson-compliance">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                                </div>
-                                                              </div>
-                                                            </div>-->
                                                     </div>
                                                 </div><!-- /.box-body -->
                                             </div>
@@ -1038,12 +974,7 @@
                                                                 <div id="BerkasBeritaAcaraPenentuanPemenang" action="/api/PengadaanE/UploadFile?tipe=PenentuanPemenang" class="dropzone"></div>
                                                             </div>
                                                         </div>
-                                                        <!--<div class="col-md-6">
-                                                            <div class="form-group ">
-                                                                <label class="title">Berkas Lembar Disposisi</label>
-                                                                <div id="BerkasLembarDisposisi" attr="LembarDisposisi" action="/api/PengadaanE/UploadFile?tipe=LembarDisposisi" class="dropzone"></div>
-                                                            </div>
-                                                        </div>-->
+
 
                                                         <div class="col-md-6">
                                                             <div class="form-group ">
@@ -1335,6 +1266,7 @@
     <script src="dist/js/berita-acara.js"></script>
     <script src="dist/js/rubah-personil.js"></script>
     <script src="dist/js/riwayat-pengadaan.js"></script>
+    <script src="dist/js/pelaksanaan-penentuan-pemenang.js"></script>
     <script></script>
 </body>
 </html>

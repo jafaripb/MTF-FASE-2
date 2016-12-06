@@ -194,6 +194,7 @@ namespace IdLdap.Controllers
         //[Authorize]
         public async Task<JsonResult> ListUser(int start, int limit,string filter,string name)
         {
+            var s = User;
             DataPageUsers dataPageUsers = new DataPageUsers();
 
             var dbContext = new IdentityContext();

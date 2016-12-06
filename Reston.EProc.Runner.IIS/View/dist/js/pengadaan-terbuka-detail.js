@@ -406,7 +406,7 @@ $(function () {
     });
 
     $("#edit").on("click", function () {
-        window.location.replace("http://" + window.location.host + "/pengadaan-add.html#" + $("#pengadaanId").val());
+        window.location.replace("http://" + window.location.host + "/pengadaan_add_terbuka.html#" + $("#pengadaanId").val());
     });
     $(".Setujui").on("click", function () {
         $("#modal-setujui").modal("show");
@@ -475,6 +475,7 @@ $(function () {
             }
         });
     });
+
     $("body").on("click", ".box-rekanan", function () {
         var id = $(this).attr("vendorId");
         var pengadaanId = $("#pengadaanId").val();
@@ -494,6 +495,24 @@ $(function () {
             }]
         });
     });
+    $("body").on("click", ".ready-checkbox", function () {
+        var sendCheck = 0;
+        if ($(this).is(':checked')) {
+            sendCheck = 1;
+        }
+        var _this = $(this);
+        $.ajax({
+            url: "Api/PengadaanE/SaveReadyPersonil?Id=" + $("#pengadaanId").val() + "&ready=" + sendCheck,
+            method: "POST"
+        }).done(function (data) {
+            if ((data.Id == null || data.Id == "") && sendCheck == 1) {
+                _this.prop('checked', false);
+            }
+            if ((data.Id == null || data.Id == "") && sendCheck == 0) {
+                _this.prop('checked', true);
+            }
+        });
+    });
 });
 
 function loadData(pengadaanId) {
@@ -502,6 +521,7 @@ function loadData(pengadaanId) {
         url: "Api/PengadaanE/detailPengadaan?Id=" + pengadaanId,
         dataType: "json"
     }).done(function (data) {
+       
         $("#judul").text(data.Judul);
         $("#deskripsi").text((data.NoPengadaan == null ? "" : (data.NoPengadaan + ", ")) + data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
         if (data.AturanPengadaan == "Pengadaan Terbuka") $("#jadwal_pendaftaran").show();
@@ -523,13 +543,13 @@ function loadData(pengadaanId) {
         $("#isPIC").val(data.isPIC);
         $("#isTEAM").val(data.isTEAM);
         $("#isPersonil").val(data.isPersonil);
-        $("#isPersonil").val(data.isPersonil);
         $("#State").val(data.Status);
+        isPemenangApproved(pengadaanId);
+        StatusPemenang(pengadaanId);
         if (data.isPIC == 0) {
             $(".action-pelaksanaan").attr("disabled", "disabled"); 
             $("button.action-pelaksanaan").remove();
         }
-
         if (data.isPIC == 1) {
             //$(".addPerson").show();
         }
@@ -554,7 +574,7 @@ function loadData(pengadaanId) {
         loadListKandidat(data.Id);
         hitungHPS($("#pengadaanId").val(), data.AturanPenawaran);
         loadJadwal(data.JadwalPengadaans);
-        LoadListPersonil(data.PersonilPengadaans, data.isPIC);
+        LoadListPersonil(data.PersonilPengadaans, data.dataPIC);
         loadKualifikas(data.KualifikasiKandidats);
         $("#lihatHps").attr("href", "rks.html#" + data.Id);
         if (data.AturanPenawaran == "Open Price") $("#lihatHps").remove();
@@ -629,6 +649,8 @@ function loadData(pengadaanId) {
             $("#Status").text("Status Pengadaan : Aanwijzing");
            // cekState("Aanwijzing");
             $("#collapseOne").addClass("in");
+
+            $("#tab-pendaftaran").attr("data-toggle", "collapse");
             $("#tab-anwijzing").attr("data-toggle", "collapse");
         }
         if (data.Status == 4) {
@@ -636,20 +658,24 @@ function loadData(pengadaanId) {
             $("#collapseTwo").addClass("in");
             $("#Status").text("Status Pengadaan : Submit Penawaran");
 
+            $("#tab-pendaftaran").attr("data-toggle", "collapse");
             $("#tab-anwijzing").attr("data-toggle", "collapse");
             $("#tab-submit-penawaran").attr("data-toggle", "collapse");
 
-			 $(".jadwal-aanwijzing").remove();
+            $(".jadwal-aanwijzing").remove();
+            $(".jadwal-pendaftaran").remove();
         }
         if (data.Status == 5) {
            // cekState("buka_amplop");
             $("#collapseThree").addClass("in");
             $("#Status").text("Status Pengadaan : Buka Amplop");
 
+            $("#tab-pendaftaran").attr("data-toggle", "collapse");
             $("#tab-anwijzing").attr("data-toggle", "collapse");
             $("#tab-submit-penawaran").attr("data-toggle", "collapse");
             $("#tab-buka-amplop").attr("data-toggle", "collapse");
 
+            $(".jadwal-pendaftaran").remove();
             $(".jadwal-aanwijzing").remove();
             $(".jadwal-submit").remove();
         }
@@ -658,11 +684,13 @@ function loadData(pengadaanId) {
             $("#collapse4").addClass("in");
             $("#Status").text("Status Pengadaan : Penilaian Kandidat");
 
+            $("#tab-pendaftaran").attr("data-toggle", "collapse");
             $("#tab-anwijzing").attr("data-toggle", "collapse");
             $("#tab-submit-penawaran").attr("data-toggle", "collapse");
             $("#tab-buka-amplop").attr("data-toggle", "collapse");
             $("#tab-penilaian-kandidat").attr("data-toggle", "collapse");
 
+            $(".jadwal-pendaftaran").remove();
             $(".jadwal-aanwijzing").remove();
             $(".jadwal-submit").remove();
             $(".jadwal-buka-amplop").remove();
@@ -672,6 +700,7 @@ function loadData(pengadaanId) {
             $("#collapse5").addClass("in");
             $("#Status").text("Status Pengadaan : Klarifikasi");
 
+            $("#tab-pendaftaran").attr("data-toggle", "collapse");
             $("#tab-anwijzing").attr("data-toggle", "collapse");
             $("#tab-submit-penawaran").attr("data-toggle", "collapse");
             $("#tab-buka-amplop").attr("data-toggle", "collapse");
@@ -682,6 +711,7 @@ function loadData(pengadaanId) {
                 $("#tab-klarifikasi").parent().parent().parent().remove();
                 //$("#collapse5").remove();                
             }
+            $(".jadwal-pendaftaran").remove();
             $(".jadwal-aanwijzing").remove();
             $(".jadwal-submit").remove();
             $(".jadwal-buka-amplop").remove();
@@ -694,6 +724,7 @@ function loadData(pengadaanId) {
             //getPemenangVendor();
             $("#Status").text("Status Pengadaan : Penentuan Pemenang");
 
+            $("#tab-pendaftaran").attr("data-toggle", "collapse");
             $("#tab-anwijzing").attr("data-toggle", "collapse");
             $("#tab-submit-penawaran").attr("data-toggle", "collapse");
             $("#tab-buka-amplop").attr("data-toggle", "collapse");
@@ -701,6 +732,7 @@ function loadData(pengadaanId) {
             $("#tab-klarifikasi").attr("data-toggle", "collapse");
             $("#tab-penentu-pemenang").attr("data-toggle", "collapse");
 
+            $(".jadwal-pendaftaran").remove();
             $(".jadwal-aanwijzing").remove();
             $(".jadwal-submit").remove();
             $(".jadwal-buka-amplop").remove();
@@ -896,17 +928,26 @@ function LoadListPersonil(Personil,isPic) {
     }
 }
 
-function addLoadPersonil(item, el,ispic) {
+function addLoadPersonil(item, el, ispic) {
     var peran = el.replace(".listperson-", "");
     var removeEL = '';
     if (ispic == 1) {
-        removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';
+    }
+    if (item.isReady == 1) {
+        if (item.isMine == 1 && $("#State").val() == 0)
+            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
+        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
+    }
+    else {
+        if (item.isMine == 1 && $("#State").val() == 0)
+            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
+        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
     }
     html = '<a class="btn btn-app">' +
         '<input type="hidden" class="list-personil" attrId="'
                        + item.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
                        + item.Jabatan + '" value="' + item.PersonilId + '" />' +
-                  // removeEL +
+                   removeEL +
                    '<i class="fa fa-user"></i>' +
                    item.Nama +
                  '</a>';
@@ -955,4 +996,48 @@ function loadKeteranganDiBatalkan(Id) {
     });
 }
 
+function isPemenangApproved(Id) {
+    $.ajax({
+        url: "Api/PengadaanE/isApprovePemenang?Id=" + Id,
+        success: function (data) {
+            $("#isPemenangApproved").val(data);
+            if (data == 1) {
+                $(".bingkai-spk").show();
+                $(".bingkai-pengajuan-pemenang").remove();
+            }
+            else {
+                $(".bingkai-spk").remove();
+                $(".bingkai-pengajuan-pemenang").show();
+            }
+            if ($("#isPIC").val() != 1) $("#ajukan-pemenang").remove();
+        },
+        error: function (errormessage) {
+            $("#isPemenangApproved").val(data);
+            if ($("#isPIC").val() != 1) $("#ajukan-pemenang").remove();
+        }
+    });
+    if ($("#isPIC").val() != 1) $("#ajukan-pemenang").remove();
+}
 
+function StatusPemenang(Id) {
+    $.ajax({
+        url: "Api/PengadaanE/StatusPemenang?pengadaanId=" + Id,
+        success: function (data) {
+            if (data == 0) {
+                $(".status-persetujuan-pemenang").text("Dokumen Pemenang Belum Diajukan");
+            }
+            if (data > 0) {
+                $(".ajukan-pemenang").attr("disabled", "disabled");
+                if (data == 1) $(".status-persetujuan-pemenang").text("Dokumen Pemenang Sedang Diajukan");
+                if (data == 2) $(".status-persetujuan-pemenang").text("Dokumen Pemenang Telah Disetujui");
+                if (data == 3) {
+                    $(".status-persetujuan-pemenang").text("Dokumen Pemenang  Ditolak");
+                    $(".ajukan-pemenang").removeAttr("disabled");
+                }
+            }
+        },
+        error: function (errormessage) {
+
+        }
+    });
+}

@@ -31,6 +31,13 @@ namespace Reston.Pinata.Model.Helper
             return result;
         }
 
+        public static string Deny()
+        {
+            string result = "access denied";
+
+            return result;
+        }
+
         public static string UpdateSukses()
         {
             string result = "Data Behasil di Update";

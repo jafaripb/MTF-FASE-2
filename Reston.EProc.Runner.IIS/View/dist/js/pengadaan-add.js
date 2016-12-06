@@ -19,13 +19,12 @@ function loadListKandidat(Id, status,xisTEam) {
             $.each(data, function (index, item) {
                 var html = '<div class="col-md-3"><div class="box box-rekanan">';
                 if (status == 0 && xisTEam==1) {
-                    html = html+'<div class="box-tools pull-right">' +
+                    html = html + '<div class="box-tools pull-right">' +
                             '<span class="badge bg-red remove-vendor" attr="' + item.Id + '">' +
                                '<i class="fa fa-remove"></i>' +
-                          '</span>' +
-                            '</div>';                   
-                }
-               html=html+ '<div class="box-body box-profile">' +
+                          '</span>';
+                }                
+                html=html+ '</div><div class="box-body box-profile">' +
                  '<input type="hidden" class="list-kandidat" value="' + item.VendorId + '" />' +
                  '<p class="profile-username title-header">' + item.Nama + '</p>' +
                  //'<p class="text-muted text-center deskripsi">' + item.kontak + '</p>' +
@@ -710,7 +709,7 @@ function addPersonil(item, el) {
                         + data.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
                         + item.Jabatan + '" value="' + item.PersonilId + '" />' +
                     '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>' +
-                    '<span class="badge-left check-person"><input type="checkbox"/></span>' +
+                    '<span class="badge-left check-person"><input  class="ready-checkbox" type="checkbox"/></span>' +
                     '<i class="fa fa-user"></i>' +
                     item.Nama +
                   '</a>';
@@ -750,7 +749,17 @@ function addLoadPersonil(item, el,status,xisTeam) {
     var removeEL = '';
     if (status == 0 && xisTeam==1) {
         //removeEL = '<a class="pull-right btn-box-tool remove-person"><i class="fa fa-times"></i></a>';
-        removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';
+        removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';       
+    }
+    if (item.isReady == 1) {
+        if (item.isMine == 1 && item.Status == 0)
+            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
+        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
+    }
+    else {
+        if (item.isMine == 1 && item.Status == 0)
+            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
+        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
     }
     html = '<a class="btn btn-app">' +
                    '<input type="hidden" class="list-personil" attrId="'
@@ -1054,6 +1063,21 @@ $(function () {
             });
             return false;
         }
+
+        if ($('.ready-checkbox').not(':checked').length > 0) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'Semua Personil Wajib Menceklis Kesiapan',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            return false;
+        }
+
         if ($("div.listkandidat .col-md-3").length == 0&&$("#AturanPengadaan").val()=="Pengadaan Tertutup") {
             BootstrapDialog.show({
                 title: 'Konfirmasi',
@@ -1493,7 +1517,28 @@ $(function () {
     $("#AturanPengadaan").on("change", function () {
         aturanPengadaanView();
     });
+
+    $("body").on("click", ".ready-checkbox", function () {
+        var sendCheck = 0;
+        if ($(this).is(':checked')) {
+            sendCheck = 1;
+        }
+        var _this = $(this);
+        $.ajax({
+            url: "Api/PengadaanE/SaveReadyPersonil?Id=" + $("#pengadaanId").val() + "&ready=" + sendCheck,
+            method: "POST"
+        }).done(function (data) {
+            if ((data.Id == null || data.Id == "") && sendCheck==1) {
+                _this.prop('checked', false);
+            }
+            if ((data.Id == null || data.Id == "") && sendCheck == 0) {
+                _this.prop('checked', true);
+            }
+        });
+    });
 });
+
+
 
 function aturanPengadaanView() {
     if ($("#AturanPengadaan").val() == "Pengadaan Terbuka") {

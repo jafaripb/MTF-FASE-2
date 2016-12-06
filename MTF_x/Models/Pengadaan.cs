@@ -54,6 +54,7 @@ namespace MTF_x.Models
         public Decimal? Pagu { get; set; }
         public virtual ICollection<JadwalPengadaan> JadwalPengadaans { get; set; }
         public virtual ICollection<KualifikasiKandidat> KualifikasiKandidats { get; set; }
+        public virtual ICollection<JadwalPelaksanaan> JadwalPelaksanaans { get; set; }
     }
 
      [Table("JadwalPengadaan", Schema = "Pengadaan")]
@@ -69,6 +70,21 @@ namespace MTF_x.Models
          [ForeignKey("PengadaanId")]
          public virtual Pengadaan Pengadaan { get; set; } 
          public Guid? PengadaanId { get; set; }
+     }
+
+
+     [Table("JadwalPelaksanaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
+     public class JadwalPelaksanaan
+     {
+         [Key]
+         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+         public Guid Id { get; set; }
+         [ForeignKey("Pengadaan")]
+         public Nullable<Guid> PengadaanId { get; set; }
+         public Nullable<EStatusPengadaan> statusPengadaan { get; set; }
+         public Nullable<DateTime> Mulai { get; set; }
+         public Nullable<DateTime> Sampai { get; set; }
+         public virtual Pengadaan Pengadaan { get; set; }
      }
 
      [Table("KualifikasiKandidat", Schema = "Pengadaan")]

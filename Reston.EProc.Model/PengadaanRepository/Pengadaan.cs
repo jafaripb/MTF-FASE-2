@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Reston.Pinata.Model.JimbisModel;
 
 namespace Reston.Pinata.Model.PengadaanRepository
 {
@@ -54,6 +55,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<DateTime> TanggalMenyetujui { get; set; }
         public Nullable<Decimal> Pagu { get; set; }
+        public Nullable<int> WorkflowId { get; set; }
         public virtual ICollection<DokumenPengadaan> DokumenPengadaans { get; set; }
         public virtual ICollection<KandidatPengadaan> KandidatPengadaans { get; set; }
         public virtual ICollection<JadwalPengadaan> JadwalPengadaans { get; set; }
@@ -61,6 +63,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual ICollection<RKSHeader> RKSHeaders { get; set; }
         public virtual ICollection<BintangPengadaan> BintangPengadaans { get; set; }
         public virtual ICollection<MonitoringPekerjaan> MonitoringPekerjaans { get; set; }
+        public virtual ICollection<JadwalPelaksanaan> JadwalPelaksanaans { get; set; }
+        public virtual ICollection<PersetujuanPemenang> PersetujuanPemenangs { get; set; }
+        
     }
 
     [Table("DokumenPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -77,9 +82,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string ContentType { get; set; }
         [MaxLength(255)]
         public string Title { get; set; }
+        public Nullable<DateTime> CreateOn { get; set; }
+        public Nullable<Guid> CreateBy { get; set; }
+        public Nullable<DateTime> ModifiedOn { get; set; }
+        public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<TipeBerkas> Tipe { get; set; }
         public Nullable<long> SizeFile { get; set; }
         public Nullable<int> VendorId { get; set; }
+
         public virtual Pengadaan Pengadaan { get; set; }
     }
 
@@ -91,9 +101,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Guid Id { get; set; }
         [ForeignKey("Pengadaan")]
         public Nullable<Guid> PengadaanId { get; set; }
+        [ForeignKey("Vendor")]
         public Nullable<int> VendorId { get; set; }
-        public Nullable<int> isReady { get; set; }
         public virtual Pengadaan Pengadaan { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 
     [Table("KualifikasiKandidat", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -134,6 +145,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string Nama { get; set; }
         public string Jabatan { get; set; }
         public string tipe { get; set; }
+        public Nullable<int> isReady { get; set; }
         public virtual Pengadaan Pengadaan { get; set; }
     }
 
@@ -568,6 +580,23 @@ namespace Reston.Pinata.Model.PengadaanRepository
     }
 
 
+    [Table("PersetujuanPemenang", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
+    public class PersetujuanPemenang
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public StatusPengajuanPemenang Status { get; set; }
+        public string Note { get; set; }
+        public Nullable<int> WorkflowId { get; set; }
+        public  Nullable<DateTime> CreatedOn { get; set; }
+        public  Nullable<Guid> CreatedBy { get; set; }
+        public  Nullable<DateTime> ModifiedOn { get; set; }
+        public  Nullable<Guid> ModifiedBy { get; set; }
+        public virtual Pengadaan Pengadaan { get; set; }
+    }
+
     
 
     public enum EStatusPengadaan
@@ -603,5 +632,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
     public enum KlasifikasiPengadaan
     {
         SIPIL,NONSIPIL
+    }
+
+    public enum StatusPengajuanPemenang
+    {
+        BELUMDIAJUKAN,PENDING,APPROVED,REJECTED
     }
 }

@@ -150,6 +150,14 @@
     <Content Include="Upload\Temp\index.html" />
     <Content Include="View\add-eCatalogue2.html" />
     <Content Include="View\angApp\login.ang.js" />
+    <Content Include="View\approval-detail.html" />
+    <Content Include="View\approval-perencanaan-belum-disetujui.html" />
+    <Content Include="View\approval-perencanaan-sudah-disetujui.html" />
+    <Content Include="View\approval-persetujuan-pemenang-belum-disetujui.html" />
+    <Content Include="View\approval-persetujuan-pemenang-sudah-disetujui.html" />
+    <Content Include="View\approval.html" />
+    <Content Include="View\back-up-rks.html" />
+    <Content Include="View\beranda-eproc.html" />
     <Content Include="View\blockui\jquery.blockUI.js" />
     <Content Include="View\bootstrap-colorpicker\css\bootstrap-colorpicker.css" />
     <Content Include="View\bootstrap-colorpicker\css\bootstrap-colorpicker.min.css" />
@@ -166,7 +174,11 @@
     <Content Include="View\bootstrap\js\bootstrap.js" />
     <Content Include="View\bootstrap\js\bootstrap.min.js" />
     <Content Include="View\bootstrap\js\npm.js" />
+    <Content Include="View\cari-pengadaan.html" />
     <Content Include="View\catalog-detail.html" />
+    <Content Include="View\dist\js\approval-pengajuan.js" />
+    <Content Include="View\dist\js\berita-acara-terbuka.js" />
+    <Content Include="View\dist\js\pelaksanaan-penentuan-pemenang.js" />
     <Content Include="View\dist\js\pelaksanaan-terbuka.js" />
     <Content Include="View\pengadaan-terbuka-detail.html" />
     <Content Include="View\create-rks.html" />
