@@ -956,8 +956,7 @@ namespace Reston.Pinata.WebService.Controllers
             var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
             var jadwalPemenang = _repository.getPelaksanaanPemenang(Id, UserId());
             string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\NOTA BERSAMA Usulan Pemenang.docx";
-            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraPenentuanPemenang, UserId());
-            string outputFileName = "BA-Pemenang-" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+           string outputFileName = "BA-Pemenang-" +  pengadaan.NoPengadaan.Replace("/", "-") + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
 
             string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
 
@@ -969,6 +968,8 @@ namespace Reston.Pinata.WebService.Controllers
             foreach (var item in pemenangx)
             {
                 var streamx = new FileStream(fileName, FileMode.Open);
+                var BeritaAcara = _repository.getBeritaAcaraByTipeandVendor(Id, TipeBerkas.BeritaAcaraPenentuanPemenang,item.VendorId.Value, UserId());
+            
                 try
                 {                   
                     var doc = DocX.Load(streamx);
@@ -1029,46 +1030,59 @@ namespace Reston.Pinata.WebService.Controllers
             var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
             var jadwalPemenang = _repository.getPelaksanaanPemenang(Id, UserId());
             string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\SPK.docx";
-            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.SuratPerintahKerja, UserId());
-            string outputFileName = "BA-SPK-" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+            string outputFileName = "BA-SPK-" + pengadaan.NoPengadaan.Replace("/", "-") + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
 
             string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
 
-            var streamx = new FileStream(fileName, FileMode.Open);
+           // var streamx = new FileStream(fileName, FileMode.Open);
 
-            var doc = DocX.Load(streamx);
+           // var doc = DocX.Load(streamx);
 
-            try
+             System.IO.MemoryStream ms2 = new System.IO.MemoryStream();
+            var docM = DocX.Create(ms2);
+            
+            var pemenangx = _repository.getPemenangPengadaan(Id, UserId());
+            foreach (var item in pemenangx)
             {
+                var streamx = new FileStream(fileName, FileMode.Open);
+                var BeritaAcara = _repository.getBeritaAcaraByTipeandVendor(Id, TipeBerkas.SuratPerintahKerja,item.VendorId.Value, UserId());
+                
+                try
+                {
+                    var doc = DocX.Load(streamx);
+                    doc.ReplaceText("{pengadaan_name}", pengadaan.Judul == null ? "" : pengadaan.Judul);
+                    doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
+                    doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
+                    doc.ReplaceText("{pengadaan_unit_pemohon}", pengadaan.UnitKerjaPemohon == null ? "" : pengadaan.UnitKerjaPemohon);
+                    doc.ReplaceText("{tempat_tanggal}", "...............," + BeritaAcara == null ? "................" :
+                            BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) + " " +
+                            BeritaAcara.tanggal.Value.Year);
+
+                    doc.ReplaceText("{pengadaan_jadwal_hari}", BeritaAcara.tanggal == null ? "" :
+                           Common.ConvertHari(BeritaAcara.tanggal.Value.Day));
+                    doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
+                          " " + BeritaAcara.tanggal.Value.Year);
 
 
-                doc.ReplaceText("{pengadaan_name}", pengadaan.Judul == null ? "" : pengadaan.Judul);
-                doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
-                doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
-                doc.ReplaceText("{pengadaan_unit_pemohon}", pengadaan.UnitKerjaPemohon == null ? "" : pengadaan.UnitKerjaPemohon);
-                doc.ReplaceText("{tempat_tanggal}", "...............," + BeritaAcara == null ? "................" :
-                        BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) + " " +
-                        BeritaAcara.tanggal.Value.Year);
+                   // var pemenang = _repository.getPemenangPengadaan(Id, UserId());
+                    var vendor = _repository.GetVendorById(item.VendorId.Value);
+                    doc.ReplaceText("{kandidat_pemenang}", item.NamaVendor );
+                    doc.ReplaceText("{total_pengadaan}",item.total==null?"": item.total.Value.ToString("C", MyConverter.formatCurrencyIndo()) );
+                    doc.ReplaceText("{alamat}",vendor.Alamat.ToString());
+                    doc.ReplaceText("{terbilang}",item.total==null?"": MyConverter.Terbilang(item.total.Value.ToString()) + " Rupiah");
+                   // doc.SaveAs(OutFileNama);
+                    docM.InsertSection();
 
-                doc.ReplaceText("{pengadaan_jadwal_hari}", BeritaAcara.tanggal == null ? "" :
-                       Common.ConvertHari(BeritaAcara.tanggal.Value.Day));
-                doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
-                      " " + BeritaAcara.tanggal.Value.Year);
-
-
-                var pemenang = _repository.getPemenangPengadaan(Id, UserId());
-                var vendor = _repository.GetVendorById(pemenang.FirstOrDefault().VendorId.Value);
-                doc.ReplaceText("{kandidat_pemenang}", pemenang != null ? pemenang.FirstOrDefault().NamaVendor : "");
-                doc.ReplaceText("{total_pengadaan}", pemenang != null ? pemenang.FirstOrDefault().total.Value.ToString("C", MyConverter.formatCurrencyIndo()) : "");
-                doc.ReplaceText("{alamat}", vendor != null ? vendor.Alamat.ToString() : "");
-                doc.ReplaceText("{terbilang}", pemenang != null ? MyConverter.Terbilang(pemenang.FirstOrDefault().total.ToString()) + " Rupiah" : "");
-                doc.SaveAs(OutFileNama);
-                streamx.Close();
+                    docM.InsertDocument(doc); //doc.SaveAs(OutFileNama);
+                    streamx.Close();
+                   // streamx.Close();
+                }
+                catch
+                {
+                    streamx.Close();
+                }
             }
-            catch
-            {
-                streamx.Close();
-            }
+            docM.SaveAs(OutFileNama);
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(OutFileNama, FileMode.Open);
             result.Content = new StreamContent(stream);

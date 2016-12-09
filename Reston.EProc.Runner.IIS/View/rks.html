@@ -286,37 +286,49 @@
 		    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		    <h4 class="modal-title">Form Load RKS</h4>
               <div class="modal-body"> 
-                  <form class="eventInsForm" >    
                   <div class="row">
-						<div class="col-md-12">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">RKS</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control list-rks">
+                        <div class="col-md-12">
+                            <form class="form-horizontal label-kanan">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Judul</label>
+                                    <div class="col-sm-4">
+                                        <input id="title-rks" type="text" class="form-control " placeholder="Judul">
+                                    </div>
                                 </div>
-                            </div>	
-                        </div>                        
-                    </div>    
-                    <div class="row">
-							<div class="col-md-12">     	
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Klasifikasi</label>
-                                    <div class="col-sm-10">
-                                        <select id="Klasifikasi" class="form-control select2" style="width: 100%;">
-                                            <option selected="selected" value=""></option>
-                                            <option  value="0">NONSIPIL</option>
-                                            <option  value="1">SIPIL</option>
+                                    <div class="col-sm-4">
+                                        <select id="klasifikasi-rks" class="form-control select2" style="width: 100%;">
+                                            <option selected="selected" value="">ALL</option>
+                                            <option value="0">SIPIL</option>
+                                            <option value="1">NONSIPIL</option>
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>    
-                     </form>  
+                            </form>
+                        </div>
+                    </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                        <table id="list-rks-template" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="tengah">Title</th>
+                                    <th class="tengah">Deskripsi</th>
+                                    <th class="tengah">Klasifikasi</th>
+                                    <th class="tengah">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
                </div>
 	      </div>
 	      <div class="modal-footer">
-              <button type="button" class="btn btn-default load-get-rks" data-toggle="tooltip" title="Load RKS" >Load</button>		
-             <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="tooltip" title="Keluar">Close</button>
+             <!-- <button type="button" class="btn btn-default load-get-rks" data-toggle="tooltip" title="Load RKS" >Load</button>		
+            -->
+              <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="tooltip" title="Keluar">Close</button>
 	      </div>
 	    </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -363,13 +375,71 @@
      <script src="dist/js/rks.js"></script>	
      <script src="dist/js/menu.js"></script>	
      <script>
-         //jQuery(document).ready(function ($) {
-         //    $("#cetak-rks").click(function (event) {
-         //        $("#page-content").wordExport();
-         //    });
-         //});
-
+         var listTableRks;
          $(function () {
+             listTableRks = $('#list-rks-template').DataTable({
+                 "serverSide": true,
+                 "searching": false,
+                 "ajax": {
+                     "url": '../Api/Rks/List',
+                     "type": 'POST',
+                     "data": function (d) {
+                         d.search = $("#title-rks").val();
+                         d.klasifikasi = $("#klasifikasi-rks option:selected").val();
+                     }
+
+                 },
+                 //"ajax": 'api/Produk/GetAllProduk?name=' + $("#nama_item").val(),
+                 "columns": [
+                     { "data": "Title" },
+                     { "data": "Deskripsi" },
+                     { "data": "null" },
+                     { "data": "null", "width": "3%", "class": "tengah" }
+                 ],
+                 "columnDefs": [
+                     {
+                         "render": function (data, type, row) {
+                             var klasifikasi = row.Klasifikasi == 0 ? "SIPIL" : "NONSIPIL";
+                             return klasifikasi;
+                         },
+                         "targets": 2,
+                         "orderable": false
+                     },
+                     {
+                         "render": function (data, type, row) {
+                             return '<a href="#" idRks="' + row.Id + '" class="btn btn-xs btn-primary pilih" title="pilih">Pilih RKS</a> ';
+                         },
+                         "targets": 3,
+                         "orderable": false
+                     }
+                 ],
+                 "paging": true,
+                 "lengthChange": false,
+                 "ordering": true,
+                 "info": true,
+                 "autoWidth": false,
+                 "responsive": true
+             });
+
+             $("#list-rks-template").on("click", ".pilih", function () {
+                 var Id = $(this).attr("idRks");
+                 waitingDialog.showloading("Proses Harap Tunggu");
+                 $.ajax({
+                     method: "POST",
+                     url: "Api/PengadaanE/saveRksFromTemplate?RksId=" + Id + "&PengadaanId=" + $("#pengadaanId").val(),
+                     dataType: "json",
+                     contentType: 'application/json; charset=utf-8',
+                     success: function (data) {
+                         waitingDialog.hideloading();
+                         window.location.reload();
+                     }
+                 });
+             });
+
+             $("#title-rks,#klasifikasi-rks").on("input propertychange paste", function () {
+                 listTableRks.draw();
+             });
+
 
              function init() {
                  var tables = document.getElementsByClassName("editabletable");

@@ -1538,8 +1538,6 @@ $(function () {
     });
 });
 
-
-
 function aturanPengadaanView() {
     if ($("#AturanPengadaan").val() == "Pengadaan Terbuka") {
         //$("#BingkaiHps").hide();

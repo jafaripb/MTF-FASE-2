@@ -66,7 +66,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual ICollection<JadwalPelaksanaan> JadwalPelaksanaans { get; set; }
         public virtual ICollection<PersetujuanPemenang> PersetujuanPemenangs { get; set; }
         public virtual ICollection<RencanaProyek> RencanaProyeks { get; set; }
-
     }
 
     [Table("DokumenPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -388,12 +387,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Guid Id { get; set; }
         [ForeignKey("Pengadaan")]
         public Nullable<Guid> PengadaanId { get; set; }
+        [ForeignKey("Vendor")]
         public Nullable<int> VendorId { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<DateTime> CreateOn { get; set; }
         public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }
         public virtual Pengadaan Pengadaan { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 
     [Table("PelaksanaanKlarifikasi", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -528,10 +529,16 @@ namespace Reston.Pinata.Model.PengadaanRepository
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+        [ForeignKey("Pengadaan")]
         public Nullable<Guid> PengadaanId { get; set; }
         public Nullable<DateTime> tanggal { get; set; }
         public Nullable<TipeBerkas> Tipe { get; set; }
         public string NoBeritaAcara { get; set; }
+        [ForeignKey("Vendor")]
+        public Nullable<int> VendorId { get; set; }
+        public virtual Pengadaan Pengadaan { get; set; }
+        public virtual Vendor Vendor { get; set; }
+
     }
 
     [Table("ReportPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]

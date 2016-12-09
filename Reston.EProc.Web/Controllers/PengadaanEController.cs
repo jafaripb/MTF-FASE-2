@@ -436,19 +436,27 @@ namespace Reston.Pinata.WebService.Controllers
             try
             {
                 // Guid UserID = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
-
-                var RKS = _reporks.MapRksFromTemplate(RksId, PengadaanId);
-                var viewRks = _repository.saveRks(RKS, UserId());
-                if (viewRks.Id != Guid.Empty)
+                var RKS = _reporks.MapRksFromTemplate(RksId, PengadaanId);                
+                var removeOld=_repository.RemoveRks(PengadaanId, UserId());
+                if (removeOld.status == HttpStatusCode.OK)
                 {
-                    status = HttpStatusCode.OK;
-                    id = viewRks.Id.ToString();
-                    message = Common.UpdateSukses();
+                    var viewRks = _repository.saveRks(RKS, UserId());
+                    if (viewRks.Id != Guid.Empty)
+                    {
+                        status = HttpStatusCode.OK;
+                        id = viewRks.Id.ToString();
+                        message = Common.UpdateSukses();
+                    }
+                    else
+                    {
+                        status = HttpStatusCode.OK;
+                        message = Common.SaveSukses();
+                    }
                 }
                 else
                 {
-                    status = HttpStatusCode.OK;
-                    message = Common.SaveSukses();
+                    status = removeOld.status;
+                    message = removeOld.message;
                 }
             }
             catch (Exception ex)
@@ -479,13 +487,11 @@ namespace Reston.Pinata.WebService.Controllers
             return HeaderRks;
         }
 
-
-
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
-        public async Task<ViewPengadaan> detailPengadaan(Guid Id)
+        public  ViewPengadaan detailPengadaan(Guid Id)
         {
             var ResultCurrentApprover = _workflowrepo.CurrentApproveUserSegOrder(Id);
             Guid? ApproverId=null;
@@ -2167,6 +2173,16 @@ namespace Reston.Pinata.WebService.Controllers
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                               IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public ResultMessage deletePemenang(PemenangPengadaan oPemenangPengadaan)
+        {
+           return _repository.DeletePemenang(oPemenangPengadaan, UserId());              
+        }
+
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public ResultMessage deletePilihKandidat(PelaksanaanPemilihanKandidat oPelaksanaanPemilihanKandidat)
         {
             HttpStatusCode respon = HttpStatusCode.NotFound;
@@ -2462,8 +2478,65 @@ namespace Reston.Pinata.WebService.Controllers
                 {
                     return new ResultMessage { Id = "0", message = "Belum Semua Pihak Buka Amplop!", status = HttpStatusCode.OK };
                 }
+                BeritaAcara result = new BeritaAcara();
+                if (vwpengadaan.Tipe == TipeBerkas.SuratPerintahKerja || vwpengadaan.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang)
+                {
 
-                BeritaAcara result = _repository.addBeritaAcara(newBeritaAcara, UserId());
+                    var pemenang = _repository.getPemenangPengadaan(vwpengadaan.PengadaanId.Value, UserId());
+                    foreach (var item in pemenang)
+                    {
+                        newBeritaAcara.VendorId = item.VendorId;
+                        var ctx = new JimbisContext();
+
+                        Pengadaan opengadaan = ctx.Pengadaans.Find(newBeritaAcara.PengadaanId);
+                        if (opengadaan == null) return new ResultMessage();
+                        BeritaAcara oBeritaAcara = new BeritaAcara();
+                        if (newBeritaAcara.VendorId > 0)
+                        {
+                            oBeritaAcara = ctx.BeritaAcaras.Where(d => d.PengadaanId == newBeritaAcara.PengadaanId
+                                        && d.Tipe == newBeritaAcara.Tipe && d.VendorId == newBeritaAcara.VendorId).FirstOrDefault();
+                        }
+                        else
+                        {
+                            oBeritaAcara = ctx.BeritaAcaras.Where(d => d.PengadaanId == newBeritaAcara.PengadaanId
+                                        && d.Tipe == newBeritaAcara.Tipe).FirstOrDefault();
+                        }
+                        if (oBeritaAcara == null)
+                        {
+                            if (newBeritaAcara.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang)
+                            {
+                                newBeritaAcara.NoBeritaAcara =_repository.GenerateBeritaAcaraNota(UserId());
+                            }
+                            else if (newBeritaAcara.Tipe == TipeBerkas.SuratPerintahKerja)
+                            {
+                                newBeritaAcara.NoBeritaAcara = _repository.GenerateBeritaAcaraSPK(UserId());
+                            }
+                            else
+                            {
+                                newBeritaAcara.NoBeritaAcara =_repository.GenerateBeritaAcara(UserId());
+                            }
+                            ctx.BeritaAcaras.Add(newBeritaAcara);
+
+                            ctx.SaveChanges();
+
+                            respon = HttpStatusCode.OK;
+                            message = "Sukses";
+                            id = newBeritaAcara.Id.ToString();
+                        }
+                        else
+                        {
+                            oBeritaAcara.tanggal = newBeritaAcara.tanggal;
+                            ctx.SaveChanges();
+                            respon = HttpStatusCode.OK;
+                            message = "Sukses";
+                            id = oBeritaAcara.Id.ToString();
+                        }
+                    }
+                }
+                else
+                {
+                    result = _repository.addBeritaAcara(newBeritaAcara, UserId());
+                }
                 respon = HttpStatusCode.OK;
                 message = "Sukses";
                 id = result.Id.ToString();
@@ -2636,7 +2709,14 @@ namespace Reston.Pinata.WebService.Controllers
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task<IHttpActionResult> UploadFile(string tipe, Guid id)
-        {            
+        {
+            int vendorId = 0;
+            try
+            {
+                vendorId = Convert.ToInt32(HttpContext.Current.Request["vendorId"].ToString());
+            }
+            catch { }
+          
             var uploadPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             bool isSavedSuccessfully = true;
             string filePathSave = FILE_DOKUMEN_PATH;//+id ;
@@ -2693,8 +2773,20 @@ namespace Reston.Pinata.WebService.Controllers
                 Tipe = t,
                 ContentType = contentType,
                 PengadaanId = id,
-                SizeFile = sizeFile
+                SizeFile = sizeFile                
             };
+            if (vendorId > 0)
+            {
+                dokumen = new DokumenPengadaan
+                {
+                    File = fileName,
+                    Tipe = t,
+                    ContentType = contentType,
+                    PengadaanId = id,
+                    SizeFile = sizeFile,
+                    VendorId=vendorId
+                };
+            }
 
             if (isSavedSuccessfully)
             {
@@ -2710,7 +2802,7 @@ namespace Reston.Pinata.WebService.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return Json(0);
+                    return Json("00000000-0000-0000-0000-000000000000");
                 }
             }
 

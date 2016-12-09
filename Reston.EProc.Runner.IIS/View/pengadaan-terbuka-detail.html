@@ -140,6 +140,7 @@
             <input type="hidden" id="State" />
             <input type="hidden" id="AturanPengadaan" />
             <input type="hidden" id="isPemenangApproved" />
+            <input type="hidden" id="Pemenang" />
             <section class="content">
                 <!-- Default box -->
                 <div class="row">
@@ -1118,17 +1119,17 @@
             </ul>
             <div class="box box-white">
                 <div class="box-header with-border">
-                    <h3 class="box-title text-blue-mtf box-riwayat"><a href="riwayat-pengadaan.html">Riwayat</a></h3>
+                    <h3 class="box-title text-blue-mtf box-riwayat"><a href="#">Riwayat</a></h3>
                 </div>
                 <div class="box-body" ng-controller="history">
                     <ul class="products-list product-list-in-box">
                         <li class="item" ng-repeat="histori in history" style="padding-top:1px">
-                            <div class="riwayat-info">
+                            <div class="riwayat-info" data-toggle="tooltip" title="{{histori.Comment}}">
                                 <span class="title"><a href="#" ng-bind="histori.Nama"></a></span>
                                 <span class="pegadaan-description" ng-bind="histori.ActionDate| date:'dd/MM/yyyy h:mm:ss'"></span>
-                                <span class="pegadaan-description" ng-bind="histori.Status"></span>
+                                <span class="pegadaan-description"  ng-bind="histori.Status"></span>
 
-                                <span class="pegadaan-item" ng-bind="histori.Comment">
+                                <span class="pegadaan-item"  ng-bind="histori.Comment">
                                 </span>
                             </div>
                         </li>

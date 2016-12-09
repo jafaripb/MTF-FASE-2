@@ -107,7 +107,7 @@ $(function () {
              {
                     "render": function (data, type, row) {
                         if (row.level == 1) {
-                            return '<input type="text" class="form-control item hps" value="' + row.hps + '" style="width:150px; text-align:right;">';//onkeyup="numberWithCommas(this)" numberWithCommas(row.hps) 
+                            return '<input type="text" class="form-control item hps" value="' + row.hps + '" style="width:150px; text-align:right;">';
                         }
                         else if(row.level==2){
                             return "Sub Total";
@@ -235,7 +235,6 @@ $(function () {
             newRowData.hps = $(elRow).find(".hps").val();
             newRowData.keterangan = $(elRow).find(".keterangan").val();
             newRowData.total = totalHarga;
-            console.log(totalHarga);
         }
         var el = $("#example1 tr td").find("input").find(".namaJudul[value=judul]");
         addNewData(elRow.index(), newRowData);
