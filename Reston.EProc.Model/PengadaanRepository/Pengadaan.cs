@@ -88,9 +88,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<TipeBerkas> Tipe { get; set; }
         public Nullable<long> SizeFile { get; set; }
+        [ForeignKey("Vendor")]
         public Nullable<int> VendorId { get; set; }
 
         public virtual Pengadaan Pengadaan { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 
     [Table("KandidatPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
