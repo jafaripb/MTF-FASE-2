@@ -169,10 +169,20 @@ $(function () {
              },
              {
                  "render": function (data, type, row) {
-                     return ' <a class="btn btn-xs btn-primary sisip-item-atas" attrJudul="' + row.judul + '" title="Tambah Item Atas"><span class="fa fa-hand-o-up"></span></a> ' +
-                         ' <a class="btn btn-xs btn-success sisip-item-bawah" attrJudul="' + row.judul + '" title="Tambah Item Bawah"><span class="fa fa-hand-o-down"></span></a> ' +
-                         ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ' +
-                         ' <a class="btn btn-xs btn-warning hitung" title="Hitung"><span class="fa fa-pencil"></span></a>';
+                     var elSisipAtas = ' <a class="btn btn-xs btn-primary sisip-item-atas" attrJudul="' + row.judul + '" title="Tambah Item Atas"><span class="fa fa-hand-o-up"></span></a> ';
+                     var elSisipBawah = ' <a class="btn btn-xs btn-success sisip-item-bawah" attrJudul="' + row.judul + '" title="Tambah Item Bawah"><span class="fa fa-hand-o-down"></span></a> ';
+                     var elRemoveITem = ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ';
+                     var Html = "";
+                     if (row.level == 0) {
+                         Html = elSisipBawah + elRemoveITem;
+                     }
+                     if (row.level == 1) {
+                         Html = elSisipAtas + elSisipBawah + elRemoveITem;
+                     }
+                     if (row.level == 2) {
+                         Html = elSisipAtas  + elRemoveITem;
+                     }
+                     return Html;
                  },
                  "targets": 7,
                  "orderable": false
@@ -400,7 +410,7 @@ $(function () {
         };
     });
 
-    $(".load-get-rks").on("click", function () {
+  /*  $(".load-get-rks").on("click", function () {
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
             method: "POST",
@@ -413,7 +423,7 @@ $(function () {
             }
         });
     });
-
+    */
     $("#example1").on("click", ".sisip-item-atas", function () {
         var judul = $(this).attr('attrJudul');
         var newData = {};
@@ -493,6 +503,7 @@ $(function () {
         table.rows(vl).remove().draw();
         hitungHargaItem();
     });
+
     $("#example1").on("input propertychange paste", ".jmlItem", function (e) {
         var vl = $(this).closest('tr')[0];
         var rowIndex = $('#example1 tr').index(vl);
