@@ -73,7 +73,7 @@ namespace MTF_x.Models
      }
 
 
-     [Table("JadwalPelaksanaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
+     [Table("JadwalPelaksanaan", Schema = "Pengadaan")]
      public class JadwalPelaksanaan
      {
          [Key]

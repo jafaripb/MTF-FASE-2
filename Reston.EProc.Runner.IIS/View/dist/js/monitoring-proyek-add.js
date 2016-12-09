@@ -342,7 +342,7 @@ function TambahTahapanPekerjaan() {
     var nTanggalMulai = moment($("#tanggal-pekerjaan-mulai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     var nTanggalSelesai = moment($("#tanggal-pekerjaan-selesai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     var nJenisTahapan = 'Pekerjaan';
-    console.log(nTanggalSelesai);
+
     $.ajax({
         method: "post",
         url: "api/Proyek/SimpanTahapanPekerjaan",
@@ -438,10 +438,9 @@ function TambahProyekDrafPekerjaan() {
 
 // Simpan No. Kontrak dan Update Status Rencana Proyek (Simpan Proyek)
 function SimpanProyek() {
-    console.log("AAAA");
     var PengadaanId = $("#pengadaanId").val();
     var nNoKontrak = $("#no-kontrak").val();
-    var nStatus = "dijalankan";
+    var nStatus = "DIJALANKAN";
     $.ajax({
         method: "post",
         url: "api/Proyek/UbahStatusRencanaProyek",

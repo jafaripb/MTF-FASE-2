@@ -83,6 +83,23 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataMonitoringSelection(search, start, length, dStatusSeleksi));
         }
 
+        // Draf List
+        public IHttpActionResult DrafList()
+        {
+            string search = HttpContext.Current.Request["search"].ToString();
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
+            string status = HttpContext.Current.Request["status"].ToString();
+
+            if (status == "DRAF")
+            {
+                return Json(_repository.GetDataMonitoringDraf(search, start, length, null));
+            }
+
+            StatusSeleksi dStatusSeleksi = (StatusSeleksi)Convert.ToInt32(status);
+            return Json(_repository.GetDataMonitoringDraf(search, start, length, dStatusSeleksi));
+        }
+
 
         public ResultMessage Add()
         {

@@ -55,17 +55,10 @@
                                             <td style="font-size:13px;" colspan="4"> <a href="#">@Html.DisplayFor(p => p.Status)</a> </td>
                                         </tr>
                                         <tr>
-                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Nilai HPS</td>
-                                            <td style="font-size:13px;"> @{
-                                                                             decimal d = 0;
-
-                                                                             if (Model.HpsId != null)
-                                                                             {
-                                                                                 //d = Model.HpsId.Value;
-                                                                             }
-
-
-                                                                         }@Html.Display(d.ToString("N0"))</td>
+                                            <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Nilai Pagu</td>
+                                            <td style="font-size:13px;">
+                                                @Html.DisplayFor(p => p.Pagu.Value)
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Lokasi</td>

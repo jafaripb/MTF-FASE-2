@@ -270,7 +270,7 @@
                 },
                 //"ajax": 'api/MonitoringSelection/List?search=' + $("#search").val(),
                 "columns": [
-                    { "data": "NoKontrak" },
+                    { "data": "null" },
                     { "data": "NamaProyek" },
                     { "data": "NamaPelaksana" },
                     { "data": "Klasifikasi" },
@@ -281,14 +281,21 @@
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            return "";
+                            return "10%";
+                        },
+                        "targets": 4,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return "10%";
                         },
                         "targets": 5,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
-                            return "";
+                            return "10%";
                         },
                         "targets": 6,
                         "orderable": false

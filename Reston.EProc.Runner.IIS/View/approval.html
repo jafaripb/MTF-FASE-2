@@ -149,17 +149,12 @@
                                             </tr>
                                             <tr>
                                                 <td class="rata_kiri text-bold">Dokumen Persetujuan Pemenang yang Sudah di Setujui</td>
-                                                <td style="text-align:center; color:black; font-weight:bold;"><a href="approval-persetujuan-pemenang-sudah-disetujui.html" id="pemenang-disetujui"></a></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="rata_kiri text-bold">Update Status Proyek</td>
-                                                <td style="text-align:center; color:black; font-weight:bold;"><a href="approval-persetujuan-pemenang-sudah-disetujui.html">7</a></td>
+                                                <td class="tengah text-bold"><a href="approval-persetujuan-pemenang-sudah-disetujui.html" id="pemenang-disetujui"></a></td>
 
                                             </tr>
                                             <tr>
                                                 <td class="rata_kiri text-bold">Proyek Monitoring</td>
-                                                <td style="text-align:center; color:black; font-weight:bold;" id="monitor-selection"><a href="monitoring-selection.html"></a></td>
+                                                <td class="tengah text-bold"><a href="monitoring-selection.html" id="monitor-selection">5</a></td>
 
                                             </tr>
                                         </table>
@@ -228,7 +223,7 @@
     <script>
         var persetujuan_pengadaan = 0;
         var pengadaan_disetujui = 0;
-        var monitor_selection = 5;
+        var monitor_selection = 0;
         $(function () {
             $("#persetujuan-pengadaan").text(0);
             $("#pengadaan-disetujui").text(0);
@@ -244,7 +239,7 @@
                         $("#pengadaan-disetujui").text(data.PengadaanDiSetujui);
                         $("#persetujuan-pemenang").text(data.PemenangButuhPerSetujuan);
                         $("#pemenang-disetujui").text(data.PemenangDiSetujui);
-                        //$("#monitor-selection").text(data.MonitorSelection);
+                        $("#monitor-selection").text(data.MonitorSelection);
                     }
                 }
             });

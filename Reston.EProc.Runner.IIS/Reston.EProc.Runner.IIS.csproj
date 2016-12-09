@@ -154,6 +154,8 @@
     <Content Include="View\approval-perencanaan-belum-disetujui.html" />
     <Content Include="View\approval-perencanaan-sudah-disetujui.html" />
     <Content Include="View\approval-persetujuan-pemenang-belum-disetujui.html" />
+    <Content Include="View\create-pks.html" />
+    <Content Include="View\pks.html" />
     <Content Include="View\approval-persetujuan-pemenang-sudah-disetujui.html" />
     <Content Include="View\approval.html" />
     <Content Include="View\back-up-rks.html" />

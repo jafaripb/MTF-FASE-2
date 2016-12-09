@@ -13,7 +13,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
 
     public enum StatusSeleksi
     {
-        BELUMDITENTUKAN, INPROGRESS, FINISH,
+        BELUMDITENTUKAN, DRAF, SEDANGBERJALAN, SELESAI,
     }
 
     public enum Klasifikasi
