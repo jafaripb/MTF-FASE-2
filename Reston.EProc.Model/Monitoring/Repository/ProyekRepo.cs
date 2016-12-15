@@ -586,8 +586,6 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
             var pengadaanid = ctx.RencanaProyeks.Where(d => d.Id == IdProyek).FirstOrDefault().PengadaanId;
             var vendorid = ctx.PemenangPengadaans.Where(p => p.PengadaanId == pengadaanid).FirstOrDefault().VendorId;
-
-
             List<ViewListPenilaian> vlistViewListPenilaian = new List<ViewListPenilaian>();
 
             foreach (var item in caripenilaian)
@@ -596,7 +594,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                 nViewListPenilaian.Id = item.Id;
                 nViewListPenilaian.NamaPenilaian = item.LocalizedName;
-                nViewListPenilaian.NamaPenilaian = item.LocalizedName;
+                nViewListPenilaian.Nilai = item.PenilaianVendors.FirstOrDefault().Nilai.ToString();
+                nViewListPenilaian.Catatan = item.PenilaianVendors.FirstOrDefault().Catatan.ToString();
                 nViewListPenilaian.VendorId = vendorid.ToString();
                 vlistViewListPenilaian.Add(nViewListPenilaian);
             }

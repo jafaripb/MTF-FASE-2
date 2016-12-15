@@ -111,6 +111,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public int Id { get; set; }
         public string NamaPenilaian { get; set; }
         public string Nilai { get; set; }
+        public string Catatan { get; set; }
         public string VendorId { get; set; }
     }
 }
