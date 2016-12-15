@@ -506,6 +506,7 @@ function loadHeaderPengadaan(viewPengadaan) {
         }
         $("#isTeam").val(viewPengadaan.isTEAM);
         $("#isCreated").val(viewPengadaan.isCreated);
+        $("#State").val(viewPengadaan.Status);
         if (viewPengadaan.isTEAM == 1 || viewPengadaan.isCreated == 1)
             $(".Simpan").show();
         if (viewPengadaan.isTEAM == 0 && viewPengadaan.isCreated==0) {
@@ -547,14 +548,18 @@ function loadHeaderPengadaan(viewPengadaan) {
         $(".Tolak").show();
     }
 
-    if (viewPengadaan.AturanPenawaran == "Price Matching") {
-        $("[name=HpsId]").attr("disabled", "disabled");
-        $("#buat_hps").show();
-    }
+    //if (viewPengadaan.AturanPenawaran == "Price Matching") {
+    //    $("[name=HpsId]").attr("disabled", "disabled");
+    //    $("#buat_hps").show();
+    //}
 
     if (viewPengadaan.AturanPenawaran == "Open Price") {
         $("#buat_hps").hide();
         $("[name=HpsId]").removeAttr("disabled");
+    }
+    else {
+        $("[name=HpsId]").attr("disabled", "disabled");
+        $("#buat_hps").show();
     }
         
     $("[name=Judul]").val(viewPengadaan.Judul);
@@ -733,12 +738,12 @@ function addLoadPersonil(item, el, status, xisTeam) {
         removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';
     }
     if (item.isReady == 1) {
-        if (item.isMine == 1 && item.Status == 0)
+        if (item.isMine == 1 && $("#State").val() == 0)
             removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
         else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
     }
     else {
-        if (item.isMine == 1 && item.Status == 0)
+        if (item.isMine == 1 && && $("#State").val() == 0)
             removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
         else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
     } html = '<a class="btn btn-app">' +
@@ -1570,7 +1575,17 @@ function renderDokumenDropzone(myDropzone,tipe) {
 }
 
 function hitungHPS(rksId) {
-    if ($("[name=AturanPenawaran]").val() == "Price Matching") {
+    if ($("[name=AturanPenawaran]").val() == "Open Price") {
+        
+        $.ajax({
+            url: "Api/PengadaanE/getTotalHps?Id=" + rksId,
+            method: "POST"
+        }).done(function (data) {
+            if (data.Total != null || data.Total != "")
+                $("[name=HpsId]").val(data.Total);
+        });
+    }
+    else {
         $.ajax({
             url: "Api/PengadaanE/getRks?Id=" + rksId
         }).done(function (data) {
@@ -1586,15 +1601,6 @@ function hitungHPS(rksId) {
             }
 
             $("[name=HpsId]").val(total);
-        });
-    }
-    else {
-        $.ajax({
-            url: "Api/PengadaanE/getTotalHps?Id=" + rksId,
-            method:"POST"
-        }).done(function (data) {            
-            if (data.Total != null || data.Total != "")
-                $("[name=HpsId]").val(data.Total);
         });
     }
 }

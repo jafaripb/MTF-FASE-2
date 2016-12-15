@@ -22,6 +22,7 @@ $(function () {
             success: function (data) {
                 //$("#aanwijzing_pelaksanaan").val(moment(data.Mulai).format("DD/MM/YYYY"));
                 $(this).attr('checked', true);
+                getKandidatPemenang();
                 waitingDialog.hideloading();
                 waitingDialog.hideloading();
             },

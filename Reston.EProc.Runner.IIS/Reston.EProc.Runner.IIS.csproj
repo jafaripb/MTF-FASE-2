@@ -155,6 +155,7 @@
     <Content Include="View\approval-perencanaan-sudah-disetujui.html" />
     <Content Include="View\approval-persetujuan-pemenang-belum-disetujui.html" />
     <Content Include="View\create-pks.html" />
+    <Content Include="View\dist\js\create-pks.js" />
     <Content Include="View\pks.html" />
     <Content Include="View\approval-persetujuan-pemenang-sudah-disetujui.html" />
     <Content Include="View\approval.html" />

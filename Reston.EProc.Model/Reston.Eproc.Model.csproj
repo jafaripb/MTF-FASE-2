@@ -103,9 +103,11 @@
     <Compile Include="Monitoring\Repository\MoritoringRepo.cs" />
     <Compile Include="Monitoring\Repository\ProyekRepo.cs" />
     <Compile Include="MyClass.cs" />
+    <Compile Include="PengadaanRepository\Pengadaan.cs" />
+    <Compile Include="PengadaanRepository\PksRepo.cs" />
     <Compile Include="PengadaanRepository\RksRepo.cs" />
     <Compile Include="PengadaanRepository\PengadaanRepo.cs" />
-    <Compile Include="PengadaanRepository\Pengadaan.cs" />
+    <Compile Include="PengadaanRepository\Pks.cs" />
     <Compile Include="PengadaanRepository\View\VWPengadaan.cs" />
     <Compile Include="PengadaanRepository\View\VWPengadaanList.cs" />
     <Compile Include="PengadaanRepository\View\VWRKS.cs" />

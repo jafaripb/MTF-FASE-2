@@ -66,6 +66,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual ICollection<JadwalPelaksanaan> JadwalPelaksanaans { get; set; }
         public virtual ICollection<PersetujuanPemenang> PersetujuanPemenangs { get; set; }
         public virtual ICollection<RencanaProyek> RencanaProyeks { get; set; }
+        public virtual ICollection<BeritaAcara> BeritaAcaras { get; set; }
+        public virtual ICollection<PemenangPengadaan> PemenangPengadaans { get; set; }
     }
 
     [Table("DokumenPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -82,6 +84,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string ContentType { get; set; }
         [MaxLength(255)]
         public string Title { get; set; }
+         [MaxLength(25)]
+        public string NoDokumen { get; set; }
         public Nullable<DateTime> CreateOn { get; set; }
         public Nullable<Guid> CreateBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }
@@ -94,6 +98,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual Pengadaan Pengadaan { get; set; }
         public virtual Vendor Vendor { get; set; }
     }
+
 
     [Table("KandidatPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
     public class KandidatPengadaan
@@ -626,7 +631,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
     public enum TipeBerkas
     {
-        NOTA, DOKUMENLAIN, BerkasRujukanLain, BeritaAcaraAanwijzing, BeritaAcaraSubmitPenawaran, BeritaAcaraBukaAmplop, BeritaAcaraPenilaian, BeritaAcaraKlarifikasi, BeritaAcaraPenentuanPemenang, BerkasRekanan, BerkasRekananKlarifikasi, LembarDisposisi, SuratPerintahKerja, BeritaAcaraPendaftaran
+        NOTA, DOKUMENLAIN, BerkasRujukanLain, BeritaAcaraAanwijzing, BeritaAcaraSubmitPenawaran, BeritaAcaraBukaAmplop, BeritaAcaraPenilaian, BeritaAcaraKlarifikasi, BeritaAcaraPenentuanPemenang, BerkasRekanan, BerkasRekananKlarifikasi, LembarDisposisi, SuratPerintahKerja, BeritaAcaraPendaftaran, PKS
     }
 
     public enum TipeCatatan

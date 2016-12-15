@@ -2560,7 +2560,7 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public List<BeritaAcara> GetBeritaAcara(Guid PId)
+        public List<VWBeritaAcaraEnd> GetBeritaAcara(Guid PId)
         {
             //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
             return _repository.getBeritaAcara(PId, UserId());

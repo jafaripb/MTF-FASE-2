@@ -36,6 +36,7 @@
 	<link rel="stylesheet" href="dist/app.css">
 	<link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
 	<link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+      <link rel="stylesheet" href="dropzone.css">
 		<style type="text/css">
 		.dz-error-mark{
 			display:none !important;
@@ -74,13 +75,14 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Tambah PKS</a></li>
+                            <li>	<a id="judul-page" href="#">Ajukan PKS</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
-                            <li><a id="Simpan" title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
-                            <!--<li><a  id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>-->
+                            <li><a  title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                            <li><a  title="Ajukan" href="#" class="ajukan" style="display:none">Ajukan</a></li>
+                            <li><a  id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -123,12 +125,10 @@
                 <div class="row">
                     <div class="col-md-10">
                         <div class="box box-primary box-white">
-                            <form id="form-rencana-proyek" role="form" class="jp-form">
                                 <input type="hidden" id="isPIC" />
                                 <input type="hidden" id="pengadaanId" />
-                                <input type="hidden" id="isTeam" />
-                                <input type="hidden" id="isCreated" />
-                                <input type="hidden" id="status" value="DRAF">
+                                <input type="hidden" id="VendorId" />
+                                <input type="hidden" id="pksId" />
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-md-10">
@@ -166,22 +166,25 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-10">
                                             <div class=" panel-header-white">
                                                 <span class="title-header" id="section-3">Draf PKS:</span>
                                             </div>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <div class="form-group ">
-                                                <br />
-                                                <input type="text" name="TitleDokumenDrafPKS" class="form-control">
-                                                <input type="hidden" name="FileDokumenDrafPKS" class="dropzoneFile" attr1="" attr2="" />
-                                                <div id="DokumenDrafPKS" attr="PKS" action="/api/PengadaanE/UploadFile?tipe=PKS" class="dropzone"></div>
+                                    </div>
+                                    <div class="row">
+                                         <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="title">Unggah PKS</label>
+                                                        <div id="dok-pks" attr="PKS" action="/api/PengadaanE/UploadFile?tipe=PKS" class="dropzone"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -205,7 +208,21 @@
              immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-    
+     <div class="modal" id="konfirmasiFile" role="dialog" FileId="" attr1="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Konfirmasi</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="downloadFile" class="btn btn-default">Download</button>
+                    <button type="button" id="HapusFile" class="btn btn-default">Hapus</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <!--endviewr-->
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -244,5 +261,8 @@
     <script src="dist/js/menu.js"></script>
     <script src="dropzone.js"></script>
     <script src="dist/js/create-pks.js"></script>
+    <script>
+        
+    </script>
 </body>
 </html>

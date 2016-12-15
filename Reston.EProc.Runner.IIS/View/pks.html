@@ -120,39 +120,73 @@
             <section class="content">
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="perlu_perhatian">
-                            <div class="box box-white">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">List PKS</h3>
-                                </div><!-- /.box-header -->
-                                <div class="box-body">
-                                    <div class="form-group col-md-12">
-                                        <label class="title"><h3>XXX-XXX-XXX</h3></label>
-                                    </div>
-                                    <div class="col-md-10" style="margin-left: 60px;">
-                                        <table class="table table-bordered table-striped table-responsive" id="tbl-approval" style="margin-top:20px; ">
-                                            <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>Nama Pekerjaan</th>
-                                                    <th>HPS</th>
-                                                    <th>Klasifikasi</th>
-                                                    <th>Status</th>
-                                                    <th>Note</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div><!-- /.box-body -->
-                                <div class="box-footer text-center">
-                                    <!--<a id="A1" class="uppercase">Berikutnya
-                                    </a>-->
-                                </div><!-- /.box-footer -->
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#origin-pks" data-toggle="tab">Original PKS</a></li>
+                                <li><a href="#other-pks" data-toggle="tab">Other PKS</a></li>
+                            </ul>
+                            <div class="tab-content">
+                            <div class="tab-pane active" id="origin-pks">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">List PKS Original</h3>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">                                        
+                                        <div class="row" style="margin-left: 60px;">
+                                            <div class="col-md-10">
+                                                <form class="form-horizontal label-kanan">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">Judul</label>
+                                                        <div class="col-sm-4">
+                                                            <input id="title" type="text" class="form-control " placeholder="Judul">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">Klasifikasi</label>
+                                                        <div class="col-sm-4">
+                                                            <select id="klasifikasi" class="form-control select2" style="width: 100%;">
+                                                                <option selected="selected" value="">ALL</option>
+                                                                <option value="Sipil">SIPIL</option>
+                                                                <option value="Non Sipil">NONSIPIL</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                     <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="submitgray button-row">
+                                                                <button id="cari-pks-original" class="btn btn-primary " type="button">Cari</button>                                                               
+                                                            </div>
+                                                        </div>
+                                                     </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10" style="margin-left: 60px;">
+                                            <table class="table table-bordered table-striped table-responsive" id="tbl-approval" style="margin-top:20px; ">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nama Pekerjaan</th>
+                                                        <th>HPS</th>
+                                                        <th>Klasifikasi</th>
+                                                        <th>Pemenang</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                    <div class="box-footer text-center">
+                                        <!--<a id="A1" class="uppercase">Berikutnya
+                                        </a>-->
+                                    </div><!-- /.box-footer -->
+                                </div>
                             </div>
-                        </div>
+                            <div class="tab-pane active" id="other-pks">
+                            </div>
+                            </div>
+                         </div>
                     </div>
                 </div>
             </section><!-- /.content -->
@@ -161,38 +195,6 @@
 
     </div><!-- ./wrapper -->
 
-    <!-- Modal -->
-        <div class="modal" id="users_modal" role="dialog"  aria-hidden="true">
-            <input type="hidden" id="next-userid"/>
-              <input type="hidden" id="note_user"/>
-             <input type="hidden" id="pengadaanId"/>
-            
-          <div class="modal-dialog">
-	        <div class="modal-content">
-	          <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="TitleKonfirmasi">User List</h4>
-	          </div>
-	          <div class="modal-body">
-		        <table class="table table-bordered table-striped table-responsive" id="user_table" style="margin-top:20px; ">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>User</th>
-                            <th>Jabatan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-	          </div>
-	          <div class="modal-footer">
-                  <a class="btn btn-default addWorkflowStep" data-toggle="tooltip" title="Setujui & Diteruskan" >Setujui & Diteruskan </a>	
-		        <button type="button" class="btn btn-default " data-dismiss="modal" >Close</button>		
-	          </div>
-	        </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
 
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -229,28 +231,20 @@
             table = $('#tbl-approval').DataTable({
                 "dom": '<"toolbar">frtip',
                 "serverSide": true,
-                "searching": true,
+                "searching": false,
                 "ajax": {
-                    "url": 'api/Pengadaane/List',
+                    "url": 'api/Pks/List',
                     "type": 'POST',
                     "data": function (d) {
-                        d.status = "8";
-                        d.more = "0";
-                        d.spk = "1";
+                        d.search = $("#title").val();
+                        d.klasifikasi = $("#klasifikasi option:selected").val();
                     }
                 },
                 "columns": [
-                    {
-                        "className": 'details-control',
-                        "orderable": false,
-                        "data": null,
-                        "defaultContent": ''
-                    },
                     { "data": "Judul" },
                     { "data": "HPS", "className": "rata_kanan" },
                     { "data": "JenisPekerjaan" },
-                    { "data": "StatusPersetujuanPemenangName" },
-                    { "data": null },
+                    { "data": "Vendor" },                    
                     { "data": null }
                 ],
                 "columnDefs": [
@@ -261,32 +255,22 @@
                             else return "";
                         },
 
-                        "targets": 2,
+                        "targets": 1,
                         "orderable": false
                     },
-                    {
-                        "render": function (data, type, row) {
-                            return "";
-                            //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
-                        },
-
-                        "targets": 5,
-                        "orderable": false
-                    },
-
                     {
                         "render": function (data, type, row) {
                             var html = ''
                             var detailHtml = "";
-                            if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = '<a href="create-pks.html?id=' + data.Id + '" class="btn btn-primary btn-sm product-title "> BUAT PKS </a>' +
-                                ' <a href="pengadaan-detail.html#' + data.Id + '" class="product-title  btn btn-success btn-sm">Detail</a>';
-                            else detailHtml = '<a href="create-pks.html?id=' + data.Id + '" class="btn btn-primary btn-sm product-title "> BUAT PKS </a>'+
-                                ' <a href="pengadaan-terbuka-detail.html#' + data.Id + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
+                            if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = '<a href="create-pks.html?id=' + data.PengadaanId + '&VendorId=' + data.VendorId + '" class="btn btn-primary btn-sm product-title "> BUAT PKS </a>' +
+                                ' <a href="pengadaan-detail.html#' + data.PengadaanId +'" class="product-title  btn btn-success btn-sm">Detail</a>';
+                            else detailHtml = '<a href="create-pks.html?id=' + data.PengadaanId + '&VendorId=' + data.VendorId + '" class="btn btn-primary btn-sm product-title "> BUAT PKS </a>' +
+                                ' <a href="pengadaan-terbuka-detail.html#' + data.PengadaanId + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
                             html +=  detailHtml;
                             return html;
                         },
 
-                        "targets": 6,
+                        "targets": 4,
                         "orderable": false
                     }
                 ],
@@ -296,6 +280,10 @@
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
+            });
+
+            $("#title,#klasifikasi").on("input propertychange paste", function () {
+                table.draw();
             });
 
             $('#tbl-approval tbody').on('click', 'td.details-control', function () {

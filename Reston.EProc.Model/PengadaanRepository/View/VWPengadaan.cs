@@ -278,6 +278,16 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public string tanggal { get; set; }
         public Nullable<TipeBerkas> Tipe { get; set; }
         public string NoBeritaAcara { get; set; }
+        public Nullable<int> VendorId { get; set; }
+    }
+    public class VWBeritaAcaraEnd
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public DateTime? tanggal { get; set; }
+        public Nullable<TipeBerkas> Tipe { get; set; }
+        public string NoBeritaAcara { get; set; }
+        public Nullable<int> VendorId { get; set; }
     }
     public class VWReportPengadaan
     {
@@ -369,4 +379,5 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public int PemenangDiTolak { get; set; }
         public int MonitorSelection { get; set; }
     }
+
 }

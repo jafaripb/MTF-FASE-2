@@ -200,6 +200,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\PksController.cs" />
     <Compile Include="Controllers\MonitoringSelectionController.cs" />
     <Compile Include="Controllers\ProyekController.cs" />
     <Compile Include="Controllers\RksController.cs" />
