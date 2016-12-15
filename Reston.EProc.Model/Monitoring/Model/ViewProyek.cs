@@ -73,6 +73,14 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public List<ViewListTahapanDokumenPekerjaan> data { get; set; }
     }
 
+    public class DataTableViewPenilaian
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewListPenilaian> data { get; set; }
+    }
+
     public class ViewListTahapan
     {
         public Guid Id { get; set; }
@@ -96,5 +104,13 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public Guid Id { get; set; }
         public string NamaDokumen { get; set; }
         public string URL { get; set; }
+    }
+
+    public class ViewListPenilaian
+    {
+        public int Id { get; set; }
+        public string NamaPenilaian { get; set; }
+        public string Nilai { get; set; }
+        public string VendorId { get; set; }
     }
 }

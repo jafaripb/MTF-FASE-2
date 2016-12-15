@@ -147,35 +147,37 @@
                                     <div class="col-md-12">
                                         <div class="nav-tabs-custom">
                                             <ul class="nav nav-tabs">
-                                                <li class="active"><a href="#all" data-toggle="tab">Seleksi</a></li>
-                                                <li><a href="#inprogress" data-toggle="tab">Sedang Berjalan</a></li>
-                                                <li><a href="#finish" data-toggle="tab">Selesai</a></li>
+                                                <li class="active"><a href="#seleksi" data-toggle="tab">Seleksi</a></li>
+                                                <li><a href="#draf" data-toggle="tab">Draf</a></li>
+                                                <li><a href="#sedang_berjalan" data-toggle="tab">Sedang Berjalan</a></li>
+                                                <li><a href="#selesai" data-toggle="tab">Selesai</a></li>
                                             </ul>
                                             <div class="tab-content">
                                                 <!--Tab All Klasifikasi-->
-                                                <div class="tab-pane active" id="all">
-                                                    <table class="table table-bordered" id="example1">
+                                                <div class="tab-pane active" id="seleksi">
+                                                    <table class="table table-bordered" id="monitoring-seleksi">
                                                         <thead>
                                                             <tr>
-                                                                <td class="tengah text-bold" >No. Pengadaan</td>
-                                                                <td class="tengah text-bold" >Nama Proyek</td>
-                                                                <td class="tengah text-bold" >Vendor Pemenang</td>
+                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">No. SPK</td>
+                                                                <td class="tengah text-bold">Nama Proyek</td>
+                                                                <td class="tengah text-bold">Vendor Pemenang</td>
                                                                 <td class="tengah text-bold">Klasifikasi</td>
-                                                                <td class="tengah text-bold" >Tanggal</td>
-                                                                <td class="tengah text-bold" >Nilai Kontrak</td>
+                                                                <td class="tengah text-bold">Tanggal</td>
+                                                                <td class="tengah text-bold">Nilai Kontrak</td>
                                                                 <td class="tengah text-bold">PIC</td>
-                                                                <td class="tengah text-bold">Monitor</td>
+                                                                <td class="tengah text-bold"></td>
                                                             </tr>
                                                         </thead>
                                                         <tbody></tbody>
                                                     </table>
                                                 </div>
-                                                <!-- Tab In Progress Klasifikasi-->
-                                                <div class="tab-pane" id="inprogress">
-                                                    <table class="table table-bordered" id="monitoring-inprogress">
+                                                <!-- Tab Draf-->
+                                                <div class="tab-pane" id="draf">
+                                                    <table class="table table-bordered" id="monitoring-draf">
                                                         <thead>
                                                             <tr>
-                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">No. Pengadaan Draf</td>
                                                                 <td class="tengah text-bold">Judul</td>
                                                                 <td class="tengah text-bold">Pemenang</td>
                                                                 <td class="tengah text-bold">Klasifikasi</td>
@@ -188,12 +190,30 @@
                                                         <tbody></tbody>
                                                     </table>
                                                 </div>
-                                                <!-- Tab Finish-->
-                                                <div class="tab-pane" id="finish">
-                                                    <table class="table table-bordered" id="monitoring-finish">
+                                                <!-- Tab Sedang Berjalan-->
+                                                <div class="tab-pane" id="sedang_berjalan">
+                                                    <table class="table table-bordered" id="monitoring-sedang-berjalan">
                                                         <thead>
                                                             <tr>
-                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">No. Pengadaan Sedang Berjalan</td>
+                                                                <td class="tengah text-bold">Judul</td>
+                                                                <td class="tengah text-bold">Pemenang</td>
+                                                                <td class="tengah text-bold">Klasifikasi</td>
+                                                                <td class="tengah text-bold">Tanggal Penentuan Pemenang</td>
+                                                                <td class="tengah text-bold">Nilai Kontrak</td>
+                                                                <td class="tengah text-bold">PIC</td>
+                                                                <td class="tengah text-bold">Monitor</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- Tab Selesai-->
+                                                <div class="tab-pane" id="selesai">
+                                                    <table class="table table-bordered" id="monitoring-selesai">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="tengah text-bold">No. Pengadaan Selesai</td>
                                                                 <td class="tengah text-bold">Judul</td>
                                                                 <td class="tengah text-bold">Pemenang</td>
                                                                 <td class="tengah text-bold">Klasifikasi</td>
@@ -319,10 +339,13 @@
     </script>-->
     <!---------------------------------------------------------- Tampil Data Monitorng--------------------------------------------------->
     <script>
-        var table;
+        var table_seleksi;
+        var table_draf;
+        var table_sedang_berjalan;
+        var table_selesai;
 
         $(function () {
-            table = $('#example1').DataTable({
+            table_seleksi = $('#monitoring-seleksi').DataTable({
                 "serverSide": true,
                 "searching": false,
                 "ajax": {
@@ -337,19 +360,76 @@
                 },
                 "columns": [
                     { "data": "NoPengadaan" },
+                    { "data": "NOSPK" },
                     { "data": "Judul" },
                     { "data": "Pemenang" },
                     { "data": "Klasifikasi" },
                     { "data": "TglPenentuanPemenang" },
                     { "data": "NilaiKontrak", "className": "rata_kanan" },
                     { "data": "PIC" },
-                    { "data": "Monitor" },
+                    { "data": "null" },
                 ],
                 "columnDefs": [
                     {
-                        
                         "render": function (data, type, row) {
-                            return row.TanggalPenentuanPemenang;
+                            return moment(row.TanggalPenentuanPemenang).format("DD/MM/YYYY");
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return numberWithCommas(row.NilaiKontrak);
+                        },
+                        "targets": 6,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return ' <a href="monitoring-proyek-add.html?id-pengadaan='+row.Id+'" id="" class="btn btn-sm btn-primary "> Monitor </a> '+
+                                ' <a href="pengadaan-terbuka-detail.html#' + row.Id + '" id="" class="btn btn-sm btn-success "> Detail </a> ';
+                        },
+                        "targets": 8,
+                        "orderable": false
+                    },
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true
+            });
+        });
+
+        $(function () {
+            table_draf = $('#monitoring-draf').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/MonitoringSelection/DrafList',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = "DRAF";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "NoPengadaan" },
+                    { "data": "Judul" },
+                    { "data": "Pemenang" },
+                    { "data": "Klasifikasi" },
+                    { "data": "TglPenentuanPemenang" },
+                    { "data": "NilaiKontrak", "className": "rata_kanan" },
+                    { "data": "PIC" },
+                    { "data": "Status" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.TanggalPenentuanPemenang).format("DD/MM/YYYY");
                         },
                         "targets": 4,
                         "orderable": false
@@ -361,14 +441,6 @@
                         "targets": 5,
                         "orderable": false
                     },
-                    {
-                        "render": function (data, type, row) {
-                            return '<a href="monitoring-proyek-add.html?id-pengadaan='+row.Id+'" id="" class="btn btn-primary ">Ya</a>'+
-                                '<a href="#?id-pengadaan=' + row.Id + '" id="" class="btn btn-danger ">Tidak</a>';
-                        },
-                        "targets": 7,
-                        "orderable": false
-                    },
                 ],
                 "paging": true,
                 "lengthChange": false,
@@ -378,204 +450,12 @@
                 "responsive": true
             });
         });
-        
-        var table2;
-
-        $(function () {
-            table2 = $('#monitoring-inprogress').DataTable({
-                "serverSide": true,
-                "searching": false,
-                "ajax": {
-                    "url": 'api/MonitoringSelection/List',
-                    "type": 'POST',
-                    "data": function (d) {
-                        d.search = $("#txtcari").val();
-                        d.status = "1";
-                   },
-                    "error": function (jqXHR, textStatus, errorThrown) {
-                       // $('#example1').DataTable().clear().draw();
-                    }
-                },
-                //"ajax": 'api/MonitoringSelection/List?search=' + $("#search").val(),
-                "columns": [
-                    { "data": "NamaPekejaan" },
-                    { "data": "Nilai" },
-                    { "data": "Klasifikasi" },
-                    { "data": "Monitored" },
-                    { "data": "Status" },
-                ],
-                "columnDefs": [
-                         {
-                             "render": function (data, type, row) {
-                                 var html = '<select id="CBStatusMonitoring" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2 CBStatusMonitoring">';
-                                 if (row.Monitored == 0) {
-                                     html = html + '<option selected value="0">Belum Ditentukan</option>';
-                                     html = html + '<option value="1">No</option>';
-                                     html = html + '<option  value="2">Yes</option>';
-
-                                 }
-                                 else if (row.Monitored == 1) {
-                                     html = html + '<option  value="0">Belum Ditentukan</option>';
-                                     html = html + '<option selected value="1">No</option>';
-                                     html = html + '<option  value="">Yes</option>';
-                                 }
-                                 else {
-
-                                     html = html + '<option  value="0">Belum Ditentukan</option>';
-                                     html = html + '<option  value="1">No</option>';
-                                     html = html + '<option selected value="">Yes</option>';
-                                 }
-                                 html = html + '</select>';
-                                 return html;
-                             },
-                             "targets": 3,
-                             "orderable": false
-                         },
-                         {
-                             "render": function (data, type, row) {
-                                 var html = '<select id="CBStatusSeleksi" onchange="fungsiupdate(this)" atribut_id_pengadaan="' + row.Id + '" class="form-control select2 CBStatusSeleksi">';
-                                 if (row.Status == 0) {
-                                     html = html + '<option selected value="0">Belum Ditentukan</option>';
-                                     html = html + '<option value="1">Inprogress</option>';
-                                     html = html + '<option value="2">Finished</option>';
-                                 }
-                                 else if (row.Status == 1) {
-                                     html = html + '<option value="0">Belum Ditentukan</option>';
-                                     html = html + '<option selected value="1">Inprogress</option>';
-                                     html = html + '<option value="2">Finished</option>';
-                                 }
-                                 else {
-                                     html = html + '<option value="0">Belum Ditentukan</option>';
-                                     html = html + '<option  value="1">Inprogree</option>';
-                                     html = html + '<option selected value="2">Finished</option>';
-                                 }
-
-                                 html = html + '</select>';
-                                 return html;
-                             },
-                             "targets": 4,
-                             "orderable": false
-                         },
-                ],
-                "paging": true,
-                "lengthChange": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true
-            });
-        });
-
-
-        // tabel all
-
-        var table3
-
-        $(function () {
-            table2 = $('#monitoring-finish').DataTable({
-                "serverSide": true,
-                "searching": false,
-                "ajax": {
-                    "url": 'api/MonitoringSelection/List',
-                    "type": 'POST',
-                    "data": function (d) {
-                        d.search = $("#txtcari").val();
-                        d.status = "2";
-                    },
-                    "error": function (jqXHR, textStatus, errorThrown) {
-                        // $('#example1').DataTable().clear().draw();
-                    }
-                },
-                //"ajax": 'api/MonitoringSelection/List?search=' + $("#search").val(),
-                "columns": [
-                    { "data": "NamaPekejaan" },
-                    { "data": "Nilai" },
-                    { "data": "Klasifikasi" },
-                    { "data": "Monitored" },
-                    { "data": "Status" },
-                ],
-                "columnDefs": [
-                ],
-                "paging": true,
-                "lengthChange": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true
-            });
-        });
-
 
         function fungsicari(cari) {
-            table.draw();
-            table2.draw();
-            table3.draw();
-        }
-
-        function fungsiupdatenext(ubahmonitored)
-        {
-            console.log(ubahmonitored); //ini adalah DOM
-            //var ubahmonitored = $('#CBStatusMonitoring');
-            var jq = $(ubahmonitored); //jquery object, dibuat langsung dari DOM
-            var p_id = jq.attr('atribut_id_pengadaan');
-            console.log('nilai pengadaan id', jq.attr('atribut_id_pengadaan'));
-            var cb_monitored = $('[atribut_id_pengadaan="' + p_id + '"]')[0].value;
-            console.log('nilai ubahmonitored', cb_monitored);
-            var cb_seleksi = $('[atribut_id_pengadaan="' + p_id + '"]')[1].value;
-            console.log('nilai pengadaan id', cb_seleksi);
-            //alert('Nilai:' + ubahmonitored.val() + 'id:' + ubahmonitored.attr('atribut_id_pengadaan'));
-
-            $.ajax({
-                method: "post",
-                url: "api/monitoringselection/Add",
-                datatype: "json",
-                //data: function (d) {
-                //    d.aPengadaanId = $(ubahmonitored.attr('atribut_id_pengadaan')).val();
-                //    d.aStatusMonitoring = $(ubahmonitored.attr('atribut_status_monitoring')).val();
-                //    d.aStatusSeleksi = $(ubahmonitored.attr('atribut_status_seleksi')).val();
-                //},
-                data: {
-                    aPengadaanId: p_id,
-                    aStatusMonitoring: cb_monitored,
-                    aStatusSeleksi: cb_seleksi
-                },
-                success: function (d) {
-                    table.draw();
-                    table2.draw();
-                    //table3.draw();
-
-                    var message2 = d.message;
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: message2,
-                        buttons: [ {
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
-                            }
-                        }]
-                    });
-                }
-            })
-        }
-
-        function fungsiupdate(ubahmonitored) {
-            BootstrapDialog.show({
-                title: 'Konfirmasi',
-                message: 'Apakah Anda yakin ?',
-                buttons: [{
-                    label: 'Yes',
-                    action: function (dialog) {
-                        fungsiupdatenext(ubahmonitored);
-                        dialog.close();
-                    }
-                },{
-                    label: 'Close',
-                    action: function (dialog) {
-                        dialog.close();
-                    }
-                }]
-            });
+            table_seleksi.draw();
+            table_draf.draw();
+            table_sedang_berjalan.draw();
+            table_selesai.draw();
         }
 
         // Fungsi Separator Thousand

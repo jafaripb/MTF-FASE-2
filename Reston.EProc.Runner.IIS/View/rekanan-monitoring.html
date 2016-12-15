@@ -62,6 +62,8 @@
 </head>
 <body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
     <div class="wrapper">
+
+
         <div id="header">
             <header class="main-header">
                 <!-- Logo -->
@@ -79,7 +81,15 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>    <a id="judul-page" href="#">LISTS TO DO</a></li>
+                            <li>
+                                <a id="judul-page" href="#">Monitoring</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li id="tambah" style="display:none"><a title="Tambah" href="pengadaan-add.html"><i class=" " style="font-size:20px;color:green"></i></a></li>
+                            <li id="loader" style="display:none"> <img src="Images/ajax-loader.gif" /></li>
                         </ul>
                     </div>
                 </nav>
@@ -90,15 +100,6 @@
         <aside class="main-sidebar" ng-app="app">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                <!--<div class="user-panel" ng-controller="user">
-                    <div class="pull-left info">
-                        <p class="title" ng-bind="user.nama"></p>
-                        <p class="deskripsi" ng-bind="user.divisi"></p>
-                    </div>
-                    <div class="pull-right image image-profile">
-                        <img alt="User Image" class="img-circle" src="{{user.logo}}" >
-                    </div>
-                </div>-->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" ng-controller="side-menu">
                     <!-- <li class="header">MAIN NAVIGATION</li>-->
@@ -112,61 +113,50 @@
             </section>
             <!-- /.sidebar -->
         </aside>
-
+        
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <section class="content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="perlu_perhatian">
-                            <div class="box box-white">
-                                <div class="box-body">
-                                    <br />
-                                    <div class="form-group col-md-3">
-                                        <div class="input-group date">
-                                            <h3 class="box-title text-blue-mtf cursor-pointer repository" style="margin-left: 60px; font-weight: bold;">Lists To Do !</h3>
+                <!-- Default box -->
+                <div class="box box-primary box-white">
+                    <div class="box-body form-horizontal">
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Monitoring Ikut Serta</h3>
+                                <div class="box-tools pull-right"></div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="col-sm-3">
+                                                <input id="title" type="text" class="form-control " placeholder="Search...">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <br /><br /><br /><br />
-                                    <div class="head">
-                                        <table class="table" style="border-style:none; width:600px; min-height:100px; margin-left:110px;">
-                                            <tr>
-                                                <td class="rata_kiri text-bold">Dokumen Pengadaan yang Butuh Persetujuan</td>
-                                                <td class="tengah text-bold"><a href="approval-perencanaan-belum-disetujui.html" id="persetujuan-pengadaan"></a></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="rata_kiri text-bold">Dokumen Pengadaan yang Sudah di Setujui</td>
-                                                <td class="tengah text-bold"><a href="approval-perencanaan-sudah-disetujui.html" id="pengadaan-disetujui"></a></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="rata_kiri text-bold">Dokumen Persetujuan Pemenang yang Butuh Persetujuan</td>
-                                                <td class="tengah text-bold"><a href="approval-persetujuan-pemenang-belum-disetujui.html" id="persetujuan-pemenang"></a></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="rata_kiri text-bold">Dokumen Persetujuan Pemenang yang Sudah di Setujui</td>
-                                                <td class="tengah text-bold"><a href="approval-persetujuan-pemenang-sudah-disetujui.html" id="pemenang-disetujui"></a></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="rata_kiri text-bold">Proyek Monitoring</td>
-                                                <td class="tengah text-bold"><a href="monitoring-selection.html" id="monitor-selection">5</a></td>
-
-                                            </tr>
+                                        <table id="example1" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td class="tengah text-bold">No. SPK</td>
+                                                    <td class="rata_kiri text-bold">Nama Proyek</td>
+                                                    <td class="tengah text-bold">Pelaksana</td>
+                                                    <td class="tengah text-bold">Klasifikasi</td>
+                                                    <td class="tengah text-bold">% Waktu</td>
+                                                    <td class="tengah text-bold">% Pekerjaan</td>
+                                                    <td class="tengah text-bold">% Pembayaran</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
                                         </table>
                                     </div>
-                                    <!-- nav-tabs-custom -->
                                 </div>
-                            </div><!-- /.box-body -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </section><!-- /.content -->
-        </div>
-    </div>
-    <div class="control-sidebar-bg"></div>
+        </div><!-- /.content-wrapper -->
+        <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
 
     <div id="ModalHapus" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -211,35 +201,86 @@
     <script src="dist/js/menu.js"></script>
     <script src="blockui/jquery.blockUI.js"></script>
     <script>
-        //Date picker
-        $('#datepicker').datepicker({
-            autoclose: true
-        });
-    </script>
-    <script>
-        var persetujuan_pengadaan = 0;
-        var pengadaan_disetujui = 0;
-        var monitor_selection = 0;
+        // fungsi table
+        var table;
         $(function () {
-            $("#persetujuan-pengadaan").text(0);
-            $("#pengadaan-disetujui").text(0);
-            $("#persetujuan-pemenang").text(0);
-            $("#pemenang-disetujui").text(0);
-            $("#monitor-selection").text(0);
-            $.ajax({
-                url: 'api/PengadaanE/ListCount',
-                method: "GET",
-                success: function (data) {
-                    if (data != null) {
-                        $("#persetujuan-pengadaan").text(data.PengadaanButuhPerSetujuan);
-                        $("#pengadaan-disetujui").text(data.PengadaanDiSetujui);
-                        $("#persetujuan-pemenang").text(data.PemenangButuhPerSetujuan);
-                        $("#pemenang-disetujui").text(data.PemenangDiSetujui);
-                        $("#monitor-selection").text(data.MonitorSelection);
+            table = $('#example1').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/MonitoringSelection/ListProyekRekanan',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.id = isGuid;
+                        d.search = "";
+                        d.klasifikasi = "";
+                        console.log(d);
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
                     }
-                }
+                },
+                "columns": [
+                    { "data": "NOSPK" },
+                    { "data": "NamaProyek" },
+                    { "data": "NamaPelaksana" },
+                    { "data": "Klasifikasi" },
+                    { "data": "null" },
+                    { "data": "null" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return "<a href='sistem-monitoring-detail-rekanan.html?Id=" + row.id + "'>" + row.NamaProyek + "</a>";
+                        },
+                        "targets": 1,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return "10%";
+                        },
+                        "targets": 4,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return "10%";
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return "10%";
+                        },
+                        "targets": 6,
+                        "orderable": false
+                    },
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy" : true
             });
         });
+
+        // fungsi tampil result
+        $(function () {
+            $.ajax({
+                method: "post",
+                url: "api/MonitoringSelection/TampilJudul",
+                success: function (d) {
+                    console.log(d);
+                    $("[name=dalam-pelaksanaan]").text(d.ProyekDalamPelaksanaan);
+                    $("[name=lewat-waktu]").text(d.ProyekLewatWaktuPelaksanaan);
+                    $("[name=mendekati-waktu]").text(d.ProyekMendekatiWaktuPelaksanaan);
+                }
+            })
+        })
     </script>
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 </body>

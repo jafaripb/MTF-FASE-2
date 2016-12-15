@@ -266,7 +266,6 @@ $(function () {
                 }
             }]
         });
-
     });
 
     $(".perlu-perhatian").on("click", ".tolak", function () {
@@ -322,7 +321,6 @@ $(function () {
                 }
             }]
         });
-
     });
 
     $("body").on("click", ".download-dokumen", function () {
@@ -366,7 +364,6 @@ function renderData(data) {
                     html = html + '<span attrId="' + data[i].Id + '" class="label label-danger pull-right action HapusPengadaan">Hapus</span>';
                 }
             html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
-
         }
 
         if (data[i].GroupPengadaan == 3) {

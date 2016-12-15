@@ -434,6 +434,68 @@ function getHeaderPengadaan() {
     return viewPengadaan;
 }
 
+function addPersonil(item, el) {
+    var peran = el.replace(".listperson-", "");
+    var objPersonilPengadaan = {};
+    objPersonilPengadaan.PersonilId = item.PersonilId;
+    objPersonilPengadaan.tipe = peran;
+    objPersonilPengadaan.Nama = item.Nama;
+    objPersonilPengadaan.Jabatan = item.Jabatan;
+    objPersonilPengadaan.PengadaanId = $("#pengadaanId").val();
+
+    if (peran == "pic" && $(el).children().length > 0) {
+        BootstrapDialog.show({
+            title: 'Konfirmasi',
+            message: 'PIC Sudah Ada!',
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+        return false;
+    }
+    if (isPersonileEksisPerPeran(item.PersonilId, el) == 1) {
+        BootstrapDialog.show({
+            title: 'Konfirmasi',
+            message: 'User yang Ingin ditambahkan Sudah Ada!',
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+        return false;
+    }
+
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/savePersonil",
+        dataType: "json",
+        data: JSON.stringify(objPersonilPengadaan),
+        contentType: 'application/json; charset=utf-8'
+    }).done(function (data) {
+        if (data.status == 200) {
+            html = '<a class="btn btn-app">' +
+                    '<input type="hidden" class="list-personil" attrId="'
+                        + data.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
+                        + item.Jabatan + '" value="' + item.PersonilId + '" />' +
+                    '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>' +
+                    '<span class="badge-left check-person"><input  class="ready-checkbox" type="checkbox"/></span>' +
+                    '<i class="fa fa-user"></i>' +
+                    item.Nama +
+                  '</a>';
+            $(el).append(html);
+        }
+        else {
+            alert("error");
+        }
+    });
+
+}
+
 function loadHeaderPengadaan(viewPengadaan) {
     var xPermision = viewPengadaan.isCreated == 1 ? 1 : viewPengadaan.isTEAM == 1 ? 1 : 0;
     LoadKriteriaPembobotan(viewPengadaan.Id, xPermision);

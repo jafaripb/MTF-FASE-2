@@ -81,7 +81,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>    <a id="judul-page" href="#">APPROVAL</a></li>
+                            <li>    <a id="judul-page" href="#">PKS</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -123,11 +123,11 @@
                         <div id="perlu_perhatian">
                             <div class="box box-white">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">List To Do / Approval</h3>
+                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">List PKS</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="form-group col-md-12">
-                                        <label class="title"><h3>Dokumen Persetujuan Pemenang yang Butuh Persetujuan </h3></label>
+                                        <label class="title"><h3>XXX-XXX-XXX</h3></label>
                                     </div>
                                     <div class="col-md-10" style="margin-left: 60px;">
                                         <table class="table table-bordered table-striped table-responsive" id="tbl-approval" style="margin-top:20px; ">
@@ -236,7 +236,7 @@
                     "data": function (d) {
                         d.status = "8";
                         d.more = "0";
-                        d.spk = "0";
+                        d.spk = "1";
                     }
                 },
                 "columns": [
@@ -266,8 +266,7 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            if (data.ApproverPersetujuanPemenang == 1) return '<textarea class="form-control" attrid="' + data.IdPersetujuanPemanang + '"></textarea>';
-                            else return "";
+                            return "";
                             //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
                         },
 
@@ -279,12 +278,11 @@
                         "render": function (data, type, row) {
                             var html = ''
                             var detailHtml = "";
-                            var nexApprover = "";
-                            if (data.ApproverPersetujuanPemenang == 1) html += '<button class="setuju btn btn-flat btn-sm btn-primary" attrid="' + data.IdPersetujuanPemanang + '" >Setujui</button> <button class="tolak btn-flat btn-sm btn btn-danger" attrid="' + data.IdPersetujuanPemanang + '"  >Tolak</button>';
-                            if (data.lastApproverPersetujuanPemenang == "1" && data.ApproverPersetujuanPemenang == 1) nexApprover += ' <button class="next-approver btn btn-flat btn-sm btn-info" attrid="' + data.Id + '" >Ekalasi</button>';
-                            if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = ' <a href="pengadaan-detail.html#' + data.Id + '" class="product-title btn btn-success btn-sm btn-flat">Detail</a>';
-                            else detailHtml = ' <a href="pengadaan-terbuka-detail.html#' + data.Id + '" class="btn btn-success btn-flat btn-sm product-title ">Detail</a>';
-                            html += nexApprover + detailHtml;
+                            if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = '<a href="create-pks.html?id=' + data.Id + '" class="btn btn-primary btn-sm product-title "> BUAT PKS </a>' +
+                                ' <a href="pengadaan-detail.html#' + data.Id + '" class="product-title  btn btn-success btn-sm">Detail</a>';
+                            else detailHtml = '<a href="create-pks.html?id=' + data.Id + '" class="btn btn-primary btn-sm product-title "> BUAT PKS </a>'+
+                                ' <a href="pengadaan-terbuka-detail.html#' + data.Id + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
+                            html +=  detailHtml;
                             return html;
                         },
 
@@ -314,169 +312,6 @@
                     row.child(format(row.data())).show();
                     tr.addClass('shown');
                 }
-            });
-            $("#tbl-approval").on("click", ".setuju", function () {
-                var note = $(this).closest('tr').find("textarea").val();
-                var IdPersetujuanPemanang = $(this).attr("attrid");
-                if (note == "") {
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: 'Note Harus Diisi!',
-                        buttons: [{
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
-                            }
-                        }]
-                    });
-                    return false;
-                }
-
-                $.ajax({
-                    url: 'api/PengadaanE/persetujuanPemenangWithNote?id=' + IdPersetujuanPemanang + "&Note=" + note,
-                    method: "GET",
-                    success: function (data) {
-                        var message = data.message;
-                        BootstrapDialog.show({
-                            title: 'Konfirmasi',
-                            message: message,
-                            buttons: [{
-                                label: 'Close',
-                                action: function (dialog) {
-                                    dialog.close();
-                                }
-                            }]
-                        });
-                        table.draw();
-                    }
-                });
-
-            });
-            $("#tbl-approval").on("click", ".tolak", function () {
-                var note = $(this).closest('tr').find("textarea").val();
-                var IdPersetujuanPemanang = $(this).attr("attrid");
-                if (note == "") {
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: 'Note Harus Diisi!',
-                        buttons: [{
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
-                            }
-                        }]
-                    });
-                    return false;
-                }
-                $.ajax({
-                    url: 'api/PengadaanE/PenolakanPemenangWithWorkflow?Id=' + IdPersetujuanPemanang + "&Note=" + note,
-                    method: "GET",
-                    success: function (data) {
-                        var message = data.message;
-                        BootstrapDialog.show({
-                            title: 'Konfirmasi',
-                            message: message,
-                            buttons: [{
-                                label: 'Close',
-                                action: function (dialog) {
-                                    dialog.close();
-                                }
-                            }]
-                        });
-                        table.draw();
-                    }
-                });
-            });
-        });
-        $(function () {
-
-            user_table = $("#user_table").DataTable({
-                "serverSide": true,
-                "searching": true,
-                "ajax": {
-                    "url": 'api/Pengadaane/ListUsers',
-                    "type": 'POST',
-                    "data": function (d) {
-                        d.status = "1";
-                        d.more = "0";
-                    }
-                },
-                "columns": [
-                    { "data": null },
-                    { "data": "Nama" },
-                    { "data": "jabatan" }
-                ],
-                "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            return '<input type="checkbox" class="check-user" attrId="' + data.PersonilId + '" />';
-                        },
-
-                        "targets": 0,
-                        "orderable": false
-                    }
-                ],
-                "paging": true,
-                "lengthChange": false,
-                "ordering": false,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
-        });
-        $(function () {
-            $("body").on("click", ".next-approver", function () {
-                $("#users_modal").modal("show");
-                $("#note_user").val($(this).closest('tr').find("textarea").val());
-                $("#pengadaanId").val($(this).attr("attrid"));
-                console.log($(this).closest('tr').find("textarea"));
-            });
-            $("body").on("click", ".check-user", function () {
-                $(".check-user").prop("checked", false);
-                $(this).prop("checked", true);
-                $("#next-userid").val($(this).attr("attrId"));
-                //$("#note_user") check-user
-            });
-            $(".addWorkflowStep").on("click", function () {
-                var note = $("#note_user").val();
-
-                if (note == "" || $("#user_table").find("input[type=checkbox]:checked").length == 0 || $("#user_table").find("input[type=checkbox]:checked").length > 1) {
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: 'Pilih Satu User dan note wajib diisi!',
-                        buttons: [{
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
-
-                            }
-                        }]
-                    });
-                    return false;
-                }
-
-                var userid = $("#user_table").find("input[type=checkbox]:checked").attr("attrid");
-                var pengadaanId = $("#pengadaanId").val();
-                $.ajax({
-                    url: 'api/PengadaanE/persetujuanPemenangWithNextApprover?Id=' + pengadaanId + "&Note=" + note + "&userId=" + userid,
-                    method: "GET",
-                    success: function (data) {
-                        var message = data.message;
-                        BootstrapDialog.show({
-                            title: 'Konfirmasi',
-                            message: message,
-                            buttons: [{
-                                label: 'Close',
-                                action: function (dialog) {
-                                    dialog.close();
-                                }
-                            }]
-                        });
-                        table.draw();
-                        $("#users_modal").modal("close");
-                    }
-                });
-
             });
         });
         function format(d) {

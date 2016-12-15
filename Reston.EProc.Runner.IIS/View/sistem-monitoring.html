@@ -249,10 +249,8 @@
     <script src="dist/js/pengadaan-list.js"></script>
     <script src="blockui/jquery.blockUI.js"></script>
     <script>
-
         // fungsi table
         var table;
-
         $(function () {
             table = $('#example1').DataTable({
                 "serverSide": true,
@@ -340,9 +338,7 @@
         }
 
         // fungsi tampil result
-
         $(function () {
-
             $.ajax({
                 method: "post",
                 url: "api/MonitoringSelection/TampilJudul",
@@ -356,7 +352,6 @@
                 }
             })
         })
-
 
     </script>
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->

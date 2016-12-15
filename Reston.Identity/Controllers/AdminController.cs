@@ -299,7 +299,6 @@ namespace IdLdap.Controllers
             return RedirectToAction("UserId", new { id = UserDetail.UserName });
         }
 
-
         [HttpPost]
         [LdapMvcAuthorizeRole(IdLdapConstants.App.Roles.IdLdapAdminRole)]
         public async Task<ActionResult> UpdateUserPassword(UserDetail UserDetail)

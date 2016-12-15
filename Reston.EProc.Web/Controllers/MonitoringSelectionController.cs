@@ -63,6 +63,31 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataListProyekDetailMonitoringPembayaran(search, start, length, Id));
         }
 
+ public IHttpActionResult ListProyekRekanan()
+        {
+            string search = HttpContext.Current.Request["search"].ToString();
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
+            string klasifikasi = HttpContext.Current.Request["klasifikasi"].ToString();
+
+            if (klasifikasi == "")
+            {
+                return Json(_repository.GetDataListProyekMonitoringRekanan(search, start, length, null, UserId()));
+            }
+
+            Klasifikasi dklasifikasi = (Klasifikasi)Convert.ToInt32(klasifikasi);
+            return Json(_repository.GetDataListProyekMonitoringRekanan(search, start, length, dklasifikasi, UserId()));
+        }
+
+        public IHttpActionResult ListProyekDetailMonitoringPembayaran()
+        {
+            string search = HttpContext.Current.Request["search"].ToString();
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
+            Guid Id = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
+
+            return Json(_repository.GetDataListProyekDetailMonitoringPembayaran(search, start, length, Id));
+        }
         public IHttpActionResult ListProyekDetailMonitoring()
         {
             string search = HttpContext.Current.Request["search"].ToString();

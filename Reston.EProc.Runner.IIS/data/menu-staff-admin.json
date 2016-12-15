@@ -2,8 +2,8 @@
 	{ "id": 1 , "menu": "Dashboard", "url": "dashboard.html","css":"fa fa-bar-chart"   },
 	{ "id": 2 , "menu": "Pengadaan-e", "url": "pengadaan-list.html","css":"fa fa-cubes"   },
 	{ "id": 3 , "menu": "Rekanan", "url": "rekanan.html","css":"fa fa-vimeo"   },
-	{ "id": 4 , "menu": "Katalog-e", "url": "eCatalogue2.html","css":"fa fa-book"   },
-    { "id": 5 , "menu": "Report", "url": "report.html", "css": "fa fa-file-excel-o" },
-    { "id": 6 , "menu": "Master Data", "url": "master.html","css":"fa fa-cubes" },
+  { "id": 4,  "menu": "Katalog-e",  "url": "eCatalogue2.html",  "css": "fa fa-book" },
+  { "id": 5 , "menu": "Report", "url": "report.html", "css": "fa fa-file-excel-o" },
+  { "id": 6 , "menu": "Master Data", "url": "master.html","css":"fa fa-cubes" },
 	{ "id": 7 , "menu": "LogOut", "url": "Api/Header/Signout","css":"fa fa-sign-out"   }
 ]

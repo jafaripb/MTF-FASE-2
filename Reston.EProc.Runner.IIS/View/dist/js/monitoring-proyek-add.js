@@ -363,11 +363,11 @@ function TambahTahapanPekerjaan() {
             $("#tanggal-pekerjaan-mulai").val("");
             $("#tanggal-pekerjaan-selesai").val("");
             $("#bobot-pekerjaan").val("");
-            console.log(d);
-
-            BootstrapDialog.show({
-                    title: 'Pesan',
-                    message: d.message,
+            if (d.message == null)
+            {
+                BootstrapDialog.show({
+                    title: 'Konfirmasi',
+                    message: 'Data Berhasil di Simpan',
                     buttons: [{
                         label: 'Close',
                         action: function (dialog) {
@@ -376,6 +376,20 @@ function TambahTahapanPekerjaan() {
                     }]
                 });
                 table_pekerjaan.draw();
+            }
+            else
+            {
+                BootstrapDialog.show({
+                    title: 'ERROR',
+                    message: d.message,
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+            }
         }
     })
 }
@@ -387,6 +401,7 @@ function TambahTahapanPembayaran() {
     var nTanggalMulai = moment($("#tanggal-pembayaran-mulai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     var nTanggalSelesai = moment($("#tanggal-pembayaran-selesai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     var nJenisTahapan = 'Pembayaran';
+    var nBobotPekerjaan = 0;
 
     $.ajax({
         method: "post",
@@ -397,7 +412,8 @@ function TambahTahapanPembayaran() {
             aNamaTahapanPekerjaan: nNamaTahapanPembayaran,
             aTanggalMulai: nTanggalMulai,
             aTanggalSelesai: nTanggalSelesai,
-            aJenisTahapan: nJenisTahapan
+            aJenisTahapan: nJenisTahapan,
+            aBobotPekerjaan: nBobotPekerjaan
         },
         success: function (d) {
             $("#tahapanuppem").modal("hide");
@@ -444,7 +460,6 @@ function TambahProyekDrafPekerjaan() {
 
 // Simpan No. Kontrak dan Update Status Rencana Proyek (Simpan Proyek)
 function SimpanProyek() {
-    console.log("AAAA");
     var PengadaanId = $("#pengadaanId").val();
     var nNoKontrak = $("#no-kontrak").val();
     var nStatus = "dijalankan";

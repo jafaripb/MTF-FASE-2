@@ -14,6 +14,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 {
     public interface IProyekRepo
     {
+        ResultMessage SimpanPenilaian(List<PenilaianVendor> Nilai, Guid UserId);
         ResultMessage deleteTahap(Guid Id, Guid UserId);
         ResultMessage deleteDokTahap(Guid Id, Guid UserId);
         ResultMessage deletePICProyek(Guid Id, Guid UserId);
@@ -24,10 +25,13 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         ResultMessage SimpanTahapanPembayaranDokumenRepo(Guid xId_Tahapan, string xNamaDokumen, string xJenisDokumen, Guid UserId);
         ResultMessage SimpanProyekRepo(Guid Id, string NoKontrak, string Status, Guid UserId);
         ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai);
+        ResultMessage SimpanTahapanPekerjaanRekananRepo(Guid xProyekId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai);
         DataTableViewTahapanPekerjaan GetDataPekerjaan(Guid PengadaanId);
         DataTableViewTahapanPembayaran GetDataPembayaran(Guid PengadaanId);
         DataTableViewDokumenTahapanPekerjaan GetDataDokumenPekerjaan(Guid TahapanId);
         DataTableViewDokumenTahapanPekerjaan GetDataDokumenPembayaran(Guid TahapanId);
+        DataTableViewPenilaian GetDataPenilaian(Guid IdProyek);
+        DataTableViewPenilaian GetDataPenilaianRekanan(Guid IdProyek);
     }
 
     public class ProyekRepo : IProyekRepo
@@ -116,7 +120,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             };
         }
         
-        // Simpan Tahapan Pekerjaan
+        // Simpan Tahapan Pekerjaan PIC
         public  ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId,string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai)
         {
             ResultMessage rkk = new ResultMessage();
@@ -124,10 +128,35 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             {
                 var odata = ctx.RencanaProyeks.Where(d =>d.PengadaanId == xPengadaanId).FirstOrDefault();
                 var IdProyek = odata.Id;
-
-                var BlmAdaTahapan = ctx.TahapanProyeks.Where(d =>d.ProyekId == IdProyek).Count();
-
-                if(BlmAdaTahapan != 0)
+                var BlmAdaTahapan = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Count();
+                if(BlmAdaTahapan!=0)
+                { 
+                    var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d =>d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan!=0?d.BobotPekerjaan : 0);
+                    var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
+                
+                    if (TotalBobotPekerjaanDb <= 100)
+                    {
+                        TahapanProyek th = new TahapanProyek
+                        {
+                            ProyekId = IdProyek,
+                            NamaTahapan = xNamaTahapanPekerjaan,
+                            TanggalMulai = xTanggalMulai,
+                            TanggalSelesai = xTanggalSelesai,
+                            CreatedOn = DateTime.Now,
+                            CreatedBy = UserId,
+                            JenisTahapan = xJenisPekerjaan,
+                            BobotPekerjaan = xBobotPekerjaan
+                        };
+                        ctx.TahapanProyeks.Add(th);
+                        ctx.SaveChanges(UserId.ToString());
+                        rkk.status = HttpStatusCode.OK;
+                    }
+                    else
+                    {
+                        rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
+                    }
+                }
+                else
                 {
                     var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan);
 
@@ -176,6 +205,76 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                         ctx.SaveChanges(UserId.ToString());
                         rkk.status = HttpStatusCode.OK;
                         rkk.message = "Data Berhasil Di Simpan";
+                    }
+                    else
+                    {
+                        rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                rkk.status = HttpStatusCode.ExpectationFailed;
+                rkk.message = ex.ToString();
+            }
+            return rkk;
+        }
+
+        // Simpan Tahapan Pekerjaan Vendor
+        public ResultMessage SimpanTahapanPekerjaanRekananRepo(Guid xProyekId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai)
+        {
+            ResultMessage rkk = new ResultMessage();
+            try
+            {
+                var idproyek = xProyekId;
+                var BlmAdaTahapan = ctx.TahapanProyeks.Where(d => d.ProyekId == idproyek).Count();
+                if (BlmAdaTahapan != 0)
+                {
+                    var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == idproyek).Sum(d => d.BobotPekerjaan != 0 ? d.BobotPekerjaan : 0);
+                    var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
+
+                    if (TotalBobotPekerjaanDb <= 100)
+                    {
+                        TahapanProyek th = new TahapanProyek
+                        {
+                            ProyekId = idproyek,
+                            NamaTahapan = xNamaTahapanPekerjaan,
+                            TanggalMulai = xTanggalMulai,
+                            TanggalSelesai = xTanggalSelesai,
+                            CreatedOn = DateTime.Now,
+                            CreatedBy = UserId,
+                            JenisTahapan = xJenisPekerjaan,
+                            BobotPekerjaan = xBobotPekerjaan
+                        };
+                        ctx.TahapanProyeks.Add(th);
+                        ctx.SaveChanges(UserId.ToString());
+                        rkk.status = HttpStatusCode.OK;
+                    }
+                    else
+                    {
+                        rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
+                    }
+                }
+                else
+                {
+                    var TotalBobotSeluruh = xBobotPekerjaan;
+
+                    if (TotalBobotSeluruh <= 100)
+                    {
+                        TahapanProyek th = new TahapanProyek
+                        {
+                            ProyekId = idproyek,
+                            NamaTahapan = xNamaTahapanPekerjaan,
+                            TanggalMulai = xTanggalMulai,
+                            TanggalSelesai = xTanggalSelesai,
+                            CreatedOn = DateTime.Now,
+                            CreatedBy = UserId,
+                            JenisTahapan = xJenisPekerjaan,
+                            BobotPekerjaan = xBobotPekerjaan
+                        };
+                        ctx.TahapanProyeks.Add(th);
+                        ctx.SaveChanges(UserId.ToString());
+                        rkk.status = HttpStatusCode.OK;
                     }
                     else
                     {
@@ -410,7 +509,10 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         public DataTableViewDokumenTahapanPekerjaan GetDataDokumenPekerjaan(Guid TahapanId)
         {
             DataTableViewDokumenTahapanPekerjaan dtd = new DataTableViewDokumenTahapanPekerjaan();
-
+            // record total yang tampil 
+            dtd.recordsTotal = ctx.DokumenProyeks.Where(d => d.TahapanId == TahapanId).Count();
+            // filter berdasarkan Id
+            dtd.recordsFiltered = ctx.DokumenProyeks.Where(d => d.TahapanId == TahapanId).Count();
             var caritahapandokumenpekerjaan = ctx.DokumenProyeks.Where(d => d.TahapanId == TahapanId).ToList();
 
             List<ViewListTahapanDokumenPekerjaan> vlistViewListTahapanDokumenPekerjaan = new List<ViewListTahapanDokumenPekerjaan>();
@@ -447,6 +549,58 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 vlistViewListTahapanDokumenPekerjaan.Add(nViewListTahapanDokumenPekerjaan);
             }
             dtd.data = vlistViewListTahapanDokumenPekerjaan;
+            return dtd;
+        }
+
+        // Get Dokumen Penilaian PIC
+        public DataTableViewPenilaian GetDataPenilaian(Guid IdProyek)
+        {
+            DataTableViewPenilaian dtd = new DataTableViewPenilaian();
+
+            var caripenilaian = ctx.ReferenceDatas.Where(d=>d.Qualifier=="Penilaian").ToList();
+
+            var pengadaanid = ctx.RencanaProyeks.Where(d => d.Id == IdProyek).FirstOrDefault().PengadaanId;
+            var vendorid = ctx.PemenangPengadaans.Where(p => p.PengadaanId == pengadaanid).FirstOrDefault().VendorId;
+
+            List<ViewListPenilaian> vlistViewListPenilaian = new List<ViewListPenilaian>();
+
+            foreach (var item in caripenilaian)
+            {
+                ViewListPenilaian nViewListPenilaian = new ViewListPenilaian();
+
+                nViewListPenilaian.Id = item.Id;
+                nViewListPenilaian.NamaPenilaian = item.LocalizedName;
+                nViewListPenilaian.VendorId = vendorid.ToString();
+                vlistViewListPenilaian.Add(nViewListPenilaian);
+            }
+            dtd.data = vlistViewListPenilaian;
+            return dtd;
+        }
+
+        // Get Dokumen Penilaian Vendor
+        public DataTableViewPenilaian GetDataPenilaianRekanan(Guid IdProyek)
+        {
+            DataTableViewPenilaian dtd = new DataTableViewPenilaian();
+
+            var caripenilaian = ctx.ReferenceDatas.Where(d => d.Qualifier == "Penilaian").ToList();
+
+            var pengadaanid = ctx.RencanaProyeks.Where(d => d.Id == IdProyek).FirstOrDefault().PengadaanId;
+            var vendorid = ctx.PemenangPengadaans.Where(p => p.PengadaanId == pengadaanid).FirstOrDefault().VendorId;
+
+
+            List<ViewListPenilaian> vlistViewListPenilaian = new List<ViewListPenilaian>();
+
+            foreach (var item in caripenilaian)
+            {
+                ViewListPenilaian nViewListPenilaian = new ViewListPenilaian();
+
+                nViewListPenilaian.Id = item.Id;
+                nViewListPenilaian.NamaPenilaian = item.LocalizedName;
+                nViewListPenilaian.NamaPenilaian = item.LocalizedName;
+                nViewListPenilaian.VendorId = vendorid.ToString();
+                vlistViewListPenilaian.Add(nViewListPenilaian);
+            }
+            dtd.data = vlistViewListPenilaian;
             return dtd;
         }
 
@@ -501,6 +655,35 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             }
             catch (Exception ex)
             {
+                msg.status = HttpStatusCode.ExpectationFailed;
+                msg.message = ex.ToString();
+            }
+            return msg;
+        }
+
+        public ResultMessage SimpanPenilaian(List<PenilaianVendor> Nilai, Guid UserId)
+        {
+            ResultMessage msg = new ResultMessage();
+            try
+            {
+                foreach (var item in Nilai)
+                {
+                    PenilaianVendor pv = new PenilaianVendor();
+                    pv.ProyekId = item.ProyekId;
+                    pv.VendorId = item.VendorId;
+                    pv.ReferenceDataId = item.ReferenceDataId;
+                    pv.Nilai = item.Nilai;
+                    pv.Catatan = item.Catatan;
+                    pv.CreatedOn = DateTime.Now;
+                    pv.CreatedBy = UserId;
+
+                    ctx.PenilaianVendors.Add(pv);
+                    ctx.SaveChanges(UserId.ToString());
+                    msg.status = HttpStatusCode.OK;
+                    msg.Id = pv.Id.ToString();
+                }
+            }
+            catch (Exception ex) {
                 msg.status = HttpStatusCode.ExpectationFailed;
                 msg.message = ex.ToString();
             }

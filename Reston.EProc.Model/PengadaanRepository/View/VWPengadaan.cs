@@ -367,5 +367,6 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public int PemenangButuhPerSetujuan { get; set; }
         public int PemenangDiSetujui { get; set; }
         public int PemenangDiTolak { get; set; }
+        public int MonitorSelection { get; set; }
     }
 }

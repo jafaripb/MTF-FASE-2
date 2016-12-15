@@ -109,6 +109,8 @@ namespace Reston.Pinata.Model
         public virtual DbSet<DokumenProyek> DokumenProyeks { get; set; }
         public virtual DbSet<SysLog> SysLogs { get; set; }
         public virtual DbSet<PersetujuanPemenang> PersetujuanPemenangs { get; set; }
+        public virtual DbSet<PenilaianVendor> PenilaianVendors { get; set; }
+
         //workflow
         //public virtual DbSet<WorkflowMasterTemplate> WorkflowMasterTemplates { get; set; }
         //public virtual DbSet<WorkflowMasterTemplateDetail> WorkflowMasterTemplateDetails { get; set; }
@@ -116,7 +118,7 @@ namespace Reston.Pinata.Model
         //public virtual DbSet<WorkflowStatus> WorkflowStatuses { get; set; }
         //public virtual DbSet<WorkflowApproval> WorkflowApprovals { get; set; }
         //public virtual DbSet<Workflow> Workflows { get; set; }
-        
+
         public void ValidateReferenceData()
         {
             //Qualifier dan Code tidak bisa diubah

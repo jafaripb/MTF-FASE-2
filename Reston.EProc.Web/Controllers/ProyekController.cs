@@ -62,6 +62,18 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataDokumenPembayaran(TahapanId));
         }
 
+        public IHttpActionResult TampilPenilaian()
+        {
+            Guid IdProyek = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
+            return Json(_repository.GetDataPenilaian(IdProyek));
+        }
+
+        public IHttpActionResult TampilPenilaianRekanan()
+        {
+            Guid IdProyek = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
+            return Json(_repository.GetDataPenilaianRekanan(IdProyek));
+        }
+
         [HttpPost]
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
@@ -149,6 +161,18 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.SimpanTahapanPekerjaanRepo(xPengadaanId, xNamaTahapanPekerjaan, xJenisPekerjaan, xBobotPekerjaan, UserId(), xTanggalMulai, xTanggalSelesai));
         }
 
+        public IHttpActionResult SimpanTahapanPekerjaanRekanan()
+        {
+            Guid xProyekId = Guid.Parse(HttpContext.Current.Request["aProyekId"].ToString());
+            string xNamaTahapanPekerjaan = HttpContext.Current.Request["aNamaTahapanPekerjaan"].ToString();
+            DateTime? xTanggalMulai = Common.ConvertDate(HttpContext.Current.Request["aTanggalMulai"].ToString(), "dd/MM/yyyy HH:mm");
+            DateTime? xTanggalSelesai = Common.ConvertDate(HttpContext.Current.Request["aTanggalSelesai"].ToString(), "dd/MM/yyyy HH:mm");
+            string xJenisPekerjaan = HttpContext.Current.Request["aJenisTahapan"].ToString();
+            decimal xBobotPekerjaan = Convert.ToDecimal(HttpContext.Current.Request["aBobotPekerjaan"].ToString());
+
+            return Json(_repository.SimpanTahapanPekerjaanRekananRepo(xProyekId, xNamaTahapanPekerjaan, xJenisPekerjaan, xBobotPekerjaan, UserId(), xTanggalMulai, xTanggalSelesai));
+        }
+
         public IHttpActionResult SimpanTahapanPekerjaanDokumen()
         {
             Guid xId_Tahapan = Guid.Parse(HttpContext.Current.Request["aId_Tahapan"].ToString());
@@ -190,6 +214,24 @@ namespace Reston.EProc.Web.Controllers
             {
                 result.status = respon;
                 result.message = message;
+            }
+            return result;
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public ResultMessage SimpanNilai(List<PenilaianVendor> Nilai)
+        {
+            try
+            {
+                result = _repository.SimpanPenilaian(Nilai, UserId());
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.ToString();
+                result.status = HttpStatusCode.ExpectationFailed;
             }
             return result;
         }

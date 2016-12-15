@@ -11,6 +11,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
     {
         public Guid Id { get; set; }
         public string NoPengadaan{ get; set; }
+        public string NOSPK { get; set; }
         public string Judul { get; set; }
         public string Pemenang { get; set; }
         public string Klasifikasi { get; set; }
@@ -33,16 +34,16 @@ namespace Reston.Eproc.Model.Monitoring.Model
     public class ViewProyekSistemMonitoring
     {
         public Guid id { get; set; }
-        public string NoKontrak { get; set; }
+        public string NOSPK { get; set; }
+        public string NOPKS { get; set; }
         public string NamaProyek { get; set; }
         public string NamaPelaksana { get; set; }
-        public string Klasifikasi { get; set; }
-        public decimal PersenPekerjaan { get; set; }
+        public string Klasifikasi { get; set; }      
+		public decimal PersenPekerjaan { get; set; }
         public decimal PersenPembayaran { get; set; }
         public Nullable<DateTime> TanggalMulai { get; set; }
-        public Nullable<DateTime> TanggalSelesai { get; set; }
+        public Nullable<DateTime> TanggalSelesai { get; set; }  
     }
-
     public class ViewProyekSistemMonitoringPembayaran
     {
         public Guid ID { get; set; }
@@ -92,8 +93,9 @@ namespace Reston.Eproc.Model.Monitoring.Model
     {
         public Guid Id { get; set; }
         public string NamaProyek { get; set; }
-        public Nullable<DateTime> StarDate { get; set; }
-        public Nullable<DateTime> EndDate { get; set; }
+        public Nullable<DateTime> TanggalMulai { get; set; }
+        public Nullable<DateTime> TanggalSelesai { get; set; }
+        public decimal NilaiKontrak { get; set; }
         public decimal NilaiKontrak { get; set; }
 
     }
