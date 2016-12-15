@@ -23,7 +23,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         ResultMessage SimpanTahapanPekerjaanDokumenRepo(Guid xId_Tahapan, string xNamaDokumen, string xJenisDokumen, Guid UserId);
         ResultMessage SimpanTahapanPembayaranDokumenRepo(Guid xId_Tahapan, string xNamaDokumen, string xJenisDokumen, Guid UserId);
         ResultMessage SimpanProyekRepo(Guid Id, string NoKontrak, string Status, Guid UserId);
-        ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai);
+        ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai);
         DataTableViewTahapanPekerjaan GetDataPekerjaan(Guid PengadaanId);
         DataTableViewTahapanPembayaran GetDataPembayaran(Guid PengadaanId);
         DataTableViewDokumenTahapanPekerjaan GetDataDokumenPekerjaan(Guid TahapanId);
@@ -117,33 +117,78 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         }
         
         // Simpan Tahapan Pekerjaan
-        public  ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId,string xNamaTahapanPekerjaan, string xJenisPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai)
+        public  ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId,string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai)
         {
             ResultMessage rkk = new ResultMessage();
             try
             {
                 var odata = ctx.RencanaProyeks.Where(d =>d.PengadaanId == xPengadaanId).FirstOrDefault();
                 var IdProyek = odata.Id;
-                TahapanProyek th = new TahapanProyek
+
+                var BlmAdaTahapan = ctx.TahapanProyeks.Where(d =>d.ProyekId == IdProyek).Count();
+
+                if(BlmAdaTahapan != 0)
                 {
-                   ProyekId = IdProyek,
-                   NamaTahapan = xNamaTahapanPekerjaan,
-                   TanggalMulai = xTanggalMulai,
-                   TanggalSelesai = xTanggalSelesai,
-                   CreatedOn = DateTime.Now,
-                   CreatedBy = UserId,
-                   JenisTahapan = xJenisPekerjaan
-                };
-                ctx.TahapanProyeks.Add(th);
-                ctx.SaveChanges(UserId.ToString());
-                rkk.status = HttpStatusCode.OK;
+                    var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan);
+
+                    var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
+                    if (TotalBobotSeluruh <= 100)
+                    {
+                        TahapanProyek th = new TahapanProyek
+                        {
+                            ProyekId = IdProyek,
+                            NamaTahapan = xNamaTahapanPekerjaan,
+                            TanggalMulai = xTanggalMulai,
+                            TanggalSelesai = xTanggalSelesai,
+                            CreatedOn = DateTime.Now,
+                            CreatedBy = UserId,
+                            JenisTahapan = xJenisPekerjaan,
+                            BobotPekerjaan = xBobotPekerjaan
+                        };
+                        ctx.TahapanProyeks.Add(th);
+                        ctx.SaveChanges(UserId.ToString());
+                        rkk.status = HttpStatusCode.OK;
+                        rkk.message = "Data Berhasil Di Simpan";
+                    }
+                    else
+                    {
+                        rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
+                    }
+                }
+                else
+                {
+                    var TotalBobotSeluruh = xBobotPekerjaan;
+                    
+                    if (TotalBobotSeluruh <= 100)
+                    {
+                        TahapanProyek th = new TahapanProyek
+                        {
+                            ProyekId = IdProyek,
+                            NamaTahapan = xNamaTahapanPekerjaan,
+                            TanggalMulai = xTanggalMulai,
+                            TanggalSelesai = xTanggalSelesai,
+                            CreatedOn = DateTime.Now,
+                            CreatedBy = UserId,
+                            JenisTahapan = xJenisPekerjaan,
+                            BobotPekerjaan = xBobotPekerjaan
+                        };
+                        ctx.TahapanProyeks.Add(th);
+                        ctx.SaveChanges(UserId.ToString());
+                        rkk.status = HttpStatusCode.OK;
+                        rkk.message = "Data Berhasil Di Simpan";
+                    }
+                    else
+                    {
+                        rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
+                    }
+                }
             }
             catch (Exception ex)
             {
                 rkk.status = HttpStatusCode.ExpectationFailed;
                 rkk.message = ex.ToString();
             }
-            return rkk; ;
+            return rkk;
         }
 
         // Simpan Rencana Proyek
@@ -275,7 +320,31 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 tp.data = vListTahapanPekerjaan;
             }
             else
-            { }
+            {
+                var CekData2 = ctx.RencanaProyeks.Where(d => d.Id == PengadaanId).Count();
+
+                // record total yang tampil 
+                tp.recordsTotal = ctx.TahapanProyeks.Where(d => d.JenisTahapan == "Pekerjaan" && d.ProyekId == PengadaanId).Count();
+
+                // filter berdasarkan Id
+                tp.recordsFiltered = ctx.TahapanProyeks.Where(d => d.JenisTahapan == "Pekerjaan" && d.ProyekId == PengadaanId).Count();
+
+                var caritahapanpekerjaan = ctx.TahapanProyeks.Where(d => d.JenisTahapan == "Pekerjaan" && d.ProyekId == PengadaanId).ToList();
+
+                List<ViewListTahapan> vListTahapanPekerjaan = new List<ViewListTahapan>();
+                foreach (var item in caritahapanpekerjaan)
+                {
+                    ViewListTahapan nViewListTahapanPekerjaan = new ViewListTahapan();
+
+                    nViewListTahapanPekerjaan.Id = item.Id;
+                    nViewListTahapanPekerjaan.NamaTahapan = item.NamaTahapan;
+                    nViewListTahapanPekerjaan.TanggalMulai = item.TanggalMulai.Value;
+                    nViewListTahapanPekerjaan.TanggalSelesai = item.TanggalSelesai.Value;
+                    nViewListTahapanPekerjaan.JenisTahapan = item.JenisTahapan;
+                    vListTahapanPekerjaan.Add(nViewListTahapanPekerjaan);
+                }
+                tp.data = vListTahapanPekerjaan;
+            }
             return tp;
         }
 
@@ -310,7 +379,30 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 }
                 tp.data = vListTahapanPembayaran;
             }
-            else { }
+            else {
+
+                // record total yang tampil 
+                tp.recordsTotal = ctx.TahapanProyeks.Where(d => d.JenisTahapan == "Pembayaran" && d.ProyekId == PengadaanId).Count();
+
+                // filter berdasarkan Id
+                tp.recordsFiltered = ctx.TahapanProyeks.Where(d => d.JenisTahapan == "Pembayaran" && d.ProyekId == PengadaanId).Count();
+
+                var caritahapanpembayaran = ctx.TahapanProyeks.Where(d => d.JenisTahapan == "Pembayaran" && d.ProyekId == PengadaanId).ToList();
+
+                List<ViewListTahapan> vListTahapanPembayaran = new List<ViewListTahapan>();
+                foreach (var item in caritahapanpembayaran)
+                {
+                    ViewListTahapan nViewListTahapanPembayaran = new ViewListTahapan();
+
+                    nViewListTahapanPembayaran.Id = item.Id;
+                    nViewListTahapanPembayaran.NamaTahapan = item.NamaTahapan;
+                    nViewListTahapanPembayaran.TanggalMulai = item.TanggalMulai.Value;
+                    nViewListTahapanPembayaran.TanggalSelesai = item.TanggalSelesai.Value;
+                    nViewListTahapanPembayaran.JenisTahapan = item.JenisTahapan;
+                    vListTahapanPembayaran.Add(nViewListTahapanPembayaran);
+                }
+                tp.data = vListTahapanPembayaran;
+            }
             return tp;
         }
 
@@ -329,6 +421,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                 nViewListTahapanDokumenPekerjaan.Id = item.Id;
                 nViewListTahapanDokumenPekerjaan.NamaDokumen = item.NamaDokumen;
+                nViewListTahapanDokumenPekerjaan.URL = item.URL;
+
                 vlistViewListTahapanDokumenPekerjaan.Add(nViewListTahapanDokumenPekerjaan);
             }
             dtd.data = vlistViewListTahapanDokumenPekerjaan;

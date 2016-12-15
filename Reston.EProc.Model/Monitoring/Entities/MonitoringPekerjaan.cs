@@ -98,6 +98,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public Nullable<Guid> ModifiedBy { get; set; }
         public virtual Pengadaan Pengadaan { get; set; }
         public virtual ICollection<PICProyek> PICProyeks { get; set; }
+        public virtual ICollection<TahapanProyek> TahapanProyeks { get; set; }
     }
 
     public class TahapanProyek
@@ -111,7 +112,12 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string NamaTahapan { get; set; }
         public Nullable<DateTime> TanggalMulai { get; set; }
         public Nullable<DateTime> TanggalSelesai { get; set; }
-        public string JenisTahapan {get; set;}
+        public string JenisTahapan { get; set; }
+        public decimal Progress { get; set; }
+        public decimal BobotPekerjaan { get; set; }
+        public decimal PersenPembayaran { get; set; }
+        public string StatusPembayaran { get; set; }
+        public Nullable<DateTime> TanggalPembayaran { get; set; }
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }
@@ -148,6 +154,8 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public Guid TahapanId { get; set; }
         public string NamaDokumen { get; set; }
         public string JenisDokumen { get; set; }
+        public string URL { get; set; }
+        public string ContentType { get; set; }
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }

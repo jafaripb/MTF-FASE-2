@@ -65,6 +65,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual ICollection<MonitoringPekerjaan> MonitoringPekerjaans { get; set; }
         public virtual ICollection<JadwalPelaksanaan> JadwalPelaksanaans { get; set; }
         public virtual ICollection<PersetujuanPemenang> PersetujuanPemenangs { get; set; }
+        public virtual ICollection<RencanaProyek> RencanaProyeks { get; set; }
         
     }
 

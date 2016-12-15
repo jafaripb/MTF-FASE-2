@@ -341,8 +341,10 @@ function TambahTahapanPekerjaan() {
     var nNamaTahapanPekerjaan = $("#nama-tahapan-pekerjaan").val();
     var nTanggalMulai = moment($("#tanggal-pekerjaan-mulai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     var nTanggalSelesai = moment($("#tanggal-pekerjaan-selesai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+    var nBobotPekerjaan = $("#bobot-pekerjaan").val();
     var nJenisTahapan = 'Pekerjaan';
-    console.log(nTanggalSelesai);
+    //console.log(nTanggalSelesai);
+    //alert(nBobotPekerjaan);
     $.ajax({
         method: "post",
         url: "api/Proyek/SimpanTahapanPekerjaan",
@@ -352,6 +354,7 @@ function TambahTahapanPekerjaan() {
             aNamaTahapanPekerjaan: nNamaTahapanPekerjaan,
             aTanggalMulai: nTanggalMulai,
             aTanggalSelesai: nTanggalSelesai,
+            aBobotPekerjaan: nBobotPekerjaan,
             aJenisTahapan: nJenisTahapan
         },
         success: function (d) {
@@ -359,17 +362,20 @@ function TambahTahapanPekerjaan() {
             $("#nama-tahapan-pekerjaan").val("");
             $("#tanggal-pekerjaan-mulai").val("");
             $("#tanggal-pekerjaan-selesai").val("");
+            $("#bobot-pekerjaan").val("");
+            console.log(d);
+
             BootstrapDialog.show({
-                title: 'Konfirmasi',
-                message: 'Data Berhasil di Simpan',
-                buttons: [{
-                    label: 'Close',
-                    action: function (dialog) {
-                        dialog.close();
-                    }
-                }]
-            });
-            table_pekerjaan.draw();
+                    title: 'Pesan',
+                    message: d.message,
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+                table_pekerjaan.draw();
         }
     })
 }

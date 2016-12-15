@@ -95,5 +95,6 @@ namespace Reston.Eproc.Model.Monitoring.Model
     {
         public Guid Id { get; set; }
         public string NamaDokumen { get; set; }
+        public string URL { get; set; }
     }
 }

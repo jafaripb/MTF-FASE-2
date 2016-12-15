@@ -144,8 +144,9 @@ namespace Reston.EProc.Web.Controllers
             DateTime? xTanggalMulai = Common.ConvertDate(HttpContext.Current.Request["aTanggalMulai"].ToString(), "dd/MM/yyyy HH:mm");
             DateTime? xTanggalSelesai = Common.ConvertDate(HttpContext.Current.Request["aTanggalSelesai"].ToString(), "dd/MM/yyyy HH:mm");
             string xJenisPekerjaan = HttpContext.Current.Request["aJenisTahapan"].ToString();
+            decimal xBobotPekerjaan = Convert.ToDecimal(HttpContext.Current.Request["aBobotPekerjaan"].ToString());
 
-            return Json(_repository.SimpanTahapanPekerjaanRepo(xPengadaanId, xNamaTahapanPekerjaan, xJenisPekerjaan, UserId(), xTanggalMulai, xTanggalSelesai));
+            return Json(_repository.SimpanTahapanPekerjaanRepo(xPengadaanId, xNamaTahapanPekerjaan, xJenisPekerjaan, xBobotPekerjaan, UserId(), xTanggalMulai, xTanggalSelesai));
         }
 
         public IHttpActionResult SimpanTahapanPekerjaanDokumen()
