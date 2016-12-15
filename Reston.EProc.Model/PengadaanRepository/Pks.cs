@@ -32,8 +32,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual Vendor Vendor { get; set; }
     }
 
-    [Table("DokumenPks", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
-    public class DokumenPengadaan
+    [Table("DokumenPks", Schema = JimbisContext.MONITORING_SCHEMA_NAME)]
+    public class DokumenPks
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

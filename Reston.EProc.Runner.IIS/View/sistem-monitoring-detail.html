@@ -281,7 +281,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="tab-pane" id="penilaian">
-                                                    <a id="Simpan" style="margin-top:10px;margin-bottom:10px; float:right;" class="btn btn-sm btn-social btn-bitbucket">
+                                                    <a id="simpan-nilai-konfirmasi" style="margin-top:10px;margin-bottom:10px; float:right;" class="btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-save"></i>
                                                         Simpan
                                                     </a>
@@ -293,76 +293,12 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    Ketepatan Waktu
-                                                                </td>
-                                                                <td>
-                                                                    <input type="radio" name="nilai" value="1" /> 1
-                                                                    <input type="radio" name="nilai" value="2" /> 2
-                                                                    <input type="radio" name="nilai" value="3" /> 3
-                                                                    <input type="radio" name="nilai" value="4" /> 4
-                                                                    <input type="radio" name="nilai" value="5" /> 5
-                                                                    <input type="radio" name="nilai" value="6" /> 6
-                                                                    <input type="radio" name="nilai" value="7" /> 7
-                                                                    <input type="radio" name="nilai" value="8" /> 8
-                                                                    <input type="radio" name="nilai" value="9" /> 9
-                                                                    <input type="radio" name="nilai" value="10" /> 10
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Teknikal
-                                                                </td>
-                                                                <td>
-                                                                    <input type="radio" name="nilai" value="1" /> 1
-                                                                    <input type="radio" name="nilai" value="2" /> 2
-                                                                    <input type="radio" name="nilai" value="3" /> 3
-                                                                    <input type="radio" name="nilai" value="4" /> 4
-                                                                    <input type="radio" name="nilai" value="5" /> 5
-                                                                    <input type="radio" name="nilai" value="6" /> 6
-                                                                    <input type="radio" name="nilai" value="7" /> 7
-                                                                    <input type="radio" name="nilai" value="8" /> 8
-                                                                    <input type="radio" name="nilai" value="9" /> 9
-                                                                    <input type="radio" name="nilai" value="10" /> 10
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Kualitas Pekerjaan
-                                                                </td>
-                                                                <td>
-                                                                    <input type="radio" name="nilai" value="1" /> 1
-                                                                    <input type="radio" name="nilai" value="2" /> 2
-                                                                    <input type="radio" name="nilai" value="3" /> 3
-                                                                    <input type="radio" name="nilai" value="4" /> 4
-                                                                    <input type="radio" name="nilai" value="5" /> 5
-                                                                    <input type="radio" name="nilai" value="6" /> 6
-                                                                    <input type="radio" name="nilai" value="7" /> 7
-                                                                    <input type="radio" name="nilai" value="8" /> 8
-                                                                    <input type="radio" name="nilai" value="9" /> 9
-                                                                    <input type="radio" name="nilai" value="10" /> 10
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Harga
-                                                                </td>
-                                                                <td>
-                                                                    <input type="radio" name="nilai" value="1" /> 1
-                                                                    <input type="radio" name="nilai" value="2" /> 2
-                                                                    <input type="radio" name="nilai" value="3" /> 3
-                                                                    <input type="radio" name="nilai" value="4" /> 4
-                                                                    <input type="radio" name="nilai" value="5" /> 5
-                                                                    <input type="radio" name="nilai" value="6" /> 6
-                                                                    <input type="radio" name="nilai" value="7" /> 7
-                                                                    <input type="radio" name="nilai" value="8" /> 8
-                                                                    <input type="radio" name="nilai" value="9" /> 9
-                                                                    <input type="radio" name="nilai" value="10" /> 10
-                                                                </td>
-                                                            </tr>
                                                         </tbody>
                                                     </table>
+                                                    <div class="form-group col-md-5">
+                                                        <label class="title" style="margin-top:10px;">Catatan:</label>
+                                                        <textarea class="form-control catatan" rows="5"></textarea>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -692,16 +628,16 @@
                 success: function (d) {
                     console.log(d);
                     // Tampil
-                    $("[name=judul-utama]").text(d.NamaProyek);
-                    $("[name=start-date]").val(moment(d.StarDate).format("DD MMMM YYYY"));
-                    $("[name=end-date]").val(moment(d.EndDate).format("DD MMMM YYYY"));
+                    $("[id=NamaProyek]").text(d.NamaProyek);
+                    $("[id=TanggalMulai]").val(moment(d.TanggalMulai).format("DD MMMM YYYY"));
+                    $("[id=TanggalSelesai]").val(moment(d.TanggalSelesai).format("DD MMMM YYYY"));
                     $("[name=nilai-kontrak]").text("Total Nilai Kontrak : Rp. " + numberWithCommas(d.NilaiKontrak));
                     $("[name=nilai-kontrak2]").val(d.NilaiKontrak);
                     
 
                     // Hitung Sisa Waktu
-                    var date1 = moment(d.StarDate).format("MM/DD/YYYY").toString();
-                    var date2 = moment(d.EndDate).format("MM/DD/YYYY").toString();
+                    var date1 = moment(d.TanggalMulai).format("MM/DD/YYYY").toString();
+                    var date2 = moment(d.TanggalSelesai).format("MM/DD/YYYY").toString();
                     var curdate1 = new Date(date1);
                     var curdate2 = new Date(date2);
 
@@ -788,8 +724,6 @@
                     { "data": "Progress" },
                     { "data": "null" },
                     { "data": "null" },
-                    { "data": "StartDate" },
-                    { "data": "EndDate" },
                 ],
                 "initComplete": function (settings, json) {
 
@@ -849,7 +783,7 @@
                             html = html + '<div class="input-group-addon">';
                             html = html + '<i class="fa fa-calendar"></i>';
                             html = html + '</div>';
-                            html = html + '<input type="text" class="form-control pull-right datepicker" value="' + moment(row.StartDate).format("DD MMMM YYYY") + '">';
+                            html = html + '<input type="text" class="form-control pull-right datepicker tanggal-mulai-tahapan" value="' + moment(row.StartDate).format("MM/DD/YYYY") + '">';
                             html = html + '</div>';
 
                             return html;
@@ -1230,20 +1164,22 @@
                 "columns": [
 
                     { "data": "NamaDokumen" },
-                    { "data": "null" },
+                    { "data": "null", },
                 ],
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            if(row.URL != 0)
+                            if(row.URL != null && row.URL!="")
                             {
                                 var url = "api/MonitoringSelection/OpenFile?Id=" + row.Id;
                                 console.log(url);
-                                var html = '<div class="btn-group">';
-                                html = html + '<a class="btn btn-block bg-navy href="' + url + '">Download</a>';
-                                html = html + '<a  class="btn btn-block bg-navy ">Hapus</a>';
-                                html = html + '<input type="hidden"  class="dokumenId" value="' + row.Id + '">';
+                                var html = '<div class="btn-group" style="margin-right:5px;">';
+                                html = html + ' <a class="btn btn-sm btn-block btn-primary" href="' + url + '"> Download </a> ';
                                 html = html + '<input type="hidden" class="NamaDokumen" value="' + row.NamaDokumen + '" >';
+                                html = html + '</div>';
+                                html = html + '<div class="btn-group">';
+                                html = html + ' <a  class="btn btn-sm  btn-block btn-danger "> Hapus </a> ';
+                                html = html + '<input type="hidden"  class="dokumenId" value="' + row.Id + '">';
                                 html = html + '</div>';
                             }
                             else
@@ -1537,13 +1473,27 @@
 
         // save DataTable
 		$("#Simpan").on("click", function () {
-		    var objRKSHeader = {};
+
 		    var arrobjMonitor = [];
 		    $("#example1 tbody tr").each(function () {
 		        var objMonitor = {};
-		        objMonitor.progress = $(this).find(".progres").val();
-		        objMonitor.idtahapan = $(this).find(".id-tahapan22").val();
+		        objMonitor.Progress = $(this).find(".progres").val();
+		        objMonitor.Id = $(this).find(".id-tahapan22").val();
+		        objMonitor.TanggalMulai = $(this).find(".tanggal-mulai-tahapan").val();
+		        objMonitor.TanggalSelesai = $(this).find(".tanggal-selesai-tahapan").val();
 		        arrobjMonitor.push(objMonitor);
+		    });
+		    //console.log(arrobjMonitor);
+		    //waitingDialog.showloading("Proses Harap Tunggu");
+		    $.ajax({
+		        method: "POST",
+		        url: "Api/MonitoringSelection/UpdateProgressPekerjaan",
+		        dataType: "json",
+		        data: JSON.stringify(arrobjMonitor),
+		        contentType: 'application/json; charset=utf-8',
+		        success: function (data) {
+		            alert("Sukses");
+		        },
 		    });
 		});
 
@@ -1569,6 +1519,62 @@
 		$("#refresh").on("click", function () {
 		    Catatan = $(".catatan").val("");
 		    Nilai = $(".hasil_penilaian").val("");
+		});
+
+		// Tampil Tabel Penilaian
+		var table_nilai;
+		var ID = gup("Id");
+		table_nilai = $('#nilai').DataTable({
+		    "paging": false,
+		    "lengthChange": false,
+		    "searching": false,
+		    "ordering": false,
+		    "info": false,
+		    "autoWidth": true,
+		    "ajax": {
+		        "url": 'api/Proyek/TampilPenilaian?Id=' + ID,
+		        "type": 'POST',
+		    },
+		    "columns": [
+                    { "data": "NamaPenilaian" },
+                    { "data": "null" },
+		    ],
+		    "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '';
+                        },
+                        "targets": 0,
+                        "orderable": false
+                    },
+		    ],
+		    "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            var html = '<div class="form-group col-md-12">';
+                            html = html + '<select class="form-control hasil_penilaian">';
+                            html = html + '<option value=""> Pilih </option>';
+                            html = html + '<option value="01"> 01 </option>';
+                            html = html + '<option value="02"> 02 </option>';
+                            html = html + '<option value="03"> 03 </option>';
+                            html = html + '<option value="04"> 04 </option>';
+                            html = html + '<option value="05"> 05 </option>';
+                            html = html + '<option value="06"> 06 </option>';
+                            html = html + '<option value="07"> 07 </option>';
+                            html = html + '<option value="08"> 08 </option>';
+                            html = html + '<option value="09"> 09 </option>';
+                            html = html + '<option value="10"> 10 </option>';
+                            html = html + '</select>';
+                            html = html + '</div>';
+                            html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                            html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+
+                            return html;
+                        },
+                        "targets": 1,
+                        "orderable": false
+                    },
+		    ],
 		});
 
         // save DataTable
@@ -1647,7 +1653,45 @@
 		        });
 		    }
 		
-
+		// save DataTable
+		var ID = gup("Id");
+		$("#ProyekId").val(ID);
+		$("#simpan-nilai").on("click", function () {
+		    $("#modal-nilai").hide();
+		    var Catatan = "";
+		    var objRKSHeader = {};
+		    var arrobjPenilaian = [];
+		    $("#nilai tbody tr").each(function () {
+		        var objPenilaian = {};
+		        objPenilaian.proyekid = ID;
+		        objPenilaian.vendorid = $(this).find(".vendorid").val();
+		        objPenilaian.referencedataid = $(this).find(".referencedataid").val();
+		        objPenilaian.Nilai = $(this).find(".hasil_penilaian").val();
+		        catatan = $(".catatan").val();
+		        objPenilaian.Catatan = catatan;
+		        arrobjPenilaian.push(objPenilaian);
+		    });
+		    console.log(arrobjPenilaian);
+		    $.ajax({
+		        method: "POST",
+		        url: "Api/Proyek/SimpanNilai",
+		        dataType: "json",
+		        data: JSON.stringify(arrobjPenilaian),
+		        contentType: 'application/json; charset=utf-8',
+		        success: function (data) {
+		            BootstrapDialog.show({
+		                title: 'Konfirmasi',
+		                message: 'Data Berhasil di Simpan',
+		                buttons: [{
+		                    label: 'Close',
+		                    action: function (dialog) {
+		                        dialog.close();
+		                    }
+		                }]
+		            });
+		        }
+		    });
+		});
     </script>
 </body>
 </html>

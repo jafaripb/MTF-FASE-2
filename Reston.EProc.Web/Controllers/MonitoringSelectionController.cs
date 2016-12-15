@@ -24,7 +24,7 @@ namespace Reston.EProc.Web.Controllers
     public class MonitoringSelectionController : BaseController
     {
 
-        private string FILE_DOKUMEN_PATH = System.Configuration.ConfigurationManager.AppSettings["UploadMonitoringDokumen"];
+        private string FILE_DOKUMEN_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_DOCPRO"];
 
         private IMoritoringRepo _repository;
 
@@ -79,15 +79,6 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataListProyekMonitoringRekanan(search, start, length, dklasifikasi, UserId()));
         }
 
-        public IHttpActionResult ListProyekDetailMonitoringPembayaran()
-        {
-            string search = HttpContext.Current.Request["search"].ToString();
-            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
-            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
-            Guid Id = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
-
-            return Json(_repository.GetDataListProyekDetailMonitoringPembayaran(search, start, length, Id));
-        }
         public IHttpActionResult ListProyekDetailMonitoring()
         {
             string search = HttpContext.Current.Request["search"].ToString();
@@ -195,7 +186,7 @@ namespace Reston.EProc.Web.Controllers
         public HttpResponseMessage OpenFile(Guid Id)
         {
             DokumenProyek d = _repository.GetDokumenProyek(Id);
-            var path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_DOKUMEN_PATH + d.URL;
+            var path = FILE_DOKUMEN_PATH + d.URL;
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(path, FileMode.Open);
             result.Content = new StreamContent(stream);
@@ -266,7 +257,7 @@ namespace Reston.EProc.Web.Controllers
             {
                 try
                 {
-                    return Json(_repository.saveDokumenProyeks(DokumenId, NamaFileSave, extension, UserId()));
+                    return Json(_repository.saveDokumenProyeks(DokumenId, NamaFileSave, contentType, UserId()));
                     
                 }
                 catch (Exception ex)

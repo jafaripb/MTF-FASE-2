@@ -96,7 +96,6 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public Nullable<DateTime> TanggalMulai { get; set; }
         public Nullable<DateTime> TanggalSelesai { get; set; }
         public decimal NilaiKontrak { get; set; }
-        public decimal NilaiKontrak { get; set; }
 
     }
 

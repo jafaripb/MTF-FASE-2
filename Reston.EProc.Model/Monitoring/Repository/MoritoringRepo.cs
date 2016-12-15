@@ -111,14 +111,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             //filter berdasarkan pencarian
             dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Status == "DIJALANKAN").Count();
 
-<<<<<<< .mine
-            var tampilproyek = ctx.Pengadaans.Where(d => d.RencanaProyeks.FirstOrDefault().Status == "dijalankan" && d.Judul.Contains(search)).ToList() ;
-=======
             var tampilproyek = ctx.RencanaProyeks.Where(d => d.Status == "DIJALANKAN").ToList();
->>>>>>> .theirs
-
-            });
-           * */
 
             List<ViewProyekSistemMonitoring> LstnViewProyekSistemMonitoring = new List<ViewProyekSistemMonitoring>();
 
@@ -130,23 +123,23 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                      ctx.PemenangPengadaans.Where(d => d.PengadaanId == item.Id).FirstOrDefault().VendorId;
                 var vendor = ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault() == null ? "" :
                      ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault().Nama;
-                var aklasifikasi = ctx.Pengadaans.Where(d => d.Id == item.Id).FirstOrDefault().JenisPekerjaan;
+                var aklasifikasi = ctx.Pengadaans.Where(d => d.Id == item.PengadaanId).FirstOrDefault().JenisPekerjaan;
                 
                 var RksHeader = ctx.RKSHeaders.Where(d => d.PengadaanId == item.Id).FirstOrDefault();
                 var TotalHps = RksHeader != null ? ctx.RKSDetails.Where(d => d.RKSHeaderId == RksHeader.Id).Sum(d => d.jumlah * d.hps == null ? 0 : d.jumlah * d.hps) : 0;
 
                 var Proyek = ctx.RencanaProyeks.Where(d => d.PengadaanId == item.Id).FirstOrDefault();
 
-                var PersenPekerjaan = ctx.TahapanProyeks.Where(d => d.ProyekId == Proyek.Id).Count()==0 ? 0 : ctx.TahapanProyeks.Where(d => d.ProyekId == Proyek.Id).Sum(d => (d.Progress*d.BobotPekerjaan)/100);
-                var PersenPembayaran = ctx.TahapanProyeks.Where(d => d.ProyekId == Proyek.Id && d.StatusPembayaran == "Sudah Dibayar").Count() == 0 ? 0 : ctx.TahapanProyeks.Where(d => d.ProyekId == Proyek.Id && d.StatusPembayaran == "Sudah Dibayar").Sum(d => d.PersenPembayaran);
+                var PersenPekerjaan = ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id).Count()==0 ? 0 : ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id).Sum(d => (d.Progress*d.BobotPekerjaan)/100);
+                var PersenPembayaran = ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id && d.StatusPembayaran == "Sudah Dibayar").Count() == 0 ? 0 : ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id && d.StatusPembayaran == "Sudah Dibayar").Sum(d => d.PersenPembayaran);
 
-                vp.id = Proyek.Id;
-                vp.NoKontrak = Proyek.NoKontrak;
-                vp.NamaProyek = item.Judul;
+                vp.id = item.Id;
+                vp.NOSPK = item.NoKontrak;
+                vp.NamaProyek = item.Pengadaan.Judul;
                 vp.NamaPelaksana = vendor;
                 vp.Klasifikasi = aklasifikasi;
-                vp.TanggalMulai = Proyek.StartDate;
-                vp.TanggalSelesai = Proyek.EndDate;
+                vp.TanggalMulai = item.StartDate;
+                vp.TanggalSelesai = item.EndDate;
                 vp.PersenPekerjaan = PersenPekerjaan;
                 vp.PersenPembayaran = PersenPembayaran;
 
@@ -276,8 +269,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             {
                 Id = odata.Id,
                 NamaProyek = NamaProyek,
-                StarDate = odata.StartDate,
-                EndDate = odata.EndDate,
+                TanggalMulai = odata.StartDate,
+                TanggalSelesai = odata.EndDate,
                 NilaiKontrak = TotalHps.Value
             };
         }

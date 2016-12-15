@@ -126,14 +126,14 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rkk = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d =>d.PengadaanId == xPengadaanId).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.PengadaanId == xPengadaanId).FirstOrDefault();
                 var IdProyek = odata.Id;
                 var BlmAdaTahapan = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Count();
-                if(BlmAdaTahapan!=0)
-                { 
-                    var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d =>d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan!=0?d.BobotPekerjaan : 0);
+                if (BlmAdaTahapan != 0)
+                {
+                    var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan != 0 ? d.BobotPekerjaan : 0);
                     var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
-                
+
                     if (TotalBobotPekerjaanDb <= 100)
                     {
                         TahapanProyek th = new TahapanProyek
@@ -161,33 +161,6 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                     var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan);
 
                     var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
-                    if (TotalBobotSeluruh <= 100)
-                    {
-                        TahapanProyek th = new TahapanProyek
-                        {
-                            ProyekId = IdProyek,
-                            NamaTahapan = xNamaTahapanPekerjaan,
-                            TanggalMulai = xTanggalMulai,
-                            TanggalSelesai = xTanggalSelesai,
-                            CreatedOn = DateTime.Now,
-                            CreatedBy = UserId,
-                            JenisTahapan = xJenisPekerjaan,
-                            BobotPekerjaan = xBobotPekerjaan
-                        };
-                        ctx.TahapanProyeks.Add(th);
-                        ctx.SaveChanges(UserId.ToString());
-                        rkk.status = HttpStatusCode.OK;
-                        rkk.message = "Data Berhasil Di Simpan";
-                    }
-                    else
-                    {
-                        rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
-                    }
-                }
-                else
-                {
-                    var TotalBobotSeluruh = xBobotPekerjaan;
-                    
                     if (TotalBobotSeluruh <= 100)
                     {
                         TahapanProyek th = new TahapanProyek
