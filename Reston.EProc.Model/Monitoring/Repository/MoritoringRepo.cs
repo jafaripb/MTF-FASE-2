@@ -21,11 +21,15 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
         DataTableViewProyekSistemMonitoring GetDataListProyekMonitoring(string search, int start, int length, Klasifikasi? dklasifikasi);
         DataTableViewProyekSistemMonitoring GetDataListProyekMonitoringRekanan(string search, int start, int length, Klasifikasi? dklasifikasi, Guid? UserId);
-        DataTableViewProyekSistemMonitoringPembayaran GetDataListProyekDetailMonitoringPembayaran(string search, int start, int length, Guid Id);
+		DataTableViewProyekSistemMonitoringPembayaran GetDataListProyekDetailMonitoringPembayaran(string search, int start, int length, Guid Id);      
         DataTableViewProyekDetailMonitoring GetDataListProyekDetailMonitoring(string search, int start, int length,Guid Id, Klasifikasi? dklasifikasi);
         ResultMessage Save(Guid PengadaanId, StatusMonitored nStatusMonitoring, StatusSeleksi nStatusSeleksi,Guid UserId);
         ViewResumeProyek GetResumeProyek();
         ViewDetailMonitoring GetDetailProyek(Guid ProyekId);
+        ResultMessage SimpanProgresPekerjaan(List<TahapanProyek> Tahapan, Guid UserId);
+        ResultMessage SimpanProgresPembayaran(List<TahapanProyek> Tahapan, Guid UserId);
+        ResultMessage saveDokumenProyeks(Guid DokumenId,string NamaFileSave,string extension, Guid UserId);
+        DokumenProyek GetDokumenProyek(Guid Id);
     }
 
     public class MonitoringRepo : IMoritoringRepo
@@ -58,8 +62,11 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             {
                 ViewProyekSistemMonitoringPembayaran vt = new ViewProyekSistemMonitoringPembayaran();
 
-                vt.id = Id;
+                vt.ID = item.Id;
                 vt.NamaPembayaran = item.NamaTahapan;
+                vt.PersenPembayaran = item.PersenPembayaran;
+                vt.Status = item.StatusPembayaran;
+                vt.TanggalPembayaran = item.TanggalPembayaran;
 
                 LstnViewTableDetailPembayaran.Add(vt);
             }
@@ -82,7 +89,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             {
                 ViewTableDetailPekerjaan vt = new ViewTableDetailPekerjaan();
 
-                vt.Id = Id;
+                vt.Id = item.Id;
                 vt.NamaPekerjaan = item.NamaTahapan;
                 vt.BobotPekerjaan = item.BobotPekerjaan;
                 vt.Progress = item.Progress;
@@ -112,19 +119,29 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             {
                 ViewProyekSistemMonitoring vp = new ViewProyekSistemMonitoring();
 
-                var aNamaProyek = ctx.Pengadaans.Where(d => d.Id == item.PengadaanId).FirstOrDefault().Judul;
-                var vendorId = ctx.PemenangPengadaans.Where(d => d.PengadaanId == item.PengadaanId).FirstOrDefault() == null ? 0 :
-                     ctx.PemenangPengadaans.Where(d => d.PengadaanId == item.PengadaanId).FirstOrDefault().VendorId;
+                var vendorId = ctx.PemenangPengadaans.Where(d => d.PengadaanId == item.Id).FirstOrDefault() == null ? 0 :
+                     ctx.PemenangPengadaans.Where(d => d.PengadaanId == item.Id).FirstOrDefault().VendorId;
                 var vendor = ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault() == null ? "" :
                      ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault().Nama;
                 var aklasifikasi = ctx.Pengadaans.Where(d => d.Id == item.PengadaanId).FirstOrDefault().JenisPekerjaan;
-                var spk = ctx.BeritaAcaras.Where(d => d.PengadaanId == item.PengadaanId && d.Tipe == TipeBerkas.SuratPerintahKerja).FirstOrDefault().NoBeritaAcara;
+                
+                var RksHeader = ctx.RKSHeaders.Where(d => d.PengadaanId == item.Id).FirstOrDefault();
+                var TotalHps = RksHeader != null ? ctx.RKSDetails.Where(d => d.RKSHeaderId == RksHeader.Id).Sum(d => d.jumlah * d.hps == null ? 0 : d.jumlah * d.hps) : 0;
+
+                var Proyek = ctx.RencanaProyeks.Where(d => d.PengadaanId == item.Id).FirstOrDefault();
+
+                var PersenPekerjaan = ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id).Count()==0 ? 0 : ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id).Sum(d => (d.Progress*d.BobotPekerjaan)/100);
+                var PersenPembayaran = ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id && d.StatusPembayaran == "Sudah Dibayar").Count() == 0 ? 0 : ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id && d.StatusPembayaran == "Sudah Dibayar").Sum(d => d.PersenPembayaran);
 
                 vp.id = item.Id;
                 vp.NOSPK = spk;
                 vp.NamaProyek = aNamaProyek;
                 vp.NamaPelaksana = vendor;
                 vp.Klasifikasi = aklasifikasi;
+                vp.TanggalMulai = item.StartDate;
+                vp.TanggalSelesai = item.EndDate;
+                vp.PersenPekerjaan = PersenPekerjaan;
+                vp.PersenPembayaran = PersenPembayaran;
 
                 LstnViewProyekSistemMonitoring.Add(vp);
             }
@@ -227,9 +244,11 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
         public ViewResumeProyek GetResumeProyek()
         {
-            var TotalProyekDalamPelaksanaan = ctx.RencanaProyeks.Where(d => d.Status == "dijalankan").Count();
-            var TotalProyekLewatWaktuPelaksanaan = 0;
-            var TotalProyekMendekatiWaktuPelaksanaan = 0;
+            var today = DateTime.Today;
+
+            var TotalProyekDalamPelaksanaan = ctx.RencanaProyeks.Where(d => d.Status == "dijalankan" && d.EndDate >= today).Count();
+            var TotalProyekLewatWaktuPelaksanaan = ctx.RencanaProyeks.Where(d => d.EndDate < today ).Count();
+            var TotalProyekMendekatiWaktuPelaksanaan = ctx.RencanaProyeks.Where(d => d.StartDate > today).Count();
 
             return new ViewResumeProyek
             {
@@ -298,7 +317,115 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             return rm;
         }
 
+        public ResultMessage SimpanProgresPekerjaan(List<TahapanProyek> Tahapan, Guid UserId)
+        {
+            ResultMessage rkm = new ResultMessage();
 
+            foreach(var item in Tahapan)
+            {
+                var odata = ctx.TahapanProyeks.Where(d =>d.Id == item.Id).FirstOrDefault();
+
+                if(odata != null)
+                {
+                    odata.Progress = item.Progress;
+                    odata.TanggalMulai = item.TanggalMulai;
+                    odata.TanggalSelesai = item.TanggalSelesai;
+
+                    ctx.SaveChanges(UserId.ToString());
+                    rkm.status = HttpStatusCode.OK;
+                    rkm.message = "Sukses";
+                }
+                else
+                {
+                    rkm.message = "Gagal";
+                }
+            }
+
+            return rkm;
+        }
+
+        public DokumenProyek GetDokumenProyek(Guid Id)
+        {
+            return ctx.DokumenProyeks.Find(Id);
+        }
+
+        public ResultMessage saveDokumenProyeks(Guid DokumenId, string NamaFileSave, string extension, Guid UserId)
+        {
+            ResultMessage rm = new ResultMessage();
+
+            var odata = ctx.DokumenProyeks.Where(d => d.Id == DokumenId).FirstOrDefault();
+
+            if(odata != null)
+            {
+                odata.URL = NamaFileSave;
+                odata.ContentType = extension;
+                ctx.SaveChanges(UserId.ToString());
+                rm.status = HttpStatusCode.OK;
+                rm.message = "Sukses";
+            }
+            else
+            {
+
+            }
+
+            return rm;
+        }
+
+
+        public ResultMessage SimpanProgresPembayaran(List<TahapanProyek> Tahapan, Guid UserId)
+        {
+            ResultMessage rkm = new ResultMessage();
+
+            foreach (var item in Tahapan)
+            {
+                var odata = ctx.TahapanProyeks.Where(d => d.Id == item.Id).FirstOrDefault();
+                
+                if(item.StatusPembayaran == "Sudah Dibayar")
+                {
+                    if (item.TanggalPembayaran != null)
+                    {
+                        if (odata != null)
+                        {
+                            odata.PersenPembayaran = item.PersenPembayaran;
+                            odata.StatusPembayaran = item.StatusPembayaran;
+                            odata.TanggalPembayaran = item.TanggalPembayaran;
+
+                            ctx.SaveChanges(UserId.ToString());
+                            rkm.status = HttpStatusCode.OK;
+                            //rkm.message = "Sukses";
+                        }
+                        else
+                        {
+                            rkm.message = "Gagal";
+                        }
+                    }
+                    else
+                    {
+                        rkm.message = "Tanggal Pembayaran Tidak Boleh Kosong";
+                    }
+                }
+                else
+                {
+                    if (odata != null)
+                    {
+                        odata.PersenPembayaran = item.PersenPembayaran;
+                        odata.StatusPembayaran = item.StatusPembayaran;
+                        odata.TanggalPembayaran = item.TanggalPembayaran;
+
+                        ctx.SaveChanges(UserId.ToString());
+                        rkm.status = HttpStatusCode.OK;
+                        //rkm.message = "Sukses";
+                    }
+                    else
+                    {
+                        rkm.message = "Gagal";
+                    }
+                }
+                
+            }
+
+            return rkm;
+        }
      
     }
 }

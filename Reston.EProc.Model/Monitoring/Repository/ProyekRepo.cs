@@ -126,14 +126,14 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rkk = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d =>d.PengadaanId == xPengadaanId).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.PengadaanId == xPengadaanId).FirstOrDefault();
                 var IdProyek = odata.Id;
                 var BlmAdaTahapan = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Count();
-                if(BlmAdaTahapan!=0)
-                { 
-                    var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d =>d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan!=0?d.BobotPekerjaan : 0);
+                if (BlmAdaTahapan != 0)
+                {
+                    var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan != 0 ? d.BobotPekerjaan : 0);
                     var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
-                
+
                     if (TotalBobotPekerjaanDb <= 100)
                     {
                         TahapanProyek th = new TahapanProyek
@@ -158,8 +158,9 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 }
                 else
                 {
-                    var TotalBobotSeluruh = xBobotPekerjaan;
+                    var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan);
 
+                    var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
                     if (TotalBobotSeluruh <= 100)
                     {
                         TahapanProyek th = new TahapanProyek
@@ -176,6 +177,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                         ctx.TahapanProyeks.Add(th);
                         ctx.SaveChanges(UserId.ToString());
                         rkk.status = HttpStatusCode.OK;
+                        rkk.message = "Data Berhasil Di Simpan";
                     }
                     else
                     {
@@ -494,6 +496,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                 nViewListTahapanDokumenPekerjaan.Id = item.Id;
                 nViewListTahapanDokumenPekerjaan.NamaDokumen = item.NamaDokumen;
+                nViewListTahapanDokumenPekerjaan.URL = item.URL;
+
                 vlistViewListTahapanDokumenPekerjaan.Add(nViewListTahapanDokumenPekerjaan);
             }
             dtd.data = vlistViewListTahapanDokumenPekerjaan;

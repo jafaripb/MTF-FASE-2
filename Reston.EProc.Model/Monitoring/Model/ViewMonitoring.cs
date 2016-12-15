@@ -38,12 +38,15 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public string NOPKS { get; set; }
         public string NamaProyek { get; set; }
         public string NamaPelaksana { get; set; }
-        public string Klasifikasi { get; set; }
+        public string Klasifikasi { get; set; }      
+		public decimal PersenPekerjaan { get; set; }
+        public decimal PersenPembayaran { get; set; }
+        public Nullable<DateTime> TanggalMulai { get; set; }
+        public Nullable<DateTime> TanggalSelesai { get; set; }  
     }
-
     public class ViewProyekSistemMonitoringPembayaran
     {
-        public Guid id { get; set; }
+        public Guid ID { get; set; }
         public string NamaPembayaran { get; set; }
         public decimal PersenPembayaran { get; set; }
         public decimal Total { get; set; }

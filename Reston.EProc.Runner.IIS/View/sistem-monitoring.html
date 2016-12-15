@@ -131,7 +131,7 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Judul</label>
                                                     <div class="col-sm-8">
-                                                        <input id="title" type="text" class="form-control " placeholder="Judul">
+                                                        <input id="judul-proyek" type="text" class="form-control " placeholder="Judul">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -172,7 +172,7 @@
                                 <div class="row ">
                                     <div class="col-md-12">
                                         <div class="submitgray button-row">
-                                            <button id="cari" class="btn btn-primary " type="submit">Cari</button>
+                                            <button id="cari" class="btn btn-primary " type="submit" onclick="cari()">Cari</button>
                                         </div>
                                     </div>
                                 </div>
@@ -259,14 +259,12 @@
                     "url": 'api/MonitoringSelection/ListProyek',
                     "type": 'POST',
                     "data": function (d) {
-                        d.search = "";
+                        d.search = $("#judul-proyek").val();
                         d.klasifikasi = "";
                     },
                     "error": function (jqXHR, textStatus, errorThrown) {
-                        // $('#example1').DataTable().clear().draw();
                     }
                 },
-                //"ajax": 'api/MonitoringSelection/List?search=' + $("#search").val(),
                 "columns": [
                     { "data": "NOSPK" },
                     { "data": "NamaProyek" },
@@ -279,21 +277,46 @@
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            return "";
+                            
+                            var tanggalMulai = new Date(row.TanggalMulai);
+                            var tanggalSelesai = new Date(row.TanggalSelesai);
+                            
+                            var timeDiff = Math.ceil(tanggalSelesai.getTime() - tanggalMulai.getTime());
+                            var TotalWaktuDisediakan = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                            var today = new Date();
+
+                            var timeDiff2 = Math.ceil(tanggalSelesai.getTime() - today.getTime());
+                            var TotalWaktuTersedia = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
+
+                            var PersentaseWaktu = (TotalWaktuTersedia / TotalWaktuDisediakan) * 100;
+                            var x = parseFloat(100 - PersentaseWaktu).toFixed(2);
+
+                            return '<label class="persentase-waktu" style="text-align: center; float: right;">' + x + '</label>';
+                        },
+                        "targets": 4,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<label class="persentase-waktu" style="text-align: center; float: right;">' + row.PersenPekerjaan + '</label>';
                         },
                         "targets": 5,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
-                            return "";
+                            return '<label class="persentase-waktu" style="text-align: center; float: right;">' + row.PersenPembayaran + '</label>';
                         },
                         "targets": 6,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
-                            return "<a href='sistem-monitoring-detail.html?Id="+row.id+"'>" + row.NamaProyek + "</a>";
+                            var html = "<a href='sistem-monitoring-detail.html?Id=" + row.id + "'>" + row.NamaProyek + "</a>";
+                            html = html + '<input class="tanggal-mulai" type="hidden" value="' + row.TanggalMulai + '">';
+                            html = html + '<input class="tanggal-selesai" type="hidden" value="' + row.TanggalSelesai + '">';
+                            return html;
                         },
                         "targets": 1,
                         "orderable": false
@@ -309,6 +332,11 @@
             });
         });
 
+        function cari()
+        {
+            table.draw();
+        }
+
         // fungsi tampil result
         $(function () {
             $.ajax({
@@ -319,9 +347,12 @@
                     $("[name=dalam-pelaksanaan]").text(d.ProyekDalamPelaksanaan);
                     $("[name=lewat-waktu]").text(d.ProyekLewatWaktuPelaksanaan);
                     $("[name=mendekati-waktu]").text(d.ProyekMendekatiWaktuPelaksanaan);
+
+                    //alert(d.ProyekDalamPelaksanaan + "|" + d.ProyekLewatWaktuPelaksanaan);
                 }
             })
         })
+
     </script>
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 
