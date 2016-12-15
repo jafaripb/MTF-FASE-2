@@ -563,7 +563,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                 nViewListPenilaian.Id = item.Id;
                 nViewListPenilaian.NamaPenilaian = item.LocalizedName;
-                nViewListPenilaian.Nilai = item.PenilaianVendors.FirstOrDefault().Nilai.ToString();
+                nViewListPenilaian.Nilai = item.PenilaianVendors.Where(d=>d.ProyekId==IdProyek).FirstOrDefault().Nilai.ToString();
                 nViewListPenilaian.Catatan = item.PenilaianVendors.FirstOrDefault().Catatan.ToString();
                 nViewListPenilaian.VendorId = vendorid.ToString();
                 vlistViewListPenilaian.Add(nViewListPenilaian);

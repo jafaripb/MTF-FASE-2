@@ -118,9 +118,10 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 var vendor = ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault() == null ? "" :
                      ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault().Nama;
                 var aklasifikasi = ctx.Pengadaans.Where(d => d.Id == item.PengadaanId).FirstOrDefault().JenisPekerjaan;
+                var spk = ctx.BeritaAcaras.Where(d => d.PengadaanId == item.PengadaanId && d.Tipe == TipeBerkas.SuratPerintahKerja).FirstOrDefault().NoBeritaAcara;
 
                 vp.id = item.Id;
-                vp.NOPKS = item.Status;
+                vp.NOSPK = spk;
                 vp.NamaProyek = aNamaProyek;
                 vp.NamaPelaksana = vendor;
                 vp.Klasifikasi = aklasifikasi;
