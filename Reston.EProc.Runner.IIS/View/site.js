@@ -119,6 +119,4 @@ function LogOut() {
 
     });
 }
-
-
 cekLogin(0);

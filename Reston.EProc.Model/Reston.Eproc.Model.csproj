@@ -97,6 +97,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Seeder.cs" />
     <Compile Include="Monitoring\Entities\MonitoringPekerjaan.cs" />
+    <Compile Include="Monitoring\Entities\PenilaianVendor.cs" />
     <Compile Include="Monitoring\Model\enum.cs" />
     <Compile Include="Monitoring\Model\ViewMonitoring.cs" />
     <Compile Include="Monitoring\Model\ViewProyek.cs" />

@@ -156,6 +156,10 @@
     <Content Include="View\approval-persetujuan-pemenang-belum-disetujui.html" />
     <Content Include="View\create-pks.html" />
     <Content Include="View\dist\js\create-pks.js" />
+    <Content Include="View\dist\js\monitoring-proyek-add.js">
+      <DependentUpon>monitoring-proyek-add.js</DependentUpon>
+    </Content>
+    <Content Include="View\rekanan-monitoring.html" />
     <Content Include="View\pks.html" />
     <Content Include="View\approval-persetujuan-pemenang-sudah-disetujui.html" />
     <Content Include="View\approval.html" />
@@ -1735,6 +1739,7 @@
     <Content Include="View\rks-view.html" />
     <Content Include="View\rks.html" />
     <Content Include="View\repository-rks.html" />
+    <Content Include="View\sistem-monitoring-detail-rekanan.html" />
     <Content Include="View\sistem-monitoring-detail.html" />
     <Content Include="View\sistem-monitoring.html" />
     <Content Include="View\site.js" />

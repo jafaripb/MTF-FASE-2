@@ -1,5 +1,6 @@
 [ 
-	{ "id": 2 , "menu": "Pengadaan-e", "url": "pengadaan-rekanan.html","css":"fa fa-cubes"   },
-	{ "id": 3 , "menu": "Profil Saya", "url": "rekanan-side-terdaftar.html","css":"fa fa-user"   },
-	{ "id": 5 , "menu": "LogOut", "url": "Api/Header/Signout","css":"fa fa-sign-out"   }
+	{ "id": 1 , "menu": "Pengadaan-e", "url": "pengadaan-rekanan.html","css":"fa fa-cubes"   },
+	{ "id": 2 , "menu": "Profil Saya", "url": "rekanan-side-terdaftar.html","css":"fa fa-user"  },
+	{ "id": 3 , "menu": "Monitoring", "url": "rekanan-monitoring.html","css":"fa fa-tv"  },
+  { "id": 4 , "menu": "LogOut", "url": "Api/Header/Signout","css":"fa fa-sign-out"   }
 ]

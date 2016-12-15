@@ -44,11 +44,11 @@ namespace Model.Helper
         /// REGION
         /// </summary>
         public const string BANK = "BANK";
-
         public const string PeriodeAnggaran = "Periode Anggaran";
         public const string UnitKerja = "Unit Kerja";
         public const string JenisPekerjaan = "Jenis Pekerjaan";
         public const string JenisPembelanjaan = "Jenis Pembelanjaan";
+        public const string Penilaian = "Penilaian";
     }
 
     

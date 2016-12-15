@@ -111,7 +111,9 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string NamaTahapan { get; set; }
         public Nullable<DateTime> TanggalMulai { get; set; }
         public Nullable<DateTime> TanggalSelesai { get; set; }
-        public string JenisTahapan {get; set;}
+        public string JenisTahapan { get; set; }
+        public decimal Progress { get; set; }
+        public decimal BobotPekerjaan { get; set; }
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }

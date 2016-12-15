@@ -59,157 +59,153 @@
 
 	</style>
   </head>
- <body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
     <div class="wrapper">
 
-      
-    <div id="header">
-        <header class="main-header">
-            <!-- Logo -->
-            <a class="logo">
-                <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
-                <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
-            </a>
-            <!-- Header Navbar: style can be found in header.less -->
-            <nav class="navbar navbar-static-top" role="navigation">
-                <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
-                </a>
-                <div class="navbar-custom-menu pull-left">
-                    <ul class="nav navbar-nav">
-                        <li>	<a id="judul-page" href="#">Pengadaan</a></li>
-                    </ul>
-                </div>
-                 <div class="navbar-custom-menu">
-                    <ul  class="nav navbar-nav">
-                        <li class="dropdown notifications-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                              <i class="fa fa-bell-o"></i>
-                              <span id="totalNotif" class="label label-warning">0</span>
-                            </a>
-                             <ul class="dropdown-menu">
-                                 <li id="headerNotif" class="header"></li>    
-                                 <li>
-                                    <!-- inner menu: contains the actual data -->
-                                     <ul class="menu" id="listNotif"> 
-                                     </ul>  
-                                 </li>   
-                                 <li class="footer"><a href="#">View all</a></li>                    
-                             </ul>
-                        </li>
-                     </ul>
-                </div>
-            </nav>
-        </header>
-    </div>
-          <!-- Left side column. contains the logo and sidebar -->
-      <div id="menu">
-          <aside class="main-sidebar" ng-app="app" >
-        <!-- sidebar: style can be found in sidebar.less -->
-         <section class="sidebar" >
-          <!-- sidebar menu: : style can be found in sidebar.less -->
-          <ul class="sidebar-menu"  ng-controller="side-menu">
-           <!-- <li class="header">MAIN NAVIGATION</li>-->
-             
-			<li class="treeview" ng-repeat="menu in menus">
-				<a href="{{menu.url}}">
-				    <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
-				</a>				
-			</li>
-          </ul>
-        </section>
-        <!-- /.sidebar -->
-      </aside>
-      </div>
-    
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-    
 
-		 <section class="content">
-             <div class="row">
-				<div class="col-md-10">	
-                    <div id="ikut_serta">
-                        <div class="box box-white">
-							<div class="box-header with-border">
-								<h3 class="box-title text-blue-mtf">Ikut Serta</h3>
-							</div><!-- /.box-header -->
-                       
-							<div class="box-body">
-                                    <ul class="products-list dalam-pelaksanaan product-list-in-box">
-                                        
-                                       
-                                        </ul>
-							
-							</div><!-- /.box-body -->
-                            <div class="box-footer text-center">
-								<a id="next-dalam-pelaksanaan" class="uppercase">Berikutnya</a>
-							</div>
-                          </div>
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Pengadaan</a></li>
+                        </ul>
                     </div>
-                    <div id="rpelaksanaan">
-                         <div class="box box-white">
-							<div class="box-header with-border">
-								<h3 class="box-title text-blue-mtf">Arsip</h3>
-							</div><!-- /.box-header -->
-                            <div class="box-body">
-                                 <ul class="products-list arsip product-list-in-box">
-                                       <p>Kosong.</p>                                        
-                                  </ul>                                 
-                            </div><!-- /.box-body -->
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown notifications-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell-o"></i>
+                                    <span id="totalNotif" class="label label-warning">0</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li id="headerNotif" class="header"></li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu" id="listNotif"></ul>
+                                    </li>
+                                    <li class="footer"><a href="#">View all</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar" ng-app="app">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div id="ikut_serta">
+                            <div class="box box-white">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title text-blue-mtf">Ikut Serta</h3>
+                                </div><!-- /.box-header -->
+
+                                <div class="box-body">
+                                    <ul class="products-list dalam-pelaksanaan product-list-in-box"></ul>
+
+                                </div><!-- /.box-body -->
+                                <div class="box-footer text-center">
+                                    <a id="next-dalam-pelaksanaan" class="uppercase">Berikutnya</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="rpelaksanaan">
+                            <div class="box box-white">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title text-blue-mtf">Arsip</h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+                                    <ul class="products-list arsip product-list-in-box">
+                                        <p>Kosong.</p>
+                                    </ul>
+                                </div><!-- /.box-body -->
+                            </div>
                         </div>
                     </div>
-             </div>
-						
-		</section><!-- /.content -->
-    </div>
-		<!-- /.content-wrapper -->
-     <aside class="control-sidebar control-sidebar-light control-sidebar-open" id="side-kanan">
-         <!-- Create the tabs -->
-         <ul class="nav nav-tabs nav-stacked">
-             <li><a href="#header">Ikut Serta</a></li>
-             <li><a href="#section-1">Arsip</a></li>
-         </ul>
 
-         <!-- Tab panes -->
-
-     </aside>
-     <div class="control-sidebar-bg"></div>
-	   <!--<footer class="main-footer">
-        <div class="pull-right hidden-xs">
-          <b>Version</b> 1.0.0
+            </section><!-- /.content -->
         </div>
-        <strong>Supplier Relation Management</strong> 
-	    </footer>-->
-    </div><!-- ./wrapper -->
-	
-	<div id="ModalHapus" class="modal fade" role="dialog">
-	  <div class="modal-dialog">
-		<input type="hidden" id="row_index" />
-		<!-- Modal content-->
-		<div class="modal-content">
-		  <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title">Hapus Vendor</h4>
-		  </div>
-		  <div class="modal-body">
-			<p>Yakin Vendor ini dihapus?</p>
-		  </div>
-		  <div class="modal-footer">
-			<button id="eveHapus" type="button" class="btn btn-default" >Remove</button>
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		  </div>
-		</div>
+        <!-- /.content-wrapper -->
+        <aside class="control-sidebar control-sidebar-light control-sidebar-open" id="side-kanan">
+            <!-- Create the tabs -->
+            <ul class="nav nav-tabs nav-stacked">
+                <li><a href="#header">Ikut Serta</a></li>
+                <li><a href="#section-1">Arsip</a></li>
+            </ul>
 
-	  </div>
-	</div>
-	
-	<!--chat-->
-	<div id="chat"></div>
-	
+            <!-- Tab panes -->
+
+        </aside>
+        <div class="control-sidebar-bg"></div>
+        <!--<footer class="main-footer">
+         <div class="pull-right hidden-xs">
+           <b>Version</b> 1.0.0
+         </div>
+         <strong>Supplier Relation Management</strong>
+         </footer>-->
+    </div><!-- ./wrapper -->
+
+    <div id="ModalHapus" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Hapus Vendor</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Yakin Vendor ini dihapus?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="eveHapus" type="button" class="btn btn-default">Remove</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--chat-->
+    <div id="chat"></div>
+
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
@@ -218,19 +214,19 @@
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="plugins/fastclick/fastclick.min.js"></script>
-    
-	 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
-	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
-      <script src='plugins/fullcalendar/moment.min.js'></script>
-	<script src="plugins/jQueryUItotop/easing.js"></script>
-	<script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
-    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>	
+
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="plugins/angular/angular.min.js"></script>
-     <script src="dist/js/menu.js"></script>
-     <script src="dist/js/pengadaan-rekanan.js"></script>	
-     <script src="dist/js/app.min.js"></script>
-     <script src="dist/js/notifikasi-rekanan.js"></script>
-     
-    
-  </body>
+    <script src="dist/js/menu.js"></script>
+    <script src="dist/js/pengadaan-rekanan.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="dist/js/notifikasi-rekanan.js"></script>
+
+
+</body>
 </html>

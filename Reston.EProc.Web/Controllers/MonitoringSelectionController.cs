@@ -38,6 +38,32 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataListProyekMonitoring(search, start, length, dklasifikasi));
         }
 
+        public IHttpActionResult ListProyekRekanan()
+        {
+            string search = HttpContext.Current.Request["search"].ToString();
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
+            string klasifikasi = HttpContext.Current.Request["klasifikasi"].ToString();
+
+            if (klasifikasi == "")
+            {
+                return Json(_repository.GetDataListProyekMonitoringRekanan(search, start, length, null, UserId()));
+            }
+
+            Klasifikasi dklasifikasi = (Klasifikasi)Convert.ToInt32(klasifikasi);
+            return Json(_repository.GetDataListProyekMonitoringRekanan(search, start, length, dklasifikasi, UserId()));
+        }
+
+        public IHttpActionResult ListProyekDetailMonitoringPembayaran()
+        {
+            string search = HttpContext.Current.Request["search"].ToString();
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
+            Guid Id = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
+
+            return Json(_repository.GetDataListProyekDetailMonitoringPembayaran(search, start, length, Id));
+        }
+
         public IHttpActionResult ListProyekDetailMonitoring()
         {
             string search = HttpContext.Current.Request["search"].ToString();
@@ -81,23 +107,6 @@ namespace Reston.EProc.Web.Controllers
 
             StatusSeleksi dStatusSeleksi = (StatusSeleksi)Convert.ToInt32(status);
             return Json(_repository.GetDataMonitoringSelection(search, start, length, dStatusSeleksi));
-        }
-
-        // Draf List
-        public IHttpActionResult DrafList()
-        {
-            string search = HttpContext.Current.Request["search"].ToString();
-            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
-            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
-            string status = HttpContext.Current.Request["status"].ToString();
-
-            if (status == "DRAF")
-            {
-                return Json(_repository.GetDataMonitoringDraf(search, start, length, null));
-            }
-
-            StatusSeleksi dStatusSeleksi = (StatusSeleksi)Convert.ToInt32(status);
-            return Json(_repository.GetDataMonitoringDraf(search, start, length, dStatusSeleksi));
         }
 
 

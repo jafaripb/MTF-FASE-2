@@ -1,4 +1,4 @@
 [ 
-	{ "id": 2 , "menu": "Pengadaan-e", "url": "pengadaan-list.html","css":"fa fa-cubes"   },
-	{ "id": 5 , "menu": "LogOut", "url": "Api/Header/Signout","css":"fa fa-sign-out"   }
+	{ "id": 1 , "menu": "Pengadaan-e", "url": "pengadaan-list.html","css":"fa fa-cubes" },
+	{ "id": 2 , "menu": "LogOut", "url": "Api/Header/Signout","css":"fa fa-sign-out"  }
 ]

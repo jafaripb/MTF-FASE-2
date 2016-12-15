@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Reston.Eproc.Model.Monitoring.Entities;
+using Reston.Pinata.Model.PengadaanRepository;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -50,5 +52,8 @@ namespace Reston.Pinata.Model.JimbisModel
         public Nullable<bool> FlagAttr1 { get; set; }
         public Nullable<bool> FlagAttr2 { get; set; }
         public Nullable<bool> FlagAttr3 { get; set; }
+        public virtual ICollection<RencanaProyek> RencanaProyeks { get; set; }
+        public virtual ICollection<PemenangPengadaan> PemenangPengadaans { get; set; }
+        public virtual ICollection<PenilaianVendor> PenilaianVendors { get; set; }
     }
 }
