@@ -216,7 +216,30 @@ namespace Reston.Pinata.WebService
         {
             return Json(new { aaData = GetAllJenisPembelanjaan() });
         }
-       
+
+        [HttpGet]
+        public List<ReferenceDataViewModel> GetAllPenilaian()
+        {
+            return _repository.GetData(RefDataQualifier.Penilaian, null).Select(x => new ReferenceDataViewModel()
+            {
+                id = x.Id,
+                Code = x.Code,
+                Name = x.LocalizedName,
+                Desc = x.LocalizedDesc,
+                Str1 = x.StringAttr1,
+                Int1 = x.IntAttr1,
+                Flag1 = x.FlagAttr1
+            }).ToList();
+        }
+
+        [HttpGet]
+        //[ApiAuthorize(new string[] { IdLdapConstants.Roles.pRole_procurement_user, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_admin })]
+        [ApiAuthorize]
+        public IHttpActionResult GetTblPenilaian()
+        {
+            return Json(new { aaData = GetAllPenilaian() });
+        }
+
         //master crud
         [ApiAuthorize(new string[] { IdLdapConstants.Roles.pRole_procurement_admin, IdLdapConstants.App.Roles.IdLdapProcurementAdminRole })]
         //[ApiAuthorize]
@@ -242,6 +265,13 @@ namespace Reston.Pinata.WebService
         public string AddUnitKerja(string code, string nama, string deskripsi)
         {
             return AddReferenceData(new ReferenceData() { Qualifier = RefDataQualifier.UnitKerja, Code = code, LocalizedName = nama, LocalizedDesc = deskripsi });
+        }
+        [HttpGet]
+        [ApiAuthorize(new string[] { IdLdapConstants.Roles.pRole_procurement_admin, IdLdapConstants.App.Roles.IdLdapProcurementAdminRole })]
+        //[ApiAuthorize]
+        public string AddPenilaian(string code, string nama, string deskripsi)
+        {
+            return AddReferenceData(new ReferenceData() { Qualifier = RefDataQualifier.Penilaian, Code = code, LocalizedName = nama, LocalizedDesc = deskripsi });
         }
         [HttpGet]
         [ApiAuthorize(new string[] { IdLdapConstants.Roles.pRole_procurement_admin, IdLdapConstants.App.Roles.IdLdapProcurementAdminRole })]

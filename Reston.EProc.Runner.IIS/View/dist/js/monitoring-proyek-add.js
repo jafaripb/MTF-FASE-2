@@ -341,8 +341,10 @@ function TambahTahapanPekerjaan() {
     var nNamaTahapanPekerjaan = $("#nama-tahapan-pekerjaan").val();
     var nTanggalMulai = moment($("#tanggal-pekerjaan-mulai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     var nTanggalSelesai = moment($("#tanggal-pekerjaan-selesai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+    var nBobotPekerjaan = $("#bobot-pekerjaan").val();
     var nJenisTahapan = 'Pekerjaan';
-
+    //console.log(nTanggalSelesai);
+    //alert(nBobotPekerjaan);
     $.ajax({
         method: "post",
         url: "api/Proyek/SimpanTahapanPekerjaan",
@@ -352,6 +354,7 @@ function TambahTahapanPekerjaan() {
             aNamaTahapanPekerjaan: nNamaTahapanPekerjaan,
             aTanggalMulai: nTanggalMulai,
             aTanggalSelesai: nTanggalSelesai,
+            aBobotPekerjaan: nBobotPekerjaan,
             aJenisTahapan: nJenisTahapan
         },
         success: function (d) {
@@ -359,17 +362,34 @@ function TambahTahapanPekerjaan() {
             $("#nama-tahapan-pekerjaan").val("");
             $("#tanggal-pekerjaan-mulai").val("");
             $("#tanggal-pekerjaan-selesai").val("");
-            BootstrapDialog.show({
-                title: 'Konfirmasi',
-                message: 'Data Berhasil di Simpan',
-                buttons: [{
-                    label: 'Close',
-                    action: function (dialog) {
-                        dialog.close();
-                    }
-                }]
-            });
-            table_pekerjaan.draw();
+            $("#bobot-pekerjaan").val("");
+            if (d.message == null)
+            {
+                BootstrapDialog.show({
+                    title: 'Konfirmasi',
+                    message: 'Data Berhasil di Simpan',
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+                table_pekerjaan.draw();
+            }
+            else
+            {
+                BootstrapDialog.show({
+                    title: 'ERROR',
+                    message: d.message,
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+            }
         }
     })
 }
@@ -381,6 +401,7 @@ function TambahTahapanPembayaran() {
     var nTanggalMulai = moment($("#tanggal-pembayaran-mulai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     var nTanggalSelesai = moment($("#tanggal-pembayaran-selesai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     var nJenisTahapan = 'Pembayaran';
+    var nBobotPekerjaan = 0;
 
     $.ajax({
         method: "post",
@@ -391,7 +412,8 @@ function TambahTahapanPembayaran() {
             aNamaTahapanPekerjaan: nNamaTahapanPembayaran,
             aTanggalMulai: nTanggalMulai,
             aTanggalSelesai: nTanggalSelesai,
-            aJenisTahapan: nJenisTahapan
+            aJenisTahapan: nJenisTahapan,
+            aBobotPekerjaan: nBobotPekerjaan
         },
         success: function (d) {
             $("#tahapanuppem").modal("hide");
@@ -440,7 +462,7 @@ function TambahProyekDrafPekerjaan() {
 function SimpanProyek() {
     var PengadaanId = $("#pengadaanId").val();
     var nNoKontrak = $("#no-kontrak").val();
-    var nStatus = "DIJALANKAN";
+    var nStatus = "dijalankan";
     $.ajax({
         method: "post",
         url: "api/Proyek/UbahStatusRencanaProyek",

@@ -9,5 +9,5 @@
   { "id": 8,  "menu": "Manajemen Kontrak",  "url": "kontrak.html",  "css": "fa fa-folder-o" },
   { "id": 9,  "menu": "Sistem Monitoring",  "url": "sistem-monitoring.html",  "css": "fa fa-tv" },
   { "id": 10 ,  "menu": "PKS",  "url": "pks.html",  "css": "fa fa-pencil" },
-	{ "id": 11 , "menu": "LogOut", "url": "Api/Header/Signout","css":"fa fa-sign-out"   }
+	{ "id": 11 , "menu": "LogOut", "url": "Api/Header/Signout","css":"fa fa-sign-out" }
 ]

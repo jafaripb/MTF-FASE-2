@@ -159,6 +159,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">No. SPK</td>
                                                                 <td class="tengah text-bold">Nama Proyek</td>
                                                                 <td class="tengah text-bold">Vendor Pemenang</td>
                                                                 <td class="tengah text-bold">Klasifikasi</td>
@@ -359,6 +360,7 @@
                 },
                 "columns": [
                     { "data": "NoPengadaan" },
+                    { "data": "NOSPK" },
                     { "data": "Judul" },
                     { "data": "Pemenang" },
                     { "data": "Klasifikasi" },
@@ -372,22 +374,22 @@
                         "render": function (data, type, row) {
                             return moment(row.TanggalPenentuanPemenang).format("DD/MM/YYYY");
                         },
-                        "targets": 4,
+                        "targets": 5,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
                             return numberWithCommas(row.NilaiKontrak);
                         },
-                        "targets": 5,
+                        "targets": 6,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
-                            return ' <a href="monitoring-proyek-add.html?id-pengadaan='+row.Id+'" id="" class="btn btn-primary "> Monitor </a> '+
-                                ' <a href="pengadaan-terbuka-detail.html#' + row.Id + '" id="" class="btn btn-success "> Detail </a> ';
+                            return ' <a href="monitoring-proyek-add.html?id-pengadaan='+row.Id+'" id="" class="btn btn-sm btn-primary "> Monitor </a> '+
+                                ' <a href="pengadaan-terbuka-detail.html#' + row.Id + '" id="" class="btn btn-sm btn-success "> Detail </a> ';
                         },
-                        "targets": 7,
+                        "targets": 8,
                         "orderable": false
                     },
                 ],

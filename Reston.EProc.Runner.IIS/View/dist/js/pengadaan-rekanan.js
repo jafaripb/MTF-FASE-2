@@ -1,5 +1,4 @@
-﻿
-$(function () {
+﻿$(function () {
     $("#myNav").affix({
         offset: {
             top: 100
@@ -60,7 +59,6 @@ function renderList(data) {
             var klarifikasi = "Klarifikasi :";
             var penentuan_pemenang = "Penentuan Pemenang :";
             $.each(value.JadwalPengadaans, function (index, val) {
-
                 if (val.tipe == "Aanwijzing") {
                     if (moment(val.Mulai).format("DD/MM/YYYY") != "Invalid date") {
                         Aanwijzing = Aanwijzing + moment(val.Mulai).format("DD/MM/YYYY");
@@ -89,8 +87,6 @@ function renderList(data) {
                     }
                 }
             });
-
-
             html = html + Aanwijzing + "," + pengisian_harga + "," + klarifikasi + "," + penentuan_pemenang + '</span>';
         }
         html = html +
@@ -106,7 +102,6 @@ function renderList(data) {
         else {
             $(".arsip").append(html);
         }
-        //$(".dalam-pelaksanaan").append(html);
     });
     if (html == "") {
         $(".dalam-pelaksanaan").append("Kosong");

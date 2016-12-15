@@ -26,8 +26,6 @@ namespace IdLdap
                 Database.SetInitializer(new MigrateDatabaseToLatestVersion<IdentityServer3.EntityFramework.ScopeConfigurationDbContext, Reston.Identity.Repository.Migrations.ScopeConfiguration.Configuration>());
                 Database.SetInitializer(new MigrateDatabaseToLatestVersion<Reston.Identity.Repository.Identity.IdentityContext, Reston.Identity.Repository.Migrations.IdentityConfiguration.Configuration>());
             }
-
-
         }
     }
 }

@@ -66,6 +66,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual ICollection<JadwalPelaksanaan> JadwalPelaksanaans { get; set; }
         public virtual ICollection<PersetujuanPemenang> PersetujuanPemenangs { get; set; }
         public virtual ICollection<RencanaProyek> RencanaProyeks { get; set; }
+        public virtual ICollection<PemenangPengadaan> PemenangPengadaans { get; set; }
+        public virtual ICollection<BeritaAcara> BeritaAcaras { get; set; }
     }
 
     [Table("DokumenPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]

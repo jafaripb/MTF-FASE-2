@@ -32,30 +32,29 @@
 </head>
 <body class="hold-transition sidebar-collapse skin-blue sidebar-mini fixed">
     <div class="wrapper">
-
-
-        <div id="header"></div>
-        <header class="main-header">
-            <!-- Logo -->
-            <a class="logo">
-                <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
-                <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
-            </a>
-            <!-- Header Navbar: style can be found in header.less -->
-            <nav class="navbar navbar-static-top" role="navigation">
-                <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
-                <div class="navbar-custom-menu pull-left">
-                    <ul class="nav navbar-nav">
-                        <li>	<a id="judul-page" href="#">Dashboard</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Dashboard</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
         <div id="menu">
             <aside class="main-sidebar" ng-app="app">
                 <!-- sidebar: style can be found in sidebar.less -->
@@ -71,8 +70,6 @@
                     </div>-->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu" ng-controller="side-menu">
-                        <!-- <li class="header">MAIN NAVIGATION</li>-->
-
                         <li class="treeview" ng-repeat="menu in menus">
                             <a href="{{menu.url}}">
                                 <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
@@ -86,9 +83,6 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper ">
-
-            <section class="content-header "></section>
-
             <section class="content ">
                 <!-- Default box -->
                 <div class="row tabel-detail" style="display:none">
@@ -186,9 +180,7 @@
                         </div><!-- /.box-body -->
                     </div>
                 </div>
-
             </section><!-- /.content -->
-
         </div><!-- /.content-wrapper -->
         <!--   <footer class="main-footer">
             <div class="pull-right hidden-xs">
@@ -200,9 +192,10 @@
     </div><!-- ./wrapper -->
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
-
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script src="plugins/datatables/extensions/responsive/js/datatables.responsive.min.js"></script>
@@ -216,7 +209,7 @@
     <script src="site.js"></script>
     <script src="dist/site.js"></script>
     <script src="dist/js/menu.js"></script>
-
+    <script src="blockui/jquery.blockUI.js"></script>
     <script>
         var table;
         $(function () {
@@ -465,6 +458,5 @@
         }
     </script>
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
-
 </body>
 </html>
