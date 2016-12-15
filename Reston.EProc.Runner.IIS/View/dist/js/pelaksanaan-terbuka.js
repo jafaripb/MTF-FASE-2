@@ -514,7 +514,7 @@ $(function () {
                               message: 'Pilih Vendor :' + html,
                               onhide: function (dialogRef) {
                                   var VendorId = dialogRef.getModalBody().find('select').val();
-                                  that.options.url = that.options.url + "&vendorId=" + VendorId;
+                                  that.options.url = $("#SuratPerintahKerja").attr("action") + "&id=" + $("#pengadaanId").val() + "&vendorId=" + VendorId;
                               },
                               buttons: [{
                                   label: 'Simpan',
@@ -750,8 +750,7 @@ $(function () {
         }
         else if ($($(this).attr("attr1")).attr("disabled") && $($(this).attr("attr3")).attr("disabled")) {
             StatusBtn = 0;
-        }
-        
+        }        
 
         if (StatusBtn==0) {
             var now = moment();
@@ -1122,11 +1121,36 @@ $(function () {
         var objData = {};
         objData.PengadaanId = $("#pengadaanId").val();
         objData.VendorId = $(this).attr("vendorid");
-        if ($(this).is(':checked')) {
-            addPemenang(elTHis, objData);
+        if ($("#AturanPenawaran").val() == "Price Matching") {
+            if ($(this).is(':checked')) {
+                addPemenang(elTHis, objData);
+            }
+            else {
+                deletePemenang(elTHis, objData);
+            }
         }
         else {
-            deletePemenang(elTHis, objData);           
+            if ($(".checkbox-pilih-pemenang:checked").length > 1) {
+                $(this).prop("checked", false);
+                BootstrapDialog.show({
+                    title: 'Error',
+                    message: "Pemenang Hanya Boleh Satu",
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+            }
+            else {
+                if ($(this).is(':checked')) {
+                    addPemenang(elTHis, objData);
+                }
+                else {
+                    deletePemenang(elTHis, objData);
+                }
+            }
         }
     });
 
@@ -1499,34 +1523,34 @@ function rubahDateSubmitPenawaran() {
     objSubmitPenawaran.Mulai = moment($("#tgl_pengisian_harga_re").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");//"dd/MM/yyyy"
     objSubmitPenawaran.Sampai = moment($("#tgl_pengisian_harga_sampai_re").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     objSubmitPenawaran.PengadaanId = $("#pengadaanId").val();
-    if (cekPerubahanJadwal("#tgl_pengisian_harga_re", "#tgl_pengisian_harga_sampai_re") == 0) {
-        BootstrapDialog.show({
-            title: 'Konfirmasi',
-            message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
-            buttons: [{
-                label: 'Close',
-                action: function (dialog) {                    
-                    dialog.close();
-                }
-            }]
-        });
-        getDateSubmitPenawaran();
-        return false;
-    }
-    if (cekPerubahanJadwal("#tgl_pengisian_harga_sampai_re", "#buka_amplop_sampai_re") == 0) {
-        BootstrapDialog.show({
-            title: 'Konfirmasi',
-            message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
-            buttons: [{
-                label: 'Close',
-                action: function (dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-        getDateSubmitPenawaran();
-        return false;
-    }
+    //if (cekPerubahanJadwal("#tgl_pengisian_harga_re", "#tgl_pengisian_harga_sampai_re") == 0) {
+    //    BootstrapDialog.show({
+    //        title: 'Konfirmasi',
+    //        message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
+    //        buttons: [{
+    //            label: 'Close',
+    //            action: function (dialog) {                    
+    //                dialog.close();
+    //            }
+    //        }]
+    //    });
+    //    getDateSubmitPenawaran();
+    //    return false;
+    //}
+    //if (cekPerubahanJadwal("#tgl_pengisian_harga_sampai_re", "#buka_amplop_sampai_re") == 0) {
+    //    BootstrapDialog.show({
+    //        title: 'Konfirmasi',
+    //        message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
+    //        buttons: [{
+    //            label: 'Close',
+    //            action: function (dialog) {
+    //                dialog.close();
+    //            }
+    //        }]
+    //    });
+    //    getDateSubmitPenawaran();
+    //    return false;
+    //}
     waitingDialog.showloading("Proses Harap Tunggu");
 
     $.ajax({
@@ -1593,34 +1617,34 @@ function rubahDateBukaAmplop() {
     obj.Sampai = moment($("#buka_amplop_sampai_re").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");//"dd/MM/yyyy"
     obj.Mulai = moment($("#buka_amplop_re").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     obj.PengadaanId = $("#pengadaanId").val();
-    if (cekPerubahanJadwal("#buka_amplop_re", "#buka_amplop_sampai_re") == 0) {
-        BootstrapDialog.show({
-            title: 'Konfirmasi',
-            message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
-            buttons: [{
-                label: 'Close',
-                action: function (dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-        getBukaAmplop();
-        return false;
-    }
-    if (cekPerubahanJadwal("#buka_amplop_sampai_re", "#jadwal_penilaian_kandidat") == 0) {
-        BootstrapDialog.show({
-            title: 'Konfirmasi',
-            message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
-            buttons: [{
-                label: 'Close',
-                action: function (dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-        getBukaAmplop();
-        return false;
-    }
+    //if (cekPerubahanJadwal("#buka_amplop_re", "#buka_amplop_sampai_re") == 0) {
+    //    BootstrapDialog.show({
+    //        title: 'Konfirmasi',
+    //        message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
+    //        buttons: [{
+    //            label: 'Close',
+    //            action: function (dialog) {
+    //                dialog.close();
+    //            }
+    //        }]
+    //    });
+    //    getBukaAmplop();
+    //    return false;
+    //}
+    //if (cekPerubahanJadwal("#buka_amplop_sampai_re", "#jadwal_penilaian_kandidat") == 0) {
+    //    BootstrapDialog.show({
+    //        title: 'Konfirmasi',
+    //        message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
+    //        buttons: [{
+    //            label: 'Close',
+    //            action: function (dialog) {
+    //                dialog.close();
+    //            }
+    //        }]
+    //    });
+    //    getBukaAmplop();
+    //    return false;
+    //}
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
         method: "POST",
@@ -1695,34 +1719,34 @@ function rubahPenilaian() {
     obj.Mulai = moment($("#jadwal_penilaian_kandidat").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");//"dd/MM/yyyy"
     obj.Sampai = moment($("#jadwal_penilaian_kandidat_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     obj.PengadaanId = $("#pengadaanId").val();
-    if (cekPerubahanJadwal("#jadwal_penilaian_kandidat", "#jadwal_penilaian_kandidat_sampai") == 0) {
-        BootstrapDialog.show({
-            title: 'Konfirmasi',
-            message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
-            buttons: [{
-                label: 'Close',
-                action: function (dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-        getPenilaian();
-        return false;
-    }
-    if (cekPerubahanJadwal("#jadwal_penilaian_kandidat_sampai", "#jadwal_pelaksanaan_klarifikasi") == 0) {
-        BootstrapDialog.show({
-            title: 'Konfirmasi',
-            message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
-            buttons: [{
-                label: 'Close',
-                action: function (dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-        getPenilaian();
-        return false;
-    }
+    //if (cekPerubahanJadwal("#jadwal_penilaian_kandidat", "#jadwal_penilaian_kandidat_sampai") == 0) {
+    //    BootstrapDialog.show({
+    //        title: 'Konfirmasi',
+    //        message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
+    //        buttons: [{
+    //            label: 'Close',
+    //            action: function (dialog) {
+    //                dialog.close();
+    //            }
+    //        }]
+    //    });
+    //    getPenilaian();
+    //    return false;
+    //}
+    //if (cekPerubahanJadwal("#jadwal_penilaian_kandidat_sampai", "#jadwal_pelaksanaan_klarifikasi") == 0) {
+    //    BootstrapDialog.show({
+    //        title: 'Konfirmasi',
+    //        message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
+    //        buttons: [{
+    //            label: 'Close',
+    //            action: function (dialog) {
+    //                dialog.close();
+    //            }
+    //        }]
+    //    });
+    //    getPenilaian();
+    //    return false;
+    //}
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
         method: "POST",
@@ -1811,34 +1835,34 @@ function rubahKlarifikasi() {
     obj.Sampai = moment($("#jadwal_pelaksanaan_klarifikasi_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     obj.PengadaanId = $("#pengadaanId").val();
     
-    if (cekPerubahanJadwal("#jadwal_pelaksanaan_klarifikasi", "#jadwal_pelaksanaan_klarifikasi_sampai") == 0) {
-        BootstrapDialog.show({
-            title: 'Konfirmasi',
-            message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
-            buttons: [{
-                label: 'Close',
-                action: function (dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-        getKlarifikasi();
-        return false;
-    }
-    if (cekPerubahanJadwal("#jadwal_pelaksanaan_klarifikasi_sampai", "#jadwal_pelaksanaan_pemenang") == 0) {
-        BootstrapDialog.show({
-            title: 'Konfirmasi',
-            message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
-            buttons: [{
-                label: 'Close',
-                action: function (dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-        getKlarifikasi();
-        return false;
-    }
+    //if (cekPerubahanJadwal("#jadwal_pelaksanaan_klarifikasi", "#jadwal_pelaksanaan_klarifikasi_sampai") == 0) {
+    //    BootstrapDialog.show({
+    //        title: 'Konfirmasi',
+    //        message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
+    //        buttons: [{
+    //            label: 'Close',
+    //            action: function (dialog) {
+    //                dialog.close();
+    //            }
+    //        }]
+    //    });
+    //    getKlarifikasi();
+    //    return false;
+    //}
+    //if (cekPerubahanJadwal("#jadwal_pelaksanaan_klarifikasi_sampai", "#jadwal_pelaksanaan_pemenang") == 0) {
+    //    BootstrapDialog.show({
+    //        title: 'Konfirmasi',
+    //        message: 'Jadwal ini Tidak Boleh Lebih dari Jadwal Berikutnya!',
+    //        buttons: [{
+    //            label: 'Close',
+    //            action: function (dialog) {
+    //                dialog.close();
+    //            }
+    //        }]
+    //    });
+    //    getKlarifikasi();
+    //    return false;
+    //}
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
         method: "POST",
@@ -1896,20 +1920,20 @@ function rubahPemenang() {
     var obj = {};
     obj.Mulai = moment($("#jadwal_pelaksanaan_pemenang").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     obj.PengadaanId = $("#pengadaanId").val();   
-    if (cekPerubahanJadwal( "#jadwal_pelaksanaan_klarifikasi_sampai","#jadwal_pelaksanaan_pemenang") == 0) {
-        BootstrapDialog.show({
-            title: 'Konfirmasi',
-            message: 'Jadwal ini Tidak Boleh Kecil Lebih dari Jadwal Sebelumnya!',
-            buttons: [{
-                label: 'Close',
-                action: function (dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-        getPemenang();
-        return false;
-    }
+    //if (cekPerubahanJadwal( "#jadwal_pelaksanaan_klarifikasi_sampai","#jadwal_pelaksanaan_pemenang") == 0) {
+    //    BootstrapDialog.show({
+    //        title: 'Konfirmasi',
+    //        message: 'Jadwal ini Tidak Boleh Kecil Lebih dari Jadwal Sebelumnya!',
+    //        buttons: [{
+    //            label: 'Close',
+    //            action: function (dialog) {
+    //                dialog.close();
+    //            }
+    //        }]
+    //    });
+    //    getPemenang();
+    //    return false;
+    //}
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
         method: "POST",
@@ -2145,6 +2169,7 @@ function getKandidatPemenang() {
         method: "POST",
         url: "Api/PengadaanE/GetPemenangPengadaan?PId=" + $("#pengadaanId").val(),
         success: function (data) {
+            $(".list-rekanan-pemenang").html("");
             $.each(data, function (index, value) {
                 var html = '<div class="col-md-3  box-klarifikasi-rekanan"  vendorId="' + value.VendorId + '">' +
                             '<div class="box box-primary box-folder-vendor" data-toggle="tooltip" title="' + value.NamaVendor + '">' +
@@ -2155,6 +2180,7 @@ function getKandidatPemenang() {
                                     '<p class="profile-username title-header title-header-vendor">' + value.NamaVendor + '</p>' +
                                     '<p class="text-muted text-center deskripsi">Rp. ' + accounting.formatNumber(value.total, { thousand: "." }) + '</p>' +
                                     '<p class="text-muted text-center deskripsi">Nilai: ' + value.NilaiKriteria + '</p>' +
+                                    '<p class="text-muted text-center deskripsi">No SPK: ' + value.NoSPK  + '</p>' +
                                 '</div>' +
                             '</div>' +
                         '</div>';

@@ -61,6 +61,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<int> NilaiKriteria { get; set; }
         public Nullable<decimal> total { get; set; }
         public Nullable<int> terpilih { get; set; }
+        public String NoSPK { get; set; }
     }
 
     public class VWVendorsHarga

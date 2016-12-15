@@ -126,7 +126,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         List<VWRekananPenilaian> getKandidatPengadaan(Guid PengadaanId, Guid UserId);
         List<VWVendor> GetVendorsKlarifikasiByPengadaanId(Guid PengadaanId);
         BeritaAcara addBeritaAcara(BeritaAcara newBeritaAcara, Guid UserId);
-        List<BeritaAcara> getBeritaAcara(Guid PengadaanId, Guid UserId);
+        List<VWBeritaAcaraEnd> getBeritaAcara(Guid PengadaanId, Guid UserId);
         BeritaAcara getBeritaAcaraByTipe(Guid PengadaanId, TipeBerkas tipe, Guid UserId);
         int CekBukaAmplop(Guid PengadaanId);
         ViewVendors GetVendorById(int VendorId);
@@ -3638,7 +3638,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                             {
                                                                 Bobot = bb.Bobot == null ? 0 : bb.Bobot.Value,
                                                                 Nilai = cc.Nilai == null ? 0 : cc.Nilai.Value
-                                                            }).Sum(dd => (dd.Nilai * dd.Bobot) / 100)
+                                                            }).Sum(dd => (dd.Nilai * dd.Bobot) / 100),
+                                        NoSPK=(from bb in ctx.BeritaAcaras 
+                                                where bb.PengadaanId==PengadaanId &&
+                                                   bb.VendorId == b.VendorId && bb.Tipe==TipeBerkas.SuratPerintahKerja
+                                               select bb).FirstOrDefault() == null ? "-" : (from bb in ctx.BeritaAcaras
+                                                                                           where bb.PengadaanId == PengadaanId &&
+                                                                                              bb.VendorId == b.VendorId && bb.Tipe == TipeBerkas.SuratPerintahKerja
+                                                                                           select bb).FirstOrDefault().NoBeritaAcara
                                        }).ToList();
             return xKandidatPengadaans;
         }
@@ -4114,9 +4121,17 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
         }
 
-        public List<BeritaAcara> getBeritaAcara(Guid PengadaanId, Guid UserId)
+        public List<VWBeritaAcaraEnd> getBeritaAcara(Guid PengadaanId, Guid UserId)
         {
-            return ctx.BeritaAcaras.Where(d => d.PengadaanId == PengadaanId).ToList();
+            return ctx.BeritaAcaras.Where(d => d.PengadaanId == PengadaanId).Select(d => new VWBeritaAcaraEnd()
+            {
+            Id=d.Id,
+            NoBeritaAcara=d.NoBeritaAcara,
+            PengadaanId=d.PengadaanId,
+            tanggal=d.tanggal,
+            Tipe=d.Tipe,
+            VendorId=d.VendorId            
+            }).ToList();
         }
 
         public BeritaAcara getBeritaAcaraByTipe(Guid PengadaanId, TipeBerkas tipe, Guid UserId)

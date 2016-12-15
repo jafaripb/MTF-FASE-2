@@ -32,6 +32,7 @@ namespace Reston.Pinata.Model
         public const string CATALOG_SCHEMA_NAME = "catalog";
         public const string MASTER_SCHEMA_NAME = "master";
         public const string PENGADAAN_SCHEMA_NAME = "pengadaan";
+        public const string MONITORING_SCHEMA_NAME = "monitoring";
         public const string WORKFLOW_SCHEMA_NAME = "workflow";
 
         public JimbisContext()
@@ -107,18 +108,16 @@ namespace Reston.Pinata.Model
         public virtual DbSet<RencanaProyek> RencanaProyeks { get; set; }
         public virtual DbSet<PICProyek> PICProyeks { get; set; }
         public virtual DbSet<DokumenProyek> DokumenProyeks { get; set; }
-        public virtual DbSet<SysLog> SysLogs { get; set; }
+        
         public virtual DbSet<PersetujuanPemenang> PersetujuanPemenangs { get; set; }
-        public virtual DbSet<PenilaianVendor> PenilaianVendors { get; set; }
+        public virtual DbSet<Pks> Pks { get; set; }
+		public virtual DbSet<PenilaianVendor> PenilaianVendors { get; set; }
 
-        //workflow
-        //public virtual DbSet<WorkflowMasterTemplate> WorkflowMasterTemplates { get; set; }
-        //public virtual DbSet<WorkflowMasterTemplateDetail> WorkflowMasterTemplateDetails { get; set; }
-        //public virtual DbSet<WorkflowApprovalType> WorkflowApprovalTypes { get; set; }
-        //public virtual DbSet<WorkflowStatus> WorkflowStatuses { get; set; }
-        //public virtual DbSet<WorkflowApproval> WorkflowApprovals { get; set; }
-        //public virtual DbSet<Workflow> Workflows { get; set; }
+        
 
+        //
+        public virtual DbSet<SysLog> SysLogs { get; set; }
+        
         public void ValidateReferenceData()
         {
             //Qualifier dan Code tidak bisa diubah

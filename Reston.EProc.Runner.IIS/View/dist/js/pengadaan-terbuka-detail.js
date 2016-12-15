@@ -652,7 +652,12 @@ function loadData(pengadaanId) {
 
             $("#tab-pendaftaran").attr("data-toggle", "collapse");
             $("#tab-anwijzing").attr("data-toggle", "collapse");
+            $(".jadwal-pendafataran").remove();
         }
+        if (data.Status > 2) {
+            $(".jadwal-pendafataran").remove();
+        }
+       
         if (data.Status == 4) {
             //cekState("pengisian_harga");
             $("#collapseTwo").addClass("in");
@@ -662,6 +667,7 @@ function loadData(pengadaanId) {
             $("#tab-anwijzing").attr("data-toggle", "collapse");
             $("#tab-submit-penawaran").attr("data-toggle", "collapse");
 
+            $(".jadwal-pendafataran").remove();
             $(".jadwal-aanwijzing").remove();
             $(".jadwal-pendaftaran").remove();
         }
