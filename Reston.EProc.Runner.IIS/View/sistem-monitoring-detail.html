@@ -87,9 +87,8 @@
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
-                            <ul id="menu-top" class="nav navbar-nav">
-                                <li id="loader" style="display:none"> <img src="Images/ajax-loader.gif" /></li>
-                            </ul>
+                            <li><a href="#" id="wanprestasi" title="wanprestasi"><i class="fa fa-fw  fa-ban " style="font-size:20px;"></i>Wanprestasi</a></li>
+                            <li><a href="#" id="finish" title="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Finish</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -136,6 +135,7 @@
                                 <div class="box-body">
 									<div class="form-group col-md-12">
 										<label class="title"><h3 id="NamaProyek">-</h3></label>
+                                        <input type="hidden" disabled id="StatusProyek" class="form-control pull-right ">
 									</div>
                                     <div class="form-group col-md-12">
                                         <div role="form" class="jp-form row">
@@ -180,7 +180,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="col-md-5">
+                                                <div class="col-md-6">
                                                     <label class="title"><h4>Status Progres Penyelesaian / Waktu</h4></label>
                                                 </div>
                                                 <div class="col-md-1">
@@ -191,7 +191,6 @@
                                                     <input type="text" name="input-persen-selesai-perwaktu" id="input-persen-selesai-perwaktu" style="background-color:green; width: 100%; ">
                                                 </div>
                                             </div>
-                                        </div>
                                     </div>
 
                                     <div class="col-md-12" style="margin-top:10px;">
@@ -227,11 +226,11 @@
                                                     <div class="form-group col-md-12">
                                                         <label style="color:blue;" name="nilai-kontrak">Total Nilai Kontrak : 1.000.000.000</label>
                                                         <input type="hidden" name="nilai-kontrak2">
-                                                        <a id="simpan-pembayaran" onclick="savePembayaran()" style="margin-top:10px;margin-bottom:10px; float:right;" class="btn btn-sm btn-social btn-bitbucket">
+                                                        <a id="simpan-pembayaran" style="margin-top:10px;margin-bottom:10px; float:right;" class="btn btn-sm btn-social btn-bitbucket">
                                                             <i class="fa fa-save"></i>
                                                             Update Pembayaran
                                                         </a>
-
+                                                         
                                                     </div>
                                                     <table class="table table-bordered" id="example2">
                                                         <thead>
@@ -334,24 +333,109 @@
 
     </div><!-- ./wrapper -->
 
-    <div id="ModalHapus" class="modal fade" role="dialog">
+    <!-- Modal -->
+
+    <div id="ModalKonfirmasiFinish" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <input type="hidden" id="row_index" />
             <!-- Modal content-->
+
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Hapus Vendor</h4>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi Finish</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Yakin Vendor ini dihapus?</p>
+                    <p>
+                        Apakah Seluruh Pekerjaan dan Pembayaran Sudah Diselesaikan ?
+                    </p>
                 </div>
                 <div class="modal-footer">
-                    <button id="eveHapus" type="button" class="btn btn-default">Remove</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toFinish();">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
                 </div>
             </div>
+        </div>
+    </div>
 
+    <!-- Modal -->
+
+    <div id="ModalKonfirmasiWanprestasi" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Konfirmasi Wanprestasi</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah anda yakin merubah status proyek ini menjadi WANPRESTASI ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toWanprestasi();">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+
+    <div id="DeleteModalDokumen" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi penghapusan</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Anda akan menghapus data ini?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Hapus" class="btn btn-default tombol-hapus" onclick="DeleteDokumen();">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+
+    <div id="DeleteModalKonfirmasiDokumen" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi Dokumen</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah Anda Sudah Verifikasi Kelengkapan dan Kesesuaian Dokumen Anda ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-konfirmasi" onclick="savePembayaran();"/>
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
         </div>
     </div>
 
@@ -615,6 +699,71 @@
             var results = regex.exec(url);
             return results == null ? null : results[1];
         }
+        //
+
+        function toWanprestasi()
+        {
+            var nStatus = "WANPRESTASI"
+            var ID = gup("id");
+
+            $.ajax({
+                method: "post",
+                url: "api/MonitoringSelection/ToFinish",
+                datatype: "json",
+                data: {
+                    aIdProyek: ID,
+                    aStatus: nStatus
+                },
+                success: function (d) {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: d.message,
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+
+                    $("#ModalKonfirmasiWanprestasi").modal('hide');
+
+                    //window.location.replace("");
+                }
+            })
+        }
+
+        function toFinish ()
+        {
+            var nStatus = "SELESAI";
+            var ID = gup("Id");
+            
+            $.ajax({
+                method: "post",
+                url: "api/MonitoringSelection/ToFinish",
+                datatype: "json",
+                data: {
+                    aIdProyek:ID,
+                    aStatus: nStatus
+                },
+                success: function (d) {
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: d.message,
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+
+                        $("#ModalKonfirmasiFinish").modal('hide');
+
+                        //window.location.replace("");
+                }
+            })
+        }
 
         // ----- Tampil Judul Detail
 
@@ -633,8 +782,45 @@
                     $("[id=TanggalSelesai]").val(moment(d.TanggalSelesai).format("DD MMMM YYYY"));
                     $("[name=nilai-kontrak]").text("Total Nilai Kontrak : Rp. " + numberWithCommas(d.NilaiKontrak));
                     $("[name=nilai-kontrak2]").val(d.NilaiKontrak);
-                    
+                    $("[id=StatusProyek]").val(d.StatusProyek);
 
+                    if (d.StatusProyek == "SELESAI")
+                    {
+                        $("#Simpan").hide();
+                        $("#simpan-pembayaran").hide();
+                        $("#finish").hide();
+                        $("#wanprestasi").hide();
+
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: "PROYEK INI TELAH SELESAI",
+                            buttons: [{
+                                label: 'Lihat',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    }
+                    if (d.StatusProyek == "WANPRESTASI")
+                    {
+                        $("#Simpan").hide();
+                        $("#simpan-pembayaran").hide();
+                        $("#finish").hide();
+                        $("#wanprestasi").hide();
+
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: "PROYEK INI WANPRESTASI",
+                            buttons: [{
+                                label: 'Lihat',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    }
+                    
                     // Hitung Sisa Waktu
                     var date1 = moment(d.TanggalMulai).format("MM/DD/YYYY").toString();
                     var date2 = moment(d.TanggalSelesai).format("MM/DD/YYYY").toString();
@@ -746,6 +932,8 @@
                     });
 
                     hitung();
+
+                    
                 },
                 "columnDefs": [
                     {
@@ -764,7 +952,15 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            return '<input type="number" class="form-control progres" id="progres" value="' + row.Progress + '">';
+                            if (row.Status == "SELESAI")
+                            {
+                                var html = '<input type="number" disabled class="form-control progres" id="progres" name="progres" value="' + row.Progress + '">';
+                            }
+                            else
+                            {
+                                var html = '<input type="number" class="form-control progres" id="progres" name="progres" value="' + row.Progress + '">';
+                            }
+                            return html;
                         },
                         "targets": 2,
                         "orderable": false
@@ -779,12 +975,24 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            var html = '<div class="input-group date">';
-                            html = html + '<div class="input-group-addon">';
-                            html = html + '<i class="fa fa-calendar"></i>';
-                            html = html + '</div>';
-                            html = html + '<input type="text" class="form-control pull-right datepicker tanggal-mulai-tahapan" value="' + moment(row.StartDate).format("MM/DD/YYYY") + '">';
-                            html = html + '</div>';
+                            if (row.Status == "SELESAI")
+                            {
+                                var html = '<div class="input-group date">';
+                                html = html + '<div class="input-group-addon">';
+                                html = html + '<i class="fa fa-calendar"></i>';
+                                html = html + '</div>';
+                                html = html + '<input type="text" disabled class="form-control pull-right datepicker tanggal-mulai-tahapan" value="' + moment(row.StartDate).format("MM/DD/YYYY") + '">';
+                                html = html + '</div>';
+                            }
+                            else
+                            {
+                                var html = '<div class="input-group date">';
+                                html = html + '<div class="input-group-addon">';
+                                html = html + '<i class="fa fa-calendar"></i>';
+                                html = html + '</div>';
+                                html = html + '<input type="text" class="form-control pull-right datepicker tanggal-mulai-tahapan" value="' + moment(row.StartDate).format("MM/DD/YYYY") + '">';
+                                html = html + '</div>';
+                            }
 
                             return html;
                             //return moment(row.StartDate).format("DD MMMM YYYY");
@@ -794,12 +1002,24 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            var html = '<div class="input-group date">';
-                            html = html + '<div class="input-group-addon">';
-                            html = html + '<i class="fa fa-calendar"></i>';
-                            html = html + '</div>';
-                            html = html + '<input type="text" class="form-control pull-right datepicker tanggal-selesai-tahapan" value="' + moment(row.EndDate).format("MM/DD/YYYY") + '">';
-                            html = html + '</div>';
+                            if (row.Status == "SELESAI")
+                            {
+                                var html = '<div class="input-group date">';
+                                html = html + '<div class="input-group-addon">';
+                                html = html + '<i class="fa fa-calendar"></i>';
+                                html = html + '</div>';
+                                html = html + '<input type="text" disabled class="form-control pull-right datepicker tanggal-selesai-tahapan" value="' + moment(row.EndDate).format("MM/DD/YYYY") + '">';
+                                html = html + '</div>';
+                            }
+                            else
+                            {
+                                var html = '<div class="input-group date">';
+                                html = html + '<div class="input-group-addon">';
+                                html = html + '<i class="fa fa-calendar"></i>';
+                                html = html + '</div>';
+                                html = html + '<input type="text" class="form-control pull-right datepicker tanggal-selesai-tahapan" value="' + moment(row.EndDate).format("MM/DD/YYYY") + '">';
+                                html = html + '</div>';
+                            }
 
                             return html;
 
@@ -1178,7 +1398,7 @@
                                 html = html + '<input type="hidden" class="NamaDokumen" value="' + row.NamaDokumen + '" >';
                                 html = html + '</div>';
                                 html = html + '<div class="btn-group">';
-                                html = html + ' <a  class="btn btn-sm  btn-block btn-danger "> Hapus </a> ';
+                                html = html + ' <a  class="btn btn-sm  btn-block btn-danger hapus-dokumen" dokumenId="' + row.Id + '" NamaDokumen="'+row.NamaDokumen+'"> Hapus </a> ';
                                 html = html + '<input type="hidden"  class="dokumenId" value="' + row.Id + '">';
                                 html = html + '</div>';
                             }
@@ -1316,17 +1536,33 @@
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            if (row.Status == "Sudah Dibayar")
+                            if(row.StatusProyek == "SELESAI")
                             {
-                                var html = '<input type="text" class="form-control persen_pembayaran" style="width:100%;" disabled value="' + row.PersenPembayaran + '">';
-                                html = html + '<input type="hidden" class="id_tahapan_pembayaran" style="width:100%;" value = "' + row.ID + '">';
-                                return html;
+                                if (row.Status == "Sudah Dibayar")
+                                {
+                                    var html = '<input type="text" class="form-control persen_pembayaran" style="width:100%;" disabled value="' + row.PersenPembayaran + '">';
+                                    html = html + '<input type="hidden" class="id_tahapan_pembayaran" style="width:100%;" value = "' + row.ID + '">';
+                                    return html;
+                                }
+                                else
+                                {
+                                    var html = '<input type="text" class="form-control persen_pembayaran" style="width:100%;" disabled value="' + row.PersenPembayaran + '">';
+                                    html = html + '<input type="hidden" class="id_tahapan_pembayaran" value = "' + row.ID + '">';
+                                    return html;
+                                }
                             }
                             else
                             {
-                                var html = '<input type="text" class="form-control persen_pembayaran" style="width:100%;" value="' + row.PersenPembayaran + '">';
-                                html = html + '<input type="hidden" class="id_tahapan_pembayaran" value = "' + row.ID + '">';
-                                return html;
+                                if (row.Status == "Sudah Dibayar") {
+                                    var html = '<input type="text" class="form-control persen_pembayaran" style="width:100%;" disabled value="' + row.PersenPembayaran + '">';
+                                    html = html + '<input type="hidden" class="id_tahapan_pembayaran" style="width:100%;" value = "' + row.ID + '">';
+                                    return html;
+                                }
+                                else {
+                                    var html = '<input type="text" class="form-control persen_pembayaran" style="width:100%;" value="' + row.PersenPembayaran + '">';
+                                    html = html + '<input type="hidden" class="id_tahapan_pembayaran" value = "' + row.ID + '">';
+                                    return html;
+                                }
                             }
                         },
                         "targets": 1,
@@ -1334,72 +1570,129 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            if (row.PersenPembayaran > 0) {
-                                var a = (parseFloat($("[name=nilai-kontrak2]").val()) * row.PersenPembayaran) / 100;
-                                var html = '<label style="float:right;" name="total_pembayaran">Rp. ' + numberWithCommas(a) + '</label>';
-
-                                return html;
+                            if (row.StatusProyek == "SELESAI")
+                            {
+                                if (row.PersenPembayaran > 0) {
+                                    var a = (parseFloat($("[name=nilai-kontrak2]").val()) * row.PersenPembayaran) / 100;
+                                    var html = '<label style="float:right;" disabled name="total_pembayaran">Rp. ' + numberWithCommas(a) + '</label>';
+                                }
+                                else return "-";
                             }
-                            else return "-";
+                            else
+                            {
+                                if (row.PersenPembayaran > 0) {
+                                    var a = (parseFloat($("[name=nilai-kontrak2]").val()) * row.PersenPembayaran) / 100;
+                                    var html = '<label style="float:right;" disabled name="total_pembayaran">Rp. ' + numberWithCommas(a) + '</label>';
+                                }
+                                else return "-";
+                            }
 
+                            return html;
                         },
                         "targets": 2,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
-                            if(row.Status == "Sudah Dibayar")
+                            if (row.StatusProyek == "SELESAI")
                             {
-                                var html = '<div class="form-group col-md-12">';
-                                html = html + '<select id="StatusPembayaran" disabled class="form-control select2 status-pembayaran" style="width:100%;" name="StatusPembayaran" >';
-                                html = html + '<option value="Belum Dibayar" >Belum Dibayar</option>';
-                                html = html + '<option value="Sudah Dibayar" selected >Sudah Dibayar </option>';
-                                html = html + '</select>';
-                                html = html + '</div>';
+                                if (row.Status == "Sudah Dibayar") {
+                                    var html = '<div class="form-group col-md-12">';
+                                    html = html + '<select id="StatusPembayaran" disabled class="form-control select2 status-pembayaran" style="width:100%;" name="StatusPembayaran" >';
+                                    html = html + '<option value="Belum Dibayar" >Belum Dibayar</option>';
+                                    html = html + '<option value="Sudah Dibayar" selected >Sudah Dibayar </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
 
+                                    return html;
+                                }
+                                else {
+                                    var html = '<div class="form-group col-md-12">';
+                                    html = html + '<select id="StatusPembayaran" disabled  class="form-control select2 status-pembayaran" style="width:100%;" name="StatusPembayaran" >';
+                                    html = html + '<option value="Belum Dibayar" selected>Belum Dibayar</option>';
+                                    html = html + '<option value="Sudah Dibayar">Sudah Dibayar </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
 
-                                return html;
+                                    return html;
+                                }
                             }
                             else
                             {
-                                var html = '<div class="form-group col-md-12">';
-                                html = html + '<select id="StatusPembayaran"  class="form-control select2 status-pembayaran" style="width:100%;" name="StatusPembayaran" >';
-                                html = html + '<option value="Belum Dibayar" selected>Belum Dibayar</option>';
-                                html = html + '<option value="Sudah Dibayar">Sudah Dibayar </option>';
-                                html = html + '</select>';
-                                html = html + '</div>';
+                                if (row.Status == "Sudah Dibayar") {
+                                    var html = '<div class="form-group col-md-12">';
+                                    html = html + '<select id="StatusPembayaran" disabled class="form-control select2 status-pembayaran" style="width:100%;" name="StatusPembayaran" >';
+                                    html = html + '<option value="Belum Dibayar" >Belum Dibayar</option>';
+                                    html = html + '<option value="Sudah Dibayar" selected >Sudah Dibayar </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
 
 
-                                return html;
+                                    return html;
+                                }
+                                else {
+                                    var html = '<div class="form-group col-md-12">';
+                                    html = html + '<select id="StatusPembayaran"  class="form-control select2 status-pembayaran" style="width:100%;" name="StatusPembayaran" >';
+                                    html = html + '<option value="Belum Dibayar" selected>Belum Dibayar</option>';
+                                    html = html + '<option value="Sudah Dibayar">Sudah Dibayar </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+
+
+                                    return html;
+                                }
                             }
-                            
                         },
                         "targets": 3,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
-                            if (row.Status == "Sudah Dibayar")
+                            if (row.StatusProyek == "SELESAI")
                             {
-                                var html = '<div class="input-group date" style="width:100%;">';
-                                html = html + '<div class="input-group-addon">';
-                                html = html + '<i class="fa fa-calendar"></i>';
-                                html = html + '</div>';
-                                html = html + '<input type="text" disabled class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
-                                html = html + '</div>';
+                                if (row.Status == "Sudah Dibayar") {
+                                    var html = '<div class="input-group date" style="width:100%;">';
+                                    html = html + '<div class="input-group-addon">';
+                                    html = html + '<i class="fa fa-calendar"></i>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="text" disabled class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+                                    html = html + '</div>';
 
-                                return html;
+                                    return html;
+                                }
+                                else {
+                                    var html = '<div class="input-group date" style="width:100%;">';
+                                    html = html + '<div class="input-group-addon">';
+                                    html = html + '<i class="fa fa-calendar"></i>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="text" disabled class="form-control disabled pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+
+                                    html = html + '</div>';
+                                    return html;
+                                }
                             }
                             else
                             {
-                                var html = '<div class="input-group date" style="width:100%;">';
-                                html = html + '<div class="input-group-addon">';
-                                html = html + '<i class="fa fa-calendar"></i>';
-                                html = html + '</div>';
-                                html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
-                                
-                                html = html + '</div>';
-                                return html;
+                                if (row.Status == "Sudah Dibayar") {
+                                    var html = '<div class="input-group date" style="width:100%;">';
+                                    html = html + '<div class="input-group-addon">';
+                                    html = html + '<i class="fa fa-calendar"></i>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="text" disabled class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+                                    html = html + '</div>';
+
+                                    return html;
+                                }
+                                else {
+                                    var html = '<div class="input-group date" style="width:100%;">';
+                                    html = html + '<div class="input-group-addon">';
+                                    html = html + '<i class="fa fa-calendar"></i>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+
+                                    html = html + '</div>';
+                                    return html;
+                                }
                             }
                         },
                         "targets": 4,
@@ -1421,21 +1714,36 @@
 
         // fungsi hitung pembayaran
 
-        $("#example2").on("change input propertychange", ".persen_pembayaran", function () {
+        $("#example2").on("change ", ".persen_pembayaran", function () {
             var elRow = $(this).parent().closest("tr");
-            var oldRowData = table.row(elRow.index()).data();
-
-            hitung_pembayaran();
-        });
-
-        $("#example2").on("change input propertychange", ".total_pembayaran", function () {
-            hitung_pembayaran();
-
+            var oldRowData = table2.row(elRow.index()).data();
+            var totalPersen = 0;
+            var persen=parseFloat( $(this).val());
+            table2.rows().every(function () {
+                var odata = this.data();
+                totalPersen = totalPersen+odata.PersenPembayaran;
+            });
+            console.log(oldRowData.BobotPekerjaan);
+            
+            totalPersen = (totalPersen - oldRowData.PersenPembayaran) + persen;
+           
+            if (totalPersen <= 100 && totalPersen >=0) {
+                
+                oldRowData.PersenPembayaran = persen;
+                
+            }
+            else {
+                $(this).val(0);
+                oldRowData.PersenPembayaran = 0;
+            }
+            addNewData(table2, elRow.index(), oldRowData);
         });
 
         function hitung_pembayaran() {
             var totalPersen = 0;
             var totalKontrak = parseFloat($("[name=nilai-kontrak2]").val());
+            var index = 0;
+            
             $("#example2 tbody tr").each(function () {
                 totalPersen += parseFloat($(this).find(".persen_pembayaran").val());
                 console.log(totalPersen);
@@ -1460,6 +1768,11 @@
 		$('.datepicker').datepicker({
 		  autoclose: true
 		});
+		function addNewData(table, baris, newdata) {
+		    $.extend(table.row(baris).data(), newdata);
+		    table.row(baris).invalidate();
+		}
+
 
 		function datatableToJson(table) {
 		    var data = [];
@@ -1577,6 +1890,47 @@
 		    ],
 		});
 
+        // -- hapus dokumen
+		$("#list-dokumen").on("click", ".hapus-dokumen", function () {
+		    showDeleteConfirmationDokumen($(this).attr("dokumenId"), $(this).attr("NamaDokumen"));
+		});
+
+		function showDeleteConfirmationDokumen(idd, NamaDokumen) {
+		    $("#DokumenId").val(idd);
+		    $("#NamaDokumen").val(NamaDokumen);
+		    $("#DeleteModalDokumen").modal('show');
+		    //alert($("#DokumenId").val()+ "|" + $("#NamaDokumen").val());
+		}
+
+		$(document).on('show.bs.modal', '.modal', function () {
+		    var zIndex = 1040 + (10 * $('.modal:visible').length);
+		    $(this).css('z-index', zIndex);
+		    setTimeout(function () {
+		        $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+		    }, 0);
+		});
+
+		function DeleteDokumen(idd) {
+		    $("#DeleteModalDokumen").modal('hide');
+		    var v = 0;
+		    if (!idd) {
+		        v = $("#DokumenId").val();
+		        nama = $("#NamaDokumen").val();
+		    }
+		    else v = idd
+		    $.ajax({
+		        url: "/api/MonitoringSelection/DeleteFile?id=" + v+"&NamaDokumen=" +nama,
+		        success: function (data) {
+		            table_dokumen_pekerjaan.draw();
+		        },
+		        complete: function (xhr, textStatus) {
+		            ajaxCompleteProcess(xhr);
+		        }
+		    });
+		}
+
+
+
         // save DataTable
 		var ID = gup("Id");
 		$("#ProyekId").val(ID);
@@ -1649,6 +2003,9 @@
 		                        }
 		                    }]
 		                });
+
+		                $("#DeleteModalKonfirmasiDokumen").modal('hide');
+
 		            },
 		        });
 		    }
@@ -1691,6 +2048,18 @@
 		            });
 		        }
 		    });
+		});
+
+		$("#simpan-pembayaran").on("click", function () {
+		    $("#DeleteModalKonfirmasiDokumen").modal('show');
+		});
+
+		$("#finish").on("click", function () {
+		    $("#ModalKonfirmasiFinish").modal('show');
+		});
+
+		$("#wanprestasi").on("click", function () {
+		    $("#ModalKonfirmasiWanprestasi").modal('show');
 		});
     </script>
 </body>

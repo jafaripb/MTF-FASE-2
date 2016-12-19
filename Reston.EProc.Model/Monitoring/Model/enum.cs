@@ -20,4 +20,9 @@ namespace Reston.Eproc.Model.Monitoring.Model
     {
         SIPIL, NONSIPIL
     }
+
+    public enum KonfirmasiPengecekanDokumen
+    {
+        SUDAH, BELUM
+    }
 }

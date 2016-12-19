@@ -34,6 +34,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
     public class ViewProyekSistemMonitoring
     {
         public Guid id { get; set; }
+        public string NoPengadaan { get; set; }
         public string NOSPK { get; set; }
         public string NOPKS { get; set; }
         public string NamaProyek { get; set; }
@@ -51,6 +52,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public decimal PersenPembayaran { get; set; }
         public decimal Total { get; set; }
         public string Status { get; set; }
+        public string StatusProyek { get; set; }
         public Nullable<DateTime> TanggalPembayaran { get; set; }
 
     }
@@ -96,6 +98,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public Nullable<DateTime> TanggalMulai { get; set; }
         public Nullable<DateTime> TanggalSelesai { get; set; }
         public decimal NilaiKontrak { get; set; }
+        public string StatusProyek { get; set; }
 
     }
 
@@ -108,6 +111,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public decimal BobotPekerjaan { get; set; }
         public decimal Progress { get; set; }
         public decimal Penyelesaian { get; set; }
+        public string Status { get; set; }
         public Nullable<DateTime> StartDate { get; set; }
         public Nullable<DateTime> EndDate { get; set; }
     }

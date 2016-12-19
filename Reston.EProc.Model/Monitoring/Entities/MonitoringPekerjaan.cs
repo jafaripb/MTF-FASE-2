@@ -117,6 +117,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public decimal BobotPekerjaan { get; set; }
         public decimal PersenPembayaran { get; set; }
         public string StatusPembayaran { get; set; }
+        public string KonfirmasiPengecekanDokumen { get; set; }
         public Nullable<DateTime> TanggalPembayaran { get; set; }
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }

@@ -41,10 +41,6 @@ namespace Reston.EProc.Web.Controllers
             int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
             int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
             string klasifikasi = HttpContext.Current.Request["klasifikasi"].ToString();
-
-
-            
-            
             if (klasifikasi == "")
             {
                 return Json(_repository.GetDataListProyekMonitoring(search, start, length, null));
@@ -124,6 +120,61 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataMonitoringSelection(search, start, length, dStatusSeleksi));
         }
 
+        public IHttpActionResult ListSedangBerjalan()
+        {
+            string search = HttpContext.Current.Request["search"].ToString();
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
+            string status = HttpContext.Current.Request["status"].ToString();
+
+            if (status == "")
+            {
+                return Json(_repository.GetDataMonitoringSelectionSedangBerjalan(search, start, length, null));
+            }
+
+            StatusSeleksi dStatusSeleksi = (StatusSeleksi)Convert.ToInt32(status);
+            return Json(_repository.GetDataMonitoringSelectionSedangBerjalan(search, start, length, dStatusSeleksi));
+        }
+
+        public IHttpActionResult ListSelesai()
+        {
+            string search = HttpContext.Current.Request["search"].ToString();
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
+            string status = HttpContext.Current.Request["status"].ToString();
+
+            if (status == "")
+            {
+                return Json(_repository.GetDataMonitoringSelectionSelesai(search, start, length, null));
+            }
+
+            StatusSeleksi dStatusSeleksi = (StatusSeleksi)Convert.ToInt32(status);
+            return Json(_repository.GetDataMonitoringSelectionSelesai(search, start, length, dStatusSeleksi));
+        }
+
+        public IHttpActionResult ListDraf()
+        {
+            string search = HttpContext.Current.Request["search"].ToString();
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
+            string status = HttpContext.Current.Request["status"].ToString();
+
+            if (status == "")
+            {
+                return Json(_repository.GetDataMonitoringSelectionDraf(search, start, length, null));
+            }
+
+            StatusSeleksi dStatusSeleksi = (StatusSeleksi)Convert.ToInt32(status);
+            return Json(_repository.GetDataMonitoringSelectionDraf(search, start, length, dStatusSeleksi));
+        }
+
+        public ResultMessage toFinish()
+        {
+            Guid xProyekId = Guid.Parse(HttpContext.Current.Request["aIdProyek"].ToString());
+            string xStatus = HttpContext.Current.Request["aStatus"].ToString();
+
+            return _repository.toFinishRepo(xProyekId, xStatus, UserId());
+        }
 
         public ResultMessage Add()
         {
@@ -199,9 +250,32 @@ namespace Reston.EProc.Web.Controllers
             };
 
             return result;
-
-            //return null;
         }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public async Task<IHttpActionResult> DeleteFile()
+        {
+            
+            return null;
+
+        }
+
+        //public ResultMessage deletedokumen(Guid Id)
+        //{
+        //    try
+        //    {
+        //        result = _repository.deletedokumenPekerjaan(Id, UserId());
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.message = ex.ToString();
+        //        result.status = HttpStatusCode.ExpectationFailed;
+        //    }
+        //    return result;
+        //}
 
         public  async Task<IHttpActionResult> UploadFile()
         {
@@ -234,9 +308,7 @@ namespace Reston.EProc.Web.Controllers
                 byte[] buffer = await file.ReadAsByteArrayAsync();
                 contentType = file.Headers.ContentType.ToString();
                 sizeFile = buffer.Length;
-               //// filePathSave += tipe + "-" + newGuid.ToString() + "." + extension;
-                //string fileName = ." + extension;
-                // var uploadPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase; //new PhysicalFileSystem(@"..\Reston.Pinata\WebService\Upload\Vendor\Dokumen\");
+                
                 NamaFileSave = "Dokumen" + DokumenId.ToString()+ "-" + NamaDokumen + "." + extension;
 
                 try
