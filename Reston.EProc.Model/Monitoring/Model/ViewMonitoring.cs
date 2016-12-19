@@ -44,6 +44,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public Nullable<DateTime> TanggalMulai { get; set; }
         public Nullable<DateTime> TanggalSelesai { get; set; }  
     }
+
     public class ViewProyekSistemMonitoringPembayaran
     {
         public Guid ID { get; set; }
@@ -54,6 +55,20 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public Nullable<DateTime> TanggalPembayaran { get; set; }
 
     }
+
+    public class ViewUntukAddPenilaianVendor
+    {
+        public Guid ProyekId { get; set; }
+        public int VendorId { get; set; }
+        public string Catatan { get; set; }
+        public Guid PenilaianVendorHeaderId { get; set; }
+        public int ReferenceDataId { get; set; }
+        public int Nilai { get; set; }
+        public string Catatan_item { get; set; }
+        public DateTime CreateOn { get; set; }
+        public Guid CreateBy { get; set; }
+    }
+
     public class DataTableViewProyekSistemMonitoring
     {
         public int draw { get; set; }

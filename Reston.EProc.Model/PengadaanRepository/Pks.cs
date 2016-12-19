@@ -33,7 +33,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
     }
 
     [Table("DokumenPks", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
-    public class DokumenPengadaan
+    public class DokumenPks
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
