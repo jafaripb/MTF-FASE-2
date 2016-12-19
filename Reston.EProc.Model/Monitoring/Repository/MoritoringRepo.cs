@@ -142,14 +142,15 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 var TotalHps = RksHeader != null ? ctx.RKSDetails.Where(d => d.RKSHeaderId == RksHeader.Id).Sum(d => d.jumlah * d.hps == null ? 0 : d.jumlah * d.hps) : 0;
 
                 var Proyek = ctx.RencanaProyeks.Where(d => d.PengadaanId == item.Id).FirstOrDefault();
-
+                var aNamaProyek = ctx.Pengadaans.Where(d => d.Id == item.PengadaanId).FirstOrDefault().Judul;
                 var PersenPekerjaan = ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id).Count()==0 ? 0 : ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id).Sum(d => (d.Progress*d.BobotPekerjaan)/100);
                 var PersenPembayaran = ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id && d.StatusPembayaran == "Sudah Dibayar").Count() == 0 ? 0 : ctx.TahapanProyeks.Where(d => d.ProyekId == item.Id && d.StatusPembayaran == "Sudah Dibayar").Sum(d => d.PersenPembayaran);
+                var spk = ctx.BeritaAcaras.Where(d => d.PengadaanId == item.PengadaanId && d.Tipe == TipeBerkas.SuratPerintahKerja).FirstOrDefault().NoBeritaAcara;
 
                 vp.NoPengadaan = Nopengadaan;
                 vp.id = item.Id;
-                vp.NOSPK = item.NoKontrak;
-                vp.NamaProyek = item.Pengadaan.Judul;
+                vp.NOSPK = spk;
+                vp.NamaProyek = aNamaProyek;
                 vp.NamaPelaksana = vendor;
                 vp.Klasifikasi = aklasifikasi;
                 vp.TanggalMulai = item.StartDate;

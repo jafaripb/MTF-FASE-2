@@ -74,6 +74,12 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataPenilaianRekanan(IdProyek));
         }
 
+        public IHttpActionResult TampilNilai()
+        {
+            Guid IdProyek = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
+            return Json(_repository.GetNilai(IdProyek));
+        }
+
         [HttpPost]
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
@@ -222,11 +228,11 @@ namespace Reston.EProc.Web.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public ResultMessage SimpanNilai(List<PenilaianVendor> Nilai)
+        public ResultMessage SimpanNilai(PenilaianVendorHeader PenilaianHeader)
         {
             try
             {
-                result = _repository.SimpanPenilaian(Nilai, UserId());
+                result = _repository.SimpanPenilaian(PenilaianHeader, UserId());
             }
             catch (Exception ex)
             {

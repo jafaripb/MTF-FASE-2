@@ -3,6 +3,7 @@ using Reston.Eproc.Model.Monitoring.Model;
 using Reston.Eproc.Model.Monitoring.Repository;
 using Reston.Pinata.Model;
 using Reston.Pinata.Model.Helper;
+using Reston.Pinata.Model.PengadaanRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 {
     public interface IProyekRepo
     {
-        ResultMessage SimpanPenilaian(List<PenilaianVendor> Nilai, Guid UserId);
+        ResultMessage SimpanPenilaian(PenilaianVendorHeader PenilaianHeader, Guid UserId);
         ResultMessage deleteTahap(Guid Id, Guid UserId);
         ResultMessage deleteDokTahap(Guid Id, Guid UserId);
         ResultMessage deletePICProyek(Guid Id, Guid UserId);
@@ -31,6 +32,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         DataTableViewDokumenTahapanPekerjaan GetDataDokumenPekerjaan(Guid TahapanId);
         DataTableViewDokumenTahapanPekerjaan GetDataDokumenPembayaran(Guid TahapanId);
         DataTableViewPenilaian GetDataPenilaian(Guid IdProyek);
+        ViewListPenilaian GetNilai(Guid IdProyek);
         DataTableViewPenilaian GetDataPenilaianRekanan(Guid IdProyek);
     }
 
@@ -100,8 +102,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         // Ambil Data Proyek
         public ViewProyekPerencanaan GetDataProyek(Guid PengadaanId)
         {
-            var oProyekPerencanaan = ctx.Pengadaans.Where(d =>d.Id == PengadaanId).FirstOrDefault();
-            var vendorId= ctx.PemenangPengadaans.Where(d =>d.PengadaanId == PengadaanId).FirstOrDefault() != null ? ctx.PemenangPengadaans.Where(d =>d.PengadaanId == PengadaanId).FirstOrDefault().VendorId : null;
+            var oProyekPerencanaan = ctx.Pengadaans.Where(d => d.Id == PengadaanId).FirstOrDefault();
+            var vendorId = ctx.PemenangPengadaans.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault() != null ? ctx.PemenangPengadaans.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault().VendorId : null;
             var proyek = ctx.RencanaProyeks.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault();
             var RksHeader = ctx.RKSHeaders.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault();
             var TotalHps = RksHeader != null ? ctx.RKSDetails.Where(d => d.RKSHeaderId == RksHeader.Id).Sum(d => d.jumlah * d.hps == null ? 0 : d.jumlah * d.hps) : 0;
@@ -111,7 +113,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 Id = oProyekPerencanaan.Id,
                 Judul = oProyekPerencanaan.Judul,
                 NoPengadaan = oProyekPerencanaan.NoPengadaan,
-                NoKontrak = proyek == null ? null : proyek.NoKontrak != null ? proyek.NoKontrak : null,
+                NOSPK = oProyekPerencanaan.BeritaAcaras.Where(d => d.Tipe == TipeBerkas.SuratPerintahKerja && d.PengadaanId == PengadaanId).FirstOrDefault().NoBeritaAcara,
+                //NoKontrak = proyek == null ? null : proyek.NoKontrak != null ? proyek.NoKontrak : null,
                 NilaiKontrak = TotalHps.Value != 0 ? TotalHps.Value : 0,
                 Pelaksana = ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault() != null ? ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault().Nama : null,
                 TanggalMulai = proyek != null ? proyek.StartDate : null,
@@ -119,9 +122,21 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 PIC = proyek != null ? proyek.PICProyeks.Select(d => new ViewPIC { Id = d.Id, NamaPIC = d.Nama }).ToList() : null
             };
         }
-        
-        // Simpan Tahapan Pekerjaan PIC
-        public  ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId,string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai)
+
+        // Get Catatan
+        public ViewListPenilaian GetNilai(Guid IdProyek)
+        {
+            var penilaianheader = ctx.PenilaianVendorHeaders.Where(d => d.ProyekId == IdProyek).FirstOrDefault();
+            return new ViewListPenilaian
+            {
+                Catatan = penilaianheader.Catatan,
+                Total_nilai = penilaianheader.Total_nilai.ToString(),
+                Jumlah_penilaian = penilaianheader.Jumlah_penilaian.ToString()
+            };
+        }
+
+    // Simpan Tahapan Pekerjaan PIC
+    public ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai)
         {
             ResultMessage rkk = new ResultMessage();
             try
@@ -530,35 +545,53 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         {
             DataTableViewPenilaian dtd = new DataTableViewPenilaian();
 
-            var caripenilaian = ctx.ReferenceDatas.Where(d=>d.Qualifier=="Penilaian").ToList();
+            var caripenilaian = ctx.ReferenceDatas.Where(d => d.Qualifier == "Penilaian").ToList();
 
             var pengadaanid = ctx.RencanaProyeks.Where(d => d.Id == IdProyek).FirstOrDefault().PengadaanId;
             var vendorid = ctx.PemenangPengadaans.Where(p => p.PengadaanId == pengadaanid).FirstOrDefault().VendorId;
-
+            var cekpenilaian = ctx.PenilaianVendorHeaders.Where(a=>a.ProyekId == IdProyek).Count();
+            var ceklist = ctx.PenilaianVendorHeaders.Where(a => a.ProyekId == IdProyek).FirstOrDefault().Id;
             List<ViewListPenilaian> vlistViewListPenilaian = new List<ViewListPenilaian>();
-
-            foreach (var item in caripenilaian)
+            if (cekpenilaian == 0)
             {
-                ViewListPenilaian nViewListPenilaian = new ViewListPenilaian();
+                foreach (var item in caripenilaian)
+                {
+                    ViewListPenilaian nViewListPenilaian = new ViewListPenilaian();
 
-                nViewListPenilaian.Id = item.Id;
-                nViewListPenilaian.NamaPenilaian = item.LocalizedName;
-                nViewListPenilaian.VendorId = vendorid.ToString();
-                vlistViewListPenilaian.Add(nViewListPenilaian);
+                    nViewListPenilaian.Id = item.Id;
+                    nViewListPenilaian.NamaPenilaian = item.LocalizedName;
+                    nViewListPenilaian.VendorId = vendorid.ToString();
+                    vlistViewListPenilaian.Add(nViewListPenilaian);
+                }
+            }
+            else {
+                foreach (var item in caripenilaian)
+                {
+                    ViewListPenilaian nViewListPenilaian = new ViewListPenilaian();
+
+                    nViewListPenilaian.Id = item.Id;
+                    nViewListPenilaian.NamaPenilaian = item.LocalizedName;
+                    nViewListPenilaian.VendorId = vendorid.ToString();
+                    nViewListPenilaian.Nilai = ctx.PenilaianVendorDetails.Where(d => d.PenilaianVendorHeaderId == ceklist).FirstOrDefault().Nilai.ToString();
+                    nViewListPenilaian.Catatan_item = ctx.PenilaianVendorDetails.Where(d=>d.PenilaianVendorHeaderId== ceklist).FirstOrDefault().Catatan_item;
+                    vlistViewListPenilaian.Add(nViewListPenilaian);
+                }
             }
             dtd.data = vlistViewListPenilaian;
             return dtd;
         }
 
+        
         // Get Dokumen Penilaian Vendor
         public DataTableViewPenilaian GetDataPenilaianRekanan(Guid IdProyek)
         {
             DataTableViewPenilaian dtd = new DataTableViewPenilaian();
 
             var caripenilaian = ctx.ReferenceDatas.Where(d => d.Qualifier == "Penilaian").ToList();
+            var headerid = ctx.PenilaianVendorHeaders.Where(dd => dd.ProyekId == IdProyek).ToList();
+            var idhead = headerid.FirstOrDefault().Id;
+            var detail = ctx.PenilaianVendorDetails.Where(dd => dd.PenilaianVendorHeaderId == idhead).ToList();
 
-            var pengadaanid = ctx.RencanaProyeks.Where(d => d.Id == IdProyek).FirstOrDefault().PengadaanId;
-            var vendorid = ctx.PemenangPengadaans.Where(p => p.PengadaanId == pengadaanid).FirstOrDefault().VendorId;
             List<ViewListPenilaian> vlistViewListPenilaian = new List<ViewListPenilaian>();
 
             foreach (var item in caripenilaian)
@@ -567,9 +600,9 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                 nViewListPenilaian.Id = item.Id;
                 nViewListPenilaian.NamaPenilaian = item.LocalizedName;
-                nViewListPenilaian.Nilai = item.PenilaianVendors.FirstOrDefault().Nilai.ToString();
-                nViewListPenilaian.Catatan = item.PenilaianVendors.FirstOrDefault().Catatan.ToString();
-                nViewListPenilaian.VendorId = vendorid.ToString();
+                nViewListPenilaian.Nilai = detail.FirstOrDefault().Nilai.ToString();
+                nViewListPenilaian.Catatan_item = detail.FirstOrDefault().Catatan_item;
+                nViewListPenilaian.VendorId = headerid.FirstOrDefault().VendorId.ToString();
                 vlistViewListPenilaian.Add(nViewListPenilaian);
             }
             dtd.data = vlistViewListPenilaian;
@@ -633,33 +666,37 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             return msg;
         }
 
-        public ResultMessage SimpanPenilaian(List<PenilaianVendor> Nilai, Guid UserId)
+        public ResultMessage SimpanPenilaian(PenilaianVendorHeader PenilaianVendorHeaders, Guid UserId)
         {
             ResultMessage msg = new ResultMessage();
             try
             {
-                foreach (var item in Nilai)
+                var oData = ctx.PenilaianVendorHeaders.Where(d => d.ProyekId == PenilaianVendorHeaders.ProyekId).FirstOrDefault();
+                if (oData != null)
                 {
-                    PenilaianVendor pv = new PenilaianVendor();
-                    pv.ProyekId = item.ProyekId;
-                    pv.VendorId = item.VendorId;
-                    pv.ReferenceDataId = item.ReferenceDataId;
-                    pv.Nilai = item.Nilai;
-                    pv.Catatan = item.Catatan;
-                    pv.CreatedOn = DateTime.Now;
-                    pv.CreatedBy = UserId;
-
-                    ctx.PenilaianVendors.Add(pv);
-                    ctx.SaveChanges(UserId.ToString());
-                    msg.status = HttpStatusCode.OK;
-                    msg.Id = pv.Id.ToString();
+                    var oChildData = ctx.PenilaianVendorDetails.Where(d=>d.PenilaianVendorHeaderId == oData.Id);
+                    ctx.PenilaianVendorDetails.RemoveRange(oChildData);
+                    ctx.PenilaianVendorHeaders.Remove(oData);
                 }
+                
+                foreach (var item in PenilaianVendorHeaders.PenilaianVendorDetails)
+                {
+                    item.CreatedOn = DateTime.Now;
+                    item.CreatedBy = UserId;
+                }
+                ctx.PenilaianVendorHeaders.Add(PenilaianVendorHeaders);
+                ctx.SaveChanges(UserId.ToString());
             }
             catch (Exception ex) {
                 msg.status = HttpStatusCode.ExpectationFailed;
                 msg.message = ex.ToString();
             }
             return msg;
+        }
+
+        public ResultMessage SimpanPenilaian(ViewUntukAddPenilaianVendor Nilai, Guid UserId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

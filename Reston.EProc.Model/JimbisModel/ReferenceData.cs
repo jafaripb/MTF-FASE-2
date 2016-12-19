@@ -54,6 +54,7 @@ namespace Reston.Pinata.Model.JimbisModel
         public Nullable<bool> FlagAttr3 { get; set; }
         public virtual ICollection<RencanaProyek> RencanaProyeks { get; set; }
         public virtual ICollection<PemenangPengadaan> PemenangPengadaans { get; set; }
-        public virtual ICollection<PenilaianVendor> PenilaianVendors { get; set; }
+        public virtual ICollection<PenilaianVendorHeader> PenilaianVendorHeaders { get; set; }
+        public virtual ICollection<PenilaianVendorDetail> PenilaianVendorDetails { get; set; }
     }
 }
