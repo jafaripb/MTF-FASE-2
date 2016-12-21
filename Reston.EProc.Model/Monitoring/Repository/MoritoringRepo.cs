@@ -636,7 +636,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                         ctx.SaveChanges(UserId.ToString());
                         rkm.status = HttpStatusCode.OK;
-                        //rkm.message = "Sukses";
+                        rkm.message = "Sukses";
                     }
                     else
                     {

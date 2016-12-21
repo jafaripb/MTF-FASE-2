@@ -1770,32 +1770,6 @@
             });
         });
 
-        // Fungsi Hitung Pembayaran
-        $("#example2").on("change ", ".persen_pembayaran", function () {
-            var elRow = $(this).parent().closest("tr");
-            var oldRowData = table_tahapan_pembayaran.row(elRow.index()).data();
-            var totalPersen = 0;
-            var persen=parseFloat( $(this).val());
-            table_tahapan_pembayaran.rows().every(function () {
-                var odata = this.data();
-                totalPersen = totalPersen+odata.PersenPembayaran;
-            });
-            console.log(oldRowData.BobotPekerjaan);
-            
-            totalPersen = (totalPersen - oldRowData.PersenPembayaran) + persen;
-           
-            if (totalPersen <= 100 && totalPersen >=0) {
-                
-                oldRowData.PersenPembayaran = persen;
-                
-            }
-            else {
-                $(this).val(0);
-                oldRowData.PersenPembayaran = 0;
-            }
-            addNewData(table2, elRow.index(), oldRowData);
-        });
-
         $("#example2").on("change input propertychange", ".total_pembayaran", function () {
             hitung_pembayaran();
         });
@@ -1808,8 +1782,6 @@
 
         // Fungsi Hitung Pembayaran
         $("#example2").on("change ", ".persen_pembayaran", function () {
-            //hitung_pembayaran();
-            //console.log(hitung_pembayaran);
             var elRow = $(this).parent().closest("tr");
             var oldRowData = table_tahapan_pembayaran.row(elRow.index()).data();
             var totalPersen = 0;
@@ -1818,8 +1790,9 @@
                 var odata = this.data();
                 totalPersen = totalPersen + odata.PersenPembayaran;
             });
-            console.log(oldRowData.BobotPekerjaan);
+            
             totalPersen = (totalPersen - oldRowData.PersenPembayaran) + persen;
+
             if (totalPersen <= 100 && totalPersen >= 0) {
 
                 oldRowData.PersenPembayaran = persen;
@@ -2318,6 +2291,7 @@
                         }]
                     });
                     $("#SimpanModalKonfirmasiDokumen").modal('hide');
+                    window.location.reload();
                 },
             });
         }
