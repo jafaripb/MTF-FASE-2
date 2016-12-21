@@ -743,7 +743,7 @@ function addLoadPersonil(item, el, status, xisTeam) {
         else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
     }
     else {
-        if (item.isMine == 1 && && $("#State").val() == 0)
+        if (item.isMine == 1 && $("#State").val() == 0)
             removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
         else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
     } html = '<a class="btn btn-app">' +

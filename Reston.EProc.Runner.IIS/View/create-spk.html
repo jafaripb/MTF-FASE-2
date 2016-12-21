@@ -75,7 +75,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Ajukan PKS</a></li>
+                            <li>	<a id="judul-page" href="#">SPK Lanjutan</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
@@ -155,76 +155,84 @@
                                             <input type="text" class="form-control" id="no-pengadaan" disabled>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label class="title">No. SPK:</label>
-                                            <input type="text" class="form-control" id="no-spk" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="title">Vendor Pemenang</label>
+                                            <label class="title">Vendor</label>
                                             <input type="text" class="form-control" id="pelaksana" disabled>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-10">
-                                            <div class=" panel-header-white">
-                                                <span class="title-header" id="section-3">Draf PKS:</span>
+                                        <div class="form-group col-md-4">
+                                            <label class="title">No. PKS:</label>
+                                            <select class="form-control" id="no-pks">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label class="title">No. SPK Lanjutan:</label>
+                                            <input class="form-control" type="text" id="no-spk-lanjutan"> <br />
+                                            <button id="id" class="btn btn-success " type="button">
+                                                <a href="#" style="color:white;">AKTIFKAN</a>
+                                            </button>
+                                            <button id="id" class="btn btn-danger " type="button">
+                                                <a href="#" style="color:white;">BATAL</a>
+                                            </button>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="title">Status:</label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="status" />Draf
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="status" />Aktif
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="status" />Batal
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                         <div class="col-md-8">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="title">Unggah Draf PKS</label>
-                                                        <div id="dok-pks" attr="PKS" action="/api/PengadaanE/UploadFile?tipe=PKS" class="dropzone"></div>
+                                        <div class="form-group col-md-4">
+                                            <label class="title">Tanggal SPK:</label>
+                                            <input id="tanggal-pekerjaan-mulai" type="text" class="tanggal-tahapan form-control input-group dateJadwal">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="title">
+                                                    Unduh Template SPK
+                                                    <a class="download-dokumen download-berkas" attr1="berkas-buka-amplop"><i class="fa fa-fw fa-download"></i></a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label class="title">Nilai SPK:</label>
+                                            <input id="tanggal-pekerjaan-mulai" type="text" class="tanggal-tahapan form-control input-group dateJadwal">
+                                        </div>
+                                    </div>
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class=" panel-header-white">
+                                                    <span class="title-header" id="section-3">SPK Lanjutan:</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="title">Unggah SPK Lanjutan</label>
+                                                            <div id="dok-pks" attr="PKS" action="/api/PengadaanE/UploadFile?tipe=PKS" class="dropzone"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <div class=" panel-header-white">
-                                                <span class="title-header" id="section-3">Dokumen PKS Versi Final Dari Legal:</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="title">Dokumen PKS Versi Final Dari Legal</label>
-                                                        <div id="dok-pks" attr="PKS" action="/api/PengadaanE/UploadFile?tipe=PKS" class="dropzone"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <div class=" panel-header-white">
-                                                <span class="title-header" id="section-3">Dokumen PKS Assign:</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="title">Dokumen PKS Assign</label>
-                                                        <div id="dok-pks" attr="PKS" action="/api/PengadaanE/UploadFile?tipe=PKS" class="dropzone"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
                         </div>
                     </div>
                 </div>

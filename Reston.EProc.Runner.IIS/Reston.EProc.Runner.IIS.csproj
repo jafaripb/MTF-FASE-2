@@ -154,11 +154,15 @@
     <Content Include="View\approval-perencanaan-belum-disetujui.html" />
     <Content Include="View\approval-perencanaan-sudah-disetujui.html" />
     <Content Include="View\approval-persetujuan-pemenang-belum-disetujui.html" />
+    <Content Include="View\create-po.html" />
+    <Content Include="View\create-spk.html" />
     <Content Include="View\create-pks.html" />
     <Content Include="View\dist\js\create-pks.js" />
     <Content Include="View\dist\js\monitoring-proyek-add.js">
       <DependentUpon>monitoring-proyek-add.js</DependentUpon>
     </Content>
+    <Content Include="View\anggaran.html" />
+    <Content Include="View\spk.html" />
     <Content Include="View\rekanan-monitoring.html" />
     <Content Include="View\pks.html" />
     <Content Include="View\approval-persetujuan-pemenang-sudah-disetujui.html" />

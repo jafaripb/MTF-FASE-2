@@ -346,8 +346,6 @@
 
         $(function () {
             table_seleksi = $('#monitoring-seleksi').DataTable({
-                "serverSide": true,
-                "searching": false,
                 "ajax": {
                     "url": 'api/MonitoringSelection/List',
                     "type": 'POST',
@@ -393,19 +391,20 @@
                         "orderable": false
                     },
                 ],
+                "serverSide": true,
                 "paging": true,
                 "lengthChange": false,
+                "searching": false,
                 "ordering": true,
                 "info": true,
                 "autoWidth": false,
-                "responsive": true
+                "responsive": true,
+                "destroy": true
             });
         });
 
         $(function () {
             table_draf = $('#monitoring-draf').DataTable({
-                "serverSide": true,
-                "searching": false,
                 "ajax": {
                     "url": 'api/MonitoringSelection/DrafList',
                     "type": 'POST',
