@@ -183,6 +183,7 @@
                                         <table id="example1" class="table table-bordered">
                                             <thead>
                                                 <tr>
+                                                    <td class="tengah text-bold">No. Pengadaan</td>
                                                     <td class="tengah text-bold">No. SPK</td>
                                                     <td class="rata_kiri text-bold">Nama Proyek</td>
                                                     <td class="tengah text-bold">Pelaksana</td>
@@ -260,12 +261,13 @@
                     "type": 'POST',
                     "data": function (d) {
                         d.search = $("#judul-proyek").val();
-                        d.klasifikasi = "";
+                        d.klasifikasi = $("#klasifikasi").val();
                     },
                     "error": function (jqXHR, textStatus, errorThrown) {
                     }
                 },
                 "columns": [
+                    { "data": "NoPengadaan" },
                     { "data": "NOSPK" },
                     { "data": "NamaProyek" },
                     { "data": "NamaPelaksana" },
@@ -294,21 +296,21 @@
 
                             return '<label class="persentase-waktu" style="text-align: center; float: right;">' + x + '</label>';
                         },
-                        "targets": 4,
+                        "targets": 5,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
                             return '<label class="persentase-waktu" style="text-align: center; float: right;">' + row.PersenPekerjaan + '</label>';
                         },
-                        "targets": 5,
+                        "targets": 6,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
                             return '<label class="persentase-waktu" style="text-align: center; float: right;">' + row.PersenPembayaran + '</label>';
                         },
-                        "targets": 6,
+                        "targets": 7,
                         "orderable": false
                     },
                     {
@@ -318,7 +320,7 @@
                             html = html + '<input class="tanggal-selesai" type="hidden" value="' + row.TanggalSelesai + '">';
                             return html;
                         },
-                        "targets": 1,
+                        "targets": 2,
                         "orderable": false
                     },
                 ],
