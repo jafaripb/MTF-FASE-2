@@ -144,9 +144,6 @@
                                         <input type="hidden" disabled id="StatusProyek" class="form-control pull-right ">
 									</div>
                                     <div class="form-group col-md-12">
-                                        <label class="title"><h3 id="NamaProyek">-</h3></label>
-                                    </div>
-                                    <div class="form-group col-md-12">
                                         <div role="form" class="jp-form row">
                                             <div class="form-group col-md-2">
                                                 <label>Tanggal Mulai</label>
@@ -740,33 +737,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!--Modal Konfirmasi Finish-->
-    <div id="ModalKonfirmasiFinish" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <input type="hidden" id="row_index" />
-            <!-- Modal content-->
-
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <input type="hidden" id="DokumenId" />
-                    <input type="hidden" id="NamaDokumen" />
-                    <h4 class="modal-title">Konfirmasi Finish</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Apakah Seluruh Pekerjaan dan Pembayaran Sudah Diselesaikan ?
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toFinish();">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--End Modal Konfirmasi Finish-->
-
     <!--Modal Wanprestasi-->
     <div id="ModalKonfirmasiBlacklist" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -911,11 +881,10 @@
             })
         }
 
-        function toFinish ()
+        function toFinish()
         {
             var nStatus = "SELESAI";
             var ID = gup("Id");
-            
             $.ajax({
                 method: "post",
                 url: "api/MonitoringSelection/ToFinish",
@@ -925,34 +894,6 @@
                     aStatus: nStatus
                 },
                 success: function (d) {
-                        BootstrapDialog.show({
-                            title: 'Konfirmasi',
-                            message: d.message,
-                            buttons: [{
-                                label: 'Close',
-                                action: function (dialog) {
-                                    dialog.close();
-                                }
-                            }]
-                        });
-
-                        $("#ModalKonfirmasiFinish").modal('hide');
-
-                        //window.location.replace("");
-                }
-            })
-        }
-
-        // ----- Tampil Judul Detail
-
-                method: "post",
-                url: "api/MonitoringSelection/ToFinish",
-                datatype: "json",
-                data: {
-                    aIdProyek: ID,
-                    aStatus: nStatus
-                },
-                success: function (d) {
                     BootstrapDialog.show({
                         title: 'Konfirmasi',
                         message: d.message,
@@ -963,41 +904,7 @@
                             }
                         }]
                     });
-
-                    $("#ModalKonfirmasiWanprestasi").modal('hide');
-
-                    //window.location.replace("");
-                }
-            })
-        }
-
-        function toFinish() {
-            var nStatus = "SELESAI";
-            var ID = gup("Id");
-
-            $.ajax({
-                method: "post",
-                url: "api/MonitoringSelection/ToFinish",
-                datatype: "json",
-                data: {
-                    aIdProyek: ID,
-                    aStatus: nStatus
-                },
-                success: function (d) {
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: d.message,
-                        buttons: [{
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
-                            }
-                        }]
-                    });
-
                     $("#ModalKonfirmasiFinish").modal('hide');
-
-                    //window.location.replace("");
                 }
             })
         }
@@ -1101,7 +1008,7 @@
                     }
                 }
             })
-        })
+        });
 
         function numberWithCommas(x) {
             var parts = x.toString().split(".");
@@ -1957,6 +1864,54 @@
 		    table.row(baris).invalidate();
 		}
 
+		// save DataTable
+		var ID = gup("Id");
+		$("#ProyekId").val(ID);
+		$("#simpan-nilai").on("click", function () {
+		    $("#modal-nilai").hide();
+		    var Catatan = "";
+		    var objPenilaianHeader = {};
+		    var arrobjPenilaian = [];
+		    var VendorId;
+		    var Jumlah_penilaian = $('#nilai tbody tr').length;
+		    var Total_nilai = 0;
+		    $("#nilai tbody tr").each(function () {
+		        var objPenilaian = {};
+		        objPenilaian.proyekid = ID;
+		        objPenilaian.VendorId = $(this).find(".vendorid").val();
+		        objPenilaian.referencedataid = $(this).find(".referencedataid").val();
+		        objPenilaian.Nilai = $(this).find(".hasil_penilaian").val();
+		        objPenilaian.Catatan_item = $(this).find(".catatan_item").val();
+		        VendorId = $(this).find(".vendorid").val();
+		        arrobjPenilaian.push(objPenilaian);
+		        Total_nilai += parseInt($(this).find('.hasil_penilaian').val());
+		        console.log(Total_nilai);
+		    });
+		    objPenilaianHeader.proyekid = ID;
+		    objPenilaianHeader.VendorId = VendorId;
+		    objPenilaianHeader.Catatan = $(".catatan").val();
+		    objPenilaianHeader.Jumlah_penilaian = Jumlah_penilaian;
+		    objPenilaianHeader.Total_nilai = Total_nilai;
+		    objPenilaianHeader.PenilaianVendorDetails = arrobjPenilaian;
+		    console.log(objPenilaianHeader.Total_nilai);
+		    $.ajax({
+		        method: "POST",
+		        url: "Api/Proyek/SimpanNilai",
+		        data: objPenilaianHeader,
+		        success: function (data) {
+		            BootstrapDialog.show({
+		                title: 'Konfirmasi',
+		                message: 'Data Berhasil di Simpan',
+		                buttons: [{
+		                    label: 'Close',
+		                    action: function (dialog) {
+		                        dialog.close();
+		                    }
+		                }]
+		            });
+		        }
+		    });
+		});
 
 		function datatableToJson(table) {
 		    var data = [];
@@ -2331,96 +2286,8 @@
 		        }
 		    });
 		}
-
-
-
-        // save DataTable
-        var ID = gup("Id");
-        $("#ProyekId").val(ID);
-        $("#simpan-nilai").on("click", function () {
-            $("#modal-nilai").hide();
-            var Catatan = "";
-            var objPenilaianHeader = {};
-            var arrobjPenilaian = [];
-            var VendorId;
-            var Jumlah_penilaian = $('#nilai tbody tr').length;
-            var Total_nilai = 0;
-            $("#nilai tbody tr").each(function () {
-                var objPenilaian = {};
-                objPenilaian.proyekid = ID;
-                objPenilaian.VendorId = $(this).find(".vendorid").val();
-                objPenilaian.referencedataid = $(this).find(".referencedataid").val();
-                objPenilaian.Nilai = $(this).find(".hasil_penilaian").val();
-                objPenilaian.Catatan_item = $(this).find(".catatan_item").val();
-                VendorId = $(this).find(".vendorid").val();
-                arrobjPenilaian.push(objPenilaian);
-                Total_nilai += parseInt($(this).find('.hasil_penilaian').val());
-                console.log(Total_nilai);
-            });
-            objPenilaianHeader.proyekid = ID;
-            objPenilaianHeader.VendorId = VendorId;
-            objPenilaianHeader.Catatan = $(".catatan").val();
-            objPenilaianHeader.Jumlah_penilaian = Jumlah_penilaian;
-            objPenilaianHeader.Total_nilai = Total_nilai;
-            objPenilaianHeader.PenilaianVendorDetails = arrobjPenilaian;
-            console.log(objPenilaianHeader.Total_nilai);
-            $.ajax({
-                method: "POST",
-                url: "Api/Proyek/SimpanNilai",
-                data: objPenilaianHeader,
-                success: function (data) {
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: 'Data Berhasil di Simpan',
-                        buttons: [{
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
-                            }
-                        }]
-                    });
-                    table_nilai.draw();
-                    Kriteria();
-                }
-            });
-        });
-
-<<<<<<< .mine
-		                BootstrapDialog.show({
-		                    title: 'Konfirmasi',
-		                    message: data.message,
-		                    buttons: [{
-		                        label: 'Close',
-		                        action: function (dialog) {
-		                            dialog.close();
-		                        }
-		                    }]
-		                });
-
-		                $("#DeleteModalKonfirmasiDokumen").modal('hide');
-
-		            },
-		        });
-		    }
 		
-		// save DataTable
-		var ID = gup("Id");
-		$("#ProyekId").val(ID);
-		$("#simpan-nilai").on("click", function () {
-		    $("#modal-nilai").hide();
-		    var Catatan = "";
-		    var objRKSHeader = {};
-		    var arrobjPenilaian = [];
-		    $("#nilai tbody tr").each(function () {
-		        var objPenilaian = {};
-		        objPenilaian.proyekid = ID;
-		        objPenilaian.vendorid = $(this).find(".vendorid").val();
-		        objPenilaian.referencedataid = $(this).find(".referencedataid").val();
-		        objPenilaian.Nilai = $(this).find(".hasil_penilaian").val();
-		        catatan = $(".catatan").val();
-		        objPenilaian.Catatan = catatan;
-=======
-        function savePembayaran() {
+		function savePembayaran() {
             var arrobjPembayaran = [];
             $("#example2 tbody tr").each(function () {
                 var objPembayaran = {};
@@ -2455,7 +2322,6 @@
             });
         }
 
->>>>>>> .theirs
         // pop up tahapan pekerjaan
         function tahapanpekerjaanup() {
             $("#tahapanpekerjaanup").modal("show");
@@ -2649,14 +2515,6 @@
         $(function () {
             Kriteria();
         })
-
-		$("#simpan-pembayaran").on("click", function () {
-		    $("#DeleteModalKonfirmasiDokumen").modal('show');
-		});
-
-		$("#finish").on("click", function () {
-		    $("#ModalKonfirmasiFinish").modal('show');
-		});
 
 		$("#wanprestasi").on("click", function () {
 		    $("#ModalKonfirmasiWanprestasi").modal('show');
