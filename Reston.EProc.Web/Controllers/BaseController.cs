@@ -106,7 +106,7 @@ namespace Reston.Pinata.WebService
 
             //original base address using appmgt instead
             //client.BaseAddress = new Uri("http://localhost:53080/");
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + AksesToken());
+            //client.DefaultRequestHeaders.Add("Authorization", "Bearer " + AksesToken());
             //client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage reply = await client.GetAsync(
@@ -128,6 +128,40 @@ namespace Reston.Pinata.WebService
             {
                 return new List<Guid>();
             }            
+        }
+
+        public async Task<List<Guid>> listUser(string role)
+        {
+            var client = new HttpClient();
+            string filter = role;
+            // var tokenRespones = await Reston.Identity.Client.Api.ClientTokenManagement.GetIdEPROCAPITokenAsync();
+
+            //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer ",  AksesToken());
+
+            //original base address using appmgt instead
+            //client.BaseAddress = new Uri("http://localhost:53080/");
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + AksesToken());
+            //client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage reply = await client.GetAsync(
+                   string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + 0 + "&limit=" + 10 + "&filter=" + filter));
+
+            if (reply.IsSuccessStatusCode)
+            {
+                string masterDataContent = await reply.Content.ReadAsStringAsync();
+                var masterData = JsonConvert.DeserializeObject<DataPageUsers>(masterDataContent);
+                var oData = await getManager();
+                List<Guid> oGuid = new List<Guid>();
+                foreach (var item in masterData.Users)
+                {
+                    oGuid.Add(new Guid(item.PersonilId));
+                }
+                return oGuid;
+            }
+            else
+            {
+                return new List<Guid>();
+            }
         }
 
         public async Task<int> isApprover()

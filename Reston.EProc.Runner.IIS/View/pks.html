@@ -122,14 +122,14 @@
                     <div class="col-md-12">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#origin-pks" data-toggle="tab">Original PKS</a></li>
-                                <li><a href="#other-pks" data-toggle="tab">Other PKS</a></li>
+                                <li class="active"><a href="#origin-pks" data-toggle="tab">PKS</a></li>
+                               <!-- <li><a href="#other-pks" data-toggle="tab">PKS Adendum</a></li>-->
                             </ul>
                             <div class="tab-content">
                             <div class="tab-pane active" id="origin-pks">
                                 <div class="box box-white">
                                     <div class="box-header with-border">
-                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">List PKS Original</h3>
+                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">List PKS</h3>
                                     </div><!-- /.box-header -->
                                     <div class="box-body">                                        
                                         <div class="row" style="margin-left: 60px;">
@@ -154,7 +154,8 @@
                                                      <div class="form-group">
                                                         <div class="col-md-12">
                                                             <div class="submitgray button-row">
-                                                                <button id="cari-pks-original" class="btn btn-primary " type="button">Cari</button>                                                               
+                                                                <button id="cari-pks-original" class="btn btn-primary " type="button">Cari</button>
+                                                                <a  class="btn btn-success" href="create-pks.html">Buat Pks</a>                                                               
                                                             </div>
                                                         </div>
                                                      </div>
@@ -168,7 +169,8 @@
                                                         <th>Nama Pekerjaan</th>
                                                         <th>HPS</th>
                                                         <th>Klasifikasi</th>
-                                                        <th>Pemenang</th>
+                                                        <th>Vendor</th>
+                                                        <th>Status</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
@@ -194,7 +196,58 @@
         <div class="control-sidebar-bg"></div>
 
     </div><!-- ./wrapper -->
+    
+    <div class="modal" id="konfirmasiTolak" role="dialog" FileId="" attr1="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Konfirmasi Tolak Pks</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="idPksTolak" />
+                    <div class="row" >
+                        <div class="col-md-12">
+                             <label class="col-sm-2 control-label">Catatan</label>
+                             <textarea id="note-tolak" class="form-control "></textarea>  
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="tolak-pks" class="btn btn-default">Ok</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
+    <div class="modal" id="KonfirmasiSetujui" role="dialog" FileId="" attr1="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Konfirmasi Setujui PKS</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" >
+                        <input type="hidden" id="idPksSetuju" />
+                        <div class="col-md-12">
+                             <label class=" control-label">No PKS</label>
+                             <input type="text" id="no-pks" class="form-control"/>
+                        </div>
+                        <div class="col-md-12">
+                             <label class=" control-label">Catatan</label>
+                             <textarea id="note-setujui" class="form-control "></textarea>  
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="setujui-pks" class="btn btn-default">Ok</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -244,7 +297,8 @@
                     { "data": "Judul" },
                     { "data": "HPS", "className": "rata_kanan" },
                     { "data": "JenisPekerjaan" },
-                    { "data": "Vendor" },                    
+                    { "data": "Vendor" },
+                    { "data": "StatusPksName" },
                     { "data": null }
                 ],
                 "columnDefs": [
@@ -260,17 +314,16 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            var html = ''
-                            var detailHtml = "";
-                            if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = '<a href="create-pks.html?id=' + data.PengadaanId + '&VendorId=' + data.VendorId + '" class="btn btn-primary btn-sm product-title "> BUAT PKS </a>' +
-                                ' <a href="pengadaan-detail.html#' + data.PengadaanId +'" class="product-title  btn btn-success btn-sm">Detail</a>';
-                            else detailHtml = '<a href="create-pks.html?id=' + data.PengadaanId + '&VendorId=' + data.VendorId + '" class="btn btn-primary btn-sm product-title "> BUAT PKS </a>' +
-                                ' <a href="pengadaan-terbuka-detail.html#' + data.PengadaanId + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
-                            html +=  detailHtml;
-                            return html;
+                            if (data.Approver == 1) {
+                                return '<button class="setuju btn btn-flat btn-sm btn-primary" attrid="' + data.Id + '" >Setujui</button> <button class="tolak btn-flat btn-sm btn btn-danger" attrid="' + data.Id + '"  >Tolak</button>' +
+                                    ' <a href="create-pks.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
+                            }
+                            else {
+                                return ' <a href="create-pks.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
+                            }
                         },
 
-                        "targets": 4,
+                        "targets": 5,
                         "orderable": false
                     }
                 ],
@@ -302,6 +355,78 @@
                 }
             });
         });
+
+        $(function () {
+
+            $('#tbl-approval').on("click", ".tolak", function () {
+                $("#konfirmasiTolak").modal("show");
+                $("#idPksTolak").val($(this).attr("attrid"));
+            });
+            $('#tbl-approval').on("click", ".setuju", function () {
+                $("#KonfirmasiSetujui").modal("show");
+                $("#idPksSetuju").val($(this).attr("attrid"));
+            });
+
+            $("#tolak-pks").on("click", function () {
+                var IdPks = $("#idPksTolak").val();
+                var IdPks = $("#idPksTolak").val();
+                var NoPks = $("#no-pks").val();
+                var Note = $("#note-setujui").val();
+                waitingDialog.showloading("Proses Harap Tunggu");
+                $.ajax({
+                    url: "Api/Pks/Tolak?Id=" + IdPks + "&Note=" + Note ,
+                    method: "POST",
+                }).done(function (data) {
+                    table.draw();
+                    $("#konfirmasiTolak").modal("hide");
+                    var msg = data.message;
+                    waitingDialog.hideloading();
+                    BootstrapDialog.show({
+                        title: 'Infomasi',
+                        message: msg,
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                });
+            });
+
+            $("#setujui-pks").on("click", function () {
+                var IdPks = $("#idPksSetuju").val();
+                var NoPks = $("#no-pks").val();
+                var Note = $("#note-setujui").val();
+                waitingDialog.showloading("Proses Harap Tunggu");
+                $.ajax({
+                    url: "Api/Pks/Setujui?Id=" + IdPks + "&Note=" + Note + "&NoPks="+NoPks,
+                    method: "POST",
+                }).done(function (data) {
+                    table.draw();
+                    $("#KonfirmasiSetujui").modal("hide");
+                    var msg = data.message;
+                    waitingDialog.hideloading();
+                    BootstrapDialog.show({
+                        title: 'Infomasi',
+                        message: msg,
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                });
+            });
+            
+        });
+
+        function Tolak() {
+                
+                
+        }
+
         function format(d) {
             // `d` is the original data object for the row
             var pic = $.grep(d.PersonilPengadaans, function (e) { return e.tipe == "pic"; });

@@ -36,6 +36,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         List<ViewPengadaan> GetPerhatian(string search, int start, int limit, Guid? UserId, List<string> Roles, int approver, List<Guid> lstManager);
 
         DokumenPengadaan GetDokumenPengadaan(Guid Id);
+        DokumenPengadaan GetDokumenPengadaanSpk(Guid PengadaanId,int VendorId);
         DokumenPengadaan saveDokumenPengadaan(DokumenPengadaan dokumenPengadaan, Guid UserId);
         List<VWDokumenPengadaan> GetListDokumenPengadaan(TipeBerkas tipe, Guid Id, Guid UserId);
         int deleteDokumen(Guid Id);
@@ -126,6 +127,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         List<VWRekananPenilaian> getKandidatPengadaan(Guid PengadaanId, Guid UserId);
         List<VWVendor> GetVendorsKlarifikasiByPengadaanId(Guid PengadaanId);
         BeritaAcara addBeritaAcara(BeritaAcara newBeritaAcara, Guid UserId);
+        int DeleteBeritaAcara(Guid Id, Guid UserId);
         List<VWBeritaAcaraEnd> getBeritaAcara(Guid PengadaanId, Guid UserId);
         BeritaAcara getBeritaAcaraByTipe(Guid PengadaanId, TipeBerkas tipe, Guid UserId);
         int CekBukaAmplop(Guid PengadaanId);
@@ -386,6 +388,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                               JenisPembelanjaan = b.JenisPembelanjaan,
                                               MataUang = b.MataUang,
                                               PeriodeAnggaran = b.PeriodeAnggaran,
+                                              NoCOA=b.NoCOA,
                                               Pagu=b.Pagu,
                                               Region = b.Region,
                                               Provinsi = b.Provinsi,
@@ -401,6 +404,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                               isCompliance = isCompliance,
                                               isController = isController,
                                               isUser = isUser,
+                                              
                                               NoPengadaan = b.NoPengadaan,
                                               PersonilPengadaans = (from bb in ctx.PersonilPengadaans
                                                                     where bb.PengadaanId == b.Id
@@ -1234,6 +1238,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     Mpengadaan.TitleBerkasRujukanLain = pengadaan.TitleBerkasRujukanLain;
                     Mpengadaan.ModifiedBy = UserId;
                     Mpengadaan.Pagu = pengadaan.Pagu;
+                    Mpengadaan.NoCOA = pengadaan.NoCOA;
                     Mpengadaan.Status = pengadaan.Status;
                     Mpengadaan.ModifiedOn = DateTime.Now;
                     Mpengadaan.WorkflowId = pengadaan.WorkflowId;
@@ -1561,6 +1566,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return ctx.DokumenPengadaans.Find(Id);
         }
 
+        public DokumenPengadaan GetDokumenPengadaanSpk(Guid PengadaanId, int VendorId)
+        {
+            return ctx.DokumenPengadaans.Where(d => d.PengadaanId == PengadaanId && d.VendorId==VendorId && d.Tipe == TipeBerkas.SuratPerintahKerja).FirstOrDefault();
+        }
         public List<VWDokumenPengadaan> GetListDokumenPengadaan(TipeBerkas tipe, Guid Id, Guid UserId)
         {
             List<VWDokumenPengadaan> lstVWDok = new List<VWDokumenPengadaan>();
@@ -1669,6 +1678,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             if (dokumenPengadaan.Tipe == TipeBerkas.SuratPerintahKerja)
             {
                 mdokPengadaan = ctx.DokumenPengadaans.Where(d => d.PengadaanId == dokumenPengadaan.PengadaanId && d.VendorId == dokumenPengadaan.VendorId && d.Tipe == TipeBerkas.SuratPerintahKerja).FirstOrDefault();
+                
                 if (mdokPengadaan != null)
                 {
                     return new DokumenPengadaan();
@@ -1694,6 +1704,27 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 catch (Exception ex) { }
                 ctx.DokumenPengadaans.Add(dokumenPengadaan);
             }
+
+            var pemenang = ctx.PemenangPengadaans.Where(d => d.PengadaanId == dokumenPengadaan.PengadaanId && d.VendorId == dokumenPengadaan.VendorId).FirstOrDefault();
+            if (pemenang != null)
+            {
+                var oSpk = ctx.Spk.Where(d => d.PemenangPengadaanId == pemenang.Id).FirstOrDefault();
+                if (oSpk != null) oSpk.DokumenPengadaanId = mdokPengadaan==null?dokumenPengadaan.Id:mdokPengadaan.Id;
+                else
+                {
+                    var oNoberita = ctx.BeritaAcaras.Where(d => d.PengadaanId == dokumenPengadaan.PengadaanId && d.VendorId == dokumenPengadaan.VendorId).FirstOrDefault();
+                    oSpk = new Spk();
+
+                    oSpk.CreateOn = DateTime.Now;
+                    oSpk.CreateBy = UserId;
+                    oSpk.PemenangPengadaanId = pemenang.Id;
+                    oSpk.Title = "SPK Pertama Untuk Pengadaan " + pemenang.Pengadaan.Judul;
+                    oSpk.StatusSpk = StatusSpk.Jalankan;
+                    oSpk.NoSPk = oNoberita == null ? "" : oNoberita.NoBeritaAcara;
+                    oSpk.DokumenPengadaanId = dokumenPengadaan.Id ;
+                    ctx.Spk.Add(oSpk);
+                }
+            }
             ctx.SaveChanges();
             return mdokPengadaan;
         }
@@ -1707,8 +1738,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 Pengadaan mpengadaan = ctx.Pengadaans.Find(MdokPengadaan.PengadaanId);
                 if (mpengadaan == null) return 0;
                 if (mpengadaan.Status != EStatusPengadaan.DRAFT) return 0;
+                if (MdokPengadaan.Tipe == TipeBerkas.SuratPerintahKerja)
+                {
+                    var oSpk = ctx.Spk.Where(d => d.DokumenPengadaanId == MdokPengadaan.Id);
+                    ctx.Spk.RemoveRange(oSpk);
+                }
                 ctx.DokumenPengadaans.Remove(MdokPengadaan);
                 ctx.SaveChanges();
+
                 return 1;
             }
             catch { return 0; }
@@ -2383,8 +2420,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 int isPic = ctx.PersonilPengadaans.Where(d => d.PengadaanId == MdokPengadaan.PengadaanId && d.PersonilId == UserId && d.tipe == "pic").ToList().Count() > 0 ? 1 : 0;
                 if (isPic == 0) return 0;
                 if (MdokPengadaan.Tipe == TipeBerkas.NOTA || MdokPengadaan.Tipe == TipeBerkas.DOKUMENLAIN || MdokPengadaan.Tipe == TipeBerkas.NOTA) return 0;
+                if (MdokPengadaan.Tipe == TipeBerkas.SuratPerintahKerja)
+                {
+                    var oSpk = ctx.Spk.Where(d => d.DokumenPengadaanId == MdokPengadaan.Id);
+                    ctx.Spk.RemoveRange(oSpk);
+                }
                 ctx.DokumenPengadaans.Remove(MdokPengadaan);
-                ctx.SaveChanges();
+                ctx.SaveChanges(UserId.ToString());
                 return 1;
             }
             catch { return 0; }
@@ -3616,6 +3658,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                        where b.PengadaanId == PengadaanId
                                        select new VWRekananPenilaian
                                        {
+                                           Id=b.Id,
                                            NamaVendor = c.Nama,
                                            VendorId = b.VendorId,
                                            total = (from bb in ctx.HargaKlarifikasiRekanans
@@ -4182,10 +4225,29 @@ namespace Reston.Pinata.Model.PengadaanRepository
             else
             {
                 oBeritaAcara.tanggal = newBeritaAcara.tanggal;
-                ctx.SaveChanges();
+                ctx.SaveChanges(UserId.ToString());
                 return oBeritaAcara;
             }
         }
+
+       public int DeleteBeritaAcara(Guid Id, Guid UserId)
+       {
+           var OberitaAcara = ctx.BeritaAcaras.Find(Id);
+           if (OberitaAcara != null)
+           {
+               ctx.BeritaAcaras.Remove(OberitaAcara);
+           }
+           try
+           {
+               ctx.SaveChanges(UserId.ToString());
+               return 1;
+           }
+           catch
+           {
+               return 0;
+           }
+           
+       }
 
        public int CekBukaAmplop(Guid PengadaanId)
         {

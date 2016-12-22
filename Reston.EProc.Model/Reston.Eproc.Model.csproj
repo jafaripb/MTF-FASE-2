@@ -104,6 +104,8 @@
     <Compile Include="Monitoring\Repository\MoritoringRepo.cs" />
     <Compile Include="Monitoring\Repository\ProyekRepo.cs" />
     <Compile Include="MyClass.cs" />
+    <Compile Include="PengadaanRepository\SpkRepo.cs" />
+    <Compile Include="PengadaanRepository\Spk.cs" />
     <Compile Include="PengadaanRepository\Pengadaan.cs" />
     <Compile Include="PengadaanRepository\PksRepo.cs" />
     <Compile Include="PengadaanRepository\RksRepo.cs" />

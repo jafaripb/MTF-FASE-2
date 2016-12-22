@@ -45,6 +45,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string KualifikasiRekan { get; set; }
         [MaxLength(50)]
         public string JenisPekerjaan { get; set; }
+        public string NoCOA { get; set; }
         public Nullable<EStatusPengadaan> Status { get; set; }
         public Nullable<EGroupPengadaan> GroupPengadaan { get; set; }
         public string TitleBerkasRujukanLain { get; set; }
@@ -631,7 +632,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
     public enum TipeBerkas
     {
-        NOTA, DOKUMENLAIN, BerkasRujukanLain, BeritaAcaraAanwijzing, BeritaAcaraSubmitPenawaran, BeritaAcaraBukaAmplop, BeritaAcaraPenilaian, BeritaAcaraKlarifikasi, BeritaAcaraPenentuanPemenang, BerkasRekanan, BerkasRekananKlarifikasi, LembarDisposisi, SuratPerintahKerja, BeritaAcaraPendaftaran, PKS
+        NOTA, DOKUMENLAIN, BerkasRujukanLain, BeritaAcaraAanwijzing, BeritaAcaraSubmitPenawaran, BeritaAcaraBukaAmplop, BeritaAcaraPenilaian, BeritaAcaraKlarifikasi, BeritaAcaraPenentuanPemenang, BerkasRekanan, BerkasRekananKlarifikasi, LembarDisposisi, SuratPerintahKerja, BeritaAcaraPendaftaran, DraftPKS,FinalLegalPks,AssignedPks
     }
 
     public enum TipeCatatan

@@ -525,6 +525,7 @@ function loadData(pengadaanId) {
         $("#judul").text(data.Judul);
         $("#deskripsi").text((data.NoPengadaan == null ? "" : (data.NoPengadaan + ", ")) + data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
         if (data.AturanPengadaan == "Pengadaan Terbuka") $("#jadwal_pendaftaran").show();
+        $("#AturanPenawaran").val(data.AturanPenawaran);
         $("#AturanPengadaan").val(data.AturanPengadaan);
         $("#keterangan").text(data.Keterangan);
         $("#MataUang").text(data.MataUang);

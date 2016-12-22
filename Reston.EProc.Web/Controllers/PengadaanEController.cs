@@ -35,6 +35,7 @@ namespace Reston.Pinata.WebService.Controllers
         private IPengadaanRepo _repository;
         private IWorkflowRepository _workflowrepo;
         private IRksRepo _reporks;
+        private ISpkRepo _spkrepo;
         internal ResultMessage result = new ResultMessage();
         private string FILE_TEMP_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_TEMP"];
         private string FILE_PENGADAAN_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_DOC"];
@@ -42,6 +43,7 @@ namespace Reston.Pinata.WebService.Controllers
         private int WorkflowTemplateId1 = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["WorkflowTemplateId1"]);
         private int WorkflowTemplateId2 = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["WorkflowTemplateId2"]);
         private decimal ValueBoundAprr = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["BATASAN_BIAYA"]);
+        private decimal ValueBoundDireksiAprr = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["BATASAN_BIAYA_DIREKSI"]);
         //const string[] arrRoleExRekanan =  { IdLdapConstants.Roles.pRole_procurement_head, 
         //                                    IdLdapConstants.Roles.pRole_procurement_user, IdLdapConstants.Roles.pRole_procurement_end_user,
         //                                     IdLdapConstants.Roles.pRole_procurement_manager};
@@ -52,6 +54,7 @@ namespace Reston.Pinata.WebService.Controllers
             _repository = new PengadaanRepo(new JimbisContext());
             _workflowrepo = new WorkflowRepository(new HelperContext());
             _reporks = new RksRepo(new JimbisContext());
+            _spkrepo = new SpkRepo(new JimbisContext());
         }
 
         public PengadaanEController(PengadaanRepo repository)
@@ -2454,6 +2457,86 @@ namespace Reston.Pinata.WebService.Controllers
             return result;
         }
 
+        
+        [HttpPost]
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public async Task<ResultMessage> addBeritaAcaraSpk(VWBeritaAcara vwpengadaan)
+        {
+            var pemenang = _repository.getPemenangPengadaan(vwpengadaan.PengadaanId.Value, UserId());
+            List<BeritaAcara> lstBeritaAcara = new List<BeritaAcara>();
+            List<Spk> lstSpk = new List<Spk>();
+            try
+            {
+                foreach (var item in pemenang)
+                {
+                    //load berita acara
+                    BeritaAcara beritaAcara = new BeritaAcara();
+                    beritaAcara.PengadaanId = vwpengadaan.PengadaanId;
+                    try
+                    {
+                        if (!string.IsNullOrEmpty(vwpengadaan.tanggal))
+                        {
+                            beritaAcara.tanggal = Common.ConvertDate(vwpengadaan.tanggal, "dd/MM/yyyy");
+                        }
+                    }
+                    catch { }
+                    beritaAcara.Tipe = TipeBerkas.SuratPerintahKerja;
+                    beritaAcara.VendorId = item.VendorId;
+                    var SaveBeritaAcara = _repository.addBeritaAcara(beritaAcara, UserId());
+                    if(SaveBeritaAcara!=null)
+                        lstBeritaAcara.Add(SaveBeritaAcara);
+
+                    //load spk
+                    Spk spk = new Spk();
+                    spk.CreateBy = UserId();
+                    spk.CreateOn = DateTime.Now;
+                    var getDokumen = _repository.GetDokumenPengadaanSpk(vwpengadaan.PengadaanId.Value, item.VendorId.Value);
+                    if (getDokumen != null)
+                    {
+                        spk.DokumenPengadaanId = getDokumen.Id;
+                    }
+                    spk.PemenangPengadaanId = item.Id;
+                    spk.StatusSpk = StatusSpk.Jalankan;
+                    spk.Title = "SPK Pertama Untuk Pengadaan " + SaveBeritaAcara.Pengadaan.Judul;
+                    spk.NoSPk = SaveBeritaAcara.NoBeritaAcara;
+                    var SaveSpk = _spkrepo.saveSpkPertam(spk, UserId());
+                    if(SaveSpk!=null)
+                        lstSpk.Add(SaveSpk);
+                }
+                return new ResultMessage()
+                {
+                    status = HttpStatusCode.OK,
+                    message = Common.SaveSukses()
+                };
+            }
+            catch(Exception ex)
+            {
+                if (lstBeritaAcara.Count() > 0)
+                {
+                    foreach (var item in lstBeritaAcara)
+                    {
+                        _repository.DeleteBeritaAcara(item.Id,UserId());
+                    }
+                }
+                if (lstSpk.Count() > 0)
+                {
+                    foreach (var item in lstSpk)
+                    {
+                        _spkrepo.Delete(item.Id, UserId());
+                    }
+                }
+                return new ResultMessage()
+                {
+                    status = HttpStatusCode.ExpectationFailed,
+                    message = ex.ToString()
+                };
+            }
+        }
+
+
         [HttpPost]
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
@@ -2478,65 +2561,8 @@ namespace Reston.Pinata.WebService.Controllers
                 {
                     return new ResultMessage { Id = "0", message = "Belum Semua Pihak Buka Amplop!", status = HttpStatusCode.OK };
                 }
-                BeritaAcara result = new BeritaAcara();
-                if (vwpengadaan.Tipe == TipeBerkas.SuratPerintahKerja || vwpengadaan.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang)
-                {
 
-                    var pemenang = _repository.getPemenangPengadaan(vwpengadaan.PengadaanId.Value, UserId());
-                    foreach (var item in pemenang)
-                    {
-                        newBeritaAcara.VendorId = item.VendorId;
-                        var ctx = new JimbisContext();
-
-                        Pengadaan opengadaan = ctx.Pengadaans.Find(newBeritaAcara.PengadaanId);
-                        if (opengadaan == null) return new ResultMessage();
-                        BeritaAcara oBeritaAcara = new BeritaAcara();
-                        if (newBeritaAcara.VendorId > 0)
-                        {
-                            oBeritaAcara = ctx.BeritaAcaras.Where(d => d.PengadaanId == newBeritaAcara.PengadaanId
-                                        && d.Tipe == newBeritaAcara.Tipe && d.VendorId == newBeritaAcara.VendorId).FirstOrDefault();
-                        }
-                        else
-                        {
-                            oBeritaAcara = ctx.BeritaAcaras.Where(d => d.PengadaanId == newBeritaAcara.PengadaanId
-                                        && d.Tipe == newBeritaAcara.Tipe).FirstOrDefault();
-                        }
-                        if (oBeritaAcara == null)
-                        {
-                            if (newBeritaAcara.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang)
-                            {
-                                newBeritaAcara.NoBeritaAcara =_repository.GenerateBeritaAcaraNota(UserId());
-                            }
-                            else if (newBeritaAcara.Tipe == TipeBerkas.SuratPerintahKerja)
-                            {
-                                newBeritaAcara.NoBeritaAcara = _repository.GenerateBeritaAcaraSPK(UserId());
-                            }
-                            else
-                            {
-                                newBeritaAcara.NoBeritaAcara =_repository.GenerateBeritaAcara(UserId());
-                            }
-                            ctx.BeritaAcaras.Add(newBeritaAcara);
-
-                            ctx.SaveChanges();
-
-                            respon = HttpStatusCode.OK;
-                            message = "Sukses";
-                            id = newBeritaAcara.Id.ToString();
-                        }
-                        else
-                        {
-                            oBeritaAcara.tanggal = newBeritaAcara.tanggal;
-                            ctx.SaveChanges();
-                            respon = HttpStatusCode.OK;
-                            message = "Sukses";
-                            id = oBeritaAcara.Id.ToString();
-                        }
-                    }
-                }
-                else
-                {
-                    result = _repository.addBeritaAcara(newBeritaAcara, UserId());
-                }
+                BeritaAcara result = _repository.addBeritaAcara(newBeritaAcara, UserId());
                 respon = HttpStatusCode.OK;
                 message = "Sukses";
                 id = result.Id.ToString();
@@ -2988,7 +3014,7 @@ namespace Reston.Pinata.WebService.Controllers
                 var vwpengadaan = _repository.GetPengadaanByiD(Id);
                 var DepHead = await listHead();
                 var DepManager = await listGuidManager();
-
+                var Direksi = await listUser(IdLdapConstants.Roles.pRole_direksi);
                 #region BuatAtauUpdateTamplate
 
                 var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
@@ -3012,6 +3038,17 @@ namespace Reston.Pinata.WebService.Controllers
                                  SegOrder = 3,
                                  UserId = DepHead[0]
                              });
+                if (RKS > ValueBoundDireksiAprr)
+                {
+                    var lasOrder = WorkflowMasterTemplateDetails.LastOrDefault().SegOrder;
+                    WorkflowMasterTemplateDetails.Add(
+                        new WorkflowMasterTemplateDetail()
+                        {
+                            NameValue = "Gen.By.System",
+                            SegOrder = lasOrder+1,
+                            UserId = Direksi[0]
+                        });
+                }
                 WorkflowMasterTemplate MasterTemplate = new WorkflowMasterTemplate()
                 {
                     ApprovalType = ApprovalType.BERTINGKAT,
