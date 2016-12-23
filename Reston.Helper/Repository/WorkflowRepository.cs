@@ -20,6 +20,7 @@ namespace Reston.Helper.Repository
         ResultMessage SaveWorkFlow(WorkflowMasterTemplate oViewWorkflowTemplate, Guid UserId);
         ResultMessage isLastApprover(Guid DocId, int TemplateId);
         ResultMessage AddMasterTemplateDetail(int TemplateId, WorkflowMasterTemplateDetail oWorkflowMasterTemplateDetail);
+        int isThisUserLastApprover(int WorkflowTemplateId, Guid UserId);
     }
     public class WorkflowRepository : IWorkflowRepository
     {
@@ -234,6 +235,16 @@ namespace Reston.Helper.Repository
             {
                 return new List<ViewWorkflowModel>();
             }
+        }
+
+        public int isThisUserLastApprover(int WorkflowTemplateId,Guid UserId)
+        {
+            try
+            {
+                if (ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == WorkflowTemplateId).OrderByDescending(d => d.SegOrder).FirstOrDefault().UserId.Value == UserId) return 1;
+            }
+            catch { return 0; }
+            return 0;
         }
 
         public ResultMessageLstWorkflowApprovals ListWorkflowApprovalByDocumentId(Guid DocumentId, int length, int start)

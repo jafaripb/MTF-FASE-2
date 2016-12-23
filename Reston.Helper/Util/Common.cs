@@ -39,6 +39,13 @@ namespace Reston.Helper.Util
             return result;
         }
 
+        public static string Forbiden()
+        {
+            string result = "Action Ini Dilarang";
+
+            return result;
+        }
+
         public static string ConvertNamaBulan(int bulan)
         {
             switch (bulan)

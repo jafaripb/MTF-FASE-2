@@ -426,6 +426,7 @@ function getHeaderPengadaan() {
     viewPengadaan.TitleBerkasRujukanLain = $("[name=TitleBerkasRujukanLain]").val();
     viewPengadaan.UnitKerjaPemohon = $("[name=UnitKerjaPemohon]").val();
     viewPengadaan.Pagu = $("[name=Pagu]").val();
+    viewPengadaan.NoCOA = $("#noCoa").val();
     viewPengadaan.Region = $("[name=Region]").val();
     viewPengadaan.Provinsi = $("[name=Provinsi]").val();
     viewPengadaan.KualifikasiRekan = $("[name=KualifikasiRekan]").val();
@@ -575,7 +576,7 @@ function loadHeaderPengadaan(viewPengadaan) {
     $("[name=TitleDokumenLain]").val(viewPengadaan.TitleDokumenLain);
     $("[name=TitleBerkasRujukanLain]").val(viewPengadaan.TitleBerkasRujukanLain);
     $("[name=UnitKerjaPemohon]").val(viewPengadaan.UnitKerjaPemohon);
-
+    $("#noCoa").val(viewPengadaan.NoCOA);
     $("[name=Pagu]").val(viewPengadaan.Pagu);
     $("[name=Region]").val(viewPengadaan.Region);
     $("[name=Provinsi]").val(viewPengadaan.Provinsi);
@@ -743,7 +744,7 @@ function addLoadPersonil(item, el, status, xisTeam) {
         else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
     }
     else {
-        if (item.isMine == 1 && $("#State").val() == 0)
+        if (item.isMine == 1 &&  $("#State").val() == 0)
             removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
         else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
     } html = '<a class="btn btn-app">' +

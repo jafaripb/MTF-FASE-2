@@ -80,9 +80,10 @@
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
-                            <li><a  title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                            <li><a  title="Simpan" href="#" class="Simpan" style="display:none"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
                             <li><a  title="Ajukan" href="#" class="ajukan" style="display:none">Ajukan</a></li>
-                            <li><a  id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
+                            <li><a  title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
+                            <li><a  title="Edit" href="#" class="Edit" style="display:none"><i class="fa fa-fw fa-pencil " style="font-size:20px;"></i>Edit</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -126,9 +127,11 @@
                     <div class="col-md-10">
                         <div class="box box-primary box-white">
                                 <input type="hidden" id="isPIC" />
-                                <input type="hidden" id="pengadaanId" />
-                                <input type="hidden" id="VendorId" />
                                 <input type="hidden" id="pksId" />
+                                <input type="hidden" id="PemenangPengadaanId" />
+                                <input type="hidden" id="isOwner" />
+                                <input type="hidden" id="StatusPks" />
+                                <input type="hidden" id="Approver" />
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-md-10">
@@ -139,30 +142,68 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="panel-header-white">
-                                                <span class="title-header" id="section-6">Proyek</span>
+                                                <span class="title-header" id="section-6">Status PKS
+                                                </span>
+                                                <button id="Status" class="btn bg-aqua btn-flat margin"></button>
+                                                 
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-12">
-                                            <label class="title">Judul:</label>
-                                            <input type="text" class="form-control" id="judul" disabled>
-                                        </div>
+                                            <label class="title">Judul:</label> 
+                                            <div class="input-group">
+                                              <input type="text" class="form-control" id="judul" disabled>
+                                              <span class="input-group-btn">
+                                                <button class="btn btn-info btn-flat cari-pengadaan" type="button">Cari Pengadaan</button>
+                                              </span>
+                                            </div>                                          
+                                        </div>                                        
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label class="title">No. Pengadaan:</label>
                                             <input type="text" class="form-control" id="no-pengadaan" disabled>
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <!--<div class="form-group col-md-4">
                                             <label class="title">No. SPK:</label>
                                             <input type="text" class="form-control" id="no-spk" disabled>
-                                        </div>
+                                        </div>-->
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label class="title">Vendor Pemenang</label>
                                             <input type="text" class="form-control" id="pelaksana" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label class="title">No PKS</label>
+                                            <input type="text" class="form-control" id="noPks" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                         <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="title">Title</label>
+                                                        <input type="text" class="form-control input-pks" id="title-pks">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                         <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="title">Note</label>
+                                                        <textarea id="note" class="form-control input-pks"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -177,54 +218,54 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label class="title">Unggah Draf PKS</label>
-                                                        <div id="dok-pks" attr="PKS" action="/api/PengadaanE/UploadFile?tipe=PKS" class="dropzone"></div>
+                                                        <label class="title">Unggah PKS</label>
+                                                        <div id="DraftPKS" attr="PKS" action="/api/Pks/UploadFile?tipe=DraftPKS" class="dropzone"></div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <div class=" panel-header-white">
-                                                <span class="title-header" id="section-3">Dokumen PKS Versi Final Dari Legal:</span>
+                                    <div id="bingkai-upload-legal" style="display:none">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class=" panel-header-white">
+                                                    <span class="title-header" id="">Dokumen PKS Versi Final Dari Legal</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="title">Dokumen PKS Versi Final Dari Legal</label>
-                                                        <div id="dok-pks" attr="PKS" action="/api/PengadaanE/UploadFile?tipe=PKS" class="dropzone"></div>
+                                        <div class="row">
+                                             <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="title">Unggah PKS Versi Final Dari Legal</label>
+                                                            <div id="FinalLegalPks" attr="PKS" action="/api/Pks/UploadFile?tipe=FinalLegalPks" class="dropzone"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class=" panel-header-white">
+                                                    <span class="title-header" id="Span1">Dokumen PKS Assign</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                             <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="title">Unggah PKS Assign</label>
+                                                            <div id="AssignedPks" attr="PKS" action="/api/Pks/UploadFile?tipe=AssignedPks" class="dropzone"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <div class=" panel-header-white">
-                                                <span class="title-header" id="section-3">Dokumen PKS Assign:</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="title">Dokumen PKS Assign</label>
-                                                        <div id="dok-pks" attr="PKS" action="/api/PengadaanE/UploadFile?tipe=PKS" class="dropzone"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
-
                         </div>
                     </div>
                 </div>
@@ -248,7 +289,7 @@
              immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-     <div class="modal" id="konfirmasiFile" role="dialog" FileId="" attr1="" aria-hidden="true">
+    <div class="modal" id="konfirmasiFile" role="dialog" FileId="" attr1="" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -263,6 +304,70 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <!-- Modal -->
+        <div class="modal " id="pengadaan_modal" role="dialog"  aria-hidden="true">            
+          <div class="modal-dialog modal-lg">
+	        <div class="modal-content">
+	          <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="TitleKonfirmasi">List Pengadaan</h4>
+	          </div>
+	          <div class="modal-body">
+                <div class="row" >
+                    <div class="col-md-12">
+                        <form class="form-horizontal label-kanan">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Judul</label>
+                                <div class="col-sm-4">
+                                    <input id="title" type="text" class="form-control " placeholder="Judul">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Klasifikasi</label>
+                                <div class="col-sm-4">
+                                    <select id="klasifikasi" class="form-control select2" style="width: 100%;">
+                                        <option selected="selected" value="">ALL</option>
+                                        <option value="Sipil">SIPIL</option>
+                                        <option value="Non Sipil">NONSIPIL</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="submitgray button-row">
+                                        <button id="cari-pks-original" class="btn btn-primary " type="button">Cari</button>                                                               
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-md-12">
+		                <table class="table table-bordered table-striped table-responsive" id="tbl-pengadaan" style="margin-top:20px; ">
+                            <thead>
+                                <tr>
+                                    <th>Nama Pekerjaan</th>
+                                    <th>HPS</th>
+                                    <th>Klasifikasi</th>
+                                    <th>Pemenang</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+	          </div>
+	              <div class="modal-footer">
+                      <button type="button" class="btn btn-default " data-dismiss="modal" >Close</button>		
+	             </div>
+	        </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
     <!--endviewr-->
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>

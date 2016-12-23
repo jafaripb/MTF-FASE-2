@@ -154,7 +154,8 @@
                                                      <div class="form-group">
                                                         <div class="col-md-12">
                                                             <div class="submitgray button-row">
-                                                                <button id="cari-pks-original" class="btn btn-primary " type="button">Cari</button>                                                               
+                                                                <button id="cari-pks-original" class="btn btn-primary " type="button">Cari</button>              
+                                                                  <a  class="btn btn-success" href="create-spk.html">Buat Spk</a>                                                            
                                                             </div>
                                                         </div>
                                                      </div>
@@ -224,6 +225,7 @@
                                                         <th>Tanggal PO</th>
                                                         <th>Nilai PO</th>
                                                         <th>Keterangan</th>
+                                                        <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -314,7 +316,7 @@
                 "serverSide": true,
                 "searching": false,
                 "ajax": {
-                    "url": 'api/Pks/List',
+                    "url": 'api/Spk/List',
                     "type": 'POST',
                     "data": function (d) {
                         d.search = $("#title").val();
@@ -325,7 +327,8 @@
                     { "data": "Judul" },
                     { "data": "HPS", "className": "rata_kanan" },
                     { "data": "JenisPekerjaan" },
-                    { "data": "Vendor" },                    
+                    { "data": "Vendor" },
+                    { "data": "StatusSpkName" },
                     { "data": null }
                 ],
                 "columnDefs": [
@@ -341,17 +344,10 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            var html = ''
-                            var detailHtml = "";
-                            if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = '<a href="create-spk.html?id=' + data.PengadaanId + '&VendorId=' + data.VendorId + '" class="btn btn-primary btn-sm product-title "> BUAT SPK Lanjutan </a>' +
-                                ' <a href="pengadaan-detail.html#' + data.PengadaanId +'" class="product-title  btn btn-success btn-sm">Detail</a>';
-                            else detailHtml = '<a href="create-spk.html?id=' + data.PengadaanId + '&VendorId=' + data.VendorId + '" class="btn btn-primary btn-sm product-title "> BUAT SPK Lanjutan </a>' +
-                                ' <a href="pengadaan-terbuka-detail.html#' + data.PengadaanId + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
-                            html +=  detailHtml;
-                            return html;
+                            return  ' <a href="create-spk.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
                         },
 
-                        "targets": 4,
+                        "targets": 5,
                         "orderable": false
                     }
                 ],

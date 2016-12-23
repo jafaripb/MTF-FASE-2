@@ -1122,14 +1122,7 @@ $(function () {
         objData.PengadaanId = $("#pengadaanId").val();
         objData.VendorId = $(this).attr("vendorid");
         if ($("#AturanPenawaran").val() == "Price Matching") {
-            if ($(this).is(':checked')) {
-                addPemenang(elTHis, objData);
-            }
-            else {
-                deletePemenang(elTHis, objData);
-            }
-        }
-        else {
+            
             if ($(".checkbox-pilih-pemenang:checked").length > 1) {
                 $(this).prop("checked", false);
                 BootstrapDialog.show({
@@ -1150,6 +1143,14 @@ $(function () {
                 else {
                     deletePemenang(elTHis, objData);
                 }
+            }
+        }
+        else {
+            if ($(this).is(':checked')) {
+                addPemenang(elTHis, objData);
+            }
+            else {
+                deletePemenang(elTHis, objData);
             }
         }
     });

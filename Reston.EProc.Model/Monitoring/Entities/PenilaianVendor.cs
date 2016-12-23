@@ -15,6 +15,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
 {
     // Query membuat table di  database 
 
+    [Table("PenilaianVendorHeader", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
     public class PenilaianVendorHeader
     {
         [Key]
@@ -35,6 +36,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public virtual ICollection<PenilaianVendorDetail> PenilaianVendorDetails { get; set; }
     }
 
+    [Table("PenilaianVendorDetail", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
     public class PenilaianVendorDetail
     {
         [Key]

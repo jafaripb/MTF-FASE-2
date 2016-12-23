@@ -15,7 +15,6 @@ namespace Reston.Eproc.Model.Monitoring.Entities
     // Query membuat table di  database 
 
     [Table("MonitoringPekerjaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
-
     public class MonitoringPekerjaan
     {
         [Key]
@@ -39,6 +38,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public virtual Pengadaan Pengadaan { get; set; }  //-- ditambahakan untuk foreign key
     }
 
+    [Table("JadwalProyek", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
     public class JadwalProyek
     {
         [Key]
@@ -57,6 +57,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public virtual Pengadaan Pengadaan { get; set; }
     }
 
+    [Table("DetailPekerjaan", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
     public class DetailPekerjaan
     {
         [Key]
@@ -77,9 +78,11 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public virtual Pengadaan Pengadaan { get; set; }
 
     }
+   
     /////////////////////////////------------------------------------------------------------------------------
     // Monitoring Proyek
 
+    [Table("RencanaProyek", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
     public class RencanaProyek
     {
         [Key]
@@ -102,6 +105,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public virtual ICollection<TahapanProyek> TahapanProyeks { get; set; }
     }
 
+    [Table("TahapanProyek", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
     public class TahapanProyek
     {
         [Key]
@@ -127,6 +131,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public virtual RencanaProyek RencanaProyek { get; set; }
     }
 
+    [Table("PICProyek", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
     public class PICProyek
     {
         [Key]
@@ -146,6 +151,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public virtual RencanaProyek RencanaProyek { get; set; }
     }
 
+    [Table("DokumenProyek", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
     public class DokumenProyek
     {
         [Key]

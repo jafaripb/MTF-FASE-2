@@ -13,9 +13,11 @@ $(function () {
         oBeritaAcara.Tipe = $(this).attr("attr2");
         oBeritaAcara.PengadaanId = $("#pengadaanId").val();
         waitingDialog.showloading("Proses Harap Tunggu");
+        var url = "Api/PengadaanE/addBeritaAcara";
+        if (oBeritaAcara.Tipe == "SuratPerintahKerja") url = "Api/PengadaanE/addBeritaAcaraSpk";
         $.ajax({
             method: "POST",
-            url: "Api/PengadaanE/addBeritaAcara",
+            url: url,
             dataType: "json",
             data: JSON.stringify(oBeritaAcara),
             contentType: 'application/json; charset=utf-8',

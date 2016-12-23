@@ -102,6 +102,7 @@ namespace Reston.Pinata.Model
         public virtual DbSet<MonitoringPekerjaan> MonitoringPekerjaans { get; set; }
         public virtual DbSet<DetailPekerjaan> DetailPekerjaans { get; set; }
         public virtual DbSet<JadwalProyek> JadwalProyeks { get; set; }
+        
 
         //----------------------------------------------------------------------------------
         // Proyek
@@ -114,9 +115,15 @@ namespace Reston.Pinata.Model
         public virtual DbSet<Pks> Pks { get; set; }
 		public virtual DbSet<PenilaianVendorHeader> PenilaianVendorHeaders { get; set; }
         public virtual DbSet<PenilaianVendorDetail> PenilaianVendorDetails { get; set; }
-
-
-
+        public virtual DbSet<DokumenPks> DokumenPks { get; set; }
+         public virtual DbSet<RiwayatDokumenPks> RiwayatDokumenPks { get; set; }
+        public virtual DbSet<Spk> Spk { get; set; }
+        public virtual DbSet<DokumenSpk> DokumenSpk { get; set; }
+        public virtual DbSet<RiwayatDokumenSpk> RiwayatDokumenSpk { get; set; }
+        public virtual DbSet<COA> COAs { get; set; }
+        public virtual DbSet<PO> POs { get; set; }
+        public virtual DbSet<DokumenPO> DokumenPO { get; set; }
+        
         //
         public virtual DbSet<SysLog> SysLogs { get; set; }
         

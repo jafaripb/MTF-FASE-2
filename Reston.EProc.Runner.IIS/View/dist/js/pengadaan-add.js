@@ -423,7 +423,7 @@ function getHeaderPengadaan() {
     viewPengadaan.TitleDokumenLain = $("[name=TitleDokumenLain]").val();
     viewPengadaan.TitleBerkasRujukanLain = $("[name=TitleBerkasRujukanLain]").val();
     viewPengadaan.UnitKerjaPemohon = $("[name=UnitKerjaPemohon]").val();
-   
+    viewPengadaan.NoCOA = $("#noCoa").val();
     viewPengadaan.Region = $("[name=Region]").val();
     viewPengadaan.Provinsi = $("[name=Provinsi]").val();
     viewPengadaan.KualifikasiRekan = $("[name=KualifikasiRekan]").val();
@@ -511,7 +511,7 @@ function loadHeaderPengadaan(viewPengadaan) {
     $("[name=TitleDokumenLain]").val(viewPengadaan.TitleDokumenLain);
     $("[name=TitleBerkasRujukanLain]").val(viewPengadaan.TitleBerkasRujukanLain);
     $("[name=UnitKerjaPemohon]").val(viewPengadaan.UnitKerjaPemohon);
-
+    $("#noCoa").val(viewPengadaan.NoCOA);
     $("[name=Region]").val(viewPengadaan.Region);
     $("[name=Provinsi]").val(viewPengadaan.Provinsi);
     $("[name=KualifikasiRekan]").val(viewPengadaan.KualifikasiRekan);
