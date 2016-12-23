@@ -1719,7 +1719,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     oSpk.CreateBy = UserId;
                     oSpk.PemenangPengadaanId = pemenang.Id;
                     oSpk.Title = "SPK Pertama Untuk Pengadaan " + pemenang.Pengadaan.Judul;
-                    oSpk.StatusSpk = StatusSpk.Jalankan;
+                    oSpk.StatusSpk = StatusSpk.Aktif;
                     oSpk.NoSPk = oNoberita == null ? "" : oNoberita.NoBeritaAcara;
                     oSpk.DokumenPengadaanId = dokumenPengadaan.Id ;
                     ctx.Spk.Add(oSpk);

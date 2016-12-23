@@ -82,8 +82,12 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     StatusPks=d.StatusPks,
                     StatusPksName=d.StatusPks.ToString(),
                     WorkflowId=d.WorkflowId,
-                    HPS = d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault() == null ? null : d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().RKSDetails.Where(dd => dd.RKSHeaderId == d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().Id).Sum(dx => dx.jumlah * dx.hps == null ? 0 : dx.jumlah * dx.hps)
+                    HPS = d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault() == null ? null :
+                            d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().RKSDetails.Where(dd =>
+                                dd.RKSHeaderId == d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().Id)
+                                .Sum(dx => dx.HargaKlarifikasiRekanan.Where(ddx => ddx.RKSDetailId == dx.Id).FirstOrDefault() == null ? 0 : dx.HargaKlarifikasiRekanan.Where(ddx => ddx.RKSDetailId == dx.Id).FirstOrDefault().harga*dx.jumlah)
                 }).ToList();
+
             }
             return dtTable;
         }
@@ -179,7 +183,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
         {
             try
             {
+
                 var oldData = ctx.Pks.Find(Id);
+                if (oldData.StatusPks != StatusPks.Draft || oldData.CreateBy!=UserId) return new ResultMessage()
+                {
+                    message = HttpStatusCode.MethodNotAllowed.ToString(),
+                    status = HttpStatusCode.MethodNotAllowed
+                };                
                 ctx.Pks.Remove(oldData);
                 ctx.SaveChanges(UserId.ToString());
                 msg.status = HttpStatusCode.OK;

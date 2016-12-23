@@ -78,6 +78,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Nullable<int> WorkflowId { get; set; }
         public string Note { get; set; }
         public string NoSpk { get; set; }
+        public string NoPks{ get; set; }
         public string Judul { get; set; }
         public string JenisPekerjaan { get; set; }
         public string Vendor { get; set; }

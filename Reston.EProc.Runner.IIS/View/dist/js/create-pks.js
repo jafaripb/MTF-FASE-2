@@ -392,6 +392,20 @@ $(function () {
     if ($("#pksId").val() == "") {
         $(".Simpan").show();
     }
+    $(".Hapus").on("click", function () {
+        waitingDialog.showloading("Proses Harap Tunggu");
+        $.ajax({
+            url: "Api/Pks/delete?Id=" + $("#pksId").val(),
+            method: "POST",
+        }).done(function (data) {
+            loadDetail($("#pksId").val());
+            window.location.replace("http://" + window.location.host + "/pks.html");
+            waitingDialog.hideloading();
+
+        });
+
+    });
+    
     
 });
 

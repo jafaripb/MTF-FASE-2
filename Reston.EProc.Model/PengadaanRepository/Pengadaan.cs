@@ -196,6 +196,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Nullable<Guid> CreateBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }
         public Nullable<Guid> ModifiedBy { get; set; }
+        public  virtual ICollection<HargaKlarifikasiRekanan>  HargaKlarifikasiRekanan { get; set; }
+        public virtual ICollection<HargaRekanan> HargaRekanan { get; set; }
     }
 
     [Table("RKSHeaderTemplate", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -441,11 +443,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+        [ForeignKey("RKSDetail")]
         public Nullable<Guid> RKSDetailId { get; set; }
         public Nullable<int> VendorId { get; set; }
         public Nullable<decimal> harga { get; set; }
         public string hargaEncrypt { get; set; }
         public string keterangan { get; set; }
+        public virtual RKSDetail RKSDetail { get; set; }
     }
 
     [Table("PelaksanaanPemilihanKandidat", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -468,10 +472,12 @@ namespace Reston.Pinata.Model.PengadaanRepository
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+        [ForeignKey("RKSDetail")]
         public Nullable<Guid> RKSDetailId { get; set; }
         public Nullable<int> VendorId { get; set; }
         public Nullable<decimal> harga { get; set; }
         public string keterangan { get; set; }
+        public virtual RKSDetail RKSDetail { get; set; }
     }
 
     [Table("CatatanPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]

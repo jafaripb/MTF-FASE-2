@@ -157,6 +157,7 @@
     <Content Include="View\create-po.html" />
     <Content Include="View\create-spk.html" />
     <Content Include="View\create-pks.html" />
+    <Content Include="View\dist\js\create-spk.js" />
     <Content Include="View\dist\js\create-pks.js" />
     <Content Include="View\dist\js\monitoring-proyek-add.js">
       <DependentUpon>monitoring-proyek-add.js</DependentUpon>

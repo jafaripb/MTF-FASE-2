@@ -2499,7 +2499,7 @@ namespace Reston.Pinata.WebService.Controllers
                         spk.DokumenPengadaanId = getDokumen.Id;
                     }
                     spk.PemenangPengadaanId = item.Id;
-                    spk.StatusSpk = StatusSpk.Jalankan;
+                    spk.StatusSpk = StatusSpk.Aktif;
                     spk.Title = "SPK Pertama Untuk Pengadaan " + SaveBeritaAcara.Pengadaan.Judul;
                     spk.NoSPk = SaveBeritaAcara.NoBeritaAcara;
                     var SaveSpk = _spkrepo.saveSpkPertam(spk, UserId());
