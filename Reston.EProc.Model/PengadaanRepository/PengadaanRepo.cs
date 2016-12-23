@@ -903,31 +903,42 @@ namespace Reston.Pinata.Model.PengadaanRepository
             if (spk == 1 && status == EStatusPengadaan.PEMENANG)
             {
                 dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0);
-                
             }
+            var TotalHps = (from bb in ctx.HargaKlarifikasiRekanans
+                            join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                            join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                            where dd.PengadaanId == dt.FirstOrDefault().Id && bb.VendorId == dt.FirstOrDefault().PemenangPengadaans.FirstOrDefault().Vendor.Id
+                            select new
+                            {
+                                harga = bb.harga,
+                                jumlah = cc.jumlah
+                            }).Sum(x => x.harga * x.jumlah);
+
             if (spk == 0 && status == EStatusPengadaan.PEMENANG) dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status && d.PersetujuanPemenangs.Where(dd=>dd.Status == StatusPengajuanPemenang.PENDING).Count()>0);
             oData.recordsFiltered=dt.Count();
             oData.recordsTotal = ctx.Pengadaans.Count();
-            oData.data = dt.OrderByDescending(d => d.CreatedOn).Take(limit).Skip(start).Select(d => new ViewPengadaan { 
-            Judul=d.Judul,
-            WorkflowTemplateId=d.WorkflowId,
-            Region=d.Region,
-            Status=d.Status,
-            StatusPersetujuanPemenang=d.PersetujuanPemenangs.FirstOrDefault()==null?StatusPengajuanPemenang.BELUMDIAJUKAN:d.PersetujuanPemenangs.FirstOrDefault().Status,
-            StatusPersetujuanPemenangName=d.PersetujuanPemenangs.FirstOrDefault()==null?StatusPengajuanPemenang.BELUMDIAJUKAN.ToString():d.PersetujuanPemenangs.FirstOrDefault().Status.ToString(),
-            StatusName = d.Status.ToString(),
-            IdPersetujuanPemanang=d.PersetujuanPemenangs.FirstOrDefault()==null?Guid.Empty:d.PersetujuanPemenangs.FirstOrDefault().Id,
-            WorkflowPersetujuanPemenangTemplateId=d.PersetujuanPemenangs.FirstOrDefault()==null?null:d.PersetujuanPemenangs.FirstOrDefault().WorkflowId,
-            JenisPekerjaan=d.JenisPekerjaan,
-            AturanPengadaan=d.AturanPengadaan,
-            Id=d.Id,
-            JadwalPengadaans = d.JadwalPengadaans.Select(dd => new VWJadwalPengadaan { Mulai = dd.Mulai, Sampai = dd.Sampai, tipe = dd.tipe }).ToList(),
-            JadwalPelaksanaans=d.JadwalPelaksanaans.Select(dd=>new VWJadwalPelaksanaan2{Mulai=dd.Mulai,Sampai=dd.Sampai,statusPengadaan=dd.statusPengadaan}).ToList(),
-            KandidatPengadaans = d.KandidatPengadaans.Select(dd => new VWKandidatPengadaan { Nama = dd.Vendor.Nama, Telepon = dd.Vendor.Telepon }).ToList(),
-            HPS=ctx.RKSHeaders.Where(dd=>dd.PengadaanId==d.Id).FirstOrDefault()==null?0:ctx.RKSHeaders.Where(dd=>dd.PengadaanId==d.Id).FirstOrDefault().RKSDetails.Sum(dx=>dx.hps*dx.jumlah==null?0:dx.hps*dx.jumlah),
-            PersonilPengadaans=d.PersonilPengadaans.Select(dd=>new VWPersonilPengadaan{PersonilId=dd.PersonilId,Nama=dd.Nama,tipe=dd.tipe,Jabatan=dd.Jabatan}).ToList()
-            }).ToList();
-            return oData;
+            oData.data = dt.OrderByDescending(d => d.CreatedOn).Take(limit).Skip(start).Select(d => new ViewPengadaan {
+                Judul = d.Judul,
+                WorkflowTemplateId = d.WorkflowId,
+                Region = d.Region,
+                Status = d.Status,
+                StatusPersetujuanPemenang = d.PersetujuanPemenangs.FirstOrDefault() == null ? StatusPengajuanPemenang.BELUMDIAJUKAN : d.PersetujuanPemenangs.FirstOrDefault().Status,
+                StatusPersetujuanPemenangName = d.PersetujuanPemenangs.FirstOrDefault() == null ? StatusPengajuanPemenang.BELUMDIAJUKAN.ToString() : d.PersetujuanPemenangs.FirstOrDefault().Status.ToString(),
+                StatusName = d.Status.ToString(),
+                IdPersetujuanPemanang = d.PersetujuanPemenangs.FirstOrDefault() == null ? Guid.Empty : d.PersetujuanPemenangs.FirstOrDefault().Id,
+                WorkflowPersetujuanPemenangTemplateId = d.PersetujuanPemenangs.FirstOrDefault() == null ? null : d.PersetujuanPemenangs.FirstOrDefault().WorkflowId,
+                JenisPekerjaan = d.JenisPekerjaan,
+                AturanPengadaan = d.AturanPengadaan,
+                Id = d.Id,
+                JadwalPengadaans = d.JadwalPengadaans.Select(dd => new VWJadwalPengadaan { Mulai = dd.Mulai, Sampai = dd.Sampai, tipe = dd.tipe }).ToList(),
+                JadwalPelaksanaans = d.JadwalPelaksanaans.Select(dd => new VWJadwalPelaksanaan2 { Mulai = dd.Mulai, Sampai = dd.Sampai, statusPengadaan = dd.statusPengadaan }).ToList(),
+                KandidatPengadaans = d.KandidatPengadaans.Select(dd => new VWKandidatPengadaan { Nama = dd.Vendor.Nama, Telepon = dd.Vendor.Telepon }).ToList(),
+                HPS = ctx.RKSHeaders.Where(dd => dd.PengadaanId == d.Id).FirstOrDefault() == null ? 0 : ctx.RKSHeaders.Where(dd => dd.PengadaanId == d.Id).FirstOrDefault().RKSDetails.Sum(dx => dx.hps * dx.jumlah == null ? 0 : dx.hps * dx.jumlah),
+                HargaNegosiasi = TotalHps.Value,
+                Pemenang = dt.FirstOrDefault().PemenangPengadaans.FirstOrDefault().Vendor.Nama,
+                PersonilPengadaans =d.PersonilPengadaans.Select(dd=>new VWPersonilPengadaan{PersonilId=dd.PersonilId,Nama=dd.Nama,tipe=dd.tipe,Jabatan=dd.Jabatan}).ToList()
+                }).ToList();
+                return oData;
         }
 
         public VWCountListDokumen ListCount()

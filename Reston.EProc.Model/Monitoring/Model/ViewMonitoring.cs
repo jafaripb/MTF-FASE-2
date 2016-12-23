@@ -114,6 +114,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public Nullable<DateTime> TanggalSelesai { get; set; }
         public decimal NilaiKontrak { get; set; }
         public string StatusProyek { get; set; }
+        public string StatusLockTahapan { get; set; }
 
     }
 

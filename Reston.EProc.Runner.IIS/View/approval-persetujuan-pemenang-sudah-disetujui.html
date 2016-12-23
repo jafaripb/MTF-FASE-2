@@ -129,17 +129,19 @@
                                     <div class="form-group col-md-12">
                                         <label class="title"><h3>Dokumen Persetujuan Pemenang yang Disetujui</h3></label>
                                     </div>
-                                    <div class="col-md-10" style="margin-left: 60px;">
+                                    <div class="col-md-12">
                                         <table class="table table-bordered table-striped table-responsive" id="tbl-approval" style="margin-top:20px; ">
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>Nama Pekerjaan</th>
-                                                    <th>HPS</th>
-                                                    <th>Klasifikasi</th>
-                                                    <th>Status</th>
-                                                    <th>Note</th>
-                                                    <th></th>
+                                                    <th class="tengah">Nama Pekerjaan</th>
+                                                    <th class="tengah">HPS</th>
+                                                    <th class="tengah">Harga Klarifikasi</th>
+                                                    <th class="tengah">Pemenang</th>
+                                                    <th class="tengah">Klasifikasi</th>
+                                                    <th class="tengah">Status</th>
+                                                    <th class="tengah">Note</th>
+                                                    <th class="tengah"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -248,8 +250,10 @@
                     },
                     { "data": "Judul" },
                     { "data": "HPS", "className": "rata_kanan" },
-                    { "data": "JenisPekerjaan" },
-                    { "data": "StatusPersetujuanPemenangName" },
+                    { "data": "HargaNegosiasi", "className": "rata_kanan" },
+                    { "data": "Pemenang" },
+                    { "data": "JenisPekerjaan", "className": "tengah" },
+                    { "data": "StatusPersetujuanPemenangName", "className": "tengah" },
                     { "data": null },
                     { "data": null }
                 ],
@@ -266,11 +270,19 @@
                     },
                     {
                         "render": function (data, type, row) {
+                            return accounting.formatNumber(row.HargaNegosiasi, { thousand: ".", decimal: ",", precision: 2 })
+                        },
+
+                        "targets": 3,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
                             return "";
                             //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
                         },
 
-                        "targets": 5,
+                        "targets": 7,
                         "orderable": false
                     },
 
@@ -284,7 +296,7 @@
                             return html;
                         },
 
-                        "targets": 6,
+                        "targets": 8,
                         "orderable": false
                     }
                 ],
