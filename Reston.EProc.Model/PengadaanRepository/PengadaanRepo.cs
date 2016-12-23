@@ -3650,6 +3650,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
             newVWRKSVendors.vendors = vendors;
             return newVWRKSVendors;
         }
+        
+        
 
         public List<VWRekananPenilaian> getPemenangPengadaan(Guid PengadaanId, Guid UserId)
         {
@@ -3661,6 +3663,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                            Id=b.Id,
                                            NamaVendor = c.Nama,
                                            VendorId = b.VendorId,
+                                           Email=c.Email,
                                            total = (from bb in ctx.HargaKlarifikasiRekanans
                                                     join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
                                                     join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
@@ -3702,6 +3705,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                        {
                                            NamaVendor = c.Nama,
                                            VendorId = b.VendorId,
+                                           Email = c.Email,
                                            total = (from bb in ctx.HargaKlarifikasiRekanans
                                                     join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
                                                     join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id

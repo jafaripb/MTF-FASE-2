@@ -44,11 +44,11 @@ namespace Reston.Pinata.WebService.Controllers
         private int WorkflowTemplateId2 = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["WorkflowTemplateId2"]);
         private decimal ValueBoundAprr = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["BATASAN_BIAYA"]);
         private decimal ValueBoundDireksiAprr = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["BATASAN_BIAYA_DIREKSI"]);
-        //const string[] arrRoleExRekanan =  { IdLdapConstants.Roles.pRole_procurement_head, 
-        //                                    IdLdapConstants.Roles.pRole_procurement_user, IdLdapConstants.Roles.pRole_procurement_end_user,
-        //                                     IdLdapConstants.Roles.pRole_procurement_manager};
-
-
+        private string BodyEmailPemenang = System.Configuration.ConfigurationManager.AppSettings["MAIL_PEMENANG_BODY"];
+        private string BodyEmailkalah = System.Configuration.ConfigurationManager.AppSettings["MAIL_KALAH_BODY"];
+        private string SubjeckEmailPemenang = System.Configuration.ConfigurationManager.AppSettings["MAIL_PEMENANG_SUBJECT"];
+        private string SubjeckEmailKalah = System.Configuration.ConfigurationManager.AppSettings["MAIL_KALAH_SUBJECT"];
+     
         public PengadaanEController()
         {
             _repository = new PengadaanRepo(new JimbisContext());
@@ -3102,7 +3102,6 @@ namespace Reston.Pinata.WebService.Controllers
             return result;
         }
 
-
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
@@ -3212,6 +3211,7 @@ namespace Reston.Pinata.WebService.Controllers
                         if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                         {
                             _repository.ChangeStatusPersetujuanPemenang(id, StatusPengajuanPemenang.APPROVED, UserId());
+                            SendEmailPemenang(id);
                         }
                     }
                 }
@@ -3221,6 +3221,35 @@ namespace Reston.Pinata.WebService.Controllers
                 result.message = ex.ToString();
             }
             return result;
+        }
+       
+        private void SendEmailPemenang(Guid PengadaanId)
+        {
+            var oKandidat = _repository.getKandidatPengadaan(PengadaanId, UserId());
+            var oPemenang = _repository.getPemenangPengadaan(PengadaanId, UserId());
+            var oKalah = oKandidat.Except(oPemenang);
+            foreach (var item in oPemenang)
+            {
+                string html = "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_YTH"].ToString() + "</p>";
+                html = html + "<p>" + item.NamaVendor + "</p>";
+                html = html + "<br/>";
+                html = html + "<p>" + BodyEmailPemenang + "</p>";
+                html = html + "<br/><br/>";
+                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER1"].ToString() + "</p>";
+                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER2"].ToString() + "</p>";
+                sendMail(item.NamaVendor, item.Email, html, SubjeckEmailPemenang);
+            }
+            foreach (var item in oKalah)
+            {
+                string html = "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_YTH"].ToString() + "</p>";
+                html = html + "<p>" + item.NamaVendor + "</p>";
+                html = html + "<br/>";
+                html = html + "<p>" + BodyEmailkalah + "</p>";
+                html = html + "<br/><br/>";
+                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER1"].ToString() + "</p>";
+                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER2"].ToString() + "</p>";
+                sendMail(item.NamaVendor, item.Email, html, SubjeckEmailKalah);
+            }
         }
 
     }
