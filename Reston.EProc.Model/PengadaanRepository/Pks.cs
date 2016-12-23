@@ -10,7 +10,7 @@ using Reston.Pinata.Model.JimbisModel;
 
 namespace Reston.Pinata.Model.PengadaanRepository
 {
-    [Table("Pks", Schema = JimbisContext.MONITORING_SCHEMA_NAME)]
+    [Table("Pks", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
     public class Pks
     {
         [Key]
@@ -36,7 +36,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
     }
 
-    [Table("DokumenPks", Schema = JimbisContext.MONITORING_SCHEMA_NAME)]
+    [Table("DokumenPks", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
     public class DokumenPks
     {
         [Key]

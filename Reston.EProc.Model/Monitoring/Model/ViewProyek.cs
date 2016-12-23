@@ -11,6 +11,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public Guid Id { get; set; }
         public string Judul { get; set; }
         public string NoPengadaan { get; set; }
+        public string NOSPK { get; set; }
         public string NoKontrak { get; set; }
         public decimal NilaiKontrak { get; set; }
         public string Pelaksana { get; set; }
@@ -111,7 +112,10 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public int Id { get; set; }
         public string NamaPenilaian { get; set; }
         public string Nilai { get; set; }
+        public string Catatan_item { get; set; }
         public string Catatan { get; set; }
         public string VendorId { get; set; }
+        public string Total_nilai { get; set; }
+        public string Jumlah_penilaian { get; set; }
     }
 }

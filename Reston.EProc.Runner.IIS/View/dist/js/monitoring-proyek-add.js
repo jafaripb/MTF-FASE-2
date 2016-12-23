@@ -343,8 +343,6 @@ function TambahTahapanPekerjaan() {
     var nTanggalSelesai = moment($("#tanggal-pekerjaan-selesai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     var nBobotPekerjaan = $("#bobot-pekerjaan").val();
     var nJenisTahapan = 'Pekerjaan';
-    //console.log(nTanggalSelesai);
-    //alert(nBobotPekerjaan);
     $.ajax({
         method: "post",
         url: "api/Proyek/SimpanTahapanPekerjaan",
@@ -665,7 +663,7 @@ $(function () {
             $("#judul").val(d.Judul);
             $("#no-pengadaan").val(d.NoPengadaan);
             $("#pelaksana").val(d.Pelaksana);
-            $("#no-kontrak").val(d.NoKontrak);
+            $("#no-spk").val(d.NOSPK);
             $("#nilai-kontrak").val(numberWithCommas(d.NilaiKontrak));
             if (d.TanggalMulai != null)
                 $("#pendaftaran").val(moment(d.TanggalMulai).format("DD MMMM YYYY"));

@@ -69,8 +69,6 @@
 </head>
 <body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
     <div class="wrapper">
-
-
         <div id="header">
             <header class="main-header">
                 <!-- Logo -->
@@ -291,6 +289,7 @@
                                                             <tr>
                                                                 <td class="tengah text-bold">Kriteria</td>
                                                                 <td class="tengah text-bold">Nilai</td>
+                                                                <td class="tengah text-bold">Catatan Per Item</td>
                                                             </tr>
                                                         </thead>
                                                         <tbody></tbody>
@@ -298,6 +297,18 @@
                                                     <div class="form-group col-md-5">
                                                         <label class="title" style="margin-top:10px;">Catatan:</label>
                                                         <textarea class="form-control catatan" rows="5"></textarea>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="title" style="margin-top:10px;">Summary:</label>
+                                                        <div class="form-group">
+                                                            <label class="title col-md-3" style="color:blue">Total Nilai :</label><label id="total_nilai" class="col-md-3" style="margin-top:10px; color:blue">0</label>
+                                                        </div><div class="clearfix"></div>
+                                                        <div class="form-group">
+                                                            <label class="title col-md-3" style="color:blue">Jumlah Penilaian :</label><label id="jumlah_penilaian" class="col-md-3" style="margin-top:10px; color:blue">0</label>
+                                                        </div><div class="clearfix"></div>
+                                                        <div class="form-group">
+                                                            <label class="title col-md-3" style="color:blue">Key Performance Indicators (KPI) :</label><label id="kpi" class="col-md-3" style="margin-top:10px; color:blue">0</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -420,6 +431,7 @@
         </div><!-- /.modal-dialog -->
     </div>
     <!-- /. modal Pembayaran-->
+
     <!-- Modal -->
     <div class="modal" id="tahapanpekerjaanup" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
@@ -731,7 +743,7 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            return '<input type="number" disabled class="form-control progres" id="progres" value="">';
+                            return '<input type="text" disabled class="form-control progres" id="progres" value="">';
                         },
                         "targets": 2,
                         "orderable": false
@@ -750,7 +762,7 @@
                             html = html + '<div class="input-group-addon">';
                             html = html + '<i class="fa fa-calendar"></i>';
                             html = html + '</div>';
-                            html = html + '<input type="text" class="form-control pull-right datepicker" value="' + moment(row.StartDate).format("DD MMMM YYYY") + '">';
+                            html = html + '<input type="text" class="form-control pull-right datepicker" value="' + moment(row.StartDate).format("MM/DD/YYYY") + '">';
                             html = html + '</div>';
 
                             return html;
@@ -765,7 +777,7 @@
                             html = html + '<div class="input-group-addon">';
                             html = html + '<i class="fa fa-calendar"></i>';
                             html = html + '</div>';
-                            html = html + '<input type="text" class="form-control pull-right datepicker" value="' + moment(row.EndDate).format("DD MMMM YYYY") + '">';
+                            html = html + '<input type="text" class="form-control pull-right datepicker" value="' + moment(row.EndDate).format("MM/DD/YYYY") + '">';
                             html = html + '</div>';
 
                             return html;
@@ -839,7 +851,6 @@
 
         $("#tahapan_pekerjaan").on("change input propertychange", ".penyelesaian", function () {
             hitung();
-
         });
 
         $("#tahapan_pekerjaan").on("change input propertychange", ".progres", function () {
@@ -1121,7 +1132,7 @@
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            return '<input type="text" class="form-control persen_pembayaran"  value="">';
+                            return '<input type="text" class="form-control persen_pembayaran" value="" style="width:100%">';
                         },
                         "targets": 1,
                         "orderable": false
@@ -1135,8 +1146,8 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            var html = '<div class="form-group col-md-6">';
-                            html = html + '<select id="StatusPembayaran"  class="form-control select2" name="StatusPembayaran" >';
+                            var html = '<div class="form-group col-md-12">';
+                            html = html + '<select id="StatusPembayaran"  class="form-control select2" name="StatusPembayaran" style="width:100%">';
                             html = html + '<option value="Belum Dibayar" selected>Belum Dibayar</option>';
                             html = html + '<option value="Sudah Dibayar">Sudah Dibayar </option>';
                             html = html + '</select>';
@@ -1150,11 +1161,11 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            var html = '<div class="input-group date">';
+                            var html = '<div class="input-group date col-md-12">';
                             html = html + '<div class="input-group-addon">';
                             html = html + '<i class="fa fa-calendar"></i>';
                             html = html + '</div>';
-                            html = html + '<input type="text" class="form-control pull-right datepicker" value="">';
+                            html = html + '<input type="text" class="form-control pull-right datepicker" value="" style="width:100%">';
                             html = html + '</div>';
 
                             return html;
@@ -1413,26 +1424,47 @@
             "columns": [
                     { "data": "NamaPenilaian" },
                     { "data": "Nilai" },
-            ],
-            "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            return '';
-                        },
-                        "targets": 0,
-                        "orderable": false
-                    },
-            ],
-            "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            return row.Nilai;
-                        },
-                        "targets": 1,
-                        "orderable": false
-                    },
+                    { "data": "Catatan_item" },
             ],
         });
+
+        // JS untuk ambil id proyek
+        $(function () {
+            var ProyekId = gup("Id");
+            var hitung;
+            var to_nilai;
+            var jum_penilaian;
+
+            $.ajax({
+                method: "post",
+                url: "api/Proyek/TampilNilai?Id=" + ProyekId,
+                success: function (d) {
+                    $(".catatan").val(d.Catatan);
+                    $("#total_nilai").text(d.Total_nilai);
+                    $("#jumlah_penilaian").text(d.Jumlah_penilaian);
+
+                    to_nilai = d.Total_nilai;
+                    jum_penilaian = d.Jumlah_penilaian;
+                    hitung = to_nilai / jum_penilaian;
+                    if (hitung > 8.5 && hitung <= 10) {
+                        $("#kpi").text("EXCELLENT");
+                    }
+                    else if (hitung <= 8.5 && hitung > 7) {
+                        $("#kpi").text("GOOD");
+                    }
+                    else if (hitung <= 7 && hitung > 6) {
+                        $("#kpi").text("FAIR");
+                    }
+                    else if (hitung <= 6 && hitung > 4) {
+                        $("#kpi").text("BAD");
+                    }
+                    else if (hitung <= 4) {
+                        $("#kpi").text("VERY BAD");
+                    }
+                }
+            })
+        })
+
     </script>
 </body>
 </html>

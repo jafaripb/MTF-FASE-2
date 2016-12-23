@@ -34,6 +34,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
     public class ViewProyekSistemMonitoring
     {
         public Guid id { get; set; }
+        public string NoPengadaan { get; set; }
         public string NOSPK { get; set; }
         public string NOPKS { get; set; }
         public string NamaProyek { get; set; }
@@ -44,6 +45,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public Nullable<DateTime> TanggalMulai { get; set; }
         public Nullable<DateTime> TanggalSelesai { get; set; }  
     }
+
     public class ViewProyekSistemMonitoringPembayaran
     {
         public Guid ID { get; set; }
@@ -51,9 +53,24 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public decimal PersenPembayaran { get; set; }
         public decimal Total { get; set; }
         public string Status { get; set; }
+        public string StatusProyek { get; set; }
         public Nullable<DateTime> TanggalPembayaran { get; set; }
 
     }
+
+    public class ViewUntukAddPenilaianVendor
+    {
+        public Guid ProyekId { get; set; }
+        public int VendorId { get; set; }
+        public string Catatan { get; set; }
+        public Guid PenilaianVendorHeaderId { get; set; }
+        public int ReferenceDataId { get; set; }
+        public int Nilai { get; set; }
+        public string Catatan_item { get; set; }
+        public DateTime CreateOn { get; set; }
+        public Guid CreateBy { get; set; }
+    }
+
     public class DataTableViewProyekSistemMonitoring
     {
         public int draw { get; set; }
@@ -96,6 +113,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public Nullable<DateTime> TanggalMulai { get; set; }
         public Nullable<DateTime> TanggalSelesai { get; set; }
         public decimal NilaiKontrak { get; set; }
+        public string StatusProyek { get; set; }
 
     }
 
@@ -108,6 +126,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public decimal BobotPekerjaan { get; set; }
         public decimal Progress { get; set; }
         public decimal Penyelesaian { get; set; }
+        public string Status { get; set; }
         public Nullable<DateTime> StartDate { get; set; }
         public Nullable<DateTime> EndDate { get; set; }
     }

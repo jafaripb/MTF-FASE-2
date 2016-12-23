@@ -177,14 +177,15 @@
                                                     <table class="table table-bordered" id="monitoring-draf">
                                                         <thead>
                                                             <tr>
-                                                                <td class="tengah text-bold">No. Pengadaan Draf</td>
-                                                                <td class="tengah text-bold">Judul</td>
-                                                                <td class="tengah text-bold">Pemenang</td>
+                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">No. SPK</td>
+                                                                <td class="tengah text-bold">Nama Proyek</td>
+                                                                <td class="tengah text-bold">Vendor Pemenang</td>
                                                                 <td class="tengah text-bold">Klasifikasi</td>
-                                                                <td class="tengah text-bold">Tanggal Penentuan Pemenang</td>
+                                                                <td class="tengah text-bold">Tanggal</td>
                                                                 <td class="tengah text-bold">Nilai Kontrak</td>
                                                                 <td class="tengah text-bold">PIC</td>
-                                                                <td class="tengah text-bold">Monitor</td>
+                                                                <td class="tengah text-bold"></td>
                                                             </tr>
                                                         </thead>
                                                         <tbody></tbody>
@@ -195,14 +196,15 @@
                                                     <table class="table table-bordered" id="monitoring-sedang-berjalan">
                                                         <thead>
                                                             <tr>
-                                                                <td class="tengah text-bold">No. Pengadaan Sedang Berjalan</td>
-                                                                <td class="tengah text-bold">Judul</td>
-                                                                <td class="tengah text-bold">Pemenang</td>
+                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">No. SPK</td>
+                                                                <td class="tengah text-bold">Nama Proyek</td>
+                                                                <td class="tengah text-bold">Vendor Pemenang</td>
                                                                 <td class="tengah text-bold">Klasifikasi</td>
-                                                                <td class="tengah text-bold">Tanggal Penentuan Pemenang</td>
+                                                                <td class="tengah text-bold">Tanggal</td>
                                                                 <td class="tengah text-bold">Nilai Kontrak</td>
                                                                 <td class="tengah text-bold">PIC</td>
-                                                                <td class="tengah text-bold">Monitor</td>
+                                                                <td class="tengah text-bold"></td>
                                                             </tr>
                                                         </thead>
                                                         <tbody></tbody>
@@ -213,14 +215,15 @@
                                                     <table class="table table-bordered" id="monitoring-selesai">
                                                         <thead>
                                                             <tr>
-                                                                <td class="tengah text-bold">No. Pengadaan Selesai</td>
-                                                                <td class="tengah text-bold">Judul</td>
-                                                                <td class="tengah text-bold">Pemenang</td>
+                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">No. SPK</td>
+                                                                <td class="tengah text-bold">Nama Proyek</td>
+                                                                <td class="tengah text-bold">Vendor Pemenang</td>
                                                                 <td class="tengah text-bold">Klasifikasi</td>
-                                                                <td class="tengah text-bold">Tanggal Penentuan Pemenang</td>
+                                                                <td class="tengah text-bold">Tanggal</td>
                                                                 <td class="tengah text-bold">Nilai Kontrak</td>
                                                                 <td class="tengah text-bold">PIC</td>
-                                                                <td class="tengah text-bold">Monitor</td>
+                                                                <td class="tengah text-bold"></td>
                                                             </tr>
                                                         </thead>
                                                         <tbody></tbody>
@@ -346,8 +349,6 @@
 
         $(function () {
             table_seleksi = $('#monitoring-seleksi').DataTable({
-                "serverSide": true,
-                "searching": false,
                 "ajax": {
                     "url": 'api/MonitoringSelection/List',
                     "type": 'POST',
@@ -393,6 +394,66 @@
                         "orderable": false
                     },
                 ],
+                "serverSide": true,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+        });
+
+        $(function () {
+            table_selesai = $('#monitoring-selesai').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/MonitoringSelection/ListSelesai',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "NoPengadaan" },
+                    { "data": "NOSPK" },
+                    { "data": "Judul" },
+                    { "data": "Pemenang" },
+                    { "data": "Klasifikasi" },
+                    { "data": "TglPenentuanPemenang" },
+                    { "data": "NilaiKontrak", "className": "rata_kanan" },
+                    { "data": "PIC" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.TanggalPenentuanPemenang).format("DD/MM/YYYY");
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return numberWithCommas(row.NilaiKontrak);
+                        },
+                        "targets": 6,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="sistem-monitoring-detail.html?Id=' + row.Id + '" id="" class="btn btn-sm btn-success "> Detail </a> ';
+                        },
+                        "targets": 8,
+                        "orderable": false
+                    },
+                ],
                 "paging": true,
                 "lengthChange": false,
                 "ordering": true,
@@ -404,41 +465,104 @@
 
         $(function () {
             table_draf = $('#monitoring-draf').DataTable({
-                "serverSide": true,
-                "searching": false,
                 "ajax": {
-                    "url": 'api/MonitoringSelection/DrafList',
+                    "url": 'api/MonitoringSelection/ListDraf',
                     "type": 'POST',
                     "data": function (d) {
                         d.search = $("#txtcari").val();
-                        d.status = "DRAF";
+                        d.status = "";
                     },
                     "error": function (jqXHR, textStatus, errorThrown) {
                     }
                 },
                 "columns": [
                     { "data": "NoPengadaan" },
+                    { "data": "NOSPK" },
                     { "data": "Judul" },
                     { "data": "Pemenang" },
                     { "data": "Klasifikasi" },
                     { "data": "TglPenentuanPemenang" },
                     { "data": "NilaiKontrak", "className": "rata_kanan" },
                     { "data": "PIC" },
-                    { "data": "Status" },
+                    { "data": "null" },
                 ],
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
                             return moment(row.TanggalPenentuanPemenang).format("DD/MM/YYYY");
                         },
-                        "targets": 4,
+                        "targets": 5,
                         "orderable": false
                     },
                     {
                         "render": function (data, type, row) {
                             return numberWithCommas(row.NilaiKontrak);
                         },
+                        "targets": 6,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return ' <a href="pengadaan-terbuka-detail.html#' + row.Id + '" id="" class="btn btn-sm btn-success "> Detail </a> ';
+                        },
+                        "targets": 8,
+                        "orderable": false
+                    },
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true
+            });
+        });
+
+        $(function () {
+            table_sedang_berjalan = $('#monitoring-sedang-berjalan').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/MonitoringSelection/ListSedangBerjalan',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "NoPengadaan" },
+                    { "data": "NOSPK" },
+                    { "data": "Judul" },
+                    { "data": "Pemenang" },
+                    { "data": "Klasifikasi" },
+                    { "data": "TglPenentuanPemenang" },
+                    { "data": "NilaiKontrak", "className": "rata_kanan" },
+                    { "data": "PIC" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.TanggalPenentuanPemenang).format("DD/MM/YYYY");
+                        },
                         "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return numberWithCommas(row.NilaiKontrak);
+                        },
+                        "targets": 6,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return ' <a href="sistem-monitoring-detail.html?Id=' + row.Id + '" id="" class="btn btn-sm btn-success "> Detail </a> ';
+                        },
+                        "targets": 8,
                         "orderable": false
                     },
                 ],
