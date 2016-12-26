@@ -17,6 +17,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public string PersonilId { get; set; }
         public string Nama { get; set; }
         public string jabatan { get; set; }
+        public string Email { get; set; }
         public string tlp { get; set; }
     }
 

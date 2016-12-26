@@ -65,6 +65,12 @@
                         </div>
                             @Html.ValidationMessageFor(model => model.UserDetail.Position, null, new { @class = "text-danger", @style = "font-style:italic; font-size:12px" })
 
+                        <div class="form-group form-inline">
+                            <label for="email">Email:</label>
+                            @Html.TextBoxFor(model => model.UserDetail.Email, new { @class = "form-control", @placeholder = "Email" })
+                        </div>
+                            @Html.ValidationMessageFor(model => model.UserDetail.Email, null, new { @class = "text-danger", @style = "font-style:italic; font-size:12px" })
+                        
                         @*<div class="form-group">
                             <label for="email">Phone Number:</label>
                             @Html.TextBoxFor(model => model.UserDetail.PhoneNumber, new { @class = "form-control", @placeholder = "Isikan No.Tlp anda" })

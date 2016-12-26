@@ -139,7 +139,7 @@
                                         <div class="col-md-12">
                                             <div class="panel-header-white">
                                                 <span class="title-header" id="section-6">Status Spk</span>
-                                                <button id="Status" class="btn bg-aqua btn-flat margin"></button>
+                                                <button id="Status" class="btn bg-aqua btn-flat margin">Draft</button>
                                             </div>
                                         </div>
                                     </div>
@@ -149,7 +149,7 @@
                                             <div class="input-group">
                                               <input type="text" class="form-control" id="judul" disabled>
                                               <span class="input-group-btn">
-                                                <button class="btn btn-info btn-flat cari-pengadaan" type="button">Cari Pengadaan</button>
+                                                <button class="btn btn-info btn-flat cari-pks" type="button">Cari PKS</button>
                                               </span>
                                             </div>  
                                         </div>
@@ -171,27 +171,31 @@
                                         </div>
                                     </div>
                                     <div class="row">
+                                       
                                         <div class="form-group col-md-4">
                                             <label class="title">No. SPK</label>
-                                            <input class="form-control" type="text" id="no-spk" disabled> <br />
+                                            <input class="form-control" type="text" id="no-spk" disabled>
+                                        </div>
+
+                                         <!--
                                             <button id="spk-aktifkan" class="btn btn-success " type="button">
                                                 <a href="#" style="color:white;">AKTIFKAN</a>
                                             </button>
                                             <button id="spk-batal" class="btn btn-danger " type="button">
                                                 <a href="#" style="color:white;">BATAL</a>
                                             </button>
-                                        </div>
+                                        </div>-->
                                         <div class="form-group col-md-4">
                                             <label class="title">Status:</label>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="status" value="Draft" />Draf
+                                                    <input type="radio" class="input-spk" name="status" value="0" checked="checked"  />Draf
                                                 </label>
                                                 <label>
-                                                    <input type="radio" name="status" />Aktif
+                                                    <input type="radio" class="input-spk" name="status" value="1"  />Aktif
                                                 </label>
                                                 <label>
-                                                    <input type="radio" name="status" />Batal
+                                                    <input type="radio" class="input-spk" name="status" value="2" />Batal
                                                 </label>
                                             </div>
                                         </div>
@@ -199,13 +203,13 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label class="title">Tanggal SPK:</label>
-                                            <input id="tanggal-spk" type="text" class="tanggal-tahapan form-control input-group date">
+                                            <input id="tanggal-spk" type="text" class="tanggal-tahapan form-control input-spk input-group date">
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label class="title">
                                                     Unduh Template SPK
-                                                    <a class="download-dokumen download-berkas" attr1="berkas-buka-amplop"><i class="fa fa-fw fa-download"></i></a>
+                                                    <a class="download-dokumen download-berkas input-spk"  attr1="berkas-buka-amplop"><i class="fa fa-fw fa-download"></i></a>
                                                 </label>
                                             </div>
                                         </div>
@@ -213,13 +217,13 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label class="title">Nilai SPK</label>
-                                            <input id="nilai-spk" type="text" class="tanggal-tahapan form-control input-group dateJadwal">
+                                            <input id="nilai-spk" type="text" class="input-spk  form-control input-group dateJadwal">
                                         </div>
                                     </div>
                                         <div class="row">
                                             <div class="col-md-10">
                                                 <div class=" panel-header-white">
-                                                    <span class="title-header" id="section-3">SPK Lanjutan:</span>
+                                                    <span class="title-header" id="section-3">SPK</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -228,8 +232,8 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label class="title">Unggah SPK Lanjutan</label>
-                                                            <div id="dok-spk" action="/api/SPk/UploadFile?tipe=PKS" class="dropzone"></div>
+                                                            <label class="title">Unggah SPK</label>
+                                                            <div id="dokspk" action="/api/SPk/UploadFile" class="dropzone"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -277,7 +281,7 @@
     </div><!-- /.modal -->
 
     <!-- Modal -->
-        <div class="modal " id="pengadaan_modal" role="dialog"  aria-hidden="true">            
+        <div class="modal " id="pks_modal" role="dialog"  aria-hidden="true">            
           <div class="modal-dialog modal-lg">
 	        <div class="modal-content">
 	          <div class="modal-header">

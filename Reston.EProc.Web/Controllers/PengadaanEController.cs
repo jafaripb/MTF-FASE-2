@@ -620,7 +620,7 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public Reston.Helper.Util.ResultMessageWorkflowState persetujuanWithNote(Guid id,string Note)
+        public async Task< Reston.Helper.Util.ResultMessageWorkflowState> persetujuanWithNote(Guid id,string Note)
         {
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
@@ -639,6 +639,12 @@ namespace Reston.Pinata.WebService.Controllers
                     {
                         _repository.ChangeStatusPengadaan(id, EStatusPengadaan.DISETUJUI, UserId());
                     }
+                    var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(id);
+                    try
+                    {
+                        await SendEmailToApprover(nextApprover.Id.Split('#')[1],id);
+                    }
+                    catch { }
                 }
             }
             catch (Exception ex)
@@ -689,7 +695,7 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public Reston.Helper.Util.ResultMessageWorkflowState PenolakanWithWorkflow(Guid Id,string Note)
+        public async Task< Reston.Helper.Util.ResultMessageWorkflowState> PenolakanWithWorkflow(Guid Id,string Note)
         {
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
@@ -712,7 +718,12 @@ namespace Reston.Pinata.WebService.Controllers
                     {
                         _repository.ChangeStatusPengadaan(Id, EStatusPengadaan.DISETUJUI, UserId());
                     }
-
+                    var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(Id);
+                    try
+                    {
+                        await SendEmailToApprover(nextApprover.Id.Split('#')[1],Id);
+                    }
+                    catch { }
                 }
 
             }
@@ -2757,6 +2768,7 @@ namespace Reston.Pinata.WebService.Controllers
                 if(_repository.CekPersetujuanPemenang(id,UserId()).status!=HttpStatusCode.OK){
                     return InternalServerError();
                 }
+
             }
 
             var s = await Request.Content.ReadAsStreamAsync();
@@ -3115,7 +3127,7 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public Reston.Helper.Util.ResultMessageWorkflowState persetujuanPemenangWithNote(Guid id, string Note)
+        public async Task<Reston.Helper.Util.ResultMessageWorkflowState> persetujuanPemenangWithNote(Guid id, string Note)
         {
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
@@ -3135,6 +3147,12 @@ namespace Reston.Pinata.WebService.Controllers
                     {
                         _repository.ChangeStatusPersetujuanPemenang(id, StatusPengajuanPemenang.APPROVED, UserId());
                     }
+                    try
+                    {
+                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(id);
+                        await SendEmailToApprover(nextApprover.Id.Split('#')[1], id);
+                    }
+                    catch { }
                 }
             }
             catch (Exception ex)
@@ -3148,7 +3166,7 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public Reston.Helper.Util.ResultMessageWorkflowState PenolakanPemenangWithWorkflow(Guid Id, string Note)
+        public async Task<Reston.Helper.Util.ResultMessageWorkflowState> PenolakanPemenangWithWorkflow(Guid Id, string Note)
         {
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
@@ -3172,7 +3190,12 @@ namespace Reston.Pinata.WebService.Controllers
                     {
                         _repository.ChangeStatusPersetujuanPemenang(Id, StatusPengajuanPemenang.APPROVED, UserId());
                     }
-
+                    try
+                    {
+                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(Id);
+                        await SendEmailToApprover(nextApprover.Id.Split('#')[1], Id);
+                    }
+                    catch { }
                 }
 
             }
@@ -3185,7 +3208,7 @@ namespace Reston.Pinata.WebService.Controllers
 
         
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public Reston.Helper.Util.ResultMessageWorkflowState persetujuanPemenangWithNextApprover(Guid id, string Note, Guid userId)
+        public async Task<Reston.Helper.Util.ResultMessageWorkflowState> persetujuanPemenangWithNextApprover(Guid id, string Note, Guid userId)
         {
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
@@ -3213,6 +3236,12 @@ namespace Reston.Pinata.WebService.Controllers
                             _repository.ChangeStatusPersetujuanPemenang(id, StatusPengajuanPemenang.APPROVED, UserId());
                             SendEmailPemenang(id);
                         }
+                        try
+                        {
+                            var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(id);
+                            await SendEmailToApprover(nextApprover.Id.Split('#')[1], id);
+                        }
+                        catch { }
                     }
                 }
             }
@@ -3252,6 +3281,28 @@ namespace Reston.Pinata.WebService.Controllers
             }
         }
 
+        private async Task<int> SendEmailToApprover(string UserId,Guid PengadaanId)
+        {
+            try
+            {
+                var userApprover = await userDetail(UserId);
+                var oPengadaan = _repository.GetPengadaanByiD(PengadaanId);
+                string html = "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_YTH"].ToString() + "</p>";
+                html = html + "<p>" + userApprover.Nama + "</p>";
+                html = html + "<br/>";
+                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_BODY_APPROVER"].ToString() + "</p>";
+                if(oPengadaan.AturanPengadaan=="terbuka")
+                    html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "/pengadaan_terbuka_detail.html#" + oPengadaan .Id+ "' target='_blank'>" + oPengadaan.Judul + "</a></p>";
+                else html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "/pengadaan_detail.html#" + oPengadaan.Id + "' target='_blank'>" + oPengadaan.Judul + "</a></p>";
+                html = html + "<br/><br/>";
+                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER1"].ToString() + "</p>";
+                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER2"].ToString() + "</p>";
+                sendMail(userApprover.Nama, userApprover.Email, html, System.Configuration.ConfigurationManager.AppSettings["MAIL_SUBJECT_APPROVER"].ToString());
+                return 1;
+            }catch{
+                return 0;
+            }
+        }
     }
     
 }

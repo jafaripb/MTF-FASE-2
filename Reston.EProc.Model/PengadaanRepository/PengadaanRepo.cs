@@ -1723,6 +1723,16 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     oSpk.NoSPk = oNoberita == null ? "" : oNoberita.NoBeritaAcara;
                     oSpk.DokumenPengadaanId = dokumenPengadaan.Id ;
                     ctx.Spk.Add(oSpk);
+
+                    var newDokSpk = new DokumenSpk();
+                    newDokSpk.SpkId = oSpk.Id;
+                    newDokSpk.SizeFile = dokumenPengadaan.SizeFile;
+                    newDokSpk.File = dokumenPengadaan.File;
+                    newDokSpk.CreateBy = UserId;
+                    newDokSpk.CreateOn = DateTime.Now;
+                    newDokSpk.Title = dokumenPengadaan.Title;
+                    newDokSpk.ContentType = dokumenPengadaan.ContentType;
+                    ctx.DokumenSpk.Add(newDokSpk);
                 }
             }
             ctx.SaveChanges();

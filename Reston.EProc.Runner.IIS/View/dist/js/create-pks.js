@@ -3,7 +3,7 @@
 $(function () {
     //$("#pengadaanId").val(PengadaanId);
     //$("#VendorId").val(VendorId);
-    if (PksId != "") loadDetail(PksId);
+    if (PksId != "" && PksId!=null) loadDetail(PksId);
        //window.location.href("http://" + window.location.host + "/pks.html");
     
     var myDropzonePKS = new Dropzone("#DraftPKS",

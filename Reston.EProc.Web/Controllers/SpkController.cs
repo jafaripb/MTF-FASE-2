@@ -116,10 +116,15 @@ namespace Reston.Pinata.WebService.Controllers
                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      public IHttpActionResult Save(Spk spk)
+      public IHttpActionResult Save(VWSpk vspk)
       {
           try
           {
+              var spk = new Spk();
+              spk.PksId = vspk.PksId;
+              spk.Id = vspk.Id;
+              spk.NilaiSPK = vspk.NilaiSPK;
+              if (!string.IsNullOrEmpty(vspk.TanggalSPKStr)) spk.TanggalSPK = Common.ConvertDate(vspk.TanggalSPKStr, "dd/MM/yyyy HH:mm");
               return Json(_repository.save(spk, UserId()));
           }
           catch (Exception ex)
@@ -132,7 +137,7 @@ namespace Reston.Pinata.WebService.Controllers
                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      public async Task<IHttpActionResult> UploadFile( Guid id,string tipe)
+      public async Task<IHttpActionResult> UploadFile( Guid id)
       {
           var oSpk = _repository.get(id);
 
@@ -265,6 +270,17 @@ namespace Reston.Pinata.WebService.Controllers
           return Json(_repository.ChangeStatus(Id, status, UserId()));
             
       }
+     
+      [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                       IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                        IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
+      [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+      public ResultMessage delete(Guid Id)
+      {
+          return _repository.deleteSpk(Id, UserId());
+      }
+
+      
 
       
     }

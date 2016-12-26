@@ -32,4 +32,30 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public DateTime ModifiedUploadOn { get; set; }
         public virtual Pengadaan Pengadaan { get; set; }
     }
+
+    public class DataTableBudget
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<VVWCOA> data { get; set; }
+    }
+
+    public class VVWCOA
+    {
+        public Guid Id { get; set; }
+        public Guid PengadaanId { get; set; }
+        public string NoCoa { get; set; }
+        public string Region { get; set; }
+        public string Divisi { get; set; }
+        public string Periode { get; set; }
+        public string GroupAset { get; set; }
+        public string JenisAset { get; set; }
+        public string NilaiAset { get; set; }
+        public string HargaVendor { get; set; }
+        public Guid UploadedBy { get; set; }
+        public DateTime UploadedOn { get; set; }
+        public Guid ModifiedUploadBy { get; set; }
+        public DateTime ModifiedUploadOn { get; set; }
+    }
 }

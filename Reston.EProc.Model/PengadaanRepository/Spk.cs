@@ -102,6 +102,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Nullable<int> WorkflowId { get; set; }
         public string Note { get; set; }
         public string NoSpk { get; set; }
+        public string NoPks { get; set; }
         public string Judul { get; set; }
         public string JenisPekerjaan { get; set; }
         public string Vendor { get; set; }
@@ -113,6 +114,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string Keterangan { get; set; }
         public int? isOwner { get; set; }
         public DateTime? TanggalSPK { get; set; }
+        public String TanggalSPKStr { get; set; }
         public decimal? NilaiSPK { get; set; }
         public StatusSpk StatusSpk { get; set; }
         public string StatusSpkName { get; set; }

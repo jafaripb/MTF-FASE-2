@@ -27,8 +27,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
         ResultMessage saveDokumen(DokumenSpk dokPks, Guid UserId);
         ResultMessage deleteSpk(Guid Id, Guid UserId);
         int deleteDokumenSpk(Guid Id, Guid UserId, int approver);
-        ResultMessage TolakPks(Guid Id,Guid UserId);
-        ResultMessage SetujuiPks(Guid Id,string NoPks, Guid UserId);
         Spk get(Guid id);
         DokumenSpk getDokSpk(Guid id);
         RiwayatDokumenSpk AddRiwayatDokumenSpk(RiwayatDokumenSpk dtRiwayatDokumenSpk, Guid UserId);
@@ -38,12 +36,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
     public class SpkRepo : ISpkRepo
     {
         JimbisContext ctx;
+        private IPengadaanRepo _repoPengadaan;
 
         public SpkRepo(JimbisContext j)
         {
             ctx = j;
             //ctx.Configuration.ProxyCreationEnabled = false;
             ctx.Configuration.LazyLoadingEnabled = true;
+            _repoPengadaan = new PengadaanRepo(new JimbisContext());
         }
 
         ResultMessage msg = new ResultMessage();
@@ -196,15 +196,23 @@ namespace Reston.Pinata.Model.PengadaanRepository
         {
             try
             {
+                var oldPks = ctx.Pks.Find(spk.PksId);
+                if (oldPks == null) return new ResultMessage()
+                {
+                    message = HttpStatusCode.MethodNotAllowed.ToString(),
+                    status = HttpStatusCode.MethodNotAllowed
+                };
                 if (spk.Id != Guid.Empty && spk.Id != null)
                 {
-                    var oldPks = ctx.Spk.Find(spk.Id);
-                    if (oldPks == null || oldPks.CreateBy!=UserId) return new ResultMessage();
-                    oldPks.Note = spk.Note;
-                    oldPks.Title = spk.Title;
-                    oldPks.PksId = spk.PksId;
-                    oldPks.ModifiedBy = UserId;
-                    oldPks.ModifiedOn = DateTime.Now;
+                    var oldSpk = ctx.Spk.Find(spk.Id);
+                    if (oldSpk == null) return new ResultMessage();
+                    oldSpk.Note = spk.Note;
+                    oldSpk.Title = spk.Title;
+                    oldSpk.PksId = spk.PksId;
+                    oldSpk.TanggalSPK = spk.TanggalSPK;
+                    oldSpk.NilaiSPK = spk.NilaiSPK;
+                    oldSpk.ModifiedBy = UserId;
+                    oldSpk.ModifiedOn = DateTime.Now;
                     ctx.SaveChanges(UserId.ToString());
                     return new ResultMessage()
                     {
@@ -215,11 +223,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 }
                 else
                 {
-                    if (spk.PksId == null) return new ResultMessage()
-                    {
-                        message = HttpStatusCode.MethodNotAllowed.ToString(),
-                        status = HttpStatusCode.MethodNotAllowed
-                    };
+                    spk.PksId = oldPks.Id;
+                    spk.PemenangPengadaanId = oldPks.PemenangPengadaanId;
                     spk.CreateBy = UserId;
                     spk.CreateOn = DateTime.Now;
                     ctx.Spk.Add(spk);
@@ -253,6 +258,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
             try
             {
                 var oldData = ctx.Spk.Find(Id);
+                if (oldData.CreateBy != UserId) return new ResultMessage()
+                {
+                    message = HttpStatusCode.MethodNotAllowed.ToString(),
+                    status = HttpStatusCode.MethodNotAllowed
+                };
+                var oDokSpk = ctx.DokumenSpk.Where(d => d.SpkId == oldData.Id);
+                ctx.DokumenSpk.RemoveRange(oDokSpk);
                 ctx.Spk.Remove(oldData);
                 ctx.SaveChanges(UserId.ToString());
                 msg.status = HttpStatusCode.OK;
@@ -271,7 +283,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return ctx.Spk.Where(d => d.Id == Id).Select(d => new VWSpk()
             {
                 Id = d.Id,
-                JenisPekerjaan = d.PemenangPengadaan.Pengadaan.JenisPekerjaan,
+                PksId=d.PksId,
+                NoPks=d.Pks.NoDokumen,
+                JenisPekerjaan = d.Pengadaan.JenisPekerjaan,
                 PemenangPengadaanId = d.PemenangPengadaan.Id,
                 Judul = d.PemenangPengadaan.Pengadaan.Judul,
                 NoPengadaan = d.PemenangPengadaan.Pengadaan.NoPengadaan,
@@ -340,6 +354,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 DokumenSpk doku = ctx.DokumenSpk.Find(Id);
                 int isMine = doku.CreateBy == UserId ? 1 : 0;
+                if (doku.Spk.StatusSpk != StatusSpk.Draft) return 0;
                 if (isMine == 1)
                 {
                     ctx.DokumenSpk.Remove(doku);
@@ -364,59 +379,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 return new RiwayatDokumenSpk();
             }
         }
-
-        public ResultMessage TolakPks(Guid Id, Guid UserId)
-        {
-            try
-            {
-                var oldData = ctx.Pks.Find(Id);
-                oldData.StatusPks = StatusPks.Reject;
-                ctx.SaveChanges(UserId.ToString());
-                return new ResultMessage(){
-                    Id=Id.ToString(),
-                    message=Common.SaveSukses(),
-                    status=HttpStatusCode.OK
-                };
-
-            }
-            catch(Exception ex)
-            {
-                return new ResultMessage()
-                {
-                    Id = "0",
-                    message = ex.ToString(),
-                    status = HttpStatusCode.NotImplemented
-                };
-            }
-        }
-
-        public ResultMessage SetujuiPks(Guid Id,string NoPks, Guid UserId)
-        {
-            try
-            {
-                var oldData = ctx.Pks.Find(Id);
-                oldData.NoDokumen = NoPks;
-                oldData.StatusPks = StatusPks.Approve;
-                ctx.SaveChanges(UserId.ToString());
-                return new ResultMessage()
-                {
-                    Id = Id.ToString(),
-                    message = Common.SaveSukses(),
-                    status = HttpStatusCode.OK
-                };
-
-            }
-            catch (Exception ex)
-            {
-                return new ResultMessage()
-                {
-                    Id = "0",
-                    message = ex.ToString(),
-                    status = HttpStatusCode.NotImplemented
-                };
-            }
-        }
-
+    
         public DokumenSpk getDokSpk(Guid id)
         {
             return ctx.DokumenSpk.Find(id);
@@ -428,6 +391,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 var oData = ctx.Spk.Find(Id);
                 oData.StatusSpk = status;
+                if (status == StatusSpk.Aktif)
+                {
+                    if (string.IsNullOrEmpty(oData.NoSPk))
+                    {
+                        oData.NoSPk = _repoPengadaan.GenerateBeritaAcaraSPK(UserId);
+                    }
+                }
                 ctx.SaveChanges(UserId.ToString());
                 return new ResultMessage()
                 {

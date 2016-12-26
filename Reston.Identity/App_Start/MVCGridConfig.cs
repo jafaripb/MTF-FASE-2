@@ -173,6 +173,9 @@ namespace IdLdap
                    cols.Add("DisplayName").WithSorting(false).WithHeaderText("DisplayName")
                        .WithValueExpression(p => p.DisplayName)
                        .WithFiltering(true);
+                   cols.Add("Email").WithSorting(false).WithHeaderText("Email")
+                       .WithValueExpression(p => p.Email)
+                       .WithFiltering(true);
                    cols.Add("Position").WithSorting(false).WithHeaderText("Position")
                        .WithValueExpression(p => p.Position)
                        .WithFiltering(true);

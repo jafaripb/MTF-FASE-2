@@ -235,7 +235,8 @@ namespace IdLdap.Controllers
                     .Select(d => new Userx
                     {
                         Nama = d.UserName,
-                        PersonilId = d.Id
+                        PersonilId = d.Id,
+                        Email=d.Email
                     }).FirstOrDefault();
 
             return Json(oData, JsonRequestBehavior.AllowGet);
@@ -260,7 +261,7 @@ namespace IdLdap.Controllers
                 throw new ApplicationException("User not exist");
 
             //userIdentity.PhoneNumber = UserDetail.PhoneNumber;
-            //userIdentity.Email = UserDetail.Email;
+            userIdentity.Email = UserDetail.Email;
             userIdentity.Position = UserDetail.Position;
             userIdentity.LockoutEnabled = UserDetail.LockoutEnabled;
 
