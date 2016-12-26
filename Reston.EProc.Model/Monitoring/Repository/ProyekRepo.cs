@@ -228,7 +228,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                     var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == idproyek).Sum(d => d.BobotPekerjaan != 0 ? d.BobotPekerjaan : 0);
                     var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
 
-                    if (TotalBobotPekerjaanDb <= 100)
+                    if (TotalBobotSeluruh <= 100)
                     {
                         TahapanProyek th = new TahapanProyek
                         {
@@ -244,10 +244,35 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                         ctx.TahapanProyeks.Add(th);
                         ctx.SaveChanges(UserId.ToString());
                         rkk.status = HttpStatusCode.OK;
+                        rkk.message = "Tahapan Berhasil Ditambahkan";
                     }
                     else
                     {
-                        rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
+                        TahapanProyek th = new TahapanProyek
+                        {
+                            ProyekId = idproyek,
+                            NamaTahapan = xNamaTahapanPekerjaan,
+                            TanggalMulai = xTanggalMulai,
+                            TanggalSelesai = xTanggalSelesai,
+                            CreatedOn = DateTime.Now,
+                            CreatedBy = UserId,
+                            JenisTahapan = xJenisPekerjaan,
+                            BobotPekerjaan = 0
+                        };
+                        ctx.TahapanProyeks.Add(th);
+                        ctx.SaveChanges(UserId.ToString());
+
+                        var listTahapan = ctx.TahapanProyeks.Where(d => d.ProyekId == idproyek).ToList();
+
+                        foreach (var item in listTahapan)
+                        {
+                            item.BobotPekerjaan = 0;
+
+                            ctx.SaveChanges(UserId.ToString());
+                            rkk.status = HttpStatusCode.OK;
+                        }
+
+                        rkk.message = "Bobot Pekerjaan lebih dari 100 % Silahkan Isi Kembali Bobot Pekerjaan";
                     }
                 }
                 else
@@ -273,7 +298,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                     }
                     else
                     {
-                        rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
+                        rkk.message = "Bobot Pekerjaan Tidak Boleh lebih dari 100 %";
                     }
                 }
             }
@@ -541,6 +566,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                 nViewListTahapanDokumenPekerjaan.Id = item.Id;
                 nViewListTahapanDokumenPekerjaan.NamaDokumen = item.NamaDokumen;
+                nViewListTahapanDokumenPekerjaan.URL = item.URL;
+
                 vlistViewListTahapanDokumenPekerjaan.Add(nViewListTahapanDokumenPekerjaan);
             }
             dtd.data = vlistViewListTahapanDokumenPekerjaan;

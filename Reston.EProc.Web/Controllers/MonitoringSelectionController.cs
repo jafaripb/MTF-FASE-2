@@ -49,6 +49,24 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataListProyekMonitoring(search, start, length, dklasifikasi));
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public ResultMessage deletedokumen(Guid Id)
+        {
+            try
+            {
+                result = _repository.DeleteDokumenProyek(Id, UserId());
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.ToString();
+                result.status = HttpStatusCode.ExpectationFailed;
+            }
+            return result;
+        }
+
         public IHttpActionResult ListProyekDetailMonitoringPembayaran()
         {
             string search = HttpContext.Current.Request["search"].ToString();
@@ -176,6 +194,22 @@ namespace Reston.EProc.Web.Controllers
             return _repository.toFinishRepo(xProyekId, xStatus, UserId());
         }
 
+        public ResultMessage toDisable()
+        {
+            Guid xProyekId = Guid.Parse(HttpContext.Current.Request["aIdProyek"].ToString());
+            string xStatus = HttpContext.Current.Request["aStatus"].ToString();
+
+            return _repository.toDisableRepo(xProyekId, xStatus, UserId());
+        }
+
+        public ResultMessage toEnable()
+        {
+            Guid xProyekId = Guid.Parse(HttpContext.Current.Request["aIdProyek"].ToString());
+            string xStatus = HttpContext.Current.Request["aStatus"].ToString();
+
+            return _repository.toEnableRepo(xProyekId, xStatus, UserId());
+        }
+
         public ResultMessage Add()
         {
             Guid PengadaanId = Guid.Parse(HttpContext.Current.Request["aPengadaanId"].ToString());
@@ -206,7 +240,6 @@ namespace Reston.EProc.Web.Controllers
                 result.message = ex.ToString();
                 result.status = HttpStatusCode.ExpectationFailed;
             }
-
             return result;
         }
 
@@ -256,28 +289,7 @@ namespace Reston.EProc.Web.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public async Task<IHttpActionResult> DeleteFile()
-        {
-            
-            return null;
-
-        }
-
-        //public ResultMessage deletedokumen(Guid Id)
-        //{
-        //    try
-        //    {
-        //        result = _repository.deletedokumenPekerjaan(Id, UserId());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.message = ex.ToString();
-        //        result.status = HttpStatusCode.ExpectationFailed;
-        //    }
-        //    return result;
-        //}
-
-        public  async Task<IHttpActionResult> UploadFile()
+        public async Task<IHttpActionResult> UploadFile()
         {
             HttpRequestMessage request = this.Request;
 
@@ -308,12 +320,13 @@ namespace Reston.EProc.Web.Controllers
                 byte[] buffer = await file.ReadAsByteArrayAsync();
                 contentType = file.Headers.ContentType.ToString();
                 sizeFile = buffer.Length;
-                
-                NamaFileSave = "Dokumen" + DokumenId.ToString()+ "-" + NamaDokumen + "." + extension;
+                string a = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                NamaFileSave = "Dokumen" + DokumenId.ToString() + "-" + NamaDokumen + "-" + a + "." + extension;
 
                 try
                 {
-                    FileStream fs = new FileStream(root +"//"+ NamaFileSave, FileMode.CreateNew);
+                    FileStream fs = new FileStream(root + "//" + NamaFileSave, FileMode.CreateNew);
                     await fs.WriteAsync(buffer, 0, buffer.Length);
 
                     fs.Close();
@@ -330,19 +343,14 @@ namespace Reston.EProc.Web.Controllers
                 try
                 {
                     return Json(_repository.saveDokumenProyeks(DokumenId, NamaFileSave, contentType, UserId()));
-                    
+
                 }
                 catch (Exception ex)
                 {
                     return Json(0);
                 }
             }
-
             return null;
-
         }
-
-
-
     }
 }

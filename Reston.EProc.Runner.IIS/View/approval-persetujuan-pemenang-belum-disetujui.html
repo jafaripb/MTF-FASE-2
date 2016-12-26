@@ -129,16 +129,18 @@
                                     <div class="form-group col-md-12">
                                         <label class="title"><h3>Dokumen Persetujuan Pemenang yang Butuh Persetujuan </h3></label>
                                     </div>
-                                    <div class="col-md-10" style="margin-left: 60px;">
+                                    <div class="col-md-12">
                                         <table class="table table-bordered table-striped table-responsive" id="tbl-approval" style="margin-top:20px; ">
                                             <thead>
                                                 <tr>
                                                     <th></th>
                                                     <th>Nama Pekerjaan</th>
-                                                    <th>HPS</th>
-                                                    <th>Klasifikasi</th>
-                                                    <th>Status</th>
-                                                    <th>Note</th>
+                                                    <th class="tengah">HPS</th>
+                                                    <th class="tengah">Harga Klarifikasi</th>
+                                                    <th class="tengah">Pemenang</th>
+                                                    <th class="tengah">Klasifikasi</th>
+                                                    <th class="tengah">Status</th>
+                                                    <th class="tengah">Note</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -248,7 +250,9 @@
                     },
                     { "data": "Judul" },
                     { "data": "HPS", "className": "rata_kanan" },
-                    { "data": "JenisPekerjaan" },
+                    { "data": "HargaNegosiasi", "className": "rata_kanan" },
+                    { "data": "Pemenang" },
+                    { "data": "JenisPekerjaan", "className": "tengah" },
                     { "data": "StatusPersetujuanPemenangName" },
                     { "data": null },
                     { "data": null }
@@ -266,12 +270,22 @@
                     },
                     {
                         "render": function (data, type, row) {
+                            if (data != null)
+                                return accounting.formatNumber(row.HargaNegosiasi, { thousand: ".", decimal: ",", precision: 2 })
+                            else return "";
+                        },
+
+                        "targets": 3,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
                             if (data.ApproverPersetujuanPemenang == 1) return '<textarea class="form-control" attrid="' + data.IdPersetujuanPemanang + '"></textarea>';
                             else return "";
                             //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
                         },
 
-                        "targets": 5,
+                        "targets": 7,
                         "orderable": false
                     },
 
@@ -288,7 +302,7 @@
                             return html;
                         },
 
-                        "targets": 6,
+                        "targets": 8,
                         "orderable": false
                     }
                 ],

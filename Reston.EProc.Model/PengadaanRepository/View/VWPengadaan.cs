@@ -92,6 +92,8 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<int> WorkflowTemplateId { get; set; }
         public Nullable<int> WorkflowPersetujuanPemenangTemplateId { get; set; }
         public Nullable<decimal> HPS { get; set; }
+        public Nullable<decimal> HargaNegosiasi { get; set; }
+        public string Pemenang { get; set; }
         public string lastApprover { get; set; }
         public string lastApproverPersetujuanPemenang { get; set; }        
         public List<VWDokumenPengadaan> DokumenPengadaans { get; set; }

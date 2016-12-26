@@ -95,6 +95,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public Nullable<DateTime> StartDate { get; set; }
         public Nullable<DateTime> EndDate { get; set; }
         public string Status { get; set; }
+        public string StatusLockTahapan { get; set; }
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }

@@ -139,7 +139,7 @@ function TampilDokumenPekerjaan() {
     var id_tahapan = $('#id_tahapModalPekerjaan').val();
     console.log(id_tahapan);
     table_dokumen_pekerjaan = $('#list-dokumen-pekerjaan').DataTable({
-        "serverSide": true,
+        "serverSide": false,
         "searching": false,
         "ajax": {
             "url": 'api/Proyek/TampilDokumenPekerjaan?Id=' + id_tahapan,
@@ -164,14 +164,14 @@ function TampilDokumenPekerjaan() {
                 "orderable": false
             },
         ],
+        "pageLength": 5,
         "paging": true,
         "lengthChange": false,
-        "ordering": true,
+        "ordering": false,
         "info": true,
         "autoWidth": false,
         "responsive": true,
         "destroy": true,
-        "iDisplayLength": 3
     })
 }
 
