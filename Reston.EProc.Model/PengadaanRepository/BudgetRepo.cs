@@ -75,14 +75,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     var oCoa = ctx.COAs.Where(d => d.NoCoa == ncoa.NoCoa).FirstOrDefault();
                     if (oCoa == null)
                     {
-                        var pengadaan = ctx.Pengadaans.Where(d => d.NoCOA == ncoa.NoCoa).FirstOrDefault();
-                        if (pengadaan != null)
-                        {
-                            ncoa.PengadaanId = pengadaan.Id;
+                        //var pengadaan = ctx.Pengadaans.Where(d => d.NoCOA == ncoa.NoCoa).FirstOrDefault();
+                        ////if (pengadaan != null)
+                       // {
+                           // ncoa.PengadaanId = pengadaan.Id;
                             ncoa.UploadedBy = UserId;
                             ncoa.UploadedOn = DateTime.Now;
                             ctx.COAs.Add(ncoa);
-                        }
+                       // }
                     }
                     else
                     {

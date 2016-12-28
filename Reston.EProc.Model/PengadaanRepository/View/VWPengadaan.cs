@@ -95,7 +95,8 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<decimal> HargaNegosiasi { get; set; }
         public string Pemenang { get; set; }
         public string lastApprover { get; set; }
-        public string lastApproverPersetujuanPemenang { get; set; }        
+        public string lastApproverPersetujuanPemenang { get; set; }   
+        public List<string> lstPemenang { get; set; }     
         public List<VWDokumenPengadaan> DokumenPengadaans { get; set; }
         public List<VWKandidatPengadaan> KandidatPengadaans { get; set; }
         public List<VWJadwalPengadaan> JadwalPengadaans { get; set; }

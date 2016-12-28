@@ -292,7 +292,10 @@
                             var TotalWaktuTersedia = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
 
                             var PersentaseWaktu = (TotalWaktuTersedia / TotalWaktuDisediakan) * 100;
-                            var x = parseFloat(100 - PersentaseWaktu).toFixed(2);
+                            var x=0;
+                            if(100 - PersentaseWaktu >0)
+                             x = parseFloat(100 - PersentaseWaktu).toFixed(2);
+                           
 
                             return '<label class="persentase-waktu" style="text-align: center; float: right;">' + x + '</label>';
                         },

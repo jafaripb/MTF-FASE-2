@@ -1319,43 +1319,43 @@
             if (cektotal >= 100) {
                 document.getElementById("input-persen-selesai-perwaktu").style.backgroundColor = "green";
                 $("[id=penjelasan-status]").text("Progres Pekerjaan Masih Bisa Di toleril");
-                $("[id=input-persen-selesai-perwaktu]").blink();
+                //$("[id=input-persen-selesai-perwaktu]").blink();
             }
             if (cektotal < 100 && cektotal >= 50) {
                 document.getElementById("input-persen-selesai-perwaktu").style.backgroundColor = "yellow";
                 $("[id=penjelasan-status]").text("Progres Pekerjaan Mohon Diperhatikan");
-                $("[id=input-persen-selesai-perwaktu]").blink();
+                //$("[id=input-persen-selesai-perwaktu]").blink();
             }
             if (cektotal < 50) {
                 document.getElementById("input-persen-selesai-perwaktu").style.backgroundColor = "red";
                 $("[id=penjelasan-status]").text("Progres Pekerjaan Sangat Lambat");
-                $("[id=input-persen-selesai-perwaktu]").blink();
+                //$("[id=input-persen-selesai-perwaktu]").blink();
             }
         }
 
-        // Blink
-        $('#input-persen-selesai-perwaktu').each(function () {
-            var elem = $(this);
-            setInterval(function () {
-                if (elem.css('visibility') == 'hidden') {
-                    elem.css('visibility', 'visible');
-                } else {
-                    elem.css('visibility', 'hidden');
-                }
-            }, 500);
-        });
+         //Blink
+        //$('#input-persen-selesai-perwaktu').each(function () {
+        //    var elem = $(this);
+        //    setInterval(function () {
+        //        if (elem.css('visibility') == 'hidden') {
+        //            elem.css('visibility', 'visible');
+        //        } else {
+        //            elem.css('visibility', 'hidden');
+        //        }
+        //    }, 500);
+        //});
 
         // Blink
-        $('#penjelasan-status').each(function () {
-            var elem = $(this);
-            setInterval(function () {
-                if (elem.css('visibility') == 'hidden') {
-                    elem.css('visibility', 'visible');
-                } else {
-                    elem.css('visibility', 'hidden');
-                }
-            }, 500);
-        });
+        //$('#penjelasan-status').each(function () {
+        //    var elem = $(this);
+        //    setInterval(function () {
+        //        if (elem.css('visibility') == 'hidden') {
+        //            elem.css('visibility', 'visible');
+        //        } else {
+        //            elem.css('visibility', 'hidden');
+        //        }
+        //    }, 500);
+        //});
 
         $("#example1").on("change input propertychange", ".penyelesaian", function () {
             hitung();

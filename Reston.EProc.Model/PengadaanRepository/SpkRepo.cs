@@ -56,8 +56,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Spk saveSpkPertam(Spk spk, Guid UserId)
         {
             var oSpk = ctx.Spk.Where(d => d.NoSPk == spk.NoSPk && d.PksId == null).FirstOrDefault();
+            spk.PemenangPengadaan = ctx.PemenangPengadaans.Find(spk.PemenangPengadaanId);
             if (oSpk == null)
             {
+                
                 var TotalHargaKandidat = spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault() == null ? null :
                            spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().RKSDetails.Where(dd =>
                                dd.RKSHeaderId == spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().Id)
@@ -139,6 +141,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     PengadaanId = d.PemenangPengadaan.Pengadaan.Id,
                     StatusSpk=d.StatusSpk,
                     StatusSpkName=d.StatusSpk.ToString(),
+                    NilaiSPK=d.NilaiSPK,
                     HPS = d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault() == null ? null :
                            d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().RKSDetails.Where(dd =>
                                dd.RKSHeaderId == d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().Id)

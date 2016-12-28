@@ -940,6 +940,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 HPS = ctx.RKSHeaders.Where(dd => dd.PengadaanId == d.Id).FirstOrDefault() == null ? 0 : ctx.RKSHeaders.Where(dd => dd.PengadaanId == d.Id).FirstOrDefault().RKSDetails.Sum(dx => dx.hps * dx.jumlah == null ? 0 : dx.hps * dx.jumlah),
                 HargaNegosiasi = TotalHps.Value,
                 Pemenang = dt.FirstOrDefault().PemenangPengadaans.FirstOrDefault().Vendor.Nama,
+                lstPemenang=d.PemenangPengadaans.Select(dd=>dd.Vendor.Nama).ToList(),
                 PersonilPengadaans =d.PersonilPengadaans.Select(dd=>new VWPersonilPengadaan{PersonilId=dd.PersonilId,Nama=dd.Nama,tipe=dd.tipe,Jabatan=dd.Jabatan}).ToList()
                 }).ToList();
                 return oData;

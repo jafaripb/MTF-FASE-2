@@ -376,7 +376,7 @@ $(function () {
                            message: 'Pilih Vendor :'+html,
                            onhide: function (dialogRef) {
                                var VendorId = dialogRef.getModalBody().find('select').val();
-                               that.options.url = that.options.url + "&vendorId=" + VendorId;                                                           
+                               that.options.url = $("#BeritaAcaraPenentuanPemenang").attr("action") + "&id=" + $("#pengadaanId").val() + "&vendorId=" + VendorId; //that.options.url + "&vendorId=" + VendorId;                                                           
                            },
                            buttons: [{
                                label: 'Simpan',

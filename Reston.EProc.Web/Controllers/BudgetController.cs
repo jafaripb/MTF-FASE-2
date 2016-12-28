@@ -38,6 +38,7 @@ namespace Reston.Pinata.WebService.Controllers
         public BudgetController()
         {
             _repoPengadaan = new PengadaanRepo(new JimbisContext());
+            _repository = new BudgetRepo(new JimbisContext());
         }
 
         public BudgetController(BudgetRepo repository)

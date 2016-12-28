@@ -280,6 +280,18 @@
                     },
                     {
                         "render": function (data, type, row) {
+                            var html = "";
+                            for (var index in row.lstPemenang) {
+                                html += row.lstPemenang[index] +"<br/>";
+                            }
+                            return html;
+                        },
+
+                        "targets": 4,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
                             if (data.ApproverPersetujuanPemenang == 1) return '<textarea class="form-control" attrid="' + data.IdPersetujuanPemanang + '"></textarea>';
                             else return "";
                             //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
@@ -345,7 +357,7 @@
                     });
                     return false;
                 }
-
+                waitingDialog.showloading("Proses Harap Tunggu");
                 $.ajax({
                     url: 'api/PengadaanE/persetujuanPemenangWithNote?id=' + IdPersetujuanPemanang + "&Note=" + note,
                     method: "GET",
@@ -362,6 +374,7 @@
                             }]
                         });
                         table.draw();
+                        waitingDialog.hideloading();
                     }
                 });
 
@@ -382,6 +395,7 @@
                     });
                     return false;
                 }
+                waitingDialog.showloading("Proses Harap Tunggu");
                 $.ajax({
                     url: 'api/PengadaanE/PenolakanPemenangWithWorkflow?Id=' + IdPersetujuanPemanang + "&Note=" + note,
                     method: "GET",
@@ -398,6 +412,7 @@
                             }]
                         });
                         table.draw();
+                        waitingDialog.hideloading();
                     }
                 });
             });

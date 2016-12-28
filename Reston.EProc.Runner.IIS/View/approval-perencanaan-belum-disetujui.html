@@ -331,7 +331,7 @@
                     });
                     return false;
                 }
-
+                waitingDialog.showloading("Proses Harap Tunggu");
                 $.ajax({
                     url: 'api/PengadaanE/persetujuanWithNote?id=' + pengadaanId + "&Note=" + note,
                     method: "GET",
@@ -348,6 +348,7 @@
                             }]
                         });
                         table.draw();
+                        waitingDialog.hideloading();
                     }
                 });
 

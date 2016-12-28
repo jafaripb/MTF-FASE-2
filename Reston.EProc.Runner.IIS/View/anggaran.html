@@ -101,13 +101,14 @@
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form class="form-horizontal label-kanan">
+                                        <form class="form-horizontal label-kanan import">
                                             <div class="form-group">
                                                 <label for="exampleInputFile" class="col-sm-2">File Anggaran</label>
                                                 <input type="file" id="import-anggaran" name="upload">
                                                 <p class="help-block col-sm-2">Import Excel.</p>
-                                                <!--<input type="submit" value="Upload" class="btn btn-default" />-->
+                                                <input type="submit" value="Upload" class="btn btn-default" />
                                             </div>
+                                        </form>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Search</label>
                                                 <div class="col-sm-4">
@@ -124,7 +125,7 @@
 
                                                 </div>
                                             </div>
-                                        </form>
+                                       
                                     </div>
                                 </div>
                                 <div class="row ">
@@ -242,6 +243,43 @@
             $("#example1_filter").hide();
             $("#cari").on("click", function () {
                 table.draw();
+            });
+            $(".import").submit( function () {
+              /*  var fileUpload = $("#import-anggaran").get(0);
+
+                //alert(dokumenid);
+                var files = fileUpload.files;
+
+                // Create FormData object
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }*/
+                $.ajax({
+                    url: 'Api/Budget/importXls',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: new FormData(this),
+                    success: function (result) {
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: "sukses",
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+
             });
         });
     </script>

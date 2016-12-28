@@ -251,11 +251,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     status = HttpStatusCode.Forbidden,
                     message = Common.Forbiden()
                 };
-                if (oData.CreateBy != UserId && (dokPks.Tipe == TipeBerkas.DraftPKS||dokPks.Tipe==TipeBerkas.FinalLegalPks)) return new ResultMessage
+              /*  if (oData.CreateBy != UserId && (dokPks.Tipe == TipeBerkas.DraftPKS||dokPks.Tipe==TipeBerkas.FinalLegalPks)) return new ResultMessage
                 {
                     status = HttpStatusCode.Forbidden,
                     message = Common.Forbiden()
-                };
+                };*/
                 dokPks.CreateOn = DateTime.Now;
                 dokPks.CreateBy = UserId;
                 ctx.DokumenPks.Add(dokPks);

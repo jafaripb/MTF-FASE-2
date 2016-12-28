@@ -459,7 +459,7 @@ function TambahProyekDrafPekerjaan() {
 // Simpan No. Kontrak dan Update Status Rencana Proyek (Simpan Proyek)
 function SimpanProyek() {
     var PengadaanId = $("#pengadaanId").val();
-    var nNoKontrak = $("#no-kontrak").val();
+    var nNoKontrak = $("#no-spk").val();
     var nStatus = "dijalankan";
     $.ajax({
         method: "post",

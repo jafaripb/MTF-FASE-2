@@ -300,7 +300,7 @@ function loadData(pengadaanId) {
         if (data.isMasukKlarifikasi == 0) {
             BootstrapDialog.show({
                 title: 'Konfirmasi',
-                message: 'Anda Tidak Masuk ke Tahan Klarifikasi',
+                message: 'Anda Tidak Masuk ke Tahap Klarifikasi',
                 buttons: [{
                     label: 'Kembali',
                     action: function (dialog) {

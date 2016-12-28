@@ -77,7 +77,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Tambah Pengadaan Tertutup</a></li>
+                            <li>	<a id="judul-page" href="#">Tambah Pengadaan</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
@@ -199,25 +199,12 @@
                                                 <option selected disabled>--Pilih--</option>
                                             </select>
                                         </div>
-                                        <!---
-                                        <div class="form-group col-md-6">
-                                            <label class="title">Kode Pengeluaran</label>
-                                            <input type="text" class="form-control" >
-                                        </div>
-                                        -->
                                         <div class="form-group col-md-6">
                                             <label class="title">Jenis Pembelanjaan:</label>
                                             <select class="form-control select2" name="JenisPembelanjaan" style="width: 100%;">
                                                 <option selected disabled>--Pilih--</option>
                                             </select>
                                         </div>
-
-                                        <!--
-                                        <div class="form-group col-md-6">
-                                            <label class="title">Pagu</label>
-                                            <input type="text" class="form-control" >
-                                        </div>
-                                        -->
                                         <div id="BingkaiHps" class="form-group col-md-6">
                                             <label style="font-size:small">HPS:</label>
                                             <input type="text" class="form-control" disabled="disabled" name="HpsId">
@@ -236,10 +223,6 @@
                                                 <input type="text" name="TitleDokumenNotaInternal" class="form-control">
                                                 <input type="hidden" name="FileDokumenNotaInternal" class="dropzoneFile" attr1="" attr2="" />
                                                 <div id="DokumenNotaInternal" attr="NOTA" action="/api/PengadaanE/UploadFile?tipe=NOTA" class="dropzone"></div>
-                                            </div>
-                                            <div class="form-group ">
-                                                <label class="title">Nomor COA:</label>
-                                                <input type="text" name="no-coa" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group col-md-6">

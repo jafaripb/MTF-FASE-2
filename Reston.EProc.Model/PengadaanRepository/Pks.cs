@@ -84,6 +84,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string Vendor { get; set; }
         public string AturanPengadaan { get; set; }
         public decimal? HPS { get; set; }
+            public decimal? NilaiSPK { get; set; }
         public string NoPengadaan { get; set; }
         public Guid? PengadaanId { get; set; }
         public int? VendorId { get; set; }
