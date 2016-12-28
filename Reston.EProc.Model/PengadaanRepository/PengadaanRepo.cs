@@ -1720,11 +1720,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
             var pemenang = ctx.PemenangPengadaans.Where(d => d.PengadaanId == dokumenPengadaan.PengadaanId && d.VendorId == dokumenPengadaan.VendorId).FirstOrDefault();
             if (pemenang != null)
             {
-                var oSpk = ctx.Spk.Where(d => d.PemenangPengadaanId == pemenang.Id).FirstOrDefault();
-                if (oSpk != null) oSpk.DokumenPengadaanId = mdokPengadaan==null?dokumenPengadaan.Id:mdokPengadaan.Id;
-                else
+                var oNoberita = ctx.BeritaAcaras.Where(d => d.PengadaanId == dokumenPengadaan.PengadaanId && d.VendorId == dokumenPengadaan.VendorId).FirstOrDefault();
+                if (oNoberita == null) return new DokumenPengadaan();
+                var oSpk = ctx.Spk.Where(d => d.NoSPk == oNoberita.NoBeritaAcara && d.PksId == null).FirstOrDefault();//ctx.Spk.Where(d => d.PemenangPengadaanId == pemenang.Id).FirstOrDefault();
+                if (oSpk == null)
                 {
-                    var oNoberita = ctx.BeritaAcaras.Where(d => d.PengadaanId == dokumenPengadaan.PengadaanId && d.VendorId == dokumenPengadaan.VendorId).FirstOrDefault();
                     oSpk = new Spk();
 
                     oSpk.CreateOn = DateTime.Now;
@@ -1733,7 +1733,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     oSpk.Title = "SPK Pertama Untuk Pengadaan " + pemenang.Pengadaan.Judul;
                     oSpk.StatusSpk = StatusSpk.Aktif;
                     oSpk.NoSPk = oNoberita == null ? "" : oNoberita.NoBeritaAcara;
-                    oSpk.DokumenPengadaanId = dokumenPengadaan.Id ;
+                    if (oNoberita.tanggal!=null)
+                        oSpk.TanggalSPK =  oNoberita.tanggal ;
+                    oSpk.DokumenPengadaanId = dokumenPengadaan.Id;
                     ctx.Spk.Add(oSpk);
 
                     var newDokSpk = new DokumenSpk();
@@ -1745,6 +1747,32 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     newDokSpk.Title = dokumenPengadaan.Title;
                     newDokSpk.ContentType = dokumenPengadaan.ContentType;
                     ctx.DokumenSpk.Add(newDokSpk);
+                }
+                else
+                {
+                    var dokSpk = ctx.DokumenSpk.Where(d => d.SpkId == oSpk.Id).FirstOrDefault();
+                    if (dokSpk == null)
+                    {
+                        dokSpk = new DokumenSpk();
+                        dokSpk.SpkId = oSpk.Id;
+                        dokSpk.SizeFile = dokumenPengadaan.SizeFile;
+                        dokSpk.File = dokumenPengadaan.File;                        
+                        dokSpk.ModifiedBy = UserId;
+                        dokSpk.ModifiedOn = DateTime.Now;
+                        dokSpk.Title = dokumenPengadaan.Title;
+                        dokSpk.ContentType = dokumenPengadaan.ContentType;
+                        ctx.DokumenSpk.Add(dokSpk);
+                    }
+                    else
+                    {
+                        dokSpk.SpkId = oSpk.Id;
+                        dokSpk.SizeFile = dokumenPengadaan.SizeFile;
+                        dokSpk.File = dokumenPengadaan.File;
+                        dokSpk.ModifiedBy = UserId;
+                        dokSpk.ModifiedOn = DateTime.Now;
+                        dokSpk.Title = dokumenPengadaan.Title;
+                        dokSpk.ContentType = dokumenPengadaan.ContentType;
+                    }
                 }
             }
             ctx.SaveChanges();

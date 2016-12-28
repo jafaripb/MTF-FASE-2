@@ -263,17 +263,17 @@ function loadData(pengadaanId) {
             $("#collapseTwo").addClass("in");
         }
 
-        if (data.AturanPenawaran == "Price Matching") {
+       // if (data.AturanPenawaran == "Price Matching") {
             $("#total_penawaran").attr("disabled", "disabled");
             $("#row_penawaran_open_price").remove();           
             $("#total_penawaran-klarifikasi").attr("disabled", "disabled");
-        }
-        if (data.AturanPenawaran == "Open Price") {
-            $("#total_penawaran").removeAttr("disabled");
-            $("#row_penawaran").remove();
-            $("#total_penawaran-klarifikasi").removeAttr("disabled");
-            $("#penawaran-klarifikasi").attr("disabled", "disabled");
-        }
+        //}
+        //if (data.AturanPenawaran == "Open Price") {
+        //    $("#total_penawaran").removeAttr("disabled");
+        //    $("#row_penawaran").remove();
+        //    $("#total_penawaran-klarifikasi").removeAttr("disabled");
+        //    $("#penawaran-klarifikasi").attr("disabled", "disabled");
+        //}
       
     });
     getDateSubmitPenawaran();
@@ -312,7 +312,7 @@ function renderDokumenDropzone(myDropzone, tipe) {
 }
 
 function hitungTawaranRekanan(pengadaanId,aturanPenawaran) {
-    if (aturanPenawaran == "Price Matching") {
+   // if (aturanPenawaran == "Price Matching") {
         $.ajax({
             url: "Api/VendorAction/getRksRekanan?id=" + pengadaanId,
         }).done(function (data) {
@@ -346,7 +346,7 @@ function hitungTawaranRekanan(pengadaanId,aturanPenawaran) {
             }
             $("#total_penawaran-klarifikasi").val(accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 }));
         });
-    }
+   // }
 }
 
 function loadKualifikas(kualifikasiKandidat) {

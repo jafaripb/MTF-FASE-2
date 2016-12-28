@@ -660,6 +660,64 @@ $(function () {
     });
 });
 
+$(function () {
+
+    $(".save-template-hps").on("click", function () {
+        console.log("sdsd");
+        $("#modal-save-rks").modal("show");       
+    });
+
+    $(".save-repo-rks").on("click", function () {
+        var objRKSHeader = {};
+        if ($("#idrepoRks").val() != "") objRKSHeader.Id = $("#idrepoRks").val();
+        objRKSHeader.Title = $("#title").val();
+        objRKSHeader.Description = $("#deskripsi-repo").val();
+        objRKSHeader.Klasifikasi = $("#Klasifikasi option:selected").val();
+        objRKSHeader.Region = $("#region").val();
+        objRKSHeader.RKSDetailTemplate = datatableRepoRksToJson(table);
+        waitingDialog.showloading("Proses Harap Tunggu");
+        $.ajax({
+            method: "POST",
+            url: "Api/Rks/save",
+            dataType: "json",
+            data: JSON.stringify(objRKSHeader),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                waitingDialog.hideloading();
+                $("#idrepoRks").val(data.Id);
+                BootstrapDialog.show({
+                    title: 'Informasi',
+                    message: data.message,
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialog) {
+
+                            dialog.close();
+                        }
+                    }]
+                });
+            },
+            complate: function () {
+                $("#loader").hide();
+                $("#simpan").show();
+            }
+        });
+        $("#modal-save-rks").modal("hide");
+    });
+
+
+});
+
+function datatableRepoRksToJson(table) {
+    var data = [];
+    var beforeJudul = "";
+    table.rows().every(function () {
+        data.push(this.data());
+    });
+    //console.log(JSON.stringify(data));
+    return data;
+}
+
 function addHeaderAfterSave() {
     var tr = $("#example1 tbody tr");
     tr.each(function () {

@@ -90,7 +90,6 @@ namespace IdLdap.Controllers
             }
         }
 
-
         private async Task<User> CreateUser(string username, string password, Guid guid, params string[] roles)
         {
             var newUser = new User()
