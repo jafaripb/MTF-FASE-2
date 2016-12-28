@@ -334,6 +334,69 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+
+      <!--kilk persetujuan-->
+         <!-- Modal -->
+    <div class="modal" id="modal-save-rks" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		    <h4 class="modal-title">Form Save RKS Repository</h4>
+              <div class="modal-body"> 
+                  <div class="row">
+                        <div class="col-md-12">
+                            <form role="form" class="jp-form">
+                                <input type="hidden" id="idrepoRks"/>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Judul</label>
+                                            <div class="col-sm-4">
+                                                <input id="title" type="text" class="form-control " placeholder="Judul">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Deskripsi</label>
+                                            <div class="col-sm-4">
+                                                <textarea id="deskripsi-repo" class="form-control "></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Klasifikasi</label>
+                                            <div class="col-sm-4">
+                                                <select id="Klasifikasi" class="form-control select2" style="width: 100%;">
+                                                    <option selected="selected" value="">ALL</option>
+                                                    <option value="0">SIPIL</option>
+                                                    <option value="1">NONSIPIL</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+               </div>
+	      </div>
+	      <div class="modal-footer">
+             <button type="button" class="btn btn-default save-repo-rks" data-toggle="tooltip" title="Save" >Save</button>	
+              <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="tooltip" title="Keluar">Close</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
      <script src="site.js"></script>

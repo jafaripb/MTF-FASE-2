@@ -89,8 +89,8 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [ForeignKey("Pengadaan")]
-        public Nullable<Guid> PengadaanId { get; set; }
+        [ForeignKey("Spk")]
+        public Nullable<Guid> SpkId { get; set; }
         public string NoKontrak { get; set; }
         public Nullable<DateTime> StartDate { get; set; }
         public Nullable<DateTime> EndDate { get; set; }
@@ -100,7 +100,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<DateTime> ModifiedOn { get; set; }
         public Nullable<Guid> ModifiedBy { get; set; }
-        public virtual Pengadaan Pengadaan { get; set; }
+        public virtual Spk Spk { get; set; }
         public virtual ICollection<PICProyek> PICProyeks { get; set; }
         public virtual ICollection<TahapanProyek> TahapanProyeks { get; set; }
     }

@@ -71,8 +71,16 @@ namespace Reston.Pinata.WebService.Controllers
                                                IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                                 IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]      
-      public IHttpActionResult importXls(HttpPostedFileBase file)
+      public IHttpActionResult importXls()
       {
+          var file = HttpContext.Current.Request.Files.Count > 0 ?
+          HttpContext.Current.Request.Files[0] : null;
+
+          if (file == null || file.ContentLength == 0)
+          {
+              return Json("Error");
+          }
+
            List<COA> lstCoa = new List<COA>();
           using (var xls = new SLDocument(file.InputStream))
           {

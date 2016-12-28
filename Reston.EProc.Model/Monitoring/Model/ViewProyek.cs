@@ -13,7 +13,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public string NoPengadaan { get; set; }
         public string NOSPK { get; set; }
         public string NoKontrak { get; set; }
-        public decimal NilaiKontrak { get; set; }
+        public decimal? NilaiKontrak { get; set; }
         public string Pelaksana { get; set; }
         public Nullable<DateTime> TanggalMulai { get; set; }
         public Nullable<DateTime> TanggalSelesai { get; set; }
