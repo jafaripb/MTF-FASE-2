@@ -180,10 +180,10 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 }
                 else
                 {
-                    var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan);
+                    //var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan);
 
-                    var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
-                    if (TotalBobotSeluruh <= 100)
+                    //var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
+                    if (xBobotPekerjaan <= 100)
                     {
                         TahapanProyek th = new TahapanProyek
                         {
