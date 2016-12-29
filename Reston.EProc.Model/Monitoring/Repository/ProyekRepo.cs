@@ -100,27 +100,23 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         }
 
         // Ambil Data Proyek
-        public ViewProyekPerencanaan GetDataProyek(Guid PengadaanId)
+        public ViewProyekPerencanaan GetDataProyek(Guid SpkId)
         {
-            var oProyekPerencanaan = ctx.Pengadaans.Where(d => d.Id == PengadaanId).FirstOrDefault();
-            var vendorId = ctx.PemenangPengadaans.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault() != null ? ctx.PemenangPengadaans.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault().VendorId : null;
-            var proyek = ctx.RencanaProyeks.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault();
-            var RksHeader = ctx.RKSHeaders.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault();
-            var TotalHps = RksHeader != null ? ctx.RKSDetails.Where(d => d.RKSHeaderId == RksHeader.Id).Sum(d => d.jumlah * d.hps == null ? 0 : d.jumlah * d.hps) : 0;
-
-            return new ViewProyekPerencanaan
+           var data = ctx.Spk.Where(d => d.Id == SpkId).Select(d => new ViewProyekPerencanaan
             {
-                Id = oProyekPerencanaan.Id,
-                Judul = oProyekPerencanaan.Judul,
-                NoPengadaan = oProyekPerencanaan.NoPengadaan,
-                NOSPK = oProyekPerencanaan.BeritaAcaras.Where(d => d.Tipe == TipeBerkas.SuratPerintahKerja && d.PengadaanId == PengadaanId).FirstOrDefault().NoBeritaAcara,
-                //NoKontrak = proyek == null ? null : proyek.NoKontrak != null ? proyek.NoKontrak : null,
-                NilaiKontrak = TotalHps.Value != 0 ? TotalHps.Value : 0,
-                Pelaksana = ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault() != null ? ctx.Vendors.Where(d => d.Id == vendorId).FirstOrDefault().Nama : null,
-                TanggalMulai = proyek != null ? proyek.StartDate : null,
-                TanggalSelesai = proyek != null ? proyek.EndDate : null,
-                PIC = proyek != null ? proyek.PICProyeks.Select(d => new ViewPIC { Id = d.Id, NamaPIC = d.Nama }).ToList() : null
-            };
+                Id = d.Id,
+                Judul = d.PemenangPengadaan.Pengadaan.Judul,
+                NoPengadaan = d.PemenangPengadaan.Pengadaan.NoPengadaan,
+                NOSPK = d.NoSPk,
+                NilaiKontrak = d.NilaiSPK,
+                Pelaksana = d.PemenangPengadaan.Vendor.Nama,
+            }).FirstOrDefault();
+            if (ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault() != null)
+            {
+                data.TanggalMulai = ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault().StartDate;
+                data.TanggalSelesai = ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault().EndDate;
+            }
+            return data;
         }
 
         // Get Catatan
@@ -143,12 +139,12 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         }
 
     // Simpan Tahapan Pekerjaan PIC
-    public ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai)
+    public ResultMessage SimpanTahapanPekerjaanRepo(Guid ProyekId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai)
         {
             ResultMessage rkk = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.PengadaanId == xPengadaanId).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.SpkId == ProyekId).FirstOrDefault();
                 var IdProyek = odata.Id;
                 var BlmAdaTahapan = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Count();
                 if (BlmAdaTahapan != 0)
@@ -180,9 +176,9 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 }
                 else
                 {
-                    //var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan);
+                   // var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan);
 
-                    //var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
+                   // var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
                     if (xBobotPekerjaan <= 100)
                     {
                         TahapanProyek th = new TahapanProyek
@@ -311,12 +307,12 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         }
 
         // Simpan Rencana Proyek
-        public ResultMessage SimpanRencanaProyekRepo(Guid xPengadaanId, string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate)
+        public ResultMessage SimpanRencanaProyekRepo(Guid ProyekId, string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate)
         {
             ResultMessage rm = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.PengadaanId == xPengadaanId).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId).FirstOrDefault();
 
                 if (odata != null)
                 { }
@@ -324,7 +320,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 {
                     RencanaProyek m2 = new RencanaProyek
                     {
-                        PengadaanId = xPengadaanId,
+                        //Id = odata.Id,
+                        SpkId=ProyekId,
                         StartDate = xStartDate,
                         EndDate = xEndDate,
                         Status = xStatus,
@@ -351,11 +348,11 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rm = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.PengadaanId == Id).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.SpkId == Id).FirstOrDefault();
 
                 if (odata != null)
                 {
-                    odata.NoKontrak = NoKontrak;
+                    //odata.NoKontrak = NoKontrak;
                     odata.Status = Status;
                 }
                 ctx.SaveChanges(UserId.ToString());
@@ -375,7 +372,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rm = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.PengadaanId == Personil.PengadaanId).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.Id == Personil.PengadaanId).FirstOrDefault();
                 var idproyek = odata.Id;
                 var idata = ctx.PICProyeks.Where(d => d.ProyekId == idproyek).FirstOrDefault();
                 if (idata != null)
@@ -411,10 +408,10 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         public DataTableViewTahapanPekerjaan GetDataPekerjaan(Guid PengadaanId)
         {
             DataTableViewTahapanPekerjaan tp = new DataTableViewTahapanPekerjaan();
-            var CekData = ctx.RencanaProyeks.Where(d => d.PengadaanId == PengadaanId).Count();
+            var CekData = ctx.RencanaProyeks.Where(d => d.SpkId == PengadaanId).Count();
             if (CekData != 0)
             {
-                var ProyekId = ctx.RencanaProyeks.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault().Id;
+                var ProyekId = ctx.RencanaProyeks.Where(d => d.SpkId == PengadaanId).FirstOrDefault().Id;
 
                 // record total yang tampil 
                 tp.recordsTotal = ctx.TahapanProyeks.Where(d => d.JenisTahapan == "Pekerjaan" && d.ProyekId == ProyekId).Count();
@@ -471,10 +468,10 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         public DataTableViewTahapanPembayaran GetDataPembayaran(Guid PengadaanId)
         {
             DataTableViewTahapanPembayaran tp = new DataTableViewTahapanPembayaran();
-            var CekData = ctx.RencanaProyeks.Where(d => d.PengadaanId == PengadaanId).Count();
+            var CekData = ctx.RencanaProyeks.Where(d => d.SpkId == PengadaanId).Count();
             if (CekData != 0)
             {
-                var ProyekId = ctx.RencanaProyeks.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault().Id;
+                var ProyekId = ctx.RencanaProyeks.Where(d => d.SpkId == PengadaanId).FirstOrDefault().Id;
 
                 // record total yang tampil 
                 tp.recordsTotal = ctx.TahapanProyeks.Where(d => d.JenisTahapan == "Pembayaran" && d.ProyekId == ProyekId).Count();

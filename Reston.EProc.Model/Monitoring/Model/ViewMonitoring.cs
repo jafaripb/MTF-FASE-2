@@ -16,7 +16,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public string Pemenang { get; set; }
         public string Klasifikasi { get; set; }
         public DateTime? TanggalPenentuanPemenang { get; set; }
-        public Decimal NilaiKontrak { get; set; }
+        public Decimal? NilaiKontrak { get; set; }
         public String PIC{ get; set; }
         public StatusMonitored Monitored { get; set; }
         public StatusSeleksi Status { get; set; }
@@ -112,7 +112,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public string NamaProyek { get; set; }
         public Nullable<DateTime> TanggalMulai { get; set; }
         public Nullable<DateTime> TanggalSelesai { get; set; }
-        public decimal NilaiKontrak { get; set; }
+        public decimal? NilaiKontrak { get; set; }
         public string StatusProyek { get; set; }
         public string StatusLockTahapan { get; set; }
 

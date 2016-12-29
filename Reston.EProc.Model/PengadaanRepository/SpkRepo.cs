@@ -56,6 +56,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Spk saveSpkPertam(Spk spk, Guid UserId)
         {
             var oSpk = ctx.Spk.Where(d => d.NoSPk == spk.NoSPk && d.PksId == null).FirstOrDefault();
+
             spk.PemenangPengadaan = ctx.PemenangPengadaans.Find(spk.PemenangPengadaanId);
             if (oSpk == null)
             {
@@ -74,14 +75,17 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 var TotalHargaKandidat = spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault() == null ? null :
                            spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().RKSDetails.Where(dd =>
                                dd.RKSHeaderId == spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().Id)
-                               .Sum(dx => dx.HargaKlarifikasiRekanan.Where(ddx => ddx.RKSDetailId == dx.Id).FirstOrDefault() == null ? 0 : dx.HargaKlarifikasiRekanan.Where(ddx => ddx.RKSDetailId == dx.Id).FirstOrDefault().harga * dx.jumlah);
+                               .Sum(dx => dx.HargaKlarifikasiRekanan.Where(ddx => ddx.RKSDetailId == dx.Id).FirstOrDefault() == null ? 0 : dx.HargaKlarifikasiRekanan.Where(ddx => ddx.RKSDetailId == dx.Id).FirstOrDefault().harga == null ? 0 : dx.HargaKlarifikasiRekanan.Where(ddx => ddx.RKSDetailId == dx.Id).FirstOrDefault().harga*dx.jumlah);
+                
                 spk.NilaiSPK = TotalHargaKandidat;
                 oSpk.NoSPk = spk.NoSPk;
                 oSpk.Note = spk.Note;
+                oSpk.DokumenPengadaanId = spk.DokumenPengadaanId;
                 oSpk.PemenangPengadaanId = spk.PemenangPengadaanId;
                 oSpk.StatusSpk = spk.StatusSpk;
                 oSpk.Title = spk.Title;
                 oSpk.WorkflowId = spk.WorkflowId;
+                oSpk.TanggalSPK = spk.TanggalSPK;
                 oSpk.ModifiedBy = UserId;
                 oSpk.ModifiedOn = DateTime.Now;
             }
@@ -130,7 +134,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 var lol = data.ToList();
                 dtTable.data = data.Select(d => new VWSpk
                 {
-                    Id = d.Id,
+                    Id = d.PemenangPengadaan.Pengadaan.Id,
                     PemenangPengadaanId = d.PemenangPengadaanId,
                     NoSpk = d.NoSPk,
                     Judul = d.PemenangPengadaan.Pengadaan.Judul,
