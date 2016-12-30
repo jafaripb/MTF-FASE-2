@@ -20,7 +20,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Nullable<Guid> PksId { get; set; }
         [ForeignKey("PemenangPengadaan")]
         public Nullable<Guid> PemenangPengadaanId { get; set; }
-        [ForeignKey("DokumenPengadaan")]
+        //[ForeignKey("DokumenPengadaan")]
         public Nullable<Guid> DokumenPengadaanId { get; set; }
         public Nullable<DateTime> CreateOn { get; set; }
         public Nullable<Guid> CreateBy { get; set; }
@@ -36,7 +36,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public StatusSpk StatusSpk { get; set; }
         public virtual PemenangPengadaan PemenangPengadaan { get; set; }
         public virtual Pks Pks { get; set; }
-        public virtual DokumenPengadaan DokumenPengadaan { get; set; }
+       // public virtual DokumenPengadaan DokumenPengadaan { get; set; }
         public virtual Pengadaan Pengadaan { get; set; }
         public virtual ICollection<DokumenSpk> DokumenSpk { get; set; }
         public virtual ICollection<RiwayatDokumenSpk> RiwayatDokumenSpk { get; set; }

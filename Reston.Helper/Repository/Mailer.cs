@@ -70,7 +70,7 @@ namespace Reston.Helper
                     var appBAse = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                     var path = appBAse + @"\log\email.txt";
                     System.IO.File.AppendAllText(path, Environment.NewLine + DateTime.Now.ToString() + Environment.NewLine);
-                    System.IO.File.AppendAllText(path, "Email Pengiraim " + FROM_EMAIL + Environment.NewLine);
+                    System.IO.File.AppendAllText(path, "Email Pengirim " + FROM_EMAIL + Environment.NewLine);
                     System.IO.File.AppendAllText(path, "Email Penerima " + MAIL_HOST + Environment.NewLine);
                     System.IO.File.AppendAllText(path, exc.Message + Environment.NewLine);
 

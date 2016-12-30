@@ -1757,8 +1757,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                         dokSpk.SpkId = oSpk.Id;
                         dokSpk.SizeFile = dokumenPengadaan.SizeFile;
                         dokSpk.File = dokumenPengadaan.File;                        
-                        dokSpk.ModifiedBy = UserId;
-                        dokSpk.ModifiedOn = DateTime.Now;
+                        dokSpk.CreateBy = UserId;
+                        dokSpk.CreateOn = DateTime.Now;
                         dokSpk.Title = dokumenPengadaan.Title;
                         dokSpk.ContentType = dokumenPengadaan.ContentType;
                         ctx.DokumenSpk.Add(dokSpk);
@@ -1775,7 +1775,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     }
                 }
             }
-            ctx.SaveChanges();
+            ctx.SaveChanges(UserId.ToString());
             return mdokPengadaan;
         }
 
@@ -2472,14 +2472,17 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 if (MdokPengadaan.Tipe == TipeBerkas.NOTA || MdokPengadaan.Tipe == TipeBerkas.DOKUMENLAIN || MdokPengadaan.Tipe == TipeBerkas.NOTA) return 0;
                 if (MdokPengadaan.Tipe == TipeBerkas.SuratPerintahKerja)
                 {
-                    var oSpk = ctx.Spk.Where(d => d.DokumenPengadaanId == MdokPengadaan.Id);
-                    ctx.Spk.RemoveRange(oSpk);
+                    var pemenangId = MdokPengadaan.Pengadaan.PemenangPengadaans.Where(dd=>dd.VendorId==MdokPengadaan.VendorId).FirstOrDefault().Id;
+                    var oSpk = ctx.Spk.Where(d => d.PemenangPengadaanId == pemenangId).FirstOrDefault();
+                    ctx.DokumenSpk.RemoveRange(oSpk.DokumenSpk);
+                    
+                    
                 }
                 ctx.DokumenPengadaans.Remove(MdokPengadaan);
                 ctx.SaveChanges(UserId.ToString());
                 return 1;
             }
-            catch { return 0; }
+            catch(Exception ex) { return 0; }
         }
 
         public int deleteDokumenRekanan(Guid Id, Guid UserId)
