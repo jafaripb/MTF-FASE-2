@@ -27,11 +27,12 @@ namespace IdLdap.Controllers
 
         public AdminController()
         {
-            _LdapRepository = new LdapRepository(new PrincipalContext(ContextType.ApplicationDirectory,
-                IdLdapConstants.LdapConfiguration.Host,
-                IdLdapConstants.LdapConfiguration.ContextNaming,
-                IdLdapConstants.LdapConfiguration.Username,
-                IdLdapConstants.LdapConfiguration.Password));
+            bool UseAppDir = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["LDAP_APPDIR"]);
+            _LdapRepository = new LdapRepository(new PrincipalContext(UseAppDir ? ContextType.ApplicationDirectory : ContextType.Domain,
+                 IdLdapConstants.LdapConfiguration.Host,
+                 IdLdapConstants.LdapConfiguration.ContextNaming,
+                 IdLdapConstants.LdapConfiguration.Username,
+                 IdLdapConstants.LdapConfiguration.Password));
             _IdentityContext = new IdentityContext();
             _UserManager = new UserManager(new UserStore(_IdentityContext));
             _RoleManager = new RoleManager(new RoleStore(_IdentityContext));
@@ -62,12 +63,13 @@ namespace IdLdap.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new { message = "User sudah di link" }, JsonRequestBehavior.AllowGet);
             }
-
-            var userLdap = _LdapRepository.FindUser2(username);
+            bool UseAppDir = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["LDAP_APPDIR"]);
+            var userLdap = UseAppDir ? _LdapRepository.FindUser2(username) : _LdapRepository.FindUser(username);
+           // var userLdap = _LdapRepository.FindUser2(username);
             //bool b = IsMember(userLdap, "doski");
             
             //await CreateUser(username, "123456", userLdap.Guid.GetValueOrDefault());//password gakepake, ttp pake password ldap masing2
-            await CreateUserLinkedLdap(username, "P@ssw0rd!", userLdap.DisplayName, userLdap.Guid.GetValueOrDefault());//password gakepake, ttp pake password ldap masing2
+            await CreateUserLinkedLdap(username, "P@ssw0rd!", userLdap.DisplayName, userLdap.EmailAddress, userLdap.Guid.GetValueOrDefault());//password gakepake, ttp pake password ldap masing2
 
             Response.StatusCode = (int)HttpStatusCode.OK;
             return Json(new { message = "Sukses linked account ldap. " }, JsonRequestBehavior.AllowGet);
@@ -114,13 +116,14 @@ namespace IdLdap.Controllers
             return newUser;
         }
 
-        private async Task<User> CreateUserLinkedLdap(string username, string password, string displayname, Guid guid, params string[] roles)
+        private async Task<User> CreateUserLinkedLdap(string username, string password, string displayname, string Email, Guid guid, params string[] roles)
         {
             var newUser = new User()
             {
                 IsLdapUser = true,
                 UserName = username,
                 //Email = username + ".com",
+                Email=Email,
                 Id = guid.ToString(),
                 DisplayName = displayname
             };

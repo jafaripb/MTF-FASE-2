@@ -525,7 +525,6 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             return msg;
         }
 
-
         public ResultMessage saveDokumenProyeks(Guid DokumenId, string NamaFileSave, string extension, Guid UserId)
         {
             ResultMessage rm = new ResultMessage();
@@ -547,7 +546,6 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
             return rm;
         }
-
 
         public ResultMessage SimpanProgresPembayaran(List<TahapanProyek> Tahapan, Guid UserId)
         {
