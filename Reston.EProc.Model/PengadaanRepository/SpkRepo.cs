@@ -134,7 +134,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 var lol = data.ToList();
                 dtTable.data = data.Select(d => new VWSpk
                 {
-                    Id = d.PemenangPengadaan.Pengadaan.Id,
+                    Id = d.Id,//d.PemenangPengadaan.Pengadaan.Id,
                     PemenangPengadaanId = d.PemenangPengadaanId,
                     NoSpk = d.NoSPk,
                     Judul = d.PemenangPengadaan.Pengadaan.Judul,

@@ -278,6 +278,18 @@
                     },
                     {
                         "render": function (data, type, row) {
+                            var html = "";
+                            for (var index in row.lstPemenang) {
+                                html += row.lstPemenang[index] + "<br/>";
+                            }
+                            return html;
+                        },
+
+                        "targets": 4,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
                             return "";
                             //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
                         },
