@@ -115,6 +115,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public decimal? NilaiKontrak { get; set; }
         public string StatusProyek { get; set; }
         public string StatusLockTahapan { get; set; }
+        public int VendorId { get; set; }
 
     }
 

@@ -1,15 +1,14 @@
 [
   { "id": 1,  "menu": "Dashboard",  "url": "dashboard.html",  "css": "fa fa-bar-chart"  },
-  { "id": 2 , "menu": "List To Do", "url": "approval.html","css":"fa fa-external-link" },
-  { "id": 3,  "menu": "Pengadaan-e",  "url": "pengadaan-list.html", "css": "fa fa-cubes"  },
-  { "id": 4 , "menu": "Repository HPS", "url": "repository-rks.html","css":"fa fa-book"   },
-	{ "id": 5 , "menu": "Rekanan", "url": "rekanan.html","css":"fa fa-vimeo"   },
-	{ "id": 6 , "menu": "Katalog-e", "url": "eCatalogue2.html","css":"fa fa-book"   },
-	{ "id": 7 , "menu": "Report", "url": "report.html","css":"fa fa-file-excel-o"   },
-  { "id": 8,  "menu": "Manajemen Kontrak",  "url": "kontrak.html",  "css": "fa fa-folder-o" },
-  { "id": 9,  "menu": "Sistem Monitoring",  "url": "sistem-monitoring.html",  "css": "fa fa-tv" },
-  { "id": 10, "menu": "PKS",  "url": "pks.html",  "css": "fa fa-pencil-square" },
-  { "id": 11, "menu": "SPK / PO",  "url": "spk.html",  "css": "fa fa-pencil" },
-  { "id": 12 , "menu": "Budget Capex", "url": "anggaran.html","css":"fa fa-money" },
-	{ "id": 13 , "menu": "LogOut", "url": "Api/Header/Signout","css":"fa fa-sign-out" }
+  { "id": 2,  "menu": "Pengadaan-e",  "url": "pengadaan-list.html", "css": "fa fa-cubes"  },
+  { "id": 3 , "menu": "Repository HPS", "url": "repository-rks.html","css":"fa fa-book"   },
+	{ "id": 4 , "menu": "Rekanan", "url": "rekanan.html","css":"fa fa-vimeo"   },
+	{ "id": 5 , "menu": "Katalog-e", "url": "eCatalogue2.html","css":"fa fa-book"   },
+	{ "id": 6 , "menu": "Report", "url": "report.html","css":"fa fa-file-excel-o"   },
+  { "id": 7,  "menu": "Manajemen Kontrak",  "url": "kontrak.html",  "css": "fa fa-folder-o" },
+  { "id": 8,  "menu": "Sistem Monitoring",  "url": "sistem-monitoring.html",  "css": "fa fa-tv" },
+  { "id": 9, "menu": "PKS",  "url": "pks.html",  "css": "fa fa-pencil-square" },
+  { "id": 10, "menu": "SPK / PO",  "url": "spk.html",  "css": "fa fa-pencil" },
+  { "id": 11 , "menu": "Budget Capex", "url": "anggaran.html","css":"fa fa-money" },
+	{ "id": 12 , "menu": "LogOut", "url": "Api/Header/Signout","css":"fa fa-sign-out" }
 ]
