@@ -9,9 +9,9 @@ var LOGIN_PAGE;// 'http://localhost:7348/';
 var HOME_PAGE;//= 'http://localhost:49559/';
 var ADMIN ;//= 'http://localhost:49559/master.html';
 var MANAGER ;//= 'http://localhost:49559/pengadaan-list.html';
-var STAFF;//= 'http://localhost:49559/approval.html';//pengadaan list
+var STAFF;//= 'http://localhost:49559/dashboard.html';//pengadaan list
 var REKANAN ;//= 'http://localhost:49559/rekanan-side-terdaftar.html';
-var ENDUSER;//= 'http://localhost:49559/approval.html';//pengadaan list
+var ENDUSER;//= 'http://localhost:49559/dashboard.html';//pengadaan list
 var COMPLIANCE ;//= 'http://localhost:49559/pengadaan-list.html';
 var HEAD ;//= 'http://localhost:49559/pengadaan-list.html';
 
@@ -89,9 +89,9 @@ function cekLogin(cek) {
                     HOME_PAGE = PROC;
                     ADMIN = PROC + 'master.html';
                     MANAGER = PROC + 'dashboard.html';
-                    STAFF = PROC + 'approval.html';
+                    STAFF = PROC + 'dashboard.html';
                     REKANAN = PROC + 'rekanan-side-terdaftar.html';
-                    ENDUSER = PROC + 'approval.html';
+                    ENDUSER = PROC + 'dashboard.html';
                     COMPLIANCE = PROC + 'pengadaan-list.html';
                     HEAD = PROC + 'dashboard.html';
                     ajaxCompleteProcess(e.statusCode());

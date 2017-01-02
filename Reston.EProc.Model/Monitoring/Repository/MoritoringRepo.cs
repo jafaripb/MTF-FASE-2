@@ -299,9 +299,9 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         {
             var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId).FirstOrDefault();
             //var NamaProyek = ctx.Pengadaans.Where(d => d.Id == odata.PengadaanId).FirstOrDefault().Judul;
-           /// var RksHeader = ctx.RKSHeaders.Where(d => d.PengadaanId == odata.PengadaanId).FirstOrDefault();
+            // var RksHeader = ctx.RKSHeaders.Where(d => d.PengadaanId == odata.PengadaanId).FirstOrDefault();
             //var TotalHps = RksHeader != null ? ctx.RKSDetails.Where(d => d.RKSHeaderId == RksHeader.Id).Sum(d => d.jumlah * d.hps == null ? 0 : d.jumlah * d.hps) : 0;
-
+            var vendor = ctx.Vendors.Where(d => d.Id == odata.Spk.PemenangPengadaan.VendorId);
             return new ViewDetailMonitoring
             {
                 Id = odata.Id,
@@ -310,7 +310,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 TanggalSelesai = odata.EndDate,
                 NilaiKontrak = odata.Spk.NilaiSPK,
                 StatusProyek = odata.Status,
-                StatusLockTahapan = odata.StatusLockTahapan
+                VendorId = odata.Spk.PemenangPengadaan.VendorId.Value
             };
         }
 
