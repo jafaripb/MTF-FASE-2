@@ -712,6 +712,7 @@ function loadData(pengadaanId) {
            // $("#tab-penilaian-kandidat").attr("data-toggle", "collapse");
             $("#tab-klarifikasi").attr("data-toggle", "collapse");
 
+
             if (data.isUser == 1 && data.isTEAM == 0) {
                 //$("#tab-klarifikasi").parent().parent().parent().remove();          
             }
@@ -980,7 +981,7 @@ function addLoadPersonil(item, el,ispic) {
     var removeEL = '';
     if (ispic == 1) {        
     }
-    if (item.isReady == 1) {
+  /*  if (item.isReady == 1) {
         if (item.isMine == 1 && $("#State").val() == 0)
             removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
         else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
@@ -989,7 +990,7 @@ function addLoadPersonil(item, el,ispic) {
         if (item.isMine == 1 && $("#State").val() == 0)
             removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
         else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
-    }
+    }*/
     html = '<a class="btn btn-app">' +
         '<input type="hidden" class="list-personil" attrId="'
                        + item.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'

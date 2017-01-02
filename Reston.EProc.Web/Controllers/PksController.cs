@@ -249,15 +249,15 @@ namespace Reston.Pinata.WebService.Controllers
                     status = HttpStatusCode.Forbidden,
                     message = Common.Forbiden()
                 });
-                List<Reston.Helper.Model.ViewWorkflowModel> getDoc =
-                    _workflowrepo.ListDocumentWorkflow(UserId(), oPks.WorkflowId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
+                //List<Reston.Helper.Model.ViewWorkflowModel> getDoc =
+                //    _workflowrepo.ListDocumentWorkflow(UserId(), oPks.WorkflowId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
               
-                if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() == null )
-                    return Json(new ResultMessage()
-                    {
-                        status = HttpStatusCode.Forbidden,
-                        message = Common.Forbiden()
-                    });
+                //if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() == null )
+                //    return Json(new ResultMessage()
+                //    {
+                //        status = HttpStatusCode.Forbidden,
+                //        message = Common.Forbiden()
+                //    });
                 
             }
             if (t == TipeBerkas.DraftPKS && oPks.StatusPks==StatusPks.Approve)

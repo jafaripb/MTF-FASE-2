@@ -2809,7 +2809,7 @@ namespace Reston.Pinata.WebService.Controllers
             int NextStatusPengadaan = (int)oPengadaan.Status;
             if (oPengadaan.Status == EStatusPengadaan.DISETUJUI && oPengadaan.AturanPengadaan=="Pengadaan Tertutup")
                 NextStatusPengadaan = (int)EStatusPengadaan.AANWIJZING;
-            NextStatusPengadaan = nextStatusMaping(oPengadaan.Status.Value); //NextStatusPengadaan + 1;
+            else NextStatusPengadaan = nextStatusMaping(oPengadaan.Status.Value); //NextStatusPengadaan + 1;
 
             return _repository.nextToStateWithChangeScheduldDate(Id, UserId(), (EStatusPengadaan)NextStatusPengadaan, dtDari,dtSamapi);
         }
@@ -2818,6 +2818,7 @@ namespace Reston.Pinata.WebService.Controllers
         {
             switch (status)
             {
+                case (EStatusPengadaan.DISETUJUI): return (int)EStatusPengadaan.AANWIJZING;
                 case (EStatusPengadaan.AANWIJZING): return (int)EStatusPengadaan.SUBMITPENAWARAN;
                 case (EStatusPengadaan.SUBMITPENAWARAN): return (int)EStatusPengadaan.BUKAAMPLOP;
                 case (EStatusPengadaan.BUKAAMPLOP): return (int)EStatusPengadaan.KLARIFIKASI;
@@ -3478,8 +3479,8 @@ namespace Reston.Pinata.WebService.Controllers
                 html = html + "<br/>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_BODY_APPROVER"].ToString() + "</p>";
                 if(oPengadaan.AturanPengadaan=="terbuka")
-                    html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "/pengadaan_terbuka_detail.html#" + oPengadaan .Id+ "' target='_blank'>" + oPengadaan.Judul + "</a></p>";
-                else html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "/pengadaan_detail.html#" + oPengadaan.Id + "' target='_blank'>" + oPengadaan.Judul + "</a></p>";
+                    html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "pengadaan-terbuka-detail.html#" + oPengadaan .Id+ "' target='_blank'>" + oPengadaan.Judul + "</a></p>";
+                else html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "pengadaan-detail.html#" + oPengadaan.Id + "' target='_blank'>" + oPengadaan.Judul + "</a></p>";
                 html = html + "<br/><br/>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER1"].ToString() + "</p>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER2"].ToString() + "</p>";

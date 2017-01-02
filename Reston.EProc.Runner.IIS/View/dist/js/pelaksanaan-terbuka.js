@@ -1235,56 +1235,72 @@ $(function () {
     });
 
     $(".next-step").on("click", function () {
-        var elDari = $(this).attr("elDari");
-        var elSampai = $(this).attr("elSampai");
-        console.log($(elDari).val());
-        var dari = moment($(elDari).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-        var sampai = "";
-        if(elSampai!="")
-            sampai=moment($(elSampai).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-        var pengadaanId = $("#pengadaanId").val();
-        $(this).attr("disabled", "disabled");
-        var thisel=$(this);
-        $.ajax({
-            method: "POST",
-            url: "Api/PengadaanE/nextStateAndSchelud?Id=" + pengadaanId + "&dari=" + dari + "&sampai=" + sampai,
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                thisel.removeAttr("disabled");
-                waitingDialog.hideloading();
-                if (data == 0) {
+        if ($("#StatusTahapan").val() == "0") {
+            waitingDialog.hideloading();
+            BootstrapDialog.show({
+                title: 'Error',
+                message: "Semua Personil Harus Melakukan Persetujuan Pada Tahapan ini!",
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+
+                    }
+                }]
+            });
+            return;
+        }
+        else {
+            var elDari = $(this).attr("elDari");
+            var elSampai = $(this).attr("elSampai");
+            console.log($(elDari).val());
+            var dari = moment($(elDari).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+            var sampai = "";
+            if (elSampai != "")
+                sampai = moment($(elSampai).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+            var pengadaanId = $("#pengadaanId").val();
+            $(this).attr("disabled", "disabled");
+            var thisel = $(this);
+            $.ajax({
+                method: "POST",
+                url: "Api/PengadaanE/nextStateAndSchelud?Id=" + pengadaanId + "&dari=" + dari + "&sampai=" + sampai,
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    thisel.removeAttr("disabled");
+                    waitingDialog.hideloading();
+                    if (data == 0) {
+                        BootstrapDialog.show({
+                            title: 'Error',
+                            message: 'Save Gagal!',
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                },
+                error: function (errormessage) {
+                    waitingDialog.hideloading();
+                    thisel.removeAttr("disabled");
                     BootstrapDialog.show({
                         title: 'Error',
-                        message: 'Save Gagal!',
+                        message: errormessage,
                         buttons: [{
                             label: 'Close',
                             action: function (dialog) {
                                 dialog.close();
+
                             }
                         }]
                     });
                 }
-                else {
-                    window.location.reload();
-                }
-            },
-            error: function (errormessage) {
-                waitingDialog.hideloading();
-                thisel.removeAttr("disabled");
-                BootstrapDialog.show({
-                    title: 'Error',
-                    message: errormessage,
-                    buttons: [{
-                        label: 'Close',
-                        action: function (dialog) {
-                            dialog.close();
-
-                        }
-                    }]
-                });
-            }
-        });
-
+            });
+        }
     });
 
     $(".next-step").each(function (index) {
@@ -1415,6 +1431,7 @@ $(function () {
 });
 
 function getPersetujuanTahapanAll() {
+    getPersetujuanTahapan("DISETUJUI");
     getPersetujuanTahapan("AANWIJZING");
     getPersetujuanTahapan("SUBMITPENAWARAN");
     getPersetujuanTahapan("BUKAAMPLOP");
@@ -2348,6 +2365,35 @@ function generateUndanganKlarifikasi() {
     });
 }
 
+function generateUndanganKlarifikasi() {
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/GetKlarifikasi?PId=" + $("#pengadaanId").val(),
+        success: function (data) {
+            var html = "Panitia " + $("#judul").text() + " Untuk " + $("#UnitKerjaPemohon").text() +
+            ". Mohon untuk Klarifikasi harga, penawaran kami tunggu paling lambat " + moment(data.Sampai).format("DD MMMM YYYY") + " sebelum pukul " + moment(data.Sampai).format("HH:mm") + "\n" +
+            "Demikian kami sampaikan. Terimakasi atas perhatiannya serta kerjasamanya.";
+            var div = $("#mKlarifikasi").val(html);
+        },
+        error: function (errormessage) {
+            // alert("gagal");
+        }
+    });
+}
+
+function generateUndanganKlarifikasiLanjutan() {
+    $.ajax({
+        method: "GET",
+        url: "Api/PengadaanE/GetJadwalPelaksanaan?PId=" + $("#pengadaanId").val() + "&status=" + $("#State").val(),
+        success: function (data) {
+            var html = "Panitia " + $("#judul").text() + " Untuk " + $("#UnitKerjaPemohon").text() +
+           ". Mohon untuk Klarifikasi Lanjutan, penawaran kami tunggu paling lambat " + moment(data.Sampai).format("DD MMMM YYYY") + " sebelum pukul " + moment(data.Sampai).format("HH:mm") + "\n" +
+           "Demikian kami sampaikan. Terimakasi atas perhatiannya serta kerjasamanya.";
+            var div = $("#mKlarifikasilanjutan").val(html);
+        }
+    });
+}
+
 function getListSubmitKlarifikasiRekanan() {
     $.ajax({
         method: "POST",
@@ -2367,6 +2413,30 @@ function getListSubmitKlarifikasiRekanan() {
                     '</div>' +
                 '</div> ';
                 $(".list-submit-klarifikasi-rekanan").append(html);
+            });
+        }
+    });
+}
+
+function getListSubmitKlarifikasiRekananLanjutan() {
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/GetRekananKlarifikasiSubmitLanjutan?PId=" + $("#pengadaanId").val(),
+        success: function (data) {
+            $.each(data, function (index, value) {
+                var html = '<div class="col-md-4 box-klarifikasi-rekanan" vendorId="' + value.VendorId + '">' +
+                    '<div class="box box-folder-vendor vendor-detail" attrId="' + value.VendorId + '">' +
+                        '<div class="box-header with-border">';
+                if (value.status == 0) {
+                    html = html + '<span class="glyphicon glyphicon glyphicon-folder-open folder-vendor folder-kosong" ></span> <h3 class="box-title text-blue-mtf box-riwayat">' + value.NamaVendor + '</h3>';
+                }
+                else {
+                    html = html + '<span class="glyphicon glyphicon glyphicon-folder-open folder-vendor folder-isi" ></span><h3 class="box-title text-blue-mtf box-riwayat">' + value.NamaVendor + '</h3>';
+                }
+                html = html + '</div>' +
+                    '</div>' +
+                '</div> ';
+                $(".list-rekanan-klarifikasi-lanjutan").append(html);
             });
         }
     });
@@ -2402,6 +2472,41 @@ function getListKlarifikasiRekanan() {
                             '</div>' +
                         '</div>';
                 $(".list-rekanan-klarifikasi-penilaian").append(html);
+            });
+        }
+    });
+}
+
+function getListKlarifikasiRekananLanjutan() {
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/GetRekananKlarifikasiPenilaianLanjutan?PId=" + $("#pengadaanId").val(),
+        success: function (data) {
+            $.each(data, function (index, value) {
+                var html = '<div class="col-md-3 "  vendorId="' + value.VendorId + '">' +
+                            '<div class="box box-primary">' +
+                                '<div class="box-tools pull-right vendor-check-box" data-toggle="tooltip" title="' + value.NamaVendor + '">';
+                //'<button class="delete-klarifikasi-kandidat btn btn-box-tool" vendorId="' + value.VendorId + '"><i class="fa fa-times"></i></button>' +
+
+                if (value.terpilih == 0) {
+                    if ($("#isPIC").val() == "1")
+                        html = html + '<input class="s-checkbox checkbox-pilih-pemenang"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                    else html = html + '<input class="s-checkbox checkbox-pilih-pemenang" disabled="disabled"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                }
+                else {
+                    if ($("#isPIC").val() == "1")
+                        html = html + '<input class="s-checkbox checkbox-pilih-pemenang" checked vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                    else html = html + '<input class="s-checkbox checkbox-pilih-pemenang" checked disabled="disabled"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                }
+                html = html + '</div>' +
+                                '<div class="box-body box-profile">' +
+                                    '<p class="profile-username title-header title-header-vendor">' + value.NamaVendor + '</p>' +
+                                    '<p class="text-muted text-center deskripsi">Rp. ' + accounting.formatNumber(value.total, { thousand: "." }) + '</p>' +
+                                     '<p class="text-muted text-center deskripsi">Nilai Kriteria ' + value.NilaiKriteria + '</p>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+                $(".list-rekanan-klarifikasi-lanjutan-check").append(html);
             });
         }
     });

@@ -1945,7 +1945,7 @@ function getKlarifikasiLanjutan() {
             generateUndanganKlarifikasiLanjutan();
         },
         error: function (errormessage) {
-            alert("gagal");
+          //  alert("gagal");
         }
     });
 }

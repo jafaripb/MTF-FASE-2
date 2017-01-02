@@ -498,7 +498,7 @@ namespace Reston.Helper.Repository
                 int needOrder = (oWorkflowState.CurrentSegOrder.Value + 1);
                 var detailPrev = ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == oWorkflowState.WorkflowMasterTemplateId && d.SegOrder == needOrder).FirstOrDefault();
 
-                if (detailPrev == null) result.Id = detailPrev.UserId.ToString();
+                if (detailPrev != null) result.Id = detailPrev.UserId.ToString();
                 else result.Id = "0";
             }
             catch { result.Id = "0"; }

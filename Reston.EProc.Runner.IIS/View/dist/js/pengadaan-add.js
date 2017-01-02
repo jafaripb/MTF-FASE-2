@@ -714,7 +714,7 @@ function addPersonil(item, el) {
                         + data.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
                         + item.Jabatan + '" value="' + item.PersonilId + '" />' +
                     '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>' +
-                    '<span class="badge-left check-person"><input  class="ready-checkbox" type="checkbox"/></span>' +
+                   // '<span class="badge-left check-person"><input  class="ready-checkbox" type="checkbox"/></span>' +
                     '<i class="fa fa-user"></i>' +
                     item.Nama +
                   '</a>';
@@ -756,7 +756,7 @@ function addLoadPersonil(item, el,status,xisTeam) {
         //removeEL = '<a class="pull-right btn-box-tool remove-person"><i class="fa fa-times"></i></a>';
         removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';       
     }
-    if (item.isReady == 1) {
+    /*if (item.isReady == 1) {
         if (item.isMine == 1 && $("#State").val() == 0)
             removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
         else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
@@ -765,7 +765,7 @@ function addLoadPersonil(item, el,status,xisTeam) {
         if (item.isMine == 1 && $("#State").val() == 0)
             removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
         else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
-    }
+    }*/
     html = '<a class="btn btn-app">' +
                    '<input type="hidden" class="list-personil" attrId="'
                        + item.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
