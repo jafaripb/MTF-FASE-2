@@ -12,10 +12,10 @@ $(function () {
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
                  accept: function (file, done) {
                      this.options.url = $("#DraftPKS").attr("action") + "&id=" + $("#pksId").val();
-                     if ($("#isOwner").val() != 1)
+                     if ($("#isOwner").val() != 1 && $("#StatusPks").val()!=0)
                          BootstrapDialog.show({
                              title: 'Konfirmasi',
-                             message: 'Anda Tidak Punya Akses ',
+                             message: 'Anda Tidak Punya Akses ' ,
                              buttons: [{
                                  label: 'Close',
                                  action: function (dialog) {
@@ -67,10 +67,14 @@ $(function () {
                                  id = file.Id;
                              else
                                  id = $.parseJSON(file.xhr.response);
-                             $("#HapusFile").show();
+                             console.log("sdsd");
                              $("#konfirmasiFile").attr("attr1", "DraftPKS");
                              $("#konfirmasiFile").attr("FileId", id);
                              $("#konfirmasiFile").modal("show");
+                             if ($("#isOwner").val() == 1 && $("#StatusPks").val() == 0) {
+                                 $("#HapusFile").show();
+                             }
+                             else { $("#HapusFile").hide() }
                          });
                      });
                     
@@ -150,10 +154,13 @@ $(function () {
                                  id = file.Id;
                              else
                                  id = $.parseJSON(file.xhr.response);
-                             $("#HapusFile").show();
+                             
                              $("#konfirmasiFile").attr("attr1", "FinalLegalPks");
                              $("#konfirmasiFile").attr("FileId", id);
                              $("#konfirmasiFile").modal("show");
+                             if ($("#Approver").val() == 1 && $("#StatusPks").val() == 2) {
+                                 $("#HapusFile").show();
+                             } else { $("#HapusFile").hide() }
                          });
                      });
 
@@ -234,10 +241,13 @@ $(function () {
                                  id = file.Id;
                              else
                                  id = $.parseJSON(file.xhr.response);
-                             $("#HapusFile").show();
+                            
                              $("#konfirmasiFile").attr("attr1", "AssignedPks");
                              $("#konfirmasiFile").attr("FileId", id);
                              $("#konfirmasiFile").modal("show");
+                             if ($("#isOwner").val() == 1 && $("#StatusPks").val() == 2) {
+                                 $("#HapusFile").show();
+                             } else { $("#HapusFile").hide() }
                          });
                      });
 
@@ -413,66 +423,73 @@ $(function () {
     $("#HapusFile").on("click", function () {
         var tipe = $(this).parent().parent().parent().parent().attr("attr1");
         var FileId = $(this).parent().parent().parent().parent().attr("FileId");
-        $.ajax({
-            method: "POST",
-            url: "Api/PengadaanE/deleteDokumenPelaksanaan?Id=" + FileId
-        }).done(function (data) {
-            window.location.reload();
-            if (data.Id == "1") {
-                if (tipe == "DraftPKS") {
-                    $.each(myDropzoneDraftPKS.files, function (index, item) {
-                        var id = 0;
-                        if (item.Id != undefined) {
-                            id = item.Id;
-                        }
-                        else {
-                            id = $.parseJSON(item.xhr.response);
-                        }
+        
+            $.ajax({
+                method: "POST",
+                url: "Api/Pks/deleteDokumenPks?Id=" + FileId
+            }).done(function (data) {
+                window.location.reload();
+                if (data.Id == "1") {
+                    if (tipe == "DraftPKS") {
+                        $.each(myDropzoneDraftPKS.files, function (index, item) {
+                            var id = 0;
+                            if (item.Id != undefined) {
+                                id = item.Id;
+                            }
+                            else {
+                                id = $.parseJSON(item.xhr.response);
+                            }
 
-                        if (id == FileId) {
-                            myDropzoneDraftPKS.removeFile(item);
-                        }
-                    });
+                            if (id == FileId) {
+                                myDropzoneDraftPKS.removeFile(item);
+                            }
+                        });
+                    }
+
+                    if (tipe == "FinalLegalPks") {
+
+                        $.each(myDropzoneFinalPKS.files, function (index, item) {
+                            var id;
+                            if (item.Id != undefined) {
+                                id = item.Id;
+                            }
+                            else {
+                                id = $.parseJSON(item.xhr.response);
+                            }
+
+                            if (id == FileId) {
+                                myDropzoneFinalPKS.removeFile(item);
+                            }
+                        });
+                    }
+                    if (tipe == "AssignedPks") {
+                        console.log(item.xhr.response);
+                        $.each(myDropzoneAssignedPks.files, function (index, item) {
+                            var id = 0;
+                            if (item.Id != undefined) {
+                                id = item.Id;
+                            }
+                            else {
+                                id = $.parseJSON(item.xhr.response);
+                            }
+
+                            if (id == FileId) {
+                                myDropzoneAssignedPks.removeFile(item);
+                            }
+                        });
+                    }
+
+
+
                 }
-                
-                if (tipe == "FinalLegalPks") {
-                    
-                    $.each(myDropzoneFinalPKS.files, function (index, item) {
-                        var id;
-                        if (item.Id != undefined) {
-                            id = item.Id;
-                        }
-                        else {
-                            id = $.parseJSON(item.xhr.response);
-                        }
+                $("#konfirmasiFile").modal("hide");
+            });
+        
+    });
 
-                        if (id == FileId) {
-                            myDropzoneFinalPKS.removeFile(item);
-                        }
-                    });
-                }
-                if (tipe == "AssignedPks") {
-                    console.log(item.xhr.response);
-                    $.each(myDropzoneAssignedPks.files, function (index, item) {
-                        var id = 0;
-                        if (item.Id != undefined) {
-                            id = item.Id;
-                        }
-                        else {
-                            id = $.parseJSON(item.xhr.response);
-                        }
-
-                        if (id == FileId) {
-                            myDropzoneAssignedPks.removeFile(item);
-                        }
-                    });
-                }
-
-
-               
-            }
-            $("#konfirmasiFile").modal("hide");
-        });
+    $("#downloadFile").on("click", function () {
+        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        downloadFileUsingForm("/api/Pks/OpenFile?Id=" + FileId);
     });
 });
 

@@ -64,7 +64,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 }
                 if (!string.IsNullOrEmpty(search))
                 {
-                    data = data.Where(d => d.Title == d.Title);
+                    data = data.Where(d => d.Title.Contains(search));
                 }
                 dtTable.recordsFiltered = data.Count();
                 data = data.OrderByDescending(d => d.CreateOn).Skip(start).Take(limit);

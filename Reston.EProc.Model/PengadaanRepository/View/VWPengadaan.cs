@@ -95,6 +95,8 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<decimal> HargaNegosiasi { get; set; }
         public string Pemenang { get; set; }
         public string lastApprover { get; set; }
+        public string PrevApprover { get; set; }
+        public string NextApprover { get; set; }
         public string lastApproverPersetujuanPemenang { get; set; }   
         public List<string> lstPemenang { get; set; }     
         public List<VWDokumenPengadaan> DokumenPengadaans { get; set; }
@@ -183,6 +185,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public string tipe { get; set; }
         public string Mulai { get; set; }
         public string Sampai { get; set; }
+        public EStatusPengadaan? status { get; set; }
     }
 
     public class VWPersonilPengadaan
@@ -382,6 +385,18 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public int PemenangDiSetujui { get; set; }
         public int PemenangDiTolak { get; set; }
         public int MonitorSelection { get; set; }
+    }
+
+    public class VWPersetujuanTahapan
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public Guid? UserId { get; set; }
+        public string UserName { get; set; }
+        public StatusTahapan Status { get; set; }
+        public EStatusPengadaan StatusPengadaan { get; set; }
+        public string StatusPengadaanName { get; set; }
+        public DateTime? CreatedOn { get; set; }
     }
 
 }

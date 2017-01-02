@@ -1759,6 +1759,58 @@ namespace Reston.Pinata.WebService.Controllers
         }
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public JadwalPelaksanaan GetJadwalPelaksanaan(Guid PId,EStatusPengadaan status)
+        {
+            return _repository.GetJadwalPelaksanaan(PId, UserId(), status);
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public ResultMessage UpdateJadwalPelaksanaan(VWJadwalPelaksanaan Pelaksanaan)
+        {
+            HttpStatusCode respon = HttpStatusCode.NotFound;
+            string message = "";
+            string idx = "0";
+            try
+            {
+                respon = HttpStatusCode.Forbidden;
+                message = "Erorr";
+                //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
+                JadwalPelaksanaan Mpelaksanaan = new JadwalPelaksanaan();
+                Mpelaksanaan.PengadaanId = Pelaksanaan.PengadaanId;
+                if (!string.IsNullOrEmpty(Pelaksanaan.Mulai))
+                    Mpelaksanaan.Mulai = Common.ConvertDate(Pelaksanaan.Mulai, "dd/MM/yyyy HH:mm");
+                if (!string.IsNullOrEmpty(Pelaksanaan.Sampai))
+                    Mpelaksanaan.Sampai = Common.ConvertDate(Pelaksanaan.Sampai, "dd/MM/yyyy HH:mm");
+                Mpelaksanaan.statusPengadaan = Pelaksanaan.status;
+                JadwalPelaksanaan result = _repository.SaveJadwalPelaksanaan(Mpelaksanaan, UserId());
+                respon = HttpStatusCode.OK;
+                message = "Sukses";
+                idx = result.Id.ToString();
+            }
+            catch (Exception ex)
+            {
+                respon = HttpStatusCode.NotImplemented;
+                message = ex.ToString();
+                idx = "0";
+            }
+            finally
+            {
+                result.status = respon;
+                result.message = message;
+                result.Id = idx;
+            }
+
+            return result;
+        }
+
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [HttpPost]
@@ -2036,6 +2088,17 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_vendor)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public DataTableRksRekanan getRKSForKlarifikasiLanjutanRekanan(Guid Id)
+        {
+            List<VWRKSDetailRekanan> rks = _repository.getRKSForKlarifikasiLanjutanRekanan(Id, UserId());
+            DataTableRksRekanan datatable = new DataTableRksRekanan();
+            datatable.recordsTotal = rks.Count();
+            datatable.data = rks;
+            return datatable;
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_vendor)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public ResultMessage addHargaRekanan(List<VWRKSDetailRekanan> hargaRekanan, Guid PengadaanId)
         {
             HttpStatusCode respon = HttpStatusCode.NotFound;
@@ -2089,6 +2152,15 @@ namespace Reston.Pinata.WebService.Controllers
             return _repository.getListRekananPenilaian(PId, UserId());
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public List<VWRekananPenilaian> GetRekananPenilaian2(Guid PId)
+        {
+            //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
+            return _repository.getListRekananPenilaian2(PId, UserId());
+        }
 
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
@@ -2110,6 +2182,17 @@ namespace Reston.Pinata.WebService.Controllers
             //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
             return _repository.getRKSPenilaian(PId, UserId());
         }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public VWRKSVendors getRKSPenilaian2(Guid PId)
+        {
+            //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
+            return _repository.getRKSPenilaian2(PId, UserId());
+        }
+
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
@@ -2241,6 +2324,18 @@ namespace Reston.Pinata.WebService.Controllers
             return datatable;
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
+        public DataTableRksRekanan getRksKlarifikasiLanjutanRekanan(Guid Id)
+        {
+            List<VWRKSDetailRekanan> rks = _repository.getRKSForKlarifikasiLanjutanRekanan(Id, UserId());
+            DataTableRksRekanan datatable = new DataTableRksRekanan();
+            datatable.recordsTotal = rks.Count();
+            datatable.data = rks;
+            return datatable;
+        }
+
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_vendor)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public ResultMessage addHargaKlarifikasiRekanan(List<VWRKSDetailRekanan> hargaRekanan, Guid PengadaanId)
@@ -2254,6 +2349,41 @@ namespace Reston.Pinata.WebService.Controllers
                 message = "Erorr";
                 // Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
                 var result = _repository.addHargaKlarifikasiRekanan(hargaRekanan, PengadaanId, UserId());
+                respon = HttpStatusCode.OK;
+                message = "Sukses";
+                idx = result == null ? "0" : "1";
+
+            }
+            catch (Exception ex)
+            {
+                respon = HttpStatusCode.NotImplemented;
+                message = ex.ToString();
+                idx = "0";
+            }
+            finally
+            {
+                result.status = respon;
+                result.message = message;
+                result.Id = idx;
+            }
+            //
+            return result;
+        }
+
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_vendor)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public ResultMessage addHargaKlarifikasiLanjutanRekanan(List<VWRKSDetailRekanan> hargaRekanan, Guid PengadaanId)
+        {
+            HttpStatusCode respon = HttpStatusCode.NotFound;
+            string message = "";
+            string idx = "0";
+            try
+            {
+                respon = HttpStatusCode.Forbidden;
+                message = "Erorr";
+                // Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
+                var result = _repository.addHargaKlarifikasiLanjutanRekanan(hargaRekanan, PengadaanId, UserId());
                 respon = HttpStatusCode.OK;
                 message = "Sukses";
                 idx = result == null ? "0" : "1";
@@ -2293,6 +2423,15 @@ namespace Reston.Pinata.WebService.Controllers
             return _repository.getListRekananKlarifikasiSubmit(PId, UserId());
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public List<VWRekananSubmitHarga> GetRekananKlarifikasiSubmitLanjutan(Guid PId)
+        {
+            //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
+            return _repository.getListRekananKlarifikasiLanjutSubmit(PId, UserId());
+        }
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
@@ -2302,6 +2441,16 @@ namespace Reston.Pinata.WebService.Controllers
         {
             //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
             return _repository.getListRekananKlarifikasiPenilaian(PId, UserId());
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public List<VWRekananPenilaian> GetRekananKlarifikasiPenilaianLanjutan(Guid PId)
+        {
+            //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
+            return _repository.getListRekananKlarifikasiPenilaianLanjutan(PId, UserId());
         }
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
@@ -2333,6 +2482,16 @@ namespace Reston.Pinata.WebService.Controllers
         {
             //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
             return _repository.getRKSKlarifikasi(PId, UserId());
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public VWRKSVendors getRKSKlarifikasiLanjutan(Guid PId)
+        {
+            //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
+            return _repository.getRKSKlarifikasiLanjutan(PId, UserId());
         }
 
         [Authorize]
@@ -2650,9 +2809,23 @@ namespace Reston.Pinata.WebService.Controllers
             int NextStatusPengadaan = (int)oPengadaan.Status;
             if (oPengadaan.Status == EStatusPengadaan.DISETUJUI && oPengadaan.AturanPengadaan=="Pengadaan Tertutup")
                 NextStatusPengadaan = (int)EStatusPengadaan.AANWIJZING;
-            NextStatusPengadaan = NextStatusPengadaan + 1;
+            NextStatusPengadaan = nextStatusMaping(oPengadaan.Status.Value); //NextStatusPengadaan + 1;
 
             return _repository.nextToStateWithChangeScheduldDate(Id, UserId(), (EStatusPengadaan)NextStatusPengadaan, dtDari,dtSamapi);
+        }
+
+        private int nextStatusMaping(EStatusPengadaan status)
+        {
+            switch (status)
+            {
+                case (EStatusPengadaan.AANWIJZING): return (int)EStatusPengadaan.SUBMITPENAWARAN;
+                case (EStatusPengadaan.SUBMITPENAWARAN): return (int)EStatusPengadaan.BUKAAMPLOP;
+                case (EStatusPengadaan.BUKAAMPLOP): return (int)EStatusPengadaan.KLARIFIKASI;
+                case (EStatusPengadaan.KLARIFIKASI): return (int)EStatusPengadaan.KLARIFIKASILANJUTAN;
+                case (EStatusPengadaan.KLARIFIKASILANJUTAN): return (int)EStatusPengadaan.PENILAIAN;
+                case (EStatusPengadaan.PENILAIAN): return (int)EStatusPengadaan.PEMENANG;
+                default: return -1;
+            }
         }
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
@@ -2875,7 +3048,7 @@ namespace Reston.Pinata.WebService.Controllers
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public IHttpActionResult List()
+        public async Task< IHttpActionResult> List()
         {
             string search = HttpContext.Current.Request["search[value]"].ToString();
             int length = Convert.ToInt32(HttpContext.Current.Request["length"].ToString());
@@ -2893,6 +3066,7 @@ namespace Reston.Pinata.WebService.Controllers
                         List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), item.WorkflowTemplateId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
                         if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.Approver = 1;
                         item.lastApprover = _workflowrepo.isLastApprover(item.Id, item.WorkflowTemplateId.Value).Id;
+                        
                     }
                 if(item.StatusPersetujuanPemenang==StatusPengajuanPemenang.PENDING)
                     if (item.WorkflowPersetujuanPemenangTemplateId != null && item.WorkflowPersetujuanPemenangTemplateId != 0)
@@ -2901,6 +3075,17 @@ namespace Reston.Pinata.WebService.Controllers
                         if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.ApproverPersetujuanPemenang = 1;
                         item.lastApproverPersetujuanPemenang = _workflowrepo.isLastApprover(item.IdPersetujuanPemanang.Value, item.WorkflowPersetujuanPemenangTemplateId.Value).Id;
                     }
+                if (item.WorkflowTemplateId != null)
+                {
+                    var PrevUserId = _workflowrepo.PrevApprover(item.Id, item.WorkflowTemplateId.Value).Id;
+                    if (PrevUserId != "0")
+                        item.PrevApprover = (await userDetail(PrevUserId)).Nama;
+                    else item.PrevApprover = "";
+                    var NextUserId = _workflowrepo.NextApprover(item.Id, item.WorkflowTemplateId.Value).Id;
+                    if (NextUserId != "0")
+                        item.NextApprover = (await userDetail(NextUserId)).Nama;
+                    else item.NextApprover = "";
+                }
             }
 
             return Json(data);
@@ -3304,6 +3489,55 @@ namespace Reston.Pinata.WebService.Controllers
                 return 0;
             }
         }
+
+
+        #region persetujuan tiap tahapan
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public IHttpActionResult SavePersetujuanTahapan(Guid PengadaanId, string status)
+        {
+             EStatusPengadaan s = (EStatusPengadaan)Enum.Parse(typeof(EStatusPengadaan), status);
+             var data = new PersetujuanTahapan()
+             {
+                 PengadaanId = PengadaanId,
+                 StatusPengadaan = s,                 
+                 Status = StatusTahapan.Approved
+             };
+            var rData = _repository.SavePersetujuanTahapan(data,UserId());
+            if (rData.Id == null) return Json(new ResultMessage()
+            {
+                message=Common.Forbiden(),status=HttpStatusCode.Forbidden            
+            });
+
+            return Json(new ResultMessage()
+            {
+                Id = rData.Id.ToString(),
+                message = Common.SaveSukses(),
+                status = HttpStatusCode.OK
+            });
+
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public async Task<IHttpActionResult> GetPersetujuanTahapan(Guid PengadaanId, string status)
+        {
+            EStatusPengadaan s = (EStatusPengadaan)Enum.Parse(typeof(EStatusPengadaan), status);
+            var data = _repository.GetPersetujuanTahapan(PengadaanId, s);
+            foreach (var item in data)
+            {
+                item.UserName = (await userDetail(item.UserId.ToString())).Nama;
+            }
+            return Json(data);
+        }
+
+
+
+        #endregion
     }
     
 }

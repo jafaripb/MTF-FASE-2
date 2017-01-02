@@ -34,7 +34,8 @@ namespace Reston.Pinata.Model
         public const string PENGADAAN_SCHEMA_NAME = "pengadaan";
         public const string MONITORING_SCHEMA_NAME = "monitoring";
         public const string WORKFLOW_SCHEMA_NAME = "workflow";
-        public const string PROYEK_SCHEMA_NAME = "proyek"; 
+        public const string PROYEK_SCHEMA_NAME = "proyek";
+        public const string PO_SCHEMA_NAME = "po"; 
 
         public JimbisContext()
             : base("name=JimbisEntities")
@@ -102,8 +103,9 @@ namespace Reston.Pinata.Model
         public virtual DbSet<MonitoringPekerjaan> MonitoringPekerjaans { get; set; }
         public virtual DbSet<DetailPekerjaan> DetailPekerjaans { get; set; }
         public virtual DbSet<JadwalProyek> JadwalProyeks { get; set; }
-        
 
+        public virtual DbSet<HargaKlarifikasiLanLanjutan> HargaKlarifikasiLanLanjutans { get; set; }
+        
         //----------------------------------------------------------------------------------
         // Proyek
         public virtual DbSet<TahapanProyek> TahapanProyeks { get; set; }
@@ -121,9 +123,14 @@ namespace Reston.Pinata.Model
         public virtual DbSet<DokumenSpk> DokumenSpk { get; set; }
         public virtual DbSet<RiwayatDokumenSpk> RiwayatDokumenSpk { get; set; }
         public virtual DbSet<COA> COAs { get; set; }
+        
         public virtual DbSet<PO> POs { get; set; }
+        public virtual DbSet<PODetail> PODetails { get; set; }
         public virtual DbSet<DokumenPO> DokumenPO { get; set; }
         
+        //persetujuan tahapan
+
+        public virtual DbSet<PersetujuanTahapan> PersetujuanTahapans { get; set; }
         //
         public virtual DbSet<SysLog> SysLogs { get; set; }
         

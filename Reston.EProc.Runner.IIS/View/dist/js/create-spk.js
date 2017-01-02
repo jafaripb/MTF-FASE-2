@@ -98,7 +98,10 @@ $(function () {
                              $("#HapusFile").show();
                              $("#konfirmasiFile").attr("attr1", "PKS");
                              $("#konfirmasiFile").attr("FileId", id);
-                             $("#konfirmasiFile").modal("show");
+                             $("#konfirmasiFile").modal("show"); 
+                             if ($("#isOwner").val() == 1 && $("#StatusSpk").val() == 0) {
+                                 $("#HapusFile").show();
+                             } else { $("#HapusFile").hide() }
                          });
                      });
 
@@ -217,7 +220,12 @@ $(function () {
         useCurrent: false,
         minDate: Date.now()
 
-    })
+    });
+
+    $("#downloadFile").on("click", function () {
+        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        downloadFileUsingForm("/api/Spk/OpenFile?Id=" + FileId);
+    });
 });
 
 function loadDetail(Id) {

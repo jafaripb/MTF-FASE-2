@@ -195,22 +195,22 @@
                                             <div class="col-md-10">
                                                 <form class="form-horizontal label-kanan">
                                                     <div class="form-group">
-                                                        <label class="col-sm-2 control-label">No. PO</label>
+                                                        <label class="col-sm-2 control-label">No.PO</label>
                                                         <div class="col-sm-4">
                                                             <input id="no-po" type="text" class="form-control " placeholder="No. PO">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-sm-2 control-label">Nama Vendor</label>
+                                                        <label class="col-sm-2 control-label">Prihal</label>
                                                         <div class="col-sm-4">
-                                                            <input id="no-po" type="text" class="form-control " placeholder="Nama Vendor">
+                                                            <input id="prihal" type="text" class="form-control " placeholder="Prihal">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="col-md-12">
                                                             <div class="submitgray button-row">
-                                                                <button id="cari-spk-original" class="btn btn-primary " type="button">Cari</button>
-                                                                <button id="id" class="btn btn-success " type="button"><a href="create-po.html" style="color:white;">Buat PO</a></button>
+                                                                <button  class="btn btn-primary cari-po" type="button">Cari</button>
+                                                                <a href="create-po.html" class="btn btn-success ">Buat PO</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -221,47 +221,15 @@
                                             <table class="table table-bordered table-striped table-responsive" id="tbl-po" style="margin-top:20px; ">
                                                 <thead>
                                                     <tr>
+                                                        <th>Prihal</th>
                                                         <th>No. PO</th>
                                                         <th>Nama Vendor</th>
                                                         <th>Tanggal PO</th>
+                                                        <th>Yang Buat</th>
                                                         <th>Nilai PO</th>
-                                                        <th>Keterangan</th>
-                                                        <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>01/EPROC/MTF-PO/XII/2016</td>
-                                                        <td>Bank Nasional Indonesia</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>
-                                                            <button id="id" class="btn btn-success " type="button"><a href="po-detail.html" style="color:white;">Detail</a></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>02/EPROC/MTF-PO/XII/2016</td>
-                                                        <td>Bank BCA</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>
-                                                            <button id="id" class="btn btn-success " type="button"><a href="po-detail.html" style="color:white;">Detail</a></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>03/EPROC/MTF-PO/XII/2016</td>
-                                                        <td>PT. Indosat Tbk.</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>
-                                                            <button id="id" class="btn btn-success " type="button"><a href="po-detail.html" style="color:white;">Detail</a></button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
+                                                </thead>                                               
                                             </table>
                                         </div>
                                     </div><!-- /.box-body -->
@@ -303,14 +271,72 @@
     <script src="plugins/angular/angular.min.js"></script>
     <script src="dist/js/menu.js"></script>
     <script src="blockui/jquery.blockUI.js"></script>
-    <script src="dist/js/approval-pengajuan.js"></script>
+
     <script>
         //Date picker
         $('#datepicker').datepicker({
             autoclose: true
         });
         var table;
+        var tablePo;
         var user_table;
+        $(function () {
+            //no-po prihal
+            tablePo = $('#tbl-po').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/PO/List',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.NoPO = $("#no-po").val();
+                        d.search = $("#prihal").val();
+                    }
+                },
+                "columns": [
+                    { "data": "Prihal" },
+                    { "data": "NoPO" },
+                    { "data": "TanggalPO" },
+                    { "data": "Vendor" },
+                    { "data": "Created" },
+                    { "data": "NilaiPO", "className": "rata_kanan" },
+                    { "data": null }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            if (row.TanggalPO != null)
+                                return moment(row.TanggalPO).format("DD/MM/YYYY")
+                            else return "";
+                        },
+
+                        "targets": 2,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return ' <a href="create-po.html?id=' + row.Id + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
+                        },
+
+                        "targets": 6,
+                        "orderable": false
+                    }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+
+            $("#no-po,#prihal").on("input propertychange paste", function () {
+                table.draw();
+            });
+
+        });
+
+
         $(function () {
             table = $('#tbl-approval').DataTable({
                 "dom": '<"toolbar">frtip',
@@ -381,6 +407,7 @@
                 }
             });
         });
+
         function format(d) {
             // `d` is the original data object for the row
             var pic = $.grep(d.PersonilPengadaans, function (e) { return e.tipe == "pic"; });
@@ -407,6 +434,8 @@
                 '</tr>' +
             '</table>';
         }
+
+        
 
     </script>
 </body>

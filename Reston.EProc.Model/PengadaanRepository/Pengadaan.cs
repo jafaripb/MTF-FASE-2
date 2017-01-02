@@ -69,6 +69,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual ICollection<RencanaProyek> RencanaProyeks { get; set; }
         public virtual ICollection<BeritaAcara> BeritaAcaras { get; set; }
         public virtual ICollection<PemenangPengadaan> PemenangPengadaans { get; set; }
+        public virtual ICollection<PersetujuanTahapan> PersetujuanTahapans { get; set; }
     }
 
     [Table("DokumenPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -445,11 +446,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Guid Id { get; set; }
         [ForeignKey("RKSDetail")]
         public Nullable<Guid> RKSDetailId { get; set; }
+         [ForeignKey("Vendor")]
         public Nullable<int> VendorId { get; set; }
         public Nullable<decimal> harga { get; set; }
         public string hargaEncrypt { get; set; }
         public string keterangan { get; set; }
         public virtual RKSDetail RKSDetail { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 
     [Table("PelaksanaanPemilihanKandidat", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
@@ -479,6 +482,21 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string keterangan { get; set; }
         public virtual RKSDetail RKSDetail { get; set; }
     }
+
+    [Table("HargaKlarifikasiLanLanjutan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
+    public class HargaKlarifikasiLanLanjutan
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+        [ForeignKey("RKSDetail")]
+        public Nullable<Guid> RKSDetailId { get; set; }
+        public Nullable<int> VendorId { get; set; }
+        public Nullable<decimal> harga { get; set; }
+        public string keterangan { get; set; }
+        public virtual RKSDetail RKSDetail { get; set; }
+    }
+
 
     [Table("CatatanPengadaan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
     public class CatatanPengadaan
@@ -619,11 +637,33 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual Pengadaan Pengadaan { get; set; }
     }
 
-    
+    [Table("PersetujuanTahapan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
+    public class PersetujuanTahapan
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+        [ForeignKey("Pengadaan")]
+        public Nullable<Guid> PengadaanId { get; set; }
+        public Guid UserId { get; set; }
+        public StatusTahapan Status{ get; set; }
+        public EStatusPengadaan StatusPengadaan { get; set; }
+        public Nullable<DateTime> CreatedOn { get; set; }
+        public Nullable<Guid> CreatedBy { get; set; }
+        public Nullable<DateTime> ModifiedOn { get; set; }
+        public Nullable<Guid> ModifiedBy { get; set; }
+        public virtual Pengadaan Pengadaan { get; set; }
+    }
 
+    public enum StatusTahapan
+    {
+       Requested, Approved
+    }
     public enum EStatusPengadaan
     {
-        DRAFT, AJUKAN, DISETUJUI, AANWIJZING, SUBMITPENAWARAN, BUKAAMPLOP, PENILAIAN, KLARIFIKASI, PEMENANG, ARSIP, DITOLAK, DIBATALKAN
+        DRAFT=0, AJUKAN=1, DISETUJUI=2, AANWIJZING=3,
+        SUBMITPENAWARAN=4, BUKAAMPLOP=5, KLARIFIKASI=7,
+        KLARIFIKASILANJUTAN=12, PENILAIAN=6, PEMENANG=8, ARSIP=9, DITOLAK=10, DIBATALKAN=11
     }
 
     public enum EStatusPengadaanVendor
@@ -638,7 +678,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
     public enum TipeBerkas
     {
-        NOTA, DOKUMENLAIN, BerkasRujukanLain, BeritaAcaraAanwijzing, BeritaAcaraSubmitPenawaran, BeritaAcaraBukaAmplop, BeritaAcaraPenilaian, BeritaAcaraKlarifikasi, BeritaAcaraPenentuanPemenang, BerkasRekanan, BerkasRekananKlarifikasi, LembarDisposisi, SuratPerintahKerja, BeritaAcaraPendaftaran, DraftPKS,FinalLegalPks,AssignedPks
+        NOTA, DOKUMENLAIN, BerkasRujukanLain, BeritaAcaraAanwijzing, BeritaAcaraSubmitPenawaran, BeritaAcaraBukaAmplop, BeritaAcaraPenilaian, BeritaAcaraKlarifikasi, BeritaAcaraPenentuanPemenang, BerkasRekanan, BerkasRekananKlarifikasi, LembarDisposisi, SuratPerintahKerja, BeritaAcaraPendaftaran, DraftPKS, FinalLegalPks, AssignedPks, BeritaAcaraKlarifikasiLanjutan, BerkasRekananKlarifikasiLanjutan
     }
 
     public enum TipeCatatan
@@ -648,7 +688,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
     public enum TipeNoDokumen
     {
-        PENGADAAN, BERITAACARA, NOTA, SPK
+        PENGADAAN, BERITAACARA, NOTA, SPK,PO
     }
 
     public enum KlasifikasiPengadaan

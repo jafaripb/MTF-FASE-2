@@ -545,11 +545,14 @@ function loadData(pengadaanId) {
         $("#isTEAM").val(data.isTEAM);
         $("#isPersonil").val(data.isPersonil);
         $("#State").val(data.Status);
+        $("#StatusName").val(data.StatusName);
         isPemenangApproved(pengadaanId);
         StatusPemenang(pengadaanId);
         if (data.isPIC == 0) {
             $(".action-pelaksanaan").attr("disabled", "disabled"); 
             $("button.action-pelaksanaan").remove();
+            $(".next-step").attr("disabled", "disabled");
+            $(".lewati-tahapan").attr("disabled", "disabled");
         }
         if (data.isPIC == 1) {
             //$(".addPerson").show();
@@ -575,12 +578,11 @@ function loadData(pengadaanId) {
         loadListKandidat(data.Id);
         hitungHPS($("#pengadaanId").val(), data.AturanPenawaran);
         loadJadwal(data.JadwalPengadaans);
-        LoadListPersonil(data.PersonilPengadaans, data.dataPIC);
+        LoadListPersonil(data.PersonilPengadaans, data.isPIC);
         loadKualifikas(data.KualifikasiKandidats);
         $("#lihatHps").attr("href", "rks.html#" + data.Id);
         if (data.AturanPenawaran == "Open Price") $("#lihatHps").remove();
-        ///generateUndangan(data);
-        if (data.Status == 0) {
+        if (data.StatusName == "DRAFT") {
             $("#Status").text("Status Pengadaan : Draft");
             if (data.isTEAM == 1 || data.isCreated==1) {
                 $("#edit").show();
@@ -600,11 +602,11 @@ function loadData(pengadaanId) {
         }
 
         if (data.isUser == 1 && data.isTEAM==0) {
-            $("#tab-klarifikasi").parent().parent().parent().remove();
+            //$("#tab-klarifikasi").parent().parent().parent().remove();
            // $("#collapse5").remove();
         }
 
-        if (data.Status ==10) {
+        if (data.StatusName == "DITOLAK") {
             $("#Status").text("Status Pengadaan : Pengajuan Ditolak");
             if (data.isTEAM == 1 || data.isCreated == 1) {
                 $("#edit").show();
@@ -616,12 +618,12 @@ function loadData(pengadaanId) {
             $("#ajukan").remove();
             loadKeteranganDitolak(data.Id);
         }
-        if (data.Status == 1) {
+        if (data.StatusName == "AJUKAN") {
             $("#Status").text("Status Pengadaan : Dalam Pengajuan");
             $("#tab-pelakasanaan").hide();
             $("#tab-berkas").hide();
         }
-        if (data.Status > 1 && data.Status != 10 ) {
+        if (data.Status > 1 && data.StatusName != "DITOLAK") {
             $("#tab-rk").attr("data-toggle", "tab");
             $("#tab-pelakasanaan").attr("data-toggle", "tab");//aria-expanded="true"
             $("#tab-berkas").attr("data-toggle", "tab");
@@ -637,16 +639,16 @@ function loadData(pengadaanId) {
             $("#tab-rk").removeClass("active");
             $("#tab-pelakasanaan").addClass("active");
 
-            if (data.Status == 11) $("#dibatalkan").hide();
+            if (data.StatusName == "DIBATALKAN") $("#dibatalkan").hide();
         }
-        if (data.Status == 2) {
+        if (data.StatusName == "DISETUJUI") {
             $("#Status").text("Status Pengadaan : Pendaftaran");
            // cekState("Disetujui");
             $("#collapsePendaftaran").addClass("in");
             $("#tab-pendaftaran").attr("data-toggle", "collapse");
             
         }
-        if (data.Status == 3) {
+        if (data.StatusName == "AANWIJZING") {
             $("#Status").text("Status Pengadaan : Aanwijzing");
            // cekState("Aanwijzing");
             $("#collapseOne").addClass("in");
@@ -659,7 +661,7 @@ function loadData(pengadaanId) {
             $(".jadwal-pendafataran").remove();
         }
        
-        if (data.Status == 4) {
+        if (data.StatusName == "SUBMITPENAWARAN") {
             //cekState("pengisian_harga");
             $("#collapseTwo").addClass("in");
             $("#Status").text("Status Pengadaan : Submit Penawaran");
@@ -672,7 +674,7 @@ function loadData(pengadaanId) {
             $(".jadwal-aanwijzing").remove();
             $(".jadwal-pendaftaran").remove();
         }
-        if (data.Status == 5) {
+        if (data.StatusName == "BUKAAMPLOP") {
            // cekState("buka_amplop");
             $("#collapseThree").addClass("in");
             $("#Status").text("Status Pengadaan : Buka Amplop");
@@ -686,24 +688,9 @@ function loadData(pengadaanId) {
             $(".jadwal-aanwijzing").remove();
             $(".jadwal-submit").remove();
         }
-        if (data.Status == 6) {
-           // cekState("penilaian");
-            $("#collapse4").addClass("in");
-            $("#Status").text("Status Pengadaan : Penilaian Kandidat");
-
-            $("#tab-pendaftaran").attr("data-toggle", "collapse");
-            $("#tab-anwijzing").attr("data-toggle", "collapse");
-            $("#tab-submit-penawaran").attr("data-toggle", "collapse");
-            $("#tab-buka-amplop").attr("data-toggle", "collapse");
-            $("#tab-penilaian-kandidat").attr("data-toggle", "collapse");
-
-            $(".jadwal-pendaftaran").remove();
-            $(".jadwal-aanwijzing").remove();
-            $(".jadwal-submit").remove();
-            $(".jadwal-buka-amplop").remove();
-        }
-        if (data.Status == 7) {
-           // cekState("klarifikasi");
+        
+        if (data.StatusName == "KLARIFIKASI") {
+            // cekState("klarifikasi");
             $("#collapse5").addClass("in");
             $("#Status").text("Status Pengadaan : Klarifikasi");
 
@@ -722,9 +709,53 @@ function loadData(pengadaanId) {
             $(".jadwal-aanwijzing").remove();
             $(".jadwal-submit").remove();
             $(".jadwal-buka-amplop").remove();
-            $(".jadwal-penilaian").remove();
+           // $(".jadwal-penilaian").remove();
         }
-        if (data.Status == 8) {
+
+        if (data.StatusName == "KLARIFIKASILANJUTAN") {
+            // cekState("klarifikasi");
+            $("#detail-klarifikasi-lanjutan").addClass("in");
+            $("#Status").text("Status Pengadaan : Klarifikasi");
+
+            $("#tab-anwijzing").attr("data-toggle", "collapse");
+            $("#tab-submit-penawaran").attr("data-toggle", "collapse");
+            $("#tab-buka-amplop").attr("data-toggle", "collapse");
+            $("#tab-klarifikasi").attr("data-toggle", "collapse");
+            $("#tab-klarifikasi-lanjutan").attr("data-toggle", "collapse");
+
+            if (data.isUser == 1 && data.isTEAM == 0) {
+                // $("#tab-klarifikasi").parent().parent().parent().remove();
+                //$("#collapse5").remove();                
+            }
+            $(".jadwal-aanwijzing").remove();
+            $(".jadwal-submit").remove();
+            $(".jadwal-buka-amplop").remove();
+            $(".jadwal-klarifikasi").remove();
+
+        }
+
+        if (data.StatusName == "PENILAIAN") {
+            // cekState("penilaian");
+            $("#collapse4").addClass("in");
+            $("#Status").text("Status Pengadaan : Penilaian Kandidat");
+
+            $("#tab-pendaftaran").attr("data-toggle", "collapse");
+            $("#tab-anwijzing").attr("data-toggle", "collapse");
+            $("#tab-submit-penawaran").attr("data-toggle", "collapse");
+            $("#tab-buka-amplop").attr("data-toggle", "collapse");
+            $("#tab-klarifikasi").attr("data-toggle", "collapse");
+            $("#tab-klarifikasi-lanjutan").attr("data-toggle", "collapse");
+            $("#tab-penilaian-kandidat").attr("data-toggle", "collapse");
+
+            $(".jadwal-pendaftaran").remove();
+            $(".jadwal-aanwijzing").remove();
+            $(".jadwal-submit").remove();
+            $(".jadwal-buka-amplop").remove();
+            $(".jadwal-klarifikasi").remove();
+            $(".jadwal-klarifikasi-lanjutan").remove();
+        }
+        
+        if (data.StatusName == "PEMENANG") {
             //cekState("penentuanpemenang");
             $("#collapse6").addClass("in");
             

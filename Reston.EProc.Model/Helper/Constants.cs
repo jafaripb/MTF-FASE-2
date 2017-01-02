@@ -63,6 +63,7 @@ namespace Model.Helper
             public static string BukaAmplop = "buka_amplop";
             public static string Penilaian = "penilaian";
             public static string Klarifikasi = "klarifikasi";
+            public static string KlarifikasiLanjutan = "klarifikasi_lanjutan";
             public static string PenentuanPemenang = "penentuan_pemenang";
         }
         public static class StatusPengadaan
@@ -76,6 +77,7 @@ namespace Model.Helper
         {
             public static string PIC = "pic";
             public static string Staff = "staff";
+            public static string Tim = "tim";
             public static string User = "User";
             public static string Controller = "controller";
             public static string Compliance = "compliance";

@@ -94,6 +94,17 @@ namespace Reston.Pinata.WebService.Controllers
             return datatable;
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_vendor)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public DataTableRksRekanan getRKSForKlarifikasiLanjutanRekanan(Guid Id)
+        {
+            List<VWRKSDetailRekanan> rks = _repository.getRKSForKlarifikasiLanjutanRekanan(Id, UserId());
+            DataTableRksRekanan datatable = new DataTableRksRekanan();
+            datatable.recordsTotal = rks.Count();
+            datatable.data = rks;
+            return datatable;
+        }
+
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_vendor)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
@@ -180,7 +191,13 @@ namespace Reston.Pinata.WebService.Controllers
                 if (getpengadaan == null) return Json(0);
                 if (getpengadaan.Status != EStatusPengadaan.KLARIFIKASI) return Json(0);
             }
-            if (t != TipeBerkas.BerkasRekananKlarifikasi && t != TipeBerkas.BerkasRekanan)
+            if (t == TipeBerkas.BerkasRekananKlarifikasiLanjutan)
+            {
+                var getpengadaan = _repository.GetPengadaan(id, UserId(), await isApprover());
+                if (getpengadaan == null) return Json(0);
+                if (getpengadaan.Status != EStatusPengadaan.KLARIFIKASILANJUTAN) return Json(0);
+            }
+            if (t != TipeBerkas.BerkasRekananKlarifikasi && t != TipeBerkas.BerkasRekanan && t != TipeBerkas.BerkasRekananKlarifikasiLanjutan) 
             {
                 return Json(0);
             }

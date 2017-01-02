@@ -490,7 +490,23 @@ namespace Reston.Pinata.WebService.Controllers
             
         }
 
+        public HttpResponseMessage OpenFile(Guid Id)
+        {
+            var data = _repository.getDokPks(Id);
+            var path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_DOKUMEN_PKS_PATH + data.File;
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(path, FileMode.Open);
+            result.Content = new StreamContent(stream);
+            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue(data.ContentType);
 
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = data.File
+            };
+
+            return result;
+        }
     }
     
 }

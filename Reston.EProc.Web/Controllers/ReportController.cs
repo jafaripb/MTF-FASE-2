@@ -123,7 +123,7 @@ namespace Reston.Pinata.WebService.Controllers
 
         [Authorize]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public HttpResponseMessage BerkasAanwzjing(Guid Id)
+        public async Task< HttpResponseMessage> BerkasAanwzjing(Guid Id)
         {
             var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
             var jadwalAanwijzing = _repository.getPelaksanaanAanwijing(Id);
@@ -196,7 +196,21 @@ namespace Reston.Pinata.WebService.Controllers
                 var listPersonil = _repository.getListPersonilPengadaan(Id);
                 var NamePic = listPersonil.Where(d => d.tipe == "pic").FirstOrDefault().Nama;
                 doc.ReplaceText("{nama_pic}", NamePic);
+                
 
+                //tambah tabel persetujuan tahapan
+                var table2 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.AANWIJZING, doc);
+
+                table2.Alignment = Alignment.center; 
+                //table.AutoFit = AutoFit.Contents;
+
+                foreach (var paragraph in doc.Paragraphs)
+                {
+                    paragraph.FindAll("{tabel2}").ForEach(index => paragraph.InsertTableBeforeSelf(table2));
+
+                }
+                doc.ReplaceText("{tabel2}", "");
+                //end
 
                 doc.SaveAs(OutFileNama);
                 streamx.Close();
@@ -217,6 +231,49 @@ namespace Reston.Pinata.WebService.Controllers
             };
 
             return result;
+        }
+
+        private async Task<Table> getTablePersetujuan(Guid PengadaanId, EStatusPengadaan status ,DocX doc)
+        {
+            var personilPersetujuan = _repository.GetPersetujuanTahapan(PengadaanId, status);
+            var table2 = doc.AddTable(personilPersetujuan.Count() + 1, 3);
+            Border WhiteBorder = new Border(BorderStyle.Tcbs_single, BorderSize.four, 1, Color.Black);
+            table2.SetBorder(TableBorderType.Bottom, WhiteBorder);
+            table2.SetBorder(TableBorderType.Left, WhiteBorder);
+            table2.SetBorder(TableBorderType.Right, WhiteBorder);
+            table2.SetBorder(TableBorderType.Top, WhiteBorder);
+            table2.SetBorder(TableBorderType.InsideV, WhiteBorder);
+            table2.SetBorder(TableBorderType.InsideH, WhiteBorder);
+            int rowIndex = 0;
+
+            table2.Rows[rowIndex].Cells[0].Paragraphs.First().Append("Nama");
+            table2.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+            table2.Rows[rowIndex].Cells[0].Width = 500;
+            table2.Rows[rowIndex].Cells[1].Paragraphs.First().Append("Tanggal");
+            table2.Rows[rowIndex].Cells[1].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+            table2.Rows[rowIndex].Cells[1].Width = 500;
+            table2.Rows[rowIndex].Cells[2].Paragraphs.First().Append("Status");
+            table2.Rows[rowIndex].Cells[2].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+            table2.Rows[rowIndex].Cells[2].Width = 500;
+            rowIndex++;
+            foreach (var item in personilPersetujuan)
+            {
+                var user = await userDetail(item.UserId.ToString());
+                table2.Rows[rowIndex].Cells[0].Paragraphs.First().Append(user.Nama);
+                table2.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                table2.Rows[rowIndex].Cells[0].Width = 500;
+                table2.Rows[rowIndex].Cells[1].Paragraphs.First().Append(item.CreatedOn == null ? "" : item.CreatedOn.Value.Day.ToString() +
+                    " " + Common.ConvertNamaBulan(item.CreatedOn.Value.Month) +
+                    " " + item.CreatedOn.Value.Year.ToString());
+                table2.Rows[rowIndex].Cells[1].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                table2.Rows[rowIndex].Cells[1].Width = 500;
+                table2.Rows[rowIndex].Cells[2].Paragraphs.First().Append(item.Status.ToString());
+                table2.Rows[rowIndex].Cells[2].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                table2.Rows[rowIndex].Cells[2].Width = 500;
+                rowIndex++;
+            }
+
+            return table2;
         }
 
         [Authorize]
@@ -339,50 +396,13 @@ namespace Reston.Pinata.WebService.Controllers
             }
         }
 
-        //public HttpResponseMessage ReportPengadaan(Guid Id)
-        //{
-        //    var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
-        //    var jadwalAanwijzing = _repository.getPelaksanaanAanwijing(Id);
-        //    string outputFileName = "Berkas-Aanwizjing" + UserId().ToString() + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
-
-        //    string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
-        //    // Create a document in memory:
-        //    //string outputFileName =
-        //    //        string.Format(fileName, "BAcoooooooooooooot", DateTime.Now.ToString("dd-MM-yy"));
-        //    //.Create(OutFileNama);
-        //    var doc = DocX.Create(OutFileNama);
-        //    //System.Drawing.
-
-        //    // Add a new Paragraph to the document.
-        //    Paragraph p = doc.InsertParagraph();
-
-        //    p.Alignment = Alignment.center;
-        //    p.Append("BERITA ACARA RAPAT PEMBUKAAN AMPLOP PENAWARAN PENGADAAN").FontSize(12).Font(new FontFamily("Times New Roman")).Bold();
-        //    p.Alignment = Alignment.center;
-        //    p.AppendLine(pengadaan.Judul.ToUpper()).FontSize(12).Font(new FontFamily("Times New Roman")).Bold();
-
-        //    //PT MANDIRI TUNAS FINANCE 
-        //    doc.SaveAs(OutFileNama);
-
-        //    HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-        //    var stream = new FileStream(OutFileNama, FileMode.Open);
-        //    result.Content = new StreamContent(stream);
-        //    //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-        //    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-
-        //    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-        //    {
-        //        FileName = outputFileName
-        //    };
-
-        //    return result;
-        //}
+      
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public HttpResponseMessage BerkasBukaAmplop(Guid Id)
+        public async Task<HttpResponseMessage> BerkasBukaAmplop(Guid Id)
         {
             var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
             var jadwalBukaAmplop = _repository.getPelaksanaanBukaAmplop(Id);
@@ -461,6 +481,20 @@ namespace Reston.Pinata.WebService.Controllers
 
                 }
                 doc.ReplaceText("{panitia}", "");
+
+                //tambah tabel persetujuan tahapan
+                var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.BUKAAMPLOP, doc);
+
+                table3.Alignment = Alignment.center;
+                //table.AutoFit = AutoFit.Contents;
+
+                foreach (var paragraph in doc.Paragraphs)
+                {
+                    paragraph.FindAll("{table3}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
+
+                }
+                doc.ReplaceText("{table3}", "");
+                //end
 
                 if (_repository.CekBukaAmplop(Id) == 1)
                 {
@@ -605,7 +639,7 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public HttpResponseMessage BerkasKlarfikasi(Guid Id)
+        public async Task< HttpResponseMessage> BerkasKlarfikasi(Guid Id)
         {
             var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
             var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
@@ -664,7 +698,19 @@ namespace Reston.Pinata.WebService.Controllers
                 doc.ReplaceText("{vendor}", "");
 
 
+                //tambah tabel persetujuan tahapan
+                var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.KLARIFIKASI, doc);
 
+                table3.Alignment = Alignment.center;
+                //table.AutoFit = AutoFit.Contents;
+
+                foreach (var paragraph in doc.Paragraphs)
+                {
+                    paragraph.FindAll("{table3}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
+
+                }
+                doc.ReplaceText("{table3}", "");
+                //end
 
                 //var listPersonil = _repository.getListPersonilPengadaan(Id);
                 //var NamePic = listPersonil.Where(d => d.tipe == "pic").FirstOrDefault().Nama.ToString();
@@ -771,7 +817,108 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public HttpResponseMessage BerkasPenilaian(Guid Id)
+        public async Task<HttpResponseMessage> BerkasKlarfikasiLanjutan(Guid Id)
+        {
+            var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
+            var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
+            string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\BERITA ACARA RAPAT KLARIFIKASI DAN NEGOSIASI LANJUTAN.docx";
+            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraKlarifikasiLanjutan, UserId());
+            string outputFileName = "Berkas-Klarifikasi-lanjutan-" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+
+            string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
+
+            var streamx = new FileStream(fileName, FileMode.Open);
+
+            var doc = DocX.Load(streamx);
+
+            try
+            {
+
+
+                doc.ReplaceText("{pengadaan_name}", pengadaan.Judul == null ? "" : pengadaan.Judul);
+                doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
+                doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
+                doc.ReplaceText("{pengadaan_unit_pemohon}", pengadaan.UnitKerjaPemohon == null ? "" : pengadaan.UnitKerjaPemohon);
+
+                doc.ReplaceText("{tempat_tanggal}", "...............," + (BeritaAcara == null ? "................" :
+                        (BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) + " " +
+                        BeritaAcara.tanggal.Value.Year)));
+
+                doc.ReplaceText("{pengadaan_jadwal_hari}", BeritaAcara == null ? "" :
+                       Common.ConvertHari(BeritaAcara.tanggal.Value.Day));
+                doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara == null ? "" : BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
+                      " " + BeritaAcara.tanggal.Value.Year);
+                var kandidat = _repository.GetVendorsKlarifikasiByPengadaanId(Id);
+                var table = doc.AddTable(kandidat.Count(), 1);
+                Border BlankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                table.SetBorder(TableBorderType.Bottom, BlankBorder);
+                table.SetBorder(TableBorderType.Left, BlankBorder);
+                table.SetBorder(TableBorderType.Right, BlankBorder);
+                table.SetBorder(TableBorderType.Top, BlankBorder);
+                table.SetBorder(TableBorderType.InsideV, BlankBorder);
+                table.SetBorder(TableBorderType.InsideH, BlankBorder);
+
+                int rowIndex = 0;
+                foreach (var item in kandidat)
+                {
+                    table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + item.Nama);
+                    table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                    table.Rows[rowIndex].Cells[0].Width = 550;
+                    rowIndex++;
+                }
+
+                table.Alignment = Alignment.center;
+                foreach (var paragraph in doc.Paragraphs)
+                {
+                    paragraph.FindAll("{vendor}").ForEach(index => paragraph.InsertTableBeforeSelf(table));
+
+                }
+                doc.ReplaceText("{vendor}", "");
+
+
+                //tambah tabel persetujuan tahapan
+                var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.KLARIFIKASILANJUTAN, doc);
+
+                table3.Alignment = Alignment.center;
+                //table.AutoFit = AutoFit.Contents;
+
+                foreach (var paragraph in doc.Paragraphs)
+                {
+                    paragraph.FindAll("{table3}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
+
+                }
+                doc.ReplaceText("{table3}", "");
+                //end
+
+                doc.SaveAs(OutFileNama);
+                streamx.Close();
+            }
+            catch
+            {
+                streamx.Close();
+            }
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(OutFileNama, FileMode.Open);
+            result.Content = new StreamContent(stream);
+            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = outputFileName
+            };
+
+            return result;
+        }
+
+
+
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public async Task< HttpResponseMessage> BerkasPenilaian(Guid Id)
         {
             ViewPengadaan pengadaan = this._repository.GetPengadaan(Id, base.UserId(), 0);
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\Berita Acara Penilaian.docx";
@@ -802,7 +949,7 @@ namespace Reston.Pinata.WebService.Controllers
                                                                                                     where d.NamaKreteria.Contains("Teknis")
                                                                                                     select d).FirstOrDefault<VWPembobotanPengadaan>().Bobot.ToString();
                 cx.ReplaceText("{teknis}", str5 + "%", false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
-                List<VWRekananPenilaian> source = this._repository.getKandidatPengadaan(Id, base.UserId());
+                List<VWRekananPenilaian> source = this._repository.getKandidatPengadaan2(Id, base.UserId());
                 Table table = cx.AddTable(4, source.Count<VWRekananPenilaian>() + 3);
                 Border BlankBorder = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Black);
                 table.SetBorder(TableBorderType.Bottom, BlankBorder);
@@ -927,6 +1074,21 @@ namespace Reston.Pinata.WebService.Controllers
                 cx.InsertSection();
                 cx.InsertDocument(doc2);
                 //cx.ReplaceText("{penilaian}", "", false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
+               
+                //tambah tabel persetujuan tahapan
+                var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.PENILAIAN, cx);
+
+                table3.Alignment = Alignment.center;
+                //table.AutoFit = AutoFit.Contents;
+
+                foreach (var paragraph in cx.Paragraphs)
+                {
+                    paragraph.FindAll("{table3}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
+
+                }
+                cx.ReplaceText("{table3}", "");
+                //end
+                
                 cx.SaveAs(filename);
                 stream.Close();
             }
@@ -950,7 +1112,7 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public HttpResponseMessage BerkasPemenang(Guid Id)
+        public async Task< HttpResponseMessage> BerkasPemenang(Guid Id)
         {
             var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
             var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
@@ -1005,6 +1167,20 @@ namespace Reston.Pinata.WebService.Controllers
                     streamx.Close();
                 }
             }
+
+            //tambah tabel persetujuan tahapan
+            var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.PEMENANG, docM);
+
+            table3.Alignment = Alignment.center;
+            //table.AutoFit = AutoFit.Contents;
+
+            foreach (var paragraph in docM.Paragraphs)
+            {
+                paragraph.FindAll("{table3}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
+
+            }
+            docM.ReplaceText("{table3}", "");
+            //end
             docM.SaveAs(OutFileNama);
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(OutFileNama, FileMode.Open);
