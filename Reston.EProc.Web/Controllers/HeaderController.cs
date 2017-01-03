@@ -47,6 +47,16 @@ namespace Reston.Pinata.WebService.Controllers
             return HttpStatusCode.OK;
         }
 
+        private List<Menu> cekdasboard(List<Menu> menu)
+        {
+            var dasbord = menu.Where(d => d.menu == "Dashboard").FirstOrDefault();
+            if (dasbord != null)
+            {
+                dasbord.menu = dasbord.menu + "(10)";
+            }
+            return menu;
+        }
+
          //[Authorize]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
          public async Task<List<Menu>> GetMenu()
@@ -62,16 +72,25 @@ namespace Reston.Pinata.WebService.Controllers
                  Menu newMenu = new Menu { id = 2, css = "fa fa-user", url = IdLdapConstants.IDM.Url + "admin/userid", menu = "User Management" };
                  var lstMenu = JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-admin.json"));
                  lstMenu.Insert(1, newMenu);
-                 return lstMenu;
+                lstMenu=cekdasboard(lstMenu);
+                return lstMenu;
                  
              }
              else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementStaffRole) && roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementAdminRole))
              {
-                 return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-staff-admin.json"));
+                var menu = JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-staff-admin.json"));
+               /* var dasbord = menu.Where(d => d.menu == "Dasboard").FirstOrDefault();
+                if (dasbord != null)
+                {
+                    dasbord.menu = dasbord.menu + "(10)";
+                }*/
+                return cekdasboard( menu);//JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-staff-admin.json"));
              }
              else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementHeadRole) || roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementManagerRole) || roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementStaffRole))
              {
-                 return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu.json"));
+                var lstMenu = JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu.json"));
+                lstMenu = cekdasboard(lstMenu);
+                return lstMenu;//JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu.json"));
              }
              else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapEndUserRole))
              {

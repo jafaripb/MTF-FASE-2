@@ -1193,6 +1193,45 @@ $(function () {
         });
     });
 
+    $(".kirim-undangan-klarifikasi-lanjutan").on("click", function () {
+        waitingDialog.showloading("Proses Harap Tunggu");
+        $.ajax({
+            //data: odata,
+            method: "POST",
+            url: "Api/PengadaanE/sendMailKlarifikasi",
+            data: { PengadaanId: $("#pengadaanId").val(), Surat: $("#mKlarifikasilanjutan").val() },
+            dataType: "text",
+            success: function (data) {
+                waitingDialog.hideloading();
+                if (data == 1) {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Undandangan Berhasil Terkirim!',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                } else {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Anda Tidak Memiliki Akses!',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                }
+            },
+            error: function (errormessage) {
+                waitingDialog.hideloading();
+            }
+        });
+    });
 
     $(".list-rekanan-klarifikasi-penilaian").on("click", ".checkbox-pilih-pemenang", function () {
        // console.log($(this).is(':checked'));

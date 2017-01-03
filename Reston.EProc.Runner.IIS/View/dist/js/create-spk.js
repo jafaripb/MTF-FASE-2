@@ -1,5 +1,5 @@
 ﻿var SpkId = gup("id");
-
+var myDropzoneSPK;
 $(function () {
     //$("#pengadaanId").val(PengadaanId);
     //$("#VendorId").val(VendorId);
@@ -34,7 +34,7 @@ $(function () {
         });
     });
 
-    var myDropzoneSPK = new Dropzone("#dokspk",
+     myDropzoneSPK = new Dropzone("#dokspk",
              {
                  maxFilesize: 10,
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
@@ -328,7 +328,21 @@ function save(spk) {
 
 function change() {
     var status = $("[name=status]:checked").val();
-
+    
+    if (myDropzoneSPK.files.length == 0 && (status == 1 || status==2)) {
+        BootstrapDialog.show({
+            title: 'Infomasi',
+            message: "Harap Upload Dokumen SPK dahulu",
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+        $("[name=status][value=0]").prop('checked', true);
+        return;
+    }
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
         url: "Api/Spk/ChangeSatus?Id=" + $("#spkId").val() + "&status=" + status,

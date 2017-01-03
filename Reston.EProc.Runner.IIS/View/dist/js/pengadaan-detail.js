@@ -796,13 +796,32 @@ function loadData(pengadaanId) {
             $(".Tolak").show();
         }
         
-
+        cekStep();
+        cekLewati();
         //$("#lihatHps").on("click", function () {
         //    window.open("http://" + window.location.host + "/rks.html#" + $("#pengadaanId").val());
         //}); 
     });
 }
+function cekStep() {
+    $(".next-step").each(function (index) {
+        var statusPengadaan = $("#StatusName").val();
+        console.log(statusPengadaan + " xx:" + $(this).attr("attrStatus"));
 
+        if ($(this).attr("attrStatus") != statusPengadaan) {
+            $(this).attr("disabled", "disabled");
+        }
+        else $(this).removeAttr("disabled");
+    });
+}
+
+function cekLewati() {
+    $(".lewati-tahapan").each(function (index) {
+        var statusPengadaan = $("#StatusName").val();
+        if ($(this).attr("attrStatus") != statusPengadaan) $(this).attr("disabled", "disabled");
+        else $(this).removeAttr("disabled");
+    });
+}
 function getPemenangVendor() {
     var result;
     $.ajax({
