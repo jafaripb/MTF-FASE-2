@@ -82,7 +82,7 @@
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
                             <li><a id="SimpanJalankan" title="Simpan Jalankan" href="#" class="SimpanJalankan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan & Jalankan</a></li>
-                            <li><a id="Simpan" title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                            <li><a onclick="TambahProyekDrafPekerjaan()" id="Simpan" title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
 
                             <!--<li><a  id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>-->
                         </ul>
@@ -133,7 +133,7 @@
                                 <input type="hidden" id="pengadaanId" />
                                 <input type="hidden" id="isTeam" />
                                 <input type="hidden" id="isCreated" />
-                                <input type="hidden" id="status" value="draf">
+                                <input type="hidden" id="status" value="DRAF">
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-md-10">
@@ -203,7 +203,7 @@
                                         <div class="col-md-12">
                                             <label>
                                                 <!--<a id="addVendorItem">Tambah</a>-->
-                                                <a onclick="TambahProyekDrafPekerjaan()" id="" style="margin-top:10px;margin-bottom:10px" class="btn btn-sm btn-social btn-bitbucket">
+                                                <a onclick="popuptahapan()" id="" style="margin-top:10px;margin-bottom:10px" class="btn btn-sm btn-social btn-bitbucket">
                                                     <i class="fa fa-plus"></i>
                                                     Tambah Tahapan Pekerjaan
                                                 </a>
@@ -272,11 +272,8 @@
                                     </div>
 
                                     <div class="box-footer clearfix" style="text-align:center;">
-                                        <button class="pull-middle btn btn-primary btn-lmedia Setujui" style="display:none">Setujui </button>
-                                        <button class="pull-middle btn btn-primary btn-lmedia Tolak" style="display:none">Tolak </button>
                                         <button class="pull-middle btn btn-primary btn-lmedia SimpanAjukan" style="display:none">Simpan & Ajukan <i class="fa fa-save"></i></button>
                                         <button class="pull-middle btn btn-primary btn-lmedia Simpan" style="display:none">Simpan <i class="fa fa-save"></i></button>
-                                        <button class="pull-middle btn btn-primary btn-lmedia Hapus" style="display:none">Hapus <i class="fa fa-trash"></i></button>
                                     </div>
                             </form>
                         </div>
@@ -284,54 +281,8 @@
                 </div>
             </section><!-- /.content -->
         </div>
-        <aside class="control-sidebar control-sidebar-light control-sidebar-open">
-            <!-- Create the tabs -->
-            <!--<ul class="nav nav-tabs nav-stacked" id="side-kanan" >
-                <li class="active"><a href="#section-1">Atas</a></li>
-                <li><a href="#section-2">Anggaran</a></li>
-                <li><a href="#section-3">Korespondensi Internal</a></li>
-                <li><a href="#section-4">Spesifikasi</a></li>
-                <li><a href="#section-5">Kandidat</a></li>
-                <li><a href="#section-6">Jadwal</a></li>
-                <li><a href="#section-7">Personil</a></li>
-            </ul>-->
-            <!-- Tab panes -->
-
-        </aside><!-- /.control-sidebar -->
-        <!-- Add the sidebar's background. This div must be placed
-             immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-    <!--chat-->
-    <!--<div id="chat">
-        <div class="chat-window" style="right: 10px;">
-        <div class="chat-window-title">
-            <div class="text">Online (2)</div>
-        </div>
-        <div class="chat-window-content" style="height: 300px;">
-            <div class="chat-window-inner-content user-list" style="height: 100px;">
-                <div class="user-list-item" data-val-id="2">
-                    <img class="profile-picture" src="dist/img/avatar.png">
-                    <div class="profile-status online"></div>
-                    <div class="content-chat">User 1</div>
-                </div>
-                <div class="user-list-item" data-val-id="2">
-                    <img class="profile-picture"  src="dist/img/avatar2.png">
-                    <div class="profile-status online"></div>
-                    <div class="content-chat">User 2</div>
-                </div>
-            </div>
-        </div>
-        </div>
-        <div id="divContainer">
-        </div>
-    </div-->
-    >
-
-
-
-    <!-- /#myModal -->
-    <!--sdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadsadsad-->
     <!-- Modal -->
     <div class="modal" id="dokumenupPekerjaan" role="dialog" aria-hidden="true">
         <div class="modal-dialog">

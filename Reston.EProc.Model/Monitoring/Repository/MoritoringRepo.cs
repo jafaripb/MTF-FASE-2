@@ -121,15 +121,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         {
              search = search == null ? "" : search;
             DataTableViewProyekSistemMonitoring dt = new DataTableViewProyekSistemMonitoring();
-            //// record total
-            //dt.recordsTotal = ctx.RencanaProyeks.Where(d => d.Status == "DIJALANKAN").Count();
-
-            ////filter berdasarkan pencarian
-            //dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Status == "DIJALANKAN").Count();
-
-            //var tampilproyek = ctx.RencanaProyeks.Where(d => d.Status == "DIJALANKAN" && d.Pengadaan.Judul.Contains(search)).ToList();
-
-            //List<ViewProyekSistemMonitoring> LstnViewProyekSistemMonitoring = new List<ViewProyekSistemMonitoring>();
+            
             dt.recordsTotal = ctx.RencanaProyeks.Count();
             dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search)).Count();
             var data = ctx.RencanaProyeks.Where(d=>d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search)).OrderByDescending(d=>d.CreatedOn).Select(
@@ -157,12 +149,12 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
             Vendor oVendor = ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault();
             List<ViewProyekSistemMonitoring> LstnViewProyekSistemMonitoring = new List<ViewProyekSistemMonitoring>();
-           
-            dt.recordsTotal = ctx.RencanaProyeks.Where(d => d.Spk.Pengadaan.PemenangPengadaans.Where(dd => dd.VendorId == oVendor.Id).Count() > 0 && d.Status  == "DIJALANKAN").Count();
 
-            dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.Pengadaan.PemenangPengadaans.Where(dd => dd.VendorId == oVendor.Id).Count() > 0 && d.Status == "DIJALANKAN" && d.Spk.Pengadaan.Judul.Contains(search)).Count();
+            dt.recordsTotal = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.VendorId == oVendor.Id && d.Status == "DIJALANKAN").Count();
 
-            var data = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) &&d.Spk.Pengadaan.PemenangPengadaans.Where(dd => dd.VendorId == oVendor.Id).Count()>0).Select(
+            dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.VendorId == oVendor.Id && d.Status == "DIJALANKAN" && d.Spk.Pengadaan.Judul.Contains(search)).Count();
+
+            var data = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Spk.PemenangPengadaan.VendorId==oVendor.Id).OrderByDescending(d => d.CreatedOn).Select(
                 d => new ViewProyekSistemMonitoring()
                 {
                     id = d.Id,
@@ -205,8 +197,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             search = search == null ? "" : search;
             DataTableViewMonitoring dt = new DataTableViewMonitoring();
             dt.recordsTotal = ctx.RencanaProyeks.Count();
-            dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "DRAFT").Count();
-            var data = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "DRAFT").OrderByDescending(d => d.CreatedOn).Select(
+            dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "Draf").Count();
+            var data = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "Draf").OrderByDescending(d => d.CreatedOn).Select(
                 d => new ViewMonitoringSelection()
                 {
                     NoPengadaan = d.Spk.PemenangPengadaan.Pengadaan.NoPengadaan,
