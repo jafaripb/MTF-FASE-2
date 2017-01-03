@@ -342,7 +342,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public List<VWVendor> GetVendorsKlarifikasiByPengadaanId(Guid PengadaanId)
         {
             var xx = (from b in ctx.Vendors
-                      join c in ctx.PelaksanaanPemilihanKandidats on b.Id equals c.VendorId
+                      join c in ctx.PemenangPengadaans on b.Id equals c.VendorId
                       where c.PengadaanId == PengadaanId
                       select new VWVendor
                       {
@@ -2373,7 +2373,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
             else
             {
                 JadwalPelaksanaan MOJadwalPelaksanaan = new JadwalPelaksanaan();
-                JadwalPengadaan Mjadawal = ctx.JadwalPengadaans.Where(d => d.PengadaanId == PengadaanId && d.tipe == MapingStatus(status)).FirstOrDefault();
+                var tipe = MapingStatus(status);
+                JadwalPengadaan Mjadawal = ctx.JadwalPengadaans.Where(d => d.PengadaanId == PengadaanId && d.tipe == tipe).FirstOrDefault();
                 if (Mjadawal != null)
                 {
                     MOJadwalPelaksanaan.Mulai = Mjadawal.Mulai;
@@ -3285,7 +3286,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         public List<VWRekananSubmitHarga> getListRekananKlarifikasiSubmit(Guid PengadaanId, Guid UserId)
         {
-            var xRekanan = (from b in ctx.PelaksanaanPemilihanKandidats
+            var xRekanan = (from b in ctx.KandidatPengadaans
                             where b.PengadaanId == PengadaanId
                             select b).Distinct().ToList();
 
@@ -3315,7 +3316,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         public List<VWRekananSubmitHarga> getListRekananKlarifikasiLanjutSubmit(Guid PengadaanId, Guid UserId)
         {
-            var xRekanan = (from b in ctx.PelaksanaanPemilihanKandidats
+            var xRekanan = (from b in ctx.PemenangPengadaans
                             where b.PengadaanId == PengadaanId
                             select b).Distinct().ToList();
 
@@ -3345,7 +3346,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         public List<VWRekananPenilaian> getListRekananKlarifikasiPenilaian(Guid PengadaanId, Guid UserId)
         {
-            var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
+            var xKandidatPengadaans = (from b in ctx.KandidatPengadaans
                                        join c in ctx.Vendors on b.VendorId equals c.Id
                                        where b.PengadaanId == PengadaanId
                                        select new VWRekananPenilaian
@@ -3379,7 +3380,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         public List<VWRekananPenilaian> getListRekananKlarifikasiPenilaianLanjutan(Guid PengadaanId, Guid UserId)
         {
-            var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
+            var xKandidatPengadaans = (from b in ctx.PemenangPengadaans
                                        join c in ctx.Vendors on b.VendorId equals c.Id
                                        where b.PengadaanId == PengadaanId
                                        select new VWRekananPenilaian
@@ -3449,8 +3450,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 d.tipe == PengadaanConstants.StaffPeranan.PIC && d.PersonilId == UserId).FirstOrDefault();
             if (oPIC == null) return new Reston.Helper.Util.ResultMessage();
             var oPemenangPengadaan = ctx.PemenangPengadaans.Where(d => d.PengadaanId == dtPemenangPengadaan.PengadaanId && d.VendorId == dtPemenangPengadaan.VendorId).FirstOrDefault();
-            var cekVEndor = ctx.PelaksanaanPemilihanKandidats.Where(d => d.PengadaanId == dtPemenangPengadaan.PengadaanId && dtPemenangPengadaan.VendorId == dtPemenangPengadaan.VendorId).FirstOrDefault();
-            if (cekVEndor == null) return new Reston.Helper.Util.ResultMessage() { status = HttpStatusCode.Forbidden };
+            //var cekVEndor = ctx.PelaksanaanPemilihanKandidats.Where(d => d.PengadaanId == dtPemenangPengadaan.PengadaanId && dtPemenangPengadaan.VendorId == dtPemenangPengadaan.VendorId).FirstOrDefault();
+           // if (cekVEndor == null) return new Reston.Helper.Util.ResultMessage() { status = HttpStatusCode.Forbidden };
             if (oPemenangPengadaan != null)
             {
                 ctx.PemenangPengadaans.Remove(oPemenangPengadaan);
@@ -4470,15 +4471,20 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
             else if (oPengadaan.Status == EStatusPengadaan.PENILAIAN)
             {
-                return "Dalam Proses Penilaian";
-            }
-            else if (oPengadaan.Status == EStatusPengadaan.KLARIFIKASI)
-            {
                 var oPelaksanaanPemilihanKandidat = ctx.PelaksanaanPemilihanKandidats.Where(d => d.PengadaanId == PengadaanId &&
                                 d.VendorId == VendorId).FirstOrDefault();
                 if (oPelaksanaanPemilihanKandidat == null)
                     return "Pengajuan Anda DiTolak";
+                return "Dalam Proses Penilaian";
+                
+            }
+            else if (oPengadaan.Status == EStatusPengadaan.KLARIFIKASI)
+            {
                 return "Dalam Proses Klarifikasi";
+            }
+            else if (oPengadaan.Status == EStatusPengadaan.KLARIFIKASILANJUTAN)
+            {
+                return "Dalam Proses Klarifikasi Lanjut";
             }
             else if (oPengadaan.Status == EStatusPengadaan.PEMENANG)
             {
@@ -4910,8 +4916,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 .Where(b => b.TanggalMenyetujui >= dari && b.TanggalMenyetujui <= sampai)
                 .OrderBy(x => x.TanggalMenyetujui)
                 .Skip(skip).Take(limit);
-            VWStaffCharges v0 = new VWStaffCharges { Nama = "BERJALAN", Jumlah = fPengadaan.Where(x => x.GroupPengadaan == EGroupPengadaan.DALAMPELAKSANAAN).Count() };
-            VWStaffCharges v1 = new VWStaffCharges { Nama = "SELESAI", Jumlah = fPengadaan.Where(x => x.GroupPengadaan == EGroupPengadaan.ARSIP && x.DokumenPengadaans.Where(y => y.Tipe == TipeBerkas.SuratPerintahKerja).FirstOrDefault() != null).Count() };
+            VWStaffCharges v0 = new VWStaffCharges { Nama = "BERJALAN", Jumlah = fPengadaan.Where(x => x.Status!=EStatusPengadaan.DRAFT && x.Status != EStatusPengadaan.DITOLAK && x.Status != EStatusPengadaan.DIBATALKAN && x.PersetujuanPemenangs.Where(d => d.PengadaanId == x.Id && d.Status == StatusPengajuanPemenang.APPROVED).FirstOrDefault() == null).Count() };
+            VWStaffCharges v1 = new VWStaffCharges { Nama = "SELESAI", Jumlah = fPengadaan.Where(x =>  x.PersetujuanPemenangs.Where(d=>d.PengadaanId==x.Id && d.Status== StatusPengajuanPemenang.APPROVED).FirstOrDefault() != null).Count() };
             VWStaffCharges v2 = new VWStaffCharges { Nama = "BATAL", Jumlah = fPengadaan.Where(x => x.Status == EStatusPengadaan.DIBATALKAN).Count() };
             return new List<VWStaffCharges> { v0, v1, v2 };
         }
@@ -5010,8 +5016,12 @@ namespace Reston.Pinata.Model.PengadaanRepository
             Pengadaan oPengadaan = ctx.Pengadaans.Find(Id);
             try
             {
-                if(EStatusPengadaan.DISETUJUI==status)
-                    oPengadaan.NoPengadaan= GenerateNoPengadaan(UserId);
+                if (EStatusPengadaan.DISETUJUI == status)
+                {
+                    oPengadaan.NoPengadaan = GenerateNoPengadaan(UserId);
+                    oPengadaan.TanggalMenyetujui = DateTime.Now;
+                    if (oPengadaan.AturanPengadaan == "Pengadaan Tertutup") oPengadaan.Status = EStatusPengadaan.AANWIJZING;
+                }
                 oPengadaan.Status = status;
                 oPengadaan.GroupPengadaan = EGroupPengadaan.DALAMPELAKSANAAN;
                 ctx.SaveChanges();
@@ -5256,6 +5266,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public PersetujuanTahapan SavePersetujuanTahapan(PersetujuanTahapan data, Guid UserId)
         {
             var dataPengadaan = ctx.Pengadaans.Find(data.PengadaanId);
+            if (dataPengadaan.AturanPengadaan == "Pengadaan Tertutup" && dataPengadaan.Status == EStatusPengadaan.DISETUJUI)
+            {
+                dataPengadaan.Status=EStatusPengadaan.AANWIJZING;
+            }
             if (dataPengadaan == null) return new PersetujuanTahapan();
             var dataTahapan=dataPengadaan.PersetujuanTahapans.Where(d=>d.UserId==UserId && d.StatusPengadaan==data.StatusPengadaan && d.PengadaanId==data.PengadaanId).FirstOrDefault();
             if (dataPengadaan.Status != data.StatusPengadaan) return new PersetujuanTahapan();

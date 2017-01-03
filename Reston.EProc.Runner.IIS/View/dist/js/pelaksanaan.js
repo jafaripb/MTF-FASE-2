@@ -1058,6 +1058,10 @@ $(function () {
         window.open("http://" + window.location.host + "/rks-penilaian.html#" + $("#pengadaanId").val());
     });
 
+    $(".lihat-penilaian-buka-amplop").on("click", function () {
+        window.open("http://" + window.location.host + "/rks-penilaian-buka-amplop.html#" + $("#pengadaanId").val());
+    });
+
     $(".lihat-klarifikasi").on("click", function () {
         window.open("http://" + window.location.host + "/rks-klarifikasi.html#" + $("#pengadaanId").val());
     });
@@ -1284,6 +1288,45 @@ $(function () {
         });
     });
 
+    $(".kirim-undangan-klarifikasi-lanjutan").on("click", function () {
+        waitingDialog.showloading("Proses Harap Tunggu");
+        $.ajax({
+            //data: odata,
+            method: "POST",
+            url: "Api/PengadaanE/sendMailKlarifikasi",
+            data: { PengadaanId: $("#pengadaanId").val(), Surat: $("#mKlarifikasilanjutan").val() },
+            dataType: "text",
+            success: function (data) {
+                waitingDialog.hideloading();
+                if (data == 1) {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Undandangan Berhasil Terkirim!',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                } else {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Anda Tidak Memiliki Akses!',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                }
+            },
+            error: function (errormessage) {
+                waitingDialog.hideloading();
+            }
+        });
+    });
 
     $("body").on("click", ".checkbox-pilih-pemenang", function () {        
         var elTHis = $(this);
@@ -1391,18 +1434,8 @@ $(function () {
             });
         }
     });
-
-    $(".next-step").each(function (index) {
-        var statusPengadaan = $("#StatusName").val();
-        if ($(this).attr("attrStatus") != statusPengadaan) $(this).attr("disabled", "disabled");
-        else $(this).removeAttr("disabled");
-    });
-
-    $(".lewati-tahapan").each(function (index) {
-        var statusPengadaan = $("#StatusName").val();
-        if ($(this).attr("attrStatus") != statusPengadaan) $(this).attr("disabled", "disabled");
-        else $(this).removeAttr("disabled");
-    });
+    
+   
 
     $(".lewati-tahapan").on("click", function () {
         

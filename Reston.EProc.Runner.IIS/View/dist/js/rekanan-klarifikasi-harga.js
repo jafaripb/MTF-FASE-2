@@ -297,7 +297,7 @@ function loadData(pengadaanId) {
         $("#Provinsi").text(data.Provinsi);
         $("#JenisPekerjaan").text(data.JenisPekerjaan);
         $("#pengadaanId").val(data.Id);
-        if (data.isMasukKlarifikasi == 0) {
+        if (data.StatusName != "KLARIFIKASI") {
             BootstrapDialog.show({
                 title: 'Konfirmasi',
                 message: 'Anda Tidak Masuk ke Tahap Klarifikasi',

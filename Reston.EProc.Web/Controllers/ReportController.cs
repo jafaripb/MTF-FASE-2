@@ -671,32 +671,34 @@ namespace Reston.Pinata.WebService.Controllers
                 doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara == null ? "" : BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
                       " " + BeritaAcara.tanggal.Value.Year);
                 var kandidat = _repository.GetVendorsKlarifikasiByPengadaanId(Id);
-                var table = doc.AddTable(kandidat.Count(), 1);
-                Border BlankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
-                table.SetBorder(TableBorderType.Bottom, BlankBorder);
-                table.SetBorder(TableBorderType.Left, BlankBorder);
-                table.SetBorder(TableBorderType.Right, BlankBorder);
-                table.SetBorder(TableBorderType.Top, BlankBorder);
-                table.SetBorder(TableBorderType.InsideV, BlankBorder);
-                table.SetBorder(TableBorderType.InsideH, BlankBorder);
-
-                int rowIndex = 0;
-                foreach (var item in kandidat)
+                if (kandidat.Count() > 0)
                 {
-                    table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + item.Nama);
-                    table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
-                    table.Rows[rowIndex].Cells[0].Width = 550;
-                    rowIndex++;
+                    var table = doc.AddTable(kandidat.Count(), 1);
+                    Border BlankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                    table.SetBorder(TableBorderType.Bottom, BlankBorder);
+                    table.SetBorder(TableBorderType.Left, BlankBorder);
+                    table.SetBorder(TableBorderType.Right, BlankBorder);
+                    table.SetBorder(TableBorderType.Top, BlankBorder);
+                    table.SetBorder(TableBorderType.InsideV, BlankBorder);
+                    table.SetBorder(TableBorderType.InsideH, BlankBorder);
+
+                    int rowIndex = 0;
+                    foreach (var item in kandidat)
+                    {
+                        table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + item.Nama);
+                        table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                        table.Rows[rowIndex].Cells[0].Width = 550;
+                        rowIndex++;
+                    }
+
+                    table.Alignment = Alignment.center;
+                    foreach (var paragraph in doc.Paragraphs)
+                    {
+                        paragraph.FindAll("{vendor}").ForEach(index => paragraph.InsertTableBeforeSelf(table));
+
+                    }
+                    doc.ReplaceText("{vendor}", "");
                 }
-
-                table.Alignment = Alignment.center;
-                foreach (var paragraph in doc.Paragraphs)
-                {
-                    paragraph.FindAll("{vendor}").ForEach(index => paragraph.InsertTableBeforeSelf(table));
-
-                }
-                doc.ReplaceText("{vendor}", "");
-
 
                 //tambah tabel persetujuan tahapan
                 var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.KLARIFIKASI, doc);

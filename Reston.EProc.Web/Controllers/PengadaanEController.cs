@@ -2707,6 +2707,62 @@ namespace Reston.Pinata.WebService.Controllers
             }
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public ResultMessage addBeritaAcaraNota(VWBeritaAcara vwpengadaan)
+        {
+            var pemenang = _repository.getPemenangPengadaan(vwpengadaan.PengadaanId.Value, UserId());
+            List<BeritaAcara> lstBeritaAcara = new List<BeritaAcara>();
+            
+            try
+            {
+                foreach (var item in pemenang)
+                {
+                    //load berita acara
+                    BeritaAcara beritaAcara = new BeritaAcara();
+                    beritaAcara.PengadaanId = vwpengadaan.PengadaanId;
+                    try
+                    {
+                        if (!string.IsNullOrEmpty(vwpengadaan.tanggal))
+                        {
+                            beritaAcara.tanggal = Common.ConvertDate(vwpengadaan.tanggal, "dd/MM/yyyy");
+                        }
+                    }
+                    catch { }
+                    beritaAcara.Tipe = TipeBerkas.BeritaAcaraPenentuanPemenang;
+                    beritaAcara.VendorId = item.VendorId;
+                    var SaveBeritaAcara = _repository.addBeritaAcara(beritaAcara, UserId());
+                    if (SaveBeritaAcara != null)
+                        lstBeritaAcara.Add(SaveBeritaAcara);
+
+                  
+                }
+                return new ResultMessage()
+                {
+                    status = HttpStatusCode.OK,
+                    message = Common.SaveSukses()
+                };
+            }
+            catch (Exception ex)
+            {
+                if (lstBeritaAcara.Count() > 0)
+                {
+                    foreach (var item in lstBeritaAcara)
+                    {
+                        _repository.DeleteBeritaAcara(item.Id, UserId());
+                    }
+                }
+               
+                return new ResultMessage()
+                {
+                    status = HttpStatusCode.ExpectationFailed,
+                    message = ex.ToString()
+                };
+            }
+        }
+
 
         [HttpPost]
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
@@ -3075,6 +3131,17 @@ namespace Reston.Pinata.WebService.Controllers
                         List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), item.WorkflowPersetujuanPemenangTemplateId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentTypePemenang, 0, 0);
                         if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.ApproverPersetujuanPemenang = 1;
                         item.lastApproverPersetujuanPemenang = _workflowrepo.isLastApprover(item.IdPersetujuanPemanang.Value, item.WorkflowPersetujuanPemenangTemplateId.Value).Id;
+                        if (item.WorkflowPersetujuanPemenangTemplateId != null)
+                        {
+                            var PrevUserId = _workflowrepo.PrevApprover(item.IdPersetujuanPemanang.Value, item.WorkflowPersetujuanPemenangTemplateId.Value).Id;
+                            if (PrevUserId != "0")
+                                item.PrevApproverPersetujuan = (await userDetail(PrevUserId)).Nama;
+                            else item.PrevApproverPersetujuan = "";
+                            var NextUserId = _workflowrepo.NextApprover(item.IdPersetujuanPemanang.Value, item.WorkflowPersetujuanPemenangTemplateId.Value).Id;
+                            if (NextUserId != "0")
+                                item.NextApproverPersetujuan = (await userDetail(NextUserId)).Nama;
+                            else item.NextApproverPersetujuan = "";
+                        }
                     }
                 if (item.WorkflowTemplateId != null)
                 {

@@ -309,7 +309,7 @@ namespace Reston.Pinata.WebService.Controllers
 
           var noPO = _repository.GenerateNoPO(UserId());
           var data = _repository.get(Id);
-          if(!string.IsNullOrEmpty( data.NoPO))
+          if(string.IsNullOrEmpty( data.NoPO))
              data.NoPO = noPO;
           return _repository.save(data,UserId());
       }
@@ -334,6 +334,8 @@ namespace Reston.Pinata.WebService.Controllers
 
           return result;
       }
+
+       
     }
     
 }

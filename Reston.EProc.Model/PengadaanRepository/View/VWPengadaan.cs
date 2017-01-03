@@ -97,6 +97,8 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public string lastApprover { get; set; }
         public string PrevApprover { get; set; }
         public string NextApprover { get; set; }
+        public string PrevApproverPersetujuan { get; set; }
+        public string NextApproverPersetujuan { get; set; }
         public string lastApproverPersetujuanPemenang { get; set; }   
         public List<string> lstPemenang { get; set; }     
         public List<VWDokumenPengadaan> DokumenPengadaans { get; set; }

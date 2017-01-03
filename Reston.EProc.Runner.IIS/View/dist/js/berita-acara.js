@@ -15,6 +15,7 @@ $(function () {
         waitingDialog.showloading("Proses Harap Tunggu");
         var url = "Api/PengadaanE/addBeritaAcara";
         if (oBeritaAcara.Tipe == "SuratPerintahKerja") url = "Api/PengadaanE/addBeritaAcaraSpk";
+        if (oBeritaAcara.Tipe == "BeritaAcaraPenentuanPemenang") url = "Api/PengadaanE/addBeritaAcaraNota";
         $.ajax({
             method: "POST",
             url: url,
