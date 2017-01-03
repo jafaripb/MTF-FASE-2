@@ -155,6 +155,7 @@
     <Content Include="View\approval-perencanaan-sudah-disetujui.html" />
     <Content Include="View\approval-persetujuan-pemenang-belum-disetujui.html" />
     <Content Include="View\dist\js\rekanan-klarifikasi-lanjutan-harga.js" />
+    <Content Include="View\dist\js\rks-penilaian-buka-amplop.js" />
     <Content Include="View\rekanan-klarifikasi-lanjutan-harga.html" />
     <Content Include="View\rks-klarifikasi-lanjutan.html" />
     <Content Include="View\create-po.html" />
@@ -174,6 +175,7 @@
     <Content Include="View\dist\js\monitoring-proyek-add.min.js" />
     <Content Include="View\pengadaan-detail-terbuka.html" />
     <Content Include="View\repository.html" />
+    <Content Include="View\rks-penilaian-buka-amplop.html" />
     <Content Include="View\spk.html" />
     <Content Include="View\rekanan-monitoring.html" />
     <Content Include="View\pks.html" />

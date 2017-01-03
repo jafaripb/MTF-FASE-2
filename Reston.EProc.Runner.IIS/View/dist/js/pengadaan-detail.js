@@ -870,9 +870,7 @@ function renderDokumenDropzone(myDropzone, tipe) {
             }
         },
         error: function (errormessage) {
-
             //location.reload();
-
         }
     });
 }
@@ -926,7 +924,6 @@ function loadListKandidat(Id) {
             $(".listkandidat").append(html);
         });
     });
-
 }
 
 function loadKualifikas(kualifikasiKandidat) {
@@ -938,7 +935,6 @@ function loadKualifikas(kualifikasiKandidat) {
 }
 
 function loadJadwal(data) {
-   
         for (var i in data) {
             var tgl = "";
             var dateMulai;
