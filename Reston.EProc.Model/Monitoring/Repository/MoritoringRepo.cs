@@ -302,7 +302,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 TanggalSelesai = odata.EndDate,
                 NilaiKontrak = odata.Spk.NilaiSPK,
                 StatusProyek = odata.Status,
-                VendorId = odata.Spk.PemenangPengadaan.VendorId.Value
+                VendorId = odata.Spk.PemenangPengadaan.VendorId.Value,
+                StatusLockTahapan = odata.StatusLockTahapan
             };
         }
 

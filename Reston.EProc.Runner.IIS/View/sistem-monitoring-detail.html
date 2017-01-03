@@ -212,7 +212,7 @@
                                             </ul>
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="pekerjaan">
-                                                    <a onclick="tahapanpekerjaanup()" style="margin-top:10px;margin-bottom:10px; float:left;" class="btn btn-sm btn-social btn-bitbucket">
+                                                    <a onclick="tahapanpekerjaanup()"id="Tambah-Pekerjaan" style="margin-top:10px;margin-bottom:10px; float:left;" class="btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah Tahapan Pekerjaan
                                                     </a>
@@ -977,6 +977,10 @@
                         $("#simpan-pembayaran").hide();
                         $("#finish").hide();
                         $("#wanprestasi").hide();
+                        $("#disable-tahapan").hide();
+                        $("#enable-tahapan").hide();
+                        $("#Tambah-Pekerjaan").hide();
+                        $("#Tambah-Pembayaran").hide();
 
                         BootstrapDialog.show({
                             title: 'Konfirmasi',
@@ -1311,28 +1315,28 @@
         }
 
          //Blink
-        //$('#input-persen-selesai-perwaktu').each(function () {
-        //    var elem = $(this);
-        //    setInterval(function () {
-        //        if (elem.css('visibility') == 'hidden') {
-        //            elem.css('visibility', 'visible');
-        //        } else {
-        //            elem.css('visibility', 'hidden');
-        //        }
-        //    }, 500);
-        //});
+        $('#input-persen-selesai-perwaktu').each(function () {
+            var elem = $(this);
+            setInterval(function () {
+                if (elem.css('visibility') == 'hidden') {
+                    elem.css('visibility', 'visible');
+                } else {
+                    elem.css('visibility', 'hidden');
+                }
+            }, 500);
+        });
 
-        // Blink
-        //$('#penjelasan-status').each(function () {
-        //    var elem = $(this);
-        //    setInterval(function () {
-        //        if (elem.css('visibility') == 'hidden') {
-        //            elem.css('visibility', 'visible');
-        //        } else {
-        //            elem.css('visibility', 'hidden');
-        //        }
-        //    }, 500);
-        //});
+         //Blink
+        $('#penjelasan-status').each(function () {
+            var elem = $(this);
+            setInterval(function () {
+                if (elem.css('visibility') == 'hidden') {
+                    elem.css('visibility', 'visible');
+                } else {
+                    elem.css('visibility', 'hidden');
+                }
+            }, 500);
+        });
 
         $("#example1").on("change input propertychange", ".penyelesaian", function () {
             hitung();
