@@ -181,6 +181,8 @@ function getListBeritaAcara() {
                     $("#input-ba-nota").val(moment(value.tanggal).format("DD MMMM YYYY"));
                 if (value.Tipe == 12)
                     $("#input-ba-spk").val(moment(value.tanggal).format("DD MMMM YYYY"));
+                if (value.Tipe == 17)
+                    $("#input-ba-klarifikasi-lanjutan").val(moment(value.tanggal).format("DD MMMM YYYY"));
             });
         }
     });

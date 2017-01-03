@@ -25,6 +25,7 @@ namespace IdLdap.Configuration
             return UserPrincipal.FindByIdentity(_AuthLdapConnect,IdentityType.SamAccountName , searchterm);
         }
 
+     
         public UserPrincipal FindUser2(string searchterm)
         {
             var appBAse = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -43,7 +44,7 @@ namespace IdLdap.Configuration
                 return new UserPrincipal(_AuthLdapConnect);
             }
         }
-
+        
         public GroupPrincipal FindGroup(string searchterm)
         {
             return GroupPrincipal.FindByIdentity(_AuthLdapConnect, searchterm);

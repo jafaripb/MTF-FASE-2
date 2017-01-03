@@ -313,6 +313,85 @@ $(function () {
     renderDokumenDropzone(myDropzoneBeritaAcaraKlarifikasi, "BeritaAcaraKlarifikasi");
     Dropzone.options.BeritaAcaraKlarifikasi = false;
 
+    var myDropzoneBeritaAcaraKlarifikasiLanjutan = new Dropzone("#BeritaAcaraKlarifikasiLanjutan",
+          {
+              url: $("#BeritaAcaraKlarifikasiLanjutan").attr("action") + "&id=" + $("#pengadaanId").val(),
+              maxFilesize: 10,
+              acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
+              accept: function (file, done) {
+                  var jumFile = myDropzoneBeritaAcaraKlarifikasiLanjutan.files.length;
+                  if ($("#isPIC").val() == 1) {
+                      var cekRekananCheck = 0;
+                      $(".checkbox-pilih-pemenang").each(function () {
+                          if ($(this).prop('checked') == true) {
+                              cekRekananCheck = cekRekananCheck + 1;
+                          }
+                      });
+                      if (cekRekananCheck > 0) {
+                          if ($("#State").val() == 12) {
+                              done();
+                          }
+                      }
+                      else {
+                          BootstrapDialog.show({
+                              title: 'Konfirmasi',
+                              message: 'Anda Belum Memilih Kandidat Pemenang',
+                              buttons: [{
+                                  label: 'Close',
+                                  action: function (dialog) {
+                                      myDropzoneBeritaAcaraKlarifikasiLanjutan.removeFile(file);
+                                      dialog.close();
+
+                                  }
+                              }]
+                          });
+                      }
+                  }
+                  else {
+                      BootstrapDialog.show({
+                          title: 'Konfirmasi',
+                          message: 'Anda Tidak Memiliki Akses!',
+                          buttons: [{
+                              label: 'Close',
+                              action: function (dialog) {
+                                  myDropzoneBeritaAcaraKlarifikasiLanjutan.removeFile(file);
+                                  dialog.close();
+                              }
+                          }]
+                      });
+                  }
+
+                  //  }
+              },
+              init: function () {
+                  this.on("addedfile", function (file) {
+                      file.previewElement.addEventListener("click", function () {
+                          var id = 0;
+                          if (file.Id != undefined)
+                              id = file.Id;
+                          else
+                              id = $.parseJSON(file.xhr.response);
+                          //viewFile(data.Id);
+                          $("#HapusFile").show();
+                          $("#konfirmasiFile").attr("attr1", "BeritaAcaraKlarifikasiLanjutan");
+                          $("#konfirmasiFile").attr("FileId", id);
+                          $("#konfirmasiFile").modal("show");
+                      });
+                  });
+                  this.on("success", function (file, responseText) {
+                      // if($("#State").val()==7)
+                      //nextState("penentuan_pemenang");
+                  });
+                  //this.on("removedfile", function (file, responseText) {
+                  //    myDropzoneBeritaAcaraBukaAmplop.removeFile(file);
+                  //});
+              }
+          }
+      );
+
+    renderDokumenDropzone(myDropzoneBeritaAcaraKlarifikasiLanjutan, "BeritaAcaraKlarifikasiLanjutan");
+    Dropzone.options.BeritaAcaraKlarifikasiLanjutan = false;
+
     var myDropzoneBerkasBeritaAcaraKlarifikasi = new Dropzone("#BerkasBeritaAcaraKlarifikasi",
          {
              url: $("#BerkasBeritaAcaraKlarifikasi").attr("action") + "&id=" + $("#pengadaanId").val(),
@@ -1156,16 +1235,96 @@ $(function () {
     });
 
     $(".next-step").on("click", function () {
+        if ($("#StatusTahapan").val() == "0") {
+            waitingDialog.hideloading();
+            BootstrapDialog.show({
+                title: 'Error',
+                message: "Semua Personil Harus Melakukan Persetujuan Pada Tahapan ini!",
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+
+                    }
+                }]
+            });
+            return;
+        }
+        else {
+            var elDari = $(this).attr("elDari");
+            var elSampai = $(this).attr("elSampai");
+            console.log($(elDari).val());
+            var dari = moment($(elDari).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+            var sampai = "";
+            if (elSampai != "")
+                sampai = moment($(elSampai).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+            var pengadaanId = $("#pengadaanId").val();
+            $(this).attr("disabled", "disabled");
+            var thisel = $(this);
+            $.ajax({
+                method: "POST",
+                url: "Api/PengadaanE/nextStateAndSchelud?Id=" + pengadaanId + "&dari=" + dari + "&sampai=" + sampai,
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    thisel.removeAttr("disabled");
+                    waitingDialog.hideloading();
+                    if (data == 0) {
+                        BootstrapDialog.show({
+                            title: 'Error',
+                            message: 'Save Gagal!',
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                },
+                error: function (errormessage) {
+                    waitingDialog.hideloading();
+                    thisel.removeAttr("disabled");
+                    BootstrapDialog.show({
+                        title: 'Error',
+                        message: errormessage,
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+
+                            }
+                        }]
+                    });
+                }
+            });
+        }
+    });
+
+    $(".next-step").each(function (index) {
+        var statusPengadaan = $("#StatusName").val();
+        if ($(this).attr("attrStatus") != statusPengadaan) $(this).attr("disabled", "disabled");
+        else $(this).removeAttr("disabled");
+    });
+
+    $(".lewati-tahapan").each(function (index) {
+        var statusPengadaan = $("#StatusName").val();
+        if ($(this).attr("attrStatus") != statusPengadaan) $(this).attr("disabled", "disabled");
+        else $(this).removeAttr("disabled");
+    });
+
+    $(".lewati-tahapan").on("click", function () {
+
         var elDari = $(this).attr("elDari");
         var elSampai = $(this).attr("elSampai");
-        console.log($(elDari).val());
+
         var dari = moment($(elDari).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-        var sampai = "";
-        if(elSampai!="")
-            sampai=moment($(elSampai).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+        var sampai = moment($(elSampai).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
         var pengadaanId = $("#pengadaanId").val();
         $(this).attr("disabled", "disabled");
-        var thisel=$(this);
+        var thisel = $(this);
         $.ajax({
             method: "POST",
             url: "Api/PengadaanE/nextStateAndSchelud?Id=" + pengadaanId + "&dari=" + dari + "&sampai=" + sampai,
@@ -1220,9 +1379,11 @@ $(function () {
     getPersetujuanBukaAmplop();
     
     getListSubmitKlarifikasiRekanan();
+    getListSubmitKlarifikasiRekananLanjutan();
     getListKlarifikasiRekanan();
+    getListKlarifikasiRekananLanjutan();
     getAllKandidatPengadaan();
-    
+    generateUndanganKlarifikasiLanjutan();    
 });
 
 $(function () {
@@ -1259,6 +1420,104 @@ $(function () {
         });
     });
 });
+
+$(function () {
+
+    getPersetujuanTahapanAll();
+    $("body").on("click", ".click-persetujuan-tahapan", function () {
+        savePersetujuanTahapan($(this).attr("attrStatus"));
+    });
+
+});
+
+function getPersetujuanTahapanAll() {
+    getPersetujuanTahapan("DISETUJUI");
+    getPersetujuanTahapan("AANWIJZING");
+    getPersetujuanTahapan("SUBMITPENAWARAN");
+    getPersetujuanTahapan("BUKAAMPLOP");
+    getPersetujuanTahapan("KLARIFIKASI");
+    getPersetujuanTahapan("KLARIFIKASILANJUTAN");
+    getPersetujuanTahapan("PENILAIAN");
+    getPersetujuanTahapan("PEMENANG");
+}
+
+function savePersetujuanTahapan(tahapan) {
+    waitingDialog.showloading("Proses Harap Tunggu");
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/SavePersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&&status=" + tahapan,
+        success: function (data) {
+            waitingDialog.hideloading();
+            if (data.Id == 0) {
+                BootstrapDialog.show({
+                    title: 'Konfirmasi',
+                    message: 'Anda Tidak Memiliki Akses!',
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+            }
+            getPersetujuanTahapanAll();
+        },
+        error: function (errormessage) {
+            waitingDialog.hideloading();
+            BootstrapDialog.show({
+                title: 'Error',
+                message: errormessage,
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+        }
+    });
+}
+
+function getPersetujuanTahapan(tahapan) {
+
+    $.ajax({
+        method: "GET",
+        url: "Api/PengadaanE/GetPersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&&status=" + tahapan,
+        success: function (data) {
+            renderPersetujuanPelaksanaan(data, tahapan);
+            if ($("#StatusName").val() == tahapan) {
+                var oData = $.grep(data, function (e) { return e.Status == 0; });
+                if (oData.length == 0) {
+                    $("#StatusTahapan").val(1);
+                }
+                else $("#StatusTahapan").val(0);
+            }
+        },
+        error: function (errormessage) {
+        }
+    });
+
+}
+
+function renderPersetujuanPelaksanaan(data, tahapan) {
+    var el = ".bingkai-" + tahapan;
+    var html = "";
+    if (data.length == 0) return;
+    var oData = $.grep(data, function (e) { return e.StatusPengadaanName == tahapan; });
+    for (var i in oData) {
+        var class_status = oData[i].Status == 0 ? "btn-danger" : "btn-success";
+        var class_pin = oData[i].Status == 0 ? "glyphicon-pushpin" : "glyphicon-ok";
+        html += '<div class="col-md-3">' +
+                     '<div class="form-group">' +
+                        '<button class="btn ' + class_status +
+                            ' btn-block click-persetujuan-tahapan" attrStatus="' + tahapan +
+                            '"><i class="glyphicon ' + class_pin + '"></i>' + oData[i].UserName + '</button>' +
+                    '</div>' +
+                '</div>';
+    }
+    $(el).html("");
+    $(el).append(html);
+}
 
 function deletePemenang(elTHis, objData) {
    
@@ -2106,6 +2365,35 @@ function generateUndanganKlarifikasi() {
     });
 }
 
+function generateUndanganKlarifikasi() {
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/GetKlarifikasi?PId=" + $("#pengadaanId").val(),
+        success: function (data) {
+            var html = "Panitia " + $("#judul").text() + " Untuk " + $("#UnitKerjaPemohon").text() +
+            ". Mohon untuk Klarifikasi harga, penawaran kami tunggu paling lambat " + moment(data.Sampai).format("DD MMMM YYYY") + " sebelum pukul " + moment(data.Sampai).format("HH:mm") + "\n" +
+            "Demikian kami sampaikan. Terimakasi atas perhatiannya serta kerjasamanya.";
+            var div = $("#mKlarifikasi").val(html);
+        },
+        error: function (errormessage) {
+            // alert("gagal");
+        }
+    });
+}
+
+function generateUndanganKlarifikasiLanjutan() {
+    $.ajax({
+        method: "GET",
+        url: "Api/PengadaanE/GetJadwalPelaksanaan?PId=" + $("#pengadaanId").val() + "&status=" + $("#State").val(),
+        success: function (data) {
+            var html = "Panitia " + $("#judul").text() + " Untuk " + $("#UnitKerjaPemohon").text() +
+           ". Mohon untuk Klarifikasi Lanjutan, penawaran kami tunggu paling lambat " + moment(data.Sampai).format("DD MMMM YYYY") + " sebelum pukul " + moment(data.Sampai).format("HH:mm") + "\n" +
+           "Demikian kami sampaikan. Terimakasi atas perhatiannya serta kerjasamanya.";
+            var div = $("#mKlarifikasilanjutan").val(html);
+        }
+    });
+}
+
 function getListSubmitKlarifikasiRekanan() {
     $.ajax({
         method: "POST",
@@ -2125,6 +2413,30 @@ function getListSubmitKlarifikasiRekanan() {
                     '</div>' +
                 '</div> ';
                 $(".list-submit-klarifikasi-rekanan").append(html);
+            });
+        }
+    });
+}
+
+function getListSubmitKlarifikasiRekananLanjutan() {
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/GetRekananKlarifikasiSubmitLanjutan?PId=" + $("#pengadaanId").val(),
+        success: function (data) {
+            $.each(data, function (index, value) {
+                var html = '<div class="col-md-4 box-klarifikasi-rekanan" vendorId="' + value.VendorId + '">' +
+                    '<div class="box box-folder-vendor vendor-detail" attrId="' + value.VendorId + '">' +
+                        '<div class="box-header with-border">';
+                if (value.status == 0) {
+                    html = html + '<span class="glyphicon glyphicon glyphicon-folder-open folder-vendor folder-kosong" ></span> <h3 class="box-title text-blue-mtf box-riwayat">' + value.NamaVendor + '</h3>';
+                }
+                else {
+                    html = html + '<span class="glyphicon glyphicon glyphicon-folder-open folder-vendor folder-isi" ></span><h3 class="box-title text-blue-mtf box-riwayat">' + value.NamaVendor + '</h3>';
+                }
+                html = html + '</div>' +
+                    '</div>' +
+                '</div> ';
+                $(".list-rekanan-klarifikasi-lanjutan").append(html);
             });
         }
     });
@@ -2160,6 +2472,41 @@ function getListKlarifikasiRekanan() {
                             '</div>' +
                         '</div>';
                 $(".list-rekanan-klarifikasi-penilaian").append(html);
+            });
+        }
+    });
+}
+
+function getListKlarifikasiRekananLanjutan() {
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/GetRekananKlarifikasiPenilaianLanjutan?PId=" + $("#pengadaanId").val(),
+        success: function (data) {
+            $.each(data, function (index, value) {
+                var html = '<div class="col-md-3 "  vendorId="' + value.VendorId + '">' +
+                            '<div class="box box-primary">' +
+                                '<div class="box-tools pull-right vendor-check-box" data-toggle="tooltip" title="' + value.NamaVendor + '">';
+                //'<button class="delete-klarifikasi-kandidat btn btn-box-tool" vendorId="' + value.VendorId + '"><i class="fa fa-times"></i></button>' +
+
+                if (value.terpilih == 0) {
+                    if ($("#isPIC").val() == "1")
+                        html = html + '<input class="s-checkbox checkbox-pilih-pemenang"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                    else html = html + '<input class="s-checkbox checkbox-pilih-pemenang" disabled="disabled"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                }
+                else {
+                    if ($("#isPIC").val() == "1")
+                        html = html + '<input class="s-checkbox checkbox-pilih-pemenang" checked vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                    else html = html + '<input class="s-checkbox checkbox-pilih-pemenang" checked disabled="disabled"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                }
+                html = html + '</div>' +
+                                '<div class="box-body box-profile">' +
+                                    '<p class="profile-username title-header title-header-vendor">' + value.NamaVendor + '</p>' +
+                                    '<p class="text-muted text-center deskripsi">Rp. ' + accounting.formatNumber(value.total, { thousand: "." }) + '</p>' +
+                                     '<p class="text-muted text-center deskripsi">Nilai Kriteria ' + value.NilaiKriteria + '</p>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+                $(".list-rekanan-klarifikasi-lanjutan-check").append(html);
             });
         }
     });

@@ -242,25 +242,44 @@ namespace Reston.Pinata.WebService.Controllers
         {
             var oPks = _repository.get(id);
             TipeBerkas t = (TipeBerkas)Enum.Parse(typeof(TipeBerkas), tipe);
-            if ( t == TipeBerkas.AssignedPks)
+            if ( t == TipeBerkas.FinalLegalPks)
             {
                 if (oPks.WorkflowId == null) return Json(new ResultMessage()
                 {
                     status = HttpStatusCode.Forbidden,
                     message = Common.Forbiden()
                 });
-                List<Reston.Helper.Model.ViewWorkflowModel> getDoc =
-                    _workflowrepo.ListDocumentWorkflow(UserId(), oPks.WorkflowId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
-                if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() == null)
-                    return Json(new ResultMessage()
-                    {
-                        status = HttpStatusCode.Forbidden,
-                        message = Common.Forbiden()
-                    });
+                //List<Reston.Helper.Model.ViewWorkflowModel> getDoc =
+                //    _workflowrepo.ListDocumentWorkflow(UserId(), oPks.WorkflowId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
+              
+                //if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() == null )
+                //    return Json(new ResultMessage()
+                //    {
+                //        status = HttpStatusCode.Forbidden,
+                //        message = Common.Forbiden()
+                //    });
+                
+            }
+            if (t == TipeBerkas.DraftPKS && oPks.StatusPks==StatusPks.Approve)
+            {
+                return Json(new ResultMessage()
+                {
+                    status = HttpStatusCode.Forbidden,
+                    message = Common.Forbiden()
+                });
+
+            }
+            if (t == TipeBerkas.AssignedPks && oPks.CreateBy != UserId())
+            {
+                return Json(new ResultMessage()
+                {
+                    status = HttpStatusCode.Forbidden,
+                    message = Common.Forbiden()
+                });
             }
 
 
-            var uploadPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                var uploadPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             bool isSavedSuccessfully = true;
             string filePathSave = FILE_DOKUMEN_PKS_PATH;//+id ;
             string fileName = "";
@@ -471,7 +490,23 @@ namespace Reston.Pinata.WebService.Controllers
             
         }
 
+        public HttpResponseMessage OpenFile(Guid Id)
+        {
+            var data = _repository.getDokPks(Id);
+            var path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_DOKUMEN_PKS_PATH + data.File;
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(path, FileMode.Open);
+            result.Content = new StreamContent(stream);
+            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue(data.ContentType);
 
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = data.File
+            };
+
+            return result;
+        }
     }
     
 }

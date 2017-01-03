@@ -154,15 +154,26 @@
     <Content Include="View\approval-perencanaan-belum-disetujui.html" />
     <Content Include="View\approval-perencanaan-sudah-disetujui.html" />
     <Content Include="View\approval-persetujuan-pemenang-belum-disetujui.html" />
+    <Content Include="View\dist\js\rekanan-klarifikasi-lanjutan-harga.js" />
+    <Content Include="View\rekanan-klarifikasi-lanjutan-harga.html" />
+    <Content Include="View\rks-klarifikasi-lanjutan.html" />
     <Content Include="View\create-po.html" />
     <Content Include="View\create-spk.html" />
     <Content Include="View\create-pks.html" />
+    <Content Include="View\daftar-hitam.html" />
+    <Content Include="View\dist\js\rks-klarifikasi-lanjutan.js" />
+    <Content Include="View\dist\js\Copy %283%29 of rks-klarifikasi.js" />
+    <Content Include="View\dist\js\create-po.js" />
     <Content Include="View\dist\js\create-spk.js" />
     <Content Include="View\dist\js\create-pks.js" />
     <Content Include="View\dist\js\monitoring-proyek-add.js">
       <DependentUpon>monitoring-proyek-add.js</DependentUpon>
     </Content>
     <Content Include="View\anggaran.html" />
+    <Content Include="View\dist\js\monitoring-proyek-add.js" />
+    <Content Include="View\dist\js\monitoring-proyek-add.min.js" />
+    <Content Include="View\pengadaan-detail-terbuka.html" />
+    <Content Include="View\repository.html" />
     <Content Include="View\spk.html" />
     <Content Include="View\rekanan-monitoring.html" />
     <Content Include="View\pks.html" />
@@ -200,9 +211,6 @@
     <Content Include="View\dist\js\pengadaan-add-terbuka.js" />
     <Content Include="View\dist\js\riwayat-pengadaan.js" />
     <Content Include="View\dist\js\pengadaan-list-2-8-16.js" />
-    <Content Include="View\dist\js\rks-gatot.js" />
-    <Content Include="View\dist\js\rks-format-decimal-indo-masih-gagal.js" />
-    <Content Include="View\dist\js\rekanan-rks.bak.28-7-16.js" />
     <Content Include="View\dist\js\sistem-monitoring.js" />
     <Content Include="View\kontrak.html" />
     <Content Include="View\kontrak-add.html" />
@@ -1854,6 +1862,7 @@
       <DependentUpon>pengadaaneDataSet1.xsd</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\efe.pubxml" />
+    <None Include="Properties\PublishProfiles\mtf-eproc.pubxml" />
     <None Include="Properties\PublishProfiles\Reston.Eproc.pubxml" />
     <None Include="Properties\PublishProfiles\SRVR.pubxml" />
     <Content Include="View\bootstrap\css\bootstrap.css.map" />

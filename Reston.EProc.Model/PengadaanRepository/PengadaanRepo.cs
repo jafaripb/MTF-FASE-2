@@ -83,9 +83,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
         List<VWRKSDetailRekanan> addHargaRekanan(List<VWRKSDetailRekanan> dlstHargaRekanan, Guid PengadaanId, Guid UserId);
         List<VWRekananSubmitHarga> getListRekananSubmit(Guid PengadaanId, Guid UserId);
         List<VWRekananPenilaian> getListRekananPenilaian(Guid PengadaanId, Guid UserId);
+        List<VWRekananPenilaian> getListRekananPenilaian2(Guid PengadaanId, Guid UserId);
         JadwalPelaksanaan AddPelaksanaanPenilaian(JadwalPelaksanaan pelaksanaanPenilaian, Guid UserId);
         JadwalPelaksanaan getPelaksanaanPenilaian(Guid PengadaanId, Guid UserId);
         VWRKSVendors getRKSPenilaian(Guid PengadaanId, Guid UserId);
+        VWRKSVendors getRKSPenilaian2(Guid PengadaanId, Guid UserId);
         PelaksanaanPemilihanKandidat addKandidatPilihan(PelaksanaanPemilihanKandidat oPelaksanaanPemilihanKandidat, Guid UserId);
         int deleteKandidatPilihan(PelaksanaanPemilihanKandidat oPelaksanaanPemilihanKandidat, Guid UserId);
         JadwalPelaksanaan AddPelaksanaanKlarifikasi(JadwalPelaksanaan pelaksanaanKlarifikasi, Guid UserId);
@@ -94,10 +96,15 @@ namespace Reston.Pinata.Model.PengadaanRepository
         JadwalPelaksanaan getPelaksanaanPemenang(Guid PengadaanId, Guid UserId);
 
         List<VWRKSDetailRekanan> addHargaKlarifikasiRekanan(List<VWRKSDetailRekanan> dlstHargaKlarifikasiRekanan, Guid PengadaanId, Guid UserId);
+        List<VWRKSDetailRekanan> addHargaKlarifikasiLanjutanRekanan(List<VWRKSDetailRekanan> dlstHargaKlarifikasiRekanan, Guid PengadaanId, Guid UserId);
         List<VWRKSDetailRekanan> getRKSForKlarifikasiRekanan(Guid id, Guid UserId);
+        List<VWRKSDetailRekanan> getRKSForKlarifikasiLanjutanRekanan(Guid id, Guid UserId);
         VWRKSVendors getRKSKlarifikasi(Guid PengadaanId, Guid UserId);
+        VWRKSVendors getRKSKlarifikasiLanjutan(Guid PengadaanId, Guid UserId);
         List<VWRekananPenilaian> getListRekananKlarifikasiPenilaian(Guid PengadaanId, Guid UserId);
+        List<VWRekananPenilaian> getListRekananKlarifikasiPenilaianLanjutan(Guid PengadaanId, Guid UserId);
         List<VWRekananSubmitHarga> getListRekananKlarifikasiSubmit(Guid PengadaanId, Guid UserId);
+        List<VWRekananSubmitHarga> getListRekananKlarifikasiLanjutSubmit(Guid PengadaanId, Guid UserId);
         VWRKSVendors getRKSKlarifikasiPenilaianVendor(Guid PengadaanId, Guid UserId, int VendorId);
         VWRKSVendors getRKSKlarifikasiPenilaianVendor2(Guid PengadaanId, Guid UserId, int VendorId);
 
@@ -125,6 +132,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         Reston.Helper.Util.ResultMessage DeletePemenang(PemenangPengadaan dtPemenangPengadaan, Guid UserId);
         List<VWRekananPenilaian> getPemenangPengadaan(Guid PengadaanId, Guid UserId);
         List<VWRekananPenilaian> getKandidatPengadaan(Guid PengadaanId, Guid UserId);
+        List<VWRekananPenilaian> getKandidatPengadaan2(Guid PengadaanId, Guid UserId);
         List<VWVendor> GetVendorsKlarifikasiByPengadaanId(Guid PengadaanId);
         BeritaAcara addBeritaAcara(BeritaAcara newBeritaAcara, Guid UserId);
         int DeleteBeritaAcara(Guid Id, Guid UserId);
@@ -171,6 +179,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         string GenerateBeritaAcaraNota(Guid UserId);
         string GenerateBeritaAcaraSPK(Guid UserId);
         Reston.Helper.Util.ResultMessage RemoveRks(Guid PengadaanId, Guid UserId);
+        JadwalPelaksanaan SaveJadwalPelaksanaan(JadwalPelaksanaan JPelaksanaan, Guid UserId);
+        JadwalPelaksanaan GetJadwalPelaksanaan(Guid PengadaanId, Guid UserId, EStatusPengadaan status);
+        PersetujuanTahapan SavePersetujuanTahapan(PersetujuanTahapan data, Guid UserId);
+        List<VWPersetujuanTahapan> GetPersetujuanTahapan(Guid PengadaanId, EStatusPengadaan status);
     }
     public class PengadaanRepo : IPengadaanRepo
     {
@@ -383,6 +395,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                               AturanPengadaan = b.AturanPengadaan,
                                               Keterangan = b.Keterangan,
                                               Status = b.Status,
+                                              StatusName=b.Status.ToString(),
                                               GroupPengadaan = b.GroupPengadaan,
                                               JenisPekerjaan = b.JenisPekerjaan,
                                               JenisPembelanjaan = b.JenisPembelanjaan,
@@ -525,6 +538,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                              AturanPengadaan = b.AturanPengadaan,
                                              Keterangan = b.Keterangan,
                                              Status = b.Status,
+                                             StatusName=b.Status.ToString(),
                                              GroupPengadaan = b.GroupPengadaan,
                                              JenisPekerjaan = b.JenisPekerjaan,
                                              JenisPembelanjaan = b.JenisPembelanjaan,
@@ -1447,6 +1461,36 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return new List<VWRKSDetailRekanan>();
         }
 
+        public List<VWRKSDetailRekanan> getRKSForKlarifikasiLanjutanRekanan(Guid id, Guid UserId)
+        {
+            RKSHeader rksHeader = ctx.RKSHeaders.Where(d => d.PengadaanId == id).FirstOrDefault();
+            JimbisEncrypt encod = new JimbisEncrypt();
+
+            if (rksHeader != null)
+            {
+                List<VWRKSDetailRekanan> VWRksDEtail = (from b in rksHeader.RKSDetails
+                                                        select new VWRKSDetailRekanan
+                                                        {
+                                                            Id = b.Id,
+                                                            item = b.item,
+                                                            keteranganItem = b.keterangan,
+                                                            ItemId = b.ItemId,
+                                                            jumlah = b.jumlah,
+                                                            RKSHeaderId = b.RKSHeaderId,
+                                                            satuan = b.satuan,
+                                                            level = b.level,
+                                                            grup = b.grup,
+                                                            judul = b.judul,
+                                                            HargaRekananId = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? Guid.Empty : ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().Id,
+                                                            harga = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? 0 : ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().harga,
+                                                            keterangan = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? "" : ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().keterangan
+                                                        }).ToList();
+
+                return VWRksDEtail;
+            }
+            return new List<VWRKSDetailRekanan>();
+        }
+
         public RKSHeader saveRks(RKSHeader rks, Guid UserId)
         {
             int RKSEditAfterApprove =Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["RKS_CHANGE_AFTER_APROVE"]);
@@ -1757,8 +1801,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                         dokSpk.SpkId = oSpk.Id;
                         dokSpk.SizeFile = dokumenPengadaan.SizeFile;
                         dokSpk.File = dokumenPengadaan.File;                        
-                        dokSpk.ModifiedBy = UserId;
-                        dokSpk.ModifiedOn = DateTime.Now;
+                        dokSpk.CreateBy = UserId;
+                        dokSpk.CreateOn = DateTime.Now;
                         dokSpk.Title = dokumenPengadaan.Title;
                         dokSpk.ContentType = dokumenPengadaan.ContentType;
                         ctx.DokumenSpk.Add(dokSpk);
@@ -1775,7 +1819,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     }
                 }
             }
-            ctx.SaveChanges();
+            ctx.SaveChanges(UserId.ToString());
             return mdokPengadaan;
         }
 
@@ -2265,6 +2309,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             mPersetujuanBukaAmplop.UserId = UserId;
             ctx.PersetujuanBukaAmplops.Add(mPersetujuanBukaAmplop);
             ctx.SaveChanges();
+            CekBukaAmplop(PengadaanId);
             return mPersetujuanBukaAmplop;
         }
 
@@ -2283,6 +2328,83 @@ namespace Reston.Pinata.Model.PengadaanRepository
                      PengadaanId = c.PengadaanId,
                  }).ToList();
             return lstPErsetujuan;
+        }
+        
+        public JadwalPelaksanaan SaveJadwalPelaksanaan(JadwalPelaksanaan JPelaksanaan, Guid UserId)
+        {
+            Pengadaan Mpengadaaan = ctx.Pengadaans.Find(JPelaksanaan.PengadaanId);
+            PersonilPengadaan picPersonil = ctx.PersonilPengadaans.Where(d => d.PersonilId == UserId && d.tipe == "pic" && d.PengadaanId == JPelaksanaan.PengadaanId).FirstOrDefault();
+            if (picPersonil == null) return new JadwalPelaksanaan();
+            if (Mpengadaaan == null) return new JadwalPelaksanaan();
+            JadwalPelaksanaan MjadwalPelaksanaan = Mpengadaaan.JadwalPelaksanaans.Where(d => d.PengadaanId == JPelaksanaan.PengadaanId
+                        && d.statusPengadaan == JPelaksanaan.statusPengadaan).FirstOrDefault();
+            if (MjadwalPelaksanaan != null)
+            {
+                MjadwalPelaksanaan.Mulai = JPelaksanaan.Mulai;
+                MjadwalPelaksanaan.Sampai = JPelaksanaan.Sampai;
+            }
+            else
+            {
+                MjadwalPelaksanaan = new JadwalPelaksanaan();
+                MjadwalPelaksanaan.PengadaanId = JPelaksanaan.PengadaanId;
+                MjadwalPelaksanaan.statusPengadaan = JPelaksanaan.statusPengadaan;
+                MjadwalPelaksanaan.Mulai = JPelaksanaan.Mulai;
+                MjadwalPelaksanaan.Sampai = JPelaksanaan.Sampai;
+                ctx.JadwalPelaksanaans.Add(MjadwalPelaksanaan);
+            }
+            ctx.SaveChanges(UserId.ToString());
+            return MjadwalPelaksanaan;
+
+        }
+
+        public JadwalPelaksanaan GetJadwalPelaksanaan(Guid PengadaanId, Guid UserId,EStatusPengadaan status)
+        {
+            JadwalPelaksanaan MjadwalPelaksanaan = ctx.JadwalPelaksanaans.Where(d => d.PengadaanId == PengadaanId
+                           && d.statusPengadaan == status).FirstOrDefault();
+            if (MjadwalPelaksanaan != null)
+            {
+                JadwalPelaksanaan MOJadwalPelaksanaan = new JadwalPelaksanaan();
+                MOJadwalPelaksanaan.Id = MjadwalPelaksanaan.Id;
+                MOJadwalPelaksanaan.PengadaanId = MjadwalPelaksanaan.PengadaanId;
+                MOJadwalPelaksanaan.Mulai = MjadwalPelaksanaan.Mulai;
+                MOJadwalPelaksanaan.Sampai = MjadwalPelaksanaan.Sampai;
+                return MOJadwalPelaksanaan;
+            }
+            else
+            {
+                JadwalPelaksanaan MOJadwalPelaksanaan = new JadwalPelaksanaan();
+                JadwalPengadaan Mjadawal = ctx.JadwalPengadaans.Where(d => d.PengadaanId == PengadaanId && d.tipe == MapingStatus(status)).FirstOrDefault();
+                if (Mjadawal != null)
+                {
+                    MOJadwalPelaksanaan.Mulai = Mjadawal.Mulai;
+                    MOJadwalPelaksanaan.Sampai = Mjadawal.Sampai;
+                    MOJadwalPelaksanaan.PengadaanId = PengadaanId;
+                    MOJadwalPelaksanaan.Pengadaan = null;
+                }
+                return MOJadwalPelaksanaan;
+            }
+        }
+
+        private string MapingStatus(EStatusPengadaan status)
+        {
+            switch (status)
+            {
+                case EStatusPengadaan.DISETUJUI:
+                    return PengadaanConstants.Jadwal.Pendaftaran;
+                case EStatusPengadaan.AANWIJZING:
+                    return PengadaanConstants.Jadwal.Aanwijzing;                
+                case EStatusPengadaan.SUBMITPENAWARAN:
+                    return PengadaanConstants.Jadwal.PengisianHarga;
+                case EStatusPengadaan.KLARIFIKASI:
+                    return PengadaanConstants.Jadwal.Klarifikasi;
+                case EStatusPengadaan.KLARIFIKASILANJUTAN:
+                    return PengadaanConstants.Jadwal.KlarifikasiLanjutan;
+                case EStatusPengadaan.PENILAIAN:
+                    return PengadaanConstants.Jadwal.Penilaian;
+                case EStatusPengadaan.PEMENANG:
+                    return PengadaanConstants.Jadwal.PenentuanPemenang;
+                default: return "";
+            }
         }
 
         public JadwalPelaksanaan AddPelaksanaanPenilaian(JadwalPelaksanaan pelaksanaanPenilaian, Guid UserId)
@@ -2472,14 +2594,17 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 if (MdokPengadaan.Tipe == TipeBerkas.NOTA || MdokPengadaan.Tipe == TipeBerkas.DOKUMENLAIN || MdokPengadaan.Tipe == TipeBerkas.NOTA) return 0;
                 if (MdokPengadaan.Tipe == TipeBerkas.SuratPerintahKerja)
                 {
-                    var oSpk = ctx.Spk.Where(d => d.DokumenPengadaanId == MdokPengadaan.Id);
-                    ctx.Spk.RemoveRange(oSpk);
+                    var pemenangId = MdokPengadaan.Pengadaan.PemenangPengadaans.Where(dd=>dd.VendorId==MdokPengadaan.VendorId).FirstOrDefault().Id;
+                    var oSpk = ctx.Spk.Where(d => d.PemenangPengadaanId == pemenangId).FirstOrDefault();
+                    ctx.DokumenSpk.RemoveRange(oSpk.DokumenSpk);
+                    
+                    
                 }
                 ctx.DokumenPengadaans.Remove(MdokPengadaan);
                 ctx.SaveChanges(UserId.ToString());
                 return 1;
             }
-            catch { return 0; }
+            catch(Exception ex) { return 0; }
         }
 
         public int deleteDokumenRekanan(Guid Id, Guid UserId)
@@ -2556,30 +2681,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
             catch { return 0; }
         }
 
-        //public StateJadwalPengadaan stateJadwal(EStatusPengadaan status, Guid PengadaanId)
-        //{
-        //    StateJadwalPengadaan MStateJadwalPengadaan = ctx.JadwalPelaksanaans.Where(d => d.PengadaanId == PengadaanId &&
-        //                        d.statusPengadaan == status).Select(d=>new StateJadwalPengadaan{
-        //                        PengadaanId=d.PengadaanId,
-        //                        Mulai=d.Mulai,
-        //                        Sampai=d.Sampai,
-        //                        status=d.statusPengadaan
-        //                        }).FirstOrDefault();
-        //    if (MStateJadwalPengadaan == null)
-        //    {
-        //        var lstItem = ctx.JadwalPengadaans.Where(d => d.PengadaanId == PengadaanId);
-        //        if (status == EStatusPengadaan.DISETUJUI)
-        //            lstItem = lstItem.Where(d => d.tipe == PengadaanConstants.Jadwal.Aanwijzing);
-        //        if (status == EStatusPengadaan.AANWIJZING)
-        //            lstItem = lstItem.Where(d => d.tipe == PengadaanConstants.Jadwal.PengisianHarga);
-        //        if (status == EStatusPengadaan.SUBMITPENAWARAN)
-        //            lstItem = lstItem.Where(d => d.tipe == PengadaanConstants.Jadwal.BukaAmplop);
-        //        if (status == EStatusPengadaan.BUKAAMPLOP)
-        //            lstItem = lstItem.Where(d => d.tipe == PengadaanConstants.Jadwal.Penilaian);
-        //    }
-        //    return MStateJadwalPengadaan;
-        //}
-
         public JadwalPelaksanaan saveJadwalPelaksanaan(JadwalPelaksanaan jadwalPelaksanaan)
         {
             Pengadaan Mpengadaan = ctx.Pengadaans.Where(d => d.Id == jadwalPelaksanaan.PengadaanId).FirstOrDefault();
@@ -2592,64 +2693,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 statusPengadaan = jadwalPelaksanaan.statusPengadaan
             };
             ctx.JadwalPelaksanaans.Add(MJadwalPelaksanaan);
-
             return MJadwalPelaksanaan;
         }
-
-        //public StateJadwalPengadaan stateJadwal( Guid PengadaanId)
-        //{
-        //    Pengadaan Mpengadaan = ctx.Pengadaans.Find(PengadaanId);
-        //    StateJadwalPengadaan MnextJadwal = new StateJadwalPengadaan();
-        //    if (Mpengadaan.Status == EStatusPengadaan.DISETUJUI)
-        //    {
-        //        JadwalPelaksanaan MPJadwalPelaksanaan = ctx.JadwalPelaksanaans
-        //                    .Where(d => d.PengadaanId == PengadaanId).FirstOrDefault();
-        //        if (MPJadwalPelaksanaan != null)
-        //        {
-        //            MnextJadwal.Mulai = MPJadwalPelaksanaan.Mulai;
-        //            MnextJadwal.status = EStatusPengadaan.AANWIJZING;
-        //            MnextJadwal.PengadaanId = PengadaanId;
-        //        }
-        //        else
-        //        {
-        //            JadwalPengadaan MJadwalPengadaan = ctx.JadwalPengadaans.Where(d => d.PengadaanId == PengadaanId
-        //                             && d.tipe == PengadaanConstants.StatusPengadaan.Aanwijzing).FirstOrDefault();
-        //            if (MJadwalPengadaan == null) return new StateJadwalPengadaan();
-        //            else
-        //            {
-        //                MnextJadwal.Mulai = MJadwalPengadaan.Mulai;
-        //                MnextJadwal.PengadaanId = PengadaanId;
-        //                MnextJadwal.status = EStatusPengadaan.AANWIJZING;
-        //            }
-        //        }
-        //    }
-
-        //    if (Mpengadaan.Status == EStatusPengadaan.AANWIJZING)
-        //    {
-        //        JadwalPelaksanaan MPJadwalPelaksanaan = ctx.JadwalPelaksanaans
-        //                    .Where(d => d.PengadaanId == PengadaanId && d.statusPengadaan==Mpengadaan.Status).FirstOrDefault();
-        //        if (MPelaksanaanAanwijzing != null)
-        //        {
-        //            MnextJadwal.Mulai = MPelaksanaanAanwijzing.Mulai;
-        //            MnextJadwal.status = EStatusPengadaan.AANWIJZING;
-        //            MnextJadwal.PengadaanId = PengadaanId;
-        //        }
-        //        else
-        //        {
-        //            JadwalPengadaan MJadwalPengadaan = ctx.JadwalPengadaans.Where(d => d.PengadaanId == PengadaanId
-        //                             && d.tipe ==PengadaanConstants.StatusPengadaan.Aanwijzing).FirstOrDefault();
-        //            if (MJadwalPengadaan == null) return new StateJadwalPengadaan();
-        //            else
-        //            {
-        //                MnextJadwal.Mulai = MJadwalPengadaan.Mulai;
-        //                MnextJadwal.PengadaanId = PengadaanId;
-        //                MnextJadwal.status = EStatusPengadaan.AANWIJZING;
-        //            }
-        //        }
-        //    }
-
-        //    return MnextJadwal;
-        //}
 
         public int cekStateDiSetujui(Guid PengadaanId)
         {
@@ -3024,6 +3069,65 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return newLstVWRKSDetailRekanan;
         }
 
+         //rekanana masukan harga tawaran pada klarifikasi lanjutan
+        public List<VWRKSDetailRekanan> addHargaKlarifikasiLanjutanRekanan(List<VWRKSDetailRekanan> dlstHargaKlarifikasiRekanan, Guid PengadaanId, Guid UserId)
+        {
+            List<VWRKSDetailRekanan> newLstVWRKSDetailRekanan = new List<VWRKSDetailRekanan>();
+            if (ctx.Pengadaans.Find(PengadaanId) == null) return new List<VWRKSDetailRekanan>();
+            else
+            {
+                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.KLARIFIKASILANJUTAN) return new List<VWRKSDetailRekanan>();
+            }
+            foreach (var item in dlstHargaKlarifikasiRekanan)
+            {
+                var vendorId = ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id;
+                HargaKlarifikasiLanLanjutan oldHargaKlarifikasiLanjutanRekanan = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.VendorId == vendorId && d.RKSDetailId == item.Id).FirstOrDefault();
+                //if (item.HargaRekananId != Guid.Empty && item.HargaRekananId != null)
+                if (oldHargaKlarifikasiLanjutanRekanan != null)
+                {
+
+                    oldHargaKlarifikasiLanjutanRekanan.harga = item.harga;
+                    oldHargaKlarifikasiLanjutanRekanan.keterangan = item.keterangan;
+                    ctx.SaveChanges();
+                    newLstVWRKSDetailRekanan.Add(new VWRKSDetailRekanan
+                    {
+                        Id = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().Id,
+                        item = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().item,
+                        ItemId = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().ItemId,
+                        jumlah = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? null : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().jumlah,
+                        satuan = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().satuan,
+                        harga = oldHargaKlarifikasiLanjutanRekanan.harga,
+                        HargaRekananId = oldHargaKlarifikasiLanjutanRekanan.Id,
+                        keterangan = oldHargaKlarifikasiLanjutanRekanan.keterangan
+                    });
+                }
+                else
+                {
+                    HargaKlarifikasiLanLanjutan newHargaKlarifikasiLanjutanRekanan = new HargaKlarifikasiLanLanjutan();
+                    newHargaKlarifikasiLanjutanRekanan.harga = item.harga;
+                    newHargaKlarifikasiLanjutanRekanan.keterangan = item.keterangan;
+                    newHargaKlarifikasiLanjutanRekanan.RKSDetailId = item.Id;
+                    newHargaKlarifikasiLanjutanRekanan.VendorId = ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id; //3;//contoh vendor
+                    ctx.HargaKlarifikasiLanLanjutans.Add(newHargaKlarifikasiLanjutanRekanan);
+                    ctx.SaveChanges();
+                    newLstVWRKSDetailRekanan.Add(new VWRKSDetailRekanan
+                    {
+                        Id = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().Id,
+                        item = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().item,
+                        ItemId = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().ItemId,
+                        jumlah = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? null : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().jumlah,
+                        satuan = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().satuan,
+                        harga = newHargaKlarifikasiLanjutanRekanan.harga,
+                        HargaRekananId = newHargaKlarifikasiLanjutanRekanan.Id,
+                        keterangan = newHargaKlarifikasiLanjutanRekanan.keterangan
+                    });
+                }
+
+            }
+
+            return newLstVWRKSDetailRekanan;
+        }
+
         public List<VWRekananSubmitHarga> getListRekananSubmit(Guid PengadaanId, Guid UserId)
         {
             var xKandidatPengadaans = (from b in ctx.KandidatPengadaans where b.PengadaanId == PengadaanId select b).ToList();
@@ -3080,6 +3184,68 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                        bb.VendorId == b.VendorId
                                                        select bb).FirstOrDefault() == null ? 0 : 1
                                        }).ToList();
+            return xKandidatPengadaans;
+        }
+
+        public List<VWRekananPenilaian> getListRekananPenilaian2(Guid PengadaanId, Guid UserId)
+        {
+            var xKandidatPengadaans = (from b in ctx.PemenangPengadaans
+                                       join c in ctx.Vendors on b.VendorId equals c.Id
+                                       where b.PengadaanId == PengadaanId
+                                       select new VWRekananPenilaian
+                                       {
+                                           NamaVendor = c.Nama,
+                                           VendorId = b.VendorId,
+                                           NilaiKriteria = (from bb in ctx.PembobotanPengadaans
+                                                            join cc in ctx.PembobotanPengadaanVendors on bb.KreteriaPembobotanId equals cc.KreteriaPembobotanId
+                                                            where cc.PengadaanId == PengadaanId && cc.VendorId == b.VendorId && bb.PengadaanId == PengadaanId
+                                                            select new
+                                                            {
+                                                                Bobot = bb.Bobot == null ? 0 : bb.Bobot.Value,
+                                                                Nilai = cc.Nilai == null ? 0 : cc.Nilai.Value
+                                                            }).Sum(dd => (dd.Nilai * dd.Bobot) / 100),
+                                           //total = (from bb in ctx.HargaRekanans
+                                           //         join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                           //         join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                           //         where dd.PengadaanId == PengadaanId && bb.VendorId == b.VendorId
+                                           //         select new item
+                                           //         {
+                                           //             harga = bb.harga,
+                                           //             jumlah = cc.jumlah
+                                           //         }).Sum(xx => xx.harga * xx.jumlah),
+                                           terpilih = (from bb in ctx.PelaksanaanPemilihanKandidats
+                                                       where bb.PengadaanId == PengadaanId &&
+                                                       bb.VendorId == b.VendorId
+                                                       select bb).FirstOrDefault() == null ? 0 : 1
+                                       }).ToList();
+            var cekKlrasfikasiLanjutanx = cekKlarifikasiLanjut(PengadaanId);
+            foreach (var item in xKandidatPengadaans)
+            {
+                if (!cekKlrasfikasiLanjutanx)
+                {
+                    item.total = (from bb in ctx.HargaKlarifikasiRekanans
+                                  join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                  join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                  where dd.PengadaanId == PengadaanId && bb.VendorId == item.VendorId
+                                  select new item
+                                  {
+                                      harga = bb.harga,
+                                      jumlah = cc.jumlah
+                                  }).Sum(xx => xx.harga == null ? 0 : xx.harga * xx.jumlah);
+                }
+                else{
+                    item.total = (from bb in ctx.HargaKlarifikasiLanLanjutans
+                                  join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                  join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                  where dd.PengadaanId == PengadaanId && bb.VendorId == item.VendorId
+                                  select new item
+                                  {
+                                      harga = bb.harga,
+                                      jumlah = cc.jumlah
+                                  }).Sum(xx => xx.harga == null ? 0 : xx.harga * xx.jumlah);
+                }
+            }
+        
             return xKandidatPengadaans;
         }
 
@@ -3147,6 +3313,36 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return lstVWRekananSubmitHarga;
         }
 
+        public List<VWRekananSubmitHarga> getListRekananKlarifikasiLanjutSubmit(Guid PengadaanId, Guid UserId)
+        {
+            var xRekanan = (from b in ctx.PelaksanaanPemilihanKandidats
+                            where b.PengadaanId == PengadaanId
+                            select b).Distinct().ToList();
+
+            var xSubmitRekanan = (from b in ctx.HargaKlarifikasiLanLanjutans
+                                  join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
+                                  join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
+                                  where d.PengadaanId == PengadaanId
+                                  select b).Distinct().ToList();
+
+            var LstVendor = xRekanan.Select(d => new { VendorId = d.VendorId }).Distinct().ToList();
+            List<VWRekananSubmitHarga> lstVWRekananSubmitHarga = new List<VWRekananSubmitHarga>();
+            foreach (var item in LstVendor)
+            {
+                VWRekananSubmitHarga mVWRekananSubmitHarga = new VWRekananSubmitHarga();
+                mVWRekananSubmitHarga.VendorId = item.VendorId;
+                mVWRekananSubmitHarga.status = 0;
+                mVWRekananSubmitHarga.NamaVendor = ctx.Vendors.Find(item.VendorId).Nama;
+
+                foreach (var itemx in xSubmitRekanan)
+                {
+                    if (itemx.VendorId == item.VendorId) mVWRekananSubmitHarga.status = 1;
+                }
+                lstVWRekananSubmitHarga.Add(mVWRekananSubmitHarga);
+            }
+            return lstVWRekananSubmitHarga;
+        }
+
         public List<VWRekananPenilaian> getListRekananKlarifikasiPenilaian(Guid PengadaanId, Guid UserId)
         {
             var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
@@ -3157,6 +3353,40 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                            NamaVendor = c.Nama,
                                            VendorId = b.VendorId,
                                            total = (from bb in ctx.HargaKlarifikasiRekanans
+                                                    join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                                    join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                                    where dd.PengadaanId == PengadaanId && bb.VendorId == b.VendorId
+                                                    select new item
+                                                    {
+                                                        harga = bb.harga,
+                                                        jumlah = cc.jumlah
+                                                    }).Sum(xx => xx.harga * xx.jumlah),
+                                           terpilih = (from bb in ctx.PemenangPengadaans
+                                                       where bb.PengadaanId == PengadaanId &&
+                                                       bb.VendorId == b.VendorId
+                                                       select bb).FirstOrDefault() == null ? 0 : 1,
+                                           NilaiKriteria = (from bb in ctx.PembobotanPengadaans
+                                                            join cc in ctx.PembobotanPengadaanVendors on bb.KreteriaPembobotanId equals cc.KreteriaPembobotanId
+                                                            where cc.PengadaanId == PengadaanId && cc.VendorId == b.VendorId && bb.PengadaanId == PengadaanId
+                                                            select new
+                                                            {
+                                                                Bobot = bb.Bobot == null ? 0 : bb.Bobot.Value,
+                                                                Nilai = cc.Nilai == null ? 0 : cc.Nilai.Value
+                                                            }).Sum(dd => (dd.Nilai * dd.Bobot) / 100)
+                                       }).ToList();
+            return xKandidatPengadaans;
+        }
+
+        public List<VWRekananPenilaian> getListRekananKlarifikasiPenilaianLanjutan(Guid PengadaanId, Guid UserId)
+        {
+            var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
+                                       join c in ctx.Vendors on b.VendorId equals c.Id
+                                       where b.PengadaanId == PengadaanId
+                                       select new VWRekananPenilaian
+                                       {
+                                           NamaVendor = c.Nama,
+                                           VendorId = b.VendorId,
+                                           total = (from bb in ctx.HargaKlarifikasiLanLanjutans
                                                     join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
                                                     join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
                                                     where dd.PengadaanId == PengadaanId && bb.VendorId == b.VendorId
@@ -3264,7 +3494,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                             grup=b.grup
                                         }).ToList();
             newVWRKSVendors.hps = hps;
-            decimal? totalHps = hps.Sum(d => d.harga * d.jumlah);
+            decimal? totalHps = hps.Sum(d => d.harga == null ? 0 : d.harga * d.jumlah);
             newVWRKSVendors.hps.Insert(0, new VWRKSPenilaian { item = "Total", harga = totalHps });
 
             List<VWVendorsHarga> vendors = new List<VWVendorsHarga>();
@@ -3303,13 +3533,100 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
                 if (mVWVendorsHarga.items.Count > 0)
                 {
-                    decimal? total = mVWVendorsHarga.items.Sum(d => d.harga * d.jumlah);
+                    decimal? total = mVWVendorsHarga.items.Sum(d => d.harga == null ? 0 : d.harga * d.jumlah);
                     mVWVendorsHarga.items.Insert(0, new item { harga = total });
                     vendors.Add(mVWVendorsHarga);
                 }
             }
             newVWRKSVendors.vendors = vendors;
             return newVWRKSVendors;
+        }
+       
+        
+        public VWRKSVendors getRKSPenilaian2(Guid PengadaanId, Guid UserId)
+        {
+            VWRKSVendors newVWRKSVendors = new VWRKSVendors();
+
+            List<VWRKSPenilaian> hps = (from b in ctx.RKSDetails
+                                        join c in ctx.RKSHeaders on b.RKSHeaderId equals c.Id
+                                        where c.PengadaanId == PengadaanId
+                                        select new VWRKSPenilaian
+                                        {
+                                            Id = b.Id,
+                                            harga = b.hps,
+                                            item = b.item,
+                                            jumlah = b.jumlah,
+                                            satuan = b.satuan,
+                                            level = b.level,
+                                            grup = b.grup
+                                        }).ToList();
+            newVWRKSVendors.hps = hps;
+            decimal? totalHps = hps.Sum(d => d.harga == null ? 0 : d.harga * d.jumlah);
+            newVWRKSVendors.hps.Insert(0, new VWRKSPenilaian { item = "Total", harga = totalHps });
+
+            List<VWVendorsHarga> vendors = new List<VWVendorsHarga>();
+
+            var xKandidatPengadaans = (from b in ctx.KandidatPengadaans where b.PengadaanId == PengadaanId select b).ToList();
+            foreach (var item in xKandidatPengadaans)
+            {
+                //into ps
+                //                from c in ps.DefaultIfEmpty()
+                VWVendorsHarga mVWVendorsHarga = new VWVendorsHarga();
+                mVWVendorsHarga.nama = ctx.Vendors.Find(item.VendorId).Nama;
+                mVWVendorsHarga.VendorId = item.VendorId;
+                var oPembobotanPengadaanVendor = ctx.PembobotanPengadaanVendors.Where(
+                                    d => d.PengadaanId == PengadaanId && d.VendorId == item.VendorId).ToList();
+                var totalNilaiKirteria = 0;
+                foreach (var itemKriteriaVendor in oPembobotanPengadaanVendor)
+                {
+                    var oPembobotanPengadaans = ctx.PembobotanPengadaans.Where(d => d.KreteriaPembobotanId == itemKriteriaVendor.KreteriaPembobotanId && d.PengadaanId == PengadaanId).FirstOrDefault();
+                    var bobot = oPembobotanPengadaans == null ? 0 : oPembobotanPengadaans.Bobot == null ? 0 : oPembobotanPengadaans.Bobot.Value;
+                    var nilai = itemKriteriaVendor.Nilai == null ? 0 : itemKriteriaVendor.Nilai.Value;
+                    totalNilaiKirteria = totalNilaiKirteria + ((bobot * nilai) / 100);
+                }
+                mVWVendorsHarga.NIlaiKriteria = totalNilaiKirteria;
+
+                if (cekKlarifikasiLanjut(PengadaanId))
+                {
+                    mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiLanLanjutans
+                                             join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
+                                             join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
+                                             where d.PengadaanId == PengadaanId && b.VendorId == item.VendorId
+                                             select new item
+                                             {
+                                                 jumlah = c.jumlah,
+                                                 harga = b.harga
+                                             }).ToList();
+                }
+                else
+                {
+                    mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiRekanans
+                                             join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
+                                             join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
+                                             where d.PengadaanId == PengadaanId && b.VendorId == item.VendorId
+                                             select new item
+                                             {
+                                                 jumlah = c.jumlah,
+                                                 harga = b.harga
+                                             }).ToList();
+                }
+
+                if (mVWVendorsHarga.items.Count > 0)
+                {
+                    decimal? total = mVWVendorsHarga.items.Sum(d => d.harga == null ? 0 : d.harga * d.jumlah);
+                    mVWVendorsHarga.items.Insert(0, new item { harga = total });
+                    vendors.Add(mVWVendorsHarga);
+                }
+            }
+            newVWRKSVendors.vendors = vendors;
+            return newVWRKSVendors;
+        }
+
+        private bool cekKlarifikasiLanjut(Guid PengadaanId)
+        {
+            if (ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetail.RKSHeader.PengadaanId == PengadaanId).Count() > 0)
+                return true;
+            else return false;
         }
 
         public VWRKSVendors getRKSPenilaian2Report(Guid PengadaanId, Guid UserId)
@@ -3417,6 +3734,73 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 mVWVendorsHarga.nama = ctx.Vendors.Find(item.VendorId).Nama;
 
                 mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiRekanans
+                                         join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
+                                         join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
+                                         where d.PengadaanId == PengadaanId && b.VendorId == item.VendorId
+                                         select new item
+                                         {
+                                             harga = b.harga,
+                                             jumlah = c.jumlah
+                                         }).ToList();
+
+                var oPembobotanPengadaanVendor = ctx.PembobotanPengadaanVendors.Where(
+                                   d => d.PengadaanId == PengadaanId && d.VendorId == item.VendorId).ToList();
+                var totalNilaiKirteria = 0;
+                foreach (var itemKriteriaVendor in oPembobotanPengadaanVendor)
+                {
+                    var oPembobotanPengadaans = ctx.PembobotanPengadaans.Where(d => d.KreteriaPembobotanId == itemKriteriaVendor.KreteriaPembobotanId && d.PengadaanId == PengadaanId).FirstOrDefault();
+                    var bobot = oPembobotanPengadaans == null ? 0 : oPembobotanPengadaans.Bobot == null ? 0 : oPembobotanPengadaans.Bobot.Value;
+                    var nilai = itemKriteriaVendor.Nilai == null ? 0 : itemKriteriaVendor.Nilai.Value;
+                    totalNilaiKirteria = totalNilaiKirteria + ((bobot * nilai) / 100);
+                }
+                mVWVendorsHarga.NIlaiKriteria = totalNilaiKirteria;
+
+                if (mVWVendorsHarga.items.Count > 0)
+                {
+                    decimal? total = mVWVendorsHarga.items.Sum(d => d.harga * d.jumlah);
+                    mVWVendorsHarga.items.Insert(0, new item { harga = total });
+                    vendors.Add(mVWVendorsHarga);
+                }
+            }
+            newVWRKSVendors.vendors = vendors;
+            return newVWRKSVendors;
+        }
+
+        public VWRKSVendors getRKSKlarifikasiLanjutan(Guid PengadaanId, Guid UserId)
+        {
+            VWRKSVendors newVWRKSVendors = new VWRKSVendors();
+
+            List<VWRKSPenilaian> hps = (from b in ctx.RKSDetails
+                                        join c in ctx.RKSHeaders on b.RKSHeaderId equals c.Id
+                                        where c.PengadaanId == PengadaanId
+                                        select new VWRKSPenilaian
+                                        {
+                                            Id = b.Id,
+                                            harga = b.hps,
+                                            item = b.item,
+                                            jumlah = b.jumlah,
+                                            satuan = b.satuan,
+                                            grup = b.grup,
+                                            level = b.level,
+                                            judul = b.judul
+                                        }).ToList();
+            newVWRKSVendors.hps = hps;
+            decimal? totalHps = hps.Sum(d => d.harga * d.jumlah);
+            newVWRKSVendors.hps.Insert(0, new VWRKSPenilaian { item = "Total", harga = totalHps });
+
+            List<VWVendorsHarga> vendors = new List<VWVendorsHarga>();
+
+            var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
+                                       where b.PengadaanId == PengadaanId
+                                       select b).Distinct().ToList();
+            foreach (var item in xKandidatPengadaans)
+            {
+                //into ps
+                //                from c in ps.DefaultIfEmpty()
+                VWVendorsHarga mVWVendorsHarga = new VWVendorsHarga();
+                mVWVendorsHarga.nama = ctx.Vendors.Find(item.VendorId).Nama;
+
+                mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiLanLanjutans
                                          join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
                                          join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
                                          where d.PengadaanId == PengadaanId && b.VendorId == item.VendorId
@@ -3700,9 +4084,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             newVWRKSVendors.vendors = vendors;
             return newVWRKSVendors;
         }
-        
-        
-
+              
         public List<VWRekananPenilaian> getPemenangPengadaan(Guid PengadaanId, Guid UserId)
         {
             var xKandidatPengadaans = (from b in ctx.PemenangPengadaans
@@ -3743,6 +4125,35 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                                                               bb.VendorId == b.VendorId && bb.Tipe == TipeBerkas.SuratPerintahKerja
                                                                                            select bb).FirstOrDefault().NoBeritaAcara
                                        }).ToList();
+            var cekKlarifikasiLanjutx = cekKlarifikasiLanjut(PengadaanId);
+            foreach (var item in xKandidatPengadaans)
+            {
+                if (!cekKlarifikasiLanjutx)
+                {
+                    item.total = (from bb in ctx.HargaKlarifikasiRekanans
+                                  join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                  join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                  where dd.PengadaanId == PengadaanId && bb.VendorId == item.VendorId
+                                  select new item
+                                  {
+                                      harga = bb.harga,
+                                      jumlah = cc.jumlah
+                                  }).Sum(xx => xx.harga == null ? 0 : xx.harga * xx.jumlah);
+                }
+                else
+                {
+                    item.total = (from bb in ctx.HargaKlarifikasiLanLanjutans
+                                  join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                  join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                  where dd.PengadaanId == PengadaanId && bb.VendorId == item.VendorId
+                                  select new item
+                                  {
+                                      harga = bb.harga,
+                                      jumlah = cc.jumlah
+                                  }).Sum(xx => xx.harga == null ? 0 : xx.harga * xx.jumlah);
+                }
+            }
+            return xKandidatPengadaans;
             return xKandidatPengadaans;
         }
 
@@ -3778,6 +4189,69 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                                 Nilai = cc.Nilai == null ? 0 : cc.Nilai.Value
                                                             }).Sum(dd => (dd.Nilai * dd.Bobot) / 100)
                                        }).ToList();
+            return xKandidatPengadaans;
+        }
+
+          public List<VWRekananPenilaian> getKandidatPengadaan2(Guid PengadaanId, Guid UserId)
+        {
+            var xKandidatPengadaans = (from b in ctx.PemenangPengadaans
+                                       join c in ctx.Vendors on b.VendorId equals c.Id
+                                       where b.PengadaanId == PengadaanId
+                                       select new VWRekananPenilaian
+                                       {
+                                           NamaVendor = c.Nama,
+                                           VendorId = b.VendorId,
+                                           Email = c.Email,
+                                           //total = (from bb in ctx.HargaKlarifikasiRekanans
+                                           //         join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                           //         join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                           //         where dd.PengadaanId == PengadaanId && bb.VendorId == b.VendorId
+                                           //         select new item
+                                           //         {
+                                           //             harga = bb.harga,
+                                           //             jumlah = cc.jumlah
+                                           //         }).Sum(xx => xx.harga * xx.jumlah),
+                                           terpilih = (from bb in ctx.PemenangPengadaans
+                                                       where bb.PengadaanId == PengadaanId &&
+                                                       bb.VendorId == b.VendorId
+                                                       select bb).FirstOrDefault() == null ? 0 : 1,
+                                           NilaiKriteria = (from bb in ctx.PembobotanPengadaans
+                                                            join cc in ctx.PembobotanPengadaanVendors on bb.KreteriaPembobotanId equals cc.KreteriaPembobotanId
+                                                            where cc.PengadaanId == PengadaanId && cc.VendorId == b.VendorId && bb.PengadaanId == PengadaanId
+                                                            select new
+                                                            {
+                                                                Bobot = bb.Bobot == null ? 0 : bb.Bobot.Value,
+                                                                Nilai = cc.Nilai == null ? 0 : cc.Nilai.Value
+                                                            }).Sum(dd => (dd.Nilai * dd.Bobot) / 100)
+                                       }).ToList();
+            var cekKlarifikasiLanjutx = cekKlarifikasiLanjut(PengadaanId);
+            foreach (var item in xKandidatPengadaans)
+            {
+                if (!cekKlarifikasiLanjutx  )
+                {
+                    item.total = (from bb in ctx.HargaKlarifikasiRekanans
+                                  join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                  join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                  where dd.PengadaanId == PengadaanId && bb.VendorId == item.VendorId
+                                  select new item
+                                  {
+                                      harga = bb.harga,
+                                      jumlah = cc.jumlah
+                                  }).Sum(xx => xx.harga == null ? 0 : xx.harga * xx.jumlah);
+                }
+                else
+                {
+                    item.total = (from bb in ctx.HargaKlarifikasiLanLanjutans
+                                  join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                  join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                  where dd.PengadaanId == PengadaanId && bb.VendorId == item.VendorId
+                                  select new item
+                                  {
+                                      harga = bb.harga,
+                                      jumlah = cc.jumlah
+                                  }).Sum(xx => xx.harga == null ? 0 : xx.harga * xx.jumlah);
+                }
+            }
             return xKandidatPengadaans;
         }
 
@@ -4776,6 +5250,65 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 return new PersetujuanPemenang();
             }
         }
+                
+        #region persetujuan tiap tahapan
+
+        public PersetujuanTahapan SavePersetujuanTahapan(PersetujuanTahapan data, Guid UserId)
+        {
+            var dataPengadaan = ctx.Pengadaans.Find(data.PengadaanId);
+            if (dataPengadaan == null) return new PersetujuanTahapan();
+            var dataTahapan=dataPengadaan.PersetujuanTahapans.Where(d=>d.UserId==UserId && d.StatusPengadaan==data.StatusPengadaan && d.PengadaanId==data.PengadaanId).FirstOrDefault();
+            if (dataPengadaan.Status != data.StatusPengadaan) return new PersetujuanTahapan();
+            if (dataTahapan == null)
+            {
+                data.UserId = UserId;
+                data.CreatedBy = UserId;
+                data.CreatedOn = DateTime.Now;
+                ctx.PersetujuanTahapans.Add(data);
+            }
+            else
+            {
+                dataTahapan.ModifiedBy = UserId;
+                dataTahapan.ModifiedOn = DateTime.Now;                
+            }
+            ctx.SaveChanges(UserId.ToString());
+            return new PersetujuanTahapan();
+        }
+
+        public List<VWPersetujuanTahapan> GetPersetujuanTahapan(Guid PengadaanId, EStatusPengadaan status)
+        {
+            var dataPengadaan = ctx.Pengadaans.Find(PengadaanId);
+            if (dataPengadaan == null) return new List<VWPersetujuanTahapan>();
+            var dataPersonil = dataPengadaan.PersonilPengadaans;
+            if (dataPersonil == null) return new List<VWPersetujuanTahapan>();
+            var dataPersonilTahapan = dataPersonil.Where(d => d.tipe != PengadaanConstants.StaffPeranan.Tim);
+            List<VWPersetujuanTahapan> lstVWPersetujuanTahapan = new List<VWPersetujuanTahapan>();
+            foreach (var item in dataPersonilTahapan)
+            {
+                VWPersetujuanTahapan nVWPersetujuanTahapan=new VWPersetujuanTahapan();
+
+                var Tahapan = dataPengadaan.PersetujuanTahapans
+                                        .Where(d => d.UserId == item.PersonilId && d.StatusPengadaan == status).FirstOrDefault();
+                if (Tahapan != null)
+                {
+                    nVWPersetujuanTahapan.Id = Tahapan.Id;
+                    nVWPersetujuanTahapan.CreatedOn = Tahapan.CreatedOn;
+                }
+                nVWPersetujuanTahapan.PengadaanId = item.PengadaanId;
+                nVWPersetujuanTahapan.Status = Tahapan == null ? StatusTahapan.Requested : Tahapan.Status;
+                nVWPersetujuanTahapan.UserId = item.PersonilId;
+                nVWPersetujuanTahapan.StatusPengadaan = status;
+                nVWPersetujuanTahapan.StatusPengadaanName = status.ToString();
+
+               
+                lstVWPersetujuanTahapan.Add(nVWPersetujuanTahapan);
+            }
+
+            return lstVWPersetujuanTahapan;
+        }
+
+       
+        #endregion
     }
 }
 

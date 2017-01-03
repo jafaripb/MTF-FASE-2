@@ -12,10 +12,10 @@ $(function () {
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
                  accept: function (file, done) {
                      this.options.url = $("#DraftPKS").attr("action") + "&id=" + $("#pksId").val();
-                     if ($("#isOwner").val() != 1)
+                     if ($("#isOwner").val() != 1 && $("#StatusPks").val()!=0)
                          BootstrapDialog.show({
                              title: 'Konfirmasi',
-                             message: 'Anda Tidak Punya Akses ',
+                             message: 'Anda Tidak Punya Akses ' ,
                              buttons: [{
                                  label: 'Close',
                                  action: function (dialog) {
@@ -67,10 +67,14 @@ $(function () {
                                  id = file.Id;
                              else
                                  id = $.parseJSON(file.xhr.response);
-                             $("#HapusFile").show();
-                             $("#konfirmasiFile").attr("attr1", "PKS");
+                             console.log("sdsd");
+                             $("#konfirmasiFile").attr("attr1", "DraftPKS");
                              $("#konfirmasiFile").attr("FileId", id);
                              $("#konfirmasiFile").modal("show");
+                             if ($("#isOwner").val() == 1 && $("#StatusPks").val() == 0) {
+                                 $("#HapusFile").show();
+                             }
+                             else { $("#HapusFile").hide() }
                          });
                      });
                     
@@ -150,10 +154,13 @@ $(function () {
                                  id = file.Id;
                              else
                                  id = $.parseJSON(file.xhr.response);
-                             $("#HapusFile").show();
-                             $("#konfirmasiFile").attr("attr1", "PKS");
+                             
+                             $("#konfirmasiFile").attr("attr1", "FinalLegalPks");
                              $("#konfirmasiFile").attr("FileId", id);
                              $("#konfirmasiFile").modal("show");
+                             if ($("#Approver").val() == 1 && $("#StatusPks").val() == 2) {
+                                 $("#HapusFile").show();
+                             } else { $("#HapusFile").hide() }
                          });
                      });
 
@@ -178,7 +185,7 @@ $(function () {
                  maxFilesize: 10,
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
                  accept: function (file, done) {
-                     this.options.url = $("#FinalLegalPks").attr("action") + "&id=" + $("#pksId").val();
+                     this.options.url = $("#AssignedPks").attr("action") + "&id=" + $("#pksId").val();
                      if ($("#isOwner").val() != 1)
                          BootstrapDialog.show({
                              title: 'Konfirmasi',
@@ -234,10 +241,13 @@ $(function () {
                                  id = file.Id;
                              else
                                  id = $.parseJSON(file.xhr.response);
-                             $("#HapusFile").show();
-                             $("#konfirmasiFile").attr("attr1", "PKS");
+                            
+                             $("#konfirmasiFile").attr("attr1", "AssignedPks");
                              $("#konfirmasiFile").attr("FileId", id);
                              $("#konfirmasiFile").modal("show");
+                             if ($("#isOwner").val() == 1 && $("#StatusPks").val() == 2) {
+                                 $("#HapusFile").show();
+                             } else { $("#HapusFile").hide() }
                          });
                      });
 
@@ -409,13 +419,87 @@ $(function () {
     
 });
 
+$(function () {
+    $("#HapusFile").on("click", function () {
+        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
+        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        
+            $.ajax({
+                method: "POST",
+                url: "Api/Pks/deleteDokumenPks?Id=" + FileId
+            }).done(function (data) {
+                window.location.reload();
+                if (data.Id == "1") {
+                    if (tipe == "DraftPKS") {
+                        $.each(myDropzoneDraftPKS.files, function (index, item) {
+                            var id = 0;
+                            if (item.Id != undefined) {
+                                id = item.Id;
+                            }
+                            else {
+                                id = $.parseJSON(item.xhr.response);
+                            }
+
+                            if (id == FileId) {
+                                myDropzoneDraftPKS.removeFile(item);
+                            }
+                        });
+                    }
+
+                    if (tipe == "FinalLegalPks") {
+
+                        $.each(myDropzoneFinalPKS.files, function (index, item) {
+                            var id;
+                            if (item.Id != undefined) {
+                                id = item.Id;
+                            }
+                            else {
+                                id = $.parseJSON(item.xhr.response);
+                            }
+
+                            if (id == FileId) {
+                                myDropzoneFinalPKS.removeFile(item);
+                            }
+                        });
+                    }
+                    if (tipe == "AssignedPks") {
+                        console.log(item.xhr.response);
+                        $.each(myDropzoneAssignedPks.files, function (index, item) {
+                            var id = 0;
+                            if (item.Id != undefined) {
+                                id = item.Id;
+                            }
+                            else {
+                                id = $.parseJSON(item.xhr.response);
+                            }
+
+                            if (id == FileId) {
+                                myDropzoneAssignedPks.removeFile(item);
+                            }
+                        });
+                    }
+
+
+
+                }
+                $("#konfirmasiFile").modal("hide");
+            });
+        
+    });
+
+    $("#downloadFile").on("click", function () {
+        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        downloadFileUsingForm("/api/Pks/OpenFile?Id=" + FileId);
+    });
+});
+
 function loadDetail(Id) {
     $.ajax({
         url: "Api/pks/detail?Id=" + Id
     }).done(function (data) {
         $("#judul").val(data.Judul);
         $("#no-pengadaan").val(data.NoPengadaan);
-        $("#no-spk").val(data.NoSpk);
+        $("#noPks").val(data.NoPks);
         $("#pelaksana").val(data.Vendor);
         $("#note").val(data.Note);
         $("#title-pks").val(data.Title);
@@ -448,8 +532,8 @@ function loadDetail(Id) {
         }
         if (data.StatusPks == 0 || data.StatusPks == 3)
             $("#bingkai-upload-legal").hide();
-        if(data.StatusPks != 0 && data.StatusPks != 3) {
-            $("#HapusFile").remove();
+        if (data.StatusPks != 0 && data.StatusPks != 3) {
+            if (data.isOwner== 0 && data.Approver==0) $("#HapusFile").remove();                
             $(".input-pks").attr("disabled", true);
             $(".cari-pengadaan").remove();
             $(".Simpan").remove();

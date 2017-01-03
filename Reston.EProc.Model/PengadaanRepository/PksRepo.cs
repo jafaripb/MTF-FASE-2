@@ -64,7 +64,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 }
                 if (!string.IsNullOrEmpty(search))
                 {
-                    data = data.Where(d => d.Title == d.Title);
+                    data = data.Where(d => d.Title.Contains(search));
                 }
                 dtTable.recordsFiltered = data.Count();
                 data = data.OrderByDescending(d => d.CreateOn).Skip(start).Take(limit);
@@ -72,7 +72,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 {
                     Id = d.Id,
                     PemenangPengadaanId = d.PemenangPengadaanId,
-                    NoSpk = d.NoDokumen,
+                    NoPks=d.NoDokumen,
                     Judul = d.PemenangPengadaan.Pengadaan.Judul,
                     JenisPekerjaan = d.PemenangPengadaan.Pengadaan.JenisPekerjaan,
                     Vendor = d.PemenangPengadaan.Vendor.Nama,
@@ -214,8 +214,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 NoPengadaan = d.PemenangPengadaan.Pengadaan.NoPengadaan,
                 Keterangan = d.PemenangPengadaan.Pengadaan.Keterangan,
                 HPS = d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().RKSDetails.Sum(dd => dd.hps * dd.jumlah == null ? 0 : dd.hps * dd.jumlah).Value,
-                NoSpk = d.PemenangPengadaan.Pengadaan.BeritaAcaras.Where(dd => dd.VendorId == d.PemenangPengadaan.VendorId).FirstOrDefault() == null ? "" : d.PemenangPengadaan.Pengadaan.BeritaAcaras.Where(dd => dd.VendorId == d.PemenangPengadaan.VendorId).FirstOrDefault().NoBeritaAcara,
+               // NoSpk = d.PemenangPengadaan.Pengadaan.BeritaAcaras.Where(dd => dd.VendorId == d.PemenangPengadaan.VendorId).FirstOrDefault() == null ? "" : d.PemenangPengadaan.Pengadaan.BeritaAcaras.Where(dd => dd.VendorId == d.PemenangPengadaan.VendorId).FirstOrDefault().NoBeritaAcara,
                 Vendor = d.PemenangPengadaan.Vendor.Nama,
+                NoPks=d.NoDokumen,
                 StatusPks=d.StatusPks,
                 StatusPksName=d.StatusPks.ToString(),
                 isOwner=d.CreateBy==UserId?1:0,
@@ -296,14 +297,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 int isMine = MdokPks.CreateBy == UserId ? 1 : 0;
 
 
-                if ((approver == 1 && MdokPks.Tipe == TipeBerkas.AssignedPks) ||
+               /* if ((approver == 1 && MdokPks.Tipe == TipeBerkas.AssignedPks) ||
                     (isMine == 1 && (MdokPks.Tipe == TipeBerkas.DraftPKS && MdokPks.Tipe == TipeBerkas.FinalLegalPks)))
-                {
+                {*/
                     ctx.DokumenPks.Remove(MdokPks);
                     ctx.SaveChanges(UserId.ToString());
                     return 1;
-                }
-                return 0;
+               // }
+               // return 0;
             }
             catch { return 0; }
         }

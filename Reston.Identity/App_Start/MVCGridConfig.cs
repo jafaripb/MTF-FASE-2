@@ -21,11 +21,12 @@ namespace IdLdap
         static readonly ILdapRepository _LdapRepository;
         static readonly UserManager _UserManager;
         static readonly RoleManager _RoleManager;
-
+        
         static MVCGridConfig()
         {
+            bool UseAppDir = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["LDAP_APPDIR"]);
             _LdapRepository = new LdapRepository(new PrincipalContext(
-                                    ContextType.ApplicationDirectory,
+                                    UseAppDir ? ContextType.ApplicationDirectory : ContextType.Domain,
                                     IdLdapConstants.LdapConfiguration.Host,
                                     IdLdapConstants.LdapConfiguration.ContextNaming,
                                     IdLdapConstants.LdapConfiguration.Username,
@@ -82,55 +83,58 @@ namespace IdLdap
                })
            );
 
+            bool UseAppDir = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["LDAP_APPDIR"]);
 
-            MVCGridDefinitionTable.Add("UserLdapFiltering", new MVCGridBuilder<UserLdap>(colDefauls)
-               .WithAuthorizationType(AuthorizationType.AllowAnonymous)
-               .AddColumns(cols =>
-               {
-                   //cols.Add("Guid").WithSorting(false)
-                   //    .WithValueExpression(p => p.Guid.ToString());
-                   cols.Add("Name").WithSorting(false).WithHeaderText("Name")
-                       .WithValueExpression(p => p.Name)
-                       .WithFiltering(true);
-                   cols.Add("SamAccountName").WithSorting(false).WithHeaderText("SAMAccountName")
-                       .WithValueExpression(p => p.SamAccountName)
-                       .WithFiltering(true);
-                   cols.Add("UserPrincipalName").WithSorting(false).WithHeaderText("UserPrincipalName")
-                       .WithValueExpression(p => p.UserPrincipalName)
-                       .WithFiltering(true);
-                   cols.Add("GivenName").WithSorting(false).WithHeaderText("GivenName")
-                       .WithValueExpression(p => p.GivenName)
-                       .WithFiltering(false);
-                   cols.Add("Mail").WithSorting(false).WithHeaderText("Mail")
-                       .WithValueExpression(p => p.Mail)
-                       .WithFiltering(false);
-                   cols.Add("IsAccountLockedOut").WithSorting(false)
-                       .WithHeaderText("Status")
-                       .WithValueExpression(p => p.IsAccountLockedOut ? "Inactive" : "Active")
-                       .WithFiltering(false);
-                   cols.Add("Linked").WithSorting(false).WithSortColumnData("Linked")
-                       .WithHeaderText("Linked")
-                       .WithValueExpression(p => p.IsLinked.GetValueOrDefault() ? "Linked" : "Not Linked")
-                       .WithFiltering(false);
-                   cols.Add("Edit").WithHtmlEncoding(false)
-                        .WithSorting(false)
-                        .WithHeaderText("Action")
-                        .WithValueExpression((p, c) => '"'+p.UserPrincipalName+'"'  )
-                        .WithCellCssClassExpression(p => p.IsLinked.GetValueOrDefault() ? "hiddentd" : "")
-                        .WithValueTemplate("<button onclick='LinkedAccount({Value});' class='btn btn-primary' role='button'>Link</button>");
-                    
-               })
-               .WithSorting(true, "SamAccountName")
-               .WithPaging(true, 10, true, 100)
-               .WithFiltering(true)
-               .WithRetrieveDataMethod((context) =>
-               {
-                   var options = context.QueryOptions;
-                   List<UserLdap> items;
-                   
-                       var username = options.GetFilterString("UserPrincipalName") == null ? "*" : "*"+options.GetFilterString("UserPrincipalName")+"*";
+            if (UseAppDir)
+            {
+                MVCGridDefinitionTable.Add("UserLdapFiltering", new MVCGridBuilder<UserLdap>(colDefauls)
+                   .WithAuthorizationType(AuthorizationType.AllowAnonymous)
+                   .AddColumns(cols =>
+                   {
+                       //cols.Add("Guid").WithSorting(false)
+                       //    .WithValueExpression(p => p.Guid.ToString());
+                       cols.Add("Name").WithSorting(false).WithHeaderText("Name")
+                           .WithValueExpression(p => p.Name)
+                           .WithFiltering(true);
+                       cols.Add("SamAccountName").WithSorting(false).WithHeaderText("SAMAccountName")
+                           .WithValueExpression(p => p.SamAccountName)
+                           .WithFiltering(true);
+                       cols.Add("UserPrincipalName").WithSorting(false).WithHeaderText("UserPrincipalName")
+                           .WithValueExpression(p => p.UserPrincipalName)
+                           .WithFiltering(true);
+                       cols.Add("GivenName").WithSorting(false).WithHeaderText("GivenName")
+                           .WithValueExpression(p => p.GivenName)
+                           .WithFiltering(false);
+                       cols.Add("Mail").WithSorting(false).WithHeaderText("Mail")
+                           .WithValueExpression(p => p.Mail)
+                           .WithFiltering(false);
+                       cols.Add("IsAccountLockedOut").WithSorting(false)
+                           .WithHeaderText("Status")
+                           .WithValueExpression(p => p.IsAccountLockedOut ? "Inactive" : "Active")
+                           .WithFiltering(false);
+                       cols.Add("Linked").WithSorting(false).WithSortColumnData("Linked")
+                           .WithHeaderText("Linked")
+                           .WithValueExpression(p => p.IsLinked.GetValueOrDefault() ? "Linked" : "Not Linked")
+                           .WithFiltering(false);
+                       cols.Add("Edit").WithHtmlEncoding(false)
+                            .WithSorting(false)
+                            .WithHeaderText("Action")
+                            .WithValueExpression((p, c) => '"' + p.UserPrincipalName + '"')
+                            .WithCellCssClassExpression(p => p.IsLinked.GetValueOrDefault() ? "hiddentd" : "")
+                            .WithValueTemplate("<button onclick='LinkedAccount({Value});' class='btn btn-primary' role='button'>Link</button>");
+
+                   })
+                   .WithSorting(true, "SamAccountName")
+                   .WithPaging(true, 10, true, 100)
+                   .WithFiltering(true)
+                   .WithRetrieveDataMethod((context) =>
+                   {
+                       var options = context.QueryOptions;
+                       List<UserLdap> items;
+
+                       var username = options.GetFilterString("UserPrincipalName") == null ? "*" : "*" + options.GetFilterString("UserPrincipalName") + "*";
                        var result = _LdapRepository.GetUsersByUsername(username, options.PageIndex.GetValueOrDefault(), options.ItemsPerPage.GetValueOrDefault());
-                       
+
                        items = result.Users.Select(x => new UserLdap
                        {
                            Name = x.Name,
@@ -144,21 +148,101 @@ namespace IdLdap
                            IsLinked = false,
                            DisplayName = x.DisplayName
                        }).ToList();
-                       
-                       List<string> guidSearch = items.Select(x=>x.Guid).ToList();
+
+                       List<string> guidSearch = items.Select(x => x.Guid).ToList();
                        var usersIdentity = (new UserManager(new UserStore(new IdentityContext()))).Users.Where(x => guidSearch.Contains(x.Id)).Select(x => x.Id).ToList();
                        //items.Where(c => usersIdentity.Contains(c.Guid)).ToList().ForEach(x =>  { x.IsLinked = true; } );
 
                        items.Update(x => x.IsLinked = usersIdentity.Contains(x.Guid) ? true : false);
-                        
+
                        return new QueryResult<UserLdap>()
                        {
                            Items = items,
                            //TotalRecords = items.Count()
                            TotalRecords = result.Length
                        };
-               })
-           );
+                   })
+               );
+            }
+            else
+            {
+                MVCGridDefinitionTable.Add("UserLdapFiltering", new MVCGridBuilder<UserLdap>(colDefauls)
+                   .WithAuthorizationType(AuthorizationType.AllowAnonymous)
+                   .AddColumns(cols =>
+                   {
+                       //cols.Add("Guid").WithSorting(false)
+                       //    .WithValueExpression(p => p.Guid.ToString());
+                       cols.Add("Name").WithSorting(false).WithHeaderText("Name")
+                           .WithValueExpression(p => p.Name)
+                           .WithFiltering(true);
+                       cols.Add("SamAccountName").WithSorting(false).WithHeaderText("SAMAccountName")
+                           .WithValueExpression(p => p.SamAccountName)
+                           .WithFiltering(true);
+                       cols.Add("UserPrincipalName").WithSorting(false).WithHeaderText("UserPrincipalName")
+                           .WithValueExpression(p => p.UserPrincipalName)
+                           .WithFiltering(true);
+                       cols.Add("GivenName").WithSorting(false).WithHeaderText("GivenName")
+                           .WithValueExpression(p => p.GivenName)
+                           .WithFiltering(false);
+                       cols.Add("Mail").WithSorting(false).WithHeaderText("Mail")
+                           .WithValueExpression(p => p.Mail)
+                           .WithFiltering(false);
+                       cols.Add("IsAccountLockedOut").WithSorting(false)
+                           .WithHeaderText("Status")
+                           .WithValueExpression(p => p.IsAccountLockedOut ? "Inactive" : "Active")
+                           .WithFiltering(false);
+                       cols.Add("Linked").WithSorting(false).WithSortColumnData("Linked")
+                           .WithHeaderText("Linked")
+                           .WithValueExpression(p => p.IsLinked.GetValueOrDefault() ? "Linked" : "Not Linked")
+                           .WithFiltering(false);
+                       cols.Add("Edit").WithHtmlEncoding(false)
+                            .WithSorting(false)
+                            .WithHeaderText("Action")
+                            .WithValueExpression((p, c) => '"' + p.SamAccountName + '"')
+                            .WithCellCssClassExpression(p => p.IsLinked.GetValueOrDefault() ? "hiddentd" : "")
+                            .WithValueTemplate("<button onclick='LinkedAccount({Value});' class='btn btn-primary' role='button'>Link</button>");
+
+                   })
+                   .WithSorting(true, "SamAccountName")
+                   .WithPaging(true, 10, true, 100)
+                   .WithFiltering(true)
+                   .WithRetrieveDataMethod((context) =>
+                   {
+                       var options = context.QueryOptions;
+                       List<UserLdap> items;
+
+                       var username = options.GetFilterString("UserPrincipalName") == null ? "*" : "*" + options.GetFilterString("UserPrincipalName") + "*";
+                       var result = _LdapRepository.GetUsersByUsername(username, options.PageIndex.GetValueOrDefault(), options.ItemsPerPage.GetValueOrDefault());
+
+                       items = result.Users.Select(x => new UserLdap
+                       {
+                           Name = x.Name,
+                           Guid = x.Guid.ToString(),
+                           Mail = x.EmailAddress,
+                           SamAccountName = x.SamAccountName,
+                           UserPrincipalName = x.UserPrincipalName,
+                           GivenName = x.GivenName,
+                           Surname = x.Surname,
+                           IsAccountLockedOut = x.IsAccountLockedOut(),
+                           IsLinked = false,
+                           DisplayName = x.DisplayName
+                       }).ToList();
+
+                       List<string> guidSearch = items.Select(x => x.Guid).ToList();
+                       var usersIdentity = (new UserManager(new UserStore(new IdentityContext()))).Users.Where(x => guidSearch.Contains(x.Id)).Select(x => x.Id).ToList();
+                       //items.Where(c => usersIdentity.Contains(c.Guid)).ToList().ForEach(x =>  { x.IsLinked = true; } );
+
+                       items.Update(x => x.IsLinked = usersIdentity.Contains(x.Guid) ? true : false);
+
+                       return new QueryResult<UserLdap>()
+                       {
+                           Items = items,
+                           //TotalRecords = items.Count()
+                           TotalRecords = result.Length
+                       };
+                   })
+               );
+            }
 
 
             MVCGridDefinitionTable.Add("UserId", new MVCGridBuilder<User>(colDefauls)

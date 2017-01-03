@@ -138,8 +138,10 @@
                                                     <th>HPS</th>
                                                     <th>Klasifikasi</th>
                                                     <th>Status</th>
+                                                    <th>Approver Sebelumnya</th>
+                                                    <th>Approver Berikutnya</th>
                                                     <th>Note</th>
-                                                    <th></th>
+                                                    <th></th>  
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -250,6 +252,8 @@
                     { "data": "HPS", "className": "rata_kanan" },
                     { "data": "JenisPekerjaan" },
                     { "data": "StatusName" },
+                    { "data": "PrevApprover" },
+                    { "data": "NextApprover" },
                     { "data": null },
                     { "data": null }
                 ],
@@ -266,12 +270,12 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            if (data.Approver == 1) return '<textarea class="form-control" attrid="' + data.Id + '"></textarea>';
+                            if (row.Approver == 1) return '<textarea class="form-control" attrid="' + row.Id + '"></textarea>';
                             else return "";
                             //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
                         },
 
-                        "targets": 5,
+                        "targets": 7,
                         "orderable": false
                     },
 
@@ -280,15 +284,15 @@
                             var html = ''
                             var detailHtml = "";
                             var nexApprover = "";
-                            if (data.Approver == 1) html += '<button class="setuju btn btn-flat btn-sm btn-primary" attrid="' + data.Id + '" >Setujui</button> <button class="tolak btn-flat btn-sm btn btn-danger" attrid="' + data.Id + '"  >Tolak</button>';
-                            if (data.lastApprover == "1" && data.Approver == 1) nexApprover += ' <button class="next-approver btn btn-flat btn-sm btn-info" attrid="' + data.Id + '" >Eskalasi</button>';
-                            if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = ' <a href="pengadaan-detail.html#' + data.Id + '" class="product-title btn btn-success btn-sm btn-flat">Detail</a>';
-                            else detailHtml = ' <a href="pengadaan-terbuka-detail.html#' + data.Id + '" class="btn btn-success btn-flat btn-sm product-title ">Detail</a>';
+                            if (row.Approver == 1) html += '<button class="setuju btn btn-flat btn-sm btn-primary" attrid="' + row.Id + '" >Setujui</button> <button class="tolak btn-flat btn-sm btn btn-danger" attrid="' + row.Id + '"  >Tolak</button>';
+                            if (row.lastApprover == "1" && row.Approver == 1) nexApprover += ' <button class="next-approver btn btn-flat btn-sm btn-info" attrid="' + row.Id + '" >Eskalasi</button>';
+                            if (row.AturanPengadaan == "Pengadaan Tertutup") detailHtml = ' <a href="pengadaan-detail.html#' + row.Id + '" class="product-title btn btn-success btn-sm btn-flat">Detail</a>';
+                            else detailHtml = ' <a href="pengadaan-terbuka-detail.html#' + row.Id + '" class="btn btn-success btn-flat btn-sm product-title ">Detail</a>';
                             html += nexApprover+detailHtml;
                             return html;
                         },
 
-                        "targets": 6,
+                        "targets": 8,
                         "orderable": false
                     }
                 ],

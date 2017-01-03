@@ -34,12 +34,10 @@ function sortCol(e, idx) {
     var row_index = [];
     for (var i in row_data_processed) row_index.push(idx_arr++);
     var oldOrder = table.colReorder.order();
-    row_index = oldOrder.slice(firstIndexProcessed, row_data.length);
     for (var i in oldOrder)
         if ($.inArray(oldOrder[i],model.locked) != -1) oldOrder[i] = -1;
     console.log(oldOrder);
-    //bubbleSortodif(row_data_processed, sortDir, row_index); //0 asc, else desc
-    bubbleSort2(row_data_processed, sortDir, row_index); //0 asc, else desc
+    bubbleSortodif(row_data_processed, sortDir, row_index); //0 asc, else desc
     var newOrder = [0, 1, 2, 3, 4];
     for (var i in row_index) newOrder.push(row_index[i]);
     table.colReorder.order(newOrder);
@@ -61,7 +59,6 @@ function showHideVendor(el,i){
 
 function lockUnlockVendor(el, i) {
     //console.log('wehew');
-    table.colReorder.reset();
     $e = $(el);
     $indicator = $e.prev();
     $box = $e.parent().parent().parent();
@@ -108,63 +105,29 @@ function bubbleSortodif(arr, dir, arr_idx) {
     var temp=0;
     var temp_idx=0;
     for (i = 0; i < arr.length - 1; i++) {
-        if ($.inArray(arr_idx[i],model.locked) == -1) {
+        if (((dir == 0 && arr[i] > arr[i + 1]) || (dir != 0 && arr[i] < arr[i + 1])) && $.inArray(arr_idx[i],model.locked) == -1) {
             //console.log(model.locked);
             //console.log(arr_idx[i]);
-            if ($.inArray(arr_idx[i + 1], model.locked) == -1 && ((dir == 0 && arr[i] > arr[i + 1]) || (dir != 0 && arr[i] < arr[i + 1]))) {
+            if ($.inArray(arr_idx[i + 1], model.locked) == -1) {
                 arrayValueSwap(arr, i, i + 1);
                 arrayValueSwap(arr_idx, i, i + 1);
-                console.log("1st if: i = " + i);
+
                 i = i - 2;
             }
             else {
-                console.log("1st else: i = " + i);
+                console.log(arr_idx[i+1]);
                 var j = i+1;
                 while (j < arr.length && $.inArray(arr_idx[j], model.locked) != -1) {
                     j++;
-
-                    console.log("      somewhat j: j = " + j);
                 }
                 if (j < arr.length) {
-                    if (((dir == 0 && arr[i] > arr[j]) || (dir != 0 && arr[i] < arr[j]))){
-                        arrayValueSwap(arr, i, j);
-                        arrayValueSwap(arr_idx, i, j);
-                        i = (1 + (j - i));//i - 2;// 
-                    }
+                    arrayValueSwap(arr, i, j);
+                    arrayValueSwap(arr_idx, i, j);
+                    i = i - 2;// (1 + (j - i));
                 }
             }
         }
         /*http://codereview.stackexchange.com/questions/87869/bubble-sort-algorithm-in-javascript*/
-    }
-}
-
-function bubbleSort2(arr, dir, arr_idx) {
-    var done = false;
-    while (!done) {
-        done = true;
-        for (var i = 0; i < arr.length; i++) {
-            if ($.inArray(arr_idx[i], model.locked) == -1) { 
-                if ($.inArray(arr_idx[i + 1], model.locked) == -1 && ((dir == 0 && arr[i] > arr[i + 1]) || (dir != 0 && arr[i] < arr[i + 1]))) {
-                    done = false;
-                    arrayValueSwap(arr, i, i + 1);
-                    arrayValueSwap(arr_idx, i, i + 1);
-                }
-                else {
-                    var j = i + 1;
-                    while (j < arr.length && $.inArray(arr_idx[j], model.locked) != -1) {
-                        j++;
-                    }
-                    if (j < arr.length) {
-                        if (((dir == 0 && arr[i] > arr[j]) || (dir != 0 && arr[i] < arr[j]))) {
-                            done = false;
-                            arrayValueSwap(arr, i, j);
-                            arrayValueSwap(arr_idx, i, j);
-                            //i = (1 + (j - i));//i - 2;// 
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -192,17 +155,14 @@ function tambahCatatan() {
         $("#note-list").append(str);
     }
 }
-
 var bcde;
 function generateTable(pengadaanId) {
     $.ajax({
         // url: 'data/rks-penilaian.json',
-        url: 'Api/PengadaanE/getRKSPenilaian2?PId=' + pengadaanId,
+        url: 'Api/PengadaanE/getRKSKlarifikasiLanjutan?PId=' + pengadaanId,
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             bcde = data;
-            LoadRekananPembobotan();
             //header table
             var str_row = "<thead style='background-color:#11C2D7'><tr>" +
                 '<th width="2%"></th>' +
@@ -224,13 +184,14 @@ function generateTable(pengadaanId) {
                     str_row += '<td>' + data.hps[i].judul + '</td>';
                 else str_row += '<td></td>';
                 str_row += '<td>' + data.hps[i].item + '</td>';
-                if (data.hps[i].harga > 0) {                    
-                    if (data.hps[i].satuan != null) str_row += '<td>' + data.hps[i].satuan + '</td>';
+                if (data.hps[i].harga > 0) {
+                    if (data.hps[i].satuan !=null) str_row += '<td>' + data.hps[i].satuan + '</td>';
                     else str_row += '<td></td>';
                     if (data.hps[i].jumlah > 0) str_row += '<td>' + accounting.formatNumber(data.hps[i].jumlah, { thousand: ".", decimal: ",", precision: 2 }) + '</td>';
                     else str_row += '<td></td>';
-                    if (data.hps[i].harga > 0) str_row += '<td class="rata_kanan">' + accounting.formatNumber(data.hps[i].harga, { thousand: ".", decimal: ",", precision: 2 })  + '</td>';
+                    if (data.hps[i].harga > 0) str_row += '<td class="rata_kanan">' + accounting.formatNumber(data.hps[i].harga, { thousand: ".", decimal: ",", precision: 2 }) + '</td>';
                     else str_row += '<td></td>';
+                    
                 }
                 else {
                     str_row += '<td></td>' +
@@ -238,19 +199,17 @@ function generateTable(pengadaanId) {
                     '<td></td>';
                 }
                 for (var j in data.vendors) {
-                    var totItemInVendor = data.vendors[j].items.length;
-                   // console.log(totItemInVendor+" "+i);
-                    if(i>=totItemInVendor)  
+                     var totItemInVendor = data.vendors[j].items.length;
+                    if (i >= totItemInVendor)
                         str_row += '<td></td>';
                     else
-                        if (data.vendors[j].items[i].harga > 0 && data.hps[i].harga > 0) {
-                            str_row += '<td class="rata_kanan">' + accounting.formatNumber(data.vendors[j].items[i].harga, { thousand: "." }) + '</td>';
+                        if (data.hps[i].harga > 0 && data.vendors[j].items[i].harga > 0) {
+                            str_row += '<td class="rata_kanan">' + accounting.formatNumber(data.vendors[j].items[i].harga, { thousand: ".", decimal: ",", precision: 2 }) + '</td>';
                         }
                         else {
                             str_row += '<td></td>';
                         }
-
-                    //str_row += '<td>' + accounting.formatNumber(data.vendors[j].items[i].harga, { thousand: "." }) + '</td>';
+                    //str_row += '<td>' + accounting.formatNumber(data.vendors[j].items[i].harga, { thousand: "." })+ '</td>';
                 }
                 str_row += "</tr>";
             }
@@ -269,6 +228,7 @@ function generateTable(pengadaanId) {
                 "autoWidth": true,
                 //responsive: true,
                 colReorder: true
+
             });
             smallestValueInRowTable(table);
         }
@@ -276,8 +236,8 @@ function generateTable(pengadaanId) {
 }
 
 function smallestValueInRowTable(table) {
-    
-    table.rows().every(function (x,y) {
+
+    table.rows().every(function (x, y) {
         var d = this.data();
         //var newD = d.splice(5, 5);
         var arr = [];
@@ -288,13 +248,13 @@ function smallestValueInRowTable(table) {
         });
         var vals = $.map(arr, function (i) {
             return parseInt(UnformatFloat(i), 10) ? parseInt(UnformatFloat(i), 10) : null;
-                });
+        });
         var min = Math.min.apply(Math, vals);
-        var textMin = accounting.formatNumber(min, { thousand: "." });
+        var textMin = accounting.formatNumber(min, { thousand: ".", decimal: ",", precision: 2 });
         //var tableRow = $("td").filter(function () {
         //    return $(this).text() == textMin;
         //}).closest($('#example1 tr:eq("' + (x + 1) + '")'));
-        $('#example1 tr:eq("' + (x + 1) + '")').find("td").each(function(){
+        $('#example1 tr:eq("' + (x + 1) + '")').find("td").each(function () {
             if ($(this).text() == textMin) {
                 var colIndex = $(this).index();
                 //table.cell(x, colIndex).data(textMin).draw();
@@ -305,56 +265,94 @@ function smallestValueInRowTable(table) {
     });
 }
 
+
 function setListHargaHPS(hps) {
     var str_hps = '<div class="col-md-2"><div class="box box-primary box-folder-vendor"><div class="box-tools pull-right vendor-check-box"></div>' +
                             '<div class="box-body box-profile"  style="margin-top:3px">' +
                             '<p class="profile-username title-header"><a onclick="#">HPS</a></p>' +
-                            '<p class="text-muted text-center deskripsi">Rp. ' + accounting.formatNumber(hps.harga, { thousand: "." }) + '</p></div></div></div>';
+                            '<p class="text-muted text-center deskripsi">Rp. ' + accounting.formatNumber(hps.harga, { thousand: ".", decimal: ",", precision: 2 }) + '</p></div></div></div>';
     $("#listHargaVendor").append(str_hps);
 }
 
 function setListHargaVendor(vendor) {
     var str_vendor = "";
     for (var i in vendor) { 
-        str_vendor += '<div class="col-md-2 " vendorId="' + vendor[i].VendorId+ '"><div class="box box-primary box-folder-vendor"><div class="box-tools pull-right vendor-check-box"><div class="row" style="margin-right:3px;"><span class="fa fa-eye"></span> ' +
+        str_vendor += '<div class="col-md-2"><div class="box box-primary box-folder-vendor"><div class="box-tools pull-right vendor-check-box"><div class="row" style="margin-right:3px;"><span class="fa fa-eye"></span> ' +
                             '<input class="s-checkbox" data-idx="'+i+'" type="checkbox" title="Tampil/Sembunyi" value="" checked onclick="showHideVendor(this,'+i+')" />' +
                             ' <span class="fa fa-lock unlocked"></span> ' +
                             '<input class="s-checkbox" data-idx="'+i+'" type="checkbox" title="Kunci/Lepas kunci" value="" onclick="lockUnlockVendor(this,'+i+')" /></div></div>' +
-                            '<div class="box-body box-profile pop-up-vendor-penilaian" style="margin-top:3px">' +
-                            '<p class="profile-username title-header"><a >'+vendor[i].nama+'</a></p>' +
-                            '<p class="text-muted text-center deskripsi">Rp. ' + accounting.formatNumber(vendor[i].items[0].harga, { thousand: "." }) + '</p>' +
-                            '<p class="text-muted text-center deskripsi">Bobot Nilai: ' + (vendor[i].NIlaiKriteria==null?0:vendor[i].NIlaiKriteria) + '</p>' +
+                            '<div class="box-body box-profile" style="margin-top:3px">' +
+                            '<p class="profile-username title-header"><a onclick="gotoVendor(0)">'+vendor[i].nama+'</a></p>' +
+                            '<p class="text-muted text-center deskripsi">Rp. ' + accounting.formatNumber(vendor[i].items[0].harga, { thousand: ".", decimal: ",", precision: 2 }) + '</p>' +
+                            '<p class="text-muted text-center deskripsi">Bobot Nilai ' + (vendor[i].NIlaiKriteria == null ? 0 : vendor[i].NIlaiKriteria) + '</p>' +
                             '</div></div></div>';
     }
     $("#listHargaVendor").append(str_vendor);
 }
+
 
 $(function () {
     if (isGuid(id_pengadaan)) {
         $("#pengadaanId").val(id_pengadaan);
         loadData(id_pengadaan);
         generateTable(id_pengadaan);
-        
     }
     else {
         if (isGuid($("#pengadaanId").val())) {
             window.location.hash = $("#pengadaanId").val();
             loadData($("#pengadaanId").val());
             generateTable(id_pengadaan);
-            
         }
         else {
+
             window.location.replace("http://" + window.location.host);
+            //$(location).attr('href', window.location.origin + "pengadaan-list.html");
         }
     }
        
+
+    $("#cetak-rks-klarifikasi").on("click", function () {
+       
+        BootstrapDialog.show({
+            title: 'Konfirmasi',
+            message: 'Pilih Tipe Dokumen <a id="CetakWord" class="btn btn-app bg-blue"><i class="fa fa-file-word-o"></i> Word</a> <a id="CetakXls" class="btn btn-app bg-green"><i class="fa fa-file-excel-o"></i> Excel</a>',
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+
+                    dialog.close();
+                }
+            }]
+        });
+    });
+
+    $("body").on("click", "#CetakWord", function () {
+        downloadFileUsingForm("/api/report/CetakRKSKlarfikasi?Id=" + $("#pengadaanId").val());
+    });
+
+    $("body").on("click", "#CetakXls", function () {
+        downloadFileUsingForm("/api/report/CetakRKSKlarfikasiXls?Id=" + $("#pengadaanId").val());
+    });
+        
+    
         $("#myNav").affix({
             offset: {
                 top: 100
             }
         });
 
-        $().UItoTop({ easingType: 'easeOutQuart' }); 
+
+        $(".datepicker").datepicker({
+            showOtherMonths: true,
+            format: "dd/mm/yy",
+            changeYear: true,
+            changeMonth: true,
+            yearRange: "-90:+4", //+4 Years from now
+            onSelect: function (dateStr) {
+                $('#form_reg').validate().element(this);
+            }
+        });
+        $().UItoTop({ easingType: 'easeOutQuart' });
         $('#kreteriaPembobotan').on('change', ".input-bobot-pengadaan", function () {
             if (!$.isNumeric($(this).val())) {
                 BootstrapDialog.show({
@@ -413,7 +411,7 @@ $(function () {
                     $(this).val(0);
                     i = 0;
                     $("#kriteria-loader").hide();
-                    $(".edit-bobot-kriteria").show();                       
+                    $(".edit-bobot-kriteria").show();
                     return false;
                 }
                 if (i == 0) {
@@ -445,7 +443,7 @@ $(function () {
                 });
                 $("#kriteria-loader").hide();
                 $(".edit-bobot-kriteria").show();
-                return false;                
+                return false;
             }
             $.ajax({
                 method: "POST",
@@ -535,83 +533,9 @@ $(function () {
 
         });
 
-        $("#listHargaVendor").on("click", ".pop-up-vendor-penilaian", function () {
-            var VendorId=$(this).attr("vendorId");
-            BootstrapDialog.show({
-                title: 'Informasi',
-                buttons: [{
-                    label: 'Lihat Informasi Rekanan',
-                    action: function (dialog) {
-                        window.open("http://" + window.location.host + "/rekanan-detail.html?id=" + VendorId);
-                        dialog.close();
-                    }
-                }, {
-                    label: 'Close',
-                    action: function (dialog) {
-                        dialog.close();
-
-                    }
-                }]
-            });
-        });
-
-        $("#cetak-klarafikasi-vendor").on("click", function () {
-            
-            BootstrapDialog.show({
-                title: 'Konfirmasi',
-                message: 'Pilih Tipe Dokumen <a id="CetakWord" class="btn btn-app bg-blue"><i class="fa fa-file-word-o"></i> Word</a> <a id="CetakXls" class="btn btn-app bg-green"><i class="fa fa-file-excel-o"></i> Excel</a>',
-                buttons: [{
-                    label: 'Close',
-                    action: function (dialog) {
-
-                        dialog.close();
-                    }
-                }]
-            });
-        });
-        $("body").on("click", "#CetakWord", function () {
-            downloadFileUsingForm("/api/report/CetakRKSPenilaianAll?Id=" + $("#pengadaanId").val());
-        });
-
-        $("body").on("click", "#CetakXls", function () {
-            downloadFileUsingForm("/api/report/CetakRKSPenilaianAllXls?Id=" + $("#pengadaanId").val());
-        });
     });
 
-function hitungHargaItem() {
-        var totalHarga = 0;
-    
-        table.rows().every(function () {
-            var d = this.data();       
-            hps = UnformatFloat(d.hps);
-            if ($.isNumeric(d.jumlah) || $.isNumeric(hps)) {
-                totalHarga = totalHarga + parseFloat(d.jumlah) * parseFloat(hps);
-            }
-            d.counter++; // update data source for the row;
-            this.invalidate(); // invalidate the data DataTables has cached for this row
-       
-        });
-        var estimasiCost = accounting.formatNumber(totalHarga, { thousand: "." });
-        $("#totalRKS").text(estimasiCost);
    
-    }
-function datatableToJson(table) {
-        var data = [];
-        table.rows().every(function () {
-            var itemObj = {};
-            var d = this.data();
-            itemObj.Id=d.Id
-            itemObj.item = d.item;
-            itemObj.satuan = d.satuan;
-            itemObj.jumlah = d.jumlah;
-            itemObj.hps = d.hps;
-            data.push(itemObj);
-            // console.log(d);
-        });
-
-        //console.log(JSON.stringify(data));
-        return data;
-    }
 function loadData(pengadaanId) {
         $.ajax({
             method: "POST",
@@ -622,84 +546,45 @@ function loadData(pengadaanId) {
             $("#judul").text(data.Judul);
             $("#deskripsi").text(data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
             $("#keterangan").text(data.Keterangan);
-        });
-       LoadKriteriaPembobotan(pengadaanId);
-    }
-
-function addPembobotanPengadaan(el) {
-        var totalBobot = 0;
-        $(".input-bobot-pengadaan").each(function () {
-            totalBobot += $.isNumeric($(this).val()) == true ? parseInt($(this).val()) : 0;
-        });
-
-        if (totalBobot > 100) {
-            BootstrapDialog.show({
-                title: 'Konfirmasi',
-                message: 'Total Bobot Tidak Boleh Lebih dari 100%',
-                buttons: [{
-                    label: 'Close',
-                    action: function (dialog) {                        
-                        dialog.close();
-                    }
-                }]
-            });
-            $(el).val(0);
-            return false;
-        }
-        var oData = {};
-        oData.KreteriaPembobotanId = el.attr("attrId");
-        oData.Bobot = el.val();
-        oData.PengadaanId = $("#pengadaanId").val();
-        $.ajax({
-            method: "POST",
-            url: "Api/PengadaanE/addPembobotanPengadaan",
-            dataType: "json",
-            data: JSON.stringify(oData),
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == 0)
-                    el.val(0);
-            }
+            LoadRekananPembobotan();
+            LoadKriteriaPembobotan(pengadaanId)
         });
     }
-
 function LoadKriteriaPembobotan(PengadaanId) {
-        $.ajax({
-            method: "POST",
-            url: "Api/PengadaanE/getKriteriaPembobotan?PengadaanId=" + PengadaanId,
-            success: function (data) {
-                $.each(data, function (index, val) {
-                    html =
-                        '<div class="form-group col-md-2">' +
-                            '<label style="font-size:small">' + val.NamaKreteria + '</label>' +
-                            '<input  attrId="' + val.Id + '" type="text" class="form-control value-edit-bobot" value=' + (val.Bobot==null?0:val.Bobot) + ' >' +
-                        '</div>';                     
-                    $("#kreteriaPembobotan").append(html);
-                });
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/getKriteriaPembobotan?PengadaanId=" + PengadaanId,
+        success: function (data) {
+            $.each(data, function (index, val) {
+                html =
+                    '<div class="form-group col-md-2">' +
+                        '<label style="font-size:small">' + val.NamaKreteria + '</label>' +
+                        '<input  attrId="' + val.Id + '" type="text" class="form-control value-edit-bobot" value=' + (val.Bobot == null ? 0 : val.Bobot) + ' >' +
+                    '</div>';
+                $("#kreteriaPembobotan").append(html);
+            });
 
-            }
-        });
+        }
+    });
 
 
-    }
-
+}
 function LoadRekananPembobotan() {
     $("#NilaiPembobotanRekanan").html("");
     $.ajax({
         method: "POST",
-        url: "Api/PengadaanE/GetRekananPenilaian2?PId=" + $("#pengadaanId").val(),
+        url: "Api/PengadaanE/GetRekananPenilaian?PId=" + $("#pengadaanId").val(),
         success: function (data) {
             $.each(data, function (index, val) {
                 var valx = val;
-                if (val.total > 0) {
+                if (valx.total > 0)
                     $.ajax({
                         method: "POST",
                         url: "Api/PengadaanE/getPembobotanNilaiVendor?PengadaanId=" + $("#pengadaanId").val() + "&VendorId=" + valx.VendorId,
                         success: function (data) {
-                            html = "";
                             $.each(data, function (index, val) {
                                 if (index == 0) {
-                                    html = html +
+                                    html =
                                         '<div class="form-group col-md-12">' +
                                             '<label style="font-size:small">' + valx.NamaVendor + '</label>' +
                                         '</div>';
@@ -712,9 +597,9 @@ function LoadRekananPembobotan() {
                             $("#NilaiPembobotanRekanan").append(html);
                         }
                     });
-               }
             });
         }
     });
-    
+
 }
+

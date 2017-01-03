@@ -140,6 +140,8 @@
                                                     <th class="tengah">Pemenang</th>
                                                     <th class="tengah">Klasifikasi</th>
                                                     <th class="tengah">Status</th>
+                                                    <th>Approver Sebelumnya</th>
+                                                    <th>Approver Berikutnya</th>
                                                     <th class="tengah">Note</th>
                                                     <th></th>
                                                 </tr>
@@ -254,6 +256,8 @@
                     { "data": "Pemenang" },
                     { "data": "JenisPekerjaan", "className": "tengah" },
                     { "data": "StatusPersetujuanPemenangName" },
+                     { "data": "PrevApprover" },
+                    { "data": "NextApprover" },
                     { "data": null },
                     { "data": null }
                 ],
@@ -297,7 +301,7 @@
                             //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
                         },
 
-                        "targets": 7,
+                        "targets": 8,
                         "orderable": false
                     },
 
@@ -314,7 +318,7 @@
                             return html;
                         },
 
-                        "targets": 8,
+                        "targets": 9,
                         "orderable": false
                     }
                 ],

@@ -19,6 +19,8 @@ namespace Reston.Helper.Repository
         ViewWorkflowState StatusDocument(Guid DocumentId);
         ResultMessage SaveWorkFlow(WorkflowMasterTemplate oViewWorkflowTemplate, Guid UserId);
         ResultMessage isLastApprover(Guid DocId, int TemplateId);
+        ResultMessage PrevApprover(Guid DocId, int TemplateId);
+        ResultMessage NextApprover(Guid DocId, int TemplateId);
         ResultMessage AddMasterTemplateDetail(int TemplateId, WorkflowMasterTemplateDetail oWorkflowMasterTemplateDetail);
         int isThisUserLastApprover(int WorkflowTemplateId, Guid UserId);
     }
@@ -459,6 +461,44 @@ namespace Reston.Helper.Repository
                     result.Id = "0";
                 var diffSegOrder = oTemplate.SegOrder - oWorkflowState.CurrentSegOrder;
                 if (diffSegOrder == 0) result.Id = "1";
+                else result.Id = "0";
+            }
+            catch { result.Id = "0"; }
+            return result;
+        }
+
+        public ResultMessage PrevApprover(Guid DocId, int TemplateId)
+        {
+            try
+            {
+
+                var oWorkflowState = ctx.WorkflowStates.Where(d => d.DocumentId == DocId && d.WorkflowMasterTemplateId == TemplateId && d.DocumentStatus == DocumentStatus.PENGAJUAN).FirstOrDefault();
+                var oTemplate = ctx.WorkflowMasterTemplates.Find(TemplateId).WorkflowMasterTemplateDetails.OrderBy(d => d.SegOrder).LastOrDefault();
+                if (oWorkflowState == null || oTemplate == null)
+                    result.Id = "0";
+                int needOrder=(oWorkflowState.CurrentSegOrder.Value-1);
+                var detailPrev = ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == oWorkflowState.WorkflowMasterTemplateId && d.SegOrder == needOrder).FirstOrDefault();
+
+                if (detailPrev != null) result.Id = detailPrev.UserId.ToString();
+                else result.Id = "0";
+            }
+            catch { result.Id = "0"; }
+            return result;
+        }
+
+        public ResultMessage NextApprover(Guid DocId, int TemplateId)
+        {
+            try
+            {
+
+                var oWorkflowState = ctx.WorkflowStates.Where(d => d.DocumentId == DocId && d.WorkflowMasterTemplateId == TemplateId && d.DocumentStatus == DocumentStatus.PENGAJUAN).FirstOrDefault();
+                var oTemplate = ctx.WorkflowMasterTemplates.Find(TemplateId).WorkflowMasterTemplateDetails.OrderBy(d => d.SegOrder).LastOrDefault();
+                if (oWorkflowState != null || oTemplate == null)
+                    result.Id = "0";
+                int needOrder = (oWorkflowState.CurrentSegOrder.Value + 1);
+                var detailPrev = ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == oWorkflowState.WorkflowMasterTemplateId && d.SegOrder == needOrder).FirstOrDefault();
+
+                if (detailPrev != null) result.Id = detailPrev.UserId.ToString();
                 else result.Id = "0";
             }
             catch { result.Id = "0"; }

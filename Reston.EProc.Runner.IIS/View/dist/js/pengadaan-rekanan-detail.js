@@ -165,6 +165,48 @@ $(function () {
         );
     renderDokumenDropzone(myDropzoneBerkasRekananKlarifikasi, "BerkasRekananKlarifikasi");
     Dropzone.options.BerkasRekananKlarifikasi = false;
+
+    var myDropzoneBerkasRekananKlarifikasiLanjutan = new Dropzone("#BerkasRekananKlarifikasiLanjutan",
+          {
+              url: $("#BerkasRekananKlarifikasiLanjutan").attr("action") + "&id=" + $("#pengadaanId").val(),
+              maxFilesize: 5,
+              acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.docx,.xlsx",
+              dictDefaultMessage: "Tidak Ada Dokumen",
+              init: function () {
+                  this.on("addedfile", function (file) {
+                      file.previewElement.addEventListener("click", function () {
+                          var id = 0;
+                          if (file.Id != undefined)
+                              id = file.Id;
+                          else
+                              id = $.parseJSON(file.xhr.response);
+
+                          $("#konfirmasiFile").attr("attr1", "BerkasRekananKlarifikasiLanjutan");
+                          $("#konfirmasiFile").attr("FileId", id);
+                          $("#konfirmasiFile").modal("show");
+                      });
+                  });
+                  this.on("success", function (file, responseText) {
+                      if (responseText == 0) {
+                          myDropzoneBerkasRekananKlarifikasiLanjutan.removeFile(file);
+                          BootstrapDialog.show({
+                              title: 'Konfirmasi',
+                              message: 'Waktu Penawaran Sudah Habis',
+                              buttons: [{
+                                  label: 'Close',
+                                  action: function (dialog) {
+                                      myDropzoneBerkasRekananKlarifikasiLanjutan.removeFile(file);
+                                      dialog.close();
+                                  }
+                              }]
+                          });
+                      }
+                  });
+              }
+          }
+      );
+    renderDokumenDropzone(myDropzoneBerkasRekananKlarifikasiLanjutan, "BerkasRekananKlarifikasiLanjutan");
+    Dropzone.options.BerkasRekananKlarifikasiLanjutan = false;
    
     $("#penawaran").on("click", function () {
 
@@ -173,6 +215,9 @@ $(function () {
 
     $("#penawaran-klarifikasi").on("click", function () {
         window.open("http://" + window.location.host + "/rekanan-klarifikasi-harga.html#" + $("#pengadaanId").val());
+    });
+    $("#penawaran-klarifikasi-lanjutan").on("click", function () {
+        window.open("http://" + window.location.host + "/rekanan-klarifikasi-lanjutan-harga.html#" + $("#pengadaanId").val());
     });
 
     $("#downloadFile").on("click", function () {
@@ -263,6 +308,15 @@ function loadData(pengadaanId) {
             $("#collapseTwo").addClass("in");
         }
 
+        if (data.Status == 12) {
+            //$("#Status").text("Submit Penawaran");
+            $("#tab-klarifikasi-rekanan").attr("data-toggle", "collapse");
+            $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
+            $("#tab-klarifikasi-lanjutan-rekanan").attr("data-toggle", "collapse");
+           
+            $("#panel-klarifikasi-lanjutan").addClass("in");
+        }
+
        // if (data.AturanPenawaran == "Price Matching") {
             $("#total_penawaran").attr("disabled", "disabled");
             $("#row_penawaran_open_price").remove();           
@@ -346,8 +400,25 @@ function hitungTawaranRekanan(pengadaanId,aturanPenawaran) {
             }
             $("#total_penawaran-klarifikasi").val(accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 }));
         });
+        $.ajax({
+            url: "Api/VendorAction/getRKSForKlarifikasiLanjutanRekanan?Id=" + pengadaanId,
+        }).done(function (data) {
+            var rksdetail = data.data;
+            var total = 0;
+            for (var key in rksdetail) {
+                if (rksdetail[key].harga > 0 && rksdetail[key].jumlah > 0) {
+                    var jumlah = rksdetail[key].jumlah;
+                    var harga = rksdetail[key].harga;
+                    var totalPerItem = jumlah * harga;
+                    total = total + totalPerItem;
+                }
+            }
+            $("#total-penawaran-klarifikasi-lanjutan").val(accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 }));
+        });
    // }
 }
+
+
 
 function loadKualifikas(kualifikasiKandidat) {
     $(".checkbox-kualifikasi").removeAttr("checked");

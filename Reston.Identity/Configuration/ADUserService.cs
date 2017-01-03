@@ -87,7 +87,11 @@ namespace IdLdap.Configuration
                 var path = appBAse + @"\log\login.txt";
                 System.IO.File.AppendAllText(path, Environment.NewLine + DateTime.Now.ToString() + Environment.NewLine);
 
-                var userLdap = _LdapRepository.FindUser2(username);
+                bool UseAppDir = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["LDAP_APPDIR"]);
+
+                var userLdap = UseAppDir ? _LdapRepository.FindUser2(username) : _LdapRepository.FindUser(username);
+
+                //var userLdap = _LdapRepository.FindUser2(username);
                 System.IO.File.AppendAllText(path, "cekuserldap " + userLdap.DisplayName + Environment.NewLine);
                 var userIdentity = await FindUserAsync(username);
                 System.IO.File.AppendAllText(path, "cekuserldap " + userIdentity.DisplayName + Environment.NewLine);

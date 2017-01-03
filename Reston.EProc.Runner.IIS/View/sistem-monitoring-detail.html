@@ -91,8 +91,8 @@
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
-                            <li><a href="#" id="wanprestasi" title="wanprestasi"><i class="fa fa-fw  fa-ban " style="font-size:20px;"></i>Blacklist</a></li>
-                            <li><a href="#" id="finish" title="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Finish</a></li>
+                            <li><a href="#" id="blacklist" title="Blacklist"><i class="fa fa-fw  fa-ban " style="font-size:20px;"></i>Blacklist</a></li>
+                            <li><a href="#" id="finish" title="Finish"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Finish</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -370,6 +370,8 @@
 
     </div><!-- ./wrapper -->
 
+    <input type="hidden" id="vendorid" />
+
     <!-- Modal -->
 
     <div id="ModalKonfirmasiFinish" class="modal fade" role="dialog">
@@ -391,31 +393,6 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toFinish();">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-
-    <div id="ModalKonfirmasiWanprestasi" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <input type="hidden" id="row_index" />
-            <!-- Modal content-->
-
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Konfirmasi Wanprestasi</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Apakah anda yakin merubah status proyek ini menjadi WANPRESTASI ?
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toWanprestasi();">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
                 </div>
             </div>
@@ -685,32 +662,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!--Modal Wanprestasi-->
-    <div id="ModalKonfirmasiBlacklist" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <input type="hidden" id="row_index" />
-            <!-- Modal content-->
-
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Konfirmasi Wanprestasi</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Apakah anda yakin merubah status proyek ini menjadi WANPRESTASI ?
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toWanprestasi();">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--End Modal Wanprestasi-->
-
-
     <!-- Modal -->
     <div class="modal" id="addDokPekerjaan" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
@@ -815,6 +766,35 @@
         </div>
     </div>
     <!--End Modal Enable Editing-->
+
+    <!--Modal Daftar Hitam-->
+    <div id="modal-daftarhitam" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Menambahkan Rekanan ke Daftar Hitam</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Anda akan menambahkan rekanan ini ke dalam DAFTAR HITAM.<br />
+                        Selanjutnya, rekanan tidak lagi diperhitungkan dalam sistem pengadaan.
+                        <br />
+                        <strong> OPERASI INI TIDAK BISA DIKEMBALIKAN.</strong>
+                    </p>
+                    <p>Tuliskan alasan penambahan daftar hitam:</p>
+                    <textarea class="form-control" id="daftar-hitam-message"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button id="v-tolak" onclick="sendDaftarHitam()" type="button" class="btn btn-success">LANJUTKAN</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">BATAL</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -976,12 +956,13 @@
                 success: function (d) {
                     console.log(d);
                     // Tampil
-                    $("[id=NamaProyek]").text(d.NamaProyek);
-                    $("[id=TanggalMulai]").val(moment(d.TanggalMulai).format("DD MMMM YYYY"));
-                    $("[id=TanggalSelesai]").val(moment(d.TanggalSelesai).format("DD MMMM YYYY"));
+                    $("#NamaProyek").text(d.NamaProyek);
+                    $("#TanggalMulai").val(moment(d.TanggalMulai).format("DD MMMM YYYY"));
+                    $("#TanggalSelesai").val(moment(d.TanggalSelesai).format("DD MMMM YYYY"));
                     $("[name=nilai-kontrak]").text("Total Nilai Kontrak : Rp. " + numberWithCommas(d.NilaiKontrak));
                     $("[name=nilai-kontrak2]").val(d.NilaiKontrak);
-                    $("[id=StatusProyek]").val(d.StatusProyek);
+                    $("#StatusProyek").val(d.StatusProyek);
+                    $("#vendorid").val(d.VendorId);
 
                     if (d.StatusLockTahapan == "DIBUKA") {
                         $("#enable-tahapan").hide();
@@ -1092,10 +1073,6 @@
 
         $("#finish").on("click", function () {
             $("#ModalKonfirmasiFinish").modal('show');
-        });
-
-        $("#blacklist").on("click", function () {
-            $("#ModalKonfirmasiBlacklist").modal('show');
         });
 
         $("#disable-tahapan").on("click", function () {
@@ -2797,6 +2774,27 @@
 		        }
 		    })
 		}
+
+		$("#blacklist").on("click", function () {
+		    var vendorid = $("#vendorid").val();
+		    console.log(vendorid);
+		    $("#modal-daftarhitam").modal('show');
+		});
+
+		function sendDaftarHitam() {
+		    var vendorid = $("#vendorid").val();
+		    var msg = $("#daftar-hitam-message").val();
+		    $.ajax({
+		        url: "api/Vendor/DaftarHitam?id=" + vendorid + "&msg=" + msg,
+		        success: function () {
+		            window.location.reload();
+		        },
+		        complete: function (xhr, textStatus) {
+		            ajaxCompleteProcess(xhr);
+		        }
+		    });
+		}
+
 
     </script>
 </body>

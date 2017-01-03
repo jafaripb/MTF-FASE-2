@@ -24,26 +24,22 @@ using Reston.Helper;
 using Reston.Helper.Util;
 using Reston.Helper.Model;
 using System.Web;
+using Reston.Eproc.Model.Monitoring.Entities;
 
 
 namespace Reston.Pinata.WebService.Controllers
 {
-    public class SpkController : BaseController
+    public class POController : BaseController
     {
-        private ISpkRepo _repository;
-        private IWorkflowRepository _workflowrepo;
-        private IPengadaanRepo _repoPengadaan;
-        private string DocumentType = "SPK";
-        private string FILE_DOKUMEN_SPK_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_DOKUMEN_SPK_PATH"];
+        private IPORepo _repository;
+        private string FILE_DOKUMEN_PO_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_DOKUMEN_PO_PATH"];
         
-        public SpkController()
+        public POController()
         {
-            _repository = new SpkRepo(new JimbisContext());
-            _repoPengadaan = new PengadaanRepo(new JimbisContext());
-            _workflowrepo = new WorkflowRepository(new HelperContext());
+            _repository = new PORepo(new JimbisContext());
         }
 
-        public SpkController(SpkRepo repository)
+        public POController(PORepo repository)
         {
             _repository = repository;
         }
@@ -53,20 +49,26 @@ namespace Reston.Pinata.WebService.Controllers
                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      public IHttpActionResult List()
+      public async Task< IHttpActionResult> List()
       {
           try
           {
               int start = Convert.ToInt32(System.Web.HttpContext.Current.Request["start"].ToString());
               string search = System.Web.HttpContext.Current.Request["search"].ToString();
               int length = Convert.ToInt32(System.Web.HttpContext.Current.Request["length"].ToString());
-              string klasifikasi = System.Web.HttpContext.Current.Request["klasifikasi"].ToString();
-              var data = _repository.List(search, start, length, klasifikasi);
+              string NoPO = System.Web.HttpContext.Current.Request["NoPO"].ToString();
+              var data = _repository.List(search, start, length, NoPO);
+
+              foreach (var item in data.data)
+              {
+                  Userx userdetail =await userDetail(item.CreatedId.ToString());
+                  item.Created = userdetail.Nama;
+              }
               return Json(data);
           }
           catch (Exception ex)
           {
-              return Json(new DataTablePksTemplate());
+              return Json(new DataTablePO());
           }
       }
 
@@ -75,20 +77,25 @@ namespace Reston.Pinata.WebService.Controllers
                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      public IHttpActionResult ListPks()
+      public IHttpActionResult ListItem()
       {
           try
           {
               int start = Convert.ToInt32(System.Web.HttpContext.Current.Request["start"].ToString());
               string search = System.Web.HttpContext.Current.Request["search"].ToString();
               int length = Convert.ToInt32(System.Web.HttpContext.Current.Request["length"].ToString());
-              string klasifikasi = System.Web.HttpContext.Current.Request["klasifikasi"].ToString();
-              var data = _repository.ListPks(search, start, length, klasifikasi);
+              Guid PoId = new Guid();
+              try
+              {
+                  PoId = new Guid(System.Web.HttpContext.Current.Request["PoId"].ToString());
+              }
+              catch { }
+              var data = _repository.ListItem(search, start, length, PoId);
               return Json(data);
           }
           catch (Exception ex)
           {
-              return Json(new DataTableSpkTemplate());
+              return Json(new DataTablePODetail() { data=new List<VWPODetail>()});
           }
       }
 
@@ -102,12 +109,11 @@ namespace Reston.Pinata.WebService.Controllers
       {
           try
           {
-              var oPks = _repository.detail(Id, UserId());
-              return Json(oPks);
+              return Json(_repository.detail(Id, UserId()));
           }
           catch (Exception ex)
           {
-              return Json(new VWPks());
+              return Json(new VWPO());
           }
       }
 
@@ -116,20 +122,47 @@ namespace Reston.Pinata.WebService.Controllers
                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      public IHttpActionResult Save(VWSpk vspk)
+      public IHttpActionResult Save(VWPO data)
       {
           try
           {
-              var spk = new Spk();
-              spk.PksId = vspk.PksId;
-              spk.Id = vspk.Id;
-              spk.NilaiSPK = vspk.NilaiSPK;
-              if (!string.IsNullOrEmpty(vspk.TanggalSPKStr)) spk.TanggalSPK = Common.ConvertDate(vspk.TanggalSPKStr, "dd/MM/yyyy HH:mm");
-              return Json(_repository.save(spk, UserId()));
+              var ndata = new PO();
+              ndata.Id = data.Id;
+              ndata.Keterangan = data.Keterangan;
+              ndata.Prihal = data.Prihal;
+              ndata.UP = data.UP;
+              ndata.Vendor = data.Vendor;
+
+              if (!string.IsNullOrEmpty(data.TanggalPOstr) )
+              {
+                  try
+                  {
+                      ndata.TanggalPO = Common.ConvertDate(data.TanggalPOstr, "dd/MM/yyyy");
+                  }
+                  catch { }
+                 
+              }
+              return Json(_repository.save(ndata, UserId()));
           }
           catch (Exception ex)
           {
-              return Json(new VWSpk());
+              return Json(new VWPO());
+          }
+      }
+
+      [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                          IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                           IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+      [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+      public IHttpActionResult SaveItem(PODetail data)
+      {
+          try
+          {
+              return Json(_repository.saveItem(data, UserId()));
+          }
+          catch (Exception ex)
+          {
+              return Json(new VWPO());
           }
       }
 
@@ -139,14 +172,9 @@ namespace Reston.Pinata.WebService.Controllers
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
       public async Task<IHttpActionResult> UploadFile( Guid id)
       {
-          var oSpk = _repository.get(id);
-
-          if (oSpk.StatusSpk != StatusSpk.Draft)
-              return Json("00000000-0000-0000-0000-000000000000");
-
           var uploadPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
           bool isSavedSuccessfully = true;
-          string filePathSave = FILE_DOKUMEN_SPK_PATH;//+id ;
+          string filePathSave = FILE_DOKUMEN_PO_PATH;//+id ;
           string fileName = "";
 
           var s = await Request.Content.ReadAsStreamAsync();
@@ -188,11 +216,11 @@ namespace Reston.Pinata.WebService.Controllers
           {
               try
               {
-                  DokumenSpk dokumen = new DokumenSpk
+                  DokumenPO dokumen = new DokumenPO
                   {
                       File = fileName,
                       ContentType = contentType,
-                      SpkId = id,
+                      POId = id,
                       SizeFile = sizeFile
                   };
                   return Json( _repository.saveDokumen(dokumen, UserId()).Id);
@@ -209,22 +237,20 @@ namespace Reston.Pinata.WebService.Controllers
                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      public List<VWDokumenSPK> getDokumens( Guid Id)
+      public List<VWDokumenPO> getDokumens( Guid Id)
       {
-          return _repository.GetListDokumenSpk(Id);
+          return _repository.GetListDokumenPO(Id);
       }
 
       [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                          IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                           IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      public ResultMessage deleteDokumenPks(Guid Id)
+      public ResultMessage deleteDokumenPO(Guid Id)
       {
           try
           {
-              int Approver = 0;
-              var oSpk = _repository.getDokSpk(Id);
-              var result = _repository.deleteDokumenSpk(Id, UserId(), Approver);
+              var result = _repository.deleteDokumenPO(Id, UserId());
               if (result == 1)
               {
                   return new ResultMessage()
@@ -239,7 +265,7 @@ namespace Reston.Pinata.WebService.Controllers
                   return new ResultMessage()
                   {
                       status = HttpStatusCode.NotImplemented,
-                      message = "error",
+                      message = HttpStatusCode.NotImplemented.ToString(),
                       Id = "0"
                   };
               }
@@ -255,21 +281,6 @@ namespace Reston.Pinata.WebService.Controllers
           }
       }
       
-      [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
-                                          IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                           IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
-      [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      public IHttpActionResult ChangeSatus(Guid Id,StatusSpk status)
-      {
-          _repository.ChangeStatus(Id, status, UserId());
-          _repository.AddRiwayatDokumenSpk(new RiwayatDokumenSpk()
-          {
-              ActionDate=DateTime.Now,
-              Status="Berubah Status: "+status.ToString()
-          }, UserId());
-          return Json(_repository.ChangeStatus(Id, status, UserId()));
-            
-      }
      
       [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                        IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
@@ -277,16 +288,39 @@ namespace Reston.Pinata.WebService.Controllers
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
       public ResultMessage delete(Guid Id)
       {
-          return _repository.deleteSpk(Id, UserId());
+          return  _repository.Delete(Id, UserId());
       }
 
       [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                        IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                         IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+      [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+      public ResultMessage deleteItem(Guid Id)
+      {
+          return _repository.DeleteItem(Id, UserId());
+      }
+
+      [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                       IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                        IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+      [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+      public ResultMessage GenerateNoPO(Guid Id)
+      {
+
+          var noPO = _repository.GenerateNoPO(UserId());
+          var data = _repository.get(Id);
+          if(!string.IsNullOrEmpty( data.NoPO))
+             data.NoPO = noPO;
+          return _repository.save(data,UserId());
+      }
+
+       [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                       IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                        IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
       public HttpResponseMessage OpenFile(Guid Id)
       {
-          var data = _repository.getDokSpk(Id);
-          var path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_DOKUMEN_SPK_PATH + data.File;
+          var data = _repository.GetDokumenPO(Id);
+          var path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_DOKUMEN_PO_PATH + data.File;
           HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
           var stream = new FileStream(path, FileMode.Open);
           result.Content = new StreamContent(stream);
@@ -300,8 +334,6 @@ namespace Reston.Pinata.WebService.Controllers
 
           return result;
       }
-
-      
     }
     
 }

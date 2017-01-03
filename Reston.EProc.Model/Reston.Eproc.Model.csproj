@@ -104,6 +104,9 @@
     <Compile Include="Monitoring\Model\ViewMonitoring.cs" />
     <Compile Include="Monitoring\Model\ViewProyek.cs" />
     <Compile Include="Monitoring\Repository\MoritoringRepo.cs" />
+    <Compile Include="Monitoring\Repository\PORepo.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Monitoring\Repository\ProyekRepo.cs" />
     <Compile Include="MyClass.cs" />
     <Compile Include="PengadaanRepository\BudgetRepo.cs" />

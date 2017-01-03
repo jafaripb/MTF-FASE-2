@@ -395,7 +395,7 @@ function save(pengadaanHeader,attr1,status) {
             }
         }
     });
-    if ($("[name=AturanPenawaran]").val() == "Open Price") {
+   /* if ($("[name=AturanPenawaran]").val() == "Open Price") {
         var totalHps = $("[name=HpsId]").val();
         $.ajax({
             method: "POST",
@@ -406,7 +406,7 @@ function save(pengadaanHeader,attr1,status) {
         }).done(function (data) {
             
         });
-    }
+    }*/
 }
 
 
@@ -484,7 +484,7 @@ function addPersonil(item, el) {
                         + data.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
                         + item.Jabatan + '" value="' + item.PersonilId + '" />' +
                     '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>' +
-                    '<span class="badge-left check-person"><input  class="ready-checkbox" type="checkbox"/></span>' +
+                    //'<span class="badge-left check-person"><input  class="ready-checkbox" type="checkbox"/></span>' +
                     '<i class="fa fa-user"></i>' +
                     item.Nama +
                   '</a>';
@@ -554,14 +554,14 @@ function loadHeaderPengadaan(viewPengadaan) {
     //    $("#buat_hps").show();
     //}
 
-    if (viewPengadaan.AturanPenawaran == "Open Price") {
+  /*  if (viewPengadaan.AturanPenawaran == "Open Price") {
         $("#buat_hps").hide();
         $("[name=HpsId]").removeAttr("disabled");
     }
     else {
         $("[name=HpsId]").attr("disabled", "disabled");
         $("#buat_hps").show();
-    }
+    }*/
         
     $("[name=Judul]").val(viewPengadaan.Judul);
     $("[name=Keterangan]").val(viewPengadaan.Keterangan) ;
@@ -738,16 +738,18 @@ function addLoadPersonil(item, el, status, xisTeam) {
         //removeEL = '<a class="pull-right btn-box-tool remove-person"><i class="fa fa-times"></i></a>';
         removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';
     }
-    if (item.isReady == 1) {
-        if (item.isMine == 1 && $("#State").val() == 0)
-            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
-        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
-    }
-    else {
-        if (item.isMine == 1 &&  $("#State").val() == 0)
-            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
-        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
-    } html = '<a class="btn btn-app">' +
+    //if (item.isReady == 1) {
+    //    if (item.isMine == 1 && $("#State").val() == 0)
+    //        removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
+    //    else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
+    //}
+    //else {
+    //    if (item.isMine == 1 &&  $("#State").val() == 0)
+    //        removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
+    //    else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
+    //}
+
+    html = '<a class="btn btn-app">' +
                    '<input type="hidden" class="list-personil" attrId="'
                        + item.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
                        + item.Jabatan + '" value="' + item.PersonilId + '" />' +
@@ -1543,13 +1545,13 @@ function aturanPengadaanView() {
 }
 
 function aturanPenawaranView() {
-    if ($("[name=AturanPenawaran]").val() == 'Price Matching') {
+   // if ($("[name=AturanPenawaran]").val() == 'Price Matching') {
         $("[name=HpsId]").attr("disabled", "disabled");
         $("#buat_hps").show();
-    } else {
-        $("[name=HpsId]").removeAttr("disabled");
-        $("#buat_hps").hide();
-    }
+    //} else {
+    //    $("[name=HpsId]").removeAttr("disabled");
+    //    $("#buat_hps").hide();
+    //}
 }
 
 function renderDokumenDropzone(myDropzone,tipe) {
@@ -1576,17 +1578,17 @@ function renderDokumenDropzone(myDropzone,tipe) {
 }
 
 function hitungHPS(rksId) {
-    if ($("[name=AturanPenawaran]").val() == "Open Price") {
+    //if ($("[name=AturanPenawaran]").val() == "Open Price") {
         
-        $.ajax({
-            url: "Api/PengadaanE/getTotalHps?Id=" + rksId,
-            method: "POST"
-        }).done(function (data) {
-            if (data.Total != null || data.Total != "")
-                $("[name=HpsId]").val(data.Total);
-        });
-    }
-    else {
+    //    $.ajax({
+    //        url: "Api/PengadaanE/getTotalHps?Id=" + rksId,
+    //        method: "POST"
+    //    }).done(function (data) {
+    //        if (data.Total != null || data.Total != "")
+    //            $("[name=HpsId]").val(data.Total);
+    //    });
+    //}
+  //  else {
         $.ajax({
             url: "Api/PengadaanE/getRks?Id=" + rksId
         }).done(function (data) {
@@ -1603,7 +1605,7 @@ function hitungHPS(rksId) {
 
             $("[name=HpsId]").val(total);
         });
-    }
+    //}
 }
 
 
