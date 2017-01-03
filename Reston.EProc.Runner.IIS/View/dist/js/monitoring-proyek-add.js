@@ -361,24 +361,9 @@ function TambahTahapanPekerjaan() {
             $("#tanggal-pekerjaan-mulai").val("");
             $("#tanggal-pekerjaan-selesai").val("");
             $("#bobot-pekerjaan").val("");
-            if (d.message == null)
-            {
+
                 BootstrapDialog.show({
                     title: 'Konfirmasi',
-                    message: 'Data Berhasil di Simpan',
-                    buttons: [{
-                        label: 'Close',
-                        action: function (dialog) {
-                            dialog.close();
-                        }
-                    }]
-                });
-                table_pekerjaan.draw();
-            }
-            else
-            {
-                BootstrapDialog.show({
-                    title: 'ERROR',
                     message: d.message,
                     buttons: [{
                         label: 'Close',
@@ -387,7 +372,8 @@ function TambahTahapanPekerjaan() {
                         }
                     }]
                 });
-            }
+
+                table_pekerjaan.draw();
         }
     })
 }
@@ -451,7 +437,18 @@ function TambahProyekDrafPekerjaan() {
             aStatus: nStatus
         },
         success: function (d) {
-            popuptahapan();
+            //popuptahapan();
+
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'Data Berhasil di Simpan',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
         }
     })
 }

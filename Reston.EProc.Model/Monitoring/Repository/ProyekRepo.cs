@@ -102,14 +102,15 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         // Ambil Data Proyek
         public ViewProyekPerencanaan GetDataProyek(Guid SpkId)
         {
-           var data = ctx.Spk.Where(d => d.Id == SpkId).Select(d => new ViewProyekPerencanaan
+           var data = ctx.RencanaProyeks.Where(d => d.SpkId == SpkId).Select(d => new ViewProyekPerencanaan
             {
                 Id = d.Id,
-                Judul = d.PemenangPengadaan.Pengadaan.Judul,
-                NoPengadaan = d.PemenangPengadaan.Pengadaan.NoPengadaan,
-                NOSPK = d.NoSPk,
-                NilaiKontrak = d.NilaiSPK,
-                Pelaksana = d.PemenangPengadaan.Vendor.Nama,
+                Judul = d.Spk.PemenangPengadaan.Pengadaan.Judul,
+                NoPengadaan = d.Spk.PemenangPengadaan.Pengadaan.NoPengadaan,
+                NOSPK = d.Spk.NoSPk,
+                NilaiKontrak = d.Spk.NilaiSPK,
+                Pelaksana = d.Spk.PemenangPengadaan.Vendor.Nama,
+                //PIC = d.Spk.NoSPk != null ? d.PICProyeks.Select(dd => new ViewPIC { Id = dd.Id, NamaPIC = dd.Nama }).ToList() : null
             }).FirstOrDefault();
             if (ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault() != null)
             {
@@ -145,63 +146,69 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             try
             {
                 var odata = ctx.RencanaProyeks.Where(d => d.SpkId == ProyekId).FirstOrDefault();
-                var IdProyek = odata.Id;
-                var BlmAdaTahapan = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Count();
-                if (BlmAdaTahapan != 0)
+                if(odata != null)
                 {
-                    var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan != 0 ? d.BobotPekerjaan : 0);
-                    var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
+                    var IdProyek = odata.Id;
 
-                    if (TotalBobotPekerjaanDb <= 100)
+                    var BlmAdaTahapan = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Count();
+                    if (BlmAdaTahapan != 0)
                     {
-                        TahapanProyek th = new TahapanProyek
+                        var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan != 0 ? d.BobotPekerjaan : 0);
+                        var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
+
+                        if (TotalBobotPekerjaanDb <= 100)
                         {
-                            ProyekId = IdProyek,
-                            NamaTahapan = xNamaTahapanPekerjaan,
-                            TanggalMulai = xTanggalMulai,
-                            TanggalSelesai = xTanggalSelesai,
-                            CreatedOn = DateTime.Now,
-                            CreatedBy = UserId,
-                            JenisTahapan = xJenisPekerjaan,
-                            BobotPekerjaan = xBobotPekerjaan
-                        };
-                        ctx.TahapanProyeks.Add(th);
-                        ctx.SaveChanges(UserId.ToString());
-                        rkk.status = HttpStatusCode.OK;
+                            TahapanProyek th = new TahapanProyek
+                            {
+                                ProyekId = IdProyek,
+                                NamaTahapan = xNamaTahapanPekerjaan,
+                                TanggalMulai = xTanggalMulai,
+                                TanggalSelesai = xTanggalSelesai,
+                                CreatedOn = DateTime.Now,
+                                CreatedBy = UserId,
+                                JenisTahapan = xJenisPekerjaan,
+                                BobotPekerjaan = xBobotPekerjaan
+                            };
+                            ctx.TahapanProyeks.Add(th);
+                            ctx.SaveChanges(UserId.ToString());
+                            rkk.status = HttpStatusCode.OK;
+                        }
+                        else
+                        {
+                            rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
+                        }
                     }
                     else
                     {
-                        rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
+                        if (xBobotPekerjaan <= 100)
+                        {
+                            TahapanProyek th = new TahapanProyek
+                            {
+                                ProyekId = IdProyek,
+                                NamaTahapan = xNamaTahapanPekerjaan,
+                                TanggalMulai = xTanggalMulai,
+                                TanggalSelesai = xTanggalSelesai,
+                                CreatedOn = DateTime.Now,
+                                CreatedBy = UserId,
+                                JenisTahapan = xJenisPekerjaan,
+                                BobotPekerjaan = xBobotPekerjaan
+                            };
+                            ctx.TahapanProyeks.Add(th);
+                            ctx.SaveChanges(UserId.ToString());
+                            rkk.status = HttpStatusCode.OK;
+                            rkk.message = "Data Berhasil Di Simpan";
+                        }
+                        else
+                        {
+                            rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
+                        }
                     }
                 }
                 else
                 {
-                   // var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan);
-
-                   // var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
-                    if (xBobotPekerjaan <= 100)
-                    {
-                        TahapanProyek th = new TahapanProyek
-                        {
-                            ProyekId = IdProyek,
-                            NamaTahapan = xNamaTahapanPekerjaan,
-                            TanggalMulai = xTanggalMulai,
-                            TanggalSelesai = xTanggalSelesai,
-                            CreatedOn = DateTime.Now,
-                            CreatedBy = UserId,
-                            JenisTahapan = xJenisPekerjaan,
-                            BobotPekerjaan = xBobotPekerjaan
-                        };
-                        ctx.TahapanProyeks.Add(th);
-                        ctx.SaveChanges(UserId.ToString());
-                        rkk.status = HttpStatusCode.OK;
-                        rkk.message = "Data Berhasil Di Simpan";
-                    }
-                    else
-                    {
-                        rkk.message = "Error (Total Bobot Pekerjaan Tidak Bisa lebih Dari 100 %)";
-                    }
+                    rkk.message = "Simpan Data Terlebih Dahulu";
                 }
+                
             }
             catch (Exception ex)
             {
@@ -312,7 +319,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rm = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.SpkId == ProyekId).FirstOrDefault();
 
                 if (odata != null)
                 { }
@@ -324,9 +331,10 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                         SpkId=ProyekId,
                         StartDate = xStartDate,
                         EndDate = xEndDate,
-                        Status = xStatus,
+                        Status = "Draf",
                         CreatedBy = UserId,
-                        CreatedOn = DateTime.Now
+                        CreatedOn = DateTime.Now,
+                        StatusLockTahapan = "DIBUKA"
                     };
 
                     ctx.RencanaProyeks.Add(m2);
@@ -372,7 +380,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rm = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.Id == Personil.PengadaanId).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.SpkId == Personil.PengadaanId).FirstOrDefault();
                 var idproyek = odata.Id;
                 var idata = ctx.PICProyeks.Where(d => d.ProyekId == idproyek).FirstOrDefault();
                 if (idata != null)
