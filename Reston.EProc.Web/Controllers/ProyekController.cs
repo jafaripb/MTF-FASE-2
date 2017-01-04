@@ -167,6 +167,17 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.SimpanTahapanPekerjaanRepo(xPengadaanId, xNamaTahapanPekerjaan, xJenisPekerjaan, xBobotPekerjaan, UserId(), xTanggalMulai, xTanggalSelesai));
         }
 
+        public IHttpActionResult SimpanTahapanPembayaran()
+        {
+            Guid xPengadaanId = Guid.Parse(HttpContext.Current.Request["aPengdaanId"].ToString());
+            string xNamaTahapanPekerjaan = HttpContext.Current.Request["aNamaTahapanPekerjaan"].ToString();
+            DateTime? xTanggalMulai = Common.ConvertDate(HttpContext.Current.Request["aTanggalMulai"].ToString(), "dd/MM/yyyy HH:mm");
+            DateTime? xTanggalSelesai = Common.ConvertDate(HttpContext.Current.Request["aTanggalSelesai"].ToString(), "dd/MM/yyyy HH:mm");
+            string xJenisPekerjaan = HttpContext.Current.Request["aJenisTahapan"].ToString();
+
+            return Json(_repository.SimpanTahapanPembayaranRepo(xPengadaanId, xNamaTahapanPekerjaan, xJenisPekerjaan, UserId(), xTanggalMulai, xTanggalSelesai));
+        }
+
         public IHttpActionResult SimpanTahapanPekerjaanRekanan()
         {
             Guid xProyekId = Guid.Parse(HttpContext.Current.Request["aProyekId"].ToString());

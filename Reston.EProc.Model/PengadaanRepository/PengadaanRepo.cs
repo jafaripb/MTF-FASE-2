@@ -968,7 +968,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 PengadaanButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN).Count(),
                 PemenangButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.PersetujuanPemenangs.Where(dd=>dd.Status == StatusPengajuanPemenang.PENDING).Count()>0).Count(),
                 PemenangDiSetujui = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0).Count(),
-                MonitorSelection = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0).Count()
+                MonitorSelection = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0).Count(),
+                TotalSeluruhPersetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN).Count() + ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING).Count() > 0).Count()
             };
         }
 

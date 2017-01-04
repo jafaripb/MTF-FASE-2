@@ -26,6 +26,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         ResultMessage SimpanTahapanPembayaranDokumenRepo(Guid xId_Tahapan, string xNamaDokumen, string xJenisDokumen, Guid UserId);
         ResultMessage SimpanProyekRepo(Guid Id, string NoKontrak, string Status, Guid UserId);
         ResultMessage SimpanTahapanPekerjaanRepo(Guid xPengadaanId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai);
+        ResultMessage SimpanTahapanPembayaranRepo(Guid xPengadaanId, string xNamaTahapanPekerjaan, string xJenisPekerjaan,  Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai);
         ResultMessage SimpanTahapanPekerjaanRekananRepo(Guid xProyekId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai);
         DataTableViewTahapanPekerjaan GetDataPekerjaan(Guid PengadaanId);
         DataTableViewTahapanPembayaran GetDataPembayaran(Guid PengadaanId);
@@ -102,18 +103,19 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         // Ambil Data Proyek
         public ViewProyekPerencanaan GetDataProyek(Guid SpkId)
         {
-           var data = ctx.RencanaProyeks.Where(d => d.SpkId == SpkId).Select(d => new ViewProyekPerencanaan
+           var data = ctx.Spk.Where(d => d.Id == SpkId).Select(d => new ViewProyekPerencanaan
             {
-                Id = d.Id,
-                Judul = d.Spk.PemenangPengadaan.Pengadaan.Judul,
-                NoPengadaan = d.Spk.PemenangPengadaan.Pengadaan.NoPengadaan,
-                NOSPK = d.Spk.NoSPk,
-                NilaiKontrak = d.Spk.NilaiSPK,
-                Pelaksana = d.Spk.PemenangPengadaan.Vendor.Nama,
+                //Id = d.Id,
+                Judul = d.PemenangPengadaan.Pengadaan.Judul,
+                NoPengadaan = d.PemenangPengadaan.Pengadaan.NoPengadaan,
+                NOSPK = d.NoSPk,
+                NilaiKontrak = d.NilaiSPK,
+                Pelaksana = d.PemenangPengadaan.Vendor.Nama,
                 //PIC = d.Spk.NoSPk != null ? d.PICProyeks.Select(dd => new ViewPIC { Id = dd.Id, NamaPIC = dd.Nama }).ToList() : null
             }).FirstOrDefault();
             if (ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault() != null)
             {
+                data.Id = ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault().Id;
                 data.TanggalMulai = ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault().StartDate;
                 data.TanggalSelesai = ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault().EndDate;
             }
@@ -138,6 +140,40 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 };
             }
         }
+
+    public ResultMessage SimpanTahapanPembayaranRepo(Guid ProyekId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai)
+    {
+        ResultMessage rkm = new ResultMessage();
+        try
+        {
+            var odata = ctx.RencanaProyeks.Where(d => d.SpkId == ProyekId).FirstOrDefault();
+            if(odata != null)
+            {
+                TahapanProyek th = new TahapanProyek
+                {
+                    ProyekId = odata.Id,
+                    NamaTahapan = xNamaTahapanPekerjaan,
+                    TanggalMulai = xTanggalMulai,
+                    TanggalSelesai = xTanggalSelesai,
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = UserId,
+                    JenisTahapan = xJenisPekerjaan
+                };
+                ctx.TahapanProyeks.Add(th);
+                ctx.SaveChanges(UserId.ToString());
+                rkm.status = HttpStatusCode.OK;
+            }
+            else
+            {
+                rkm.message = "Silahkan Klik Simpan Telebih Dahulu";
+            }
+        }
+        catch(Exception ex)
+        {
+
+        }
+        return rkm;
+    }
 
     // Simpan Tahapan Pekerjaan PIC
     public ResultMessage SimpanTahapanPekerjaanRepo(Guid ProyekId, string xNamaTahapanPekerjaan, string xJenisPekerjaan, decimal xBobotPekerjaan, Guid UserId, DateTime? xTanggalMulai, DateTime? xTanggalSelesai)
@@ -322,7 +358,17 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 var odata = ctx.RencanaProyeks.Where(d => d.SpkId == ProyekId).FirstOrDefault();
 
                 if (odata != null)
-                { }
+                {
+                    rm.message = "Data Berhasil Disimpan";
+                }
+                else if(xStartDate == null)
+                {
+                    rm.message = "Tanggal Mulai Tidak Boleh Kosong";
+                }
+                else if(xEndDate == null)
+                {
+                    rm.message = "Tanggal Selesai Tidak Boleh Kosong";
+                }
                 else
                 {
                     RencanaProyek m2 = new RencanaProyek
@@ -340,6 +386,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                     ctx.RencanaProyeks.Add(m2);
                     ctx.SaveChanges(UserId.ToString());
                     rm.status = HttpStatusCode.OK;
+                    rm.message = "Data Berhasil Dirubah";
                 }
             }
             catch (Exception ex)
@@ -411,6 +458,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             }
             return rm;
         }
+
 
         // Get Data Pekerjaan
         public DataTableViewTahapanPekerjaan GetDataPekerjaan(Guid PengadaanId)

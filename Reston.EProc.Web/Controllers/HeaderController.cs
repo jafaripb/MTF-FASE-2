@@ -18,11 +18,20 @@ using Reston.Pinata.Model.PengadaanRepository;
 using Reston.Pinata.Model.PengadaanRepository.View;
 using Reston.Pinata.WebService.Helper;
 using Reston.Pinata.WebService.ViewModels;
+using Reston.Eproc.Model.Monitoring.Repository;
 
 namespace Reston.Pinata.WebService.Controllers
 {
     public class HeaderController : BaseController
     {
+        private IPengadaanRepo _repository;
+        internal ResultMessage result = new ResultMessage();
+
+        public HeaderController()
+        {
+            _repository = new PengadaanRepo(new JimbisContext());
+        }
+
          [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
          [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_staff,
              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_procurement_head,
@@ -50,9 +59,12 @@ namespace Reston.Pinata.WebService.Controllers
         private List<Menu> cekdasboard(List<Menu> menu)
         {
             var dasbord = menu.Where(d => d.menu == "Dashboard").FirstOrDefault();
+
+            var total = _repository.ListCount();
+
             if (dasbord != null)
             {
-                dasbord.menu = dasbord.menu + "(10)";
+                dasbord.menu = dasbord.menu + " (" +total.TotalSeluruhPersetujuan + ")";
             }
             return menu;
         }
