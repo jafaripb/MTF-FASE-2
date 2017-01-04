@@ -197,8 +197,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             search = search == null ? "" : search;
             DataTableViewMonitoring dt = new DataTableViewMonitoring();
             dt.recordsTotal = ctx.RencanaProyeks.Count();
-            dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "Draf").Count();
-            var data = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "Draf").OrderByDescending(d => d.CreatedOn).Select(
+            dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "DRAF").Count();
+            var data = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "DRAF").OrderByDescending(d => d.CreatedOn).Select(
                 d => new ViewMonitoringSelection()
                 {
                     NoPengadaan = d.Spk.PemenangPengadaan.Pengadaan.NoPengadaan,
@@ -218,7 +218,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
         public DataTableViewMonitoring GetDataMonitoringSelectionSedangBerjalan(string search, int start, int length, StatusSeleksi? status)
         {
-           search = search == null ? "" : search;
+            search = search == null ? "" : search;
             DataTableViewMonitoring dt = new DataTableViewMonitoring();
             dt.recordsTotal = ctx.RencanaProyeks.Count();
             dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "DIJALANKAN").Count();
@@ -302,7 +302,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 TanggalSelesai = odata.EndDate,
                 NilaiKontrak = odata.Spk.NilaiSPK,
                 StatusProyek = odata.Status,
-                VendorId = odata.Spk.PemenangPengadaan.VendorId.Value
+                VendorId = odata.Spk.PemenangPengadaan.VendorId.Value,
+                StatusLockTahapan = odata.StatusLockTahapan
             };
         }
 

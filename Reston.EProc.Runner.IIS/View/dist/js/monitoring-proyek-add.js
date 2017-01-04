@@ -288,7 +288,7 @@ function DeleteDokumenPekerjaan(idd) {
     $.ajax({
         url: "/api/Proyek/deleteDok?id=" + v,
         success: function (data) {
-            table_dokumen_pekerjaan.draw();
+            table_dokumen_pekerjaan.ajax.reload();
         },
         complete: function (xhr, textStatus) {
             ajaxCompleteProcess(xhr);
@@ -307,7 +307,7 @@ function DeleteDokumenPembayaran(idd) {
     $.ajax({
         url: "/api/Proyek/deleteDok?id=" + v,
         success: function (data) {
-            table_dokumen_pembayaran.draw();
+            table_dokumen_pembayaran.ajax.reload();
         },
         complete: function (xhr, textStatus) {
             ajaxCompleteProcess(xhr);
@@ -389,7 +389,7 @@ function TambahTahapanPembayaran() {
 
     $.ajax({
         method: "post",
-        url: "api/Proyek/SimpanTahapanPekerjaan",
+        url: "api/Proyek/SimpanTahapanPembayaran",
         datatype: "json",
         data: {
             aPengdaanId: nPengadaanId,
@@ -414,7 +414,7 @@ function TambahTahapanPembayaran() {
                     }
                 }]
             });
-            table_pembayaran.draw();
+            table_pembayaran.ajax.reload();
         }
     })
 }
@@ -422,8 +422,8 @@ function TambahTahapanPembayaran() {
 // Tambah Draf Perencanaan Proyek Pekerjaan(statusnya = draft)
 function TambahProyekDrafPekerjaan() {
     var nPengadaanId = $("#pengadaanId").val();
-    var nStartDate = moment($("#pendaftaran").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-    var nEnddate = moment($("#pendaftaran_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+    var nStartDate = moment($("#pendaftaran").val(), ["D MMMM YYYY "], "id").format("DD/MM/YYYY HH:mm");
+    var nEnddate = moment($("#pendaftaran_sampai").val(), ["D MMMM YYYY "], "id").format("DD/MM/YYYY HH:mm");
     var nStatus = $("#status").val();
 
     $.ajax({
@@ -441,7 +441,7 @@ function TambahProyekDrafPekerjaan() {
 
             BootstrapDialog.show({
                 title: 'Konfirmasi',
-                message: 'Data Berhasil di Simpan',
+                message: d.message,
                 buttons: [{
                     label: 'Close',
                     action: function (dialog) {
@@ -537,7 +537,16 @@ function TambahProyekDrafPembayaran() {
             aStatus: nStatus
         },
         success: function (d) {
-            popuptahapanpembayaran();
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: d.message,
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
         }
 
     })
@@ -600,7 +609,8 @@ function TambahDokumenPekerjaan(id_tahapan) {
                     }
                 }]
             });
-            table_dokumen_pekerjaan.draw();
+            //table_dokumen_pekerjaan.draw();
+            table_dokumen_pekerjaan.ajax.reload();
         }
     })
 }
