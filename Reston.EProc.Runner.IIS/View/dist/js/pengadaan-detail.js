@@ -1104,3 +1104,89 @@ function StatusPemenang(Id) {
     });
 }
 
+$(".SimpanAjukan").on("click", function () {
+    console.log("BAGUS");
+    $("#modal-persetujuan").modal("show");
+});
+
+function getHeaderPengadaan() {
+    var viewPengadaan = {};
+    viewPengadaan.Judul = $("[name=Judul]").val();
+    viewPengadaan.Keterangan = $("[name=Keterangan]").val();
+    viewPengadaan.AturanPengadaan = $("[name=AturanPengadaan]").val();
+    viewPengadaan.AturanBerkas = $("[name=AturanBerkas]").val();
+    viewPengadaan.AturanPenawaran = $("[name=AturanPenawaran]").val();
+    viewPengadaan.MataUang = $("[name=MataUang]").val();
+    viewPengadaan.PeriodeAnggaran = $("[name=PeriodeAnggaran]").val();
+    viewPengadaan.JenisPembelanjaan = $("[name=JenisPembelanjaan]").val();
+    viewPengadaan.HpsId = $("[name=HpsId]").val();
+    viewPengadaan.TitleDokumenNotaInternal = $("[name=TitleDokumenNotaInternal]").val();
+    viewPengadaan.TitleDokumenLain = $("[name=TitleDokumenLain]").val();
+    viewPengadaan.TitleBerkasRujukanLain = $("[name=TitleBerkasRujukanLain]").val();
+    viewPengadaan.UnitKerjaPemohon = $("[name=UnitKerjaPemohon]").val();
+    viewPengadaan.NoCOA = $("#noCoa").val();
+    viewPengadaan.Region = $("[name=Region]").val();
+    viewPengadaan.Provinsi = $("[name=Provinsi]").val();
+    viewPengadaan.KualifikasiRekan = $("[name=KualifikasiRekan]").val();
+    viewPengadaan.JenisPekerjaan = $("[name=JenisPekerjaan]").val();
+    if ($("#pengadaanId").val() != "") viewPengadaan.Id = $("#pengadaanId").val();
+    return viewPengadaan;
+    console.log(viewPengadaan);
+}
+
+function save(pengadaanHeader, attr1, status) {
+    var data = {};
+    data.Pengadaan = pengadaanHeader;
+    data.Jadwal = getJadwal();
+    pengadaanHeader.Status = status;
+    waitingDialog.showloading("Proses Harap Tunggu");
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/save?status=" + status,
+        dataType: "json",
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8'
+    }).done(function (data) {
+        waitingDialog.hideloading();
+        if (attr1 == "showmodal") {
+            $("#format-rks").attr("href", "rks.html#" + data.Id);
+            $("#hpsmodal-list").modal("show");
+        } else {
+            //$("#pengadaanId").val(data.Id);
+            if (data.status == 200) {
+                window.location.hash = data.Id;
+                if (!$("#pengadaanId").val().trim()) {
+                    window.location.reload();
+                }
+                $("#pengadaanId").val(data.Id);
+            }
+            if (status == "Draft") {
+                $("#TitleKonfirmasi").html("Info");
+                $("#KontenConfirmasi").html(data.message);
+                $("#konfirmasi").modal("show");
+                loadData(data.Id);
+            }
+            else if (status == "Ajukan") {
+                window.location.replace("http://" + window.location.host + "/pengadaan-list.html");
+            }
+        }
+    });
+    if ($("[name=AturanPenawaran]").val() == "Open Price") {
+        var totalHps = $("[name=HpsId]").val();
+        $.ajax({
+            method: "POST",
+            url: "Api/PengadaanE/saveTotalHps?Id=" + $("#pengadaanId").val() + "&Total=" + totalHps,
+            dataType: "json",
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8'
+        }).done(function (data) {
+
+        });
+    }
+}
+
+$("#anjukan-lanjutkan").on("click", function () {
+    $("#modal-persetujuan").modal("hide");
+    save(getHeaderPengadaan(), "", "Ajukan");
+});
+

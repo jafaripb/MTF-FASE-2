@@ -177,6 +177,7 @@ $(function () {
         $("#PemenangPengadaanId").val(obj.PemenangPengadaanId);
         $("#pks_modal").modal("hide");
         $("#pksId").val(obj.Id);
+        $("#nilai-po").val(obj.NilaiPO);
         waitingDialog.hideloading();
     });
 
@@ -184,6 +185,8 @@ $(function () {
         var data = {};
         data.Id = $("#Id").val();
         data.TanggalPOstr = moment($("#tanggal-po").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.NoPO = $("#no-po").val();
+        data.UP = $("#up").val();
         data.Vendor = $("#vendor").val();
         data.Prihal = $("#prihal").val();
         save(data);
@@ -270,6 +273,8 @@ function loadDetail(Id) {
         $("#vendor").val(data.Vendor);
         $("#prihal").val(data.Prihal);
         $("#no-po").val(data.NoPO);
+        $("#up").val(data.UP);
+        $("#nilai-po").val(accounting.formatNumber(data.NilaiPO, { thousand: ".", decimal: ",", precision: 2 }));
     });
 
 }
@@ -319,7 +324,6 @@ function save(po) {
                 }
             }]
         });
-        
     });
 }
 
@@ -344,6 +348,7 @@ function saveItem(item) {
         });
         tableitem.draw();
         $("#item-modal").modal("hide");
+        window.location.reload();
     });
 }
 
@@ -391,5 +396,9 @@ function generateNoPO() {
         tableitem.draw();
     });
 }
+
+$("body").on("click", "#cetak-po", function () {
+    downloadFileUsingForm("/api/report/CetakPO?Id=" + $("#Id").val());
+});
 
 

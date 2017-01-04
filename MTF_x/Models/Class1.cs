@@ -7,10 +7,6 @@ namespace MTF_x.Models
 {
     public class AnnouncementPengadaan
     {
-        public AnnouncementPengadaan()
-        {
-
-        }
         public AnnouncementPengadaan(Pengadaan pengadaan)
         {
             this.AturanBerkas = pengadaan.AturanBerkas;

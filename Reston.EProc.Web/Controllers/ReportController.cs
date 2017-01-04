@@ -25,12 +25,14 @@ using System.Drawing;
 using Microsoft.Reporting.WebForms;
 using System.Reflection;
 using System.Xml.Linq;
+using System.Web;
 
 namespace Reston.Pinata.WebService.Controllers
 {
     public class ReportController : BaseController
     {
         private IPengadaanRepo _repository;
+        private IPORepo _porepo;
         private IRksRepo _rksrepo;
         internal ResultMessage result = new ResultMessage();
         private string FILE_TEMP_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_TEMP"];
@@ -38,6 +40,7 @@ namespace Reston.Pinata.WebService.Controllers
         public ReportController()
         {
             _repository = new PengadaanRepo(new JimbisContext());
+            _porepo = new PORepo(new JimbisContext());
             _rksrepo = new RksRepo(new JimbisContext());
         }
 
@@ -2388,6 +2391,97 @@ namespace Reston.Pinata.WebService.Controllers
             {
                 FileName = outputFileName
             };
+            return result;
+        }
+
+        //Buat Word Create PO
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public HttpResponseMessage CetakPO(Guid Id)
+        {
+            var potemplate = _porepo.get(Id);
+
+            string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\template-po.docx";
+
+            string outputFileName = "Cetak-PO" + UserId().ToString() + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+
+            string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
+
+            var streamx = new FileStream(fileName, FileMode.Open);
+            try
+            {
+                var doc = DocX.Load(streamx);//.Create(OutFileNama);
+                doc.ReplaceText("{no_po}", potemplate.NoPO);
+                doc.ReplaceText("{vendor}", potemplate.Vendor);
+                doc.ReplaceText("{up}", potemplate.UP == null ? "" : potemplate.UP);
+                doc.ReplaceText("{perihal}", potemplate.Prihal);
+                DateTime tgl = potemplate.TanggalPO.Value;
+                string ctgl = tgl.ToString("dd MMMM yyyy");
+                doc.ReplaceText("{tanggal-po}", ctgl);
+
+                var oPODetail = potemplate.PODetail;
+                var table = doc.AddTable(oPODetail.Count() + 1, 7);
+
+
+                int indexRow = 0;
+                table.Rows[indexRow].Cells[0].Paragraphs.First().Append("No");
+                table.Rows[indexRow].Cells[1].Paragraphs.First().Append("Kode");
+                table.Rows[indexRow].Cells[2].Paragraphs.First().Append("Nama Barang");
+                table.Rows[indexRow].Cells[2].Width = 10;
+                table.Rows[indexRow].Cells[3].Paragraphs.First().Append("Banyak");
+                table.Rows[indexRow].Cells[4].Paragraphs.First().Append("Satuan");
+                table.Rows[indexRow].Cells[5].Paragraphs.First().Append("Harga");
+                table.Rows[indexRow].Cells[6].Paragraphs.First().Append("Jumlah");
+                indexRow++;
+                decimal subtotal = 0;
+                decimal totalall = 0;
+                foreach (var item in oPODetail)
+                {
+                    table.Rows[indexRow].Cells[0].Paragraphs.First().Append(indexRow.ToString());
+                    table.Rows[indexRow].Cells[1].Paragraphs.First().Append(item.Kode == null ? "" : item.Kode.ToString());
+                    table.Rows[indexRow].Cells[2].Paragraphs.First().Append(item.NamaBarang == null ? "" : item.NamaBarang.ToString());
+                    table.Rows[indexRow].Cells[2].Width = 10;
+                    table.Rows[indexRow].Cells[3].Paragraphs.First().Append(Convert.ToInt32(item.Banyak).ToString() == null ? "" : Convert.ToInt32(item.Banyak).ToString());
+                    table.Rows[indexRow].Cells[4].Paragraphs.First().Append(item.Satuan == null ? "" : item.Satuan.ToString());
+                    table.Rows[indexRow].Cells[5].Paragraphs.First().Append(item.Harga == null ? "" : item.Harga.Value.ToString("C", MyConverter.formatCurrencyIndo()));
+                    decimal? jumlah = item.Banyak * item.Harga;
+                    table.Rows[indexRow].Cells[6].Paragraphs.First().Append(jumlah == null ? "" : jumlah.Value.ToString("C", MyConverter.formatCurrencyIndo()));
+                    subtotal = subtotal + jumlah.Value;
+                    totalall = totalall + jumlah.Value;
+                    indexRow++;
+                }
+                doc.ReplaceText("{total}", totalall.ToString("C", MyConverter.formatCurrencyIndo()));
+
+                // Insert table at index where tag #TABLE# is in document.
+                //doc.InsertTable(table);
+                foreach (var paragraph in doc.Paragraphs)
+                {
+                    paragraph.FindAll("{tabel}").ForEach(index => paragraph.InsertTableAfterSelf((table)));
+                }
+                //Remove tag
+                doc.ReplaceText("{tabel}", "");
+
+                doc.SaveAs(OutFileNama);
+                streamx.Close();
+            }
+            catch
+            {
+                streamx.Close();
+            }
+
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(OutFileNama, FileMode.Open);
+            result.Content = new StreamContent(stream);
+            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = outputFileName
+            };
+
             return result;
         }
     }

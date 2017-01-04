@@ -21,6 +21,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         DataTablePO List(string search, int start, int limit, string NoPO);
         DataTablePODetail ListItem(string search, int start, int limit, Guid POId);
         VWPO detail(Guid Id, Guid UserId);
+        List<VWPODetail> podetail(Guid Id, Guid UserId);
         ResultMessage save(PO po, Guid UserId);
         ResultMessage saveItem(PODetail PODetail, Guid UserId);
         ResultMessage saveDokumen(DokumenPO data, Guid UserId);
@@ -136,13 +137,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 dtTable.data = data.Select(d => new VWPODetail
                 {
                     Id = d.Id,
-                    POId=d.POId,
-                    NamaBarang=d.NamaBarang,
-                    Kode=d.Kode,
-                    Harga=d.Harga,
-                    Deskripsi=d.Deskripsi,
-                    Banyak=d.Banyak,
-                    Satuan=d.Satuan
+                    POId = d.POId,
+                    NamaBarang = d.NamaBarang,
+                    Kode = d.Kode,
+                    Harga = d.Harga,
+                    Deskripsi = d.Deskripsi,
+                    Banyak = d.Banyak,
+                    Satuan = d.Satuan,
                 }).ToList();
 
             }
@@ -154,13 +155,25 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return ctx.POs.Where(d => d.Id == Id).Select(d => new VWPO()
             {
                 Id=d.Id,
-                NilaiPO=d.NilaiPO,
-                NoPO=d.NoPO,
+                NilaiPO= d.PODetail.Sum(dd => dd.Banyak * dd.Harga),
+                NoPO =d.NoPO,
                 Prihal=d.Prihal,
                 TanggalPO=d.TanggalPO,
                 UP=d.UP,
                 Vendor=d.Vendor,
             }).FirstOrDefault();
+        }
+
+        public List<VWPODetail> podetail(Guid Id, Guid UserId) {
+            return ctx.PODetails.Where(d => d.POId == Id).Select(
+                d => new VWPODetail() {
+                    Kode = d.Kode,
+                    NamaBarang = d.NamaBarang,
+                    Banyak = d.Banyak,
+                    Satuan = d.Satuan,
+                    Harga = d.Harga,
+                    Jumlah = d.Banyak * d.Harga,
+                }).ToList();
         }
 
         public ResultMessage save(PO po, Guid UserId)

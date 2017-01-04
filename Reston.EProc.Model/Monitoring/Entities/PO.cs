@@ -51,6 +51,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public Guid? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public virtual PO PO { get; set; }
+        public virtual ICollection<PODetail> PODetails { get; set; }
     }
 
     public class DataTablePO
@@ -93,6 +94,12 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public decimal? Banyak { get; set; }
         public string Satuan { get; set; }
         public decimal? Harga { get; set; }
+        public decimal? Jumlah { get; set; }
+        public decimal? Subtotal { get; set; }
+        public decimal? Discount { get; set; }
+        public decimal? PPH { get; set; }
+        public decimal? DPP { get; set; }
+        public decimal? PPN { get; set; }
         public decimal? Deskripsi { get; set; }
     }
 

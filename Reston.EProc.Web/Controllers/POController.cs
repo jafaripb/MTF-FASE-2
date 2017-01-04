@@ -128,9 +128,11 @@ namespace Reston.Pinata.WebService.Controllers
           {
               var ndata = new PO();
               ndata.Id = data.Id;
+              ndata.NoPO = data.NoPO;
               ndata.Keterangan = data.Keterangan;
               ndata.Prihal = data.Prihal;
               ndata.UP = data.UP;
+              ndata.NilaiPO = data.NilaiPO;
               ndata.Vendor = data.Vendor;
 
               if (!string.IsNullOrEmpty(data.TanggalPOstr) )

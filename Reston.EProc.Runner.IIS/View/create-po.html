@@ -80,8 +80,9 @@
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
-                            <li><a  title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>                           
-                            <li><a  id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
+                            <li><a href="#" id="cetak-po" title="Cetak"><i class="fa fa-fw fa-print " style="font-size:20px;"></i>Cetak</a></li>
+                            <li><a title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                            <li><a id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -156,7 +157,7 @@
                                             <label class="title">No. PO:</label>
                                             <input type="text" id="no-po" class="form-control" disabled> 
                                             <span class="input-group-btn">
-                                               <button  class="btn btn-primary ge-no-po" type="button">Genarate No PO</button>  
+                                               <button  class="btn btn-primary ge-no-po" type="button">Generate No PO</button>  
                                             </span>  
                                         </div>
                                     </div>
@@ -169,7 +170,13 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label class="title">Nilai PO:</label>
-                                            <input class="form-control" type="text" disabled>
+                                            <input id="nilai-po" class="form-control" type="text" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label class="title">UP:</label>
+                                            <input id="up" class="form-control" type="text">
                                         </div>
                                     </div>
                                      <div class="row">

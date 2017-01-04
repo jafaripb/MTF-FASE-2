@@ -315,6 +315,13 @@
                     },
                     {
                         "render": function (data, type, row) {
+                            return accounting.formatNumber(row.NilaiPO, { thousand: ".", decimal: ",", precision: 2 });
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
                             return ' <a href="create-po.html?id=' + row.Id + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
                         },
 

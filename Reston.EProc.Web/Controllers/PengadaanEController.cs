@@ -2735,9 +2735,7 @@ namespace Reston.Pinata.WebService.Controllers
                     beritaAcara.VendorId = item.VendorId;
                     var SaveBeritaAcara = _repository.addBeritaAcara(beritaAcara, UserId());
                     if (SaveBeritaAcara != null)
-                        lstBeritaAcara.Add(SaveBeritaAcara);
-
-                  
+                        lstBeritaAcara.Add(SaveBeritaAcara); 
                 }
                 return new ResultMessage()
                 {
