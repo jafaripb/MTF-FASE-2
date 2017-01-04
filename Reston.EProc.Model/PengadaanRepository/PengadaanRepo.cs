@@ -1771,26 +1771,28 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 {
                     oSpk = new Spk();
 
-                    oSpk.CreateOn = DateTime.Now;
-                    oSpk.CreateBy = UserId;
-                    oSpk.PemenangPengadaanId = pemenang.Id;
-                    oSpk.Title = "SPK Pertama Untuk Pengadaan " + pemenang.Pengadaan.Judul;
-                    oSpk.StatusSpk = StatusSpk.Aktif;
-                    oSpk.NoSPk = oNoberita == null ? "" : oNoberita.NoBeritaAcara;
-                    if (oNoberita.tanggal!=null)
-                        oSpk.TanggalSPK =  oNoberita.tanggal ;
-                    oSpk.DokumenPengadaanId = dokumenPengadaan.Id;
-                    ctx.Spk.Add(oSpk);
+                    if (oNoberita.Tipe == TipeBerkas.SuratPerintahKerja) {
+                        oSpk.CreateOn = DateTime.Now;
+                        oSpk.CreateBy = UserId;
+                        oSpk.PemenangPengadaanId = pemenang.Id;
+                        oSpk.Title = "SPK Pertama Untuk Pengadaan " + pemenang.Pengadaan.Judul;
+                        oSpk.StatusSpk = StatusSpk.Aktif;
+                        oSpk.NoSPk = oNoberita == null ? "" : oNoberita.NoBeritaAcara;
+                        if (oNoberita.tanggal != null)
+                            oSpk.TanggalSPK = oNoberita.tanggal;
+                        oSpk.DokumenPengadaanId = dokumenPengadaan.Id;
+                        ctx.Spk.Add(oSpk);
 
-                    var newDokSpk = new DokumenSpk();
-                    newDokSpk.SpkId = oSpk.Id;
-                    newDokSpk.SizeFile = dokumenPengadaan.SizeFile;
-                    newDokSpk.File = dokumenPengadaan.File;
-                    newDokSpk.CreateBy = UserId;
-                    newDokSpk.CreateOn = DateTime.Now;
-                    newDokSpk.Title = dokumenPengadaan.Title;
-                    newDokSpk.ContentType = dokumenPengadaan.ContentType;
-                    ctx.DokumenSpk.Add(newDokSpk);
+                        var newDokSpk = new DokumenSpk();
+                        newDokSpk.SpkId = oSpk.Id;
+                        newDokSpk.SizeFile = dokumenPengadaan.SizeFile;
+                        newDokSpk.File = dokumenPengadaan.File;
+                        newDokSpk.CreateBy = UserId;
+                        newDokSpk.CreateOn = DateTime.Now;
+                        newDokSpk.Title = dokumenPengadaan.Title;
+                        newDokSpk.ContentType = dokumenPengadaan.ContentType;
+                        ctx.DokumenSpk.Add(newDokSpk);
+                    }
                 }
                 else
                 {
