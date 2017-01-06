@@ -1,4 +1,4 @@
-﻿@model IList<MTF_x.Models.AnnouncementPengadaan>
+﻿@model IList<Reston.Pinata.Model.PengadaanRepository.Pengadaan>
 @{
     ViewBag.Title = "FindData";
 }
@@ -80,7 +80,7 @@
                                                     <td>
                                                        
                                                         @{
-                                                            var xx = item.AkhirPendaftaran == null ? "" : item.AkhirPendaftaran.Value.ToString("dd-MM-yyyy HH:mm:ss");
+                                                             var xx = item.JadwalPengadaans.FirstOrDefault() == null ? "" : item.JadwalPengadaans.FirstOrDefault().Sampai.Value.ToString("dd-MM-yyyy HH:mm:ss");
                                                             @xx
                                                         }
                                                     </td>

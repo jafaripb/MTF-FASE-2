@@ -163,7 +163,6 @@
     <Content Include="View\create-pks.html" />
     <Content Include="View\daftar-hitam.html" />
     <Content Include="View\dist\js\rks-klarifikasi-lanjutan.js" />
-    <Content Include="View\dist\js\Copy %283%29 of rks-klarifikasi.js" />
     <Content Include="View\dist\js\create-po.js" />
     <Content Include="View\dist\js\create-spk.js" />
     <Content Include="View\dist\js\create-pks.js" />
