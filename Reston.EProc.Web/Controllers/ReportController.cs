@@ -2452,6 +2452,18 @@ namespace Reston.Pinata.WebService.Controllers
                     totalall = totalall + jumlah.Value;
                     indexRow++;
                 }
+
+                doc.ReplaceText("{periodedari}", potemplate.PeriodeDari==null?"": potemplate.PeriodeDari.Value.Day.ToString()+ Common.ConvertNamaBulan(potemplate.PeriodeDari.Value.Month) + potemplate.PeriodeDari.Value.Year);
+                doc.ReplaceText("{periodesampai}", potemplate.PeriodeSampai == null ? "" : potemplate.PeriodeSampai.Value.Day.ToString() + Common.ConvertNamaBulan(potemplate.PeriodeSampai.Value.Month) + potemplate.PeriodeSampai.Value.Year);
+                doc.ReplaceText("{atasnama}", potemplate.AtasNama == null ? "" : potemplate.AtasNama);
+                doc.ReplaceText("{namabank}", potemplate.NamaBank == null ? "" : potemplate.NamaBank);
+                doc.ReplaceText("{norekening}", potemplate.NoRekening == null ? "" : potemplate.NoRekening);
+                doc.ReplaceText("{alamatpengirimanbarang}", potemplate.AlamatPengirimanBarang == null ? "" : potemplate.AlamatPengirimanBarang);
+                doc.ReplaceText("{upalamatpengirimanbarang}", potemplate.UPPengirimanBarang == null ? "" : potemplate.UPPengirimanBarang);
+                doc.ReplaceText("{alamatkwitansi}", potemplate.AlamatKwitansi == null ? "" : potemplate.AlamatKwitansi);
+                doc.ReplaceText("{npwp}", potemplate.NPWP == null ? "" : potemplate.NPWP);
+                doc.ReplaceText("{alamatpengirimankwitansi}", potemplate.AlamatPengirimanKwitansi == null ? "" : potemplate.AlamatPengirimanKwitansi);
+                doc.ReplaceText("{uppengirimankwitansi}", potemplate.UPPengirimanKwitansi == null ? "" : potemplate.UPPengirimanKwitansi);
                 doc.ReplaceText("{total}", totalall.ToString("C", MyConverter.formatCurrencyIndo()));
 
                 // Insert table at index where tag #TABLE# is in document.

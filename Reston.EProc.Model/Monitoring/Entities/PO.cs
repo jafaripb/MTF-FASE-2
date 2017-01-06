@@ -19,10 +19,23 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public Guid Id { get; set; }
         public string Prihal { get; set; }
         public string Vendor { get; set; }
-        public string UP { get; set; }
         public string NoPO { get; set; }
         public DateTime? TanggalPO { get; set; }
         public decimal? NilaiPO { get; set; }
+        public string UP { get; set; }
+        public DateTime? PeriodeDari { get; set; }
+        public DateTime? PeriodeSampai { get; set; }
+        public string NamaBank { get; set; }
+        public string AtasNama { get; set; }
+        public string NoRekening { get; set; }
+        public string AlamatPengirimanBarang { get; set; }
+        public string UPPengirimanBarang { get; set; }
+        public string AlamatKwitansi { get; set; }
+        public string NPWP { get; set; }
+        public string AlamatPengirimanKwitansi { get; set; }
+        public string UPPengirimanKwitansi { get; set; }
+        public Decimal? Discount { get; set; }
+        public decimal? PPN { get; set; }
         public string Keterangan { get; set; }
         public Guid? CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
@@ -67,11 +80,26 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public Guid Id { get; set; }
         public string Prihal { get; set; }
         public string Vendor { get; set; }
-        public string UP { get; set; }
-        public string NoPO { get; set; } 
+        public string NoPO { get; set; }
         public DateTime? TanggalPO { get; set; }
         public string TanggalPOstr { get; set; }
         public decimal? NilaiPO { get; set; }
+        public string UP { get; set; }
+        public DateTime? PeriodeDari { get; set; }
+        public string PeriodeDaristr { get; set; }
+        public DateTime? PeriodeSampai { get; set; }
+        public string PeriodeSampaistr { get; set; }
+        public string NamaBank { get; set; }
+        public string AtasNama { get; set; }
+        public string NoRekening { get; set; }
+        public string AlamatPengirimanBarang { get; set; }
+        public string UPPengirimanBarang { get; set; }
+        public string AlamatKwitansi { get; set; }
+        public string NPWP { get; set; }
+        public string AlamatPengirimanKwitansi { get; set; }
+        public string UPPengirimanKwitansi { get; set; }
+        public Decimal? Discount { get; set; }
+        public Decimal? PPN { get; set; }
         public string Keterangan { get; set; }
         public string Created { get; set; }
         public Guid? CreatedId { get; set; }

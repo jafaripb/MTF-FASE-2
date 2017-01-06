@@ -163,7 +163,6 @@
     <Content Include="View\create-pks.html" />
     <Content Include="View\daftar-hitam.html" />
     <Content Include="View\dist\js\rks-klarifikasi-lanjutan.js" />
-    <Content Include="View\dist\js\Copy %283%29 of rks-klarifikasi.js" />
     <Content Include="View\dist\js\create-po.js" />
     <Content Include="View\dist\js\create-spk.js" />
     <Content Include="View\dist\js\create-pks.js" />
@@ -178,6 +177,7 @@
     <Content Include="View\pengadaan-detail-terbuka.html" />
     <Content Include="View\repository.html" />
     <Content Include="View\rks-penilaian-buka-amplop.html" />
+    <Content Include="View\CetakPOPDF.html" />
     <Content Include="View\spk.html" />
     <Content Include="View\rekanan-monitoring.html" />
     <Content Include="View\pks.html" />

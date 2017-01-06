@@ -154,13 +154,27 @@ namespace Reston.Pinata.Model.PengadaanRepository
         {
             return ctx.POs.Where(d => d.Id == Id).Select(d => new VWPO()
             {
-                Id=d.Id,
-                NilaiPO= d.PODetail.Sum(dd => dd.Banyak * dd.Harga),
-                NoPO =d.NoPO,
-                Prihal=d.Prihal,
-                TanggalPO=d.TanggalPO,
-                UP=d.UP,
-                Vendor=d.Vendor,
+                Id          = d.Id,
+                Prihal      = d.Prihal,
+                Vendor      = d.Vendor,
+                NoPO        = d.NoPO,
+                TanggalPO   = d.TanggalPO,
+                NilaiPO     = d.PODetail.Sum(dd => dd.Banyak * dd.Harga),
+                UP          = d.UP,
+                PeriodeDari   = d.PeriodeDari,
+                PeriodeSampai = d.PeriodeSampai,
+                NamaBank    = d.NamaBank,
+                AtasNama    = d.AtasNama,
+                NoRekening  = d.NoRekening,
+                AlamatPengirimanBarang  = d.AlamatPengirimanBarang,
+                UPPengirimanBarang      = d.UPPengirimanBarang,
+                AlamatKwitansi          = d.AlamatKwitansi,
+                NPWP        = d.NPWP,
+                AlamatPengirimanKwitansi = d.AlamatPengirimanKwitansi,
+                UPPengirimanKwitansi     = d.UPPengirimanKwitansi,
+                Discount    = d.Discount.Value,
+                PPN         = d.PPN.Value,
+
             }).FirstOrDefault();
         }
 
@@ -184,13 +198,26 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
                 if (data != null)
                 {
-
                     data.Prihal = po.Prihal;
-                    data.TanggalPO = po.TanggalPO;
                     data.Vendor = po.Vendor;
-                    data.NilaiPO = po.NilaiPO;
                     data.NoPO = po.NoPO;
+                    data.TanggalPO = po.TanggalPO;
+                    data.NilaiPO = po.NilaiPO;
                     data.UP = po.UP;
+                    data.PeriodeDari = po.PeriodeDari;
+                    data.PeriodeSampai = po.PeriodeSampai;
+                    data.NamaBank = po.NamaBank;
+                    data.AtasNama = po.AtasNama;
+                    data.NoRekening = po.NoRekening;
+                    data.AlamatPengirimanBarang = po.AlamatPengirimanBarang;
+                    data.UPPengirimanBarang = po.UPPengirimanBarang;
+                    data.AlamatKwitansi = po.AlamatKwitansi;
+                    data.NPWP = po.NPWP;
+                    data.AlamatPengirimanKwitansi = po.AlamatPengirimanKwitansi;
+                    data.UPPengirimanKwitansi = po.UPPengirimanKwitansi;
+                    data.Discount = po.Discount;
+                    data.PPN = po.PPN;
+
                     data.CreatedBy = UserId;
                     data.CreatedOn = DateTime.Now;
                     ctx.SaveChanges(UserId.ToString());

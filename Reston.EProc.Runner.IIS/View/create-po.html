@@ -125,121 +125,234 @@
                 <div class="row">
                     <div class="col-md-10">
                         <div class="box box-primary box-white">
-                                <input type="hidden" id="Id" />
-                                <div class="box-body">
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <div id="notif">
-                                            </div>
+                            <input type="hidden" id="Id" />
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div id="notif">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="panel-header-white">
-                                                <span class="title-header" id="section-6">PO</span>
-                                            </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel-header-white">
+                                            <span class="title-header" id="section-6">PO</span>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-12">
-                                            <label class="title">Prihal:</label>
-                                            <input type="text" class="form-control" id="prihal">
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label class="title">Prihal:</label>
+                                        <input type="text" class="form-control" id="prihal">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Vendor:</label>
+                                        <input type="text" class="form-control" id="vendor">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">No. PO:</label>
+                                        <input type="text" id="no-po" class="form-control" disabled>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary ge-no-po" type="button">Generate No PO</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Tanggal PO:</label>
+                                        <input id="tanggal-po" type="text" class="tanggal-tahapan form-control input-group date">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Nilai PO:</label>
+                                        <input id="nilai-po" class="form-control" type="text" disabled>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">UP:</label>
+                                        <input id="up" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="panel-header-white">
+                                            <span class="title-header" id="Span1">Periode Sewa</span>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="title">Vendor:</label>
-                                            <input type="text" class="form-control" id="vendor">
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Periode Dari:</label>
+                                        <input id="periode-dari" type="text" class="form-control input-group date">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Periode Sampai:</label>
+                                        <input id="periode-sampai" type="text" class="form-control input-group date">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="panel-header-white">
+                                            <span class="title-header" id="Span1">Cara dan Syarat Pembayaran</span>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="title">No. PO:</label>
-                                            <input type="text" id="no-po" class="form-control" disabled> 
-                                            <span class="input-group-btn">
-                                               <button  class="btn btn-primary ge-no-po" type="button">Generate No PO</button>  
-                                            </span>  
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Bank:</label>
+                                        <select name="BankInfo.Nama" class="form-control select2 required" style="width: 100%;"></select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Atas Nama:</label>
+                                        <input id="atas-nama" class="form-control" type="text">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="title">No. Rekening:</label>
+                                        <input id="no-rekening" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class=" panel-header-white">
+                                            <span class="title-header" id="Span1">Alamat Pengiriman Barang</span>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="title">Tanggal PO:</label>
-                                            <input id="tanggal-po" type="text" class="tanggal-tahapan form-control input-group date">
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-8">
+                                        <label class="title">Alamat:</label>
+                                        <textarea class="form-control" id="alamat-pengiriman-barang"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">UP:</label>
+                                        <input id="up-pengiriman-barang" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class=" panel-header-white">
+                                            <span class="title-header" id="Span1">Kwitansi Atas Nama</span>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="title">Nilai PO:</label>
-                                            <input id="nilai-po" class="form-control" type="text" disabled>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-8">
+                                        <label class="title">Alamat:</label>
+                                        <textarea class="form-control" id="alamat-kwitansi"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">NPWP:</label>
+                                        <input id="npwp" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class=" panel-header-white">
+                                            <span class="title-header" id="Span1">Alamat Pengiriman Kwitansi</span>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="title">UP:</label>
-                                            <input id="up" class="form-control" type="text">
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-8">
+                                        <label class="title">Alamat:</label>
+                                        <textarea class="form-control" id="alamat-pengiriman-kwitansi"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">UP:</label>
+                                        <input id="up-pengiriman-kwitansi" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class=" panel-header-white">
+                                            <span class="title-header" id="Span1">PO Item</span>
                                         </div>
                                     </div>
-                                     <div class="row">
-                                        <div class="col-md-10">
-                                            <div class=" panel-header-white">
-                                                <span class="title-header" id="Span1">PO Item</span>
-                                            </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button class="btn btn-primary add-item" type="button">Tambah Barang</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered table-striped table-responsive" id="table-podetail" style="margin-top:20px; ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kode</th>
+                                                    <th>Nama Barang</th>
+                                                    <th>Banyak</th>
+                                                    <th>Satuan</th>
+                                                    <th>Harga</th>
+                                                    <th>Jumlah</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Discount (%):</label>
+                                        <input id="discount" class="form-control" type="text">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="title">PPN (%):</label>
+                                        <input id="ppn" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">PPH (%):</label>
+                                        <input id="pph" class="form-control" type="text">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="title">DPP (%):</label>
+                                        <input id="dpp" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class=" panel-header-white">
+                                            <span class="title-header" id="section-3">PO Dokumen</span>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-md-4">                                            
-                                                <button  class="btn btn-primary add-item" type="button">Tambah Barang</button>  
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <table class="table table-bordered table-striped table-responsive" id="table-podetail" style="margin-top:20px; ">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Kode</th>
-                                                        <th>Nama Barang</th>
-                                                        <th>Banyak</th>
-                                                        <th>Satuan</th>
-                                                        <th>Harga</th>
-                                                        <th>Jumlah</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <div class=" panel-header-white">
-                                                <span class="title-header" id="section-3">PO Dokumen</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                         <div class="col-md-8">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label class="title">Unggah PO</label>
-                                                        <div id="DOKPO" attr="PKS" action="/api/PO/UploadFile" class="dropzone"></div>
-                                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="title">Unggah PO</label>
+                                                    <div id="DOKPO" attr="PKS" action="/api/PO/UploadFile" class="dropzone"></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section><!-- /.content -->
         </div>
-        <aside class="control-sidebar control-sidebar-light control-sidebar-open">
-        </aside>
+        <aside class="control-sidebar control-sidebar-light control-sidebar-open"></aside>
         <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-     <div class="modal" id="konfirmasiFile" role="dialog" FileId="" attr1="" aria-hidden="true">
+    <div class="modal" id="konfirmasiFile" role="dialog" FileId="" attr1="" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -255,94 +368,94 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-      <div class="modal" id="item-modal" role="dialog" aria-hidden="true">
-      <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-		    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		    <h4 class="modal-title">Form Tambah Barang</h4>
-              <div class="modal-body"> 
-                  <div class="row">
-                        <div class="col-md-12">
-                            <form role="form" class="jp-form">
-                                <input type="hidden" id="itemId" />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Kode</label>
-                                            <div class="col-sm-6">
-                                                <input id="kode" type="text" class="form-control " placeholder="Kode">
+    <div class="modal" id="item-modal" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Form Tambah Barang</h4>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form role="form" class="jp-form">
+                                    <input type="hidden" id="itemId" />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Kode</label>
+                                                <div class="col-sm-6">
+                                                    <input id="kode" type="text" class="form-control " placeholder="Kode">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Nama Barang</label>
-                                            <div class="col-sm-6">
-                                                 <input id="nama-barang" type="text" class="form-control " placeholder="NamaBarang">
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Nama Barang</label>
+                                                <div class="col-sm-6">
+                                                    <input id="nama-barang" type="text" class="form-control " placeholder="NamaBarang">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Banyak</label>
-                                            <div class="col-sm-6">
-                                                 <input id="banyak" type="text" class="form-control " placeholder="Banyak">
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Banyak</label>
+                                                <div class="col-sm-6">
+                                                    <input id="banyak" type="text" class="form-control " placeholder="Banyak">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Satuan</label>
-                                            <div class="col-sm-6">
-                                                 <input id="satuan" type="text" class="form-control " placeholder="Satuan">
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Satuan</label>
+                                                <div class="col-sm-6">
+                                                    <input id="satuan" type="text" class="form-control " placeholder="Satuan">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Harga</label>
-                                            <div class="col-sm-6">
-                                                 <input id="harga" type="text" class="form-control " placeholder="Harga">
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Harga</label>
+                                                <div class="col-sm-6">
+                                                    <input id="harga" type="text" class="form-control " placeholder="Harga">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">Jumlah</label>
-                                            <div class="col-sm-6">
-                                                 <input id="jumlah" disabled type="text" class="form-control " placeholder="Jumlah">
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Jumlah</label>
+                                                <div class="col-sm-6">
+                                                    <input id="jumlah" disabled type="text" class="form-control " placeholder="Jumlah">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <br />
-                            </form>
+                                    <br />
+                                </form>
+                            </div>
                         </div>
                     </div>
-               </div>
-	      </div>
-	      <div class="modal-footer">
-             <button type="button" class="btn btn-default save-item" data-toggle="tooltip" title="Save" >Save</button>	
-              <button type="button" class="btn btn-default close-item-form" data-dismiss="modal" data-toggle="tooltip" title="Keluar">Close</button>
-	      </div>
-	    </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default save-item" data-toggle="tooltip" title="Save">Save</button>
+                    <button type="button" class="btn btn-default close-item-form" data-dismiss="modal" data-toggle="tooltip" title="Keluar">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     <!--endviewr-->
     <!-- jQuery 2.1.4 -->
@@ -379,7 +492,20 @@
     <script src="dropzone.js"></script>
     <script src="dist/js/create-po.js"></script>
     <script>
-        
+        function validateForm() {
+            $("#alert-validation-error").hide();
+            $('.form-validation-error').removeClass('form-validation-error');
+            var v = true;
+            if ($("[name='BankInfo.Nama']").val() == '') {
+                $("[name='BankInfo.Nama']").addClass('form-validation-error');
+                v = false;
+            }
+            if (!v) {
+                $("form .form-validation-error").first().focus();
+                $("#alert-validation-error").show();
+            }
+            return v;
+        }
     </script>
 </body>
 </html>
