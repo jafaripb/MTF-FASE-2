@@ -126,55 +126,27 @@ namespace Reston.Pinata.WebService.Controllers
       {
           try
           {
-                var ndata = new PO();
-                ndata.Id = data.Id;
-                ndata.Prihal = data.Prihal;
-                ndata.Vendor = data.Vendor;
-                ndata.NoPO = data.NoPO;
-                ndata.Keterangan = data.Keterangan;
-                ndata.NilaiPO = data.NilaiPO;
-                ndata.UP = data.UP;
-                ndata.NamaBank = data.NamaBank;
-                ndata.AtasNama = data.AtasNama;
-                ndata.NoRekening = data.NoRekening;
-                ndata.AlamatPengirimanBarang = data.AlamatPengirimanBarang;
-                ndata.UPPengirimanBarang = data.UPPengirimanBarang;
-                ndata.AlamatKwitansi = data.AlamatKwitansi;
-                ndata.NPWP = data.NPWP;
-                ndata.AlamatPengirimanKwitansi = data.AlamatPengirimanKwitansi;
-                ndata.UPPengirimanKwitansi = data.UPPengirimanKwitansi;
-                ndata.Discount = data.Discount;
-                ndata.PPN = data.PPN;
+              var ndata = new PO();
+              ndata.Id = data.Id;
+              ndata.Keterangan = data.Keterangan;
+              ndata.Prihal = data.Prihal;
+              ndata.UP = data.UP;
+              ndata.Vendor = data.Vendor;
 
-                if (!string.IsNullOrEmpty(data.TanggalPOstr) )
-                {
-                    try
-                    {
-                        ndata.TanggalPO = Common.ConvertDate(data.TanggalPOstr, "dd/MM/yyyy");
-                    }
-                    catch { }
-                }
-                if (!string.IsNullOrEmpty(data.PeriodeDaristr))
-                {
-                    try
-                    {
-                        ndata.PeriodeDari = Common.ConvertDate(data.PeriodeDaristr, "dd/MM/yyyy");
-                    }
-                    catch { }
-                }
-                if (!string.IsNullOrEmpty(data.PeriodeSampaistr))
-                {
-                    try
-                    {
-                        ndata.PeriodeSampai = Common.ConvertDate(data.PeriodeSampaistr, "dd/MM/yyyy");
-                    }
-                    catch { }
-                }
-                return Json(_repository.save(ndata, UserId()));
+              if (!string.IsNullOrEmpty(data.TanggalPOstr) )
+              {
+                  try
+                  {
+                      ndata.TanggalPO = Common.ConvertDate(data.TanggalPOstr, "dd/MM/yyyy");
+                  }
+                  catch { }
+                 
+              }
+              return Json(_repository.save(ndata, UserId()));
           }
           catch (Exception ex)
           {
-                return Json(new VWPO());
+              return Json(new VWPO());
           }
       }
 

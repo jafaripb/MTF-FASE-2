@@ -183,6 +183,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
         JadwalPelaksanaan GetJadwalPelaksanaan(Guid PengadaanId, Guid UserId, EStatusPengadaan status);
         PersetujuanTahapan SavePersetujuanTahapan(PersetujuanTahapan data, Guid UserId);
         List<VWPersetujuanTahapan> GetPersetujuanTahapan(Guid PengadaanId, EStatusPengadaan status);
+
+
+        //pengadaan Terbuka
+        PelaksanaanPemilihanKandidat addKandidatPilihanVendor(PelaksanaanPemilihanKandidat oPelaksanaanPemilihanKandidat, Guid UserId);
+        List<Pengadaan> GetPengadaanAnnouncment();
     }
     public class PengadaanRepo : IPengadaanRepo
     {
@@ -5325,6 +5330,38 @@ namespace Reston.Pinata.Model.PengadaanRepository
         }
 
        
+        #endregion
+
+        #region pengadaanTerbuka
+        public PelaksanaanPemilihanKandidat addKandidatPilihanVendor(PelaksanaanPemilihanKandidat oPelaksanaanPemilihanKandidat,Guid UserId)
+        {
+            Pengadaan Mpengadaaan = ctx.Pengadaans.Find(oPelaksanaanPemilihanKandidat.PengadaanId);
+
+            PelaksanaanPemilihanKandidat oldoPelaksanaanPemilihanKandidat =
+                    ctx.PelaksanaanPemilihanKandidats.Where(d => d.PengadaanId == oPelaksanaanPemilihanKandidat.PengadaanId
+                                    && d.VendorId == oPelaksanaanPemilihanKandidat.VendorId).FirstOrDefault();
+            if (oldoPelaksanaanPemilihanKandidat == null)
+            {
+                oPelaksanaanPemilihanKandidat.CreatedBy = UserId;
+                oPelaksanaanPemilihanKandidat.CreatedDate = DateTime.Now;
+                ctx.PelaksanaanPemilihanKandidats.Add(oPelaksanaanPemilihanKandidat);
+            }
+            else ctx.PelaksanaanPemilihanKandidats.Remove(oldoPelaksanaanPemilihanKandidat);
+            ctx.SaveChanges();
+            return oPelaksanaanPemilihanKandidat;
+        }
+
+        public List<Pengadaan> GetPengadaanAnnouncment()
+        {
+            return (from b in ctx.Pengadaans
+                      join c in ctx.JadwalPengadaans on b.Id equals c.PengadaanId
+                    where b.AturanPengadaan == "Pengadaan Terbuka" && c.Sampai >= DateTime.Now && c.Mulai <=DateTime.Now
+                     && b.GroupPengadaan==EGroupPengadaan.DALAMPELAKSANAAN
+                     select b).Distinct().ToList();
+                      
+                      
+                      //ctx.Pengadaans.Where(d => d.AturanPengadaan == "Pengadaan Terbuka" && d.GroupPengadaan == EGroupPengadaan.DALAMPELAKSANAAN && d.JadwalPengadaans.Where(dd => dd.Sampai <= DateTime.Now && dd.Mulai >= DateTime.Now && dd.tipe == PengadaanConstants.Jadwal.Pendaftaran).Count() > 0).ToList();
+        }
         #endregion
     }
 }

@@ -21,7 +21,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
         DataTablePO List(string search, int start, int limit, string NoPO);
         DataTablePODetail ListItem(string search, int start, int limit, Guid POId);
         VWPO detail(Guid Id, Guid UserId);
-        List<VWPODetail> podetail(Guid Id, Guid UserId);
         ResultMessage save(PO po, Guid UserId);
         ResultMessage saveItem(PODetail PODetail, Guid UserId);
         ResultMessage saveDokumen(DokumenPO data, Guid UserId);
@@ -137,13 +136,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 dtTable.data = data.Select(d => new VWPODetail
                 {
                     Id = d.Id,
-                    POId = d.POId,
-                    NamaBarang = d.NamaBarang,
-                    Kode = d.Kode,
-                    Harga = d.Harga,
-                    Deskripsi = d.Deskripsi,
-                    Banyak = d.Banyak,
-                    Satuan = d.Satuan,
+                    POId=d.POId,
+                    NamaBarang=d.NamaBarang,
+                    Kode=d.Kode,
+                    Harga=d.Harga,
+                    Deskripsi=d.Deskripsi,
+                    Banyak=d.Banyak,
+                    Satuan=d.Satuan
                 }).ToList();
 
             }
@@ -154,40 +153,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
         {
             return ctx.POs.Where(d => d.Id == Id).Select(d => new VWPO()
             {
-                Id          = d.Id,
-                Prihal      = d.Prihal,
-                Vendor      = d.Vendor,
-                NoPO        = d.NoPO,
-                TanggalPO   = d.TanggalPO,
-                NilaiPO     = d.PODetail.Sum(dd => dd.Banyak * dd.Harga),
-                UP          = d.UP,
-                PeriodeDari   = d.PeriodeDari,
-                PeriodeSampai = d.PeriodeSampai,
-                NamaBank    = d.NamaBank,
-                AtasNama    = d.AtasNama,
-                NoRekening  = d.NoRekening,
-                AlamatPengirimanBarang  = d.AlamatPengirimanBarang,
-                UPPengirimanBarang      = d.UPPengirimanBarang,
-                AlamatKwitansi          = d.AlamatKwitansi,
-                NPWP        = d.NPWP,
-                AlamatPengirimanKwitansi = d.AlamatPengirimanKwitansi,
-                UPPengirimanKwitansi     = d.UPPengirimanKwitansi,
-                Discount    = d.Discount.Value,
-                PPN         = d.PPN.Value,
-
+                Id=d.Id,
+                NilaiPO=d.NilaiPO,
+                NoPO=d.NoPO,
+                Prihal=d.Prihal,
+                TanggalPO=d.TanggalPO,
+                UP=d.UP,
+                Vendor=d.Vendor,
             }).FirstOrDefault();
-        }
-
-        public List<VWPODetail> podetail(Guid Id, Guid UserId) {
-            return ctx.PODetails.Where(d => d.POId == Id).Select(
-                d => new VWPODetail() {
-                    Kode = d.Kode,
-                    NamaBarang = d.NamaBarang,
-                    Banyak = d.Banyak,
-                    Satuan = d.Satuan,
-                    Harga = d.Harga,
-                    Jumlah = d.Banyak * d.Harga,
-                }).ToList();
         }
 
         public ResultMessage save(PO po, Guid UserId)
@@ -198,26 +171,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
                 if (data != null)
                 {
-                    data.Prihal = po.Prihal;
-                    data.Vendor = po.Vendor;
-                    data.NoPO = po.NoPO;
-                    data.TanggalPO = po.TanggalPO;
-                    data.NilaiPO = po.NilaiPO;
-                    data.UP = po.UP;
-                    data.PeriodeDari = po.PeriodeDari;
-                    data.PeriodeSampai = po.PeriodeSampai;
-                    data.NamaBank = po.NamaBank;
-                    data.AtasNama = po.AtasNama;
-                    data.NoRekening = po.NoRekening;
-                    data.AlamatPengirimanBarang = po.AlamatPengirimanBarang;
-                    data.UPPengirimanBarang = po.UPPengirimanBarang;
-                    data.AlamatKwitansi = po.AlamatKwitansi;
-                    data.NPWP = po.NPWP;
-                    data.AlamatPengirimanKwitansi = po.AlamatPengirimanKwitansi;
-                    data.UPPengirimanKwitansi = po.UPPengirimanKwitansi;
-                    data.Discount = po.Discount;
-                    data.PPN = po.PPN;
 
+                    data.Prihal = po.Prihal;
+                    data.TanggalPO = po.TanggalPO;
+                    data.Vendor = po.Vendor;
+                    data.NilaiPO = po.NilaiPO;
+                    data.NoPO = po.NoPO;
+                    data.UP = po.UP;
                     data.CreatedBy = UserId;
                     data.CreatedOn = DateTime.Now;
                     ctx.SaveChanges(UserId.ToString());

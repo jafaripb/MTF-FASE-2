@@ -134,10 +134,7 @@ namespace Reston.Pinata.Model.Helper
             return str2;
         }
 
-        public static string ConvertDate(DateTime? tanggalPO, string v)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
     public static class Cultures
