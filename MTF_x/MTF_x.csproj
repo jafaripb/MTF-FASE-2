@@ -188,12 +188,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Helper\AppUser.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helper\AppUser.cs" />
     <Compile Include="Helper\Constants.cs" />
     <Compile Include="Helper\EndpointAndTokenHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />

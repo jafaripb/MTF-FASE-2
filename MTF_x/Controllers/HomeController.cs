@@ -101,7 +101,12 @@ namespace MTF_x.Controllers
             string status="";
             var pengadaan = _repository.GetPengadaan(id, UserId(), 0);
             var vendor = _repositoryVendor.GetVendorByUser(UserId());
-            if(vendor==null)status="Vendor Tidak Terdaftar";
+            if (vendor == null)
+            {
+                status = "Vendor Tidak Terdaftar";
+                ViewBag.status = status;
+                return View();
+            }
             PelaksanaanPemilihanKandidat ndata=new PelaksanaanPemilihanKandidat();
             ndata.PengadaanId=id;
             ndata.VendorId=vendor.Id;
