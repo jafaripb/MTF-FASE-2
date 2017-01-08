@@ -539,6 +539,7 @@ $(function () {
         });
     });
 });
+
 function loadData(pengadaanId) {
     $.ajax({
         method: "POST",
@@ -798,11 +799,26 @@ function loadData(pengadaanId) {
         
         cekStep();
         cekLewati();
-        //$("#lihatHps").on("click", function () {
-        //    window.open("http://" + window.location.host + "/rks.html#" + $("#pengadaanId").val());
-        //}); 
+
+        if (data.isKlarifikasiLanjutan == 1) {
+            $(".panel-klarifikasi-lanjut").show();
+            $("#tambah-klarifikasi-lanjut").prop("checked", true);
+        }
+        else {
+            $(".panel-klarifikasi-lanjut").hide();
+            $("#tambah-klarifikasi-lanjut").prop("checked", false);
+        }
+        if (data.isPenilaian == 1) {
+            $(".panel-penilaian").show();
+            $("#tambah-penilaian").prop("checked", true);
+        }
+        else {
+            $(".panel-penilaian").hide();
+            $("#tambah-penilaian").prop("checked", false);
+        }
     });
 }
+
 function cekStep() {
     $(".next-step").each(function (index) {
         var statusPengadaan = $("#StatusName").val();
@@ -822,6 +838,7 @@ function cekLewati() {
         else $(this).removeAttr("disabled");
     });
 }
+
 function getPemenangVendor() {
     var result;
     $.ajax({
@@ -1103,4 +1120,3 @@ function StatusPemenang(Id) {
         }
     });
 }
-

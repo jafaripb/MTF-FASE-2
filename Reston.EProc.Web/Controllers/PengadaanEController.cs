@@ -2865,6 +2865,31 @@ namespace Reston.Pinata.WebService.Controllers
                 NextStatusPengadaan = (int)EStatusPengadaan.AANWIJZING;
             else NextStatusPengadaan = nextStatusMaping(oPengadaan.Status.Value); //NextStatusPengadaan + 1;
 
+            if (oPengadaan.Status == EStatusPengadaan.KLARIFIKASI)
+            {
+                var cekTambahTahapan = _repository.getTahapan(oPengadaan.Id);
+                if (cekTambahTahapan.Where(d=>d.Status==EStatusPengadaan.KLARIFIKASILANJUTAN).Count()>0)
+                {
+                    NextStatusPengadaan = (int)EStatusPengadaan.KLARIFIKASILANJUTAN;
+                }
+                if (cekTambahTahapan.Where(d => d.Status == EStatusPengadaan.PENILAIAN).Count() > 0)
+                {
+                    NextStatusPengadaan = (int)EStatusPengadaan.PENILAIAN;
+                }
+                else {
+                    NextStatusPengadaan = (int)EStatusPengadaan.PEMENANG;
+                }
+            }
+
+            if (oPengadaan.Status == EStatusPengadaan.KLARIFIKASILANJUTAN)
+            {
+                var cekTambahTahapan = _repository.getTahapan(oPengadaan.Id);
+                if (cekTambahTahapan.Where(d => d.Status == EStatusPengadaan.PENILAIAN).Count() > 0)
+                {
+                    NextStatusPengadaan = (int)EStatusPengadaan.PENILAIAN;
+                }
+            }
+
             return _repository.nextToStateWithChangeScheduldDate(Id, UserId(), (EStatusPengadaan)NextStatusPengadaan, dtDari,dtSamapi);
         }
 
@@ -3458,7 +3483,9 @@ namespace Reston.Pinata.WebService.Controllers
             return result;
         }
 
-        
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]      
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task<Reston.Helper.Util.ResultMessageWorkflowState> persetujuanPemenangWithNextApprover(Guid id, string Note, Guid userId)
         {
@@ -3571,12 +3598,16 @@ namespace Reston.Pinata.WebService.Controllers
                  StatusPengadaan = s,                 
                  Status = StatusTahapan.Approved
              };
+             
             var rData = _repository.SavePersetujuanTahapan(data,UserId());
             if (rData.Id == null) return Json(new ResultMessage()
             {
                 message=Common.Forbiden(),status=HttpStatusCode.Forbidden            
             });
-
+            if (s == EStatusPengadaan.BUKAAMPLOP)
+            {
+                _repository.CekBukaAmplopTahapan(PengadaanId);
+            }
             return Json(new ResultMessage()
             {
                 Id = rData.Id.ToString(),
@@ -3603,6 +3634,87 @@ namespace Reston.Pinata.WebService.Controllers
 
 
 
+        #endregion
+
+
+        #region tambah tahapan
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public IHttpActionResult saveTahapan(LewatTahapan data){
+            var result=_repository.SaveTahapan(data, UserId());
+            return Json(new VWLewatTahapan(){
+                Id= result.Id,
+                PengadaanId = result.PengadaanId,
+                Tambah = result.Tambah
+            });
+        }
+        #endregion
+
+
+        #region persetujuan terkait
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+      
+        public IHttpActionResult SavePersetujuanTerkait(Guid PengadanId,Guid UserId)
+        {
+            PersetujuanTerkait data = new PersetujuanTerkait()
+            {
+                PengadaanId = PengadanId,
+                UserId = UserId
+            };
+            var result = _repository.savePersetujuanTerkait(data);
+            VWPersetujuanTerkait datax = new VWPersetujuanTerkait()
+            {
+                Id = result.Id
+            };
+
+
+            return Json(datax);
+        }
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+      
+        public IHttpActionResult TerkaitSetuju(Guid PengadanId)
+        {
+            PersetujuanTerkait data = new PersetujuanTerkait()
+            {
+                PengadaanId = PengadanId,
+                UserId = UserId()
+            };
+            var result=_repository.TerkaitSetuju(data);
+            VWPersetujuanTerkait datax = new VWPersetujuanTerkait()
+            {
+                Id = result.Id
+            };
+            return Json(datax);
+        }
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+      
+        public async Task< IHttpActionResult> UserTerkait(Guid PengadanId)
+        {
+            var result = _repository.GetUserTerkait(PengadanId);
+            List<VWPersetujuanTerkait> data = new List<VWPersetujuanTerkait>();
+            foreach (var item in result)
+            {
+                VWPersetujuanTerkait ndata = new VWPersetujuanTerkait();
+                ndata.Id = item.Id;
+                var user = await userDetail(item.UserId.ToString());
+                ndata.Nama = user.Nama;
+                ndata.setuju = item.setuju == true ? 1 : 0;
+                data.Add(ndata);
+            }
+
+            return Json(data);
+        } 
         #endregion
     }
     

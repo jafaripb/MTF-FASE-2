@@ -45,7 +45,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public decimal? Banyak { get; set; }
         public string Satuan { get; set; }
         public decimal? Harga { get; set; }
-        public decimal? Deskripsi { get; set; }
+        public string Deskripsi { get; set; }
         public Guid? CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public Guid? ModifiedBy { get; set; }
@@ -93,9 +93,44 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public decimal? Banyak { get; set; }
         public string Satuan { get; set; }
         public decimal? Harga { get; set; }
-        public decimal? Deskripsi { get; set; }
+        public string Deskripsi { get; set; }
     }
 
+    public class VWPOReport
+    {
+        public Guid Id { get; set; }
+        public string Prihal { get; set; }
+        public string Vendor { get; set; }
+        public string UP { get; set; }
+        public string NoPO { get; set; }
+        public string TanggalPO { get; set; }
+        public string TanggalPOstr { get; set; }
+        public string NilaiPO { get; set; }
+        public string Keterangan { get; set; }
+        public string AlmatBarangUp { get; set; }
+        public string Rekening { get; set; }
+        public string AtasNama { get; set; }
+        public string Bank { get; set; }
+        public string TelpBarang { get; set; }
+        public string KwitansiUp { get; set; }
+        public string Total { get; set; }
+        public string TTD1 { get; set; }
+        public string TTD2 { get; set; }
+        public string TTD3 { get; set; }
+        public string TTD4 { get; set; }
+    }
+
+    public class VWPODetailReport
+    {
+        public Guid Id { get; set; }
+        public string NamaBarang { get; set; }
+        public string Kode { get; set; }
+        public string Banyak { get; set; }
+        public string Satuan { get; set; }
+        public string Harga { get; set; }
+        public string Deskripsi { get; set; }
+        public string Jumlah { get; set; }
+    }
 
     [Table("DokumenPO", Schema = JimbisContext.PO_SCHEMA_NAME)]
     public class DokumenPO

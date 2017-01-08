@@ -32,6 +32,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         [MaxLength(25)]
         public string NoSPk { get; set; }
         public DateTime? TanggalSPK { get; set; }
+        public DateTime? Dari { get; set; }
+        public DateTime? Sampai { get; set; }
         public decimal? NilaiSPK { get; set; }
         public StatusSpk StatusSpk { get; set; }
         public virtual PemenangPengadaan PemenangPengadaan { get; set; }

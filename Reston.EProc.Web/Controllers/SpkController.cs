@@ -62,6 +62,7 @@ namespace Reston.Pinata.WebService.Controllers
               int length = Convert.ToInt32(System.Web.HttpContext.Current.Request["length"].ToString());
               string klasifikasi = System.Web.HttpContext.Current.Request["klasifikasi"].ToString();
               var data = _repository.List(search, start, length, klasifikasi);
+              data.data = data.data.Where(d => d.PksId != null).ToList();
               return Json(data);
           }
           catch (Exception ex)

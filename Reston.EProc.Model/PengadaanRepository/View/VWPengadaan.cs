@@ -69,6 +69,8 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public string TitleBerkasRujukanLain { get; set; }
         public int nextStatus { get; set; }
         public string NoPengadaan { get; set; }
+        public Nullable<int> isKlarifikasiLanjutan { get; set; }
+        public Nullable<int> isPenilaian { get; set; }
         public Nullable<int> Approver { get; set; }
         public Nullable<int> ApproverPersetujuanPemenang { get; set; }
         public Nullable<int> isCreated { get; set; }

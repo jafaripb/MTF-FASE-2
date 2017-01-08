@@ -792,7 +792,22 @@ function loadData(pengadaanId) {
             $(".Tolak").show();
         }
         
-
+        if (data.isKlarifikasiLanjutan == 1) {
+            $(".panel-klarifikasi-lanjut").show();
+            $("#tambah-klarifikasi-lanjut").prop("checked", true);
+        }
+        else {
+            $(".panel-klarifikasi-lanjut").hide();
+            $("#tambah-klarifikasi-lanjut").prop("checked", false);
+        }
+        if (data.isPenilaian == 1) {
+            $(".panel-penilaian").show();
+            $("#tambah-penilaian").prop("checked", true);
+        }
+        else {
+            $(".panel-penilaian").hide();
+            $("#tambah-penilaian").prop("checked", false);
+        }
         //$("#lihatHps").on("click", function () {
         //    window.open("http://" + window.location.host + "/rks.html#" + $("#pengadaanId").val());
         //}); 

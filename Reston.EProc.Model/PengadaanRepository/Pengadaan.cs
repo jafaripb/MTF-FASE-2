@@ -655,6 +655,58 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual Pengadaan Pengadaan { get; set; }
     }
 
+    [Table("LewatTahapan", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
+    public class LewatTahapan
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+        [ForeignKey("Pengadaan")]
+        public Guid PengadaanId { get; set; }
+        public EStatusPengadaan Status { get; set; }
+        public bool Tambah { get; set; }
+        public Nullable<DateTime> CreatedOn { get; set; }
+        public Nullable<Guid> CreatedBy { get; set; }
+        public Nullable<DateTime> ModifiedOn { get; set; }
+        public Nullable<Guid> ModifiedBy { get; set; }
+        public virtual Pengadaan Pengadaan { get; set; }
+    }
+
+    [Table("PersetujuanTerkait", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]
+    public class PersetujuanTerkait
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+        [ForeignKey("Pengadaan")]
+        public Guid PengadaanId { get; set; }
+        public Guid UserId { get; set; }
+        public bool setuju { get; set; }
+        public virtual Pengadaan Pengadaan { get; set; }
+    }
+
+    public class VWPersetujuanTerkait
+    {
+        public Guid Id { get; set; }
+        public Guid PengadaanId { get; set; }
+        public Guid UserId { get; set; }
+        public string Nama { get; set; }
+        public int setuju { get; set; }
+    }
+
+    public class VWLewatTahapan
+    {
+        public Guid Id { get; set; }
+        public Guid PengadaanId { get; set; }
+        public EStatusPengadaan Status { get; set; }
+        public bool Tambah { get; set; }
+        public Nullable<DateTime> CreatedOn { get; set; }
+        public Nullable<Guid> CreatedBy { get; set; }
+        public Nullable<DateTime> ModifiedOn { get; set; }
+        public Nullable<Guid> ModifiedBy { get; set; }
+    }
+
+
     public enum StatusTahapan
     {
        Requested, Approved

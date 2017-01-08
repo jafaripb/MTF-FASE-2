@@ -188,6 +188,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
         //pengadaan Terbuka
         PelaksanaanPemilihanKandidat addKandidatPilihanVendor(PelaksanaanPemilihanKandidat oPelaksanaanPemilihanKandidat, Guid UserId);
         List<Pengadaan> GetPengadaanAnnouncment();
+        int CekBukaAmplopTahapan(Guid PengadaanId);
+        //tambah tahapan
+        LewatTahapan SaveTahapan(LewatTahapan data, Guid UserId);
+        List<LewatTahapan> getTahapan(Guid PengadaanId);
+        PersetujuanTerkait savePersetujuanTerkait(PersetujuanTerkait data);
+        PersetujuanTerkait TerkaitSetuju(PersetujuanTerkait data);
+        List<PersetujuanTerkait> GetUserTerkait(Guid PengadaanId);
     }
     public class PengadaanRepo : IPengadaanRepo
     {
@@ -475,8 +482,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                                           Id = bb.Id,
                                                                           PengadaanId = bb.PengadaanId,
                                                                           kualifikasi = bb.kualifikasi
-                                                                      }).ToList()
-
+                                                                      }).ToList(),
+                                            isKlarifikasiLanjutan=(from bb in ctx.LewatTahapans
+                                                                   where bb.PengadaanId==b.Id && bb.Status==EStatusPengadaan.KLARIFIKASILANJUTAN
+                                                                   select bb).Count()>0?1:0,
+                                              isPenilaian = (from bb in ctx.LewatTahapans
+                                                             where bb.PengadaanId == b.Id && bb.Status == EStatusPengadaan.PENILAIAN
+                                                             select bb).Count() > 0 ? 1 : 0
 
                                           }).FirstOrDefault();
             if (oVWPengadaan.Status == EStatusPengadaan.DISETUJUI)
@@ -574,7 +586,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                              isMasukKlarifikasi = (from bb in ctx.PelaksanaanPemilihanKandidats
                                                                    where bb.PengadaanId == b.Id
                                                                    & bb.VendorId == oVendor.Id
-                                                                   select bb).FirstOrDefault() == null ? 0 : 1
+                                                                   select bb).FirstOrDefault() == null ? 0 : 1,
+                                             isKlarifikasiLanjutan = (from bb in ctx.LewatTahapans
+                                                                       where bb.PengadaanId == b.Id && bb.Status == EStatusPengadaan.KLARIFIKASILANJUTAN
+                                                                       select bb).Count() > 0 ? 1 : 0,
+                                             isPenilaian = (from bb in ctx.LewatTahapans
+                                                             where bb.PengadaanId == b.Id && bb.Status == EStatusPengadaan.PENILAIAN
+                                                             select bb).Count() > 0 ? 1 : 0
 
                                          }).FirstOrDefault();
             if (VWPengadaan.Status == EStatusPengadaan.DISETUJUI)
@@ -5271,14 +5289,52 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 
         #region persetujuan tiap tahapan
 
+        public int CekBukaAmplopTahapan(Guid PengadaanId)
+        {
+
+            try
+            {
+                Pengadaan Mpengadaaan = ctx.Pengadaans.Find(PengadaanId);
+
+                var jumPersonil = Mpengadaaan.PersonilPengadaans.Count();
+                var jumTahapanPersetujuan = Mpengadaaan.PersetujuanTahapans.Count();
+                if (jumTahapanPersetujuan != jumPersonil) return 0;
+                var oKandidatPengadaan = ctx.KandidatPengadaans.Where(d => d.PengadaanId == Mpengadaaan.Id).ToList();
+                if (oKandidatPengadaan.Count() > 0)
+                {
+
+                    foreach (var item in oKandidatPengadaan)
+                    {
+                        var xSubmitRekanan = (from b in ctx.HargaRekanans
+                                              join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
+                                              join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
+                                              where d.PengadaanId == PengadaanId && b.VendorId == item.VendorId
+                                              select b).Distinct().ToList();
+                        foreach (var itemx in xSubmitRekanan)
+                        {
+                            JimbisEncrypt encod = new JimbisEncrypt();
+                            decimal? harga = encod.Decrypt(itemx.hargaEncrypt) == "" ? 0 : Convert.ToDecimal(encod.Decrypt(itemx.hargaEncrypt));
+                            itemx.harga = harga;
+                        }
+                    }
+                }
+
+                ctx.SaveChanges();
+
+                return 1;
+            }
+            catch { return 0; }
+        }
+
         public PersetujuanTahapan SavePersetujuanTahapan(PersetujuanTahapan data, Guid UserId)
         {
             var dataPengadaan = ctx.Pengadaans.Find(data.PengadaanId);
+            if (dataPengadaan == null) return new PersetujuanTahapan();
             if (dataPengadaan.AturanPengadaan == "Pengadaan Tertutup" && dataPengadaan.Status == EStatusPengadaan.DISETUJUI)
             {
                 dataPengadaan.Status=EStatusPengadaan.AANWIJZING;
             }
-            if (dataPengadaan == null) return new PersetujuanTahapan();
+
             var dataTahapan=dataPengadaan.PersetujuanTahapans.Where(d=>d.UserId==UserId && d.StatusPengadaan==data.StatusPengadaan && d.PengadaanId==data.PengadaanId).FirstOrDefault();
             if (dataPengadaan.Status != data.StatusPengadaan) return new PersetujuanTahapan();
             if (dataTahapan == null)
@@ -5362,6 +5418,79 @@ namespace Reston.Pinata.Model.PengadaanRepository
                       
                       //ctx.Pengadaans.Where(d => d.AturanPengadaan == "Pengadaan Terbuka" && d.GroupPengadaan == EGroupPengadaan.DALAMPELAKSANAAN && d.JadwalPengadaans.Where(dd => dd.Sampai <= DateTime.Now && dd.Mulai >= DateTime.Now && dd.tipe == PengadaanConstants.Jadwal.Pendaftaran).Count() > 0).ToList();
         }
+        #endregion
+
+        #region tambah tahapan
+        public LewatTahapan SaveTahapan(LewatTahapan data, Guid UserId)
+        {
+            var ckdata = ctx.Pengadaans.Find(data.PengadaanId);
+            if (ckdata == null) return new LewatTahapan();
+
+            var ndata = ctx.LewatTahapans.Where(d => d.PengadaanId == data.PengadaanId && d.Status==data.Status).FirstOrDefault();
+            if (ndata != null)
+            {
+                ctx.LewatTahapans.Remove(ndata);
+                ctx.SaveChanges(UserId.ToString());
+
+                return new LewatTahapan();
+                
+            }
+            else
+            {
+                data.CreatedBy = UserId;
+                data.CreatedOn = DateTime.Now;
+                ctx.LewatTahapans.Add(data);
+                ctx.SaveChanges(UserId.ToString());
+                return data;
+            }
+           
+        }
+
+        public List<LewatTahapan> getTahapan(Guid PengadaanId)
+        {
+            return ctx.LewatTahapans.Where(d => d.PengadaanId == PengadaanId).ToList();
+        }
+        #endregion
+
+        #region persetujuan terkait
+        public PersetujuanTerkait savePersetujuanTerkait(PersetujuanTerkait data)
+        {
+            var pengdaan = ctx.Pengadaans.Find(data.PengadaanId);
+            if (pengdaan == null) return new PersetujuanTerkait();
+            var odata = ctx.PersetujuanTerkait.Where(d => d.PengadaanId == data.PengadaanId && d.UserId == data.UserId).FirstOrDefault();
+            if (odata != null) return odata;
+            else
+            {
+                ctx.PersetujuanTerkait.Add(data);
+                ctx.SaveChanges();
+            }
+
+            return data;
+        }
+       
+        public PersetujuanTerkait TerkaitSetuju(PersetujuanTerkait data)
+        {
+            var pengdaan = ctx.Pengadaans.Find(data.PengadaanId);
+            if (pengdaan == null) return new PersetujuanTerkait();
+            var odata = ctx.PersetujuanTerkait.Where(d => d.PengadaanId == data.PengadaanId && d.UserId == data.UserId);
+            if (odata == null) return new PersetujuanTerkait();
+            else
+            {
+                foreach (var item in odata)
+                {
+                    item.setuju = true;
+                }
+                ctx.SaveChanges();
+            }
+
+            return data;
+        }
+
+        public List<PersetujuanTerkait> GetUserTerkait(Guid PengadaanId)
+        {
+            return ctx.PersetujuanTerkait.Where(d => d.PengadaanId == PengadaanId).ToList();
+        }
+
         #endregion
     }
 }

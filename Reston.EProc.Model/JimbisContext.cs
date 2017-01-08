@@ -127,11 +127,15 @@ namespace Reston.Pinata.Model
         public virtual DbSet<PO> POs { get; set; }
         public virtual DbSet<PODetail> PODetails { get; set; }
         public virtual DbSet<DokumenPO> DokumenPO { get; set; }
+        public virtual DbSet<LewatTahapan> LewatTahapans { get; set; }
         
         //persetujuan tahapan
 
         public virtual DbSet<PersetujuanTahapan> PersetujuanTahapans { get; set; }
         //
+        public virtual DbSet<PersetujuanTerkait> PersetujuanTerkait { get; set; }
+        
+
         public virtual DbSet<SysLog> SysLogs { get; set; }
         
         public void ValidateReferenceData()

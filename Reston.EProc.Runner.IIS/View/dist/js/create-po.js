@@ -392,4 +392,16 @@ function generateNoPO() {
     });
 }
 
+$(function () {
+
+    $("#cetak-po").on("click", function () {
+
+        downloadFileUsingForm("Api/po/Report?Id=" + Id);
+            
+
+
+
+    });
+
+});
 

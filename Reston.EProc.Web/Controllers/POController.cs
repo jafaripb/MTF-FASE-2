@@ -25,6 +25,7 @@ using Reston.Helper.Util;
 using Reston.Helper.Model;
 using System.Web;
 using Reston.Eproc.Model.Monitoring.Entities;
+using Microsoft.Reporting.WebForms;
 
 
 namespace Reston.Pinata.WebService.Controllers
@@ -33,6 +34,7 @@ namespace Reston.Pinata.WebService.Controllers
     {
         private IPORepo _repository;
         private string FILE_DOKUMEN_PO_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_DOKUMEN_PO_PATH"];
+        private string FILE_REPORT_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_REPORT_PATH"];
         
         public POController()
         {
@@ -335,6 +337,111 @@ namespace Reston.Pinata.WebService.Controllers
           return result;
       }
 
+       public HttpResponseMessage Report(Guid Id)
+       {
+           LocalReport lr = new LocalReport();
+           string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+            path = Path.Combine(path, "po.rdlc");
+         
+
+           if (System.IO.File.Exists(path))
+           {
+               lr.ReportPath = path;
+           }
+
+           var po = _repository.get(Id);
+           
+           VWPOReport data1=new VWPOReport(){
+                Id=po.Id,
+                Prihal=po.Prihal,
+                Vendor=po.Vendor,
+                UP=po.UP,
+                NoPO=po.NoPO,
+                TanggalPO=po.TanggalPO!=null?po.TanggalPO.Value.Day+" "+ Common.ConvertNamaBulan( po.TanggalPO.Value.Month) + " "+ po.TanggalPO.Value.Year:"",
+                TanggalPOstr=po.TanggalPO!=null?po.TanggalPO.Value.Day+" "+ Common.ConvertNamaBulan( po.TanggalPO.Value.Month) + " "+ po.TanggalPO.Value.Year:"",
+                NilaiPO=po.PODetail==null?"":po.PODetail.Sum(d=>d.Harga*d.Banyak).Value.ToString("C", MyConverter.formatCurrencyIndo()),
+                Keterangan=po.Keterangan,
+                AlmatBarangUp="",
+                Rekening="",
+                AtasNama="",
+                Bank="",
+                TelpBarang="",
+                KwitansiUp="",
+                Total="",
+                TTD1="",
+                TTD2="",
+                TTD3="",
+                TTD4=""
+           };
+           List<VWPOReport> lstdata1 = new List<VWPOReport>();
+           lstdata1.Add(data1);
+           List< VWPODetailReport> lstdata2 = new List< VWPODetailReport>();
+           if (po.PODetail != null)
+           {
+               lstdata2 = po.PODetail.Select(d => new VWPODetailReport()
+               {
+                   Id=d.Id,
+                   Banyak = d.Banyak.ToString() ,
+                   Deskripsi=d.Deskripsi,
+                   Harga = d.Banyak == null ? "" : d.Harga.Value.ToString("C", MyConverter.formatCurrencyIndo()),
+                   Jumlah=d.Banyak==null?"":(d.Harga.Value*d.Banyak.Value).ToString("C", MyConverter.formatCurrencyIndo()),
+                   Kode=d.Kode,
+                   NamaBarang=d.NamaBarang,
+                   Satuan=d.Satuan
+               }).ToList();
+           }
+
+           ReportDataSource rd = new ReportDataSource("PoDs", lstdata1);
+           lr.DataSources.Add(rd);
+           ReportDataSource rd2 = new ReportDataSource("PoDetailDs", lstdata2);
+           lr.DataSources.Add(rd2);
+
+           string reportType = "pdf";
+           string mimeType;
+           string encoding;
+           string fileNameExtension;
+
+
+
+           string deviceInfo =
+
+          "<DeviceInfo>" +
+         "  <OutputFormat>PDF</OutputFormat>" +
+         "  <PageWidth>14.267in</PageWidth>" +
+         "  <PageHeight>18.692in</PageHeight>" +
+         "  <MarginTop>0.25in</MarginTop>" +
+         "  <MarginLeft>0.10in</MarginLeft>" +
+         "  <MarginRight>0.10in</MarginRight>" +
+         "  <MarginBottom>0.25in</MarginBottom>" +
+         "</DeviceInfo>";
+
+           Warning[] warnings;
+           string[] streams;
+           byte[] renderedBytes;
+
+           renderedBytes = lr.Render(
+               reportType,
+               deviceInfo,
+               out mimeType,
+               out encoding,
+               out fileNameExtension,
+               out streams,
+               out warnings);
+           HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+           Stream stream = new MemoryStream(renderedBytes);
+
+           result.Content = new StreamContent(stream);
+           result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+
+           result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+           {
+               FileName = po.Prihal+".pdf"
+           };
+
+
+           return result;
+       }
        
     }
     

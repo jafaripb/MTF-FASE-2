@@ -1797,6 +1797,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>datasetxx.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DataSource\PO.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PO.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1858,6 +1863,17 @@
     <Content Include="data\menu-staff-admin.json" />
     <Content Include="Download\Report\Template\template-hps-new.docx" />
     <Content Include="Download\Report\Template\template-po.docx" />
+    <Content Include="DataSource\PO.xsc">
+      <DependentUpon>PO.xsd</DependentUpon>
+    </Content>
+    <None Include="DataSource\PO.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>PO.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="DataSource\PO.xss">
+      <DependentUpon>PO.xsd</DependentUpon>
+    </Content>
     <None Include="pengadaaneDataSet1.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>pengadaaneDataSet1.Designer.cs</LastGenOutput>
@@ -2710,6 +2726,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Content Include="Report\BukaAmplop.rdlc" />
+    <EmbeddedResource Include="Report\po.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Reston.EProc.Web\Reston.EProc.Web.csproj">

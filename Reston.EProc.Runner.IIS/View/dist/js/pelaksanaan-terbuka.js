@@ -2630,3 +2630,176 @@ function isSpkUploaded() {
     });
 }
 
+
+
+function saveTahap(data, el, elpanel) {
+    waitingDialog.showloading("Proses Harap Tunggu");
+    $.ajax({
+        url: "Api/PengadaanE/saveTahapan",
+        method: "POST",
+        data: data,
+        success: function (datax) {
+            if (datax.Id == "00000000-0000-0000-0000-000000000000") {
+                el.prop("checked", false);
+                elpanel.hide();
+
+            }
+            else {
+                el.prop("checked", true);
+                elpanel.show();
+            }
+            waitingDialog.hideloading();
+        },
+        error: function (errormessage) {
+
+        }
+    });
+}
+
+$(function () {
+
+    $("#tambah-klarifikasi-lanjut").on("click", function () {
+        var data = {};
+        data.PengadaanId = $("#pengadaanId").val();
+        data.Status = 12;
+        if ($(this).is(':checked'))
+            data.Tambah = 1;
+        else data.Tambah = 0;
+        saveTahap(data, $(this), $(".panel-klarifikasi-lanjut"));
+    });
+
+    $("#tambah-penilaian").on("click", function () {
+        var data = {};
+        data.PengadaanId = $("#pengadaanId").val();
+        data.Status = 6;
+        if ($(this).is(':checked'))
+            data.Tambah = 1;
+        else data.Tambah = 0;
+        saveTahap(data, $(this), $(".panel-penilaian"));
+    });
+});
+var user_table;
+$(function () {
+    $(".add-user-terkait").on("click", function () {
+        $("#users_modal").modal("show");
+
+    });
+    user_table = $("#user_table").DataTable({
+        "serverSide": true,
+        "searching": true,
+        "ajax": {
+            "url": 'api/Pengadaane/ListUsers',
+            "type": 'POST',
+            "data": function (d) {
+                d.status = "1";
+                d.more = "0";
+            }
+        },
+        "columns": [
+            { "data": null },
+            { "data": "Nama" },
+            { "data": "jabatan" }
+        ],
+        "columnDefs": [
+            {
+                "render": function (data, type, row) {
+                    return '<input type="checkbox" class="check-user" attrId="' + data.PersonilId + '" />';
+                },
+
+                "targets": 0,
+                "orderable": false
+            }
+        ],
+        "paging": true,
+        "lengthChange": false,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+    });
+});
+
+$(function () {
+    renderUserTerkait();
+    $(".adduserterkai").on("click", function () {
+        var note = $("#note_user").val();
+
+        if ($("#user_table").find("input[type=checkbox]:checked").length != 1) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: ' Wajib Pilih satu dipilih!',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+
+                    }
+                }]
+            });
+            return false;
+        }
+
+        var userid = $("#user_table").find("input[type=checkbox]:checked").attr("attrid");
+        var pengadaanId = $("#pengadaanId").val();
+        $.ajax({
+            url: 'api/PengadaanE/SavePersetujuanTerkait?PengadanId=' + pengadaanId + "&UserId=" + userid,
+            method: "GET",
+            success: function (data) {
+                var message = data.message;
+                BootstrapDialog.show({
+                    title: 'Konfirmasi',
+                    message: message,
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+                renderUserTerkait();
+
+                $("#users_modal").modal("close");
+            }
+        });
+    });
+
+});
+
+function renderUserTerkait() {
+    var pengadaanId = $("#pengadaanId").val();
+    $.ajax({
+        url: 'api/PengadaanE/UserTerkait?PengadanId=' + pengadaanId,
+        method: "GET",
+        success: function (data) {
+            var html = "";
+            var cekStatus = 1;
+            for (var i in data) {
+                var class_status = data[i].setuju == 0 ? "btn-danger" : "btn-success";
+                var class_pin = data[i].setuju == 0 ? "glyphicon-pushpin" : "glyphicon-ok";
+                html += '<div class="col-md-3">' +
+                    '<div class="form-group">' +
+                       '<button class="btn ' + class_status +
+                           ' btn-block click-user-terkait"><i class="glyphicon ' + class_pin + '"></i>' + data[i].Nama + '</button>' +
+                   '</div>' +
+               '</div>';
+                if (data[i].setuju == 0) cekStatus = 0;
+            };
+            $(".list-user-terkait").html("");
+            $(".list-user-terkait").append(html);
+            if (cekStatus == 0) $(".ajukan-pemenang").hide();
+        }
+    });
+}
+
+$(function () {
+    $("body").on("click", ".click-user-terkait", function () {
+        var pengadaanId = $("#pengadaanId").val();
+        $.ajax({
+            url: 'api/PengadaanE/TerkaitSetuju?PengadanId=' + pengadaanId,
+            method: "GET",
+            success: function (data) {
+                renderUserTerkait();
+            }
+        });
+    });
+});
