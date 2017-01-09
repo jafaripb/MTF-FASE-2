@@ -153,13 +153,32 @@ namespace Reston.Pinata.Model.PengadaanRepository
         {
             return ctx.POs.Where(d => d.Id == Id).Select(d => new VWPO()
             {
-                Id=d.Id,
-                NilaiPO=d.NilaiPO,
-                NoPO=d.NoPO,
-                Prihal=d.Prihal,
-                TanggalPO=d.TanggalPO,
-                UP=d.UP,
-                Vendor=d.Vendor,
+                Id = d.Id,
+                Prihal = d.Prihal,
+                Vendor = d.Vendor,
+                NoPO = d.NoPO,
+                TanggalPO = d.TanggalPO,
+                NilaiPO = d.PODetail.Sum(dd => dd.Banyak * dd.Harga),
+                UP = d.UP,
+                PeriodeDari = d.PeriodeDari,
+                PeriodeSampai = d.PeriodeSampai,
+                NamaBank = d.NamaBank,
+                AtasNama = d.AtasNama,
+                NoRekening = d.NoRekening,
+                AlamatPengirimanBarang = d.AlamatPengirimanBarang,
+                UPPengirimanBarang = d.UPPengirimanBarang,
+                TelpPengirimanBarang = d.TelpPengirimanBarang,
+                AlamatKwitansi = d.AlamatKwitansi,
+                NPWP = d.NPWP,
+                AlamatPengirimanKwitansi = d.AlamatPengirimanKwitansi,
+                UPPengirimanKwitansi = d.UPPengirimanKwitansi,
+                Ttd1 = d.Ttd1,
+                Ttd2 = d.Ttd2,
+                Discount = d.Discount.Value,
+                PPN = d.PPN.Value,
+                PPH = d.PPH.Value,
+                DPP = d.DPP.Value,
+
             }).FirstOrDefault();
         }
 
@@ -173,11 +192,30 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 {
 
                     data.Prihal = po.Prihal;
-                    data.TanggalPO = po.TanggalPO;
                     data.Vendor = po.Vendor;
-                    data.NilaiPO = po.NilaiPO;
                     data.NoPO = po.NoPO;
+                    data.TanggalPO = po.TanggalPO;
+                    data.NilaiPO = po.NilaiPO;
                     data.UP = po.UP;
+                    data.PeriodeDari = po.PeriodeDari;
+                    data.PeriodeSampai = po.PeriodeSampai;
+                    data.NamaBank = po.NamaBank;
+                    data.AtasNama = po.AtasNama;
+                    data.NoRekening = po.NoRekening;
+                    data.AlamatPengirimanBarang = po.AlamatPengirimanBarang;
+                    data.UPPengirimanBarang = po.UPPengirimanBarang;
+                    data.TelpPengirimanBarang = po.TelpPengirimanBarang;
+                    data.AlamatKwitansi = po.AlamatKwitansi;
+                    data.NPWP = po.NPWP;
+                    data.AlamatPengirimanKwitansi = po.AlamatPengirimanKwitansi;
+                    data.UPPengirimanKwitansi = po.UPPengirimanKwitansi;
+                    data.Ttd1 = po.Ttd1;
+                    data.Ttd2 = po.Ttd2;
+                    data.Discount = po.Discount;
+                    data.PPN = po.PPN;
+                    data.PPH = po.PPH;
+                    data.DPP = po.DPP;
+
                     data.CreatedBy = UserId;
                     data.CreatedOn = DateTime.Now;
                     ctx.SaveChanges(UserId.ToString());
@@ -388,5 +426,3 @@ namespace Reston.Pinata.Model.PengadaanRepository
         }
     }
 }
-
-

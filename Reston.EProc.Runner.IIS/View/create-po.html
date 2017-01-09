@@ -235,6 +235,10 @@
                                         <label class="title">UP:</label>
                                         <input id="up-pengiriman-barang" class="form-control" type="text">
                                     </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Telp:</label>
+                                        <input id="telp-pengiriman-barang" class="form-control" type="text">
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-10">
@@ -311,17 +315,39 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="title">PPN (%):</label>
-                                        <input id="ppn" class="form-control" type="text">
+                                        <input type="checkbox" id="ppn"/> 10 %
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-4">
                                         <label class="title">PPH (%):</label>
-                                        <input id="pph" class="form-control" type="text">
+                                        <select id="pph" class="form-control required" style="width: 100%;">
+                                            <option value=""></option>
+                                            <option value="0.2">2 %</option>
+                                            <option value="0.4">4 %</option>
+                                            <option value="0.6">6 %</option>
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="title">DPP (%):</label>
                                         <input id="dpp" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class=" panel-header-white">
+                                            <span class="title-header" id="section-3">Tanda Tangan</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Nama Tanda Tangan Kesatu:</label>
+                                        <input id="ttd1" class="form-control" type="text">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Nama Tanda Tangan Kedua:</label>
+                                        <input id="ttd2" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="row">

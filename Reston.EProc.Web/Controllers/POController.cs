@@ -120,39 +120,72 @@ namespace Reston.Pinata.WebService.Controllers
       }
 
 
-      [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
-                                          IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                           IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
-      [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      public IHttpActionResult Save(VWPO data)
-      {
-          try
-          {
-              var ndata = new PO();
-              ndata.Id = data.Id;
-              ndata.Keterangan = data.Keterangan;
-              ndata.Prihal = data.Prihal;
-              ndata.UP = data.UP;
-              ndata.Vendor = data.Vendor;
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public IHttpActionResult Save(VWPO data)
+        {
+            try
+            {
+                var ndata = new PO();
+                ndata.Id = data.Id;
+                ndata.Prihal = data.Prihal;
+                ndata.Vendor = data.Vendor;
+                ndata.NoPO = data.NoPO;
+                ndata.Keterangan = data.Keterangan;
+                ndata.NilaiPO = data.NilaiPO;
+                ndata.UP = data.UP;
+                ndata.NamaBank = data.NamaBank;
+                ndata.AtasNama = data.AtasNama;
+                ndata.NoRekening = data.NoRekening;
+                ndata.AlamatPengirimanBarang = data.AlamatPengirimanBarang;
+                ndata.UPPengirimanBarang = data.UPPengirimanBarang;
+                ndata.TelpPengirimanBarang = data.TelpPengirimanBarang;
+                ndata.AlamatKwitansi = data.AlamatKwitansi;
+                ndata.NPWP = data.NPWP;
+                ndata.AlamatPengirimanKwitansi = data.AlamatPengirimanKwitansi;
+                ndata.UPPengirimanKwitansi = data.UPPengirimanKwitansi;
+                ndata.Ttd1 = data.Ttd1;
+                ndata.Ttd2 = data.Ttd2;
+                ndata.Discount = data.Discount;
+                ndata.PPN = data.PPN;
+                ndata.PPH = data.PPH;
+                ndata.DPP = data.DPP;
 
-              if (!string.IsNullOrEmpty(data.TanggalPOstr) )
-              {
-                  try
-                  {
-                      ndata.TanggalPO = Common.ConvertDate(data.TanggalPOstr, "dd/MM/yyyy");
-                  }
-                  catch { }
-                 
-              }
-              return Json(_repository.save(ndata, UserId()));
-          }
-          catch (Exception ex)
-          {
-              return Json(new VWPO());
-          }
-      }
+                if (!string.IsNullOrEmpty(data.TanggalPOstr))
+                {
+                    try
+                    {
+                        ndata.TanggalPO = Common.ConvertDate(data.TanggalPOstr, "dd/MM/yyyy");
+                    }
+                    catch { }
+                }
+                if (!string.IsNullOrEmpty(data.PeriodeDaristr))
+                {
+                    try
+                    {
+                        ndata.PeriodeDari = Common.ConvertDate(data.PeriodeDaristr, "dd/MM/yyyy");
+                    }
+                    catch { }
+                }
+                if (!string.IsNullOrEmpty(data.PeriodeSampaistr))
+                {
+                    try
+                    {
+                        ndata.PeriodeSampai = Common.ConvertDate(data.PeriodeSampaistr, "dd/MM/yyyy");
+                    }
+                    catch { }
+                }
+                return Json(_repository.save(ndata, UserId()));
+            }
+            catch (Exception ex)
+            {
+                return Json(new VWPO());
+            }
+        }
 
-      [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
@@ -362,17 +395,17 @@ namespace Reston.Pinata.WebService.Controllers
                 TanggalPOstr=po.TanggalPO!=null?po.TanggalPO.Value.Day+" "+ Common.ConvertNamaBulan( po.TanggalPO.Value.Month) + " "+ po.TanggalPO.Value.Year:"",
                 NilaiPO=po.PODetail==null?"":po.PODetail.Sum(d=>d.Harga*d.Banyak).Value.ToString("C", MyConverter.formatCurrencyIndo()),
                 Keterangan=po.Keterangan,
-                AlmatBarangUp="",
-                Rekening="",
-                AtasNama="",
-                Bank="",
-                TelpBarang="",
-                KwitansiUp="",
+                AlmatBarangUp=po.AlamatPengirimanBarang,
+                Rekening=po.NoRekening,
+                AtasNama=po.AtasNama,
+                Bank=po.NamaBank,
+                TelpBarang=po.TelpPengirimanBarang,
+                KwitansiUp=po.UPPengirimanKwitansi,
                 Total="",
-                TTD1="",
-                TTD2="",
-                TTD3="",
-                TTD4=""
+                TTD1=po.Ttd1,
+                TTD2=po.Ttd2,
+                TTD3=po.UPPengirimanKwitansi,
+                TTD4=po.UP
            };
            List<VWPOReport> lstdata1 = new List<VWPOReport>();
            lstdata1.Add(data1);
@@ -382,7 +415,7 @@ namespace Reston.Pinata.WebService.Controllers
                lstdata2 = po.PODetail.Select(d => new VWPODetailReport()
                {
                    Id=d.Id,
-                   Banyak = d.Banyak.ToString() ,
+                   Banyak = Convert.ToInt32(d.Banyak).ToString(),
                    Deskripsi=d.Deskripsi,
                    Harga = d.Banyak == null ? "" : d.Harga.Value.ToString("C", MyConverter.formatCurrencyIndo()),
                    Jumlah=d.Banyak==null?"":(d.Harga.Value*d.Banyak.Value).ToString("C", MyConverter.formatCurrencyIndo()),
@@ -401,20 +434,18 @@ namespace Reston.Pinata.WebService.Controllers
            string mimeType;
            string encoding;
            string fileNameExtension;
-
-
-
+            
            string deviceInfo =
 
           "<DeviceInfo>" +
-         "  <OutputFormat>PDF</OutputFormat>" +
-         "  <PageWidth>14.267in</PageWidth>" +
-         "  <PageHeight>18.692in</PageHeight>" +
-         "  <MarginTop>0.25in</MarginTop>" +
-         "  <MarginLeft>0.10in</MarginLeft>" +
-         "  <MarginRight>0.10in</MarginRight>" +
-         "  <MarginBottom>0.25in</MarginBottom>" +
-         "</DeviceInfo>";
+          "  <OutputFormat>PDF</OutputFormat>" +
+          "  <PageWidth>14.267in</PageWidth>" +
+          "  <PageHeight>18.692in</PageHeight>" +
+          "  <MarginTop>0.25in</MarginTop>" +
+          "  <MarginLeft>0.10in</MarginLeft>" +
+          "  <MarginRight>0.10in</MarginRight>" +
+          "  <MarginBottom>0.25in</MarginBottom>" +
+          "</DeviceInfo>";
 
            Warning[] warnings;
            string[] streams;
@@ -438,8 +469,6 @@ namespace Reston.Pinata.WebService.Controllers
            {
                FileName = po.Prihal+".pdf"
            };
-
-
            return result;
        }
        

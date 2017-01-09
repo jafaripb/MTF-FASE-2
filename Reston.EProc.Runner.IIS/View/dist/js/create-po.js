@@ -5,9 +5,9 @@ $(function () {
     //$("#pengadaanId").val(PengadaanId);
     //$("#VendorId").val(VendorId);
     if (Id != "" && Id != null) loadDetail(Id);
-    if ($("#Id").val() != "" && (Id == null || Id == "")) loadDetail($("#Id").val());
+    else SetListBank("");
+    //if ($("#Id").val() != "" && (Id == null || Id == "")) loadDetail($("#Id").val());
        //window.location.href("http://" + window.location.host + "/pks.html");
-   
 
     $("#HapusFile").on("click", function () {
         var tipe = $(this).parent().parent().parent().parent().attr("attr1");
@@ -183,10 +183,35 @@ $(function () {
     $(".Simpan").on("click", function () {
         var data = {};
         data.Id = $("#Id").val();
-        data.TanggalPOstr = moment($("#tanggal-po").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
-        data.Vendor = $("#vendor").val();
         data.Prihal = $("#prihal").val();
+        data.Vendor = $("#vendor").val();
+        data.NoPO = $("#no-po").val();
+        data.TanggalPOstr = moment($("#tanggal-po").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.NilaiPO = $("#nilai-po").val();
+        data.UP = $("#up").val();
+        data.PeriodeDaristr = moment($("#periode-dari").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.PeriodeSampaistr = moment($("#periode-sampai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.NamaBank = $("[name='BankInfo.Nama']").val();
+        data.AtasNama = $("#atas-nama").val();
+        data.NoRekening = $("#no-rekening").val();
+        data.AlamatPengirimanBarang = $("#alamat-pengiriman-barang").val();
+        data.UPPengirimanBarang = $("#up-pengiriman-barang").val();
+        data.TelpPengirimanBarang = $("#telp-pengiriman-barang").val();
+        data.AlamatKwitansi = $("#alamat-kwitansi").val();
+        data.NPWP = $("#npwp").val();
+        data.AlamatPengirimanKwitansi = $("#alamat-pengiriman-kwitansi").val();
+        data.UPPengirimanKwitansi = $("#up-pengiriman-kwitansi").val();
+        data.Ttd1 = $("#ttd1").val();
+        data.Ttd2 = $("#ttd2").val();
+        data.Discount = $("#discount").val();
+        if ($('#ppn').is(':checked')) 
+            data.ppn = 10;
+        else 
+            data.ppn = 0;
+        data.pph = $("#pph").val();
+        data.dpp = $("#dpp").val();
         save(data);
+        console.log(data.ppn);
     });   
 
     $(".Hapus").on("click", function () {
@@ -261,15 +286,53 @@ $(function () {
     //downloadFileUsingForm("/api/report/BerkasAanwzjing?Id=" + $("#pengadaanId").val());
 });
 
+function SetListBank(namabank) {
+    //console.log("SetListBank");
+    $.ajax({
+        url: "/api/ReferenceData/GetAllBank",
+        success: function (data) {
+            for (var i in data) {
+                if (namabank == data[i].Name) {
+                    $("[name='BankInfo.Nama']").append("<option value='" + data[i].Name + "' selected>" + data[i].Name + "</option>");
+                }
+                else {
+                    $("[name='BankInfo.Nama']").append("<option value='" + data[i].Name + "'>" + data[i].Name + "</option>");
+                }
+            }
+        }
+    });
+}
+
 function loadDetail(Id) {
     $.ajax({
         url: "Api/PO/detail?Id=" + Id
     }).done(function (data) {
         $("#Id").val(data.Id);
-        $("#tanggal-po").val(moment(data.TanggalPO).format("DD MMMM YYYY"));
-        $("#vendor").val(data.Vendor);
         $("#prihal").val(data.Prihal);
+        $("#vendor").val(data.Vendor);
         $("#no-po").val(data.NoPO);
+        $("#tanggal-po").val(moment(data.TanggalPO).format("DD MMMM YYYY"));
+        $("#nilai-po").val(accounting.formatNumber(data.NilaiPO, { thousand: ".", decimal: ",", precision: 2 }));
+        $("#up").val(data.UP);
+        $("#periode-dari").val(moment(data.PeriodeDari).format("DD MMMM YYYY"));
+        $("#periode-sampai").val(moment(data.PeriodeSampai).format("DD MMMM YYYY"));
+        $("#atas-nama").val(data.AtasNama);
+        $("#no-rekening").val(data.NoRekening);
+        $("#alamat-pengiriman-barang").val(data.AlamatPengirimanBarang);
+        $("#up-pengiriman-barang").val(data.UPPengirimanBarang);
+        $("#telp-pengiriman-barang").val(data.TelpPengirimanBarang);
+        $("#alamat-kwitansi").val(data.AlamatKwitansi);
+        $("#npwp").val(data.NPWP);
+        $("#alamat-pengiriman-kwitansi").val(data.AlamatPengirimanKwitansi);
+        $("#up-pengiriman-kwitansi").val(data.UPPengirimanKwitansi);
+        $("#ttd1").val(data.Ttd1);
+        $("#ttd2").val(data.Ttd2);
+        $("#discount").val(data.Discount);
+        if (data.PPN != "")
+            $("#ppn").attr("checked", true);
+        $("#pph").val(data.PPH);
+        $("#dpp").val(data.DPP);
+        SetListBank(data.NamaBank);
     });
 
 }
@@ -292,9 +355,7 @@ function renderDokumenDropzone(myDropzone) {
             }
         },
         error: function (errormessage) {
-
             //location.reload();
-
         }
     });
 }
@@ -365,7 +426,6 @@ function deleteItem(Id) {
                 }
             }]
         });
-
     });
 }
 
@@ -393,15 +453,8 @@ function generateNoPO() {
 }
 
 $(function () {
-
     $("#cetak-po").on("click", function () {
-
         downloadFileUsingForm("Api/po/Report?Id=" + Id);
-            
-
-
-
     });
-
 });
 
