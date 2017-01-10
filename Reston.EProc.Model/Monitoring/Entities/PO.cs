@@ -143,6 +143,10 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string NoPO { get; set; }
         public string TanggalPO { get; set; }
         public string TanggalPOstr { get; set; }
+        public string PeriodeDari { get; set; }
+        public string PeriodeDaristr { get; set; }
+        public string PeriodeSampai { get; set; }
+        public string PeriodeSampaistr { get; set; }
         public string NilaiPO { get; set; }
         public string Keterangan { get; set; }
         public string AlmatBarangUp { get; set; }
@@ -150,12 +154,19 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string AtasNama { get; set; }
         public string Bank { get; set; }
         public string TelpBarang { get; set; }
+        public string AlamatKwitansi { get; set; }
+        public string NPWP { get; set; }
+        public string AlamatPengirimanKwitansi { get; set; }
         public string KwitansiUp { get; set; }
         public string Total { get; set; }
         public string TTD1 { get; set; }
         public string TTD2 { get; set; }
         public string TTD3 { get; set; }
         public string TTD4 { get; set; }
+        public string Discount { get; set; }
+        public string PPN { get; set; }
+        public string PPH { get; set; }
+        public string DPP { get; set; }
     }
 
     public class VWPODetailReport
