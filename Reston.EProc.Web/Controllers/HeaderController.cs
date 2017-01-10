@@ -116,6 +116,10 @@ namespace Reston.Pinata.WebService.Controllers
              {
                  return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-vendor.json"));
              }
+             else if (roles.Contains(IdLdapConstants.App.Roles.IdLdaplegal_direksi))
+             {
+                 return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-direksi.json"));
+             }
              else
              {
                  return new List<Menu>();

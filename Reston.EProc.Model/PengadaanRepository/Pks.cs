@@ -59,6 +59,29 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual Pks Pks { get; set; }
     }
 
+    [Table("CatatanPks", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
+    public class CatatanPks
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+        [ForeignKey("Pks")]
+        public Nullable<Guid> PksId { get; set; }
+        public Guid CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string Catatan { get; set; }
+    }
+
+    public class VWCatatanPks
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PksId { get; set; }
+        public Guid CreatedBy { get; set; }
+        public Guid Nama { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime Date { get; set; }
+        public string Catatan { get; set; }
+    }
 
     public class DataTablePksTemplate
     {
@@ -95,6 +118,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string StatusPksName { get; set; }
         public int isOwner { get; set; }
         public int Approver { get; set; }
+
+        public string CreatedName { get; set; }
     }
 
 
@@ -126,6 +151,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
     public enum StatusPks
     {
-        Draft, Pending, Approve, Reject
+        Draft, Ajukan,Pending, Approve, Reject
     }
 }

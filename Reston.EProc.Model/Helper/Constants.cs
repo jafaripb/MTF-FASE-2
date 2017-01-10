@@ -106,7 +106,9 @@ namespace Model.Helper
             public const string pRole_procurement_manager = App.Roles.IdLdapProcurementManagerRole;
             public const string pRole_procurement_end_user = App.Roles.IdLdapEndUserRole;
             public const string pRole_compliance = App.Roles.IdLdapComplianceRole;
-            public const string pRole_direksi = App.Roles.IdLdaplegal_direksi;            
+            public const string pRole_direksi = App.Roles.IdLdaplegal_direksi;
+            public const string pRole_dirut = App.Roles.IdLdaplegal_dirut;  
+          
         }
 
         public static class Id
@@ -201,6 +203,7 @@ namespace Model.Helper
                 public const string IdLdapRekananTerdaftarRole = "rekanan_terdaftar";//System.Configuration.ConfigurationManager.AppSettings["ROLE_VENDOR"];
                 public const string IdLdaplegal_admin = "legal_admin";
                 public const string IdLdaplegal_direksi = "direksi";
+                public const string IdLdaplegal_dirut = "dirut";
             }
 
         }

@@ -44,6 +44,7 @@ namespace Reston.Pinata.WebService.Controllers
         private int WorkflowTemplateId2 = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["WorkflowTemplateId2"]);
         private decimal ValueBoundAprr = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["BATASAN_BIAYA"]);
         private decimal ValueBoundDireksiAprr = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["BATASAN_BIAYA_DIREKSI"]);
+        private decimal BATASAN_BIAYA_DIRUT = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["BATASAN_BIAYA_DIRUT"]);
         private string BodyEmailPemenang = System.Configuration.ConfigurationManager.AppSettings["MAIL_PEMENANG_BODY"];
         private string BodyEmailkalah = System.Configuration.ConfigurationManager.AppSettings["MAIL_KALAH_BODY"];
         private string SubjeckEmailPemenang = System.Configuration.ConfigurationManager.AppSettings["MAIL_PEMENANG_SUBJECT"];
@@ -3304,6 +3305,7 @@ namespace Reston.Pinata.WebService.Controllers
                 var DepHead = await listHead();
                 var DepManager = await listGuidManager();
                 var Direksi = await listUser(IdLdapConstants.Roles.pRole_direksi);
+                var Dirut = await listUser(IdLdapConstants.Roles.pRole_dirut);
                 #region BuatAtauUpdateTamplate
 
                 var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
@@ -3327,6 +3329,7 @@ namespace Reston.Pinata.WebService.Controllers
                                  SegOrder = 3,
                                  UserId = DepHead[0]
                              });
+                if (Direksi.Count() > 0)
                 if (RKS > ValueBoundDireksiAprr)
                 {
                     var lasOrder = WorkflowMasterTemplateDetails.LastOrDefault().SegOrder;
@@ -3336,6 +3339,18 @@ namespace Reston.Pinata.WebService.Controllers
                             NameValue = "Gen.By.System",
                             SegOrder = lasOrder+1,
                             UserId = Direksi[0]
+                        });
+                }
+                if(Dirut.Count()>0)
+                if (RKS > BATASAN_BIAYA_DIRUT)
+                {
+                    var lasOrder = WorkflowMasterTemplateDetails.LastOrDefault().SegOrder;
+                    WorkflowMasterTemplateDetails.Add(
+                        new WorkflowMasterTemplateDetail()
+                        {
+                            NameValue = "Gen.By.System",
+                            SegOrder = lasOrder + 1,
+                            UserId = Dirut[0]
                         });
                 }
                 WorkflowMasterTemplate MasterTemplate = new WorkflowMasterTemplate()

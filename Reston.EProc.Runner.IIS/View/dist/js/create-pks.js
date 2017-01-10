@@ -12,7 +12,7 @@ $(function () {
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
                  accept: function (file, done) {
                      this.options.url = $("#DraftPKS").attr("action") + "&id=" + $("#pksId").val();
-                     if ($("#isOwner").val() != 1 && $("#StatusPks").val()!=0)
+                     if ($("#isOwner").val() != 1 && $("#StatusPks").val() != 0 && $("#StatusPks").val() != 1)
                          BootstrapDialog.show({
                              title: 'Konfirmasi',
                              message: 'Anda Tidak Punya Akses ' ,
@@ -625,4 +625,60 @@ function ajukan() {
         });
 
     });
+}
+
+$(function () {
+    $(".pending").on("click", function () {
+        $("#konfirmasiPending").modal("show");
+
+    });
+
+    $(".pending-pks").on("click", function () {
+        waitingDialog.showloading("Proses Harap Tunggu");
+        var catatan = $("#note-pending").val();
+        var Id = $("#pksId").val();
+        $.ajax({
+            url: "Api/Pks/Catatan?note=" + catatan + "&Id=" + Id,
+            method: "GET",
+        }).done(function (data) {
+            loadDetail(data.Id);
+            var msg = data.message;
+            waitingDialog.hideloading();
+            BootstrapDialog.show({
+                title: 'Infomasi',
+                message: msg,
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+
+        });
+    });
+});
+
+function loadCatatan() {
+    var Id = $("#pksId").val();
+    $.ajax({
+        url: "Api/Pks/ListCatatan?Id=" + Id,
+        method: "GET",
+    }).done(function (data) {
+        renderCatatan(data);
+    });
+}
+function renderCatatan(data) {
+    var html = "";
+    for(var i in data){        
+        html+= '<li class="item" style="padding-top:1px">'+
+                 '<div class="riwayat-info" data-toggle="tooltip" title="'+data[i].Nama+'">'+
+                    ' <span class="title"><a href="#" >'+data[i].Nama+'</a></span>'+
+                     '<span class="pegadaan-description" >'+data[i].Date+'</span>'+
+                     '<span class="pegadaan-item" >' + data[i].Catatan + '</span>' +
+                 '</div>'+
+             '</li>';
+    }
+    $(".list-catatan").append("");
+    $(".list-catatan").append(html);
 }

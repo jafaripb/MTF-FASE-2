@@ -82,6 +82,7 @@
                         <ul id="menu-top" class="nav navbar-nav">
                             <li><a  title="Simpan" href="#" class="Simpan" style="display:none"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
                             <li><a  title="Ajukan" href="#" class="ajukan" style="display:none">Ajukan</a></li>
+                            <li><a title="Pending" href="#" class="pending" style="display:none">Pending</a></li>
                             <li><a  title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
                             <li><a  title="Edit" href="#" class="Edit" style="display:none"><i class="fa fa-fw fa-pencil " style="font-size:20px;"></i>Edit</a></li>
                         </ul>
@@ -265,6 +266,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                 </div>
                         </div>
                     </div>
@@ -283,7 +285,16 @@
                 <li><a href="#section-7">Personil</a></li>
             </ul>-->
             <!-- Tab panes -->
-
+            <div class="box box-white">
+                <div class="box-header with-border">
+                    <h3 class="box-title text-blue-mtf box-riwayat"><a href="riwayat-pengadaan.html">Riwayat</a></h3>
+                </div>
+                <div class="box-body" >
+                    <ul class="products-list list-catatan">
+                        
+                    </ul>
+                </div>
+            </div>
         </aside><!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
              immediately after the control sidebar -->
@@ -368,6 +379,28 @@
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
+    <div class="modal" id="konfirmasiPending" role="dialog" fileid="" attr1="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Konfirmasi Pending Pks</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="col-sm-2 control-label">Catatan</label>
+                            <textarea id="note-pending" class="form-control "></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="pending-pks" class="btn btn-default">Ok</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <!--endviewr-->
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
