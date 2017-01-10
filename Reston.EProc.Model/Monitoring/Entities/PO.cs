@@ -151,6 +151,11 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string Bank { get; set; }
         public string TelpBarang { get; set; }
         public string KwitansiUp { get; set; }
+        public string NPWP { get; set; }
+        public string Discount { get; set; }
+        public string PPN { get; set; }
+        public string PPH { get; set; }
+        public string DPP { get; set; }
         public string Total { get; set; }
         public string TTD1 { get; set; }
         public string TTD2 { get; set; }
