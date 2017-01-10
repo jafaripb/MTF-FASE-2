@@ -115,6 +115,7 @@ namespace Reston.Pinata.Model
         
         public virtual DbSet<PersetujuanPemenang> PersetujuanPemenangs { get; set; }
         public virtual DbSet<Pks> Pks { get; set; }
+        public virtual DbSet<CatatanPks> CatatanPks { get; set; }
 		public virtual DbSet<PenilaianVendorHeader> PenilaianVendorHeaders { get; set; }
         public virtual DbSet<PenilaianVendorDetail> PenilaianVendorDetails { get; set; }
         public virtual DbSet<DokumenPks> DokumenPks { get; set; }

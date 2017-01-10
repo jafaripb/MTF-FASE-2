@@ -53,7 +53,7 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public IHttpActionResult List()
+        public async Task< IHttpActionResult> List()
         {
             try
             {
@@ -71,6 +71,9 @@ namespace Reston.Pinata.WebService.Controllers
                         if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.Approver = 1;
                         //item.lastApprover = _workflowrepo.isLastApprover(item.Id, item.WorkflowTemplateId.Value).Id;
                     }
+                    var user = await userDetail(item.CreateBy.ToString());
+                    if(user!=null)
+                        item.CreatedName = user.Nama;
                 }
                 return Json(data);
             }
@@ -506,6 +509,32 @@ namespace Reston.Pinata.WebService.Controllers
             };
 
             return result;
+        }
+
+
+        public IHttpActionResult Pending(Guid Id, string note)
+        {
+            var change = _repository.ChangeStatus(Id, StatusPks.Pending, UserId());
+            if (!string.IsNullOrEmpty(change.Id))
+            {
+                CatatanPks nCatatan = new CatatanPks()
+                {
+                    PksId = Id,
+                    Catatan = note,
+                    CreatedBy = UserId(),
+                    CreatedOn = DateTime.Now
+                };
+                 _repository.saveCatatan(nCatatan);
+            }
+            return Json(change); 
+
+        }
+
+        public IHttpActionResult ListCatatan(Guid Id)
+        {
+           
+            return Json(_repository.ListCatatanPKs(Id));
+
         }
     }
     

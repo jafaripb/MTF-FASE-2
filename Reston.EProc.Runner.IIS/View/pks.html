@@ -316,13 +316,13 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            if (data.Approver == 1) {
-                                return '<button class="setuju btn btn-flat btn-sm btn-primary" attrid="' + data.Id + '" >Setujui</button> <button class="tolak btn-flat btn-sm btn btn-danger" attrid="' + data.Id + '"  >Tolak</button>' +
-                                    ' <a href="create-pks.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title "> Riview </a> ';
-                            }
-                            else {
+                        //    if (data.Approver == 1) {
+                         //       return '<button class="setuju btn btn-flat btn-sm btn-primary" attrid="' + data.Id + '" >Setujui</button> <button class="tolak btn-flat btn-sm btn btn-danger" attrid="' + data.Id + '"  >Tolak</button>' +
+                          //          ' <a href="create-pks.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title "> Riview </a> ';
+                          //  }
+                           // else {
                                 return ' <a href="create-pks.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title "> Riview </a> ';
-                            }
+                           // }
                         },
 
                         "targets": 6,

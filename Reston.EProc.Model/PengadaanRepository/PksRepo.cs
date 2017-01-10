@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System.Net;
 using Reston.Helper.Util;
 
+
 namespace Reston.Pinata.Model.PengadaanRepository
 {
     public interface IPksRepo
@@ -31,6 +32,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         RiwayatDokumenPks AddRiwayatDokumenPks(RiwayatDokumenPks dtRiwayatDokumenPks, Guid UserId);
 
         List<VWDokumenPks> GetListDokumenPks(Guid Id,TipeBerkas tipe);
+        ResultMessage saveCatatan(CatatanPks data);
+        List<VWCatatanPks> ListCatatanPKs(Guid Id);
     }
     public class PksRepo : IPksRepo
     {
@@ -82,6 +85,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     StatusPks=d.StatusPks,
                     StatusPksName=d.StatusPks.ToString(),
                     WorkflowId=d.WorkflowId,
+                    CreateBy=d.CreateBy,
                     HPS = d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault() == null ? null :
                             d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().RKSDetails.Where(dd =>
                                 dd.RKSHeaderId == d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().Id)
@@ -400,6 +404,42 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 };
             }
         }
+
+        
+        public List<VWCatatanPks> ListCatatanPKs(Guid Id)
+        {
+            return ctx.CatatanPks.Where(d => d.PksId == Id).Select(d => new VWCatatanPks() { 
+            Id=d.Id,PksId=d.PksId,Catatan=d.Catatan,CreatedOn=d.CreatedOn,CreatedBy=d.CreatedBy
+            
+            }).ToList();
+        }
+
+        public ResultMessage saveCatatan(CatatanPks data)
+        {
+            try
+            {
+                ctx.CatatanPks.Add(data);
+                ctx.SaveChanges();
+                return new ResultMessage()
+                {
+                    Id = data.Id.ToString(),
+                    message = Common.SaveSukses(),
+                    status = HttpStatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResultMessage()
+                {
+                    message = ex.ToString(),
+                    status = HttpStatusCode.NotImplemented
+                };
+            }
+
+
+        }
+
+
     }
 }
 
