@@ -345,33 +345,38 @@ function renderData(data) {
                  '<div class="product-info pegadaan-info">';
         if (data[i].GroupPengadaan == 1) {
             if (data[i].AturanPengadaan == "Pengadaan Terbuka") {
-                 html = html + '<a href="pengadaan-terbuka-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+                html = html + '<a href="pengadaan-terbuka-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
                 }
             else {
                 html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
              }
          }
 
         if (data[i].GroupPengadaan == 2) {
             if (data[i].AturanPengadaan == "Pengadaan Terbuka") {
                 html = html + '<a href="pengadaan-terbuka-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
             }
             else {
                 html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf ">' + data[i].Judul + ' </a>';
+                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
             }
             if (data[i].Status == 0)
                 if (data[i].isCreated == 1 || data[i].isPIC == 1) {
                     html = html + '<span attrId="' + data[i].Id + '" class="label label-danger pull-right action HapusPengadaan">Hapus</span>';
                 }
-            html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
         }
 
         if (data[i].GroupPengadaan == 3) {
             if (data[i].AturanPengadaan == "Pengadaan Terbuka") {
                 html = html + '<a href="pengadaan-terbuka-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
             }
             else {
                 html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
+                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
             }
        }
 

@@ -411,7 +411,7 @@ function saveItem(item) {
 function deleteItem(Id) {
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
-        url: "Api/po/DeleteItem",
+        url: "Api/po/DeleteItem?Id="+Id,
         method: "GET",
     }).done(function (data) {
         var msg = data.message;
@@ -426,6 +426,7 @@ function deleteItem(Id) {
                 }
             }]
         });
+        tableitem.draw();
     });
 }
 

@@ -126,6 +126,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
     public enum StatusPks
     {
-        Draft, Pendding, Approve, Reject
+        Draft, Pending, Approve, Reject
     }
 }

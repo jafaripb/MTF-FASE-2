@@ -250,8 +250,9 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 dtTable.recordsTotal = data.Count();
                 if (!string.IsNullOrEmpty(search))
                 {
-                    data = data.Where(d => d.Title == d.Title);
+                    data = data.Where(d => d.Title.Contains(d.Title));                   
                 }
+                data = data.Where(x => !ctx.RencanaProyeks.Select(xx => xx.SpkId).Contains(x.Id));
                 dtTable.recordsFiltered = data.Count();
                 data = data.OrderByDescending(d => d.CreateOn).Skip(start).Take(length);
 
