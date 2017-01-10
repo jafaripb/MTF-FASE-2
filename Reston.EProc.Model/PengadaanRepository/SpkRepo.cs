@@ -147,6 +147,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     StatusSpk=d.StatusSpk,
                     StatusSpkName=d.StatusSpk.ToString(),
                     NilaiSPK=d.NilaiSPK,
+                    PksId = d.PksId,
                     HPS = d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault() == null ? null :
                            d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().RKSDetails.Where(dd =>
                                dd.RKSHeaderId == d.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().Id)

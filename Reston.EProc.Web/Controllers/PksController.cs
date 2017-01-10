@@ -172,7 +172,7 @@ namespace Reston.Pinata.WebService.Controllers
 
                 if (pks.WorkflowId != null)
                 {
-                    pks.StatusPks = StatusPks.Pendding;
+                    pks.StatusPks = StatusPks.Pending;
                     var savePks = _repository.save(pks, UserId());
                     var resultx = _workflowrepo.PengajuanDokumen(new Guid(savePks.Id), Convert.ToInt32(resultTemplate.Id), DocumentType);
                     if (string.IsNullOrEmpty(resultx.Id))

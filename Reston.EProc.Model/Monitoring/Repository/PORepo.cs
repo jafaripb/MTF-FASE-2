@@ -230,6 +230,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 {
                     po.CreatedBy = UserId;
                     po.CreatedOn = DateTime.Now;
+                    po.NoPO = GenerateNoPO(UserId);
                     ctx.POs.Add(po);
                     ctx.SaveChanges(UserId.ToString());
                     return new ResultMessage()

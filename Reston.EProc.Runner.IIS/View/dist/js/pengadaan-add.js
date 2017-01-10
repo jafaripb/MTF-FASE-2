@@ -123,6 +123,15 @@ function getJadwal() {
         arrJadwalPengadaan.push(objJadwalPengadaan);
 
         objJadwalPengadaan = {};
+        objJadwalPengadaan.tipe = "klarifikasi_lanjutan";
+        if (moment($("#klarifikasi_lanjutan").val(), 'D MMMM YYYY HH:mm', 'id', true).isValid())
+            objJadwalPengadaan.Mulai = moment($("#klarifikasi_lanjutan").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm"); //$("#klarifikasi").val();
+        if (moment($("#klarifikasi_lanjutan_sampai").val(), 'D MMMM YYYY HH:mm', 'id', true).isValid())
+            objJadwalPengadaan.Sampai = moment($("#klarifikasi_lanjutan_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");// $("#klarifikasi_sampai").val();
+        arrJadwalPengadaan.push(objJadwalPengadaan);
+
+
+        objJadwalPengadaan = {};
         objJadwalPengadaan.tipe = "penentuan_pemenang";
         if (moment($("#penentuan_pemenang").val(), 'D MMMM YYYY HH:mm', 'id', true).isValid())
             objJadwalPengadaan.Mulai = moment($("#penentuan_pemenang").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm"); //$("#penentuan_pemenang").val();
@@ -201,7 +210,7 @@ function loadJadwal(Jadwal,xIsTeam) {
                 $(".buka_amplop[attr1='sampai']").attr("attr2", Jadwal[item].Id);
                 if (xIsTeam == 1) {
                     $(".buka_amplop[attr1='sampai").removeAttr("disabled");
-                    $(".penilaian[attr1='dari").removeAttr("disabled");
+                    $(".klarifikasi[attr1='dari").removeAttr("disabled");
                 }
             }else $(".buka_amplop[attr1='sampai']").attr("disabled");
         }
@@ -221,7 +230,7 @@ function loadJadwal(Jadwal,xIsTeam) {
                 $(".penilaian[attr1='sampai']").attr("attr2", Jadwal[item].Id);
                 if (xIsTeam == 1) {
                     $(".penilaian[attr1='sampai").removeAttr("disabled");
-                    $(".klarifikasi[attr1='dari").removeAttr("disabled");
+                    $(".penentuan_pemenang[attr1='dari").removeAttr("disabled");
                 }
             } else $(".penilaian[attr1='sampai']").attr("disabled");
         }
@@ -241,9 +250,29 @@ function loadJadwal(Jadwal,xIsTeam) {
                 $(".klarifikasi[attr1='sampai']").attr("attr2", Jadwal[item].Id);
                 if (xIsTeam == 1) {
                     $(".klarifikasi[attr1='sampai").removeAttr("disabled");
-                    $(".penentuan_pemenang[attr1='dari").removeAttr("disabled");
+                    $(".klarifikasi_lanjutan[attr1='dari").removeAttr("disabled");
                 }
             } else $(".klarifikasi[attr1='sampai']").attr("disabled");
+        }
+        if (Jadwal[item].tipe == "klarifikasi_lanjutan") {
+            if ((Jadwal[item].Mulai != null || Jadwal[item].Mulai != "") && moment(Jadwal[item].Mulai).format("DD MMMM YYYY HH:mm") != "Invalid date") {
+                //$('.jadwal[attr1="Klarifikasi"]').attr("attr2", moment(Jadwal[item].Mulai).format("DD/MM/YYYY"));
+                $(".klarifikasi_lanjutan[attr1='dari']").val(moment(Jadwal[item].Mulai).format("DD MMMM YYYY HH:mm"));
+                $(".klarifikasi_lanjutan[attr1='dari']").attr("attr2", Jadwal[item].Id);
+                if (xIsTeam == 1) {
+                    $(".klarifikasi_lanjutan[attr1='dari").removeAttr("disabled");
+                    $(".klarifikasi_lanjutan[attr1='sampai").removeAttr("disabled");
+                }
+            } else $(".klarifikasi_lanjutan[attr1='dari']").attr("disabled");
+            if ((Jadwal[item].Sampai != null || Jadwal[item].Sampai != "") && moment(Jadwal[item].Sampai).format("DD MMMM YYYY HH:mm") != "Invalid date") {
+                //$('.jadwal[attr1="Klarifikasi"]').attr("attr3", moment(Jadwal[item].Sampai).format("DD/MM/YYYY"));
+                $(".klarifikasi_lanjutan[attr1='sampai']").val(moment(Jadwal[item].Sampai).format("DD MMMM YYYY HH:mm"));
+                $(".klarifikasi_lanjutan[attr1='sampai']").attr("attr2", Jadwal[item].Id);
+                if (xIsTeam == 1) {
+                    $(".klarifikasi_lanjutan[attr1='sampai").removeAttr("disabled");
+                    $(".penilaian[attr1='dari").removeAttr("disabled");
+                }
+            } else $(".klarifikasi_lanjutan[attr1='sampai']").attr("disabled");
         }
         if (Jadwal[item].tipe == "penentuan_pemenang") {
             if ((Jadwal[item].Mulai != null || Jadwal[item].Mulai != "") && moment(Jadwal[item].Mulai).format("DD MMMM YYYY HH:mm") != "Invalid date") {

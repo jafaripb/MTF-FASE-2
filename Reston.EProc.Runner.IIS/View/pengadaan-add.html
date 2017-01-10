@@ -386,14 +386,25 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="title">s/d</label>
-                                            <input id="klarifikasi_sampai" disabled="disabled" name="klarifikasi" nextJadwal="#penilaian" beforeJadwal="#klarifikasi" attr1="sampai" type="text" class="klarifikasi form-control datepicker dateJadwal">
+                                            <input id="klarifikasi_sampai" disabled="disabled" name="klarifikasi" nextJadwal="#klarifikasi_lanjutan" beforeJadwal="#klarifikasi" attr1="sampai" type="text" class="klarifikasi form-control datepicker dateJadwal">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <input type="hidden" class="jadwal" attr1="klarifikasi_lanjutan" attr2="" attr3="" />
+                                        <div class="form-group col-md-4">
+                                            <label class="title">Klarifikasi & Negosiasi Lanjutan:</label>
+                                            <input id="klarifikasi_lanjutan" name="klarifikasi_lanjutan" disabled="disabled" nextJadwal="#klarifikasi_lanjutan_sampai" beforeJadwal="#klarifikasi_sampai" attr1="dari" type="text" class="klarifikasi_lanjutan form-control datepicker dateJadwal">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="title">s/d</label>
+                                            <input id="klarifikasi_lanjutan_sampai" disabled="disabled" name="klarifikasi_lanjutan" nextJadwal="#penilaian" beforeJadwal="#klarifikasi_lanjutan" attr1="sampai" type="text" class="klarifikasi_lanjutan form-control datepicker dateJadwal">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <input type="hidden" class="jadwal" attr1="penilaian" attr2="" attr3="" />
                                         <div class="form-group col-md-4">
                                             <label class="title">Penilaian Kandidat:</label>
-                                            <input id="penilaian" disabled="disabled" attr1="dari" nextJadwal="#penilaian_sampai" beforeJadwal="#klarifikasi_sampai" name="penilaian" type="text" class="penilaian form-control datepicker dateJadwal">
+                                            <input id="penilaian" disabled="disabled" attr1="dari" nextJadwal="#penilaian_sampai" beforeJadwal="#klarifikasi_lanjutan_sampai" name="penilaian" type="text" class="penilaian form-control datepicker dateJadwal">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="title">s/d</label>

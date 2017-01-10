@@ -5,7 +5,7 @@
 	{ "id": 4 , "menu": "Rekanan", "url": "rekanan.html","css":"fa fa-vimeo"   },
 	{ "id": 5 , "menu": "Katalog-e", "url": "eCatalogue2.html","css":"fa fa-book"   },
 	{ "id": 6 , "menu": "Report", "url": "report.html","css":"fa fa-file-excel-o"   },
-  { "id": 7,  "menu": "Sistem Monitoring",  "url": "sistem-monitoring.html",  "css": "fa fa-tv" },
+  { "id": 7,  "menu": "Sistem Monitoring",  "url": "monitoring-selection.html",  "css": "fa fa-tv" },
   { "id": 8, "menu": "PKS",  "url": "pks.html",  "css": "fa fa-pencil-square" },
   { "id": 9, "menu": "SPK / PO",  "url": "spk.html",  "css": "fa fa-pencil" },
   { "id": 10 , "menu": "Budget Capex", "url": "anggaran.html","css":"fa fa-money" },
