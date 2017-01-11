@@ -118,8 +118,20 @@ namespace Reston.Pinata.WebService.Controllers
                 var oPks = _repository.detail(Id, UserId());
                 if (oPks.WorkflowId != null)
                 {
-                    oPks.Approver= _workflowrepo.isThisUserLastApprover(oPks.WorkflowId.Value, UserId());
-                    //item.lastApprover = _workflowrepo.isLastApprover(item.Id, item.WorkflowTemplateId.Value).Id;
+                    //oPks.Approver= _workflowrepo.isThisUserLastApprover(oPks.WorkflowId.Value, UserId());
+                    try
+                    {
+                        //var ResultCurrentApprover = _workflowrepo.CurrentApproveUserSegOrder(Id);
+                        //if (!string.IsNullOrEmpty(ResultCurrentApprover.Id))
+                        //{
+                        //    oPks.Approver =Convert.ToInt32(ResultCurrentApprover.Id.Split('#')[0]);
+                        //}
+                        //int isAprrover = UserId() == ApproverId ? 1 : 0;
+                        List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), oPks.WorkflowId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
+                        if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) oPks.Approver = 1;
+                       
+                    }
+                    catch { }
                 }
                 return Json(oPks);
             }
@@ -175,7 +187,7 @@ namespace Reston.Pinata.WebService.Controllers
 
                 if (pks.WorkflowId != null)
                 {
-                    pks.StatusPks = StatusPks.Pending;
+                    pks.StatusPks = StatusPks.Ajukan;
                     var savePks = _repository.save(pks, UserId());
                     var resultx = _workflowrepo.PengajuanDokumen(new Guid(savePks.Id), Convert.ToInt32(resultTemplate.Id), DocumentType);
                     if (string.IsNullOrEmpty(resultx.Id))
@@ -493,6 +505,10 @@ namespace Reston.Pinata.WebService.Controllers
             
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public HttpResponseMessage OpenFile(Guid Id)
         {
             var data = _repository.getDokPks(Id);
@@ -511,31 +527,76 @@ namespace Reston.Pinata.WebService.Controllers
             return result;
         }
 
-
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult Pending(Guid Id, string note)
         {
             var change = _repository.ChangeStatus(Id, StatusPks.Pending, UserId());
             if (!string.IsNullOrEmpty(change.Id))
             {
-                CatatanPks nCatatan = new CatatanPks()
+                _repository.AddRiwayatDokumenPks(new RiwayatDokumenPks()
                 {
+                    ActionDate = DateTime.Now,
+                    Comment = note,
+                    Status = "Dokumen Pendding",
                     PksId = Id,
-                    Catatan = note,
-                    CreatedBy = UserId(),
-                    CreatedOn = DateTime.Now
-                };
-                 _repository.saveCatatan(nCatatan);
+                    UserId = UserId()
+                }, UserId());
             }
             return Json(change); 
 
         }
 
-        public IHttpActionResult ListCatatan(Guid Id)
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public async Task< IHttpActionResult> ListCatatan(Guid Id)
         {
-           
-            return Json(_repository.ListCatatanPKs(Id));
+            var data = _repository.ListCatatanPKs(Id);
+            foreach(var item in data){
+                var user = await userDetail(item.CreatedBy.ToString());
+                if (user != null) item.Nama = user.Nama;
+            }
+            return Json(data);
 
         }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public IHttpActionResult SendNote(Guid Id, string note)
+        {
+            var result = _repository.AddRiwayatDokumenPks(new RiwayatDokumenPks()
+            {
+                ActionDate = DateTime.Now,
+                Comment = note,
+                PksId = Id,
+                UserId = UserId(),
+                Status = "Catatan Pending"
+            }, UserId());
+            if (result.Id != null)
+            {
+                return Json(new ResultMessage()
+                {
+                    Id = result.Id.ToString(),
+                    message = Common.SaveSukses(),
+                    status = HttpStatusCode.OK
+                });
+            }
+            return Json(new ResultMessage()
+            {
+                message = "Gagal Save",
+                status = HttpStatusCode.NotModified
+            });
+
+            
+        }
+
+       
     }
     
 }

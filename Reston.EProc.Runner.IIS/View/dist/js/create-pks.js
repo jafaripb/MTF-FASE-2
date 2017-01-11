@@ -12,7 +12,7 @@ $(function () {
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
                  accept: function (file, done) {
                      this.options.url = $("#DraftPKS").attr("action") + "&id=" + $("#pksId").val();
-                     if ($("#isOwner").val() != 1 && $("#StatusPks").val() != 0 && $("#StatusPks").val() != 1)
+                     if ($("#isOwner").val() != 1 && $("#StatusPks").val() >1 )
                          BootstrapDialog.show({
                              title: 'Konfirmasi',
                              message: 'Anda Tidak Punya Akses ' ,
@@ -71,7 +71,7 @@ $(function () {
                              $("#konfirmasiFile").attr("attr1", "DraftPKS");
                              $("#konfirmasiFile").attr("FileId", id);
                              $("#konfirmasiFile").modal("show");
-                             if ($("#isOwner").val() == 1 && $("#StatusPks").val() == 0) {
+                             if ($("#isOwner").val() == 1 && $("#StatusPks").val() <3) {
                                  $("#HapusFile").show();
                              }
                              else { $("#HapusFile").hide() }
@@ -266,34 +266,8 @@ $(function () {
     renderDokumenDropzone(myDropzoneAssignedPks, "AssignedPks");
     Dropzone.options.AssignedPks = false;
 
-    $("#HapusFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
-        $.ajax({
-            method: "POST",
-            url: "Api/Pks/deleteDokumenPks?Id=" + FileId
-        }).done(function (data) {
-            if (data.Id == "1") {
+    
 
-                if (tipe == "PKS") {
-                    $.each(myDropzonePKS.files, function (index, item) {
-                        var id = 0;
-                        if (item.Id != undefined) {
-                            id = item.Id;
-                        }
-                        else {
-                            id = $.parseJSON(item.xhr.response);
-                        }
-
-                        if (id == FileId) {
-                            myDropzonePKS.removeFile(item);
-                        }
-                    });
-                }
-            }
-            $("#konfirmasiFile").modal("hide");
-        });
-    });
 
 });
 
@@ -527,7 +501,7 @@ function loadDetail(Id) {
                 $(".Edit").hide();
             }
             if (data.StatusPks == 3) {
-                $(".Edit").show();
+                //$(".Edit").show();
             }
         }
         if (data.StatusPks == 0 || data.StatusPks == 3)
@@ -539,13 +513,30 @@ function loadDetail(Id) {
             $(".Simpan").remove();
             $(".ajukan").remove();
             $(".Hapus").remove();
-            if (data.StatusPks == 2) { //kalo udah approve 
+            if (data.StatusPks > 1) { //kalo udah approve 
                 $("#bingkai-upload-legal").show();
             }
         }
-
-
+        if (data.Approver == 1) {
+            $(".pending").show();
+        }//off-pending
+        else {
+            $(".pending").hide();
+        }
+        if (data.StatusPks == 2 && data.isOwner == 1) {
+            
+            $("#dok-assign").show();
+        }
+        if (data.StatusPks == 2 && data.Approver == 1) {
+            $(".setujui").show();
+        }
+        if (data.StatusPks == 3) {
+            $("#dok-assign").show();
+            $("#bingkai-upload-legal").show();
+        }
         $("#Status").text(data.StatusPksName);
+           
+        loadCatatan();
     });
 
 }
@@ -596,6 +587,7 @@ function save(pks) {
         });
         
     });
+   
 }
 
 function ajukan() {
@@ -633,12 +625,13 @@ $(function () {
 
     });
 
-    $(".pending-pks").on("click", function () {
+    $("#pending-pks").on("click", function () {
+        $("#konfirmasiPending").modal("hide");
         waitingDialog.showloading("Proses Harap Tunggu");
         var catatan = $("#note-pending").val();
         var Id = $("#pksId").val();
         $.ajax({
-            url: "Api/Pks/Catatan?note=" + catatan + "&Id=" + Id,
+            url: "Api/Pks/Pending?note=" + catatan + "&Id=" + Id,
             method: "GET",
         }).done(function (data) {
             loadDetail(data.Id);
@@ -657,6 +650,42 @@ $(function () {
 
         });
     });
+    
+    $(".setujui").on("click", function () {        
+        $("#KonfirmasiSetujui").modal("show");
+    });
+    $("#setujui-pks").on("click", function () {
+        var IdPks = $("#pksId").val();
+        var NoPks = $("#no-pks").val();
+        var Note = $("#note-setujui").val();
+        waitingDialog.showloading("Proses Harap Tunggu");
+        $.ajax({
+            url: "Api/Pks/Setujui?Id=" + IdPks + "&Note=" + Note + "&NoPks=" + NoPks,
+            method: "POST",
+        }).done(function (data) {
+            table.draw();
+            $("#KonfirmasiSetujui").modal("hide");
+            var msg = data.message;
+            waitingDialog.hideloading();
+            BootstrapDialog.show({
+                title: 'Infomasi',
+                message: msg,
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            loadDetail(IdPks);
+        });
+    });
+    $(".kirim-catatan").on("click", function () {
+        if ($("#isOwner").val() == 1 || $("#Approver").val() == 1) {
+            sendNote($("#pksId").val(), $("#catatan").val());
+        }
+        $("#catatan").val("");
+    });
 });
 
 function loadCatatan() {
@@ -673,12 +702,23 @@ function renderCatatan(data) {
     for(var i in data){        
         html+= '<li class="item" style="padding-top:1px">'+
                  '<div class="riwayat-info" data-toggle="tooltip" title="'+data[i].Nama+'">'+
-                    ' <span class="title"><a href="#" >'+data[i].Nama+'</a></span>'+
-                     '<span class="pegadaan-description" >'+data[i].Date+'</span>'+
+                    ' <span class="title"><a href="#" >' + data[i].Status + '</a></span>' +
+                     '<span class="pegadaan-description" >' + moment(data[i].CreatedOn).format("DD/MM/YYYY hh:mm:ss") + '</span>' +
                      '<span class="pegadaan-item" >' + data[i].Catatan + '</span>' +
                  '</div>'+
              '</li>';
     }
-    $(".list-catatan").append("");
+    $(".list-catatan").html("");
     $(".list-catatan").append(html);
+}
+
+function sendNote(pksId,note) {
+    waitingDialog.showloading("Proses Harap Tunggu");
+    $.ajax({
+        url: "Api/Pks/SendNote?Id=" + pksId + "&note=" + note,
+    }).done(function (data) {
+        var msg = data.message;
+        waitingDialog.hideloading();
+        loadCatatan();
+    });
 }
