@@ -33,7 +33,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public virtual PemenangPengadaan PemenangPengadaan { get; set; }
         public virtual Pks PksParent { get; set; }
         public virtual ICollection<DokumenPks> DokumenPks { get; set; }
-
+        public virtual ICollection<CatatanPks> CatatanPks { get; set; }
     }
 
     [Table("DokumenPks", Schema = JimbisContext.PROYEK_SCHEMA_NAME)]
@@ -70,6 +70,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Guid CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
         public string Catatan { get; set; }
+        public virtual Pks Pks { get; set; }
     }
 
     public class VWCatatanPks
@@ -77,10 +78,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Guid Id { get; set; }
         public Nullable<Guid> PksId { get; set; }
         public Guid CreatedBy { get; set; }
-        public Guid Nama { get; set; }
+        public string Nama { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime Date { get; set; }
         public string Catatan { get; set; }
+        public string Status { get; set; }
     }
 
     public class DataTablePksTemplate

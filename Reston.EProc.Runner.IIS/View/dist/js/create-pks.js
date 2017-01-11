@@ -12,7 +12,7 @@ $(function () {
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
                  accept: function (file, done) {
                      this.options.url = $("#DraftPKS").attr("action") + "&id=" + $("#pksId").val();
-                     if ($("#isOwner").val() != 1 && $("#StatusPks").val() != 0 && $("#StatusPks").val() != 1)
+                     if ($("#isOwner").val() != 1 && $("#StatusPks").val() >1 )
                          BootstrapDialog.show({
                              title: 'Konfirmasi',
                              message: 'Anda Tidak Punya Akses ' ,
@@ -539,13 +539,20 @@ function loadDetail(Id) {
             $(".Simpan").remove();
             $(".ajukan").remove();
             $(".Hapus").remove();
-            if (data.StatusPks == 2) { //kalo udah approve 
+            if (data.StatusPks > 1) { //kalo udah approve 
                 $("#bingkai-upload-legal").show();
             }
         }
+        if (data.Approver == 1) {
+            $(".pending").show();
+        }//off-pending
 
-
+        if (data.StatusPks == 2 && data.Approver == 1) {
+            $(".off-pending").show();
+        }
         $("#Status").text(data.StatusPksName);
+           
+        loadCatatan();
     });
 
 }
@@ -596,6 +603,7 @@ function save(pks) {
         });
         
     });
+   
 }
 
 function ajukan() {
@@ -633,12 +641,13 @@ $(function () {
 
     });
 
-    $(".pending-pks").on("click", function () {
+    $("#pending-pks").on("click", function () {
+        $("#konfirmasiPending").modal("hide");
         waitingDialog.showloading("Proses Harap Tunggu");
         var catatan = $("#note-pending").val();
         var Id = $("#pksId").val();
         $.ajax({
-            url: "Api/Pks/Catatan?note=" + catatan + "&Id=" + Id,
+            url: "Api/Pks/Pending?note=" + catatan + "&Id=" + Id,
             method: "GET",
         }).done(function (data) {
             loadDetail(data.Id);
@@ -657,6 +666,7 @@ $(function () {
 
         });
     });
+    
 });
 
 function loadCatatan() {
@@ -673,7 +683,7 @@ function renderCatatan(data) {
     for(var i in data){        
         html+= '<li class="item" style="padding-top:1px">'+
                  '<div class="riwayat-info" data-toggle="tooltip" title="'+data[i].Nama+'">'+
-                    ' <span class="title"><a href="#" >'+data[i].Nama+'</a></span>'+
+                    ' <span class="title"><a href="#" >' + data[i].Status + '</a></span>' +
                      '<span class="pegadaan-description" >'+data[i].Date+'</span>'+
                      '<span class="pegadaan-item" >' + data[i].Catatan + '</span>' +
                  '</div>'+
