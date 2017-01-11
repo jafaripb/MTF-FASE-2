@@ -554,6 +554,13 @@
                     },
                     {
                         "render": function (data, type, row) {
+                            return '<a href="sistem-monitoring-detail.html?Id=' + row.Id + '">' + row.Judul + '</a>';
+                        },
+                        "targets": 2,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
                             return numberWithCommas(row.NilaiKontrak);
                         },
                         "targets": 6,
