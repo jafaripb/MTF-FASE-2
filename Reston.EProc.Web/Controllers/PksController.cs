@@ -121,13 +121,15 @@ namespace Reston.Pinata.WebService.Controllers
                     //oPks.Approver= _workflowrepo.isThisUserLastApprover(oPks.WorkflowId.Value, UserId());
                     try
                     {
-                        var ResultCurrentApprover = _workflowrepo.CurrentApproveUserSegOrder(Id);
-                        if (!string.IsNullOrEmpty(ResultCurrentApprover.Id))
-                        {
-                            oPks.Approver =Convert.ToInt32( new Guid(ResultCurrentApprover.Id.Split('#')[1]));
-                        }
+                        //var ResultCurrentApprover = _workflowrepo.CurrentApproveUserSegOrder(Id);
+                        //if (!string.IsNullOrEmpty(ResultCurrentApprover.Id))
+                        //{
+                        //    oPks.Approver =Convert.ToInt32(ResultCurrentApprover.Id.Split('#')[0]);
+                        //}
                         //int isAprrover = UserId() == ApproverId ? 1 : 0;
-
+                        List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), oPks.WorkflowId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
+                        if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) oPks.Approver = 1;
+                       
                     }
                     catch { }
                 }
@@ -561,6 +563,40 @@ namespace Reston.Pinata.WebService.Controllers
             return Json(data);
 
         }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public IHttpActionResult SendNote(Guid Id, string note)
+        {
+            var result = _repository.AddRiwayatDokumenPks(new RiwayatDokumenPks()
+            {
+                ActionDate = DateTime.Now,
+                Comment = note,
+                PksId = Id,
+                UserId = UserId(),
+                Status = "Catatan Pending"
+            }, UserId());
+            if (result.Id != null)
+            {
+                return Json(new ResultMessage()
+                {
+                    Id = result.Id.ToString(),
+                    message = Common.SaveSukses(),
+                    status = HttpStatusCode.OK
+                });
+            }
+            return Json(new ResultMessage()
+            {
+                message = "Gagal Save",
+                status = HttpStatusCode.NotModified
+            });
+
+            
+        }
+
+       
     }
     
 }

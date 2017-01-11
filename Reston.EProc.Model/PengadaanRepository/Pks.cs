@@ -65,7 +65,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        [ForeignKey("Pks")]
+        //[ForeignKey("Pks")]
         public Nullable<Guid> PksId { get; set; }
         public Guid CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
@@ -109,7 +109,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string Vendor { get; set; }
         public string AturanPengadaan { get; set; }
         public decimal? HPS { get; set; }
-            public decimal? NilaiSPK { get; set; }
+        public decimal? NilaiSPK { get; set; }
         public string NoPengadaan { get; set; }
         public Guid? PengadaanId { get; set; }
         public int? VendorId { get; set; }
