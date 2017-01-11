@@ -408,9 +408,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
         
         public List<VWCatatanPks> ListCatatanPKs(Guid Id)
         {
-            return ctx.CatatanPks.Where(d => d.PksId == Id).Select(d => new VWCatatanPks() { 
-            Id=d.Id,PksId=d.PksId,Catatan=d.Catatan,CreatedOn=d.CreatedOn,CreatedBy=d.CreatedBy
-            
+            return ctx.RiwayatDokumenPks.Where(d => d.PksId == Id).Select(d => new VWCatatanPks() { 
+                Id=d.Id,
+                PksId=d.PksId,
+                Status=d.Status,
+                Catatan=d.Comment.ToString(),
+                CreatedOn=d.ActionDate.Value,
+                CreatedBy=d.UserId.Value            
             }).ToList();
         }
 

@@ -2630,8 +2630,6 @@ function isSpkUploaded() {
     });
 }
 
-
-
 function saveTahap(data, el, elpanel) {
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
