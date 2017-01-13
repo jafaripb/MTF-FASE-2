@@ -1029,6 +1029,7 @@
     <Content Include="idldap.config">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Properties\PublishProfiles\identity-mtf.pubxml" />
     <None Include="Properties\PublishProfiles\identity.pubxml" />
     <None Include="Properties\PublishProfiles\mtf-identity.pubxml" />
     <None Include="Properties\PublishProfiles\mtf-ldap.pubxml" />

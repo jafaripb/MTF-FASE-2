@@ -514,6 +514,363 @@ $(function () {
         });
     });
 });
+$(function () {
+    $("#myNav").affix({
+        offset: {
+            top: 100
+        }
+    });
+    $(".tab-content").show();
+    $("#side-kanan").find(".pl").hide();
+
+    $(".box-folder-vendor").on("click", function () {
+        window.location.replace("http://localhost:49559/rekanan-detail.html");
+    });
+
+    $("#tab-pelakasanaan").on("click", function () {
+        $("#side-kanan").find(".rk").hide();
+        $("#side-kanan").find(".pl").show();
+    });
+    $("#tab-berkas").on("click", function () {
+        $("#side-kanan").find(".rk").hide();
+        $("#side-kanan").find(".pl").hide();
+    });
+    $("#tab-rk").on("click", function () {
+        $("#side-kanan").find(".rk").show();
+        $("#side-kanan").find(".pl").hide();
+    });
+
+    $("#side-kanan").on("click", "li", function () {
+        $("#side-kanan").find("li").each(function () {
+            $(this).removeClass("active");
+        });
+        $(this).addClass("active");
+    });
+
+
+});
+
+//download berkas
+$(function () {
+    $(".download-berkas").on("click", function () {
+        if ($(this).attr("attr1") == "berkas-aanwijzing")
+            downloadFileUsingForm("/api/report/BerkasAanwzjing?Id=" + $("#pengadaanId").val());
+        if ($(this).attr("attr1") == "berkas-buka-amplop")
+            downloadFileUsingForm("/api/report/BerkasBukaAmplop?Id=" + $("#pengadaanId").val());
+        if ($(this).attr("attr1") == "berkas-klarifikasi")
+            downloadFileUsingForm("/api/report/BerkasKlarfikasi?Id=" + $("#pengadaanId").val());
+        if ($(this).attr("attr1") == "berkas-pemenang")
+            downloadFileUsingForm("/api/report/BerkasPemenang?Id=" + $("#pengadaanId").val());
+        if ($(this).attr("attr1") == "daftar-hadir")
+            downloadFileUsingForm("/api/report/BerkasDaftarRapat?Id=" + $("#pengadaanId").val());
+        if ($(this).attr("attr1") == "lembar-disposisi")
+            downloadFileUsingForm("/api/report/LembarDisposisi?Id=" + $("#pengadaanId").val());
+        if ($(this).attr("attr1") == "berkas-penilaian")
+            downloadFileUsingForm("/api/report/BerkasPenilaian?Id=" + $("#pengadaanId").val());
+        if ($(this).attr("attr1") == "lembar-spk")
+            downloadFileUsingForm("/api/report/BerkasSPK?Id=" + $("#pengadaanId").val());
+        if ($(this).attr("attr1") == "berkas-klarifikasi-lanjutan")
+            downloadFileUsingForm("/api/report/BerkasKlarfikasiLanjutan?Id=" + $("#pengadaanId").val());
+    });
+});
+
+$(function () {
+    $(".klarifikasi").on("click", function () {
+        if (!confirm("Yakin vendor ini dieleminasi?"))
+            return false;
+        $(this).parent().remove();
+    });
+
+    $(".penentuan-pemenang").on("click", function () {
+        if (!confirm("Yakin vendor ini sebagai pemenang?"))
+            return false;
+        var conten = $(this).parent().html();
+        $(".pemenang").html(conten);
+    });
+
+    $("#ajukan").on("click", function () {
+        if ($("[name=TitleDokumenNotaInternal]").val() == "" || myDropzoneDokumenNotaInternal.files.length == 0) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'Dokumen Nota Internal Wajib Diisi!',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            return false;
+        }
+        if ($("#AturanPengadaan").val().trim() != "Pengadaan Terbuka") {
+            if ($("div.listkandidat .col-md-3").length == 0) {
+                BootstrapDialog.show({
+                    title: 'Konfirmasi',
+                    message: 'Kandidat Wajib diisi!',
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+                return false;
+            }
+        }
+        var cek = 1;
+
+        $.each($(".jadwal"), function (index, el) {
+            if ($(el).hasClass("jadwal-pendaftaran-terbuka")) {
+                if ($("#AturanPengadaan").val().trim() != "Pengadaan Tertutup") {
+                    if ($(el).text() == "") {
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: 'Semua Jadwal Wajib diisi!',
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                        cek = 0;
+                        return false;
+                    }
+                }
+            }
+            else {
+                if ($(el).text() == "") {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Semua Jadwal Wajib diisi!',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                    cek = 0;
+                    return false;
+                }
+            }
+        });
+
+
+        if (cek == 0) return false;
+        if ($('.ready-checkbox').not(':checked').length > 0) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'Semua Personil Wajib Menceklis Kesiapan',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            return false;
+        }
+
+        if ($("div.listperson-pic .btn-app").length == 0) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'PIC Wajib diisi!',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            return false;
+        }
+
+        if ($("div.listperson-tim .btn-app").length == 0) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'Tim Wajib diisi!',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            return false;
+        }
+
+        if ($("div.listperson-staff .btn-app").length == 0) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'User Wajib diisi!',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            return false;
+        }
+
+        if ($("div.listperson-controller .btn-app").length == 0) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'Controller Wajib diisi!',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            return false;
+        }
+
+        if ($("div.listperson-compliance .btn-app").length == 0) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'Compliance Wajib diisi!',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            return false;
+        }
+        $("#modal-persetujuan").modal("show");
+    });
+
+    $("#anjukan-lanjutkan").on("click", function () {
+        $("#modal-persetujuan").modal("hide");
+        waitingDialog.showloading("Proses Harap Tunggu");
+        $.ajax({
+            method: "POST",
+            url: "Api/PengadaanE/ajukan?Id=" + $("#pengadaanId").val(),
+            success: function (response) {
+                window.location.replace("http://" + window.location.host + "/pengadaan-list.html");
+                waitingDialog.hideloading();
+            },
+            error: function (errormessage) {
+                waitingDialog.hideloading();
+            }
+        });
+    });
+
+    $("#edit").on("click", function () {
+        window.location.replace("http://" + window.location.host + "/pengadaan-add.html#" + $("#pengadaanId").val());
+    });
+    $(".Setujui").on("click", function () {
+        $("#modal-setujui").modal("show");
+    });
+    $(".Tolak").on("click", function () {
+        $("#modal-ditolak").modal("show");
+    });
+
+    $("#lanjut-tolak").on("click", function () {
+        if ($.trim($("#keterangan_penolakan").val()) == "") {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'Alasan Penolakan Harus DiIsi',
+                buttons: [
+                        {
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+            });
+            return false;
+        }
+
+        waitingDialog.showloading("Proses Harap Tunggu");
+        var objData = {};
+        objData.PenolakanId = $("#pengadaanId").val();
+        objData.AlasanPenolakan = $("#keterangan_penolakan").val();
+
+        $.ajax({
+            method: "POST",
+            dataType: "json",
+            data: JSON.stringify(objData),
+            contentType: 'application/json; charset=utf-8',
+            url: "Api/PengadaanE/tolakPengadaan",
+            success: function (data) {
+                if (data.status == 200) {
+                    window.location.replace("http://" + window.location.host + "/pengadaan-list.html");
+                }
+                waitingDialog.hideloading();
+            },
+            error: function (errormessage) {
+                //alert("gagal");
+                waitingDialog.hideloading();
+                $("#modal-ditolak").modal("hide");
+            }
+        });
+
+    });
+
+    $("#lanjut-setujui-aja").on("click", function () {
+        $("#modal-setujui").modal("hide");
+        waitingDialog.showloading("Proses Harap Tunggu");
+        $.ajax({
+            method: "POST",
+            url: "Api/PengadaanE/persetujuan?Id=" + $("#pengadaanId").val(),
+            success: function (data) {
+                if (data.status == 200) {
+                    window.location.replace("http://" + window.location.host + "/pengadaan-list.html");
+                }
+                waitingDialog.hideloading();
+                //el.show();
+            },
+            error: function (errormessage) {
+                // waitingDialog.hideloading();
+                //el.show();
+            }
+        });
+    });
+
+    $("body").on("click", ".box-rekanan", function () {
+        var id = $(this).attr("vendorId");
+        var pengadaanId = $("#pengadaanId").val();
+        BootstrapDialog.show({
+            title: 'Konfirmasi',
+            buttons: [{
+                label: 'Lihat Informasi Rekanan',
+                action: function (dialog) {
+                    window.open("http://" + window.location.host + "/rekanan-detail.html?id=" + id);
+                    dialog.close();
+                }
+            }, {
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+    });
+
+    $("body").on("click", ".ready-checkbox", function () {
+        var sendCheck = 0;
+        if ($(this).is(':checked')) {
+            sendCheck = 1;
+        }
+        var _this = $(this);
+        $.ajax({
+            url: "Api/PengadaanE/SaveReadyPersonil?Id=" + $("#pengadaanId").val() + "&ready=" + sendCheck,
+            method: "POST"
+        }).done(function (data) {
+            if ((data.Id == null || data.Id == "") && sendCheck == 1) {
+                _this.prop('checked', false);
+            }
+            if ((data.Id == null || data.Id == "") && sendCheck == 0) {
+                _this.prop('checked', true);
+            }
+        });
+    });
+});
 
 function loadData(pengadaanId) {
     $.ajax({
@@ -791,6 +1148,9 @@ function loadData(pengadaanId) {
             $(".Setujui").show();
             $(".Tolak").show();
         }
+
+        cekStep();
+        cekLewati();
         
         if (data.isKlarifikasiLanjutan == 1) {
             $(".panel-klarifikasi-lanjut").show();
@@ -813,6 +1173,27 @@ function loadData(pengadaanId) {
         //}); 
     });
 }
+
+function cekStep() {
+    $(".next-step").each(function (index) {
+        var statusPengadaan = $("#StatusName").val();
+        console.log(statusPengadaan + " xx:" + $(this).attr("attrStatus"));
+
+        if ($(this).attr("attrStatus") != statusPengadaan) {
+            $(this).attr("disabled", "disabled");
+        }
+        else $(this).removeAttr("disabled");
+    });
+}
+
+function cekLewati() {
+    $(".lewati-tahapan").each(function (index) {
+        var statusPengadaan = $("#StatusName").val();
+        if ($(this).attr("attrStatus") != statusPengadaan) $(this).attr("disabled", "disabled");
+        else $(this).removeAttr("disabled");
+    });
+}
+
 function getPemenangVendor() {
     var result;
     $.ajax({

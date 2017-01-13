@@ -930,7 +930,29 @@ function addLstPembobotanPengadaan() {
     });
 }
 
-$(function () {    
+$("#tambah-klarifikasi-lanjut").on("click", function () {
+    if ($("#tambah-klarifikasi-lanjut").prop("checked") == true)
+    {
+        $("#grp_klarifikasi_lanjutan").show();
+    }
+    else if ($("#tambah-klarifikasi-lanjut").prop("checked") == false)
+    {
+        $("#grp_klarifikasi_lanjutan").hide();
+    }
+});
+
+$("#tambah-penilaian").on("click", function () {
+    if ($("#tambah-penilaian").prop("checked") == true) {
+        $("#grp_penilaian").show();
+    }
+    else if ($("#tambah-penilaian").prop("checked") == false) {
+        $("#grp_penilaian").hide();
+    }
+});
+
+$(function () {
+    $("#grp_klarifikasi_lanjutan").hide();
+    $("#grp_penilaian").hide();
     SetListRegion("[name=Region]");
     SetListProvinsi("#listProvinsi");
     SetListPeriode("[name=PeriodeAnggaran]");
@@ -969,6 +991,8 @@ $(function () {
         }
         addPembobotanPengadaan($(this));
     });
+
+
 
     $(".listkandidat").on("click", ".remove-vendor", function () {
         var Id = $(this).attr("attr");
@@ -1128,8 +1152,8 @@ $(function () {
         var cek = 1;
         $.each($(".dateJadwal"), function (index, el) {            
             if ($(el).val() == "") {
-                if ($("[name=AturanPengadaan]").val() == 'Pengadaan Tertutup') {
-                    if (index > 1) {
+                if ($(el).hasClass("klarifikasi_lanjutan")  || $(el).hasClass("penilaian") ) {
+                    if ($("#tambah-klarifikasi-lanjut").prop("checked") && $(el).hasClass("klarifikasi_lanjutan")) {
                         BootstrapDialog.show({
                             title: 'Konfirmasi',
                             message: 'Semua Jadwal Wajib diisi!',
@@ -1140,24 +1164,58 @@ $(function () {
                                 }
                             }]
                         });
+
+                        cek = 0;
+                        return false;
+                    } if ($("#tambah-penilaian").prop("checked") == true && $(el).hasClass("penilaian")) {
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: 'Semua Jadwal Wajib diisi!',
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+
                         cek = 0;
                         return false;
                     }
-                }
-                else {
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: 'Semua Jadwal Wajib diisi!',
-                        buttons: [{
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
+                } 
+                    else {
+                        if ($("[name=AturanPengadaan]").val() == 'Pengadaan Tertutup') {
+                            if (index > 1) {
+                                BootstrapDialog.show({
+                                    title: 'Konfirmasi',
+                                    message: 'Semua Jadwal Wajib diisi!',
+                                    buttons: [{
+                                        label: 'Close',
+                                        action: function (dialog) {
+                                            dialog.close();
+                                        }
+                                    }]
+                                });
+                                cek = 0;
+                                return false;
                             }
-                        }]
-                    });
-                    cek = 0;
-                    return false;
-                }
+                        }
+                        else {
+                            BootstrapDialog.show({
+                                title: 'Konfirmasi',
+                                message: 'Semua Jadwal Wajib diisi!',
+                                buttons: [{
+                                    label: 'Close',
+                                    action: function (dialog) {
+                                        dialog.close();
+                                    }
+                                }]
+                            });
+                            cek = 0;
+                            return false;
+                        }
+                    }
+                
             }
         });
 
@@ -1276,7 +1334,7 @@ $(function () {
            // silensave(getHeaderPengadaan());//save dulu
         }
     }
-   // }
+    // }
 
     $(".buat-baru").on("click", function () {
         window.location.replace("http://" + window.location.host + window.location.pathname);

@@ -655,7 +655,7 @@
                                                             </div>
                                                             <div id="collapseThree" class="panel-collapse collapse">
                                                                 <div class="box-body">
-                                                                    <div class="row">
+                                                                    <!--<div class="row">
                                                                         <div class="col-md-3">
                                                                             <div class="form-group">
                                                                                 <button class="btn btn-danger btn-block persetujuan-buka-amplop action-pelaksanaan-pic" attr1="pic"><i class="glyphicon glyphicon-pushpin"></i>PIC</button>
@@ -676,7 +676,7 @@
                                                                                 <button class="btn btn-danger btn-block persetujuan-buka-amplop action-pelaksanaan-controller" attr1="controller"><i class="glyphicon glyphicon-pushpin"></i>Controller</button>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                    </div>-->
                                                                     <div class="row">
                                                                         <div class="col-md-8">
                                                                             <div class="form-group">
@@ -735,7 +735,7 @@
                                                                     <div class="row">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
-                                                                                <label class="title">Tanggal Penilaian Kandidat</label>
+                                                                                <label class="title">Tanggal Klarifikasi & Negosiasi</label>
                                                                                 <input id="next-penilaian-dari" type="text" class="form-control dateJadwal">
                                                                             </div>
                                                                         </div>
@@ -850,7 +850,7 @@
                                                                     <div class="row">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
-                                                                                <label class="title">Tanggal Penentuan Pemenang</label>
+                                                                                <label class="title">Tanggal Klarifikasi & Negosiasi Lanjutan</label>
                                                                                 <input id="next-pemenang-dari" type="text" class="form-control dateJadwal">
                                                                             </div>
                                                                         </div>
@@ -867,12 +867,23 @@
                                                                                 <button id="btn-next-pemenang" class="btn btn-success pull-left next-step" elDari="#next-pemenang-dari" elSampai="" disabled="disabled">Save&NextStep</button>
                                                                             </div>
                                                                         </div>
+                                                                        <div class="col-md-2">
+                                                                            <div class="form-group">
+                                                                                <input type="checkbox" id="tambah-klarifikasi-lanjut" />
+                                                                                <label>Tambah Tahap Klarifikasi Lanjut</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2">
+                                                                            <div class="form-group">
+                                                                                <input type="checkbox" id="tambah-penilaian" />
+                                                                                <label>Tambah Tahap Penilaian</label>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                          <!--klarifikasi & negoisasi lanjutan--> 
-                                                        <div class="panel box box-primary">
+                                                        </div>                                                        <!--klarifikasi & negoisasi lanjutan-->
+                                                        <div class="panel box box-primary panel-klarifikasi-lanjut" style="display:none">
                                                             <div class="box-header with-border">
                                                                 <h4 class="box-title text-blue-mtf">
                                                                     <a id="tab-klarifikasi-lanjutan" data-parent="#accordion" href="#detail-klarifikasi-lanjutan">
@@ -901,11 +912,11 @@
                                                                     <div class="row">
                                                                         <div class="col-md-8">
                                                                             <div class="form-group">
-                                                                                <label class="title">Persetujuan Tahapan KLARIFIKASI LANJUTAN:</label>                                                                               
+                                                                                <label class="title">Persetujuan Tahapan KLARIFIKASI LANJUTAN:</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row bingkai-KLARIFIKASILANJUTAN" >
+                                                                    <div class="row bingkai-KLARIFIKASILANJUTAN">
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-2">
@@ -930,7 +941,7 @@
                                                                                         <input id="input-ba-klarifikasi-lanjutan" type="text" class="form-control dateJadwalNoTime action-pelaksanaan">
                                                                                     </div>
                                                                                     <div class="form-group">
-                                                                                        <button class="btn btn-success pull-left save-tgl-ba action-pelaksanaan" attr1="input-ba-klarifikasi-lanjutan" attr2="BerkasKlarifikasiLanjutan">Simpan</button>
+                                                                                        <button class="btn btn-success pull-left save-tgl-ba action-pelaksanaan" attr1="input-ba-klarifikasi-lanjutan" attr2="BeritaAcaraKlarifikasiLanjutan">Simpan</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -965,33 +976,33 @@
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label class="title">Tanggal Penilaian</label>
-                                                                                <input id="Text1" type="text" class="form-control dateJadwal">
+                                                                                <input id="next-penilaian-dari" type="text" class="form-control dateJadwal">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-4">
-                                                                            <div class="form-group" >
+                                                                            <div class="form-group">
                                                                                 <label class="title">s/d</label>
-                                                                                <input id="Text2" type="text" class="form-control dateJadwal">
+                                                                                <input id="next-penilaian-sampai" type="text" class="form-control dateJadwal">
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-2">
                                                                             <div class="form-group">
-                                                                                <button class="btn btn-success pull-left next-step"  attrStatus="KLARIFIKASILANJUTAN" elDari="#next-penilaian-dari" elSampai="#next-penilaian-sampai" disabled="disabled">Save&NextStep</button>
+                                                                                <button class="btn btn-success pull-left next-step" attrstatus="KLARIFIKASILANJUTAN" eldari="#next-penilaian-dari" elsampai="#next-penilaian-sampai" disabled="disabled">Save&NextStep</button>
                                                                             </div>
                                                                         </div>
-                                                                         <div class="col-md-2">
-                                                                            <div class="form-group">
-                                                                                <button class="btn btn-success pull-left lewati-tahapan" disabled="disabled" attrStatus="KLARIFIKASILANJUTAN" elDari="#next-penilaian-dari" elSampai="#next-penilaian-sampai">Lewati Tahapan</button>
-                                                                            </div>
-                                                                        </div>
+                                                                        <!--<div class="col-md-2">
+                        <div class="form-group">
+                            <button class="btn btn-success pull-left lewati-tahapan" disabled="disabled" attrStatus="KLARIFIKASILANJUTAN" elDari="#next-penilaian-dari" elSampai="#next-penilaian-sampai">Lewati Tahapan</button>
+                        </div>
+                    </div>-->
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                         <!--penilaian--> 
-                                                        <div class="panel box box-primary">
+                                                        <!--penilaian-->
+                                                        <div class="panel box box-primary panel-penilaian" style="display:none">
                                                             <div class="box-header with-border">
                                                                 <h4 class="box-title text-blue-mtf">
                                                                     <a id="tab-penilaian-kandidat" data-parent="#accordion" href="#collapse4">
@@ -1018,11 +1029,11 @@
                                                                     <div class="row">
                                                                         <div class="col-md-8">
                                                                             <div class="form-group">
-                                                                                <label class="title">Persetujuan Tahapan PENILAIAN:</label>                                                                               
+                                                                                <label class="title">Persetujuan Tahapan PENILAIAN:</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row bingkai-PENILAIAN" >
+                                                                    <div class="row bingkai-PENILAIAN">
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-10">
@@ -1066,28 +1077,28 @@
                                                                     <div class="row">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
-                                                                                <label class="title">Tanggal Klarifikasi & Negoisasi</label>
-                                                                                <input id="Text3" type="text" class="form-control dateJadwal">
+                                                                                <label class="title">Tanggal Pemenang</label>
+                                                                                <input id="next-pemenang-dari" type="text" class="form-control dateJadwal">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-4">
                                                                             <div class="form-group" style="display:none">
                                                                                 <label class="title">s/d</label>
-                                                                                <input id="next-pemenang-sampai" type="text" class="form-control dateJadwal" >
+                                                                                <input id="next-pemenang-sampai" type="text" class="form-control dateJadwal">
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-2">
                                                                             <div class="form-group">
-                                                                                <button id="btn-next-klarifikasi" class="btn btn-success pull-left next-step" attrStatus="PENILAIAN" elDari="#next-pemenang-dari" elSampai="#next-pemenang-sampai" disabled="disabled">Save&NextStep</button>
+                                                                                <button id="btn-next-klarifikasi" class="btn btn-success pull-left next-step" attrstatus="PENILAIAN" eldari="#next-pemenang-dari" elsampai="#next-pemenang-sampai" disabled="disabled">Save&NextStep</button>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-2">
-                                                                            <div class="form-group">
-                                                                                <button class="btn btn-success pull-left lewati-tahapan" disabled="disabled" attrStatus="PENILAIAN" elDari="#next-pemenang-dari" elSampai="#next-pemenang-sampai">Lewati Tahapan</button>
-                                                                            </div>
-                                                                        </div>
+                                                                        <!--<div class="col-md-2">
+                        <div class="form-group">
+                            <button class="btn btn-success pull-left lewati-tahapan" disabled="disabled" attrStatus="PENILAIAN" elDari="#next-pemenang-dari" elSampai="#next-pemenang-sampai">Lewati Tahapan</button>
+                        </div>
+                    </div>-->
                                                                     </div>
                                                                 </div>
                                                             </div>

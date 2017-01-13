@@ -846,18 +846,48 @@ $(function () {
             $($(this).attr("attr1")).attr("disabled", "");
             $($(this).attr("attr3")).attr("disabled", "");
             $(this).html('<i class="fa fa-fw fa-calendar"></i>Ubah');
-            if ($(this).attr("attr2") == "aanwijzing_pelaksanaan")
-                rubahDateAanwijzing();
-            if ($(this).attr("attr2") == "pengisian_harga")
-                    rubahDateSubmitPenawaran();
-            if ($(this).attr("attr2") == "buka_amplop")
-                rubahDateBukaAmplop();
-            if ($(this).attr("attr2") == "penilaian_kandidat")
-                rubahPenilaian();
-            if ($(this).attr("attr2") == "pelaksanaan-klarifikasi")
-                rubahKlarifikasi();
-            if ($(this).attr("attr2") == "pelaksanaan-pemenang")
-                rubahPemenang();
+            var data = {};
+            data.PengadaanId = $("#pengadaanId").val();
+            if ($(this).attr("attr2") == "aanwijzing_pelaksanaan") {
+                data.Mulai = moment($("#aanwijzing_pelaksanaan").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");//"dd/MM/yyyy"
+                data.status = 3;
+            }
+            if ($(this).attr("attr2") == "pengisian_harga") {
+                data.Mulai = moment($("#tgl_pengisian_harga_re").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");//"dd/MM/yyyy"
+                data.Sampai = moment($("#tgl_pengisian_harga_sampai_re").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+                data.status = 4;
+            }
+            if ($(this).attr("attr2") == "buka_amplop") {
+                data.Sampai = moment($("#buka_amplop_sampai_re").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");//"dd/MM/yyyy"
+                data.Mulai = moment($("#buka_amplop_re").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+                data.status = 5;
+            }
+            if ($(this).attr("attr2") == "penilaian_kandidat") {
+                data.Mulai = moment($("#jadwal_penilaian_kandidat").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");//"dd/MM/yyyy"
+                data.Sampai = moment($("#jadwal_penilaian_kandidat_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+                data.status = 6;
+            }
+            if ($(this).attr("attr2") == "pelaksanaan-klarifikasi") {
+                data.Mulai = moment($("#jadwal_pelaksanaan_klarifikasi").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");//"dd/MM/yyyy"
+                data.Sampai = moment($("#jadwal_pelaksanaan_klarifikasi_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+                data.status = 7;
+            }
+            if ($(this).attr("attr2") == "pelaksanaan-pemenang") {
+                data.Mulai = moment($("#jadwal_pelaksanaan_pemenang").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+                data.status = 8;
+            }
+            if ($(this).attr("attr2") == "pelaksanaan-pemenang") {
+                data.Mulai = moment($("#jadwal_pelaksanaan_pemenang").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+                data.status = 8;
+            }
+           
+            if ($(this).attr("attr2") == "pelaksanaan-klarifikasi-lanjutan") {
+                data.Mulai = moment($("#jadwal_klarifikasi_lanjutan").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+                data.Sampai = moment($("#jadwal_klarifikasi_lanjutan_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+                data.status = 12;
+            }
+
+            rubahJadwalPelaksanaan(data);
             //rubahDateSubmitPenawaran();
         }
     });
@@ -1645,22 +1675,27 @@ function getJadwal() {
         url: "Api/PengadaanE/CurrentStatePengadaan?Id=" + $("#pengadaanId").val(),
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
-            if (data > 2) getAanwijzing();
-            if (data <= 2) $("#btn-next-jadwal-aawijzing").removeAttr("disabled");
-            if (data > 3)  getDateSubmitPenawaran(); 
-            if (data <= 3)$("#btn-next-submit-penawaran").removeAttr("disabled");            
-            if (data > 4) getBukaAmplop();
-            if (data == 4) $("#btn-next-buka-amplop").removeAttr("disabled");
-            if (data > 5) getPenilaian();
-            if (data == 5)  $("#btn-next-penilaian").removeAttr("disabled");            
-            if (data > 6) getKlarifikasi();
-            if (data == 6) $("#btn-next-klarifikasi").removeAttr("disabled");
-            if (data == 7) $("#btn-next-pemenang").removeAttr("disabled");
-            if (data > 7) getPemenang();
+            //if (data > 3)  getDateSubmitPenawaran(); 
+            //if (data <= 3)$("#btn-next-submit-penawaran").removeAttr("disabled");            
+            //if (data >5) getBukaAmplop();
+            //if (data == 4) $("#btn-next-buka-amplop").removeAttr("disabled");
+            //if (data >6) getPenilaian();
+            //if (data == 5)  $("#btn-next-penilaian").removeAttr("disabled");            
+            //if (data >7) getKlarifikasi();
+            // if (data == 6) $("#btn-next-klarifikasi").removeAttr("disabled");
+            //if (data == 7) $("#btn-next-pemenang").removeAttr("disabled");
+            // if (data >8) getPemenang();
+            getDateSubmitPenawaran();
+            getBukaAmplop();
+            getKlarifikasi();
+            getPenilaian();
+            getPemenang();
+            getKlarifikasiLanjutan();
         }
     });
-   
+
 }
+
 
 function batalkanPengadaan(keterangan) {
     waitingDialog.showloading("Proses Harap Tunggu");
@@ -1756,6 +1791,64 @@ function cekPerubahanJadwal(jadwal1, jadwal2) {
     var diff = nextJadwal.diff(thisJadwal);
     return diff > 0 ? 1 : 0;
 }
+
+function rubahJadwalPelaksanaan(data) {
+    console.log("sdsd");
+    var status = data.status;
+    waitingDialog.showloading("Proses Harap Tunggu");
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/UpdateJadwalPelaksanaan",
+        dataType: "json",
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            waitingDialog.hideloading();
+            if (data.Id == "00000000-0000-0000-0000-000000000000") {
+                BootstrapDialog.show({
+                    title: 'Konfirmasi',
+                    message: 'Anda Tidak Memiliki Akses!',
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+            }
+            switch (status) {
+                case 3: getAanwijzing();
+                    break;
+                case 4: getDateSubmitPenawaran();
+                    break;
+                case 5: getBukaAmplop();
+                    break;
+                case 6: getPenilaian();
+                    break;
+                case 7: getKlarifikasi;
+                    break;
+                case 8: getPemenang();
+                    break;
+                default: getJadwal()
+            }
+        },
+        error: function (errormessage) {
+            waitingDialog.hideloading();
+            BootstrapDialog.show({
+                title: 'Error',
+                message: errormessage,
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+
+                    }
+                }]
+            });
+        }
+    });
+}
+
 
 function rubahDateAanwijzing() {
     var objPAanwijzing = {};
@@ -2124,6 +2217,27 @@ function getKlarifikasi() {
         },
         error: function (errormessage) {
             alert("gagal");
+        }
+    });
+}
+
+function getKlarifikasiLanjutan() {
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/GetJadwalPelaksanaan?PId=" + $("#pengadaanId").val() + "&status=" + 12,
+        success: function (data) {
+            $("#jadwal_klarifikasi_lanjutan").val(moment(data.Mulai).format("DD MMMM YYYY HH:mm"));
+            $("#jadwal_klarifikasi_lanjutan_sampai").val(moment(data.Sampai).format("DD MMMM YYYY HH:mm"));
+            $("#klarifikasi_lanjutan").html("( " + moment(data.Mulai).format("DD MMMM YYYY HH:mm") + " s/d " + moment(data.Sampai).format("DD MMMM YYYY HH:mm") + " )");
+            if (data.Id != "00000000-0000-0000-0000-000000000000") {
+                //if (isGuid(data.Id)) {
+                //    $("#aanwijzingPId").val(data.Id);
+                //}
+            }
+            generateUndanganKlarifikasiLanjutan();
+        },
+        error: function (errormessage) {
+            //  alert("gagal");
         }
     });
 }

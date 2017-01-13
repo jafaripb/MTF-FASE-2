@@ -379,7 +379,10 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            return  ' <a href="create-spk.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
+                            var html = '<a IdSpk="'+row.Id+'" style="margin-left: 5px;" class="btn btn-info btn-sm product-title download-spk"> Download </a>';
+                            html = html +'<a style="margin-left: 5px;" href="create-spk.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title "> Detail </a>';
+
+                            return html;
                         },
 
                         "targets": 6,
@@ -393,6 +396,11 @@
                 "autoWidth": false,
                 "responsive": true,
             });
+
+            $("#tbl-approval").on("click", ".download-spk", function () {
+                downloadFileUsingForm("Api/Spk/OpenFile?Id=" + $(this).attr("IdSpk"));
+            });
+
 
             $("#title,#klasifikasi").on("input propertychange paste", function () {
                 table.draw();

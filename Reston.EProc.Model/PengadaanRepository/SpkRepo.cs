@@ -391,7 +391,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
     
         public DokumenSpk getDokSpk(Guid id)
         {
-            return ctx.DokumenSpk.Find(id);
+            var cek1 = ctx.DokumenSpk.Find(id);
+
+            if(cek1 == null)
+            {
+                cek1 = ctx.DokumenSpk.Where(d => d.SpkId == id).FirstOrDefault(); 
+            }
+
+            return cek1;
         }
 
         public ResultMessage ChangeStatus(Guid Id, StatusSpk status, Guid UserId)

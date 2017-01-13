@@ -2869,17 +2869,22 @@ namespace Reston.Pinata.WebService.Controllers
             if (oPengadaan.Status == EStatusPengadaan.KLARIFIKASI)
             {
                 var cekTambahTahapan = _repository.getTahapan(oPengadaan.Id);
-                if (cekTambahTahapan.Where(d=>d.Status==EStatusPengadaan.KLARIFIKASILANJUTAN).Count()>0)
+                if (cekTambahTahapan.Where(d=>d.Status==EStatusPengadaan.KLARIFIKASILANJUTAN).Count()>0 )
                 {
                     NextStatusPengadaan = (int)EStatusPengadaan.KLARIFIKASILANJUTAN;
                 }
-                if (cekTambahTahapan.Where(d => d.Status == EStatusPengadaan.PENILAIAN).Count() > 0)
+                if (cekTambahTahapan.Where(d => d.Status == EStatusPengadaan.PENILAIAN).Count() > 0 && cekTambahTahapan.Where(d => d.Status == EStatusPengadaan.KLARIFIKASILANJUTAN).Count()==0)
                 {
                     NextStatusPengadaan = (int)EStatusPengadaan.PENILAIAN;
                 }
-                else {
-                    NextStatusPengadaan = (int)EStatusPengadaan.PEMENANG;
+                if (cekTambahTahapan.Where(d => d.Status == EStatusPengadaan.KLARIFIKASILANJUTAN).Count() == 0 && cekTambahTahapan.Where(d => d.Status == EStatusPengadaan.PENILAIAN).Count() == 0)
+                {
+                        NextStatusPengadaan = (int)EStatusPengadaan.PEMENANG;
                 }
+
+                //else {
+                //    NextStatusPengadaan = (int)EStatusPengadaan.PEMENANG;
+                //}
             }
 
             if (oPengadaan.Status == EStatusPengadaan.KLARIFIKASILANJUTAN)
@@ -2888,6 +2893,10 @@ namespace Reston.Pinata.WebService.Controllers
                 if (cekTambahTahapan.Where(d => d.Status == EStatusPengadaan.PENILAIAN).Count() > 0)
                 {
                     NextStatusPengadaan = (int)EStatusPengadaan.PENILAIAN;
+                }
+                else
+                {
+                    NextStatusPengadaan = (int)EStatusPengadaan.PEMENANG;
                 }
             }
 

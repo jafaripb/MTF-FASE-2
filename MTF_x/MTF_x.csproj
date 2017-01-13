@@ -378,6 +378,7 @@
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\mtf_x.pubxml" />
+    <None Include="Properties\PublishProfiles\portal-mtf.pubxml" />
     <None Include="Properties\PublishProfiles\portal.pubxml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\bootstrap-dialog.js" />

@@ -14,7 +14,8 @@ var REKANAN ;//= 'http://localhost:49559/rekanan-side-terdaftar.html';
 var ENDUSER;//= 'http://localhost:49559/dashboard.html';//pengadaan list
 var COMPLIANCE ;//= 'http://localhost:49559/pengadaan-list.html';
 var HEAD ;//= 'http://localhost:49559/pengadaan-list.html';
-
+var DIREKSI;//= 'http://localhost:49559/dashboard.html';
+var DIRUT;//= 'http://localhost:49559/dashboard.html';
 
 
 function getParameterByName(name, url) {
@@ -67,6 +68,13 @@ function cekLandingPage() {
             if (data.message.indexOf("procurement_head") >= 0) {
                 window.location.replace(HEAD);
             }
+            if (data.message.indexOf("direksi") >= 0) {
+                window.location.replace(DIREKSI);
+            }
+            if (data.message.indexOf("dirut") >= 0) {
+                window.location.replace(DIREKSI);
+            }
+
         }
 
     });
@@ -94,6 +102,8 @@ function cekLogin(cek) {
                     ENDUSER = PROC + 'dashboard.html';
                     COMPLIANCE = PROC + 'pengadaan-list.html';
                     HEAD = PROC + 'dashboard.html';
+                    DIREKSI = PROC + 'dashboard.html';
+                    DIRUT = PROC + 'dashboard.html';
                     ajaxCompleteProcess(e.statusCode());
                     if (e.status == 200 && cek == 1)
                         cekLandingPage();

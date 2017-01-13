@@ -10,6 +10,25 @@ function getListKandidat() {
     return arrKandidatPengadaan;
 }
 
+$("#tambah-klarifikasi-lanjut").on("click", function () {
+    if ($("#tambah-klarifikasi-lanjut").prop("checked") == true) {
+        $("#grp_klarifikasi_lanjutan").show();
+    }
+    else if ($("#tambah-klarifikasi-lanjut").prop("checked") == false) {
+        $("#grp_klarifikasi_lanjutan").hide();
+    }
+});
+
+$("#tambah-penilaian").on("click", function () {
+    if ($("#tambah-penilaian").prop("checked") == true) {
+        $("#grp_penilaian").show();
+    }
+    else if ($("#tambah-penilaian").prop("checked") == false) {
+        $("#grp_penilaian").hide();
+    }
+});
+
+
 function loadListKandidat(Id, status,xisTEam) {
     $(".listkandidat").html("");
         $.ajax({
@@ -121,6 +140,14 @@ function getJadwal() {
             objJadwalPengadaan.Mulai = moment($("#klarifikasi").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm"); //$("#klarifikasi").val();
         if (moment($("#klarifikasi_sampai").val(), 'D MMMM YYYY HH:mm', 'id', true).isValid())
             objJadwalPengadaan.Sampai = moment($("#klarifikasi_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");// $("#klarifikasi_sampai").val();
+        arrJadwalPengadaan.push(objJadwalPengadaan);
+        
+        objJadwalPengadaan = {};
+        objJadwalPengadaan.tipe = "klarifikasi_lanjutan";
+        if (moment($("#klarifikasi_lanjutan").val(), 'D MMMM YYYY HH:mm', 'id', true).isValid())
+            objJadwalPengadaan.Mulai = moment($("#klarifikasi_lanjutan").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm"); //$("#klarifikasi").val();
+        if (moment($("#klarifikasi_lanjutan_sampai").val(), 'D MMMM YYYY HH:mm', 'id', true).isValid())
+            objJadwalPengadaan.Sampai = moment($("#klarifikasi_lanjutan_sampai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");// $("#klarifikasi_sampai").val();
         arrJadwalPengadaan.push(objJadwalPengadaan);
 
         objJadwalPengadaan = {};
@@ -245,6 +272,26 @@ function loadJadwal(Jadwal,xIsTeam) {
                     $(".penentuan_pemenang[attr1='dari").removeAttr("disabled");
                 }
             } else $(".klarifikasi[attr1='sampai']").attr("disabled");
+        }
+        if (Jadwal[item].tipe == "klarifikasi_lanjutan") {
+            if ((Jadwal[item].Mulai != null || Jadwal[item].Mulai != "") && moment(Jadwal[item].Mulai).format("DD MMMM YYYY HH:mm") != "Invalid date") {
+                //$('.jadwal[attr1="Klarifikasi"]').attr("attr2", moment(Jadwal[item].Mulai).format("DD/MM/YYYY"));
+                $(".klarifikasi_lanjutan[attr1='dari']").val(moment(Jadwal[item].Mulai).format("DD MMMM YYYY HH:mm"));
+                $(".klarifikasi_lanjutan[attr1='dari']").attr("attr2", Jadwal[item].Id);
+                if (xIsTeam == 1) {
+                    $(".klarifikasi_lanjutan[attr1='dari").removeAttr("disabled");
+                    $(".klarifikasi_lanjutan[attr1='sampai").removeAttr("disabled");
+                }
+            } else $(".klarifikasi_lanjutan[attr1='dari']").attr("disabled");
+            if ((Jadwal[item].Sampai != null || Jadwal[item].Sampai != "") && moment(Jadwal[item].Sampai).format("DD MMMM YYYY HH:mm") != "Invalid date") {
+                //$('.jadwal[attr1="Klarifikasi"]').attr("attr3", moment(Jadwal[item].Sampai).format("DD/MM/YYYY"));
+                $(".klarifikasi_lanjutan[attr1='sampai']").val(moment(Jadwal[item].Sampai).format("DD MMMM YYYY HH:mm"));
+                $(".klarifikasi_lanjutan[attr1='sampai']").attr("attr2", Jadwal[item].Id);
+                if (xIsTeam == 1) {
+                    $(".klarifikasi_lanjutan[attr1='sampai").removeAttr("disabled");
+                    $(".penilaian[attr1='dari").removeAttr("disabled");
+                }
+            } else $(".klarifikasi_lanjutan[attr1='sampai']").attr("disabled");
         }
         if (Jadwal[item].tipe == "penentuan_pemenang") {
             if ((Jadwal[item].Mulai != null || Jadwal[item].Mulai != "") && moment(Jadwal[item].Mulai).format("DD MMMM YYYY HH:mm") != "Invalid date") {
@@ -907,7 +954,9 @@ function addLstPembobotanPengadaan() {
     });
 }
 
-$(function () {    
+$(function () {
+    $("#grp_klarifikasi_lanjutan").hide();
+    $("#grp_penilaian").hide();
     SetListRegion("[name=Region]");
     SetListProvinsi("#listProvinsi");
     SetListPeriode("[name=PeriodeAnggaran]");
@@ -1101,10 +1150,57 @@ $(function () {
             return false;
         }
         var cek = 1;
-        $.each($(".dateJadwal"), function (index, el) {            
+        $.each($(".dateJadwal"), function (index, el) {
             if ($(el).val() == "") {
-                if ($("[name=AturanPengadaan]").val() == 'Pengadaan Tertutup') {
-                    if (index > 1) {
+                if ($(el).hasClass("klarifikasi_lanjutan") || $(el).hasClass("penilaian")) {
+                    if ($("#tambah-klarifikasi-lanjut").prop("checked") && $(el).hasClass("klarifikasi_lanjutan")) {
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: 'Semua Jadwal Wajib diisi!',
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+
+                        cek = 0;
+                        return false;
+                    } if ($("#tambah-penilaian").prop("checked") == true && $(el).hasClass("penilaian")) {
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: 'Semua Jadwal Wajib diisi!',
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+
+                        cek = 0;
+                        return false;
+                    }
+                }
+                else {
+                    if ($("[name=AturanPengadaan]").val() == 'Pengadaan Tertutup') {
+                        if (index > 1) {
+                            BootstrapDialog.show({
+                                title: 'Konfirmasi',
+                                message: 'Semua Jadwal Wajib diisi!',
+                                buttons: [{
+                                    label: 'Close',
+                                    action: function (dialog) {
+                                        dialog.close();
+                                    }
+                                }]
+                            });
+                            cek = 0;
+                            return false;
+                        }
+                    }
+                    else {
                         BootstrapDialog.show({
                             title: 'Konfirmasi',
                             message: 'Semua Jadwal Wajib diisi!',
@@ -1119,20 +1215,7 @@ $(function () {
                         return false;
                     }
                 }
-                else {
-                    BootstrapDialog.show({
-                        title: 'Konfirmasi',
-                        message: 'Semua Jadwal Wajib diisi!',
-                        buttons: [{
-                            label: 'Close',
-                            action: function (dialog) {
-                                dialog.close();
-                            }
-                        }]
-                    });
-                    cek = 0;
-                    return false;
-                }
+
             }
         });
 

@@ -386,105 +386,119 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="title">s/d</label>
-                                            <input id="klarifikasi_sampai" disabled="disabled" name="klarifikasi" nextJadwal="#klarifikasi_lanjutan" beforeJadwal="#klarifikasi" attr1="sampai" type="text" class="klarifikasi form-control datepicker dateJadwal">
+                                            <input id="klarifikasi_sampai" disabled="disabled" name="klarifikasi" nextjadwal="#penentuan_pemenang" beforejadwal="#klarifikasi" attr1="sampai" type="text" class="klarifikasi form-control datepicker dateJadwal">
                                         </div>
                                     </div>
                                     <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input type="checkbox" id="tambah-klarifikasi-lanjut" />
+                                                <label>Klarifikasi  Lanjutan</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input type="checkbox" id="tambah-penilaian" />
+                                                <label>Penilaian Kandidat</label>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    <div class="row" id="grp_klarifikasi_lanjutan">
                                         <input type="hidden" class="jadwal" attr1="klarifikasi_lanjutan" attr2="" attr3="" />
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-4" id="grp_klarifikasi_lanjutan">
                                             <label class="title">Klarifikasi & Negosiasi Lanjutan:</label>
-                                            <input id="klarifikasi_lanjutan" name="klarifikasi_lanjutan" disabled="disabled" nextJadwal="#klarifikasi_lanjutan_sampai" beforeJadwal="#klarifikasi_sampai" attr1="dari" type="text" class="klarifikasi_lanjutan form-control datepicker dateJadwal">
+                                            <input id="klarifikasi_lanjutan" name="klarifikasi_lanjutan" nextjadwal="" beforejadwal="" attr1="dari" type="text" class="klarifikasi_lanjutan form-control datepicker dateJadwal">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="title">s/d</label>
-                                            <input id="klarifikasi_lanjutan_sampai" disabled="disabled" name="klarifikasi_lanjutan" nextJadwal="#penilaian" beforeJadwal="#klarifikasi_lanjutan" attr1="sampai" type="text" class="klarifikasi_lanjutan form-control datepicker dateJadwal">
+                                            <input id="klarifikasi_lanjutan_sampai" name="" nextjadwal="" beforejadwal="#klarifikasi_lanjutan" attr1="sampai" type="text" class="klarifikasi_lanjutan form-control datepicker dateJadwal">
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" id="grp_penilaian">
                                         <input type="hidden" class="jadwal" attr1="penilaian" attr2="" attr3="" />
                                         <div class="form-group col-md-4">
                                             <label class="title">Penilaian Kandidat:</label>
-                                            <input id="penilaian" disabled="disabled" attr1="dari" nextJadwal="#penilaian_sampai" beforeJadwal="#klarifikasi_lanjutan_sampai" name="penilaian" type="text" class="penilaian form-control datepicker dateJadwal">
+                                            <input id="penilaian" attr1="dari" nextjadwal="" beforejadwal="" name="penilaian" type="text" class="penilaian form-control datepicker dateJadwal">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="title">s/d</label>
-                                            <input id="penilaian_sampai" disabled="disabled" name="penilaian" nextJadwal="#penentuan_pemenang" beforeJadwal="#penilaian" attr1="sampai" type="text" class="penilaian form-control datepicker dateJadwal">
+                                            <input id="penilaian_sampai" name="penilaian" nextjadwal="" beforejadwal="" attr1="sampai" type="text" class="penilaian form-control datepicker dateJadwal">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <input type="hidden" class="jadwal" attr1="penentuan_pemenang" attr2="" attr3="" />
-                                        <div class="col-md-4 form-group">
-                                            <label class="title">Penentuan Pemenang:</label>
-                                            <input id="penentuan_pemenang" disabled="disabled" name="penentuan_pemenang" nextJadwal="" beforeJadwal="#penilaian_sampai" attr1="dari" type="text" class="penentuan_pemenang form-control datepicker dateJadwal">
+                                        <div class="row">
+                                            <input type="hidden" class="jadwal" attr1="penentuan_pemenang" attr2="" attr3="" />
+                                            <div class="col-md-4 form-group">
+                                                <label class="title">Penentuan Pemenang:</label>
+                                                <input id="penentuan_pemenang" disabled="disabled" name="penentuan_pemenang" nextjadwal="" beforejadwal="#klarifikasi_sampai" attr1="dari" type="text" class="penentuan_pemenang form-control datepicker dateJadwal">
+                                            </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class=" panel-header-white">
+                                                    <span class="title-header" id="section-7">Personil</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>
+                                                    <!--<a id="addPerson-pic" class="addPerson" attr1=".listperson-pic" >Tambah PIC</a>-->
+                                                    <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                        <i class="fa fa-plus"></i>
+                                                        Tambah PIC
+                                                    </a>
+                                                </label>
+
+                                                <div class="listperson-pic">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>
+                                                    <!--<a id="addPerson-tim" class="addPerson" attr1=".listperson-tim" >Tambah Tim</a>-->
+                                                    <a id="addPerson-tim" attr1=".listperson-tim" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                        <i class="fa fa-plus"></i>
+                                                        Tambah Tim
+                                                    </a>
+                                                </label>
+                                                <div class="listperson-tim">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>
+                                                    <!--<a id="addPerson-staff" class="addPerson" attr1=".listperson-staff" >Tambah User</a>-->
+                                                    <a id="addPerson-staff" attr1=".listperson-staff" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                        <i class="fa fa-plus"></i>
+                                                        Tambah User
+                                                    </a>
+                                                </label>
+                                                <div class="listperson-staff">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>
+                                                    <!--<a id="addPerson-controller" class="addPerson" attr1=".listperson-controller" >Tambah Controller</a>-->
+                                                    <a id="addPerson-controller" attr1=".listperson-controller" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                        <i class="fa fa-plus"></i>
+                                                        Tambah Controller
+                                                    </a>
+                                                </label>
+                                                <div class="listperson-controller">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>
+                                                    <!--<a id="addPerson-complaince" class="addPerson" attr1=".listperson-compliance" >Tambah Compliance</a>-->
+                                                    <a id="addPerson-complaince" attr1=".listperson-compliance" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                        <i class="fa fa-plus"></i>
+                                                        Tambah Compliance
+                                                    </a>
+                                                </label>
+                                                <div class="listperson-compliance">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p></p>
+
                                     </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class=" panel-header-white">
-                                                <span class="title-header" id="section-7">Personil</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label>
-                                                <!--<a id="addPerson-pic" class="addPerson" attr1=".listperson-pic" >Tambah PIC</a>-->
-                                                <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
-                                                    <i class="fa fa-plus"></i>
-                                                    Tambah PIC
-                                                </a>
-                                            </label>
-
-                                            <div class="listperson-pic">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label>
-                                                <!--<a id="addPerson-tim" class="addPerson" attr1=".listperson-tim" >Tambah Tim</a>-->
-                                                <a id="addPerson-tim" attr1=".listperson-tim" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
-                                                    <i class="fa fa-plus"></i>
-                                                    Tambah Tim
-                                                </a>
-                                            </label>
-                                            <div class="listperson-tim">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label>
-                                                <!--<a id="addPerson-staff" class="addPerson" attr1=".listperson-staff" >Tambah User</a>-->
-                                                <a id="addPerson-staff" attr1=".listperson-staff" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
-                                                    <i class="fa fa-plus"></i>
-                                                    Tambah User
-                                                </a>
-                                            </label>
-                                            <div class="listperson-staff">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label>
-                                                <!--<a id="addPerson-controller" class="addPerson" attr1=".listperson-controller" >Tambah Controller</a>-->
-                                                <a id="addPerson-controller" attr1=".listperson-controller" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
-                                                    <i class="fa fa-plus"></i>
-                                                    Tambah Controller
-                                                </a>
-                                            </label>
-                                            <div class="listperson-controller">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label>
-                                                <!--<a id="addPerson-complaince" class="addPerson" attr1=".listperson-compliance" >Tambah Compliance</a>-->
-                                                <a id="addPerson-complaince" attr1=".listperson-compliance" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
-                                                    <i class="fa fa-plus"></i>
-                                                    Tambah Compliance
-                                                </a>
-                                            </label>
-                                            <div class="listperson-compliance">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p></p>
-
-                                </div>
                                 <div class="box-footer clearfix" style="text-align:center;">
                                     <button class="pull-middle btn btn-primary btn-lmedia Setujui" style="display:none">Setujui </button>
                                     <button class="pull-middle btn btn-primary btn-lmedia Tolak" style="display:none">Tolak </button>

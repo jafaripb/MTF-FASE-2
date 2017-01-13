@@ -1874,6 +1874,7 @@
     <Content Include="DataSource\PO.xss">
       <DependentUpon>PO.xsd</DependentUpon>
     </Content>
+    <Content Include="data\menu-direksi.json" />
     <None Include="pengadaaneDataSet1.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>pengadaaneDataSet1.Designer.cs</LastGenOutput>
@@ -1883,6 +1884,7 @@
       <DependentUpon>pengadaaneDataSet1.xsd</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\efe.pubxml" />
+    <None Include="Properties\PublishProfiles\eproc-mtf.pubxml" />
     <None Include="Properties\PublishProfiles\mtf-eproc.pubxml" />
     <None Include="Properties\PublishProfiles\Reston.Eproc.pubxml" />
     <None Include="Properties\PublishProfiles\SRVR.pubxml" />
