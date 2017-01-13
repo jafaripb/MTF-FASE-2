@@ -21,10 +21,12 @@
 });
 
 function ajukanPemenang() {
+    waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
         url: "Api/PengadaanE/ajukanDokPemenang?Id=" + $("#pengadaanId").val(),
         success: function (data) {    
-                window.location.reload();            
+            window.location.reload();
+            waitingDialog.hideloading();
         },
         error: function (errormessage) {
             

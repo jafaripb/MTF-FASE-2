@@ -154,6 +154,7 @@
     <Content Include="View\approval-perencanaan-belum-disetujui.html" />
     <Content Include="View\approval-perencanaan-sudah-disetujui.html" />
     <Content Include="View\approval-persetujuan-pemenang-belum-disetujui.html" />
+    <Content Include="View\dist\js\workflow.js" />
     <Content Include="View\dist\js\rekanan-klarifikasi-lanjutan-harga.js" />
     <Content Include="View\dist\js\rks-penilaian-buka-amplop.js" />
     <Content Include="View\rekanan-klarifikasi-lanjutan-harga.html" />
