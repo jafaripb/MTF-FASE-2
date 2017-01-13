@@ -129,7 +129,7 @@ namespace Reston.Helper.Util
             return str2;
         }
 
-        
+        public static string NotImplemented = "NotImplemented";
     }
 
     public static class Cultures

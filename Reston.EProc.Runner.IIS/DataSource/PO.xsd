@@ -12,7 +12,7 @@
   <xs:element name="PO" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="PO" msprop:Generator_UserDSName="PO">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="PoTable" msprop:Generator_TableClassName="PoTableDataTable" msprop:Generator_TableVarName="tablePoTable" msprop:Generator_TablePropName="PoTable" msprop:Generator_RowDeletingName="PoTableRowDeleting" msprop:Generator_RowChangingName="PoTableRowChanging" msprop:Generator_RowEvHandlerName="PoTableRowChangeEventHandler" msprop:Generator_RowDeletedName="PoTableRowDeleted" msprop:Generator_UserTableName="PoTable" msprop:Generator_RowChangedName="PoTableRowChanged" msprop:Generator_RowEvArgName="PoTableRowChangeEvent" msprop:Generator_RowClassName="PoTableRow">
+        <xs:element name="PoTable" msprop:Generator_TableClassName="PoTableDataTable" msprop:Generator_TableVarName="tablePoTable" msprop:Generator_RowChangedName="PoTableRowChanged" msprop:Generator_TablePropName="PoTable" msprop:Generator_RowDeletingName="PoTableRowDeleting" msprop:Generator_RowChangingName="PoTableRowChanging" msprop:Generator_RowEvHandlerName="PoTableRowChangeEventHandler" msprop:Generator_RowDeletedName="PoTableRowDeleted" msprop:Generator_RowClassName="PoTableRow" msprop:Generator_UserTableName="PoTable" msprop:Generator_RowEvArgName="PoTableRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Id" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:string" minOccurs="0" />
@@ -46,7 +46,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="PoDetailTable" msprop:Generator_TableClassName="PoDetailTableDataTable" msprop:Generator_TableVarName="tablePoDetailTable" msprop:Generator_TablePropName="PoDetailTable" msprop:Generator_RowDeletingName="PoDetailTableRowDeleting" msprop:Generator_RowChangingName="PoDetailTableRowChanging" msprop:Generator_RowEvHandlerName="PoDetailTableRowChangeEventHandler" msprop:Generator_RowDeletedName="PoDetailTableRowDeleted" msprop:Generator_UserTableName="PoDetailTable" msprop:Generator_RowChangedName="PoDetailTableRowChanged" msprop:Generator_RowEvArgName="PoDetailTableRowChangeEvent" msprop:Generator_RowClassName="PoDetailTableRow">
+        <xs:element name="PoDetailTable" msprop:Generator_TableClassName="PoDetailTableDataTable" msprop:Generator_TableVarName="tablePoDetailTable" msprop:Generator_RowChangedName="PoDetailTableRowChanged" msprop:Generator_TablePropName="PoDetailTable" msprop:Generator_RowDeletingName="PoDetailTableRowDeleting" msprop:Generator_RowChangingName="PoDetailTableRowChanging" msprop:Generator_RowEvHandlerName="PoDetailTableRowChangeEventHandler" msprop:Generator_RowDeletedName="PoDetailTableRowDeleted" msprop:Generator_RowClassName="PoDetailTableRow" msprop:Generator_UserTableName="PoDetailTable" msprop:Generator_RowEvArgName="PoDetailTableRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Id" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:string" minOccurs="0" />
@@ -62,6 +62,11 @@
               <xs:element name="PPH" msprop:Generator_ColumnVarNameInTable="columnPPH" msprop:Generator_ColumnPropNameInRow="PPH" msprop:Generator_ColumnPropNameInTable="PPHColumn" msprop:Generator_UserColumnName="PPH" type="xs:string" minOccurs="0" />
               <xs:element name="DPP" msprop:Generator_ColumnVarNameInTable="columnDPP" msprop:Generator_ColumnPropNameInRow="DPP" msprop:Generator_ColumnPropNameInTable="DPPColumn" msprop:Generator_UserColumnName="DPP" type="xs:string" minOccurs="0" />
               <xs:element name="SubTotal" msprop:Generator_ColumnVarNameInTable="columnSubTotal" msprop:Generator_ColumnPropNameInRow="SubTotal" msprop:Generator_ColumnPropNameInTable="SubTotalColumn" msprop:Generator_UserColumnName="SubTotal" type="xs:string" minOccurs="0" />
+              <xs:element name="NilaiDiscount" msprop:Generator_ColumnVarNameInTable="columnNilaiDiscount" msprop:Generator_ColumnPropNameInRow="NilaiDiscount" msprop:Generator_ColumnPropNameInTable="NilaiDiscountColumn" msprop:Generator_UserColumnName="NilaiDiscount" type="xs:string" minOccurs="0" />
+              <xs:element name="NilaiPPN" msprop:Generator_ColumnVarNameInTable="columnNilaiPPN" msprop:Generator_ColumnPropNameInRow="NilaiPPN" msprop:Generator_ColumnPropNameInTable="NilaiPPNColumn" msprop:Generator_UserColumnName="NilaiPPN" type="xs:string" minOccurs="0" />
+              <xs:element name="NilaiPPH" msprop:Generator_ColumnVarNameInTable="columnNilaiPPH" msprop:Generator_ColumnPropNameInRow="NilaiPPH" msprop:Generator_ColumnPropNameInTable="NilaiPPHColumn" msprop:Generator_UserColumnName="NilaiPPH" type="xs:string" minOccurs="0" />
+              <xs:element name="NilaiDPP" msprop:Generator_ColumnVarNameInTable="columnNilaiDPP" msprop:Generator_ColumnPropNameInRow="NilaiDPP" msprop:Generator_ColumnPropNameInTable="NilaiDPPColumn" msprop:Generator_UserColumnName="NilaiDPP" type="xs:string" minOccurs="0" />
+              <xs:element name="Total" msprop:Generator_ColumnVarNameInTable="columnTotal" msprop:Generator_ColumnPropNameInRow="Total" msprop:Generator_ColumnPropNameInTable="TotalColumn" msprop:Generator_UserColumnName="Total" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

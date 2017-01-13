@@ -166,7 +166,7 @@ namespace Reston.Pinata.WebService.Controllers
                 //table.Rows[0].Cells[0].MarginTop = 0;
 
 
-                table.Alignment = Alignment.center;
+                table.Alignment = Alignment.left;
                 //table.AutoFit = AutoFit.Contents;
 
                 foreach (var paragraph in doc.Paragraphs)
@@ -175,7 +175,31 @@ namespace Reston.Pinata.WebService.Controllers
 
                 }
                 doc.ReplaceText("{tabel}", "");
+                //
 
+                // Panitia
+                var panitia = _repository.getPersonilPengadaan(Id);
+                //list.InsertParagraphAfterSelf("{vendor1}");
+                //doc.FindAll("{tabel}").ForEach(index => );
+                var table4 = doc.AddTable(panitia.Count(), 1);
+                foreach (var item in panitia)
+                {
+                    table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + "....................   Mewakili: " + item.Nama);
+                    table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                    table.Rows[rowIndex].Cells[0].Width = 500;
+                    rowIndex++;
+                }
+                table.Alignment = Alignment.left;
+                //table.AutoFit = AutoFit.Contents;
+
+                foreach (var paragraph in doc.Paragraphs)
+                {
+                    paragraph.FindAll("{table4}").ForEach(index => paragraph.InsertTableBeforeSelf(table4));
+
+                }
+                doc.ReplaceText("{table4}", "");
+
+                //
                 if (jadwalAanwijzing != null)
                 {
                     doc.ReplaceText("{pengadaan_jadwal_hari}", Common.ConvertHari((int)jadwalAanwijzing.Mulai.Value.DayOfWeek));
@@ -248,12 +272,15 @@ namespace Reston.Pinata.WebService.Controllers
 
             table2.Rows[rowIndex].Cells[0].Paragraphs.First().Append("Nama");
             table2.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+            table2.Rows[rowIndex].Cells[0].Paragraphs.First().Alignment = Alignment.center;
             table2.Rows[rowIndex].Cells[0].Width = 500;
             table2.Rows[rowIndex].Cells[1].Paragraphs.First().Append("Tanggal");
             table2.Rows[rowIndex].Cells[1].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+            table2.Rows[rowIndex].Cells[1].Paragraphs.First().Alignment = Alignment.center;
             table2.Rows[rowIndex].Cells[1].Width = 500;
             table2.Rows[rowIndex].Cells[2].Paragraphs.First().Append("Status");
             table2.Rows[rowIndex].Cells[2].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+            table2.Rows[rowIndex].Cells[2].Paragraphs.First().Alignment = Alignment.center;
             table2.Rows[rowIndex].Cells[2].Width = 500;
             rowIndex++;
             foreach (var item in personilPersetujuan)

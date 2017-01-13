@@ -107,7 +107,8 @@ namespace Model.Helper
             public const string pRole_procurement_end_user = App.Roles.IdLdapEndUserRole;
             public const string pRole_compliance = App.Roles.IdLdapComplianceRole;
             public const string pRole_direksi = App.Roles.IdLdaplegal_direksi;
-            public const string pRole_dirut = App.Roles.IdLdaplegal_dirut;  
+            public const string pRole_dirut = App.Roles.IdLdaplegal_dirut;
+            public const string pRole_approver = App.Roles.IdLdapApproverRole;
           
         }
 
@@ -204,6 +205,7 @@ namespace Model.Helper
                 public const string IdLdaplegal_admin = "legal_admin";
                 public const string IdLdaplegal_direksi = "direksi";
                 public const string IdLdaplegal_dirut = "dirut";
+                public const string IdLdapApproverRole = "approver";
             }
 
         }

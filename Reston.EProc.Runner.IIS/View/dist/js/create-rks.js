@@ -612,6 +612,7 @@ function addItem(item) {
     }
     table.row.add([nextNo, item[1], item[2], '<a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>']).draw();
 }
+
 function clearInputInRow(indexTr) {
     if (indexTr > 0) {
         var inputs = $("#example1 tbody tr:eq('" + (indexTr - 1) + "')").find("input").parent();
@@ -622,6 +623,7 @@ function clearInputInRow(indexTr) {
         });
     }
 }
+
 function clearInputInRow2() {
     //console.log($("#example1 tbody td").find("input"));
     var inputs = $("#example1 tbody td").find("input");
@@ -633,6 +635,7 @@ function clearInputInRow2() {
     });
 
 }
+
 function hitungHargaItemAwal() {
     var totalHarga = 0;
 

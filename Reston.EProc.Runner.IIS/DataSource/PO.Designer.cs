@@ -996,6 +996,16 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             private global::System.Data.DataColumn columnSubTotal;
             
+            private global::System.Data.DataColumn columnNilaiDiscount;
+            
+            private global::System.Data.DataColumn columnNilaiPPN;
+            
+            private global::System.Data.DataColumn columnNilaiPPH;
+            
+            private global::System.Data.DataColumn columnNilaiDPP;
+            
+            private global::System.Data.DataColumn columnTotal;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public PoDetailTableDataTable() {
@@ -1135,6 +1145,46 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NilaiDiscountColumn {
+                get {
+                    return this.columnNilaiDiscount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NilaiPPNColumn {
+                get {
+                    return this.columnNilaiPPN;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NilaiPPHColumn {
+                get {
+                    return this.columnNilaiPPH;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NilaiDPPColumn {
+                get {
+                    return this.columnNilaiDPP;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn TotalColumn {
+                get {
+                    return this.columnTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1170,7 +1220,25 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public PoDetailTableRow AddPoDetailTableRow(System.Guid Id, string NamaBarang, string Kode, string Banyak, string Satuan, string Harga, string Deskripsi, string Jumlah, string Discount, string PPN, string PPH, string DPP, string SubTotal) {
+            public PoDetailTableRow AddPoDetailTableRow(
+                        System.Guid Id, 
+                        string NamaBarang, 
+                        string Kode, 
+                        string Banyak, 
+                        string Satuan, 
+                        string Harga, 
+                        string Deskripsi, 
+                        string Jumlah, 
+                        string Discount, 
+                        string PPN, 
+                        string PPH, 
+                        string DPP, 
+                        string SubTotal, 
+                        string NilaiDiscount, 
+                        string NilaiPPN, 
+                        string NilaiPPH, 
+                        string NilaiDPP, 
+                        string Total) {
                 PoDetailTableRow rowPoDetailTableRow = ((PoDetailTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Id,
@@ -1185,7 +1253,12 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                         PPN,
                         PPH,
                         DPP,
-                        SubTotal};
+                        SubTotal,
+                        NilaiDiscount,
+                        NilaiPPN,
+                        NilaiPPH,
+                        NilaiDPP,
+                        Total};
                 rowPoDetailTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPoDetailTableRow);
                 return rowPoDetailTableRow;
@@ -1221,6 +1294,11 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 this.columnPPH = base.Columns["PPH"];
                 this.columnDPP = base.Columns["DPP"];
                 this.columnSubTotal = base.Columns["SubTotal"];
+                this.columnNilaiDiscount = base.Columns["NilaiDiscount"];
+                this.columnNilaiPPN = base.Columns["NilaiPPN"];
+                this.columnNilaiPPH = base.Columns["NilaiPPH"];
+                this.columnNilaiDPP = base.Columns["NilaiDPP"];
+                this.columnTotal = base.Columns["Total"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1252,6 +1330,16 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 base.Columns.Add(this.columnDPP);
                 this.columnSubTotal = new global::System.Data.DataColumn("SubTotal", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSubTotal);
+                this.columnNilaiDiscount = new global::System.Data.DataColumn("NilaiDiscount", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNilaiDiscount);
+                this.columnNilaiPPN = new global::System.Data.DataColumn("NilaiPPN", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNilaiPPN);
+                this.columnNilaiPPH = new global::System.Data.DataColumn("NilaiPPH", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNilaiPPH);
+                this.columnNilaiDPP = new global::System.Data.DataColumn("NilaiDPP", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNilaiDPP);
+                this.columnTotal = new global::System.Data.DataColumn("Total", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotal);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, false));
                 this.columnId.Unique = true;
@@ -2404,6 +2492,86 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string NilaiDiscount {
+                get {
+                    try {
+                        return ((string)(this[this.tablePoDetailTable.NilaiDiscountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NilaiDiscount\' in table \'PoDetailTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePoDetailTable.NilaiDiscountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string NilaiPPN {
+                get {
+                    try {
+                        return ((string)(this[this.tablePoDetailTable.NilaiPPNColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NilaiPPN\' in table \'PoDetailTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePoDetailTable.NilaiPPNColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string NilaiPPH {
+                get {
+                    try {
+                        return ((string)(this[this.tablePoDetailTable.NilaiPPHColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NilaiPPH\' in table \'PoDetailTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePoDetailTable.NilaiPPHColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string NilaiDPP {
+                get {
+                    try {
+                        return ((string)(this[this.tablePoDetailTable.NilaiDPPColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NilaiDPP\' in table \'PoDetailTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePoDetailTable.NilaiDPPColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Total {
+                get {
+                    try {
+                        return ((string)(this[this.tablePoDetailTable.TotalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Total\' in table \'PoDetailTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePoDetailTable.TotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsIdNull() {
                 return this.IsNull(this.tablePoDetailTable.IdColumn);
             }
@@ -2556,6 +2724,66 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetSubTotalNull() {
                 this[this.tablePoDetailTable.SubTotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNilaiDiscountNull() {
+                return this.IsNull(this.tablePoDetailTable.NilaiDiscountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNilaiDiscountNull() {
+                this[this.tablePoDetailTable.NilaiDiscountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNilaiPPNNull() {
+                return this.IsNull(this.tablePoDetailTable.NilaiPPNColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNilaiPPNNull() {
+                this[this.tablePoDetailTable.NilaiPPNColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNilaiPPHNull() {
+                return this.IsNull(this.tablePoDetailTable.NilaiPPHColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNilaiPPHNull() {
+                this[this.tablePoDetailTable.NilaiPPHColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNilaiDPPNull() {
+                return this.IsNull(this.tablePoDetailTable.NilaiDPPColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNilaiDPPNull() {
+                this[this.tablePoDetailTable.NilaiDPPColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsTotalNull() {
+                return this.IsNull(this.tablePoDetailTable.TotalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetTotalNull() {
+                this[this.tablePoDetailTable.TotalColumn] = global::System.Convert.DBNull;
             }
         }
         

@@ -3274,7 +3274,7 @@ namespace Reston.Pinata.WebService.Controllers
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public async Task<ResultMessage> ajukanDokPemenang(Guid Id)
+        public async Task<ResultMessage> ajukanDokPemenangOld(Guid Id)
         {
             HttpStatusCode respon = HttpStatusCode.NotFound;
             string message = "";
@@ -3315,6 +3315,7 @@ namespace Reston.Pinata.WebService.Controllers
                 var DepManager = await listGuidManager();
                 var Direksi = await listUser(IdLdapConstants.Roles.pRole_direksi);
                 var Dirut = await listUser(IdLdapConstants.Roles.pRole_dirut);
+
                 #region BuatAtauUpdateTamplate
 
                 var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
@@ -3375,6 +3376,72 @@ namespace Reston.Pinata.WebService.Controllers
                 nPersetujuanPemenang.WorkflowId = Convert.ToInt32(resultTemplate.Id);
                 #endregion
 
+                if (nPersetujuanPemenang.WorkflowId != null)
+                {
+                    nPersetujuanPemenang.Status = StatusPengajuanPemenang.PENDING;
+                    var rPersetujuanPemenang = _repository.SavePersetujuanPemenang(nPersetujuanPemenang, UserId());
+                    respon = HttpStatusCode.OK;
+                    idx = rPersetujuanPemenang.Id;
+                    var resultx = _workflowrepo.PengajuanDokumen(new Guid(rPersetujuanPemenang.Id), nPersetujuanPemenang.WorkflowId.Value, DocumentTypePemenang);
+                    if (string.IsNullOrEmpty(resultx.Id))
+                    {
+                        result.message = resultx.message;
+                        result.Id = resultx.Id;
+                        return result;
+                    }
+                    message = Common.SaveSukses();
+                }
+                else
+                {
+                    var PersetujuanPemenang = _repository.DeletePersetujuanPemenang(nPersetujuanPemenang.Id);
+                    respon = HttpStatusCode.OK;
+                    message = Common.SaveSukses();
+                    idx = PersetujuanPemenang.Id.ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                respon = HttpStatusCode.NotImplemented;
+                message = ex.ToString();
+                idx = "0";
+            }
+            finally
+            {
+                result.status = respon;
+                result.message = message;
+                result.Id = idx;
+            }
+            //
+            return result;
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                          IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                           IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public async Task<ResultMessage> ajukanDokPemenang(Guid Id)
+        {
+            HttpStatusCode respon = HttpStatusCode.NotFound;
+            string message = "";
+            string idx = "0";
+            try
+            {
+
+                respon = HttpStatusCode.Forbidden;
+                message = "Erorr";
+
+                var pengadaan = _repository.GetPengadaanByiD(Id);
+
+                var nPersetujuanPemenang = pengadaan.PersetujuanPemenangs.FirstOrDefault();
+                if (nPersetujuanPemenang == null)
+                {
+                    return new ResultMessage()
+                    {
+                        message = "Workflow Belum di Save",
+                        status = HttpStatusCode.NotImplemented
+                    };
+                }
                 if (nPersetujuanPemenang.WorkflowId != null)
                 {
                     nPersetujuanPemenang.Status = StatusPengajuanPemenang.PENDING;

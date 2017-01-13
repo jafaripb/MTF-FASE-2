@@ -181,10 +181,14 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string Deskripsi { get; set; }
         public string Jumlah { get; set; }
         public string Discount { get; set; }
-        public string PPN { get; set; }
-        public string PPH { get; set; }
-        public string DPP { get; set; }
         public string SubTotal { get; set; }
+        public string NilaiDiscount { get; set; }
+        public string PPN { get; set; }
+        public string NilaiPPN { get; set; }
+        public string PPH { get; set; }
+        public string NilaiPPH { get; set; }
+        public string DPP { get; set; }
+        public string NilaiDPP { get; set; }
         public string Total { get; set; }
     }
 
