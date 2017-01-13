@@ -23,6 +23,11 @@ namespace Reston.Helper.Repository
         ResultMessage NextApprover(Guid DocId, int TemplateId);
         ResultMessage AddMasterTemplateDetail(int TemplateId, WorkflowMasterTemplateDetail oWorkflowMasterTemplateDetail);
         int isThisUserLastApprover(int WorkflowTemplateId, Guid UserId);
+        ResultMessage DeleteDetail(int Id);
+        List<WorkflowMasterTemplateDetail> ListWorkflowDetails(int WorkflowTemplateId);
+        ResultMessage SaveHeader(WorkflowMasterTemplate data, Guid UserId);
+        ResultMessage SaveDetail(WorkflowMasterTemplateDetail data);
+        WorkflowMasterTemplate getHeader(int Id);
     }
     public class WorkflowRepository : IWorkflowRepository
     {
@@ -239,6 +244,19 @@ namespace Reston.Helper.Repository
             }
         }
 
+        public List<WorkflowMasterTemplateDetail> ListWorkflowDetails(int WorkflowTemplateId)
+        {
+            try
+            {
+                return ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == WorkflowTemplateId).ToList();              
+            }
+            catch (Exception ex)
+            {
+                return new List<WorkflowMasterTemplateDetail>();
+            }
+        }
+
+
         public int isThisUserLastApprover(int WorkflowTemplateId,Guid UserId)
         {
             try
@@ -417,7 +435,7 @@ namespace Reston.Helper.Repository
                     dtWorkflowMasterTemplate.ModifiedBy = UserId;
                     foreach (var item in oViewWorkflowTemplate.WorkflowMasterTemplateDetails)
                     {
-                        if (item.Id != null)
+                        if (item.Id >0)
                         {
                             var detail = ctx.WorkflowMasterTemplateDetails.Find(item.Id);
                             detail.NameValue = item.NameValue;
@@ -521,6 +539,116 @@ namespace Reston.Helper.Repository
             }
             return result;
         }
+
+        public ResultMessage DeleteDetail(int Id)
+        {
+            try
+            {
+                var data = ctx.WorkflowMasterTemplateDetails.Find(Id);
+                if (data != null) ctx.WorkflowMasterTemplateDetails.Remove(data);
+                ctx.SaveChanges();
+                return new ResultMessage()
+                {
+                    message = Common.DeleteSukses(),
+                    status = HttpStatusCode.OK
+                };
+            }
+            catch(Exception ex)
+            {
+                return new ResultMessage()
+                {
+                    message = ex.ToString(),
+                    status = HttpStatusCode.NotImplemented
+                };
+            }
+        }
+
+        public ResultMessage SaveHeader(WorkflowMasterTemplate data,Guid UserId)
+        {
+            try
+            {
+                if (data.Id == null)
+                {
+
+                    data.CreateBy = UserId;
+                    data.CreateOn = DateTime.Now;
+                    ctx.WorkflowMasterTemplates.Add(data);
+                }
+                else
+                {
+                    var odata = ctx.WorkflowMasterTemplates.Find(data.Id);
+                    if (odata == null) return new ResultMessage()
+                    {
+                        message = HttpStatusCode.NotImplemented.ToString(),
+                        status = HttpStatusCode.NotImplemented
+                    };
+                    odata.ApprovalType = data.ApprovalType;
+                    odata.NameValue = data.NameValue;
+                    odata.DescValue = data.DescValue;
+                    odata.ModifiedBy = UserId;
+                    odata.ModifiedOn = DateTime.Now;
+                }
+                ctx.SaveChanges();
+                return new ResultMessage()
+                {
+                    status = HttpStatusCode.OK,
+                    Id = data.Id.ToString(),
+                    message = Common.SaveSukses()
+                };
+            }
+            catch(Exception ex)
+            {
+                return new ResultMessage()
+                {
+                    message = ex.ToString(),
+                    status = HttpStatusCode.NotImplemented
+                };
+            }
+        }
+
+        public WorkflowMasterTemplate getHeader(int Id)
+        {
+            return ctx.WorkflowMasterTemplates.Find(Id);
+        }
+
+        public ResultMessage SaveDetail(WorkflowMasterTemplateDetail data)
+        {
+            try
+            {
+                if (data.Id == null)
+                {
+                    ctx.WorkflowMasterTemplateDetails.Add(data);
+                }
+                else
+                {
+                    var odata = ctx.WorkflowMasterTemplateDetails.Find(data.Id);
+                    if (odata == null) return new ResultMessage()
+                    {
+                        message = HttpStatusCode.NotImplemented.ToString(),
+                        status = HttpStatusCode.NotImplemented
+                    };
+                    odata.NameValue = data.NameValue;
+                    odata.UserId = data.UserId;
+                    odata.SegOrder = data.SegOrder;
+                }
+                ctx.SaveChanges();
+                return new ResultMessage()
+                {
+                    status = HttpStatusCode.OK,
+                    Id = data.Id.ToString(),
+                    message = Common.SaveSukses()
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResultMessage()
+                {
+                    message = ex.ToString(),
+                    status = HttpStatusCode.NotImplemented
+                };
+            }
+        }
+
     }
 
     

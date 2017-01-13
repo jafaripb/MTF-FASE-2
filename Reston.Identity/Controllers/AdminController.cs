@@ -211,7 +211,8 @@ namespace IdLdap.Controllers
             {
                 PersonilId=d.Id,
                 Nama = d.DisplayName,
-                tlp = d.PhoneNumber
+                tlp = d.PhoneNumber,
+                jabatan=d.Position
             }).OrderBy(d => d.Nama).Skip(start).Take(limit).ToList();
             
             return Json(dataPageUsers, JsonRequestBehavior.AllowGet);
