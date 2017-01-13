@@ -376,52 +376,64 @@ namespace Reston.Pinata.WebService.Controllers
            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
 
             path = Path.Combine(path, "po.rdlc");
-         
 
-           if (System.IO.File.Exists(path))
-           {
-               lr.ReportPath = path;
-           }
-
-           var po = _repository.get(Id);
-           
-           VWPOReport data1=new VWPOReport(){
-                Id=po.Id,
-                Prihal=po.Prihal,
-                Vendor=po.Vendor,
-                UP=po.UP,
-                NoPO=po.NoPO,
-                TanggalPO=po.TanggalPO!=null?po.TanggalPO.Value.Day+" "+ Common.ConvertNamaBulan( po.TanggalPO.Value.Month) + " "+ po.TanggalPO.Value.Year:"",
-                TanggalPOstr=po.TanggalPO!=null?po.TanggalPO.Value.Day+" "+ Common.ConvertNamaBulan( po.TanggalPO.Value.Month) + " "+ po.TanggalPO.Value.Year:"",
-                NilaiPO=po.PODetail==null?"":po.PODetail.Sum(d=>d.Harga*d.Banyak).Value.ToString("C", MyConverter.formatCurrencyIndo()),
-                Keterangan=po.Keterangan,
-                AlmatBarangUp=po.AlamatPengirimanBarang,
-                Rekening=po.NoRekening,
-                AtasNama=po.AtasNama,
-                Bank=po.NamaBank,
-                TelpBarang=po.TelpPengirimanBarang,
-                KwitansiUp=po.UPPengirimanKwitansi,
-                Total="",
-                TTD1=po.Ttd1,
-                TTD2=po.Ttd2,
-                TTD3=po.UPPengirimanKwitansi,
-                TTD4=po.UP
-           };
+            if (System.IO.File.Exists(path))
+            {
+                lr.ReportPath = path;
+            }
+            var po = _repository.get(Id);
+            VWPOReport data1 = new VWPOReport() {
+                Id = po.Id,
+                Prihal = po.Prihal,
+                Vendor = po.Vendor,
+                UP = po.UP,
+                NoPO = po.NoPO,
+                TanggalPO = po.TanggalPO != null ? po.TanggalPO.Value.Day + " " + Common.ConvertNamaBulan(po.TanggalPO.Value.Month) + " " + po.TanggalPO.Value.Year : "",
+                TanggalPOstr = po.TanggalPO != null ? po.TanggalPO.Value.Day + " " + Common.ConvertNamaBulan(po.TanggalPO.Value.Month) + " " + po.TanggalPO.Value.Year : "",
+                NilaiPO = po.PODetail == null ? "" : po.PODetail.Sum(d => d.Harga * d.Banyak).Value.ToString("C", MyConverter.formatCurrencyIndo()),
+                Keterangan = po.Keterangan,
+                AlmatBarangUp = po.AlamatPengirimanBarang,
+                UpPengirimanBarang = po.UPPengirimanBarang,
+                Rekening = po.NoRekening,
+                AtasNama = po.AtasNama,
+                Bank = po.NamaBank,
+                TelpBarang = po.TelpPengirimanBarang,
+                KwitansiUp = po.UPPengirimanKwitansi,
+                Total = "",
+                TTD1 = po.Ttd1,
+                TTD2 = po.Ttd2,
+                TTD3 = po.UPPengirimanKwitansi,
+                TTD4 = po.UP,
+                PeriodeDari = po.PeriodeDari != null ? po.PeriodeDari.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeDari.Value.Month) + " " + po.PeriodeDari.Value.Year : "",
+                PeriodeDaristr = po.PeriodeDari != null ? po.PeriodeDari.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeDari.Value.Month) + " " + po.PeriodeDari.Value.Year : "",
+                PeriodeSampai = po.PeriodeSampai != null ? po.PeriodeSampai.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeSampai.Value.Month) + " " + po.PeriodeSampai.Value.Year : "",
+                PeriodeSampaistr = po.PeriodeSampai != null ? po.PeriodeSampai.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeSampai.Value.Month) + " " + po.PeriodeSampai.Value.Year : "",
+                AlamatKwitansi = po.AlamatKwitansi,
+                NPWP = po.NPWP,
+                AlamatPengirimanKwitansi = po.AlamatPengirimanKwitansi
+            };
            List<VWPOReport> lstdata1 = new List<VWPOReport>();
            lstdata1.Add(data1);
            List< VWPODetailReport> lstdata2 = new List< VWPODetailReport>();
            if (po.PODetail != null)
            {
-               lstdata2 = po.PODetail.Select(d => new VWPODetailReport()
-               {
-                   Id=d.Id,
-                   Banyak = Convert.ToInt32(d.Banyak).ToString(),
-                   Deskripsi=d.Deskripsi,
-                   Harga = d.Banyak == null ? "" : d.Harga.Value.ToString("C", MyConverter.formatCurrencyIndo()),
-                   Jumlah=d.Banyak==null?"":(d.Harga.Value*d.Banyak.Value).ToString("C", MyConverter.formatCurrencyIndo()),
-                   Kode=d.Kode,
-                   NamaBarang=d.NamaBarang,
-                   Satuan=d.Satuan
+                var subtotal = 0;
+                lstdata2 = po.PODetail.Select(d => new VWPODetailReport()
+                {
+                    Id = d.Id,
+                    Banyak = Convert.ToInt32(d.Banyak).ToString(),
+                    Deskripsi = d.Deskripsi,
+                    Harga = d.Banyak == null ? "" : d.Harga.Value.ToString("C", MyConverter.formatCurrencyIndo()),
+                    Jumlah = d.Banyak == null ? "" : (d.Harga.Value * d.Banyak.Value).ToString("C", MyConverter.formatCurrencyIndo()),
+                    Kode = d.Kode,
+                    NamaBarang = d.NamaBarang,
+                    Satuan = d.Satuan,
+                    SubTotal = subtotal.ToString(),
+                   //SubTotal = subtotal + d.Banyak == null ? "" : (d.Harga.Value * d.Banyak.Value).ToString("C", MyConverter.formatCurrencyIndo()),
+                   Discount = Convert.ToInt32(po.Discount).ToString() == null ? "" : Convert.ToInt32(po.Discount).ToString(),
+                   PPN = Convert.ToInt32(po.PPN).ToString() == null ? "" : Convert.ToInt32(po.PPN).ToString(),
+                   PPH = Convert.ToInt32(po.PPH).ToString() == null ? "" : Convert.ToInt32(po.PPH).ToString(),
+                   DPP = Convert.ToInt32(po.DPP).ToString() == null ? "" : Convert.ToInt32(po.DPP).ToString()
                }).ToList();
            }
 

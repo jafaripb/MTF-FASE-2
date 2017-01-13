@@ -150,6 +150,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string NilaiPO { get; set; }
         public string Keterangan { get; set; }
         public string AlmatBarangUp { get; set; }
+        public string UpPengirimanBarang { get; set; }
         public string Rekening { get; set; }
         public string AtasNama { get; set; }
         public string Bank { get; set; }
@@ -179,6 +180,12 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string Harga { get; set; }
         public string Deskripsi { get; set; }
         public string Jumlah { get; set; }
+        public string Discount { get; set; }
+        public string PPN { get; set; }
+        public string PPH { get; set; }
+        public string DPP { get; set; }
+        public string SubTotal { get; set; }
+        public string Total { get; set; }
     }
 
     [Table("DokumenPO", Schema = JimbisContext.PO_SCHEMA_NAME)]
