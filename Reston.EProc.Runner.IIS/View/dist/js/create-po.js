@@ -333,6 +333,8 @@ function loadDetail(Id) {
         $("#pph").val(data.PPH);
         $("#dpp").val(data.DPP);
         SetListBank(data.NamaBank);
+
+        console.log(data.PPH);
     });
 
 }

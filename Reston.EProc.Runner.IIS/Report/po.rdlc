@@ -23,7 +23,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
         <Top>0.23958in</Top>
-        <Left>6.1689in</Left>
+        <Left>6.2939in</Left>
         <Height>0.20833in</Height>
         <Width>1.73958in</Width>
         <Style>
@@ -54,7 +54,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox5</rd:DefaultName>
         <Top>1.09167in</Top>
-        <Left>0.78in</Left>
+        <Left>0.905in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
         <ZIndex>1</ZIndex>
@@ -88,7 +88,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
         <Top>1.41111in</Top>
-        <Left>0.78in</Left>
+        <Left>0.905in</Left>
         <Height>0.25in</Height>
         <Width>2.39583in</Width>
         <ZIndex>2</ZIndex>
@@ -106,25 +106,25 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.3125in</Width>
+              <Width>0.29762in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.6875in</Width>
+              <Width>0.67262in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>4.14362in</Width>
+              <Width>4.12874in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.59375in</Width>
+              <Width>1.57887in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.36458in</Width>
+              <Width>1.3497in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.03125in</Width>
+              <Width>1.8497in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.71875in</Width>
+              <Width>1.70387in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -1041,7 +1041,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -1243,23 +1242,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox52">
+                    <Textbox Name="NilaiDiscount">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!NilaiDiscount.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox52</rd:DefaultName>
+                      <rd:DefaultName>NilaiDiscount</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1373,21 +1372,27 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox126">
+                    <Textbox Name="PPH">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!PPH.Value</Value>
+                              <Style />
+                            </TextRun>
+                            <TextRun>
+                              <Value>%</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox126</rd:DefaultName>
+                      <rd:DefaultName>PPH</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1467,23 +1472,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox89">
+                    <Textbox Name="NilaiPPH">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!NilaiPPH.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox89</rd:DefaultName>
+                      <rd:DefaultName>NilaiPPH</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1597,21 +1602,27 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox127">
+                    <Textbox Name="DPP">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!DPP.Value</Value>
+                              <Style />
+                            </TextRun>
+                            <TextRun>
+                              <Value>%</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox127</rd:DefaultName>
+                      <rd:DefaultName>DPP</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1691,23 +1702,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox96">
+                    <Textbox Name="NilaiDPP">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!NilaiDPP.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox96</rd:DefaultName>
+                      <rd:DefaultName>NilaiDPP</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1888,7 +1899,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox102">
+                    <Textbox Name="Textbox18">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -1900,11 +1911,11 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox102</rd:DefaultName>
+                      <rd:DefaultName>Textbox18</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1920,23 +1931,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox103">
+                    <Textbox Name="NilaiPPN">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!NilaiPPN.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox103</rd:DefaultName>
+                      <rd:DefaultName>NilaiPPN</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2115,14 +2126,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox77">
+                    <Textbox Name="Total">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=First(Fields!NilaiPO.Value, "PoDs")</Value>
+                              <Value>=Fields!Total.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -2131,7 +2142,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox77</rd:DefaultName>
+                      <rd:DefaultName>Total</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2196,9 +2207,9 @@
         </TablixRowHierarchy>
         <DataSetName>PoDetailDs</DataSetName>
         <Top>2.57291in</Top>
-        <Left>0.78in</Left>
+        <Left>0.905in</Left>
         <Height>2.25in</Height>
-        <Width>11.85195in</Width>
+        <Width>11.58112in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -2232,7 +2243,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox15</rd:DefaultName>
         <Top>0.5625in</Top>
-        <Left>0.78in</Left>
+        <Left>0.905in</Left>
         <Height>0.25in</Height>
         <Width>2.39583in</Width>
         <ZIndex>4</ZIndex>
@@ -2272,7 +2283,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
         <Top>1.70278in</Top>
-        <Left>0.78in</Left>
+        <Left>0.905in</Left>
         <Height>0.25in</Height>
         <Width>2.39583in</Width>
         <ZIndex>5</ZIndex>
@@ -2313,9 +2324,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox17</rd:DefaultName>
         <Top>2.13541in</Top>
-        <Left>0.78in</Left>
+        <Left>0.905in</Left>
         <Height>0.25in</Height>
-        <Width>11.85195in</Width>
+        <Width>11.58112in</Width>
         <ZIndex>6</ZIndex>
         <Style>
           <Border>
@@ -2345,7 +2356,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox33</rd:DefaultName>
         <Top>5.72222in</Top>
-        <Left>0.92931in</Left>
+        <Left>1.11681in</Left>
         <Height>0.25in</Height>
         <Width>1.65625in</Width>
         <ZIndex>7</ZIndex>
@@ -2377,7 +2388,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox34</rd:DefaultName>
         <Top>5.72222in</Top>
-        <Left>0.73139in</Left>
+        <Left>0.91889in</Left>
         <Height>0.25in</Height>
         <Width>0.19792in</Width>
         <ZIndex>8</ZIndex>
@@ -2471,7 +2482,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox37</rd:DefaultName>
         <Top>6.69792in</Top>
-        <Left>0.73139in</Left>
+        <Left>0.79389in</Left>
         <Height>0.25in</Height>
         <Width>0.19792in</Width>
         <ZIndex>11</ZIndex>
@@ -2503,7 +2514,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox38</rd:DefaultName>
         <Top>6.69792in</Top>
-        <Left>0.92931in</Left>
+        <Left>0.99181in</Left>
         <Height>0.25in</Height>
         <Width>2.13542in</Width>
         <ZIndex>12</ZIndex>
@@ -2535,7 +2546,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox39</rd:DefaultName>
         <Top>6.96181in</Top>
-        <Left>0.92931in</Left>
+        <Left>0.99181in</Left>
         <Height>0.25in</Height>
         <Width>7.78819in</Width>
         <ZIndex>13</ZIndex>
@@ -2599,7 +2610,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox53</rd:DefaultName>
         <Top>7.36458in</Top>
-        <Left>0.92931in</Left>
+        <Left>0.99181in</Left>
         <Height>0.25in</Height>
         <Width>0.97569in</Width>
         <ZIndex>15</ZIndex>
@@ -2631,7 +2642,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox53</rd:DefaultName>
         <Top>7.36458in</Top>
-        <Left>5.33556in</Left>
+        <Left>5.39806in</Left>
         <Height>0.25in</Height>
         <Width>0.5in</Width>
         <ZIndex>16</ZIndex>
@@ -2661,7 +2672,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox55</rd:DefaultName>
         <Top>7.95833in</Top>
-        <Left>0.92931in</Left>
+        <Left>0.99181in</Left>
         <Height>0.25in</Height>
         <Width>6.97917in</Width>
         <ZIndex>17</ZIndex>
@@ -2700,7 +2711,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox56</rd:DefaultName>
         <Top>8.27778in</Top>
-        <Left>0.92931in</Left>
+        <Left>0.99181in</Left>
         <Height>0.40625in</Height>
         <Width>4.69792in</Width>
         <ZIndex>18</ZIndex>
@@ -2741,7 +2752,7 @@
         <Top>8.27778in</Top>
         <Left>9.20486in</Left>
         <Height>0.40625in</Height>
-        <Width>3.42709in</Width>
+        <Width>3.28126in</Width>
         <ZIndex>19</ZIndex>
         <Style>
           <Border>
@@ -2771,7 +2782,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox58</rd:DefaultName>
         <Top>8.84375in</Top>
-        <Left>0.73139in</Left>
+        <Left>0.79389in</Left>
         <Height>0.25in</Height>
         <Width>0.19792in</Width>
         <ZIndex>20</ZIndex>
@@ -2803,7 +2814,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox59</rd:DefaultName>
         <Top>8.84375in</Top>
-        <Left>0.92931in</Left>
+        <Left>0.99181in</Left>
         <Height>0.25in</Height>
         <Width>5.78819in</Width>
         <ZIndex>21</ZIndex>
@@ -2835,7 +2846,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox62</rd:DefaultName>
         <Top>9.85417in</Top>
-        <Left>0.92931in</Left>
+        <Left>1.00431in</Left>
         <Height>0.25in</Height>
         <Width>0.35417in</Width>
         <ZIndex>22</ZIndex>
@@ -2873,7 +2884,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox63</rd:DefaultName>
         <Top>9.85417in</Top>
-        <Left>5.43625in</Left>
+        <Left>5.51125in</Left>
         <Height>0.25in</Height>
         <Width>3.28125in</Width>
         <ZIndex>23</ZIndex>
@@ -2905,7 +2916,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox64</rd:DefaultName>
         <Top>10.25in</Top>
-        <Left>0.73139in</Left>
+        <Left>0.80639in</Left>
         <Height>0.25in</Height>
         <Width>0.19792in</Width>
         <ZIndex>24</ZIndex>
@@ -2937,7 +2948,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox65</rd:DefaultName>
         <Top>10.25in</Top>
-        <Left>0.92931in</Left>
+        <Left>1.00431in</Left>
         <Height>0.25in</Height>
         <Width>5.78819in</Width>
         <ZIndex>25</ZIndex>
@@ -2969,7 +2980,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox68</rd:DefaultName>
         <Top>11.09722in</Top>
-        <Left>0.92931in</Left>
+        <Left>1.00431in</Left>
         <Height>0.25in</Height>
         <Width>0.5868in</Width>
         <ZIndex>26</ZIndex>
@@ -3001,7 +3012,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox69</rd:DefaultName>
         <Top>11.48958in</Top>
-        <Left>0.73139in</Left>
+        <Left>0.80639in</Left>
         <Height>0.25in</Height>
         <Width>0.19792in</Width>
         <ZIndex>27</ZIndex>
@@ -3033,7 +3044,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox70</rd:DefaultName>
         <Top>11.48958in</Top>
-        <Left>0.94319in</Left>
+        <Left>1.01819in</Left>
         <Height>0.25in</Height>
         <Width>5.7743in</Width>
         <ZIndex>28</ZIndex>
@@ -3071,7 +3082,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox75</rd:DefaultName>
         <Top>12.28819in</Top>
-        <Left>0.92931in</Left>
+        <Left>1.00431in</Left>
         <Height>0.25in</Height>
         <Width>5.78819in</Width>
         <ZIndex>29</ZIndex>
@@ -3101,9 +3112,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox76</rd:DefaultName>
         <Top>12.60764in</Top>
-        <Left>0.73139in</Left>
+        <Left>0.80639in</Left>
         <Height>0.38542in</Height>
-        <Width>11.27556in</Width>
+        <Width>11.20056in</Width>
         <ZIndex>30</ZIndex>
         <Style>
           <Border>
@@ -3135,7 +3146,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox78</rd:DefaultName>
         <Top>13.0625in</Top>
-        <Left>0.73139in</Left>
+        <Left>0.80639in</Left>
         <Height>0.25in</Height>
         <Width>2.02083in</Width>
         <ZIndex>31</ZIndex>
@@ -3166,8 +3177,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox79</rd:DefaultName>
-        <Top>14.20833in</Top>
-        <Left>0.73139in</Left>
+        <Top>14.4861in</Top>
+        <Left>0.80638in</Left>
         <Height>0.25in</Height>
         <Width>1.85417in</Width>
         <ZIndex>32</ZIndex>
@@ -3198,8 +3209,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox80</rd:DefaultName>
-        <Top>14.20833in</Top>
-        <Left>2.74528in</Left>
+        <Top>14.4861in</Top>
+        <Left>2.82027in</Left>
         <Height>0.25in</Height>
         <Width>1.95833in</Width>
         <ZIndex>33</ZIndex>
@@ -3230,8 +3241,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox81</rd:DefaultName>
-        <Top>14.20833in</Top>
-        <Left>4.85986in</Left>
+        <Top>14.4861in</Top>
+        <Left>4.93485in</Left>
         <Height>0.25in</Height>
         <Width>1.85764in</Width>
         <ZIndex>34</ZIndex>
@@ -3294,8 +3305,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox83</rd:DefaultName>
-        <Top>14.22222in</Top>
-        <Left>9.84028in</Left>
+        <Top>14.49999in</Top>
+        <Left>9.84027in</Left>
         <Height>0.25in</Height>
         <Width>2.16667in</Width>
         <ZIndex>36</ZIndex>
@@ -3327,7 +3338,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox33</rd:DefaultName>
         <Top>4.95833in</Top>
-        <Left>0.73139in</Left>
+        <Left>0.91889in</Left>
         <Height>0.25in</Height>
         <Width>1.65625in</Width>
         <ZIndex>37</ZIndex>
@@ -3357,7 +3368,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox36</rd:DefaultName>
         <Top>5.27778in</Top>
-        <Left>0.73139in</Left>
+        <Left>0.91889in</Left>
         <Height>0.25in</Height>
         <Width>1.17361in</Width>
         <ZIndex>38</ZIndex>
@@ -3387,7 +3398,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox36</rd:DefaultName>
         <Top>5.27778in</Top>
-        <Left>3.99181in</Left>
+        <Left>4.17931in</Left>
         <Height>0.25in</Height>
         <Width>0.31597in</Width>
         <ZIndex>39</ZIndex>
@@ -3419,7 +3430,7 @@
         </Paragraphs>
         <rd:DefaultName>NPWP</rd:DefaultName>
         <Top>11.09722in</Top>
-        <Left>1.58556in</Left>
+        <Left>1.66056in</Left>
         <Height>0.25in</Height>
         <Width>5.13194in</Width>
         <ZIndex>40</ZIndex>
@@ -3449,7 +3460,7 @@
         </Paragraphs>
         <rd:DefaultName>AlamatKwitansi</rd:DefaultName>
         <Top>10.55556in</Top>
-        <Left>0.94319in</Left>
+        <Left>1.01819in</Left>
         <Height>0.45833in</Height>
         <Width>5.7743in</Width>
         <ZIndex>41</ZIndex>
@@ -3479,7 +3490,7 @@
         </Paragraphs>
         <rd:DefaultName>AlmatBarangUp</rd:DefaultName>
         <Top>9.16319in</Top>
-        <Left>0.94319in</Left>
+        <Left>1.00569in</Left>
         <Height>0.62153in</Height>
         <Width>5.77431in</Width>
         <ZIndex>42</ZIndex>
@@ -3509,7 +3520,7 @@
         </Paragraphs>
         <rd:DefaultName>AtasNama</rd:DefaultName>
         <Top>7.36458in</Top>
-        <Left>1.97444in</Left>
+        <Left>2.03694in</Left>
         <Height>0.46181in</Height>
         <Width>3.29168in</Width>
         <ZIndex>43</ZIndex>
@@ -3539,7 +3550,7 @@
         </Paragraphs>
         <rd:DefaultName>Bank</rd:DefaultName>
         <Top>7.36458in</Top>
-        <Left>5.90501in</Left>
+        <Left>5.96751in</Left>
         <Height>0.46181in</Height>
         <Width>3.09028in</Width>
         <ZIndex>44</ZIndex>
@@ -3571,7 +3582,7 @@
         <Top>7.36458in</Top>
         <Left>9.75793in</Left>
         <Height>0.25in</Height>
-        <Width>2.87402in</Width>
+        <Width>2.72819in</Width>
         <ZIndex>45</ZIndex>
         <Style>
           <Border>
@@ -3599,7 +3610,7 @@
         </Paragraphs>
         <rd:DefaultName>PeriodeDari</rd:DefaultName>
         <Top>5.27778in</Top>
-        <Left>1.96056in</Left>
+        <Left>2.14806in</Left>
         <Height>0.25in</Height>
         <Width>1.93056in</Width>
         <ZIndex>46</ZIndex>
@@ -3629,7 +3640,7 @@
         </Paragraphs>
         <rd:DefaultName>PeriodeSampai</rd:DefaultName>
         <Top>5.27778in</Top>
-        <Left>4.37722in</Left>
+        <Left>4.56472in</Left>
         <Height>0.25in</Height>
         <Width>2.69223in</Width>
         <ZIndex>47</ZIndex>
@@ -3659,7 +3670,7 @@
         </Paragraphs>
         <rd:DefaultName>AlamatPengirimanKwitansi</rd:DefaultName>
         <Top>11.80902in</Top>
-        <Left>0.92931in</Left>
+        <Left>1.00431in</Left>
         <Height>0.41667in</Height>
         <Width>5.78818in</Width>
         <ZIndex>48</ZIndex>
@@ -3674,10 +3685,10 @@
         </Style>
       </Textbox>
       <Line Name="Line1">
-        <Top>14.5in</Top>
-        <Left>0.68625in</Left>
+        <Top>14.77777in</Top>
+        <Left>0.74874in</Left>
         <Height>0in</Height>
-        <Width>12.11458in</Width>
+        <Width>11.54166in</Width>
         <ZIndex>49</ZIndex>
         <Style>
           <Border>
@@ -3703,7 +3714,7 @@
         </Paragraphs>
         <rd:DefaultName>UpPengirimanBarang</rd:DefaultName>
         <Top>9.85417in</Top>
-        <Left>1.32515in</Left>
+        <Left>1.40015in</Left>
         <Height>0.25in</Height>
         <Width>4.04166in</Width>
         <ZIndex>50</ZIndex>
@@ -3724,7 +3735,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!NilaiPO.Value, "PoDs")</Value>
+                <Value>=First(Fields!Total.Value, "PoDetailDs")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -3748,7 +3759,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>14.70833in</Height>
+    <Height>15.16666in</Height>
     <Style>
       <Border>
         <Style>None</Style>
@@ -3767,7 +3778,7 @@
           <Value>ID20130521102835_tunasfinanceFC1mb</Value>
           <Sizing>FitProportional</Sizing>
           <Top>0.26264in</Top>
-          <Left>0.78in</Left>
+          <Left>0.905in</Left>
           <Height>0.88542in</Height>
           <Width>1.52083in</Width>
           <Style>
@@ -3838,7 +3849,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
           <Top>0.26264in</Top>
-          <Left>2.47444in</Left>
+          <Left>2.59944in</Left>
           <Height>0.88542in</Height>
           <Width>2.54167in</Width>
           <ZIndex>1</ZIndex>
@@ -3860,7 +3871,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>1in</Height>
+      <Height>1.91667in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -4167,6 +4178,26 @@
         </Field>
         <Field Name="SubTotal">
           <DataField>SubTotal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NilaiDiscount">
+          <DataField>NilaiDiscount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NilaiPPN">
+          <DataField>NilaiPPN</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NilaiPPH">
+          <DataField>NilaiPPH</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NilaiDPP">
+          <DataField>NilaiDPP</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total">
+          <DataField>Total</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

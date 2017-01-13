@@ -382,6 +382,7 @@ namespace Reston.Pinata.WebService.Controllers
                 lr.ReportPath = path;
             }
             var po = _repository.get(Id);
+            var subtotal = 0;
             VWPOReport data1 = new VWPOReport() {
                 Id = po.Id,
                 Prihal = po.Prihal,
@@ -417,7 +418,21 @@ namespace Reston.Pinata.WebService.Controllers
            List< VWPODetailReport> lstdata2 = new List< VWPODetailReport>();
            if (po.PODetail != null)
            {
-                var subtotal = 0;
+                var nilaipo = po.PODetail == null ? 0 : po.PODetail.Sum(d => d.Harga * d.Banyak);
+                decimal? hitungdiscount = (po.Discount / 100 == null?0: (po.Discount / 100)) * (nilaipo == null ? 0 : nilaipo);
+                decimal nilaiPosetelahdiskon = (nilaipo == null ? 0 : nilaipo.Value) - (hitungdiscount == null ? 0 : hitungdiscount.Value);
+                decimal hitungppn = nilaiPosetelahdiskon * (po.PPN==null?0:po.PPN.Value) / 100;
+
+                //decimal? hitungppn = (po.PPN / 100 == null ? 0 : (po.PPN / 100)) * (nilaipo == null ? 0 : nilaipo);
+                decimal hitungpph = (po.PPH==null?0:po.PPH.Value / 100 ) * nilaiPosetelahdiskon;
+                
+                decimal? hitungdpp = (po.DPP / 100 == null ? 0 : (po.DPP / 100)) * (nilaipo == null ? 0 : nilaipo);
+                //decimal? nilaidiscount = (nilaitotal == null ? 0 : nilaitotal.Value) - (hitungdiscount == null ? 0 : hitungdiscount.Value);
+                decimal? nilaidiscount = hitungdiscount == null ? 0 : hitungdiscount.Value;
+                decimal? nilaippn =hitungppn;
+                decimal? nilaipph =  hitungpph;
+                decimal? nilaidpp = hitungdpp == null ? 0 : hitungdpp;
+                decimal? nilaitotal = (nilaipo) + (nilaipph +nilaidpp + nilaippn) - (nilaidiscount);
                 lstdata2 = po.PODetail.Select(d => new VWPODetailReport()
                 {
                     Id = d.Id,
@@ -428,13 +443,17 @@ namespace Reston.Pinata.WebService.Controllers
                     Kode = d.Kode,
                     NamaBarang = d.NamaBarang,
                     Satuan = d.Satuan,
-                    SubTotal = subtotal.ToString(),
-                   //SubTotal = subtotal + d.Banyak == null ? "" : (d.Harga.Value * d.Banyak.Value).ToString("C", MyConverter.formatCurrencyIndo()),
-                   Discount = Convert.ToInt32(po.Discount).ToString() == null ? "" : Convert.ToInt32(po.Discount).ToString(),
-                   PPN = Convert.ToInt32(po.PPN).ToString() == null ? "" : Convert.ToInt32(po.PPN).ToString(),
-                   PPH = Convert.ToInt32(po.PPH).ToString() == null ? "" : Convert.ToInt32(po.PPH).ToString(),
-                   DPP = Convert.ToInt32(po.DPP).ToString() == null ? "" : Convert.ToInt32(po.DPP).ToString()
-               }).ToList();
+                    SubTotal = po.PODetail == null ? "" : po.PODetail.Sum(dd => dd.Harga * dd.Banyak).Value.ToString("C", MyConverter.formatCurrencyIndo()),
+                    Discount = Convert.ToInt32(po.Discount).ToString() == null ? "" : Convert.ToInt32(po.Discount).ToString(),
+                    NilaiDiscount = nilaidiscount.Value.ToString("C", MyConverter.formatCurrencyIndo()),
+                    PPN = Convert.ToInt32(po.PPN).ToString() == null ? "" : Convert.ToInt32(po.PPN).ToString(),
+                    NilaiPPN = nilaippn.Value.ToString("C", MyConverter.formatCurrencyIndo()),
+                    PPH = Convert.ToInt32(po.PPH).ToString() == null ? "" : Convert.ToInt32(po.PPH).ToString(),
+                    NilaiPPH = nilaipph.Value.ToString("C", MyConverter.formatCurrencyIndo()),
+                    DPP = Convert.ToInt32(po.DPP).ToString() == null ? "" : Convert.ToInt32(po.DPP).ToString(),
+                    NilaiDPP = nilaidpp.Value.ToString("C", MyConverter.formatCurrencyIndo()),
+                    Total = nilaitotal.Value.ToString("C", MyConverter.formatCurrencyIndo()),
+                }).ToList();
            }
 
            ReportDataSource rd = new ReportDataSource("PoDs", lstdata1);
@@ -451,8 +470,8 @@ namespace Reston.Pinata.WebService.Controllers
 
           "<DeviceInfo>" +
           "  <OutputFormat>PDF</OutputFormat>" +
-          "  <PageWidth>14.267in</PageWidth>" +
-          "  <PageHeight>18.692in</PageHeight>" +
+          "  <PageWidth>15.267in</PageWidth>" +
+          "  <PageHeight>20.000in</PageHeight>" +
           "  <MarginTop>0.25in</MarginTop>" +
           "  <MarginLeft>0.10in</MarginLeft>" +
           "  <MarginRight>0.10in</MarginRight>" +
