@@ -11,6 +11,8 @@ using Reston.Pinata.Model.JimbisModel;
 using Reston.Pinata.Model.Helper;
 using System.Net;
 using Reston.Eproc.Model.Monitoring.Model;
+using Reston.Eproc.Model.Monitoring.Entities;
+using Reston.Pinata.Model.PengadaanRepository;
 
 namespace Reston.Pinata.Model.PengadaanRepository
 {
@@ -141,6 +143,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         int CekBukaAmplop(Guid PengadaanId);
         ViewVendors GetVendorById(int VendorId);
         List<VWReportPengadaan> GetRepotPengadan(DateTime? dari, DateTime? sampai, Guid UserId);
+        List<VWPOReportDetail> GetReportPO(DateTime? dari, DateTime? sampai, Guid UserId);
+        List<VWReportPks> GetReportPKS(DateTime? dari, DateTime? sampai, Guid UserId);
+        List<VWReportSpk> GetReportSPK(DateTime? dari, DateTime? sampai, Guid UserId);
+        
         int PembatalanPengadaan(VWPembatalanPengadaan vwPembatalan, Guid UserId);
         List<VWStaffCharges> GetSummaryTotal(DateTime dari, DateTime sampai, int limit = Int32.MaxValue, int skip = 0);
         List<VWStaffCharges> GetStaffCharges(string charge, DateTime dari, DateTime sampai, int limit = Int32.MaxValue, int skip = 0);
@@ -4747,7 +4753,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return ctx.BeritaAcaras.Where(d => d.PengadaanId == PengadaanId && d.Tipe == tipe && d.VendorId==VendorId).FirstOrDefault();
         }
 
-       public BeritaAcara addBeritaAcara(BeritaAcara newBeritaAcara, Guid UserId)
+        public BeritaAcara addBeritaAcara(BeritaAcara newBeritaAcara, Guid UserId)
         {
             Pengadaan opengadaan = ctx.Pengadaans.Find(newBeritaAcara.PengadaanId);
             if (opengadaan == null) return new BeritaAcara();
@@ -4790,7 +4796,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
         }
 
-       public int DeleteBeritaAcara(Guid Id, Guid UserId)
+        public int DeleteBeritaAcara(Guid Id, Guid UserId)
        {
            var OberitaAcara = ctx.BeritaAcaras.Find(Id);
            if (OberitaAcara != null)
@@ -4809,7 +4815,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
            
        }
 
-       public int CekBukaAmplop(Guid PengadaanId)
+        public int CekBukaAmplop(Guid PengadaanId)
         {
             List<VWPErsetujuanBukaAmplop> lstPErsetujuan =
                  (from b in ctx.PersetujuanBukaAmplops
@@ -4933,6 +4939,108 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 item.SPK = getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.SuratPerintahKerja, UserId) == null ? null :
                 getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.SuratPerintahKerja, UserId).tanggal;
             }
+            return oReport;
+        }
+
+        public List<VWPOReportDetail> GetReportPO(DateTime? dari, DateTime? sampai, Guid UserId)
+        {
+            var oReport = (from b in ctx.POs
+                           join c in ctx.PODetails on b.Id equals c.POId
+                           where b.TanggalPO >= dari && b.TanggalPO <= sampai //c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
+                           select new VWPOReportDetail
+                           {
+                               NoPO = b.NoPO,
+                               TanggalPO = b.TanggalPO.ToString(),
+                               Prihal = b.Prihal,
+                               Vendor = b.Vendor,
+                               UP = b.UP,
+                               PeriodeDari = b.PeriodeDari.ToString(),
+                               PeriodeSampai = b.PeriodeSampai.ToString(),
+                               Bank = b.NamaBank,
+                               AtasNama = b.AtasNama,
+                               Rekening = b.NoRekening,
+                               AlmatBarangUp = b.AlamatPengirimanBarang,
+                               UpPengirimanBarang = b.UPPengirimanBarang,
+                               AlamatKwitansi = b.AlamatKwitansi,
+                               NPWP = b.NPWP,
+                               AlamatPengirimanKwitansi = b.AlamatPengirimanKwitansi,
+                               KwitansiUp = b.UPPengirimanKwitansi,
+                               TelpBarang = b.TelpPengirimanBarang,
+                           }).Distinct().ToList();
+                               //Total = 
+
+
+                           //    PengadaanId = b.Id,
+                           //    Judul = b.Judul,
+                           //    User = b.UnitKerjaPemohon,
+                           //    hps = (from bb in ctx.RKSHeaders
+                           //           join cc in ctx.RKSDetails on bb.Id equals cc.RKSHeaderId
+                           //           where bb.PengadaanId == b.Id
+                           //           select cc).Sum(xx => xx.hps) == null ? 0 :
+                           //         (from bb in ctx.RKSHeaders
+                           //          join cc in ctx.RKSDetails on bb.Id equals cc.RKSHeaderId
+                           //          where bb.PengadaanId == b.Id
+                           //          select cc).Sum(xx => xx.hps * xx.jumlah).Value
+                           //}).Distinct().ToList();
+            //foreach (var item in oReport)
+            //{
+            //    item.realitas = getPemenangPengadaan(item.PengadaanId.Value, UserId).FirstOrDefault() == null ? 0 :
+            //        getPemenangPengadaan(item.PengadaanId.Value, UserId).FirstOrDefault().total;
+            //    item.efisiensi = efisiensi(item.PengadaanId.Value, UserId);
+            //    item.Pemenang = getPemenangPengadaan(item.PengadaanId.Value, UserId).FirstOrDefault() == null ? "" :
+            //                getPemenangPengadaan(item.PengadaanId.Value, UserId).FirstOrDefault().NamaVendor;
+            //    item.Aanwjzing = getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraAanwijzing, UserId) == null ? null :
+            //            getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraAanwijzing, UserId).tanggal;
+            //    item.PembukaanAmplop = getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraBukaAmplop, UserId) == null ? null :
+            //            getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraBukaAmplop, UserId).tanggal;
+            //    item.Klasrifikasi = getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraKlarifikasi, UserId) == null ? null :
+            //        getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraKlarifikasi, UserId).tanggal;
+            //    item.Scoring = getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraPenilaian, UserId) == null ? null :
+            //        getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraPenilaian, UserId).tanggal;
+            //    item.NotaPemenang = getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraPenentuanPemenang, UserId) == null ? null :
+            //        getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraPenentuanPemenang, UserId).tanggal;
+            //    item.SPK = getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.SuratPerintahKerja, UserId) == null ? null :
+            //    getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.SuratPerintahKerja, UserId).tanggal;
+            //}
+            return oReport;
+        }
+
+        public List<VWReportPks> GetReportPKS(DateTime? dari, DateTime? sampai, Guid UserId)
+        {
+            var oReport = (from b in ctx.Pks
+                           join c in ctx.PemenangPengadaans on b.PemenangPengadaanId equals c.Id
+                           join d in ctx.Vendors on c.VendorId equals d.Id
+                           join e in ctx.Pengadaans on c.PengadaanId equals e.Id
+                           where b.CreateOn >= dari && b.CreateOn <= sampai //c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
+                           select new VWReportPks
+                           {
+                               NoPengadaan = e.NoPengadaan,
+                               Vendor = d.Nama,
+                               NoPks = b.NoDokumen == null ? "" : b.NoDokumen,
+                               Title = b.Title,
+                               Klasifikasi = e.JenisPekerjaan,
+                               StatusPks = b.StatusPks
+
+                           }).Distinct().ToList();
+            return oReport;
+        }
+
+        public List<VWReportSpk> GetReportSPK(DateTime? dari, DateTime? sampai, Guid UserId)
+        {
+            var oReport = (from b in ctx.Spk
+                           join c in ctx.PemenangPengadaans on b.PemenangPengadaanId equals c.Id
+                           join d in ctx.Vendors on c.VendorId equals d.Id
+                           join e in ctx.Pengadaans on c.PengadaanId equals e.Id
+                           where b.CreateOn >= dari && b.CreateOn <= sampai //c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
+                           select new VWReportSpk
+                           {
+                               NoSpk = b.NoSPk,
+                               Title = b.Title,
+                               TanggalSPK = b.TanggalSPK.ToString(),
+                               NilaiSPK = b.NilaiSPK.ToString(),
+                               Vendor = d.Nama
+
+                           }).Distinct().ToList();
             return oReport;
         }
 

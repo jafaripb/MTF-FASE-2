@@ -35,6 +35,7 @@ namespace Reston.Pinata.WebService.Controllers
         internal ResultMessage result = new ResultMessage();
         private string FILE_TEMP_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_TEMP"];
         private string FILE_DOKUMEN_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_DOC"];
+        private string FILE_REPORT_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_REPORT_PATH"];
         public ReportController()
         {
             _repository = new PengadaanRepo(new JimbisContext());
@@ -2417,6 +2418,262 @@ namespace Reston.Pinata.WebService.Controllers
             };
             return result;
         }
+
+        // Report PO
+        public HttpResponseMessage ReportPO(string dari, string sampai)
+        {
+            try
+            {
+                LocalReport lr = new LocalReport();
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+                path = Path.Combine(path, "ReportPO.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    lr.ReportPath = path;
+                }
+
+                else
+                {
+                    //return View("Index");
+                }
+                var oDari = Common.ConvertDate(dari, "dd/MM/yyyy");
+                var oSampai = Common.ConvertDate(sampai, "dd/MM/yyyy");
+
+                var POReportDetail = _repository.GetReportPO(oDari, oSampai, UserId());
+
+                ReportDataSource rd = new ReportDataSource("POReportDetail", POReportDetail);
+                lr.DataSources.Add(rd);
+                string param1 = "";
+                string filename = "";
+                string param2 = "";
+                string paramSemester = "";
+                string paramTahunAjaran = "";
+
+
+                string reportType = "doc";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+
+                string[] streamids = null;
+                String extension = null;
+                Byte[] bytes = null;
+                Warning[] warnings;
+
+                bytes = lr.Render("Excel", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(bytes);
+
+                result.Content = new StreamContent(stream);
+
+                //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Report-PO" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                };
+
+                return result;
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                result.Content = new StringContent(sb.ToString());
+
+                return result;
+                //Display or log the error based on your application.
+            }
+        }
+
+        // Report PKS
+        public HttpResponseMessage ReportPKS(string dari, string sampai)
+        {
+            try
+            {
+                LocalReport lr = new LocalReport();
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+                path = Path.Combine(path, "ReportPKS.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    lr.ReportPath = path;
+                }
+
+                else
+                {
+                    //return View("Index");
+                }
+                var oDari = Common.ConvertDate(dari, "dd/MM/yyyy");
+                var oSampai = Common.ConvertDate(sampai, "dd/MM/yyyy");
+
+                var PKS = _repository.GetReportPKS(oDari, oSampai, UserId());
+
+                ReportDataSource rd = new ReportDataSource("PKS", PKS);
+                lr.DataSources.Add(rd);
+                string param1 = "";
+                string filename = "";
+                string param2 = "";
+                string paramSemester = "";
+                string paramTahunAjaran = "";
+
+
+                string reportType = "doc";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+
+                string[] streamids = null;
+                String extension = null;
+                Byte[] bytes = null;
+                Warning[] warnings;
+
+                bytes = lr.Render("Excel", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(bytes);
+
+                result.Content = new StreamContent(stream);
+
+                //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Report-PKS" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                };
+
+                return result;
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                result.Content = new StringContent(sb.ToString());
+
+                return result;
+                //Display or log the error based on your application.
+            }
+        }
+
+        // Report SPK
+        public HttpResponseMessage ReportSPK(string dari, string sampai)
+        {
+            try
+            {
+                LocalReport lr = new LocalReport();
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+                path = Path.Combine(path, "ReportSPK.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    lr.ReportPath = path;
+                }
+
+                else
+                {
+                    //return View("Index");
+                }
+                var oDari = Common.ConvertDate(dari, "dd/MM/yyyy");
+                var oSampai = Common.ConvertDate(sampai, "dd/MM/yyyy");
+
+                var SPK = _repository.GetReportSPK(oDari, oSampai, UserId());
+
+                ReportDataSource rd = new ReportDataSource("SPK", SPK);
+                lr.DataSources.Add(rd);
+                string param1 = "";
+                string filename = "";
+                string param2 = "";
+                string paramSemester = "";
+                string paramTahunAjaran = "";
+
+
+                string reportType = "doc";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+
+                string[] streamids = null;
+                String extension = null;
+                Byte[] bytes = null;
+                Warning[] warnings;
+
+                bytes = lr.Render("Excel", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(bytes);
+
+                result.Content = new StreamContent(stream);
+
+                //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Report-SPK" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                };
+
+                return result;
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                result.Content = new StringContent(sb.ToString());
+
+                return result;
+                //Display or log the error based on your application.
+            }
+        }
+
     }
 }
 

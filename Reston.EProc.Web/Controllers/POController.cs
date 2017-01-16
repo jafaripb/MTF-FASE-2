@@ -351,7 +351,7 @@ namespace Reston.Pinata.WebService.Controllers
        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                        IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                         IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
-      public HttpResponseMessage OpenFile(Guid Id)
+        public HttpResponseMessage OpenFile(Guid Id)
       {
           var data = _repository.GetDokumenPO(Id);
           var path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_DOKUMEN_PO_PATH + data.File;
@@ -369,10 +369,10 @@ namespace Reston.Pinata.WebService.Controllers
           return result;
       }
 
-       public HttpResponseMessage Report(Guid Id)
-       {
-           LocalReport lr = new LocalReport();
-           string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+        public HttpResponseMessage Report(Guid Id)
+        {
+            LocalReport lr = new LocalReport();
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
 
             path = Path.Combine(path, "po.rdlc");
 
@@ -448,7 +448,7 @@ namespace Reston.Pinata.WebService.Controllers
                     NilaiPPH = nilaipph.Value.ToString("C", MyConverter.formatCurrencyIndo()),
                     NilaiDPP = nilaidpp.Value.ToString("C", MyConverter.formatCurrencyIndo()),
                     Total = nilaitotal.Value.ToString("C", MyConverter.formatCurrencyIndo()),
-                    Keterangan = d.Keterangan == null?"":d.Keterangan
+                    Keterangan = d.Keterangan == null ? "" : d.Keterangan,
                 }).ToList();
            }
 
@@ -498,7 +498,6 @@ namespace Reston.Pinata.WebService.Controllers
            };
            return result;
        }
-       
     }
     
 }

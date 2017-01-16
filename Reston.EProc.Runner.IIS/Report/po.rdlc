@@ -310,7 +310,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Harga</Value>
+                              <Value>Harga Satuan</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -4176,7 +4176,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>KwitansiUp</rd:DefaultName>
-          <Top>0.625in</Top>
+          <Top>0.5in</Top>
           <Left>9.79513in</Left>
           <Height>0.25in</Height>
           <Width>2.16667in</Width>
@@ -4419,6 +4419,10 @@
         </Field>
         <Field Name="Keterangan">
           <DataField>Keterangan</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="No">
+          <DataField>No</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
