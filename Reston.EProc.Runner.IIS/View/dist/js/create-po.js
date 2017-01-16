@@ -96,7 +96,8 @@ $(function () {
             { "data": "Satuan", "width": "10%" },
             { "data": null,"width": "5%"  },
             { "data": null, "width": "10%" },
-            { "data": null,"width":"20%" }
+            { "data": "Keterangan", "width": "20%" },
+            { "data": null,"width":"15%" }
         ],
         "columnDefs": [
             {
@@ -129,7 +130,7 @@ $(function () {
                     return "<a attrData='" + objData + "' class='btn btn-success btn-sm edit-item '>Edit </a> <a attrId='" + row.Id + "' class='btn btn-danger btn-sm delete-item '>Delete </a>";
                 },
 
-                "targets": 6,
+                "targets": 7,
                 "orderable": false
             }
         ],
@@ -187,7 +188,7 @@ $(function () {
         data.Vendor = $("#vendor").val();
         data.NoPO = $("#no-po").val();
         data.TanggalPOstr = moment($("#tanggal-po").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
-        data.NilaiPO = $("#nilai-po").val();
+        data.NilaiPO = $("#nilai-po-hidden").val();
         data.UP = $("#up").val();
         data.PeriodeDaristr = moment($("#periode-dari").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
         data.PeriodeSampaistr = moment($("#periode-sampai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
@@ -203,15 +204,16 @@ $(function () {
         data.UPPengirimanKwitansi = $("#up-pengiriman-kwitansi").val();
         data.Ttd1 = $("#ttd1").val();
         data.Ttd2 = $("#ttd2").val();
+        data.Ttd3 = $("#ttd3").val();
         data.Discount = $("#discount").val();
         if ($('#ppn').is(':checked')) 
             data.ppn = 10;
         else 
             data.ppn = 0;
         data.pph = $("#pph").val();
-        data.dpp = $("#dpp").val();
+        data.keterangan = $("#keterangan").val();
         save(data);
-        console.log(data.ppn);
+        console.log(data);
     });   
 
     $(".Hapus").on("click", function () {
@@ -255,6 +257,7 @@ $(function () {
         data.Banyak = $("#banyak").val();
         data.Satuan = $("#satuan").val();
         data.Harga = $("#harga").val();
+        data.Keterangan = $("#keterangan").val();
         saveItem(data);
 
     });
@@ -267,6 +270,7 @@ $(function () {
         $("#banyak").val(data.Banyak);
         $("#satuan").val(data.Satuan);
         $("#harga").val(data.Harga);
+        $("#keterangan").val(data.Keterangan);
         $("#item-modal").modal("show");
     });
 
@@ -312,6 +316,7 @@ function loadDetail(Id) {
         $("#vendor").val(data.Vendor);
         $("#no-po").val(data.NoPO);
         $("#tanggal-po").val(moment(data.TanggalPO).format("DD MMMM YYYY"));
+        $("#nilai-po-hidden").val(data.NilaiPO);
         $("#nilai-po").val(accounting.formatNumber(data.NilaiPO, { thousand: ".", decimal: ",", precision: 2 }));
         $("#up").val(data.UP);
         $("#periode-dari").val(moment(data.PeriodeDari).format("DD MMMM YYYY"));
@@ -327,14 +332,21 @@ function loadDetail(Id) {
         $("#up-pengiriman-kwitansi").val(data.UPPengirimanKwitansi);
         $("#ttd1").val(data.Ttd1);
         $("#ttd2").val(data.Ttd2);
+        $("#ttd3").val(data.Ttd3);
         $("#discount").val(data.Discount);
         if (data.PPN != "")
             $("#ppn").attr("checked", true);
         $("#pph").val(data.PPH);
-        $("#dpp").val(data.DPP);
         SetListBank(data.NamaBank);
-
-        console.log(data.PPH);
+        if (data.PeriodeDari != null || data.PeriodeSampai != null) {
+            $("#hide-periode").attr("checked",true);
+            $("#hide-periode-sewa").show();
+        }
+        else if (data.PeriodeDari == null || data.PeriodeSampai == null)
+        {
+            $("#hide-periode").attr("checked",false);
+            $("#hide-periode-sewa").hide();
+        }
     });
 
 }
@@ -459,5 +471,14 @@ $(function () {
     $("#cetak-po").on("click", function () {
         downloadFileUsingForm("Api/po/Report?Id=" + Id);
     });
+});
+
+$("#hide-periode").on("click", function () {
+    if ($("#hide-periode").prop("checked") == true) {
+        $("#hide-periode-sewa").show();
+    }
+    else if ($("#hide-periode").prop("checked") == false) {
+        $("#hide-periode-sewa").hide();
+    }
 });
 

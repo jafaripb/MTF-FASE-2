@@ -992,8 +992,6 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             private global::System.Data.DataColumn columnPPH;
             
-            private global::System.Data.DataColumn columnDPP;
-            
             private global::System.Data.DataColumn columnSubTotal;
             
             private global::System.Data.DataColumn columnNilaiDiscount;
@@ -1005,6 +1003,8 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             private global::System.Data.DataColumn columnNilaiDPP;
             
             private global::System.Data.DataColumn columnTotal;
+            
+            private global::System.Data.DataColumn columnKeterangan;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -1129,14 +1129,6 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DPPColumn {
-                get {
-                    return this.columnDPP;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn SubTotalColumn {
                 get {
                     return this.columnSubTotal;
@@ -1180,6 +1172,14 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             public global::System.Data.DataColumn TotalColumn {
                 get {
                     return this.columnTotal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn KeteranganColumn {
+                get {
+                    return this.columnKeterangan;
                 }
             }
             
@@ -1232,13 +1232,13 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                         string Discount, 
                         string PPN, 
                         string PPH, 
-                        string DPP, 
                         string SubTotal, 
                         string NilaiDiscount, 
                         string NilaiPPN, 
                         string NilaiPPH, 
                         string NilaiDPP, 
-                        string Total) {
+                        string Total, 
+                        string Keterangan) {
                 PoDetailTableRow rowPoDetailTableRow = ((PoDetailTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Id,
@@ -1252,13 +1252,13 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                         Discount,
                         PPN,
                         PPH,
-                        DPP,
                         SubTotal,
                         NilaiDiscount,
                         NilaiPPN,
                         NilaiPPH,
                         NilaiDPP,
-                        Total};
+                        Total,
+                        Keterangan};
                 rowPoDetailTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPoDetailTableRow);
                 return rowPoDetailTableRow;
@@ -1292,13 +1292,13 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 this.columnDiscount = base.Columns["Discount"];
                 this.columnPPN = base.Columns["PPN"];
                 this.columnPPH = base.Columns["PPH"];
-                this.columnDPP = base.Columns["DPP"];
                 this.columnSubTotal = base.Columns["SubTotal"];
                 this.columnNilaiDiscount = base.Columns["NilaiDiscount"];
                 this.columnNilaiPPN = base.Columns["NilaiPPN"];
                 this.columnNilaiPPH = base.Columns["NilaiPPH"];
                 this.columnNilaiDPP = base.Columns["NilaiDPP"];
                 this.columnTotal = base.Columns["Total"];
+                this.columnKeterangan = base.Columns["Keterangan"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1326,8 +1326,6 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 base.Columns.Add(this.columnPPN);
                 this.columnPPH = new global::System.Data.DataColumn("PPH", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPPH);
-                this.columnDPP = new global::System.Data.DataColumn("DPP", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDPP);
                 this.columnSubTotal = new global::System.Data.DataColumn("SubTotal", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSubTotal);
                 this.columnNilaiDiscount = new global::System.Data.DataColumn("NilaiDiscount", typeof(string), null, global::System.Data.MappingType.Element);
@@ -1340,6 +1338,8 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 base.Columns.Add(this.columnNilaiDPP);
                 this.columnTotal = new global::System.Data.DataColumn("Total", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotal);
+                this.columnKeterangan = new global::System.Data.DataColumn("Keterangan", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnKeterangan);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, false));
                 this.columnId.Unique = true;
@@ -2460,22 +2460,6 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string DPP {
-                get {
-                    try {
-                        return ((string)(this[this.tablePoDetailTable.DPPColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DPP\' in table \'PoDetailTable\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePoDetailTable.DPPColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string SubTotal {
                 get {
                     try {
@@ -2567,6 +2551,22 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 }
                 set {
                     this[this.tablePoDetailTable.TotalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Keterangan {
+                get {
+                    try {
+                        return ((string)(this[this.tablePoDetailTable.KeteranganColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Keterangan\' in table \'PoDetailTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePoDetailTable.KeteranganColumn] = value;
                 }
             }
             
@@ -2704,18 +2704,6 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDPPNull() {
-                return this.IsNull(this.tablePoDetailTable.DPPColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDPPNull() {
-                this[this.tablePoDetailTable.DPPColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsSubTotalNull() {
                 return this.IsNull(this.tablePoDetailTable.SubTotalColumn);
             }
@@ -2784,6 +2772,18 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetTotalNull() {
                 this[this.tablePoDetailTable.TotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsKeteranganNull() {
+                return this.IsNull(this.tablePoDetailTable.KeteranganColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetKeteranganNull() {
+                this[this.tablePoDetailTable.KeteranganColumn] = global::System.Convert.DBNull;
             }
         }
         

@@ -133,7 +133,6 @@ namespace Reston.Pinata.WebService.Controllers
                 ndata.Prihal = data.Prihal;
                 ndata.Vendor = data.Vendor;
                 ndata.NoPO = data.NoPO;
-                ndata.Keterangan = data.Keterangan;
                 ndata.NilaiPO = data.NilaiPO;
                 ndata.UP = data.UP;
                 ndata.NamaBank = data.NamaBank;
@@ -148,10 +147,10 @@ namespace Reston.Pinata.WebService.Controllers
                 ndata.UPPengirimanKwitansi = data.UPPengirimanKwitansi;
                 ndata.Ttd1 = data.Ttd1;
                 ndata.Ttd2 = data.Ttd2;
+                ndata.Ttd3 = data.Ttd3;
                 ndata.Discount = data.Discount;
                 ndata.PPN = data.PPN;
                 ndata.PPH = data.PPH;
-                ndata.DPP = data.DPP;
 
                 if (!string.IsNullOrEmpty(data.TanggalPOstr))
                 {
@@ -382,7 +381,6 @@ namespace Reston.Pinata.WebService.Controllers
                 lr.ReportPath = path;
             }
             var po = _repository.get(Id);
-            var subtotal = 0;
             VWPOReport data1 = new VWPOReport() {
                 Id = po.Id,
                 Prihal = po.Prihal,
@@ -392,7 +390,6 @@ namespace Reston.Pinata.WebService.Controllers
                 TanggalPO = po.TanggalPO != null ? po.TanggalPO.Value.Day + " " + Common.ConvertNamaBulan(po.TanggalPO.Value.Month) + " " + po.TanggalPO.Value.Year : "",
                 TanggalPOstr = po.TanggalPO != null ? po.TanggalPO.Value.Day + " " + Common.ConvertNamaBulan(po.TanggalPO.Value.Month) + " " + po.TanggalPO.Value.Year : "",
                 NilaiPO = po.PODetail == null ? "" : po.PODetail.Sum(d => d.Harga * d.Banyak).Value.ToString("C", MyConverter.formatCurrencyIndo()),
-                Keterangan = po.Keterangan,
                 AlmatBarangUp = po.AlamatPengirimanBarang,
                 UpPengirimanBarang = po.UPPengirimanBarang,
                 Rekening = po.NoRekening,
@@ -403,12 +400,12 @@ namespace Reston.Pinata.WebService.Controllers
                 Total = "",
                 TTD1 = po.Ttd1,
                 TTD2 = po.Ttd2,
-                TTD3 = po.UPPengirimanKwitansi,
+                TTD3 = po.Ttd3,
                 TTD4 = po.UP,
-                PeriodeDari = po.PeriodeDari != null ? po.PeriodeDari.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeDari.Value.Month) + " " + po.PeriodeDari.Value.Year : "",
-                PeriodeDaristr = po.PeriodeDari != null ? po.PeriodeDari.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeDari.Value.Month) + " " + po.PeriodeDari.Value.Year : "",
-                PeriodeSampai = po.PeriodeSampai != null ? po.PeriodeSampai.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeSampai.Value.Month) + " " + po.PeriodeSampai.Value.Year : "",
-                PeriodeSampaistr = po.PeriodeSampai != null ? po.PeriodeSampai.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeSampai.Value.Month) + " " + po.PeriodeSampai.Value.Year : "",
+                PeriodeDari = po.PeriodeDari != null ? po.PeriodeDari.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeDari.Value.Month) + " " + po.PeriodeDari.Value.Year : "-",
+                PeriodeDaristr = po.PeriodeDari != null ? po.PeriodeDari.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeDari.Value.Month) + " " + po.PeriodeDari.Value.Year : "-",
+                PeriodeSampai = po.PeriodeSampai != null ? po.PeriodeSampai.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeSampai.Value.Month) + " " + po.PeriodeSampai.Value.Year : "-",
+                PeriodeSampaistr = po.PeriodeSampai != null ? po.PeriodeSampai.Value.Day + " " + Common.ConvertNamaBulan(po.PeriodeSampai.Value.Month) + " " + po.PeriodeSampai.Value.Year : "-",
                 AlamatKwitansi = po.AlamatKwitansi,
                 NPWP = po.NPWP,
                 AlamatPengirimanKwitansi = po.AlamatPengirimanKwitansi
@@ -426,13 +423,12 @@ namespace Reston.Pinata.WebService.Controllers
                 //decimal? hitungppn = (po.PPN / 100 == null ? 0 : (po.PPN / 100)) * (nilaipo == null ? 0 : nilaipo);
                 decimal hitungpph = (po.PPH==null?0:po.PPH.Value / 100 ) * nilaiPosetelahdiskon;
                 
-                decimal? hitungdpp = (po.DPP / 100 == null ? 0 : (po.DPP / 100)) * (nilaipo == null ? 0 : nilaipo);
                 //decimal? nilaidiscount = (nilaitotal == null ? 0 : nilaitotal.Value) - (hitungdiscount == null ? 0 : hitungdiscount.Value);
                 decimal? nilaidiscount = hitungdiscount == null ? 0 : hitungdiscount.Value;
                 decimal? nilaippn =hitungppn;
                 decimal? nilaipph =  hitungpph;
-                decimal? nilaidpp = hitungdpp == null ? 0 : hitungdpp;
-                decimal? nilaitotal = (nilaipo) + (nilaipph +nilaidpp + nilaippn) - (nilaidiscount);
+                decimal? nilaidpp = nilaiPosetelahdiskon;
+                decimal? nilaitotal = (nilaiPosetelahdiskon+ nilaippn) - (nilaipph);
                 lstdata2 = po.PODetail.Select(d => new VWPODetailReport()
                 {
                     Id = d.Id,
@@ -450,9 +446,9 @@ namespace Reston.Pinata.WebService.Controllers
                     NilaiPPN = nilaippn.Value.ToString("C", MyConverter.formatCurrencyIndo()),
                     PPH = Convert.ToInt32(po.PPH).ToString() == null ? "" : Convert.ToInt32(po.PPH).ToString(),
                     NilaiPPH = nilaipph.Value.ToString("C", MyConverter.formatCurrencyIndo()),
-                    DPP = Convert.ToInt32(po.DPP).ToString() == null ? "" : Convert.ToInt32(po.DPP).ToString(),
                     NilaiDPP = nilaidpp.Value.ToString("C", MyConverter.formatCurrencyIndo()),
                     Total = nilaitotal.Value.ToString("C", MyConverter.formatCurrencyIndo()),
+                    Keterangan = d.Keterangan == null?"":d.Keterangan
                 }).ToList();
            }
 

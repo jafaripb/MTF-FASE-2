@@ -142,7 +142,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     Harga=d.Harga,
                     Deskripsi=d.Deskripsi,
                     Banyak=d.Banyak,
-                    Satuan=d.Satuan
+                    Satuan=d.Satuan,
+                    Keterangan = d.Keterangan 
                 }).ToList();
 
             }
@@ -174,10 +175,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 UPPengirimanKwitansi = d.UPPengirimanKwitansi,
                 Ttd1 = d.Ttd1,
                 Ttd2 = d.Ttd2,
+                Ttd3 = d.Ttd3,
                 Discount = d.Discount.Value,
                 PPN = d.PPN.Value,
                 PPH = d.PPH.Value,
-                DPP = d.DPP.Value,
 
             }).FirstOrDefault();
         }
@@ -211,10 +212,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     data.UPPengirimanKwitansi = po.UPPengirimanKwitansi;
                     data.Ttd1 = po.Ttd1;
                     data.Ttd2 = po.Ttd2;
+                    data.Ttd3 = po.Ttd3;
                     data.Discount = po.Discount;
                     data.PPN = po.PPN;
                     data.PPH = po.PPH;
-                    data.DPP = po.DPP;
 
                     data.CreatedBy = UserId;
                     data.CreatedOn = DateTime.Now;
@@ -264,6 +265,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     data.Kode = PODetail.Kode;
                     data.Harga = PODetail.Harga;
                     data.Deskripsi = PODetail.Deskripsi;
+                    data.Keterangan = PODetail.Keterangan;
                     data.NamaBarang = PODetail.NamaBarang;
                     data.Satuan = PODetail.Satuan;
                     data.Banyak = PODetail.Banyak;
