@@ -198,6 +198,33 @@
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
+    <!-- Modal -->
+    <div class="modal" id="modal_history_approval" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="TitleKonfirmasi">User List</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped table-responsive" id="table-history-approval" style="margin-top:20px; ">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>User</th>
+                                <th>Tanggal Apporove</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-history-approval-detail"></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <script src="site.js"></script>
@@ -314,7 +341,8 @@
                             if (data.lastApproverPersetujuanPemenang == "1" && data.ApproverPersetujuanPemenang == 1) nexApprover += ' <button class="next-approver btn btn-flat btn-sm btn-info" attrid="' + data.Id + '" >Ekalasi</button>';
                             if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = ' <a href="pengadaan-detail.html#' + data.Id + '" class="product-title btn btn-success btn-sm btn-flat">Detail</a>';
                             else detailHtml = ' <a href="pengadaan-terbuka-detail.html#' + data.Id + '" class="btn btn-success btn-flat btn-sm product-title ">Detail</a>';
-                            html += nexApprover + detailHtml;
+                            var butonhistroy = ' <a class="btn btn-success btn-flat btn-sm product-title history-approval" attrId="' + data.Id + '">History</a>';
+                            html += nexApprover + detailHtml + butonhistroy;
                             return html;
                         },
 
@@ -534,6 +562,30 @@
                 '</tr>' +
             '</table>';
         }
+        var table_history_approval;
+       
+        $(function () {
+
+            $("body").on("click", ".history-approval", function () {
+
+                $.ajax({
+                    url: 'api/Workflow/ListHistoryPersetujuanPemenang?Id=' + $("#pengadaanId") ,
+                    method: "GET",
+                    success: function (data) {
+                        var tr="";
+                        for (var i in data) {
+                            tr+="<tr>";
+                            tr+="<td>"+data[i].UserName+"</td>";
+                            tr+="<td>"+moment(data[i].ActionDate).format("DD MMMM YYYY HH:mm")+"</td>";
+                            tr+="</tr>";
+                        }
+                        $("#table-history-approval-detail").html("");
+                        $("#table-history-approval-detail").append(tr);
+                    }
+                });
+
+            });
+        });
 
     </script>
 

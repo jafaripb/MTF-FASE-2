@@ -66,8 +66,21 @@ namespace Reston.Helper.Model
         public DateTime ActionDate { get; set; }
         public string Comment { get; set; }
     }
-    
 
+   
+
+    public class VWWorkflowApproval
+    {
+        public int Id { get; set; }
+        public int WorkflowStateId { get; set; }
+        public Nullable<int> SegOrder { get; set; }
+        public Guid UserId { get; set; }
+
+        public string Jabatan { get; set; }
+        public string UserName { get; set; }
+        public DateTime ActionDate { get; set; }
+        public string Comment { get; set; }
+    }
     public enum DocumentStatus
     {
         PENGAJUAN,APPROVED,REJECTED

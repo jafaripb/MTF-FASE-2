@@ -234,6 +234,36 @@ namespace Reston.Pinata.WebService.Controllers
           return Json(data);
 
       }
+
+
+      public async Task<IHttpActionResult> ListHistoryPersetujuanPemenang(Guid Id)
+      {
+          var pengadaan = _repopengdaan.GetPengadaanByiD(Id);
+          List<VWWorkflowApproval> lstdt = new List<VWWorkflowApproval>();
+          if (pengadaan.PersetujuanPemenangs.FirstOrDefault() != null)
+          {
+              var data = _repository.ListWorkflowApprovalByDocumentId(Id, 10, 1);
+              
+             
+              foreach(var item in data.data){
+                  VWWorkflowApproval dt=new VWWorkflowApproval();
+                  var user=await userDetail(item.UserId.ToString());
+                  dt.ActionDate=item.ActionDate;
+                  dt.Comment=item.Comment;
+                  dt.Id=item.Id;
+                  dt.UserId = item.UserId;
+                  if (user != null)
+                  {
+                      dt.UserName = user.Nama;
+                      dt.Jabatan = user.jabatan;
+                  }
+                  lstdt.Add(dt);
+              }              
+          }
+         return Json(lstdt);
+
+
+      }
     }
     
 }
