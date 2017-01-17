@@ -13,6 +13,9 @@ namespace Reston.Helper.Repository
     {
         ResultMessage PengajuanDokumen(Guid DocumentId, int WorkflowTemplateId, string DokumentType);
         ResultMessageWorkflowState ApproveDokumen(Guid DocumentId, Guid UserId, String Comment, WorkflowStatusState oWorkflowStatusState);
+        //lnagusng reject ke user awal
+        ResultMessageWorkflowState ApproveDokumen2(Guid DocumentId, Guid UserId, String Comment, WorkflowStatusState oWorkflowStatusState);
+       
         List<ViewWorkflowModel> ListDocumentWorkflow(Guid UserId,int WorkflowTemplateId, DocumentStatus documentStatus, string DokumenType, int length, int start);
         ResultMessageLstWorkflowApprovals ListWorkflowApprovalByDocumentId(Guid DocumentId, int length, int start);
         ResultMessage CurrentApproveUserSegOrder(Guid DocumentId);
@@ -213,6 +216,133 @@ namespace Reston.Helper.Repository
             }
             return result;
         }
+
+
+        //lnagusng reject ke user awal
+        public ResultMessageWorkflowState ApproveDokumen2(Guid DocumentId, Guid UserId, String Comment, WorkflowStatusState oWorkflowStatusState)
+        {
+            ResultMessageWorkflowState result = new ResultMessageWorkflowState();
+            //cek dolumen ada atau tidak dalam workflow
+            WorkflowState oWorkflow = ctx.WorkflowStates.Where(d => d.DocumentId == DocumentId).FirstOrDefault();
+            if (oWorkflow == null)
+            {
+                result.message = Message.WORKFLOW_NO_STATE;
+                result.status = HttpStatusCode.NoContent;
+                return result;
+            }
+
+            var oWorkflowMasterTemplate = ctx.WorkflowMasterTemplates.Find(oWorkflow.WorkflowMasterTemplateId);
+            //periksa apakah memiliki template workflow
+            if (oWorkflowMasterTemplate == null)
+            {
+                result.message = Message.WORKFLOW_NO_TEMPLATE;
+                result.status = HttpStatusCode.NoContent;
+                return result;
+            }
+            //khusus workflow bertingkat
+            if (oWorkflowMasterTemplate.ApprovalType != ApprovalType.BERTINGKAT)
+            {
+                result.message = Message.ANY_ERROR;
+                result.status = HttpStatusCode.NoContent;
+                return result;
+            }
+
+            var oWorkflowMasterTemplateDetail = ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == oWorkflow.WorkflowMasterTemplateId).OrderBy(d => d.SegOrder);
+
+            if (oWorkflowMasterTemplateDetail.Count() == 0)
+            {
+                result.message = Message.WORKFLOW_NO_TEMPLATE;
+                result.status = HttpStatusCode.NoContent;
+                return result;
+            }
+            int maxSegOrder = oWorkflowMasterTemplateDetail.Count();
+
+            //cari user dan segorder yang sedang aktif
+            var WorflowState = CurrentApproveUserSegOrder(DocumentId);
+            if (string.IsNullOrEmpty(WorflowState.Id))
+            {
+                result.message = Message.ANY_ERROR;
+                result.status = HttpStatusCode.NoContent;
+                return result;
+            }
+
+            int curSegOrder = Convert.ToInt32(WorflowState.Id.Split('#')[0]);
+            Guid currUserId = new Guid(WorflowState.Id.Split('#')[1]);
+
+            //jika dokumen sudah dalam status approve atau rejected  maka diangga eror //karena dokumen sudah berhenti dalam workflow
+            if (oWorkflow.DocumentStatus == DocumentStatus.APPROVED || oWorkflow.DocumentStatus == DocumentStatus.REJECTED)
+            {
+                result.message = Message.WORKFLOW_STOP;
+                result.status = HttpStatusCode.NoContent;
+                return result;
+            }
+            //juka state user berbeda dengan user yang diminta maka error
+            if (currUserId != UserId)
+            {
+                result.message = Message.ANY_ERROR;
+                result.status = HttpStatusCode.NoContent;
+                return result;
+            }
+
+            //buat workflow approvel//workflowapproval adalah sejarah dokumen dalam proses persetujan
+            WorkflowApproval oWorkflowApproval = new WorkflowApproval();
+            oWorkflowApproval.WorkflowStateId = oWorkflow.Id;
+            oWorkflowApproval.UserId = UserId;
+            oWorkflowApproval.ActionDate = DateTime.Now;
+            oWorkflowApproval.Comment = Comment;
+
+            oWorkflowApproval.WorkflowStatusStateCode = oWorkflowStatusState;
+
+            if (oWorkflowStatusState == WorkflowStatusState.APPROVED)
+            {
+                curSegOrder = curSegOrder < 1 ? 1 : curSegOrder;
+                oWorkflowApproval.SegOrder = curSegOrder;
+                oWorkflowApproval.WorkflowStatusStateCode = WorkflowStatusState.APPROVED;
+                if (curSegOrder == maxSegOrder)
+                {
+                    oWorkflowApproval.SegOrder = curSegOrder;
+                    oWorkflowApproval.WorkflowStatusStateCode = WorkflowStatusState.APPROVED;
+                    oWorkflow.DocumentStatus = DocumentStatus.APPROVED;
+                }
+                //update workflowstate
+                oWorkflow.CurrentSegOrder = oWorkflowApproval.SegOrder + 1;
+                oWorkflow.CurrentStatus = WorkflowStatusState.PENGAJUAN;
+            }
+            else if (oWorkflowStatusState == WorkflowStatusState.REJECTED)
+            {
+                oWorkflowApproval.SegOrder = curSegOrder;
+                //if (curSegOrder == maxSegOrder)
+                //{
+                //    oWorkflowApproval.SegOrder = curSegOrder;
+                //    oWorkflowApproval.WorkflowStatusStateCode = WorkflowStatusState.REJECTED;                   
+                //}
+                oWorkflow.CurrentSegOrder = oWorkflowApproval.SegOrder - 1;
+                oWorkflow.CurrentStatus = WorkflowStatusState.REJECTED;
+                //jika workflow direject oleh state pertama maka status dokumen jadi reject
+                if (curSegOrder == 1)
+                {
+                    oWorkflow.DocumentStatus = DocumentStatus.REJECTED;
+                }
+            }
+            try
+            {
+                ctx.WorkflowApprovals.Add(oWorkflowApproval);
+                ctx.SaveChanges();
+                result.Id = oWorkflowApproval.Id.ToString();
+                if (oWorkflowStatusState == WorkflowStatusState.APPROVED)
+                    result.message = Message.WORKFLOW_APPROVE_SUKSES;
+                if (oWorkflowStatusState == WorkflowStatusState.REJECTED)
+                    result.message = Message.WORKFLOW_REJECT_SUKSES;
+                result.data = oWorkflow;
+                result.status = HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.ToString();
+            }
+            return result;
+        }
+
 
         public List<ViewWorkflowModel> ListDocumentWorkflow(Guid UserId, int WorkflowTemplateId ,DocumentStatus documentStatus, string DokumenType, int length, int start)
         {

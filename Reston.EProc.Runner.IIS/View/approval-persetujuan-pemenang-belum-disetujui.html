@@ -204,13 +204,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="TitleKonfirmasi">User List</h4>
+                    <h4 class="modal-title" id="TitleKonfirmasi">Approval Histroy</h4>
                 </div>
                 <div class="modal-body">
                     <table class="table table-bordered table-striped table-responsive" id="table-history-approval" style="margin-top:20px; ">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>User</th>
                                 <th>Tanggal Apporove</th>
                             </tr>
@@ -567,10 +566,10 @@
         $(function () {
 
             $("body").on("click", ".history-approval", function () {
-
+                var id = $(this).attr("attrId");
                 $.ajax({
-                    url: 'api/Workflow/ListHistoryPersetujuanPemenang?Id=' + $("#pengadaanId") ,
-                    method: "GET",
+                    url: 'api/Workflow/ListHistoryPersetujuanPemenang?Id=' + id,
+                    method: "POST",
                     success: function (data) {
                         var tr="";
                         for (var i in data) {
@@ -581,6 +580,7 @@
                         }
                         $("#table-history-approval-detail").html("");
                         $("#table-history-approval-detail").append(tr);
+                        $("#modal_history_approval").modal("show");
                     }
                 });
 

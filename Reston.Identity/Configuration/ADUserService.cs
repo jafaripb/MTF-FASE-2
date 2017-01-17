@@ -270,9 +270,6 @@ namespace IdLdap.Configuration
             return claims;
         }
 
-
-
-
         public override async System.Threading.Tasks.Task IsActiveAsync(IsActiveContext context)
         {
             var subject = context.Subject;

@@ -595,7 +595,7 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result=_workflowrepo.ApproveDokumen(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                result=_workflowrepo.ApproveDokumen2(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
                 if (!string.IsNullOrEmpty(result.Id))
                 {
                     RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
@@ -626,7 +626,7 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result = _workflowrepo.ApproveDokumen(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                result = _workflowrepo.ApproveDokumen2(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
                 if (!string.IsNullOrEmpty(result.Id))
                 {
                     RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
@@ -664,7 +664,7 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result = _workflowrepo.ApproveDokumen(vwPenolakan.PenolakanId, UserId(), vwPenolakan.AlasanPenolakan, Reston.Helper.Model.WorkflowStatusState.REJECTED);
+                result = _workflowrepo.ApproveDokumen2(vwPenolakan.PenolakanId, UserId(), vwPenolakan.AlasanPenolakan, Reston.Helper.Model.WorkflowStatusState.REJECTED);
                 if (result.data != null)
                 {
                     if (result.data.DocumentStatus == Reston.Helper.Model.DocumentStatus.REJECTED)
@@ -701,7 +701,7 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result = _workflowrepo.ApproveDokumen(Id, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
+                result = _workflowrepo.ApproveDokumen2(Id, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
                 if (result.data != null)
                 {
                     if (result.data.DocumentStatus == Reston.Helper.Model.DocumentStatus.REJECTED)
@@ -3223,7 +3223,7 @@ namespace Reston.Pinata.WebService.Controllers
         }
 
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public Reston.Helper.Util.ResultMessageWorkflowState persetujuanWithNextApprover(Guid id, string Note,Guid userId)
+        public async Task< Reston.Helper.Util.ResultMessageWorkflowState> persetujuanWithNextApprover(Guid id, string Note,Guid userId)
         {
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
@@ -3237,7 +3237,7 @@ namespace Reston.Pinata.WebService.Controllers
                 var oAddMasterTemplateDetail = _workflowrepo.AddMasterTemplateDetail(oPengadaan.WorkflowId.Value, oDetailTempalte);
                 if (!string.IsNullOrEmpty(oAddMasterTemplateDetail.Id))
                 {
-                    result = _workflowrepo.ApproveDokumen(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                    result = _workflowrepo.ApproveDokumen2(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
                     if (!string.IsNullOrEmpty(result.Id))
                     {
                         RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
@@ -3249,7 +3249,82 @@ namespace Reston.Pinata.WebService.Controllers
                         ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id);
                         if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                         {
+                            #region BuatAtauUpdateTamplate
+                            var vwpengadaan = _repository.GetPengadaanByiD(id);
+                            var DepHead = await listHead();
+                            var DepManager = await listGuidManager();
+                            var Direksi = await listUser(IdLdapConstants.Roles.pRole_direksi);
+                            var Dirut = await listUser(IdLdapConstants.Roles.pRole_dirut);
+                            decimal? RKS = _repository.getRKSDetails(id, UserId()).Sum(d => d.hps * d.jumlah);
+                            var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
+                                new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue="Gen.By.System",
+                                        SegOrder=1,
+                                        UserId=vwpengadaan.PersonilPengadaans.Where(d=>d.tipe=="controller").FirstOrDefault().PersonilId
+                                    },
+                                 new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue="Gen.By.System",
+                                        SegOrder=2,
+                                        UserId=DepManager[0]
+                                    }
+                            };
+                            if (RKS > ValueBoundAprr) WorkflowMasterTemplateDetails.Add(
+                                         new WorkflowMasterTemplateDetail()
+                                         {
+                                             NameValue = "Gen.By.System",
+                                             SegOrder = 3,
+                                             UserId = DepHead[0]
+                                         });
+                            if (Direksi.Count() > 0)
+                                if (RKS > ValueBoundDireksiAprr)
+                                {
+                                    var lasOrder = WorkflowMasterTemplateDetails.LastOrDefault().SegOrder;
+                                    WorkflowMasterTemplateDetails.Add(
+                                        new WorkflowMasterTemplateDetail()
+                                        {
+                                            NameValue = "Gen.By.System",
+                                            SegOrder = lasOrder + 1,
+                                            UserId = Direksi[0]
+                                        });
+                                }
+                            if (Dirut.Count() > 0)
+                                if (RKS > BATASAN_BIAYA_DIRUT)
+                                {
+                                    var lasOrder = WorkflowMasterTemplateDetails.LastOrDefault().SegOrder;
+                                    WorkflowMasterTemplateDetails.Add(
+                                        new WorkflowMasterTemplateDetail()
+                                        {
+                                            NameValue = "Gen.By.System",
+                                            SegOrder = lasOrder + 1,
+                                            UserId = Dirut[0]
+                                        });
+                                }
+                            WorkflowMasterTemplate MasterTemplate = new WorkflowMasterTemplate()
+                            {
+                                ApprovalType = ApprovalType.BERTINGKAT,
+                                CreateBy = UserId(),
+                                CreateOn = DateTime.Now,
+                                DescValue = "WorkFlow Pengadaan=> " + vwpengadaan.Judul,
+                                NameValue = "Generate By System ",
+                                WorkflowMasterTemplateDetails = WorkflowMasterTemplateDetails
+                            };
+                            var resultTemplate = _workflowrepo.SaveWorkFlow(MasterTemplate, UserId());
+                            var wokflowId = Convert.ToInt32(resultTemplate.Id);
+                            #endregion
+
                             _repository.ChangeStatusPengadaan(id, EStatusPengadaan.DISETUJUI, UserId());
+
+                            PersetujuanPemenang ndata = new PersetujuanPemenang()
+                            {
+                                CreatedOn = DateTime.Now,
+                                CreatedBy = UserId(),
+                                PengadaanId = id,
+                                WorkflowId = wokflowId
+                            };
+
+                            _repository.SavePersetujuanPemenang(ndata, UserId());
                         }
                     }
                 }
@@ -3310,14 +3385,14 @@ namespace Reston.Pinata.WebService.Controllers
                 decimal? RKS = _repository.getRKSDetails(Id, UserId()).Sum(d => d.hps * d.jumlah);
 
 
+                
+
+                #region BuatAtauUpdateTamplate
                 var vwpengadaan = _repository.GetPengadaanByiD(Id);
                 var DepHead = await listHead();
                 var DepManager = await listGuidManager();
                 var Direksi = await listUser(IdLdapConstants.Roles.pRole_direksi);
                 var Dirut = await listUser(IdLdapConstants.Roles.pRole_dirut);
-
-                #region BuatAtauUpdateTamplate
-
                 var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
                                 new WorkflowMasterTemplateDetail()
                                     {
@@ -3500,7 +3575,7 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result = _workflowrepo.ApproveDokumen(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                result = _workflowrepo.ApproveDokumen2(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
                 if (!string.IsNullOrEmpty(result.Id))
                 {
                     
@@ -3539,7 +3614,7 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result = _workflowrepo.ApproveDokumen(Id, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
+                result = _workflowrepo.ApproveDokumen2(Id, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
                 if (result.data != null)
                 {
                     if (result.data.DocumentStatus == Reston.Helper.Model.DocumentStatus.REJECTED)
@@ -3591,7 +3666,7 @@ namespace Reston.Pinata.WebService.Controllers
                 var oAddMasterTemplateDetail = _workflowrepo.AddMasterTemplateDetail(oPersetujuanPemenang.WorkflowId.Value, oDetailTempalte);
                 if (!string.IsNullOrEmpty(oAddMasterTemplateDetail.Id))
                 {
-                    result = _workflowrepo.ApproveDokumen(oPersetujuanPemenang.Id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                    result = _workflowrepo.ApproveDokumen2(oPersetujuanPemenang.Id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
                     if (!string.IsNullOrEmpty(result.Id))
                     {
                         RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
