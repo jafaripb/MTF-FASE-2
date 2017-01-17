@@ -11,7 +11,7 @@ $(function () {
             loadData($("#pengadaanId").val());
         }
         else {
-            window.location.replace("http://"+window.location.host + "/pengadaan-list.html");
+            window.location.replace("http://" + window.location.host + "/pengadaan-list.html");
         }
     }
 
@@ -178,8 +178,8 @@ $(function () {
     );
     renderDokumenDropzone(myDropzoneBerkasBerkasRujukanLain, "BerkasRujukanLain");
     Dropzone.options.BerkasBerkasRujukanLain = false;
-    
-   
+
+
 });
 
 $(function () {
@@ -539,16 +539,15 @@ $(function () {
         });
     });
 });
-
 function loadData(pengadaanId) {
     $.ajax({
         method: "POST",
         url: "Api/PengadaanE/detailPengadaan?Id=" + pengadaanId,
         dataType: "json"
-    }).done(function (data) {        
+    }).done(function (data) {
         $("#judul").text(data.Judul);
         $("#deskripsi").text((data.NoPengadaan == null ? "" : (data.NoPengadaan + ", ")) + data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
-        if (data.AturanPengadaan == "Pengadaan Terbuka") $("#jadwal_pendaftaran").show();        
+        if (data.AturanPengadaan == "Pengadaan Terbuka") $("#jadwal_pendaftaran").show();
         $("#AturanPenawaran").val(data.AturanPenawaran)
         $("#AturanPengadaan").val(data.AturanPengadaan);
         $("#keterangan").text(data.Keterangan);
@@ -573,7 +572,7 @@ function loadData(pengadaanId) {
         isPemenangApproved(pengadaanId);
         StatusPemenang(pengadaanId);
         if (data.isPIC == 0) {
-            $(".action-pelaksanaan").attr("disabled", "disabled"); 
+            $(".action-pelaksanaan").attr("disabled", "disabled");
             $("button.action-pelaksanaan").remove();
             $(".next-step").attr("disabled", "disabled");
             $(".lewati-tahapan").attr("disabled", "disabled");
@@ -610,10 +609,10 @@ function loadData(pengadaanId) {
         if (data.AturanPenawaran == "Open Price") $("#lihatHps").remove();
         if (data.StatusName == "DRAFT") {
             $("#Status").text("Status Pengadaan : Draft");
-            if (data.isTEAM == 1 || data.isCreated==1) {
+            if (data.isTEAM == 1 || data.isCreated == 1) {
                 $("#edit").show();
-				if(data.isPIC==1)
-					$("#ajukan").show();
+                if (data.isPIC == 1)
+                    $("#ajukan").show();
             }
             $("#tab-pelakasanaan").hide();
             $("#tab-berkas").hide();
@@ -627,9 +626,9 @@ function loadData(pengadaanId) {
             $("#dibatalkan").remove();
         }
 
-        if (data.isUser == 1 && data.isTEAM==0) {
-           // $("#tab-klarifikasi").parent().parent().parent().remove();
-           // $("#collapse5").remove();
+        if (data.isUser == 1 && data.isTEAM == 0) {
+            // $("#tab-klarifikasi").parent().parent().parent().remove();
+            // $("#collapse5").remove();
         }
 
         if (data.StatusName == "DITOLAK") {
@@ -669,13 +668,13 @@ function loadData(pengadaanId) {
         }
         if (data.StatusName == "DISETUJUI") {
             $("#Status").text("Status Pengadaan : Disetujui");
-           // cekState("Disetujui");
+            // cekState("Disetujui");
             $("#collapseOne").addClass("in");
             $("#tab-anwijzing").attr("data-toggle", "collapse");
         }
         if (data.StatusName == "AANWIJZING") {
             $("#Status").text("Status Pengadaan : Aanwijzing");
-           // cekState("Aanwijzing");
+            // cekState("Aanwijzing");
             $("#collapseOne").addClass("in");
             $("#tab-anwijzing").attr("data-toggle", "collapse");
         }
@@ -687,10 +686,10 @@ function loadData(pengadaanId) {
             $("#tab-anwijzing").attr("data-toggle", "collapse");
             $("#tab-submit-penawaran").attr("data-toggle", "collapse");
 
-			 $(".jadwal-aanwijzing").remove();
+            $(".jadwal-aanwijzing").remove();
         }
         if (data.StatusName == "BUKAAMPLOP") {
-           // cekState("buka_amplop");
+            // cekState("buka_amplop");
             $("#collapseThree").addClass("in");
             $("#Status").text("Status Pengadaan : Buka Amplop");
 
@@ -701,16 +700,16 @@ function loadData(pengadaanId) {
             $(".jadwal-aanwijzing").remove();
             $(".jadwal-submit").remove();
         }
-       
+
         if (data.StatusName == "KLARIFIKASI") {
-           // cekState("klarifikasi");
+            // cekState("klarifikasi");
             $("#collapse5").addClass("in");
             $("#Status").text("Status Pengadaan : Klarifikasi");
 
             $("#tab-anwijzing").attr("data-toggle", "collapse");
             $("#tab-submit-penawaran").attr("data-toggle", "collapse");
             $("#tab-buka-amplop").attr("data-toggle", "collapse");
-           // $("#tab-penilaian-kandidat").attr("data-toggle", "collapse");
+            // $("#tab-penilaian-kandidat").attr("data-toggle", "collapse");
             $("#tab-klarifikasi").attr("data-toggle", "collapse");
 
 
@@ -720,7 +719,7 @@ function loadData(pengadaanId) {
             $(".jadwal-aanwijzing").remove();
             $(".jadwal-submit").remove();
             $(".jadwal-buka-amplop").remove();
-           // $(".jadwal-penilaian").remove();
+            // $(".jadwal-penilaian").remove();
         }
         if (data.StatusName == "KLARIFIKASILANJUTAN") {
             // cekState("klarifikasi");
@@ -734,14 +733,14 @@ function loadData(pengadaanId) {
             $("#tab-klarifikasi-lanjutan").attr("data-toggle", "collapse");
 
             if (data.isUser == 1 && data.isTEAM == 0) {
-               // $("#tab-klarifikasi").parent().parent().parent().remove();
+                // $("#tab-klarifikasi").parent().parent().parent().remove();
                 //$("#collapse5").remove();                
             }
             $(".jadwal-aanwijzing").remove();
             $(".jadwal-submit").remove();
             $(".jadwal-buka-amplop").remove();
             $(".jadwal-klarifikasi").remove();
-            
+
         }
         if (data.StatusName == "PENILAIAN") {
             // cekState("penilaian");
@@ -764,7 +763,7 @@ function loadData(pengadaanId) {
         if (data.StatusName == "PEMENANG") {
             //cekState("penentuanpemenang");
             $("#collapse6").addClass("in");
-            
+
             //getPemenangVendor();
             $("#Status").text("Status Pengadaan : Penentuan Pemenang");
 
@@ -796,29 +795,14 @@ function loadData(pengadaanId) {
             $(".Setujui").show();
             $(".Tolak").show();
         }
-        
+
         cekStep();
         cekLewati();
-
-        if (data.isKlarifikasiLanjutan == 1) {
-            $(".panel-klarifikasi-lanjut").show();
-            $("#tambah-klarifikasi-lanjut").prop("checked", true);
-        }
-        else {
-            $(".panel-klarifikasi-lanjut").hide();
-            $("#tambah-klarifikasi-lanjut").prop("checked", false);
-        }
-        if (data.isPenilaian == 1) {
-            $(".panel-penilaian").show();
-            $("#tambah-penilaian").prop("checked", true);
-        }
-        else {
-            $(".panel-penilaian").hide();
-            $("#tambah-penilaian").prop("checked", false);
-        }
+        //$("#lihatHps").on("click", function () {
+        //    window.open("http://" + window.location.host + "/rks.html#" + $("#pengadaanId").val());
+        //}); 
     });
 }
-
 function cekStep() {
     $(".next-step").each(function (index) {
         var statusPengadaan = $("#StatusName").val();
@@ -838,7 +822,6 @@ function cekLewati() {
         else $(this).removeAttr("disabled");
     });
 }
-
 function getPemenangVendor() {
     var result;
     $.ajax({
@@ -861,7 +844,7 @@ function isSpkUploaded() {
     var result;
     $.ajax({
         url: "Api/PengadaanE/isSpkUploaded?Id=" + $("#pengadaanId").val(),
-        success: function (data) {            
+        success: function (data) {
             if (data == 1) $("#arsipkan").show();
             else $("#arsipkan").hide();
         },
@@ -892,7 +875,7 @@ function renderDokumenDropzone(myDropzone, tipe) {
     });
 }
 
-function hitungHPS(rksId,aturanPenawaran) {
+function hitungHPS(rksId, aturanPenawaran) {
     if (aturanPenawaran == "Price Matching") {
         $.ajax({
             url: "Api/PengadaanE/getRks?Id=" + rksId
@@ -952,43 +935,43 @@ function loadKualifikas(kualifikasiKandidat) {
 }
 
 function loadJadwal(data) {
-        for (var i in data) {
-            var tgl = "";
-            var dateMulai;
-            var dateSampai;
-            if (data[i].Mulai != null && moment(data[i].Mulai).format("DD/MM/YYYY") != "Invalid date") {
-                tgl = tgl + moment(data[i].Mulai).format("DD/MM/YYYY");
-            }
-            if (data[i].Sampai != null && moment(data[i].Sampai).format("DD/MM/YYYY") != "Invalid date") {
-                tgl = tgl + " s/d " + moment(data[i].Sampai).format("DD/MM/YYYY");
-            }
-            if (data[i].tipe == "pendaftaran") {                
-                if (data[i].Mulai != null)
-                    $("#pendaftaran").text(tgl);
-            }
-            if (data[i].tipe == "Aanwijzing") {
-                if (data[i].Mulai != null)
-                    $("#Aanwijzing").text(tgl);
-            }
-            if (data[i].tipe == "pengisian_harga") {
-                $("#PengisianHarga").text(tgl);
-            }
-            if (data[i].tipe == "buka_amplop") {
-                $("#BukaAmplop").text(tgl);
-            }
-            if (data[i].tipe == "penilaian") {
-                $("#penilaian").text(tgl);
-            }
-            if (data[i].tipe == "klarifikasi") {
-                $("#Klarifikasi").text(tgl);
-            }
-            if (data[i].tipe == "penentuan_pemenang") {
-                $("#PenentuanPemenang").text(tgl);
-            }
+    for (var i in data) {
+        var tgl = "";
+        var dateMulai;
+        var dateSampai;
+        if (data[i].Mulai != null && moment(data[i].Mulai).format("DD/MM/YYYY") != "Invalid date") {
+            tgl = tgl + moment(data[i].Mulai).format("DD/MM/YYYY");
         }
+        if (data[i].Sampai != null && moment(data[i].Sampai).format("DD/MM/YYYY") != "Invalid date") {
+            tgl = tgl + " s/d " + moment(data[i].Sampai).format("DD/MM/YYYY");
+        }
+        if (data[i].tipe == "pendaftaran") {
+            if (data[i].Mulai != null)
+                $("#pendaftaran").text(tgl);
+        }
+        if (data[i].tipe == "Aanwijzing") {
+            if (data[i].Mulai != null)
+                $("#Aanwijzing").text(tgl);
+        }
+        if (data[i].tipe == "pengisian_harga") {
+            $("#PengisianHarga").text(tgl);
+        }
+        if (data[i].tipe == "buka_amplop") {
+            $("#BukaAmplop").text(tgl);
+        }
+        if (data[i].tipe == "penilaian") {
+            $("#penilaian").text(tgl);
+        }
+        if (data[i].tipe == "klarifikasi") {
+            $("#Klarifikasi").text(tgl);
+        }
+        if (data[i].tipe == "penentuan_pemenang") {
+            $("#PenentuanPemenang").text(tgl);
+        }
+    }
 }
 
-function LoadListPersonil(Personil,isPic) {
+function LoadListPersonil(Personil, isPic) {
     $(".listperson-pic").html("");
     $(".listperson-staff").html("");
     $(".listperson-controller").html("");
@@ -1008,21 +991,21 @@ function LoadListPersonil(Personil,isPic) {
     }
 }
 
-function addLoadPersonil(item, el,ispic) {
+function addLoadPersonil(item, el, ispic) {
     var peran = el.replace(".listperson-", "");
     var removeEL = '';
-    if (ispic == 1) {        
+    if (ispic == 1) {
     }
-  /*  if (item.isReady == 1) {
-        if (item.isMine == 1 && $("#State").val() == 0)
-            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
-        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
-    }
-    else {
-        if (item.isMine == 1 && $("#State").val() == 0)
-            removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
-        else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
-    }*/
+    /*  if (item.isReady == 1) {
+          if (item.isMine == 1 && $("#State").val() == 0)
+              removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked/></span>';
+          else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" checked disabled /></span>';
+      }
+      else {
+          if (item.isMine == 1 && $("#State").val() == 0)
+              removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox"/></span>';
+          else removeEL = removeEL + '<span class="badge-left check-person"><input type="checkbox" class="ready-checkbox" disabled/></span>';
+      }*/
     html = '<a class="btn btn-app">' +
         '<input type="hidden" class="list-personil" attrId="'
                        + item.Id + '" attr1="' + peran + '" attr2="' + item.Nama + '" attr3="'
@@ -1037,7 +1020,7 @@ function addLoadPersonil(item, el,ispic) {
 function cekState(tipe) {
     $.ajax({
         method: "POST",
-        url: "Api/PengadaanE/cekState?Id=" + $("#pengadaanId").val()+"&tipe="+tipe,
+        url: "Api/PengadaanE/cekState?Id=" + $("#pengadaanId").val() + "&tipe=" + tipe,
         success: function (data) {
             if (data == 1) {
                 location.reload();
@@ -1045,7 +1028,7 @@ function cekState(tipe) {
             }
         },
         error: function (errormessage) {
-           // alert("gagal");
+            // alert("gagal");
         }
     });
 }
@@ -1053,11 +1036,11 @@ function cekState(tipe) {
 function loadKeteranganDitolak(Id) {
     $.ajax({
         method: "GET",
-        url: "Api/PengadaanE/getAlasanPenolakan?Id="+Id,
+        url: "Api/PengadaanE/getAlasanPenolakan?Id=" + Id,
         success: function (data) {
-                $("#AlasanPenolakan").text("Alasan Penolakan: " + (data==""?"-":data));
-                $("#AlasanPenolakan").show();
-            },
+            $("#AlasanPenolakan").text("Alasan Penolakan: " + (data == "" ? "-" : data));
+            $("#AlasanPenolakan").show();
+        },
         error: function (errormessage) {
         }
     });
@@ -1120,3 +1103,88 @@ function StatusPemenang(Id) {
         }
     });
 }
+
+$(".SimpanAjukan").on("click", function () {
+    $("#modal-persetujuan").modal("show");
+});
+
+function getHeaderPengadaan() {
+    var viewPengadaan = {};
+    viewPengadaan.Judul = $("[name=Judul]").val();
+    viewPengadaan.Keterangan = $("[name=Keterangan]").val();
+    viewPengadaan.AturanPengadaan = $("[name=AturanPengadaan]").val();
+    viewPengadaan.AturanBerkas = $("[name=AturanBerkas]").val();
+    viewPengadaan.AturanPenawaran = $("[name=AturanPenawaran]").val();
+    viewPengadaan.MataUang = $("[name=MataUang]").val();
+    viewPengadaan.PeriodeAnggaran = $("[name=PeriodeAnggaran]").val();
+    viewPengadaan.JenisPembelanjaan = $("[name=JenisPembelanjaan]").val();
+    viewPengadaan.HpsId = $("[name=HpsId]").val();
+    viewPengadaan.TitleDokumenNotaInternal = $("[name=TitleDokumenNotaInternal]").val();
+    viewPengadaan.TitleDokumenLain = $("[name=TitleDokumenLain]").val();
+    viewPengadaan.TitleBerkasRujukanLain = $("[name=TitleBerkasRujukanLain]").val();
+    viewPengadaan.UnitKerjaPemohon = $("[name=UnitKerjaPemohon]").val();
+    viewPengadaan.NoCOA = $("#noCoa").val();
+    viewPengadaan.Region = $("[name=Region]").val();
+    viewPengadaan.Provinsi = $("[name=Provinsi]").val();
+    viewPengadaan.KualifikasiRekan = $("[name=KualifikasiRekan]").val();
+    viewPengadaan.JenisPekerjaan = $("[name=JenisPekerjaan]").val();
+    if ($("#pengadaanId").val() != "") viewPengadaan.Id = $("#pengadaanId").val();
+    return viewPengadaan;
+    console.log(viewPengadaan);
+}
+
+function save(pengadaanHeader, attr1, status) {
+    var data = {};
+    data.Pengadaan = pengadaanHeader;
+    data.Jadwal = getJadwal();
+    pengadaanHeader.Status = status;
+    waitingDialog.showloading("Proses Harap Tunggu");
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/save?status=" + status,
+        dataType: "json",
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8'
+    }).done(function (data) {
+        waitingDialog.hideloading();
+        if (attr1 == "showmodal") {
+            $("#format-rks").attr("href", "rks.html#" + data.Id);
+            $("#hpsmodal-list").modal("show");
+        } else {
+            //$("#pengadaanId").val(data.Id);
+            if (data.status == 200) {
+                window.location.hash = data.Id;
+                if (!$("#pengadaanId").val().trim()) {
+                    window.location.reload();
+                }
+                $("#pengadaanId").val(data.Id);
+            }
+            if (status == "Draft") {
+                $("#TitleKonfirmasi").html("Info");
+                $("#KontenConfirmasi").html(data.message);
+                $("#konfirmasi").modal("show");
+                loadData(data.Id);
+            }
+            else if (status == "Ajukan") {
+                window.location.replace("http://" + window.location.host + "/pengadaan-list.html");
+            }
+        }
+    });
+    if ($("[name=AturanPenawaran]").val() == "Open Price") {
+        var totalHps = $("[name=HpsId]").val();
+        $.ajax({
+            method: "POST",
+            url: "Api/PengadaanE/saveTotalHps?Id=" + $("#pengadaanId").val() + "&Total=" + totalHps,
+            dataType: "json",
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8'
+        }).done(function (data) {
+
+        });
+    }
+}
+
+$("#anjukan-lanjutkan").on("click", function () {
+    $("#modal-persetujuan").modal("hide");
+    save(getHeaderPengadaan(), "", "Ajukan");
+});
