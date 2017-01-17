@@ -140,6 +140,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         BeritaAcara getBeritaAcaraByTipe(Guid PengadaanId, TipeBerkas tipe, Guid UserId);
         int CekBukaAmplop(Guid PengadaanId);
         ViewVendors GetVendorById(int VendorId);
+        ViewVendors GetVendorByName(string NamaVendor);
         List<VWReportPengadaan> GetRepotPengadan(DateTime? dari, DateTime? sampai, Guid UserId);
         int PembatalanPengadaan(VWPembatalanPengadaan vwPembatalan, Guid UserId);
         List<VWStaffCharges> GetSummaryTotal(DateTime dari, DateTime sampai, int limit = Int32.MaxValue, int skip = 0);
@@ -4860,6 +4861,18 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
             return 1;
         }
+       public ViewVendors GetVendorByName(string NamaVendor)
+       {
+           var oVendor = ctx.Vendors.Where(d => d.Nama == NamaVendor).Select(d => new ViewVendors
+           {
+               id = d.Id,
+               Alamat = d.Alamat,
+               Email = d.Email,
+               Nama = d.Nama,
+               Owner = d.Owner
+           }).FirstOrDefault();
+           return oVendor;
+       }
 
         public ViewVendors GetVendorById(int VendorId)
         {
