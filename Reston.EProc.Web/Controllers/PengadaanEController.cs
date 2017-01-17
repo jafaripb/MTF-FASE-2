@@ -638,7 +638,81 @@ namespace Reston.Pinata.WebService.Controllers
                     ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
+                        #region BuatAtauUpdateTamplate
+                        var vwpengadaan = _repository.GetPengadaanByiD(id);
+                        var DepHead = await listHead();
+                        var DepManager = await listGuidManager();
+                        var Direksi = await listUser(IdLdapConstants.Roles.pRole_direksi);
+                        var Dirut = await listUser(IdLdapConstants.Roles.pRole_dirut);
+                        decimal? RKS = _repository.getRKSDetails(id, UserId()).Sum(d => d.hps * d.jumlah);
+                        var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
+                                new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue="Gen.By.System",
+                                        SegOrder=1,
+                                        UserId=vwpengadaan.PersonilPengadaans.Where(d=>d.tipe=="controller").FirstOrDefault().PersonilId
+                                    },
+                                 new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue="Gen.By.System",
+                                        SegOrder=2,
+                                        UserId=DepManager[0]
+                                    }
+                            };
+                        if (RKS > ValueBoundAprr) WorkflowMasterTemplateDetails.Add(
+                                     new WorkflowMasterTemplateDetail()
+                                     {
+                                         NameValue = "Gen.By.System",
+                                         SegOrder = 3,
+                                         UserId = DepHead[0]
+                                     });
+                        if (Direksi.Count() > 0)
+                            if (RKS > ValueBoundDireksiAprr)
+                            {
+                                var lasOrder = WorkflowMasterTemplateDetails.LastOrDefault().SegOrder;
+                                WorkflowMasterTemplateDetails.Add(
+                                    new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue = "Gen.By.System",
+                                        SegOrder = lasOrder + 1,
+                                        UserId = Direksi[0]
+                                    });
+                            }
+                        if (Dirut.Count() > 0)
+                            if (RKS > BATASAN_BIAYA_DIRUT)
+                            {
+                                var lasOrder = WorkflowMasterTemplateDetails.LastOrDefault().SegOrder;
+                                WorkflowMasterTemplateDetails.Add(
+                                    new WorkflowMasterTemplateDetail()
+                                    {
+                                        NameValue = "Gen.By.System",
+                                        SegOrder = lasOrder + 1,
+                                        UserId = Dirut[0]
+                                    });
+                            }
+                        WorkflowMasterTemplate MasterTemplate = new WorkflowMasterTemplate()
+                        {
+                            ApprovalType = ApprovalType.BERTINGKAT,
+                            CreateBy = UserId(),
+                            CreateOn = DateTime.Now,
+                            DescValue = "WorkFlow Pengadaan=> " + vwpengadaan.Judul,
+                            NameValue = "Generate By System ",
+                            WorkflowMasterTemplateDetails = WorkflowMasterTemplateDetails
+                        };
+                        var resultTemplate = _workflowrepo.SaveWorkFlow(MasterTemplate, UserId());
+                        var wokflowId = Convert.ToInt32(resultTemplate.Id);
+                        #endregion
+
                         _repository.ChangeStatusPengadaan(id, EStatusPengadaan.DISETUJUI, UserId());
+
+                        PersetujuanPemenang ndata = new PersetujuanPemenang()
+                        {
+                            CreatedOn = DateTime.Now,
+                            CreatedBy = UserId(),
+                            PengadaanId = id,
+                            WorkflowId = wokflowId
+                        };
+                        _repository.SavePersetujuanPemenang(ndata, UserId());
                     }
                     var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(id);
                     try

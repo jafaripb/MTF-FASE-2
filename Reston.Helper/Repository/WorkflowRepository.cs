@@ -660,7 +660,7 @@ namespace Reston.Helper.Repository
             return result;
         }
 
-        public ResultMessage NextApprover(Guid DocId, int TemplateId)
+        public ResultMessage NextApprover(Guid DocId, int TemplateId) //atau curren aproval
         {
             try
             {
@@ -669,7 +669,7 @@ namespace Reston.Helper.Repository
                 var oTemplate = ctx.WorkflowMasterTemplates.Find(TemplateId).WorkflowMasterTemplateDetails.OrderBy(d => d.SegOrder).LastOrDefault();
                 if (oWorkflowState != null || oTemplate == null)
                     result.Id = "0";
-                int needOrder = (oWorkflowState.CurrentSegOrder.Value + 1);
+                int needOrder = (oWorkflowState.CurrentSegOrder.Value);
                 var detailPrev = ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == oWorkflowState.WorkflowMasterTemplateId && d.SegOrder == needOrder).FirstOrDefault();
 
                 if (detailPrev != null) result.Id = detailPrev.UserId.ToString();
