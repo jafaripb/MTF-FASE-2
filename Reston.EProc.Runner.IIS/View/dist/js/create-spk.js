@@ -326,6 +326,17 @@ function save(spk) {
     });
 }
 
+//$("#template-spk").on("click", function () {
+//    console.log("HALOO");
+//    alert("bego");
+//});
+
+$("#template-spk").on("click", function () {
+    //var tanggal = moment($("#tanggal-spk").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+    downloadFileUsingForm("Api/Report/BerkasSPK2?Judul=" + $("#judul").val() + "&Tanggal_SPK=" + $("#tanggal-spk").val() + "&Vendor= " + $("#pelaksana").val() + "&Nilai_SPK=" + $("#nilai-spk").val());
+    
+});
+
 function change() {
     var status = $("[name=status]:checked").val();
     

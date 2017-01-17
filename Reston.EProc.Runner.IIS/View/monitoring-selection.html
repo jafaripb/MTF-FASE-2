@@ -387,8 +387,8 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            return ' <a href="monitoring-proyek-add.html?id-pengadaan='+row.Id+'" id="" class="btn btn-sm btn-primary "> Monitor </a> '+
-                                ' <a href="pengadaan-terbuka-detail.html#' + row.Id + '" id="" class="btn btn-sm btn-success "> Detail </a> ';
+                            return ' <a href="monitoring-proyek-add.html?id-pengadaan=' + row.Id + '" id="" class="btn btn-sm btn-primary "> Monitor </a> ' +
+                                 '<a idSpk="'+row.Id+'" class="btn btn-sm btn-danger tidak-monitor">Tidak</a> ';
                         },
                         "targets": 8,
                         "orderable": false
@@ -403,6 +403,31 @@
                 "autoWidth": false,
                 "responsive": true,
                 "destroy": true
+            });
+        });
+
+        $("#monitoring-seleksi").on("click", ".tidak-monitor", function () {
+            var IDSPK = $(this).attr("idSpk");
+            alert(IDSPK);
+            $.ajax({
+                method: "get",
+                url: "api/MonitoringSelection/TidakMonitor",
+                datatype: "json",
+                data: {
+                    Id: IDSPK
+                },
+                success: function (d) {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Pekerjaan Tidak Dimonitor',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                }
             });
         });
 

@@ -1876,6 +1876,7 @@
       <DependentUpon>PO.xsd</DependentUpon>
     </Content>
     <Content Include="data\menu-direksi.json" />
+    <Content Include="Download\Report\Template\SPK2.docx" />
     <None Include="pengadaaneDataSet1.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>pengadaaneDataSet1.Designer.cs</LastGenOutput>
@@ -2729,7 +2730,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Content Include="Report\BukaAmplop.rdlc" />
+    <Content Include="Report\ReportPO.rdlc" />
     <EmbeddedResource Include="Report\po.rdlc" />
+    <Content Include="Report\ReportPKS.rdlc" />
+    <Content Include="Report\ReportSPK.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Reston.EProc.Web\Reston.EProc.Web.csproj">

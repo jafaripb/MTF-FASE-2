@@ -35,6 +35,7 @@ namespace Reston.Pinata.WebService.Controllers
         internal ResultMessage result = new ResultMessage();
         private string FILE_TEMP_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_TEMP"];
         private string FILE_DOKUMEN_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_DOC"];
+        private string FILE_REPORT_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_REPORT_PATH"];
         public ReportController()
         {
             _repository = new PengadaanRepo(new JimbisContext());
@@ -178,26 +179,26 @@ namespace Reston.Pinata.WebService.Controllers
                 //
 
                 // Panitia
-                var panitia = _repository.getPersonilPengadaan(Id);
+                //var panitia = _repository.getPersonilPengadaan(Id);
                 //list.InsertParagraphAfterSelf("{vendor1}");
                 //doc.FindAll("{tabel}").ForEach(index => );
-                var table4 = doc.AddTable(panitia.Count(), 1);
-                foreach (var item in panitia)
-                {
-                    table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + "....................   Mewakili: " + item.Nama);
-                    table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
-                    table.Rows[rowIndex].Cells[0].Width = 500;
-                    rowIndex++;
-                }
-                table.Alignment = Alignment.left;
-                //table.AutoFit = AutoFit.Contents;
+                //var table4 = doc.AddTable(panitia.Count(), 1);
+                //foreach (var item in panitia)
+                //{
+                //    table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + "....................   Mewakili: " + item.Nama);
+                //    table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                //    table.Rows[rowIndex].Cells[0].Width = 500;
+                //    rowIndex++;
+                //}
+                //table.Alignment = Alignment.left;
+                ////table.AutoFit = AutoFit.Contents;
 
-                foreach (var paragraph in doc.Paragraphs)
-                {
-                    paragraph.FindAll("{table4}").ForEach(index => paragraph.InsertTableBeforeSelf(table4));
+                //foreach (var paragraph in doc.Paragraphs)
+                //{
+                //    paragraph.FindAll("{table4}").ForEach(index => paragraph.InsertTableBeforeSelf(table4));
 
-                }
-                doc.ReplaceText("{table4}", "");
+                //}
+                //doc.ReplaceText("{table4}", "");
 
                 //
                 if (jadwalAanwijzing != null)
@@ -1210,6 +1211,81 @@ namespace Reston.Pinata.WebService.Controllers
             }
             docM.ReplaceText("{table3}", "");
             //end
+            docM.SaveAs(OutFileNama);
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(OutFileNama, FileMode.Open);
+            result.Content = new StreamContent(stream);
+            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = outputFileName
+            };
+
+            return result;
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public HttpResponseMessage BerkasSPK2(string Judul, string Tanggal_SPK, string Nilai_SPK, string Vendor)
+        {
+            //var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
+            //var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
+            //var jadwalPemenang = _repository.getPelaksanaanPemenang(Id, UserId());
+            string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\SPK2.docx";
+            string outputFileName = "BA-SPK-" + Judul + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+
+            string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
+
+            // var streamx = new FileStream(fileName, FileMode.Open);
+
+            // var doc = DocX.Load(streamx);
+
+            System.IO.MemoryStream ms2 = new System.IO.MemoryStream();
+            var docM = DocX.Create(ms2);
+
+            //var pemenangx = _repository.getPemenangPengadaan(Id, UserId());
+            //foreach (var item in pemenangx)
+            //{
+                var streamx = new FileStream(fileName, FileMode.Open);
+                //var BeritaAcara = _repository.getBeritaAcaraByTipeandVendor(Id, TipeBerkas.SuratPerintahKerja, item.VendorId.Value, UserId());
+
+                try
+                {
+                    var doc = DocX.Load(streamx);
+                    doc.ReplaceText("{judul_spk}", Judul == null ? "" : Judul);
+                    //doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
+                    //doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
+                    //doc.ReplaceText("{pengadaan_unit_pemohon}", pengadaan.UnitKerjaPemohon == null ? "" : pengadaan.UnitKerjaPemohon);
+                    doc.ReplaceText("{tanggal_spk}", "...............," + Tanggal_SPK == null ? "................" : Tanggal_SPK);
+
+                    //doc.ReplaceText("{pengadaan_jadwal_hari}", BeritaAcara.tanggal == null ? "" :
+                    //       Common.ConvertHari(BeritaAcara.tanggal.Value.Day));
+                    //doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
+                    //      " " + BeritaAcara.tanggal.Value.Year);
+
+
+                    //var pemenang = _repository.getPemenangPengadaan(Vendor);
+                    var vendor = _repository.GetVendorByName(Vendor.ToString());
+                    doc.ReplaceText("{vendor}", Vendor == null ? "" : Vendor);
+                    doc.ReplaceText("{nilai_spk}", Nilai_SPK == null ? "" : Nilai_SPK);
+                    doc.ReplaceText("{alamat}", vendor == null ? "" : vendor.Alamat.ToString());
+                    doc.ReplaceText("{terbilang}", Nilai_SPK == null ? "" : MyConverter.Terbilang(Nilai_SPK.ToString()) + " Rupiah");
+                    // doc.SaveAs(OutFileNama);
+                    docM.InsertSection();
+
+                    docM.InsertDocument(doc); //doc.SaveAs(OutFileNama);
+                    streamx.Close();
+                    // streamx.Close();
+                }
+                catch
+                {
+                    streamx.Close();
+                }
+            //}
             docM.SaveAs(OutFileNama);
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(OutFileNama, FileMode.Open);
@@ -2417,6 +2493,262 @@ namespace Reston.Pinata.WebService.Controllers
             };
             return result;
         }
+
+        // Report PO
+        public HttpResponseMessage ReportPO(string dari, string sampai)
+        {
+            try
+            {
+                LocalReport lr = new LocalReport();
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+                path = Path.Combine(path, "ReportPO.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    lr.ReportPath = path;
+                }
+
+                else
+                {
+                    //return View("Index");
+                }
+                var oDari = Common.ConvertDate(dari, "dd/MM/yyyy");
+                var oSampai = Common.ConvertDate(sampai, "dd/MM/yyyy");
+
+                var POReportDetail = _repository.GetReportPO(oDari, oSampai, UserId());
+
+                ReportDataSource rd = new ReportDataSource("POReportDetail", POReportDetail);
+                lr.DataSources.Add(rd);
+                string param1 = "";
+                string filename = "";
+                string param2 = "";
+                string paramSemester = "";
+                string paramTahunAjaran = "";
+
+
+                string reportType = "doc";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+
+                string[] streamids = null;
+                String extension = null;
+                Byte[] bytes = null;
+                Warning[] warnings;
+
+                bytes = lr.Render("Excel", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(bytes);
+
+                result.Content = new StreamContent(stream);
+
+                //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Report-PO" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                };
+
+                return result;
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                result.Content = new StringContent(sb.ToString());
+
+                return result;
+                //Display or log the error based on your application.
+            }
+        }
+
+        // Report PKS
+        public HttpResponseMessage ReportPKS(string dari, string sampai)
+        {
+            try
+            {
+                LocalReport lr = new LocalReport();
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+                path = Path.Combine(path, "ReportPKS.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    lr.ReportPath = path;
+                }
+
+                else
+                {
+                    //return View("Index");
+                }
+                var oDari = Common.ConvertDate(dari, "dd/MM/yyyy");
+                var oSampai = Common.ConvertDate(sampai, "dd/MM/yyyy");
+
+                var PKS = _repository.GetReportPKS(oDari, oSampai, UserId());
+
+                ReportDataSource rd = new ReportDataSource("PKS", PKS);
+                lr.DataSources.Add(rd);
+                string param1 = "";
+                string filename = "";
+                string param2 = "";
+                string paramSemester = "";
+                string paramTahunAjaran = "";
+
+
+                string reportType = "doc";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+
+                string[] streamids = null;
+                String extension = null;
+                Byte[] bytes = null;
+                Warning[] warnings;
+
+                bytes = lr.Render("Excel", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(bytes);
+
+                result.Content = new StreamContent(stream);
+
+                //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Report-PKS" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                };
+
+                return result;
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                result.Content = new StringContent(sb.ToString());
+
+                return result;
+                //Display or log the error based on your application.
+            }
+        }
+
+        // Report SPK
+        public HttpResponseMessage ReportSPK(string dari, string sampai)
+        {
+            try
+            {
+                LocalReport lr = new LocalReport();
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+                path = Path.Combine(path, "ReportSPK.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    lr.ReportPath = path;
+                }
+
+                else
+                {
+                    //return View("Index");
+                }
+                var oDari = Common.ConvertDate(dari, "dd/MM/yyyy");
+                var oSampai = Common.ConvertDate(sampai, "dd/MM/yyyy");
+
+                var SPK = _repository.GetReportSPK(oDari, oSampai, UserId());
+
+                ReportDataSource rd = new ReportDataSource("SPK", SPK);
+                lr.DataSources.Add(rd);
+                string param1 = "";
+                string filename = "";
+                string param2 = "";
+                string paramSemester = "";
+                string paramTahunAjaran = "";
+
+
+                string reportType = "doc";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+
+                string[] streamids = null;
+                String extension = null;
+                Byte[] bytes = null;
+                Warning[] warnings;
+
+                bytes = lr.Render("Excel", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(bytes);
+
+                result.Content = new StreamContent(stream);
+
+                //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Report-SPK" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                };
+
+                return result;
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                result.Content = new StringContent(sb.ToString());
+
+                return result;
+                //Display or log the error based on your application.
+            }
+        }
+
     }
 }
 

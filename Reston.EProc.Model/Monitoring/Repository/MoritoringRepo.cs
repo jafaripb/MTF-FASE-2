@@ -29,6 +29,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         ResultMessage SimpanProgresPekerjaan(List<TahapanProyek> Tahapan, Guid UserId);
         ResultMessage SimpanProgresPembayaran(List<TahapanProyek> Tahapan, Guid UserId);
         ResultMessage saveDokumenProyeks(Guid DokumenId,string NamaFileSave,string extension, Guid UserId);
+        ResultMessage toTidakDimonitor(Guid Id, string status, Guid UserId);
         DokumenProyek GetDokumenProyek(Guid Id);
         ResultMessage toFinishRepo(Guid xProyekId,string xStatus, Guid UserId);
         ResultMessage toDisableRepo(Guid xProyekId, string xStatus, Guid UserId);
@@ -253,6 +254,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                     data = data.Where(d => d.Title.Contains(d.Title));                   
                 }
                 data = data.Where(x => !ctx.RencanaProyeks.Select(xx => xx.SpkId).Contains(x.Id));
+                //data = data.Where(u => ctx)
                 dtTable.recordsFiltered = data.Count();
                 data = data.OrderByDescending(d => d.CreateOn).Skip(start).Take(length);
 
@@ -386,6 +388,46 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 }
             }
             catch(Exception ex)
+            {
+                rm.status = HttpStatusCode.ExpectationFailed;
+                rm.message = ex.ToString();
+            }
+
+            return rm;
+        }
+
+        public ResultMessage toTidakDimonitor(Guid Id, string status, Guid UserId)
+        {
+            ResultMessage rm = new ResultMessage();
+            try
+            {
+                var odata = ctx.RencanaProyeks.Where(d => d.SpkId == Id).FirstOrDefault();
+
+                if(odata != null)
+                {
+                    odata.SpkId = Id;
+                    odata.Status = status;
+                    odata.CreatedBy = UserId;
+                    odata.CreatedOn = DateTime.Now;
+                }
+                else
+                {
+                    RencanaProyek m2 = new RencanaProyek
+                    {
+                        SpkId = Id,
+                        Status = status,
+                        CreatedBy = UserId,
+                        CreatedOn = DateTime.Now
+                    };
+
+                    ctx.RencanaProyeks.Add(m2);
+                }
+
+                ctx.SaveChanges(UserId.ToString());
+                rm.status = HttpStatusCode.OK;
+                rm.message = "Pekerjaan Tidak Dimonitoring";
+            }
+            catch (Exception ex)
             {
                 rm.status = HttpStatusCode.ExpectationFailed;
                 rm.message = ex.ToString();
