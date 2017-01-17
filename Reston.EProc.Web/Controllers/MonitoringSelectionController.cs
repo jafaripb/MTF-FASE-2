@@ -194,6 +194,18 @@ namespace Reston.EProc.Web.Controllers
             return _repository.toFinishRepo(xProyekId, xStatus, UserId());
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public ResultMessage TidakMonitor(Guid Id)
+        {
+            Guid spkid = Id;
+            string status = "Tidak Dimonitor";
+
+            return _repository.toTidakDimonitor(spkid, status, UserId());
+        }
+
         public ResultMessage toDisable()
         {
             Guid xProyekId = Guid.Parse(HttpContext.Current.Request["aIdProyek"].ToString());

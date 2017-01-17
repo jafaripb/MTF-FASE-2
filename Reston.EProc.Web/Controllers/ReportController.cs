@@ -1230,6 +1230,81 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public HttpResponseMessage BerkasSPK2(string Judul, string Tanggal_SPK, string Nilai_SPK, string Vendor)
+        {
+            //var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
+            //var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
+            //var jadwalPemenang = _repository.getPelaksanaanPemenang(Id, UserId());
+            string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\SPK2.docx";
+            string outputFileName = "BA-SPK-" + Judul + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+
+            string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
+
+            // var streamx = new FileStream(fileName, FileMode.Open);
+
+            // var doc = DocX.Load(streamx);
+
+            System.IO.MemoryStream ms2 = new System.IO.MemoryStream();
+            var docM = DocX.Create(ms2);
+
+            //var pemenangx = _repository.getPemenangPengadaan(Id, UserId());
+            //foreach (var item in pemenangx)
+            //{
+                var streamx = new FileStream(fileName, FileMode.Open);
+                //var BeritaAcara = _repository.getBeritaAcaraByTipeandVendor(Id, TipeBerkas.SuratPerintahKerja, item.VendorId.Value, UserId());
+
+                try
+                {
+                    var doc = DocX.Load(streamx);
+                    doc.ReplaceText("{judul_spk}", Judul == null ? "" : Judul);
+                    //doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
+                    //doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
+                    //doc.ReplaceText("{pengadaan_unit_pemohon}", pengadaan.UnitKerjaPemohon == null ? "" : pengadaan.UnitKerjaPemohon);
+                    doc.ReplaceText("{tanggal_spk}", "...............," + Tanggal_SPK == null ? "................" : Tanggal_SPK);
+
+                    //doc.ReplaceText("{pengadaan_jadwal_hari}", BeritaAcara.tanggal == null ? "" :
+                    //       Common.ConvertHari(BeritaAcara.tanggal.Value.Day));
+                    //doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
+                    //      " " + BeritaAcara.tanggal.Value.Year);
+
+
+                    //var pemenang = _repository.getPemenangPengadaan(Vendor);
+                    var vendor = _repository.GetVendorByName(Vendor.ToString());
+                    doc.ReplaceText("{vendor}", Vendor == null ? "" : Vendor);
+                    doc.ReplaceText("{nilai_spk}", Nilai_SPK == null ? "" : Nilai_SPK);
+                    doc.ReplaceText("{alamat}", vendor == null ? "" : vendor.Alamat.ToString());
+                    doc.ReplaceText("{terbilang}", Nilai_SPK == null ? "" : MyConverter.Terbilang(Nilai_SPK.ToString()) + " Rupiah");
+                    // doc.SaveAs(OutFileNama);
+                    docM.InsertSection();
+
+                    docM.InsertDocument(doc); //doc.SaveAs(OutFileNama);
+                    streamx.Close();
+                    // streamx.Close();
+                }
+                catch
+                {
+                    streamx.Close();
+                }
+            //}
+            docM.SaveAs(OutFileNama);
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(OutFileNama, FileMode.Open);
+            result.Content = new StreamContent(stream);
+            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = outputFileName
+            };
+
+            return result;
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public HttpResponseMessage BerkasSPK(Guid Id)
         {
             var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
