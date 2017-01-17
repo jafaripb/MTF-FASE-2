@@ -169,6 +169,7 @@
                                     <div class="form-group col-md-4">
                                         <label class="title">Nilai PO:</label>
                                         <input id="nilai-po" class="form-control" type="text" disabled>
+                                        <input id="nilai-po-hidden" class="form-control" type="hidden">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -180,11 +181,12 @@
                                 <div class="row">
                                     <div class="col-md-10">
                                         <div class="panel-header-white">
+                                            <input type="checkbox" id="hide-periode" />
                                             <span class="title-header" id="Span1">Periode Sewa</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" id="hide-periode-sewa">
                                     <div class="form-group col-md-4">
                                         <label class="title">Periode Dari:</label>
                                         <input id="periode-dari" type="text" class="form-control input-group date">
@@ -203,14 +205,14 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-4">
-                                        <label class="title">Bank:</label>
-                                        <select name="BankInfo.Nama" class="form-control select2 required" style="width: 100%;"></select>
+                                        <label class="title">Atas Nama:</label>
+                                        <input id="atas-nama" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-4">
-                                        <label class="title">Atas Nama:</label>
-                                        <input id="atas-nama" class="form-control" type="text">
+                                        <label class="title">Bank:</label>
+                                        <select name="BankInfo.Nama" class="form-control select2 required" style="width: 100%;"></select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="title">No. Rekening:</label>
@@ -299,8 +301,9 @@
                                                     <th>Nama Barang</th>
                                                     <th>Banyak</th>
                                                     <th>Satuan</th>
-                                                    <th>Harga</th>
+                                                    <th>Harga Satuan</th>
                                                     <th>Jumlah</th>
+                                                    <th>Keterangan</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -328,10 +331,6 @@
                                             <option value="6">6 %</option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label class="title">DPP (%):</label>
-                                        <input id="dpp" class="form-control" type="text">
-                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-10">
@@ -348,6 +347,12 @@
                                     <div class="form-group col-md-4">
                                         <label class="title">Nama Tanda Tangan Kedua:</label>
                                         <input id="ttd2" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Nama Tanda Tangan Ketiga:</label>
+                                        <input id="ttd3" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -466,6 +471,17 @@
                                                 <label class="col-sm-4 control-label">Jumlah</label>
                                                 <div class="col-sm-6">
                                                     <input id="jumlah" disabled type="text" class="form-control " placeholder="Jumlah">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Keterangan</label>
+                                                <div class="col-sm-6">
+                                                    <textarea id="keterangan" type="text" class="form-control " placeholder="Keterangan"></textarea>
                                                 </div>
                                             </div>
                                         </div>

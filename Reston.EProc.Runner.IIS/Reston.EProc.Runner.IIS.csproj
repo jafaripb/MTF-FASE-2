@@ -2730,7 +2730,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Content Include="Report\BukaAmplop.rdlc" />
+    <Content Include="Report\ReportPO.rdlc" />
     <EmbeddedResource Include="Report\po.rdlc" />
+    <Content Include="Report\ReportPKS.rdlc" />
+    <Content Include="Report\ReportSPK.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Reston.EProc.Web\Reston.EProc.Web.csproj">

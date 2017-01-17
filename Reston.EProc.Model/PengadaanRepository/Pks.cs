@@ -92,6 +92,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public int recordsFiltered { get; set; }
         public List<VWPks> data { get; set; }
     }
+
     public class VWPks
     {
         public Guid Id { get; set; }
@@ -120,7 +121,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string StatusPksName { get; set; }
         public int isOwner { get; set; }
         public int Approver { get; set; }
-
         public string CreatedName { get; set; }
     }
 
@@ -149,6 +149,29 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string Title { get; set; }
         public Nullable<TipeBerkas> Tipe { get; set; }
         public Nullable<long> SizeFile { get; set; }
+    }
+
+    public class VWReportPks
+    {
+        public Guid Id { get; set; }
+        public string PksId { get; set; }
+        public string NoPks { get; set; }
+        public string JenisPekerjaan { get; set; }
+        public string Vendor { get; set; }
+        public string AturanPengadaan { get; set; }
+        public decimal? HPS { get; set; }
+        public decimal? NilaiSPK { get; set; }
+        public string NoPengadaan { get; set; }
+        public Guid? PengadaanId { get; set; }
+        public int? VendorId { get; set; }
+        public string Title { get; set; }
+        public string Klasifikasi { get; set; }
+        public Nullable<Guid> PemenangPengadaanId { get; set; }
+        public StatusPks? StatusPks { get; set; }
+        public string StatusPksName { get; set; }
+        public int isOwner { get; set; }
+        public int Approver { get; set; }
+        public string CreatedName { get; set; }
     }
 
     public enum StatusPks

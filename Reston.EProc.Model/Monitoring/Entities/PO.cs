@@ -37,11 +37,10 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string UPPengirimanKwitansi { get; set; }
         public string Ttd1 { get; set; }
         public string Ttd2 { get; set; }
+        public string Ttd3 { get; set; }
         public Decimal? Discount { get; set; }
         public decimal? PPN { get; set; }
         public decimal? PPH { get; set; }
-        public decimal? DPP { get; set; }
-        public string Keterangan { get; set; }
         public Guid? CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public Guid? ModifiedBy { get; set; }
@@ -64,6 +63,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string Satuan { get; set; }
         public decimal? Harga { get; set; }
         public string Deskripsi { get; set; }
+        public string Keterangan { get; set; }
         public Guid? CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public Guid? ModifiedBy { get; set; }
@@ -105,11 +105,10 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string UPPengirimanKwitansi { get; set; }
         public string Ttd1 { get; set; }
         public string Ttd2 { get; set; }
+        public string Ttd3 { get; set; }
         public Decimal? Discount { get; set; }
         public Decimal? PPN { get; set; }
         public Decimal? PPH { get; set; }
-        public Decimal? DPP { get; set; }
-        public string Keterangan { get; set; }
         public string Created { get; set; }
         public Guid? CreatedId { get; set; }
     }
@@ -132,6 +131,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string Satuan { get; set; }
         public decimal? Harga { get; set; }
         public string Deskripsi { get; set; }
+        public string Keterangan { get; set; }
     }
 
     public class VWPOReport
@@ -148,7 +148,6 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string PeriodeSampai { get; set; }
         public string PeriodeSampaistr { get; set; }
         public string NilaiPO { get; set; }
-        public string Keterangan { get; set; }
         public string AlmatBarangUp { get; set; }
         public string UpPengirimanBarang { get; set; }
         public string Rekening { get; set; }
@@ -179,6 +178,7 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string Satuan { get; set; }
         public string Harga { get; set; }
         public string Deskripsi { get; set; }
+        public string Keterangan { get; set; }
         public string Jumlah { get; set; }
         public string Discount { get; set; }
         public string SubTotal { get; set; }
@@ -190,6 +190,41 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string DPP { get; set; }
         public string NilaiDPP { get; set; }
         public string Total { get; set; }
+    }
+    
+    public class VWPOReportDetail
+    {
+        public Guid Id { get; set; }
+        public string Prihal { get; set; }
+        public string Vendor { get; set; }
+        public string UP { get; set; }
+        public string NoPO { get; set; }
+        public string TanggalPO { get; set; }
+        public string TanggalPOstr { get; set; }
+        public string PeriodeDari { get; set; }
+        public string PeriodeDaristr { get; set; }
+        public string PeriodeSampai { get; set; }
+        public string PeriodeSampaistr { get; set; }
+        public string NilaiPO { get; set; }
+        public string AlmatBarangUp { get; set; }
+        public string UpPengirimanBarang { get; set; }
+        public string Rekening { get; set; }
+        public string AtasNama { get; set; }
+        public string Bank { get; set; }
+        public string TelpBarang { get; set; }
+        public string AlamatKwitansi { get; set; }
+        public string NPWP { get; set; }
+        public string AlamatPengirimanKwitansi { get; set; }
+        public string KwitansiUp { get; set; }
+        public string Discount { get; set; }
+        public string PPN { get; set; }
+        public string PPH { get; set; }
+        public string DPP { get; set; }
+        public string Total { get; set; }
+        public string TTD1 { get; set; }
+        public string TTD2 { get; set; }
+        public string TTD3 { get; set; }
+        public string TTD4 { get; set; }
     }
 
     [Table("DokumenPO", Schema = JimbisContext.PO_SCHEMA_NAME)]

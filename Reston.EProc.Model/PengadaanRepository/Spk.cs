@@ -92,7 +92,18 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public int recordsFiltered { get; set; }
         public List<VWSpk> data { get; set; }
     }
- 
+
+    public class VWReportSpk
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PksId { get; set; }
+        public string NoSpk { get; set; }
+        public string Title { get; set; }
+        public string TanggalSPK { get; set; }
+        public string NilaiSPK { get; set; }
+        public string Vendor { get; set; }
+    }
+
     public class VWSpk
     {
         public Guid Id { get; set; }
