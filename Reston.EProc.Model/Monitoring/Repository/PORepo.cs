@@ -191,7 +191,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
                 if (data != null)
                 {
-
                     data.Prihal = po.Prihal;
                     data.Vendor = po.Vendor;
                     data.NoPO = po.NoPO;

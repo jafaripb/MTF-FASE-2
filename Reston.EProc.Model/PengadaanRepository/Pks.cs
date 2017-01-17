@@ -24,6 +24,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<int> WorkflowId { get; set; }
         public string Title { get; set; }
+        public DateTime? TanggalMulai { get; set; }
+        public DateTime? TanggalSelesai { get; set; }
         public string Note { get; set; }
         [MaxLength(25)]
         public string NoDokumen { get; set; }
@@ -103,6 +105,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Nullable<Guid> ModifiedBy { get; set; }
         public Nullable<int> WorkflowId { get; set; }
         public string Note { get; set; }
+        public DateTime? TanggalMulai { get; set; }
+        public string TanggalMulaiStr { get; set; }
+        public DateTime? TanggalSelesai { get; set; }
+        public string TanggalSelesaiStr { get; set; }
         public string NoSpk { get; set; }
         public string NoPks{ get; set; }
         public string Judul { get; set; }
