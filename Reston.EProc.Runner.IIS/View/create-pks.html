@@ -197,6 +197,20 @@
                                         </div>
                                     </div>
                                     <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
+                                                    <label class="title">Tanggal Mulai:</label>
+                                                    <input id="tanggal-mulai" type="text" class="form-control input-group date">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="title">Tanggal Selesai:</label>
+                                                    <input id="tanggal-selesai" type="text" class="form-control input-group date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                          <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -493,7 +507,11 @@
     <script src="dropzone.js"></script>
     <script src="dist/js/create-pks.js"></script>
     <script>
-        
+        $(".date").datetimepicker({
+            format: "DD MMMM YYYY",
+            locale: 'id',
+            useCurrent: true
+        });
     </script>
 </body>
 </html>

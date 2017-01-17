@@ -236,11 +236,33 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public IHttpActionResult Save(Pks pks)
+        public IHttpActionResult Save(VWPks pks)
         {
             try
             {
-                return Json(_repository.save(pks, UserId()));
+                var ndata = new Pks();
+                ndata.Id = pks.Id;
+                ndata.Note = pks.Note;
+                ndata.Title = pks.Title;
+                ndata.PemenangPengadaanId = pks.PemenangPengadaanId;
+
+                if (!string.IsNullOrEmpty(pks.TanggalMulaiStr))
+                {
+                    try
+                    {
+                        ndata.TanggalMulai = Common.ConvertDate(pks.TanggalMulaiStr, "dd/MM/yyyy");
+                    }
+                    catch { }
+                }
+                if (!string.IsNullOrEmpty(pks.TanggalSelesaiStr))
+                {
+                    try
+                    {
+                        ndata.TanggalSelesai = Common.ConvertDate(pks.TanggalSelesaiStr, "dd/MM/yyyy");
+                    }
+                    catch { }
+                }
+                return Json(_repository.save(ndata, UserId()));
             }
             catch (Exception ex)
             {

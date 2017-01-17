@@ -136,15 +136,18 @@ namespace Reston.Pinata.Model.PengadaanRepository
         {
             try
             {
-                if (pks.Id != Guid.Empty && pks.Id != null)
+                var data = ctx.Pks.Find(pks.Id);
+                if (data != null)
                 {
-                    var oldPks = ctx.Pks.Find(pks.Id);
-                    if (oldPks == null || oldPks.CreateBy!=UserId) return new ResultMessage();
-                    oldPks.Note = pks.Note;
-                    oldPks.Title = pks.Title;
-                    oldPks.PemenangPengadaanId = pks.PemenangPengadaanId;
-                    oldPks.ModifiedBy = UserId;
-                    oldPks.ModifiedOn = DateTime.Now;
+                    if (data == null || data.CreateBy != UserId) return new ResultMessage();
+                    data.Id = pks.Id;
+                    data.Note = pks.Note;
+                    data.Title = pks.Title;
+                    data.PemenangPengadaanId = pks.PemenangPengadaanId;
+                    data.TanggalMulai = pks.TanggalMulai;
+                    data.TanggalSelesai = pks.TanggalSelesai;
+                    data.ModifiedBy = UserId;
+                    data.ModifiedOn = DateTime.Now;
                     ctx.SaveChanges(UserId.ToString());
                     return new ResultMessage()
                     {
@@ -226,7 +229,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 isOwner=d.CreateBy==UserId?1:0,
                 Title=d.Title,
                 Note=d.Note,
-                WorkflowId=d.WorkflowId
+                TanggalMulai = d.TanggalMulai,
+                TanggalSelesai = d.TanggalSelesai,
+                WorkflowId =d.WorkflowId
             }).FirstOrDefault();
         }
 
