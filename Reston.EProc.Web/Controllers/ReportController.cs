@@ -179,26 +179,26 @@ namespace Reston.Pinata.WebService.Controllers
                 //
 
                 // Panitia
-                var panitia = _repository.getPersonilPengadaan(Id);
+                //var panitia = _repository.getPersonilPengadaan(Id);
                 //list.InsertParagraphAfterSelf("{vendor1}");
                 //doc.FindAll("{tabel}").ForEach(index => );
-                var table4 = doc.AddTable(panitia.Count(), 1);
-                foreach (var item in panitia)
-                {
-                    table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + "....................   Mewakili: " + item.Nama);
-                    table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
-                    table.Rows[rowIndex].Cells[0].Width = 500;
-                    rowIndex++;
-                }
-                table.Alignment = Alignment.left;
-                //table.AutoFit = AutoFit.Contents;
+                //var table4 = doc.AddTable(panitia.Count(), 1);
+                //foreach (var item in panitia)
+                //{
+                //    table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + "....................   Mewakili: " + item.Nama);
+                //    table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                //    table.Rows[rowIndex].Cells[0].Width = 500;
+                //    rowIndex++;
+                //}
+                //table.Alignment = Alignment.left;
+                ////table.AutoFit = AutoFit.Contents;
 
-                foreach (var paragraph in doc.Paragraphs)
-                {
-                    paragraph.FindAll("{table4}").ForEach(index => paragraph.InsertTableBeforeSelf(table4));
+                //foreach (var paragraph in doc.Paragraphs)
+                //{
+                //    paragraph.FindAll("{table4}").ForEach(index => paragraph.InsertTableBeforeSelf(table4));
 
-                }
-                doc.ReplaceText("{table4}", "");
+                //}
+                //doc.ReplaceText("{table4}", "");
 
                 //
                 if (jadwalAanwijzing != null)

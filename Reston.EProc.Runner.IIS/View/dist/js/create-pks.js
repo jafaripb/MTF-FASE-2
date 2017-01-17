@@ -345,6 +345,8 @@ $(function () {
     $(".Simpan").on("click", function () {
         var pks = {};
         pks.Note = $("#note").val();
+        pks.TanggalMulaiStr = moment($("#tanggal-mulai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        pks.TanggalSelesaiStr = moment($("#tanggal-selesai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
         pks.Title = $("#title-pks").val();
         pks.PemenangPengadaanId = $("#PemenangPengadaanId").val();
         pks.Id = $("#pksId").val();
@@ -452,9 +454,6 @@ $(function () {
                             }
                         });
                     }
-
-
-
                 }
                 $("#konfirmasiFile").modal("hide");
             });
@@ -477,6 +476,8 @@ function loadDetail(Id) {
         $("#pelaksana").val(data.Vendor);
         $("#note").val(data.Note);
         $("#title-pks").val(data.Title);
+        $("#tanggal-mulai").val(moment(data.TanggalMulai).format("DD MMMM YYYY"));
+        $("#tanggal-selesai").val(moment(data.TanggalSelesai).format("DD MMMM YYYY"));
         $("#pksId").val(Id);
         $("#isOwner").val(data.isOwner);
         $("#Approver").val(data.Approver);

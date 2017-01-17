@@ -164,7 +164,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         RiwayatDokumen AddRiwayatDokumen(RiwayatDokumen nRiwayatDokumen);
         List<RiwayatDokumen> lstRiwayatDokumen(Guid Id);
         Pengadaan ChangeStatusPengadaan(Guid Id, EStatusPengadaan status,Guid UserId);
-        int nextToStateWithChangeScheduldDate(Guid PengadaanId, Guid UserId, EStatusPengadaan state, DateTime from, DateTime? to);
+        int nextToStateWithChangeScheduldDate(Guid PengadaanId, Guid UserId, EStatusPengadaan state, DateTime? from, DateTime? to);
         List<PersonilPengadaan> getPersonilPengadaan(Guid PengadaanId);
         List<VWRiwayatPengadaan> GetRiwayatDokumenForVendor(Guid UserId);
         //workflow
@@ -193,7 +193,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
 
         //pengadaan Terbuka
-        PelaksanaanPemilihanKandidat addKandidatPilihanVendor(PelaksanaanPemilihanKandidat oPelaksanaanPemilihanKandidat, Guid UserId);
+        KandidatPengadaan addKandidatPilihanVendor(KandidatPengadaan oKandidatPengadaan, Guid UserId);
         List<Pengadaan> GetPengadaanAnnouncment();
         int CekBukaAmplopTahapan(Guid PengadaanId);
         //tambah tahapan
@@ -5181,7 +5181,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             
         }
 
-        public int nextToStateWithChangeScheduldDate(Guid PengadaanId, Guid UserId, EStatusPengadaan state,DateTime from,DateTime? to)
+        public int nextToStateWithChangeScheduldDate(Guid PengadaanId, Guid UserId, EStatusPengadaan state,DateTime? from,DateTime? to)
         {
             Pengadaan Mpengadaaan = ctx.Pengadaans.Find(PengadaanId);
             PersonilPengadaan picPersonil = ctx.PersonilPengadaans.Where(d => d.PersonilId == UserId && d.tipe == "pic" && d.PengadaanId == PengadaanId).FirstOrDefault();
@@ -5193,12 +5193,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
             if (dtJadwl == null)
             {
                JadwalPelaksanaan newJadwal = new JadwalPelaksanaan();
-               newJadwal.Mulai = from;
+               if (from != null)
+                    newJadwal.Mulai = from;
                if (state != EStatusPengadaan.PEMENANG)
                     newJadwal.Sampai = to;
                 newJadwal.statusPengadaan = state;
                 newJadwal.PengadaanId = PengadaanId;
-                ctx.JadwalPelaksanaans.Add(newJadwal);
+                if(from!=null || to!=null)
+                     ctx.JadwalPelaksanaans.Add(newJadwal);
             }
             else
             {
@@ -5510,22 +5512,19 @@ namespace Reston.Pinata.Model.PengadaanRepository
         #endregion
 
         #region pengadaanTerbuka
-        public PelaksanaanPemilihanKandidat addKandidatPilihanVendor(PelaksanaanPemilihanKandidat oPelaksanaanPemilihanKandidat,Guid UserId)
+        public KandidatPengadaan addKandidatPilihanVendor(KandidatPengadaan oKandidatPengadaan, Guid UserId)
         {
-            Pengadaan Mpengadaaan = ctx.Pengadaans.Find(oPelaksanaanPemilihanKandidat.PengadaanId);
+            Pengadaan Mpengadaaan = ctx.Pengadaans.Find(oKandidatPengadaan.PengadaanId);
 
-            PelaksanaanPemilihanKandidat oldoPelaksanaanPemilihanKandidat =
-                    ctx.PelaksanaanPemilihanKandidats.Where(d => d.PengadaanId == oPelaksanaanPemilihanKandidat.PengadaanId
-                                    && d.VendorId == oPelaksanaanPemilihanKandidat.VendorId).FirstOrDefault();
-            if (oldoPelaksanaanPemilihanKandidat == null)
+            KandidatPengadaan oldKandidatPengadaan =
+                    ctx.KandidatPengadaans.Where(d => d.PengadaanId == oKandidatPengadaan.PengadaanId
+                                    && d.VendorId == oKandidatPengadaan.VendorId).FirstOrDefault();
+            if (oldKandidatPengadaan == null)
             {
-                oPelaksanaanPemilihanKandidat.CreatedBy = UserId;
-                oPelaksanaanPemilihanKandidat.CreatedDate = DateTime.Now;
-                ctx.PelaksanaanPemilihanKandidats.Add(oPelaksanaanPemilihanKandidat);
+                ctx.KandidatPengadaans.Add(oldKandidatPengadaan);
             }
-            else ctx.PelaksanaanPemilihanKandidats.Remove(oldoPelaksanaanPemilihanKandidat);
-            ctx.SaveChanges();
-            return oPelaksanaanPemilihanKandidat;
+            ctx.SaveChanges(UserId.ToString());
+            return oldKandidatPengadaan;
         }
 
         public List<Pengadaan> GetPengadaanAnnouncment()
