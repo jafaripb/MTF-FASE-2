@@ -1710,7 +1710,3 @@ function hitungHPS(rksId) {
         });
     }
 }
-
-
-
-

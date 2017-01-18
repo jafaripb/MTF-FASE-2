@@ -18,5 +18,6 @@ namespace IdLdap.Models
         public string jabatan { get; set; }
         public string Email { get; set; }
         public string tlp { get; set; }
+        public string FullName { get; set; }
     }
 }

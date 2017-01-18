@@ -238,6 +238,7 @@ namespace IdLdap.Controllers
                     .Select(d => new Userx
                     {
                         Nama = d.UserName,
+                        FullName=d.DisplayName,
                         PersonilId = d.Id,
                         Email=d.Email
                     }).FirstOrDefault();

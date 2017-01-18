@@ -1339,7 +1339,7 @@ $(function () {
             if ($(".checkbox-pilih-pemenang:checked").length > 1) {
                 $(this).prop("checked", false);
                 BootstrapDialog.show({
-                    title: 'Error',
+                    title: 'Informasi',
                     message: "Pemenang Hanya Boleh Satu",
                     buttons: [{
                         label: 'Close',

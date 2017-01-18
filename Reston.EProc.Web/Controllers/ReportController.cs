@@ -146,13 +146,7 @@ namespace Reston.Pinata.WebService.Controllers
                 doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
                 doc.ReplaceText("{pengadaan_unit_pemohon}", pengadaan.UnitKerjaPemohon == null ? "" : pengadaan.UnitKerjaPemohon);
 
-                //var list = doc.AddList(listType: ListItemType.Numbered, startNumber: 1);
-
-                //doc.AddListItem(list, "Number 1");
-                //doc.AddListItem(list, "Number 2");
                 var kandidat = _repository.getKandidatPengadaan(Id, UserId());
-                //list.InsertParagraphAfterSelf("{vendor1}");
-                //doc.FindAll("{tabel}").ForEach(index => );
                 var table = doc.AddTable(kandidat.Count(), 1);
                 int rowIndex = 0;
                 foreach (var item in kandidat)
@@ -163,12 +157,7 @@ namespace Reston.Pinata.WebService.Controllers
                     rowIndex++;
                 }
 
-                //table.Rows[0].Cells[0].
-                //table.Rows[0].Cells[0].MarginTop = 0;
-
-
                 table.Alignment = Alignment.left;
-                //table.AutoFit = AutoFit.Contents;
 
                 foreach (var paragraph in doc.Paragraphs)
                 {
@@ -176,31 +165,32 @@ namespace Reston.Pinata.WebService.Controllers
 
                 }
                 doc.ReplaceText("{tabel}", "");
-                //
+                
 
                 // Panitia
-                //var panitia = _repository.getPersonilPengadaan(Id);
-                //list.InsertParagraphAfterSelf("{vendor1}");
-                //doc.FindAll("{tabel}").ForEach(index => );
-                //var table4 = doc.AddTable(panitia.Count(), 1);
-                //foreach (var item in panitia)
-                //{
-                //    table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + "....................   Mewakili: " + item.Nama);
-                //    table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
-                //    table.Rows[rowIndex].Cells[0].Width = 500;
-                //    rowIndex++;
-                //}
-                //table.Alignment = Alignment.left;
-                ////table.AutoFit = AutoFit.Contents;
+                var panitia = _repository.getListPersonilPengadaan(Id);
+                panitia = panitia.Where(d => d.tipe != PengadaanConstants.StaffPeranan.Tim).ToList();
+                var table4 = doc.AddTable(panitia.Count(), 1);
+                rowIndex = 0;
+                foreach (var item in panitia)
+                {
+                    table4.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + "" + item.Nama);
+                    table4.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                    table4.Rows[rowIndex].Cells[0].Width = 200;
+                    rowIndex++;
+                }
 
-                //foreach (var paragraph in doc.Paragraphs)
-                //{
-                //    paragraph.FindAll("{table4}").ForEach(index => paragraph.InsertTableBeforeSelf(table4));
+                table4.Alignment = Alignment.left;
 
-                //}
-                //doc.ReplaceText("{table4}", "");
+                foreach (var paragraph in doc.Paragraphs)
+                {
+                    paragraph.FindAll("{tabel4}").ForEach(index => paragraph.InsertTableBeforeSelf(table4));
 
-                //
+                }
+                doc.ReplaceText("{tabel4}", "");
+
+
+                //Tanggal
                 if (jadwalAanwijzing != null)
                 {
                     doc.ReplaceText("{pengadaan_jadwal_hari}", Common.ConvertHari((int)jadwalAanwijzing.Mulai.Value.DayOfWeek));
@@ -218,11 +208,11 @@ namespace Reston.Pinata.WebService.Controllers
                     doc.ReplaceText("{tempat_tanggal}", "...............,...........................");
                 }
 
+                // Personil Persetujuan 
                 var listPersonil = _repository.getListPersonilPengadaan(Id);
                 var NamePic = listPersonil.Where(d => d.tipe == "pic").FirstOrDefault().Nama;
                 doc.ReplaceText("{nama_pic}", NamePic);
                 
-
                 //tambah tabel persetujuan tahapan
                 var table2 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.AANWIJZING, doc);
 
@@ -232,11 +222,38 @@ namespace Reston.Pinata.WebService.Controllers
                 foreach (var paragraph in doc.Paragraphs)
                 {
                     paragraph.FindAll("{tabel2}").ForEach(index => paragraph.InsertTableBeforeSelf(table2));
-
                 }
                 doc.ReplaceText("{tabel2}", "");
                 //end
 
+                // Kandidat Tidak Hadir
+                var kandidattidakhadir = _repository.getKandidatTidakHadir(Id, UserId());
+                if (kandidattidakhadir.Count() > 0)
+                {
+                    var table3 = doc.AddTable(kandidattidakhadir.Count(), 1);
+                    int rowIndex2 = 0;
+                    foreach (var item in kandidattidakhadir)
+                    {
+                        table3.Rows[rowIndex2].Cells[0].Paragraphs.First().Append((rowIndex2 + 1) + ". " + "....................   Mewakili: " + item.Vendor.Nama);
+                        table3.Rows[rowIndex2].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                        table3.Rows[rowIndex2].Cells[0].Width = 500;
+                        rowIndex2++;
+                    }
+
+                    table3.Alignment = Alignment.left;
+
+                    foreach (var paragraph in doc.Paragraphs)
+                    {
+                        paragraph.FindAll("{tabel3}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
+
+                    }
+                    doc.ReplaceText("{tabel3}", "");
+                }
+                else
+                {
+                    doc.ReplaceText("{tabel3}", "-");
+
+                }
                 doc.SaveAs(OutFileNama);
                 streamx.Close();
             }
@@ -287,7 +304,7 @@ namespace Reston.Pinata.WebService.Controllers
             foreach (var item in personilPersetujuan)
             {
                 var user = await userDetail(item.UserId.ToString());
-                table2.Rows[rowIndex].Cells[0].Paragraphs.First().Append(user.Nama);
+                table2.Rows[rowIndex].Cells[0].Paragraphs.First().Append(user.FullName);
                 table2.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
                 table2.Rows[rowIndex].Cells[0].Width = 500;
                 table2.Rows[rowIndex].Cells[1].Paragraphs.First().Append(item.CreatedOn == null ? "" : item.CreatedOn.Value.Day.ToString() +
@@ -458,42 +475,90 @@ namespace Reston.Pinata.WebService.Controllers
                        Common.ConvertHari(BeritaAcara.tanggal.Value.Day));
                 doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara == null ? "" : BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
                       " " + BeritaAcara.tanggal.Value.Year);
-                var kandidat = _repository.getKandidatPengadaan(Id, UserId());
-                var table = doc.AddTable(kandidat.Count(), 1);
-                Border WhiteBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
-                table.SetBorder(TableBorderType.Bottom, WhiteBorder);
-                table.SetBorder(TableBorderType.Left, WhiteBorder);
-                table.SetBorder(TableBorderType.Right, WhiteBorder);
-                table.SetBorder(TableBorderType.Top, WhiteBorder);
-                table.SetBorder(TableBorderType.InsideV, WhiteBorder);
-                table.SetBorder(TableBorderType.InsideH, WhiteBorder);
-                int rowIndex = 0;
-                foreach (var item in kandidat)
+
+                // Kandidat Kirim Penawaran
+                var kandidat = _repository.getKandidatKirim(Id, UserId());
+                if (kandidat.Count() > 0)
                 {
-                    table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + item.NamaVendor);
-                    table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
-                    table.Rows[rowIndex].Cells[0].Width = 500;
-                    rowIndex++;
-                }
+                    var table = doc.AddTable(kandidat.Count(), 1);
+                    Border WhiteBorder2 = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                    table.SetBorder(TableBorderType.Bottom, WhiteBorder2);
+                    table.SetBorder(TableBorderType.Left, WhiteBorder2);
+                    table.SetBorder(TableBorderType.Right, WhiteBorder2);
+                    table.SetBorder(TableBorderType.Top, WhiteBorder2);
+                    table.SetBorder(TableBorderType.InsideV, WhiteBorder2);
+                    table.SetBorder(TableBorderType.InsideH, WhiteBorder2);
+                    int rowIndex2 = 0;
+                    foreach (var item in kandidat)
+                    {
+                        table.Rows[rowIndex2].Cells[0].Paragraphs.First().Append((rowIndex2 + 1) + ". " + item.Vendor.Nama);
+                        table.Rows[rowIndex2].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                        table.Rows[rowIndex2].Cells[0].Width = 500;
+                        rowIndex2++;
+                    }
 
-                table.Alignment = Alignment.center;
-                foreach (var paragraph in doc.Paragraphs)
+                    table.Alignment = Alignment.left;
+                    foreach (var paragraph in doc.Paragraphs)
+                    {
+                        paragraph.FindAll("{vendor}").ForEach(index => paragraph.InsertTableBeforeSelf(table));
+
+                    }
+                    doc.ReplaceText("{vendor}", "");
+                }
+                else
                 {
-                    paragraph.FindAll("{vendor}").ForEach(index => paragraph.InsertTableBeforeSelf(table));
+                    doc.ReplaceText("{vendor}", "-");
 
                 }
-                doc.ReplaceText("{vendor}", "");
+                // End Kandidat Kirim Penawaran
 
+                // Kandidat Tidak Kirim Penawaran
+                var kandidattidakkirim = _repository.getKandidatTidakKirim(Id, UserId());
+                if (kandidattidakkirim.Count() > 0)
+                {
+                    var table = doc.AddTable(kandidattidakkirim.Count(), 1);
+                    Border WhiteBorder2 = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                    table.SetBorder(TableBorderType.Bottom, WhiteBorder2);
+                    table.SetBorder(TableBorderType.Left, WhiteBorder2);
+                    table.SetBorder(TableBorderType.Right, WhiteBorder2);
+                    table.SetBorder(TableBorderType.Top, WhiteBorder2);
+                    table.SetBorder(TableBorderType.InsideV, WhiteBorder2);
+                    table.SetBorder(TableBorderType.InsideH, WhiteBorder2);
+                    int rowIndex2 = 0;
+                    foreach (var item in kandidattidakkirim)
+                    {
+                        table.Rows[rowIndex2].Cells[0].Paragraphs.First().Append((rowIndex2 + 1) + ". " + item.Vendor.Nama);
+                        table.Rows[rowIndex2].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                        table.Rows[rowIndex2].Cells[0].Width = 500;
+                        rowIndex2++;
+                    }
+
+                    table.Alignment = Alignment.left;
+                    foreach (var paragraph in doc.Paragraphs)
+                    {
+                        paragraph.FindAll("{tidakkirim}").ForEach(index => paragraph.InsertTableBeforeSelf(table));
+
+                    }
+                    doc.ReplaceText("{tidakkirim}", "");
+                }
+                else
+                {
+                    doc.ReplaceText("{tidakkirim}", "-");
+
+                }
+                // End Kandidat Tidak Kirim Penawaran
+
+                // Panitia
                 var panitia = _repository.getPersonilPengadaan(Id);
                 var tablePanitia = doc.AddTable(panitia.Count(), 1);
-                WhiteBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                Border WhiteBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
                 tablePanitia.SetBorder(TableBorderType.Bottom, WhiteBorder);
                 tablePanitia.SetBorder(TableBorderType.Left, WhiteBorder);
                 tablePanitia.SetBorder(TableBorderType.Right, WhiteBorder);
                 tablePanitia.SetBorder(TableBorderType.Top, WhiteBorder);
                 tablePanitia.SetBorder(TableBorderType.InsideV, WhiteBorder);
                 tablePanitia.SetBorder(TableBorderType.InsideH, WhiteBorder);
-                rowIndex = 0;
+                int rowIndex = 0;
                 foreach (var item in panitia)
                 {
                     tablePanitia.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + item.Nama);
@@ -502,13 +567,14 @@ namespace Reston.Pinata.WebService.Controllers
                     rowIndex++;
                 }
 
-                tablePanitia.Alignment = Alignment.center;
+                tablePanitia.Alignment = Alignment.left;
                 foreach (var paragraph in doc.Paragraphs)
                 {
                     paragraph.FindAll("{panitia}").ForEach(index => paragraph.InsertTableBeforeSelf(tablePanitia));
 
                 }
                 doc.ReplaceText("{panitia}", "");
+                // End Panitia
 
                 //tambah tabel persetujuan tahapan
                 var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.BUKAAMPLOP, doc);
@@ -524,7 +590,7 @@ namespace Reston.Pinata.WebService.Controllers
                 doc.ReplaceText("{table3}", "");
                 //end
 
-                if (_repository.CekBukaAmplop(Id) == 1)
+                if (_repository.CekBukaAmplopTahapan(Id) == 1)
                 {
 
                     var oVWRKSVendors = _repository.getRKSPenilaian2Report(pengadaan.Id, UserId());
@@ -647,7 +713,7 @@ namespace Reston.Pinata.WebService.Controllers
                 streamx.Close();
             }
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            if (_repository.CekBukaAmplop(Id) == 1)
+            if (_repository.CekBukaAmplopTahapan(Id) == 1)
             {
                 var stream = new FileStream(OutFileNama, FileMode.Open);
                 result.Content = new StreamContent(stream);
@@ -683,8 +749,6 @@ namespace Reston.Pinata.WebService.Controllers
 
             try
             {
-
-
                 doc.ReplaceText("{pengadaan_name}", pengadaan.Judul == null ? "" : pengadaan.Judul);
                 doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
                 doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
@@ -698,7 +762,8 @@ namespace Reston.Pinata.WebService.Controllers
                        Common.ConvertHari(BeritaAcara.tanggal.Value.Day));
                 doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara == null ? "" : BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
                       " " + BeritaAcara.tanggal.Value.Year);
-                var kandidat = _repository.GetVendorsKlarifikasiByPengadaanId(Id);
+
+                var kandidat = _repository.GetVendorsKlarifikasiByPengadaanId2(Id);
                 if (kandidat.Count() > 0)
                 {
                     var table = doc.AddTable(kandidat.Count(), 1);
@@ -719,14 +784,41 @@ namespace Reston.Pinata.WebService.Controllers
                         rowIndex++;
                     }
 
-                    table.Alignment = Alignment.center;
+                    table.Alignment = Alignment.left;
                     foreach (var paragraph in doc.Paragraphs)
                     {
                         paragraph.FindAll("{vendor}").ForEach(index => paragraph.InsertTableBeforeSelf(table));
-
                     }
                     doc.ReplaceText("{vendor}", "");
                 }
+
+                var panitia = _repository.getPersonilPengadaan(Id);
+                var tablePanitia = doc.AddTable(panitia.Count(), 1);
+                Border WhiteBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                tablePanitia.SetBorder(TableBorderType.Bottom, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.Left, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.Right, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.Top, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.InsideV, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.InsideH, WhiteBorder);
+                int rowIndex2 = 0;
+                foreach (var item in panitia)
+                {
+                    tablePanitia.Rows[rowIndex2].Cells[0].Paragraphs.First().Append((rowIndex2 + 1) + ". " + item.Nama);
+                    tablePanitia.Rows[rowIndex2].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                    tablePanitia.Rows[rowIndex2].Cells[0].Width = 500;
+                    rowIndex2++;
+                }
+
+                tablePanitia.Alignment = Alignment.left;
+                foreach (var paragraph in doc.Paragraphs)
+                {
+                    paragraph.FindAll("{panitia}").ForEach(index => paragraph.InsertTableBeforeSelf(tablePanitia));
+
+                }
+                doc.ReplaceText("{panitia}", "");
+                // End Panitia
+
 
                 //tambah tabel persetujuan tahapan
                 var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.KLARIFIKASI, doc);
@@ -741,86 +833,6 @@ namespace Reston.Pinata.WebService.Controllers
                 }
                 doc.ReplaceText("{table3}", "");
                 //end
-
-                //var listPersonil = _repository.getListPersonilPengadaan(Id);
-                //var NamePic = listPersonil.Where(d => d.tipe == "pic").FirstOrDefault().Nama.ToString();
-                //doc.ReplaceText("{nama_pic}", NamePic);
-                //var NameController = listPersonil.Where(d => d.tipe == "controller").FirstOrDefault().Nama.ToString();
-                //doc.ReplaceText("{nama_controller}", NameController);
-                //var waktu = "........, " + " " + DateTime.Now.Day + " " +
-                //    Common.ConvertNamaBulan(DateTime.Now.Month) + " " + DateTime.Now.Year;
-                //doc.ReplaceText("{waktu}", waktu);
-                //var oVWRKSVendors = _repository.getRKSKlarifikasiPenilaian(pengadaan.Id, UserId());
-                //var table = doc.AddTable(oVWRKSVendors.hps.Count() + 1, oVWRKSVendors.vendors.Count + 3);
-                //int no = 1;
-
-                //int indexRow = 0;
-                //table.Alignment = Alignment.center;
-                //table.Rows[indexRow].Cells[0].Paragraphs.First().Append("NO");
-                //table.Rows[indexRow].Cells[0].Width = 10;
-                //table.Rows[indexRow].Cells[1].Paragraphs.First().Append("Deskripsi");
-                //table.Rows[indexRow].Cells[2].Paragraphs.First().Append("Harga HPS");
-                //int headerCol = 3;
-                //foreach (var item in oVWRKSVendors.vendors)
-                //{
-                //    table.Rows[indexRow].Cells[headerCol].Paragraphs.First().Append(item.nama);
-                //    headerCol++;
-                //}
-                //indexRow++;
-                //var itemlast = oVWRKSVendors.hps.Last();
-                //foreach (var item in oVWRKSVendors.hps)
-                //{
-                //    if (item.Equals(itemlast))
-                //    {
-                //        table.Rows[indexRow].Cells[0].Paragraphs.First().Append("");
-                //        table.Rows[indexRow].Cells[0].Width = 10;
-                //    }
-                //    else
-                //    {
-
-                //        if (item.jumlah > 0)
-                //        {
-                //            table.Rows[indexRow].Cells[0].Paragraphs.First().Append(no.ToString());
-                //            table.Rows[indexRow].Cells[0].Width = 10;
-                //            no++;
-                //        }
-                //        else
-                //        {
-                //            table.Rows[indexRow].Cells[0].Paragraphs.First().Append("");
-                //            table.Rows[indexRow].Cells[0].Width = 10;
-                //        }
-                //    }
-                //    //Regex example #1 "<.*?>"
-                //    string dekripsi = Regex.Replace(item.item, @"<.*?>", string.Empty);
-                //    //Regex example #2
-                //    // string result2 = Regex.Replace(dekripsi, @"<[^>].+?>", "");
-                //    table.Rows[indexRow].Cells[1].Paragraphs.First().Append(dekripsi);
-
-                //    table.Rows[indexRow].Cells[2].Paragraphs.First().Append(item.harga.ToString());
-                //    int nexCol = 3;
-                //    foreach (var itemx in oVWRKSVendors.vendors)
-                //    {
-                //        if (itemx.items.Where(d => d.Id == item.Id) != null)
-                //        {
-                //            table.Rows[indexRow].Cells[nexCol].Paragraphs.First().Append(itemx.items.Where(d => d.Id == item.Id).FirstOrDefault().harga.ToString());
-
-                //        }
-                //        else table.Rows[indexRow].Cells[nexCol].Paragraphs.First().Append("");
-
-                //        nexCol++;
-                //    }
-
-                //    indexRow++;
-                //}
-                //// Insert table at index where tag #TABLE# is in document.
-                ////doc.InsertTable(table);
-                //foreach (var paragraph in doc.Paragraphs)
-                //{
-
-                //    paragraph.FindAll("{tabel}").ForEach(index => paragraph.InsertTableAfterSelf((table)));
-                //}
-                ////Remove tag
-                //doc.ReplaceText("{tabel}", "");
 
                 doc.SaveAs(OutFileNama);
                 streamx.Close();
@@ -1148,11 +1160,9 @@ namespace Reston.Pinata.WebService.Controllers
             var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
             var jadwalPemenang = _repository.getPelaksanaanPemenang(Id, UserId());
             string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\NOTA BERSAMA Usulan Pemenang.docx";
-           string outputFileName = "BA-Pemenang-" +  pengadaan.NoPengadaan.Replace("/", "-") + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+            string outputFileName = "BA-Pemenang-" +  pengadaan.NoPengadaan.Replace("/", "-") + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
 
             string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
-
-
             System.IO.MemoryStream ms2 = new System.IO.MemoryStream();
             var docM = DocX.Create(ms2);
             
@@ -1187,7 +1197,7 @@ namespace Reston.Pinata.WebService.Controllers
 
                     doc.ReplaceText("{kandidat_pemenang}", item.NamaVendor );
                     doc.ReplaceText("{total_pengadaan}",item.total==null?"": item.total.Value.ToString("C", MyConverter.formatCurrencyIndo()) );
-                    docM.InsertSection();
+                    //docM.InsertSection();
                                         
                     docM.InsertDocument(doc); //doc.SaveAs(OutFileNama);
                     streamx.Close();

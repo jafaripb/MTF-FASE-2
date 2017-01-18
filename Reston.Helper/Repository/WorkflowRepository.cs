@@ -666,10 +666,20 @@ namespace Reston.Helper.Repository
             {
 
                 var oWorkflowState = ctx.WorkflowStates.Where(d => d.DocumentId == DocId && d.WorkflowMasterTemplateId == TemplateId && d.DocumentStatus == DocumentStatus.PENGAJUAN).FirstOrDefault();
-                var oTemplate = ctx.WorkflowMasterTemplates.Find(TemplateId).WorkflowMasterTemplateDetails.OrderBy(d => d.SegOrder).LastOrDefault();
+                var oTemplate = ctx.WorkflowMasterTemplates.Find(TemplateId).WorkflowMasterTemplateDetails.OrderBy(d => d.SegOrder).FirstOrDefault();
                 if (oWorkflowState != null || oTemplate == null)
                     result.Id = "0";
-                int needOrder = (oWorkflowState.CurrentSegOrder.Value);
+               
+                if (oWorkflowState == null)
+                {
+                  
+                        return new ResultMessage()
+                        {
+                            Id = oTemplate.UserId.ToString()
+                        };
+                }
+
+                int needOrder  = (oWorkflowState.CurrentSegOrder.Value );
                 var detailPrev = ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == oWorkflowState.WorkflowMasterTemplateId && d.SegOrder == needOrder).FirstOrDefault();
 
                 if (detailPrev != null) result.Id = detailPrev.UserId.ToString();
