@@ -42,7 +42,6 @@ namespace Reston.Helper.Repository
             ctx = j;
             ctx.Configuration.LazyLoadingEnabled = true;
         }
-        
         //dokumen masuk ke alur workflow
         public ResultMessage PengajuanDokumen(Guid DocumentId,int WorkflowTemplateId,string DokumentType)
         {
@@ -379,7 +378,8 @@ namespace Reston.Helper.Repository
         {
             try
             {
-                return ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId == WorkflowTemplateId).ToList();              
+                var a = ctx.WorkflowMasterTemplateDetails.Where(d => d.WorkflowMasterTemplateId== WorkflowTemplateId).ToList();
+                return a;              
             }
             catch (Exception ex)
             {
