@@ -411,7 +411,7 @@ namespace Reston.Pinata.WebService.Controllers
 
                 result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
                 {
-                    FileName = "Report-Monitoring" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                    FileName = "Report-Tender" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
                 };
 
                 return result;

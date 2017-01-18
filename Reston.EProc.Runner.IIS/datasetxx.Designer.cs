@@ -305,6 +305,10 @@ namespace Reston.EProc.Runner.IIS {
             
             private global::System.Data.DataColumn columnUser;
             
+            private global::System.Data.DataColumn columnWaktuPelaksanaan;
+            
+            private global::System.Data.DataColumn columnPIC;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ReportPengadaanDataTable() {
@@ -444,6 +448,22 @@ namespace Reston.EProc.Runner.IIS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn WaktuPelaksanaanColumn {
+                get {
+                    return this.columnWaktuPelaksanaan;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PICColumn {
+                get {
+                    return this.columnPIC;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -479,7 +499,7 @@ namespace Reston.EProc.Runner.IIS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ReportPengadaanRow AddReportPengadaanRow(System.Guid PengadaanId, string Judul, decimal hps, decimal realitas, decimal efisiensi, string Pemenang, System.DateTime Aanwjzing, System.DateTime PembukaanAmplop, System.DateTime Klasrifikasi, System.DateTime Scoring, System.DateTime NotaPemenang, System.DateTime SPK, string User) {
+            public ReportPengadaanRow AddReportPengadaanRow(System.Guid PengadaanId, string Judul, decimal hps, decimal realitas, decimal efisiensi, string Pemenang, System.DateTime Aanwjzing, System.DateTime PembukaanAmplop, System.DateTime Klasrifikasi, System.DateTime Scoring, System.DateTime NotaPemenang, System.DateTime SPK, string User, string WaktuPelaksanaan, string PIC) {
                 ReportPengadaanRow rowReportPengadaanRow = ((ReportPengadaanRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PengadaanId,
@@ -494,7 +514,9 @@ namespace Reston.EProc.Runner.IIS {
                         Scoring,
                         NotaPemenang,
                         SPK,
-                        User};
+                        User,
+                        WaktuPelaksanaan,
+                        PIC};
                 rowReportPengadaanRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReportPengadaanRow);
                 return rowReportPengadaanRow;
@@ -530,6 +552,8 @@ namespace Reston.EProc.Runner.IIS {
                 this.columnNotaPemenang = base.Columns["NotaPemenang"];
                 this.columnSPK = base.Columns["SPK"];
                 this.columnUser = base.Columns["User"];
+                this.columnWaktuPelaksanaan = base.Columns["WaktuPelaksanaan"];
+                this.columnPIC = base.Columns["PIC"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -561,6 +585,10 @@ namespace Reston.EProc.Runner.IIS {
                 base.Columns.Add(this.columnSPK);
                 this.columnUser = new global::System.Data.DataColumn("User", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUser);
+                this.columnWaktuPelaksanaan = new global::System.Data.DataColumn("WaktuPelaksanaan", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnWaktuPelaksanaan);
+                this.columnPIC = new global::System.Data.DataColumn("PIC", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPIC);
                 this.columnJudul.MaxLength = 2147483647;
                 this.columnPemenang.MaxLength = 2147483647;
                 this.columnUser.MaxLength = 2147483647;
@@ -914,6 +942,38 @@ namespace Reston.EProc.Runner.IIS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string WaktuPelaksanaan {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportPengadaan.WaktuPelaksanaanColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'WaktuPelaksanaan\' in table \'ReportPengadaan\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportPengadaan.WaktuPelaksanaanColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string PIC {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportPengadaan.PICColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PIC\' in table \'ReportPengadaan\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportPengadaan.PICColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsPengadaanIdNull() {
                 return this.IsNull(this.tableReportPengadaan.PengadaanIdColumn);
             }
@@ -1066,6 +1126,30 @@ namespace Reston.EProc.Runner.IIS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetUserNull() {
                 this[this.tableReportPengadaan.UserColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsWaktuPelaksanaanNull() {
+                return this.IsNull(this.tableReportPengadaan.WaktuPelaksanaanColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetWaktuPelaksanaanNull() {
+                this[this.tableReportPengadaan.WaktuPelaksanaanColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPICNull() {
+                return this.IsNull(this.tableReportPengadaan.PICColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPICNull() {
+                this[this.tableReportPengadaan.PICColumn] = global::System.Convert.DBNull;
             }
         }
         
