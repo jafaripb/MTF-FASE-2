@@ -150,7 +150,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Title</Value>
+                              <Value>Jenis Perjanjian</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>

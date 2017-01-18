@@ -5198,14 +5198,17 @@ namespace Reston.Pinata.Model.PengadaanRepository
                            join c in ctx.PemenangPengadaans on b.PemenangPengadaanId equals c.Id
                            join d in ctx.Vendors on c.VendorId equals d.Id
                            join e in ctx.Pengadaans on c.PengadaanId equals e.Id
-                           where b.CreateOn >= dari && b.CreateOn <= sampai //c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
+                           join f in ctx.PersonilPengadaans on e.Id equals f.PengadaanId
+                           where b.CreateOn >= dari && b.CreateOn <= sampai && f.tipe=="pic"//c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
                            select new VWReportSpk
                            {
                                NoSpk = b.NoSPk,
-                               Title = b.Title,
+                               Title = e.Judul,
+                               Vendor = d.Nama,
+                               PIC = f.Nama,
+                               Divisi = e.UnitKerjaPemohon,
                                TanggalSPK = b.TanggalSPK.ToString(),
                                NilaiSPK = b.NilaiSPK.ToString(),
-                               Vendor = d.Nama
 
                            }).Distinct().ToList();
             return oReport;

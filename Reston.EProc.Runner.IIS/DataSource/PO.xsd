@@ -127,7 +127,9 @@
               <xs:element name="NoSpk" msdata:Caption="Kode" msprop:Generator_ColumnVarNameInTable="columnNoSpk" msprop:Generator_ColumnPropNameInRow="NoSpk" msprop:Generator_ColumnPropNameInTable="NoSpkColumn" msprop:Generator_UserColumnName="NoSpk" type="xs:string" minOccurs="0" />
               <xs:element name="TanggalSPK" msdata:Caption="Banyak" msprop:Generator_ColumnVarNameInTable="columnTanggalSPK" msprop:Generator_ColumnPropNameInRow="TanggalSPK" msprop:Generator_ColumnPropNameInTable="TanggalSPKColumn" msprop:Generator_UserColumnName="TanggalSPK" type="xs:string" minOccurs="0" />
               <xs:element name="NilaiSPK" msdata:Caption="Satuan" msprop:Generator_ColumnVarNameInTable="columnNilaiSPK" msprop:Generator_ColumnPropNameInRow="NilaiSPK" msprop:Generator_ColumnPropNameInTable="NilaiSPKColumn" msprop:Generator_UserColumnName="NilaiSPK" type="xs:string" minOccurs="0" />
-              <xs:element name="Vendor" msdata:Caption="Harga" msprop:Generator_ColumnVarNameInTable="columnVendor" msprop:Generator_ColumnPropNameInRow="Vendor" msprop:Generator_ColumnPropNameInTable="VendorColumn" msprop:Generator_UserColumnName="Vendor" type="xs:string" minOccurs="0" />
+              <xs:element name="PIC" msprop:Generator_ColumnVarNameInTable="columnPIC" msprop:Generator_ColumnPropNameInRow="PIC" msprop:Generator_ColumnPropNameInTable="PICColumn" msprop:Generator_UserColumnName="PIC" type="xs:string" minOccurs="0" />
+              <xs:element name="Divisi" msprop:Generator_ColumnVarNameInTable="columnDivisi" msprop:Generator_ColumnPropNameInRow="Divisi" msprop:Generator_ColumnPropNameInTable="DivisiColumn" msprop:Generator_UserColumnName="Divisi" type="xs:string" minOccurs="0" />
+              <xs:element name="Vendor" msprop:Generator_ColumnVarNameInTable="columnVendor" msprop:Generator_ColumnPropNameInRow="Vendor" msprop:Generator_ColumnPropNameInTable="VendorColumn" msprop:Generator_UserColumnName="Vendor" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
