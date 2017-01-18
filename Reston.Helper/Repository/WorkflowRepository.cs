@@ -634,7 +634,7 @@ namespace Reston.Helper.Repository
             return result;
         }
 
-        public ResultMessage NextApprover(Guid DocId, int TemplateId)
+        public ResultMessage NextApprover(Guid DocId, int TemplateId) //atau curren aproval
         {
             try
             {
