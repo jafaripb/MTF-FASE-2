@@ -60,6 +60,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<int> VendorId { get; set; }
         public string NamaVendor { get; set; }
         public string Email { get; set; }
+        public string Alamat { get; set; }
         public Nullable<int> NilaiKriteria { get; set; }
         public Nullable<decimal> total { get; set; }
         public Nullable<int> terpilih { get; set; }

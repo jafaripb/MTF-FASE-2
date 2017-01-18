@@ -242,7 +242,7 @@ namespace Reston.Pinata.WebService.Controllers
           List<VWWorkflowApproval> lstdt = new List<VWWorkflowApproval>();
           if (pengadaan.PersetujuanPemenangs.FirstOrDefault() != null)
           {
-              var data = _repository.ListWorkflowApprovalByDocumentId(Id, 10, 1);
+              var data = _repository.ListWorkflowApprovalByWorkflowId(pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value, 10, 1);
               
              
               foreach(var item in data.data){

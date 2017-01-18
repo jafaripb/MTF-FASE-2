@@ -1322,8 +1322,10 @@ $(function () {
         else {
             var elDari = $(this).attr("elDari");
             var elSampai = $(this).attr("elSampai");
-            console.log($(elDari).val());
-            var dari = moment($(elDari).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+          
+            var dari = "";
+            if (elDari != "")
+              dari = moment($(elDari).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
             var sampai = "";
             if (elSampai != "")
                 sampai = moment($(elSampai).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
@@ -2463,7 +2465,7 @@ function getPersetujuanBukaAmplop() {
 function getListPenilainRekanan() {
     $.ajax({
         method: "POST",
-        url: "Api/PengadaanE/GetRekananPenilaian?PId=" + $("#pengadaanId").val(),
+        url: "Api/PengadaanE/GetRekananPenilaian2?PId=" + $("#pengadaanId").val(),
         success: function (data) {
             $.each(data, function (index, value) {
                 var html = '<div class="col-md-3">' +

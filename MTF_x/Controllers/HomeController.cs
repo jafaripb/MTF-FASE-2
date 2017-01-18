@@ -107,7 +107,7 @@ namespace MTF_x.Controllers
                 ViewBag.status = status;
                 return View();
             }
-            PelaksanaanPemilihanKandidat ndata=new PelaksanaanPemilihanKandidat();
+            KandidatPengadaan ndata = new KandidatPengadaan();
             ndata.PengadaanId=id;
             ndata.VendorId=vendor.Id;
             var result = _repository.addKandidatPilihanVendor(ndata, UserId());

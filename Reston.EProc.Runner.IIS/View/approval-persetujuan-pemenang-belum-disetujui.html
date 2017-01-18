@@ -211,6 +211,8 @@
                         <thead>
                             <tr>
                                 <th>User</th>
+                                <th>Jabatan</th>
+                                <th>Note</th>
                                 <th>Tanggal Apporove</th>
                             </tr>
                         </thead>
@@ -278,7 +280,7 @@
                     },
                     { "data": "Judul" },
                     { "data": "HPS", "className": "rata_kanan" },
-                    { "data": "HargaNegosiasi", "className": "rata_kanan" },
+                    { "data": "HargaPemanang" },
                     { "data": "Pemenang" },
                     { "data": "JenisPekerjaan", "className": "tengah" },
                     { "data": "StatusPersetujuanPemenangName" },
@@ -296,16 +298,6 @@
                         },
 
                         "targets": 2,
-                        "orderable": false
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            if (data != null)
-                                return accounting.formatNumber(row.HargaNegosiasi, { thousand: ".", decimal: ",", precision: 2 })
-                            else return "";
-                        },
-
-                        "targets": 3,
                         "orderable": false
                     },
                     {
@@ -574,7 +566,9 @@
                         var tr="";
                         for (var i in data) {
                             tr+="<tr>";
-                            tr+="<td>"+data[i].UserName+"</td>";
+                            tr += "<td>" + data[i].UserName + "</td>";
+                            tr += "<td>" + (data[i].Jabatan == null ? "" : data[i].Jabatan) + "</td>";
+                            tr += "<td>" + data[i].Comment + "</td>";
                             tr+="<td>"+moment(data[i].ActionDate).format("DD MMMM YYYY HH:mm")+"</td>";
                             tr+="</tr>";
                         }

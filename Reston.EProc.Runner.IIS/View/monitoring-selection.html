@@ -408,7 +408,7 @@
 
         $("#monitoring-seleksi").on("click", ".tidak-monitor", function () {
             var IDSPK = $(this).attr("idSpk");
-            alert(IDSPK);
+            //alert(IDSPK);
             $.ajax({
                 method: "get",
                 url: "api/MonitoringSelection/TidakMonitor",
@@ -427,7 +427,10 @@
                             }
                         }]
                     });
+
+                    table_seleksi.ajax.reload();
                 }
+
             });
         });
 

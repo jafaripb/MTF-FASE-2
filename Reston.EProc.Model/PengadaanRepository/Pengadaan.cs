@@ -731,6 +731,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
     public enum TipeBerkas
     {
         NOTA, DOKUMENLAIN, BerkasRujukanLain, BeritaAcaraAanwijzing, BeritaAcaraSubmitPenawaran, BeritaAcaraBukaAmplop, BeritaAcaraPenilaian, BeritaAcaraKlarifikasi, BeritaAcaraPenentuanPemenang, BerkasRekanan, BerkasRekananKlarifikasi, LembarDisposisi, SuratPerintahKerja, BeritaAcaraPendaftaran, DraftPKS, FinalLegalPks, AssignedPks, BeritaAcaraKlarifikasiLanjutan, BerkasRekananKlarifikasiLanjutan
+        ,SURATKALAH, SURATMENANG
     }
 
     public enum TipeCatatan
@@ -740,7 +741,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
     public enum TipeNoDokumen
     {
-        PENGADAAN, BERITAACARA, NOTA, SPK,PO
+        PENGADAAN, BERITAACARA, NOTA, SPK,PO,KALAH,MEANANG
     }
 
     public enum KlasifikasiPengadaan

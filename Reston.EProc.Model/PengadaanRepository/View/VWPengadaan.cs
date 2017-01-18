@@ -97,6 +97,8 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<decimal> HPS { get; set; }
         public Nullable<decimal> HargaNegosiasi { get; set; }
         public string Pemenang { get; set; }
+        public List<VWVendor> vendor { get; set; }
+        public string HargaPemanang { get; set; }
         public string lastApprover { get; set; }
         public string PrevApprover { get; set; }
         public string NextApprover { get; set; }
@@ -120,6 +122,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
 
     public class VWVendor
     {
+        public int? Id { get; set; }
         public string Nama { get; set; }
         public string email { get; set; }
     }

@@ -19,6 +19,11 @@ namespace Reston.Helper.Util
             DateTime Date = DateTime.ParseExact(date, formatDate, CultureInfo.InvariantCulture);
             return Date;
         }
+
+        public static String ConvertDateToIndoDate(DateTime date)
+        {
+            return date.Day.ToString() + " " + ConvertNamaBulan(date.Month) + " " + date.Year;
+        }
         public static string SaveSukses()
         {
             string result = "Data Behasil di Tambah";

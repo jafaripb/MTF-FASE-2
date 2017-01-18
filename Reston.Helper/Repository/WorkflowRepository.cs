@@ -18,6 +18,7 @@ namespace Reston.Helper.Repository
        
         List<ViewWorkflowModel> ListDocumentWorkflow(Guid UserId,int WorkflowTemplateId, DocumentStatus documentStatus, string DokumenType, int length, int start);
         ResultMessageLstWorkflowApprovals ListWorkflowApprovalByDocumentId(Guid DocumentId, int length, int start);
+        ResultMessageLstWorkflowApprovals ListWorkflowApprovalByWorkflowId(int Id, int length, int start);
         ResultMessage CurrentApproveUserSegOrder(Guid DocumentId);
         ViewWorkflowState StatusDocument(Guid DocumentId);
         ResultMessage SaveWorkFlow(WorkflowMasterTemplate oViewWorkflowTemplate, Guid UserId);
@@ -319,10 +320,10 @@ namespace Reston.Helper.Repository
                 oWorkflow.CurrentSegOrder = oWorkflowApproval.SegOrder - 1;
                 oWorkflow.CurrentStatus = WorkflowStatusState.REJECTED;
                 //jika workflow direject oleh state pertama maka status dokumen jadi reject
-                if (curSegOrder == 1)
-                {
+                //if (curSegOrder == 1)
+                //{
                     oWorkflow.DocumentStatus = DocumentStatus.REJECTED;
-                }
+                //}
             }
             try
             {
@@ -419,6 +420,31 @@ namespace Reston.Helper.Repository
 
             return result;
         }
+
+        public ResultMessageLstWorkflowApprovals ListWorkflowApprovalByWorkflowId(int Id, int length, int start)
+        {
+            ResultMessageLstWorkflowApprovals result = new ResultMessageLstWorkflowApprovals();
+            try
+            {
+                var data = (from b in ctx.WorkflowApprovals
+                            join c in ctx.WorkflowStates on b.WorkflowStateId equals c.Id
+                            where c.WorkflowMasterTemplateId==Id
+                            select b);
+                if (start > 0) data.Skip(start);
+                if (length > 0) data.Take(length);
+                result.Id = Id.ToString();
+                result.message = Message.CODE_OK;
+                result.data = data.ToList();
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.ToString();
+            }
+
+            return result;
+        }
+        
+
         
         public int CurrentOrder(int workflowId)
         {
