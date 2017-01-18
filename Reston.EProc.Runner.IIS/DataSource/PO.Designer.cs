@@ -2254,9 +2254,15 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             private global::System.Data.DataColumn columnNoPks;
             
-            private global::System.Data.DataColumn columnKlasifikasi;
+            private global::System.Data.DataColumn columnDivisi;
             
-            private global::System.Data.DataColumn columnStatusPks;
+            private global::System.Data.DataColumn columnTanggalAwal;
+            
+            private global::System.Data.DataColumn columnTanggalAkhir;
+            
+            private global::System.Data.DataColumn columnAdendum;
+            
+            private global::System.Data.DataColumn columnRenewal;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -2341,17 +2347,41 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn KlasifikasiColumn {
+            public global::System.Data.DataColumn DivisiColumn {
                 get {
-                    return this.columnKlasifikasi;
+                    return this.columnDivisi;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn StatusPksColumn {
+            public global::System.Data.DataColumn TanggalAwalColumn {
                 get {
-                    return this.columnStatusPks;
+                    return this.columnTanggalAwal;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn TanggalAkhirColumn {
+                get {
+                    return this.columnTanggalAkhir;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn AdendumColumn {
+                get {
+                    return this.columnAdendum;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RenewalColumn {
+                get {
+                    return this.columnRenewal;
                 }
             }
             
@@ -2392,7 +2422,7 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ReportPKSRow AddReportPKSRow(System.Guid Id, string PksId, string Title, string NoPengadaan, string Vendor, string NoPks, string Klasifikasi, string StatusPks) {
+            public ReportPKSRow AddReportPKSRow(System.Guid Id, string PksId, string Title, string NoPengadaan, string Vendor, string NoPks, string Divisi, string TanggalAwal, string TanggalAkhir, string Adendum, string Renewal) {
                 ReportPKSRow rowReportPKSRow = ((ReportPKSRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Id,
@@ -2401,8 +2431,11 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                         NoPengadaan,
                         Vendor,
                         NoPks,
-                        Klasifikasi,
-                        StatusPks};
+                        Divisi,
+                        TanggalAwal,
+                        TanggalAkhir,
+                        Adendum,
+                        Renewal};
                 rowReportPKSRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReportPKSRow);
                 return rowReportPKSRow;
@@ -2431,8 +2464,11 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 this.columnNoPengadaan = base.Columns["NoPengadaan"];
                 this.columnVendor = base.Columns["Vendor"];
                 this.columnNoPks = base.Columns["NoPks"];
-                this.columnKlasifikasi = base.Columns["Klasifikasi"];
-                this.columnStatusPks = base.Columns["StatusPks"];
+                this.columnDivisi = base.Columns["Divisi"];
+                this.columnTanggalAwal = base.Columns["TanggalAwal"];
+                this.columnTanggalAkhir = base.Columns["TanggalAkhir"];
+                this.columnAdendum = base.Columns["Adendum"];
+                this.columnRenewal = base.Columns["Renewal"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2450,10 +2486,16 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 base.Columns.Add(this.columnVendor);
                 this.columnNoPks = new global::System.Data.DataColumn("NoPks", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNoPks);
-                this.columnKlasifikasi = new global::System.Data.DataColumn("Klasifikasi", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnKlasifikasi);
-                this.columnStatusPks = new global::System.Data.DataColumn("StatusPks", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnStatusPks);
+                this.columnDivisi = new global::System.Data.DataColumn("Divisi", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDivisi);
+                this.columnTanggalAwal = new global::System.Data.DataColumn("TanggalAwal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTanggalAwal);
+                this.columnTanggalAkhir = new global::System.Data.DataColumn("TanggalAkhir", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTanggalAkhir);
+                this.columnAdendum = new global::System.Data.DataColumn("Adendum", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAdendum);
+                this.columnRenewal = new global::System.Data.DataColumn("Renewal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRenewal);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, false));
                 this.columnId.Unique = true;
@@ -2462,8 +2504,8 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 this.columnNoPengadaan.Caption = "UP";
                 this.columnVendor.Caption = "NoPO";
                 this.columnNoPks.Caption = "TanggalPO";
-                this.columnKlasifikasi.Caption = "TanggalPOstr";
-                this.columnStatusPks.Caption = "AlmatBarangUp";
+                this.columnDivisi.Caption = "TanggalPOstr";
+                this.columnTanggalAwal.Caption = "AlmatBarangUp";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5443,33 +5485,81 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Klasifikasi {
+            public string Divisi {
                 get {
                     try {
-                        return ((string)(this[this.tableReportPKS.KlasifikasiColumn]));
+                        return ((string)(this[this.tableReportPKS.DivisiColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Klasifikasi\' in table \'ReportPKS\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Divisi\' in table \'ReportPKS\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportPKS.KlasifikasiColumn] = value;
+                    this[this.tableReportPKS.DivisiColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string StatusPks {
+            public string TanggalAwal {
                 get {
                     try {
-                        return ((string)(this[this.tableReportPKS.StatusPksColumn]));
+                        return ((string)(this[this.tableReportPKS.TanggalAwalColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'StatusPks\' in table \'ReportPKS\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'TanggalAwal\' in table \'ReportPKS\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportPKS.StatusPksColumn] = value;
+                    this[this.tableReportPKS.TanggalAwalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string TanggalAkhir {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportPKS.TanggalAkhirColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TanggalAkhir\' in table \'ReportPKS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportPKS.TanggalAkhirColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Adendum {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportPKS.AdendumColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Adendum\' in table \'ReportPKS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportPKS.AdendumColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Renewal {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportPKS.RenewalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Renewal\' in table \'ReportPKS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportPKS.RenewalColumn] = value;
                 }
             }
             
@@ -5547,26 +5637,62 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsKlasifikasiNull() {
-                return this.IsNull(this.tableReportPKS.KlasifikasiColumn);
+            public bool IsDivisiNull() {
+                return this.IsNull(this.tableReportPKS.DivisiColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetKlasifikasiNull() {
-                this[this.tableReportPKS.KlasifikasiColumn] = global::System.Convert.DBNull;
+            public void SetDivisiNull() {
+                this[this.tableReportPKS.DivisiColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsStatusPksNull() {
-                return this.IsNull(this.tableReportPKS.StatusPksColumn);
+            public bool IsTanggalAwalNull() {
+                return this.IsNull(this.tableReportPKS.TanggalAwalColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetStatusPksNull() {
-                this[this.tableReportPKS.StatusPksColumn] = global::System.Convert.DBNull;
+            public void SetTanggalAwalNull() {
+                this[this.tableReportPKS.TanggalAwalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsTanggalAkhirNull() {
+                return this.IsNull(this.tableReportPKS.TanggalAkhirColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetTanggalAkhirNull() {
+                this[this.tableReportPKS.TanggalAkhirColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsAdendumNull() {
+                return this.IsNull(this.tableReportPKS.AdendumColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetAdendumNull() {
+                this[this.tableReportPKS.AdendumColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRenewalNull() {
+                return this.IsNull(this.tableReportPKS.RenewalColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRenewalNull() {
+                this[this.tableReportPKS.RenewalColumn] = global::System.Convert.DBNull;
             }
         }
         

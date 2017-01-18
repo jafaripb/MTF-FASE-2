@@ -664,7 +664,6 @@ namespace Reston.Helper.Repository
         {
             try
             {
-
                 var oWorkflowState = ctx.WorkflowStates.Where(d => d.DocumentId == DocId && d.WorkflowMasterTemplateId == TemplateId && d.DocumentStatus == DocumentStatus.PENGAJUAN).FirstOrDefault();
                 var oTemplate = ctx.WorkflowMasterTemplates.Find(TemplateId).WorkflowMasterTemplateDetails.OrderBy(d => d.SegOrder).FirstOrDefault();
                 if (oWorkflowState != null || oTemplate == null)

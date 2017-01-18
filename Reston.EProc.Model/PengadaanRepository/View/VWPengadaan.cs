@@ -308,6 +308,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
     {
         public Nullable<Guid> PengadaanId { get; set; }
         public string Judul { get; set; }
+        public string PIC { get; set; }
         public string User { get; set; }
         public Nullable<decimal> hps { get; set; }
         public Nullable<decimal> realitas { get; set; }
@@ -319,6 +320,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<DateTime> Scoring { get; set; }
         public Nullable<DateTime> NotaPemenang { get; set; }
         public Nullable<DateTime> SPK { get; set; }
+        public string WaktuPelaksanaan { get; set; }
     }
 
     public class VWPembatalanPengadaan

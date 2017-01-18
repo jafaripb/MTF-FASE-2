@@ -5069,11 +5069,12 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public List<VWReportPengadaan> GetRepotPengadan(DateTime? dari, DateTime? sampai, Guid UserId)
         {
             var oReport = (from b in ctx.Pengadaans
-                           //join c in ctx.BeritaAcaras on b.Id equals c.PengadaanId
-                           where b.TanggalMenyetujui >= dari && b.TanggalMenyetujui <= sampai //c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
+                           join c in ctx.PersonilPengadaans on b.Id equals c.PengadaanId
+                           where b.TanggalMenyetujui >= dari && b.TanggalMenyetujui <= sampai && c.tipe=="pic"//c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
                            select new VWReportPengadaan
                            {
                                PengadaanId = b.Id,
+                               PIC = c.Nama,
                                Judul = b.Judul,
                                User = b.UnitKerjaPemohon,
                                hps = (from bb in ctx.RKSHeaders
@@ -5180,13 +5181,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
                            where b.CreateOn >= dari && b.CreateOn <= sampai //c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
                            select new VWReportPks
                            {
-                               NoPengadaan = e.NoPengadaan,
                                Vendor = d.Nama,
-                               NoPks = b.NoDokumen == null ? "" : b.NoDokumen,
                                Title = b.Title,
-                               Klasifikasi = e.JenisPekerjaan,
-                               StatusPks = b.StatusPks
-
+                               NoPks = b.NoDokumen == null ? "" : b.NoDokumen,
+                               Divisi = e.UnitKerjaPemohon,
+                               TanggalAwal = b.TanggalMulai.ToString(),
+                               TanggalAkhir = b.TanggalSelesai.ToString()
+                               
                            }).Distinct().ToList();
             return oReport;
         }
