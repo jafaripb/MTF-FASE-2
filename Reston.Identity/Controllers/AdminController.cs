@@ -240,7 +240,8 @@ namespace IdLdap.Controllers
                         Nama = d.UserName,
                         FullName=d.DisplayName,
                         PersonilId = d.Id,
-                        Email=d.Email
+                        Email=d.Email,
+                        jabatan=d.Position
                     }).FirstOrDefault();
 
             return Json(oData, JsonRequestBehavior.AllowGet);

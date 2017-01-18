@@ -94,6 +94,7 @@ namespace Reston.Pinata.WebService.Controllers
               List<VWWorkflowDetail> lstdt = new List<VWWorkflowDetail>();
               foreach (var item in data)
               {
+                  //var jabatan = _repository.JabatanForApprovalPelaksanaan(item.Id);
                   VWWorkflowDetail dt = new VWWorkflowDetail();
                   Userx userdetail =await userDetail(item.UserId.ToString());
                   dt.jabatan = userdetail.jabatan;
