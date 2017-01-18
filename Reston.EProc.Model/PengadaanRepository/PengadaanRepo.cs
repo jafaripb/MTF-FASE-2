@@ -134,8 +134,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
         Reston.Helper.Util.ResultMessage DeletePemenang(PemenangPengadaan dtPemenangPengadaan, Guid UserId);
         List<VWRekananPenilaian> getPemenangPengadaan(Guid PengadaanId, Guid UserId);
         List<VWRekananPenilaian> getKandidatPengadaan(Guid PengadaanId, Guid UserId);
+        List<KandidatPengadaan> getKandidatTidakHadir(Guid PengadaanId, Guid UserId);
+        List<KandidatPengadaan> getKandidatKirim(Guid PengadaanId, Guid UserId);
+        List<KandidatPengadaan> getKandidatTidakKirim(Guid PengadaanId, Guid UserId);
+        //List<KandidatPengadaan> getKandidatTidakMengirimPenawaran(Guid PengadaanId, Guid UserId);
         List<VWRekananPenilaian> getKandidatPengadaan2(Guid PengadaanId, Guid UserId);
         List<VWVendor> GetVendorsKlarifikasiByPengadaanId(Guid PengadaanId);
+        List<VWVendor> GetVendorsKlarifikasiByPengadaanId2(Guid PengadaanId);
+        
         BeritaAcara addBeritaAcara(BeritaAcara newBeritaAcara, Guid UserId);
         int DeleteBeritaAcara(Guid Id, Guid UserId);
         List<VWBeritaAcaraEnd> getBeritaAcara(Guid PengadaanId, Guid UserId);
@@ -380,6 +386,27 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         }
 
+        public List<VWVendor> GetVendorsKlarifikasiByPengadaanId2(Guid PengadaanId)
+        {
+            var xx = (from b in ctx.Vendors
+                      join c in ctx.KandidatPengadaans on b.Id equals c.VendorId
+                      where c.PengadaanId == PengadaanId
+                      select new VWVendor
+                      {
+                          email = (from bb in ctx.Vendors
+                                   where bb.Id == c.VendorId
+                                   select bb).FirstOrDefault() != null ? (from bb in ctx.Vendors
+                                                                          where bb.Id == c.VendorId
+                                                                          select bb).FirstOrDefault().Email : "",
+                          Nama = (from bb in ctx.Vendors
+                                  where bb.Id == c.VendorId
+                                  select bb).FirstOrDefault() != null ? (from bb in ctx.Vendors
+                                                                         where bb.Id == c.VendorId
+                                                                         select bb).FirstOrDefault().Nama : ""
+                      }).Distinct().ToList();
+            return xx;
+
+        }
         public ViewPengadaan GetPengadaan(Guid id, Guid UserID, int approver)
         {
             // Guid manajer = new Guid(ConfigurationManager.AppSettings["manajer"].ToString());
@@ -4226,7 +4253,55 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return xKandidatPengadaans;
         }
 
-          public List<VWRekananPenilaian> getKandidatPengadaan2(Guid PengadaanId, Guid UserId)
+        public List<KandidatPengadaan> getKandidatTidakHadir(Guid PengadaanId, Guid UserId)
+        {
+            try
+            {
+                var hadir = ctx.KehadiranKandidatAanwijzings.Where(d => d.PengadaanId == PengadaanId).Select(d => d.VendorId).ToList();
+                var kandidat = ctx.KandidatPengadaans.Where(d => d.PengadaanId == PengadaanId && !hadir.Contains(d.VendorId)).ToList();
+
+                return kandidat;
+            }
+            catch { return new List<KandidatPengadaan>(); }
+        }
+
+        public List<KandidatPengadaan> getKandidatKirim(Guid PengadaanId, Guid UserId)
+        {
+            try
+            {
+                var kirim = ctx.HargaRekanans.Where(d => d.RKSDetail.RKSHeader.PengadaanId == PengadaanId).Select(d => d.VendorId).Distinct().ToList();
+                var kandidat = ctx.KandidatPengadaans.Where(d => d.PengadaanId == PengadaanId && kirim.Contains(d.VendorId)).ToList();
+
+                return kandidat;
+            }
+            catch { return new List<KandidatPengadaan>(); }
+        }
+
+        public List<KandidatPengadaan> getKandidatTidakKirim(Guid PengadaanId, Guid UserId)
+        {
+            try
+            {
+                var kirim = ctx.HargaRekanans.Where(d => d.RKSDetail.RKSHeader.PengadaanId == PengadaanId).Select(d => d.VendorId).Distinct().ToList();
+                var kandidat = ctx.KandidatPengadaans.Where(d => d.PengadaanId == PengadaanId && !kirim.Contains(d.VendorId)).ToList();
+
+                return kandidat;
+            }
+            catch { return new List<KandidatPengadaan>(); }
+        }
+
+        //public List<KandidatPengadaan> getKandidatTidakMengirimPenawaran(Guid PengadaanId, Guid UserId)
+        //{
+        //    try
+        //    {
+        //        var kirim = ctx.PelaksanaanSubmitPenawarans.Where(d => d.PengadaanId == PengadaanId).Select(d => d.VendorId).ToList();
+        //        var kandidat = ctx.KandidatPengadaans.Where(d => d.PengadaanId == PengadaanId && !kirim.Contains(d.VendorId)).ToList();
+
+        //        return kandidat;
+        //    }
+        //    catch { return new List<KandidatPengadaan>(); }
+        //}
+
+        public List<VWRekananPenilaian> getKandidatPengadaan2(Guid PengadaanId, Guid UserId)
         {
             var xKandidatPengadaans = (from b in ctx.PemenangPengadaans
                                        join c in ctx.Vendors on b.VendorId equals c.Id
@@ -5417,8 +5492,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 Pengadaan Mpengadaaan = ctx.Pengadaans.Find(PengadaanId);
 
-                var jumPersonil = Mpengadaaan.PersonilPengadaans.Count();
-                var jumTahapanPersetujuan = Mpengadaaan.PersetujuanTahapans.Count();
+                var jumPersonil = Mpengadaaan.PersonilPengadaans.Where(d=>d.tipe!=PengadaanConstants.StaffPeranan.Tim).Count();
+                var jumTahapanPersetujuan = Mpengadaaan.PersetujuanTahapans.Where(d=>d.StatusPengadaan==EStatusPengadaan.BUKAAMPLOP).Count();
                 if (jumTahapanPersetujuan != jumPersonil) return 0;
                 var oKandidatPengadaan = ctx.KandidatPengadaans.Where(d => d.PengadaanId == Mpengadaaan.Id).ToList();
                 if (oKandidatPengadaan.Count() > 0)

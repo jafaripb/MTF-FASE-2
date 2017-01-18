@@ -2783,7 +2783,7 @@ namespace Reston.Pinata.WebService.Controllers
                     newBeritaAcara.tanggal = Common.ConvertDate(vwpengadaan.tanggal, "dd/MM/yyyy");
                 }
                 var oPengadaan = _repository.GetPengadaan(vwpengadaan.PengadaanId.Value, UserId(), await isApprover());
-                if (_repository.CekBukaAmplop(vwpengadaan.PengadaanId.Value) == 0 && oPengadaan.Status == EStatusPengadaan.BUKAAMPLOP)
+                if (_repository.CekBukaAmplopTahapan(vwpengadaan.PengadaanId.Value) == 0 && oPengadaan.Status == EStatusPengadaan.BUKAAMPLOP)
                 {
                     return new ResultMessage { Id = "0", message = "Belum Semua Pihak Buka Amplop!", status = HttpStatusCode.OK };
                 }
