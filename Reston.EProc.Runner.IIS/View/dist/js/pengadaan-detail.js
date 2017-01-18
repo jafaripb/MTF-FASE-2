@@ -107,6 +107,7 @@ $(function () {
                init: function () {
                    this.on("addedfile", function (file) {
                        file.previewElement.addEventListener("click", function () {
+                           
                            var id = 0;
                            if (file.Id != undefined)
                                id = file.Id

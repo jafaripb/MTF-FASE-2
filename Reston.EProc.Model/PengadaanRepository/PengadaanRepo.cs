@@ -202,6 +202,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         PersetujuanTerkait savePersetujuanTerkait(PersetujuanTerkait data);
         PersetujuanTerkait TerkaitSetuju(PersetujuanTerkait data);
         List<PersetujuanTerkait> GetUserTerkait(Guid PengadaanId);
+        string GenerateNoDOKUMEN(Guid UserId, string KODE, TipeNoDokumen tipe);
     }
     public class PengadaanRepo : IPengadaanRepo
     {
@@ -952,7 +953,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0);
             }
-            var TotalHps = (from bb in ctx.HargaKlarifikasiRekanans
+           /* var TotalHps = (from bb in ctx.HargaKlarifikasiRekanans
                             join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
                             join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
                             where dd.PengadaanId == dt.FirstOrDefault().Id && bb.VendorId == dt.FirstOrDefault().PemenangPengadaans.FirstOrDefault().Vendor.Id
@@ -960,12 +961,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
                             {
                                 harga = bb.harga,
                                 jumlah = cc.jumlah
-                            }).Sum(x => x.harga * x.jumlah);
+                            }).Sum(x => x.harga * x.jumlah);*/
 
             if (spk == 0 && status == EStatusPengadaan.PEMENANG) dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status && d.PersetujuanPemenangs.Where(dd=>dd.Status == StatusPengajuanPemenang.PENDING).Count()>0);
             oData.recordsFiltered=dt.Count();
             oData.recordsTotal = ctx.Pengadaans.Count();
-            oData.data = dt.OrderByDescending(d => d.CreatedOn).Take(limit).Skip(start).Select(d => new ViewPengadaan {
+            oData.data = dt.OrderByDescending(d => d.CreatedOn).Take(limit).Skip(start).Select(d => new ViewPengadaan
+            {
                 Judul = d.Judul,
                 WorkflowTemplateId = d.WorkflowId,
                 Region = d.Region,
@@ -982,12 +984,34 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 JadwalPelaksanaans = d.JadwalPelaksanaans.Select(dd => new VWJadwalPelaksanaan2 { Mulai = dd.Mulai, Sampai = dd.Sampai, statusPengadaan = dd.statusPengadaan }).ToList(),
                 KandidatPengadaans = d.KandidatPengadaans.Select(dd => new VWKandidatPengadaan { Nama = dd.Vendor.Nama, Telepon = dd.Vendor.Telepon }).ToList(),
                 HPS = ctx.RKSHeaders.Where(dd => dd.PengadaanId == d.Id).FirstOrDefault() == null ? 0 : ctx.RKSHeaders.Where(dd => dd.PengadaanId == d.Id).FirstOrDefault().RKSDetails.Sum(dx => dx.hps * dx.jumlah == null ? 0 : dx.hps * dx.jumlah),
-                HargaNegosiasi = TotalHps.Value,
+                vendor = d.PemenangPengadaans.Select(dd => new VWVendor() {Id=dd.Vendor.Id,Nama=dd.Vendor.Nama }).ToList(),
                 Pemenang = dt.FirstOrDefault().PemenangPengadaans.FirstOrDefault().Vendor.Nama,
-                lstPemenang=d.PemenangPengadaans.Select(dd=>dd.Vendor.Nama).ToList(),
-                PersonilPengadaans =d.PersonilPengadaans.Select(dd=>new VWPersonilPengadaan{PersonilId=dd.PersonilId,Nama=dd.Nama,tipe=dd.tipe,Jabatan=dd.Jabatan}).ToList()
-                }).ToList();
-                return oData;
+                lstPemenang = d.PemenangPengadaans.Select(dd => dd.Vendor.Nama).ToList(),
+                PersonilPengadaans = d.PersonilPengadaans.Select(dd => new VWPersonilPengadaan { PersonilId = dd.PersonilId, Nama = dd.Nama, tipe = dd.tipe, Jabatan = dd.Jabatan }).ToList()
+            }).ToList();
+              //  return oData;
+
+            foreach (var item in oData.data)
+            {
+                var hargaVendors = "";
+                foreach (var itemx in item.vendor)
+                {
+                    var hargaPenawranVendor = (from bb in ctx.HargaKlarifikasiRekanans
+                                               join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                               join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                               where dd.PengadaanId == item.Id && bb.VendorId == itemx.Id
+                                               select new item
+                                               {
+                                                   harga = bb.harga,
+                                                   jumlah = cc.jumlah
+                                               }).Sum(xx => xx.harga * xx.jumlah);
+
+                    hargaVendors += itemx.Nama + " (" + hargaPenawranVendor.Value.ToString("C", MyConverter.formatCurrencyIndoTanpaSymbol()) + ") ";
+                }
+                item.HargaPemanang = hargaVendors;
+            }
+
+            return oData;
         }
 
         public VWCountListDokumen ListCount()
@@ -1678,7 +1702,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 }).ToList();
                 if (tipe == TipeBerkas.BerkasRujukanLain)
                 {
-                    var oDokumen = oData.Select(d => new VWDokumenPengadaan
+                     lstVWDok = oData.Select(d => new VWDokumenPengadaan
                     {
                         ContentType = d.ContentType,
                         Id = d.Id,
@@ -1688,10 +1712,25 @@ namespace Reston.Pinata.Model.PengadaanRepository
                         File = d.File,
                         SizeFile = d.SizeFile,
                     }).ToList();
-                    foreach (var item in oDokumen)
+                   /* foreach (var item in oDokumen)
                     {
                         lstVWDok.Add(item);
-                    }
+                    }*/
+
+                }
+                if (tipe == TipeBerkas.DOKUMENLAIN)
+                {
+                    lstVWDok = oData.Select(d => new VWDokumenPengadaan
+                    {
+                        ContentType = d.ContentType,
+                        Id = d.Id,
+                        PengadaanId = d.PengadaanId,
+                        Tipe = d.Tipe,
+                        Title = d.Title,
+                        File = d.File,
+                        SizeFile = d.SizeFile,
+                    }).ToList();
+                    
                 }
             }
             else
@@ -4130,6 +4169,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                            NamaVendor = c.Nama,
                                            VendorId = b.VendorId,
                                            Email=c.Email,
+                                           Alamat = c.Alamat,
                                            total = (from bb in ctx.HargaKlarifikasiRekanans
                                                     join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
                                                     join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
@@ -4188,7 +4228,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 }
             }
             return xKandidatPengadaans;
-            return xKandidatPengadaans;
         }
 
         public List<VWRekananPenilaian> getKandidatPengadaan(Guid PengadaanId, Guid UserId)
@@ -4201,6 +4240,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                            NamaVendor = c.Nama,
                                            VendorId = b.VendorId,
                                            Email = c.Email,
+                                           Alamat = c.Alamat,
                                            total = (from bb in ctx.HargaKlarifikasiRekanans
                                                     join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
                                                     join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
@@ -4719,6 +4759,44 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 if (oldYear == DateTime.Now.Year)
                     newNoDokmen = NextNo.ToString() + KODESPK + Common.ConvertBulanRomawi(DateTime.Now.Month) + "/" + +DateTime.Now.Year;
                 else newNoDokmen = "1" + KODESPK + Common.ConvertBulanRomawi(DateTime.Now.Month) + "/" + DateTime.Now.Year;
+
+                NoDokumenGenerator newoNoDokumen = new NoDokumenGenerator();
+                newoNoDokumen.CreateOn = DateTime.Now;
+                newoNoDokumen.CreateBy = UserId;
+                newoNoDokumen.No = newNoDokmen;
+                newoNoDokumen.tipe = TipeNoDokumen.SPK;
+                ctx.NoDokumenGenerators.Add(newoNoDokumen);
+                ctx.SaveChanges();
+                return newoNoDokumen.No;
+            }
+        }
+        public string GenerateNoDOKUMEN(Guid UserId, string KODE, TipeNoDokumen tipe)
+        {
+            var oNoDokumen = ctx.NoDokumenGenerators.Where(d => d.tipe == tipe).OrderByDescending(d => d.Id).FirstOrDefault();
+           
+
+            if (oNoDokumen == null)
+            {
+                string newNODok = "1" + KODE + Common.ConvertBulanRomawi(DateTime.Now.Month) + "/" + DateTime.Now.Year;
+                NoDokumenGenerator newoNoDokumen = new NoDokumenGenerator();
+                newoNoDokumen.CreateOn = DateTime.Now;
+                newoNoDokumen.CreateBy = UserId;
+                newoNoDokumen.No = newNODok;
+                newoNoDokumen.tipe = TipeNoDokumen.SPK;
+                ctx.NoDokumenGenerators.Add(newoNoDokumen);
+                ctx.SaveChanges();
+                return newoNoDokumen.No;
+            }
+            else
+            {
+                var arrNo = oNoDokumen.No.Split('/');
+                int NextNo = Convert.ToInt32(arrNo[0]);
+                NextNo = NextNo + 1;
+                int oldYear = Convert.ToInt32(arrNo[4]);
+                string newNoDokmen = "";
+                if (oldYear == DateTime.Now.Year)
+                    newNoDokmen = NextNo.ToString() + KODE + Common.ConvertBulanRomawi(DateTime.Now.Month) + "/" + +DateTime.Now.Year;
+                else newNoDokmen = "1" + KODE + Common.ConvertBulanRomawi(DateTime.Now.Month) + "/" + DateTime.Now.Year;
 
                 NoDokumenGenerator newoNoDokumen = new NoDokumenGenerator();
                 newoNoDokumen.CreateOn = DateTime.Now;

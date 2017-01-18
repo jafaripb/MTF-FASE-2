@@ -320,10 +320,10 @@ namespace Reston.Helper.Repository
                 oWorkflow.CurrentSegOrder = oWorkflowApproval.SegOrder - 1;
                 oWorkflow.CurrentStatus = WorkflowStatusState.REJECTED;
                 //jika workflow direject oleh state pertama maka status dokumen jadi reject
-                if (curSegOrder == 1)
-                {
+                //if (curSegOrder == 1)
+                //{
                     oWorkflow.DocumentStatus = DocumentStatus.REJECTED;
-                }
+                //}
             }
             try
             {

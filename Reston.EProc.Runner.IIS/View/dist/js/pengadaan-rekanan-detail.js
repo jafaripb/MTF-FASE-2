@@ -63,6 +63,7 @@ $(function () {
                     this.on("addedfile", function (file) {
                         file.previewElement.addEventListener("click", function () {
                             var id = 0;
+                            console.log(url);
                             if (file.Id != undefined)
                                 id = file.Id;
                             else
@@ -79,6 +80,33 @@ $(function () {
         );
     renderDokumenDropzone(myDropzoneBerkasRujukanLain, "BerkasRujukanLain");
     Dropzone.options.BerkasRujukanLain = false;
+
+    var myDropzoneDokumenLain = new Dropzone("#DokumenLain",
+           {
+               url: $("#DokumenLain").attr("action") + "&id=" + $("#pengadaanId").val(),
+               maxFilesize: 5,
+               acceptedFiles: "",
+               clickable: false,
+               dictDefaultMessage: "Tidak Ada Dokumen",
+               init: function () {
+                   this.on("addedfile", function (file) {
+                       file.previewElement.addEventListener("click", function () {
+                           var id = 0;
+                           if (file.Id != undefined)
+                               id = file.Id;
+                           else
+                               id = $.parseJSON(file.xhr.response);
+                           $("#HapusFile").hide();
+                           $("#konfirmasiFile").attr("attr1", "DokumenLain");
+                           $("#konfirmasiFile").attr("FileId", id);
+                           $("#konfirmasiFile").modal("show");
+                       });
+                   });
+               }
+           }
+       );
+    renderDokumenDropzone(myDropzoneDokumenLain, "DOKUMENLAIN");
+    Dropzone.options.DokumenLain = false;
 
     var myDropzoneBerkasRekanan = new Dropzone("#BerkasRekanan",
             {

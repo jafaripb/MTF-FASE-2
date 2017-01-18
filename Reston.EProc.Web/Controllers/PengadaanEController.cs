@@ -666,30 +666,6 @@ namespace Reston.Pinata.WebService.Controllers
                                          SegOrder = 3,
                                          UserId = DepHead[0]
                                      });
-                        if (Direksi.Count() > 0)
-                            if (RKS > ValueBoundDireksiAprr)
-                            {
-                                var lasOrder = WorkflowMasterTemplateDetails.LastOrDefault().SegOrder;
-                                WorkflowMasterTemplateDetails.Add(
-                                    new WorkflowMasterTemplateDetail()
-                                    {
-                                        NameValue = "Gen.By.System",
-                                        SegOrder = lasOrder + 1,
-                                        UserId = Direksi[0]
-                                    });
-                            }
-                        if (Dirut.Count() > 0)
-                            if (RKS > BATASAN_BIAYA_DIRUT)
-                            {
-                                var lasOrder = WorkflowMasterTemplateDetails.LastOrDefault().SegOrder;
-                                WorkflowMasterTemplateDetails.Add(
-                                    new WorkflowMasterTemplateDetail()
-                                    {
-                                        NameValue = "Gen.By.System",
-                                        SegOrder = lasOrder + 1,
-                                        UserId = Dirut[0]
-                                    });
-                            }
                         WorkflowMasterTemplate MasterTemplate = new WorkflowMasterTemplate()
                         {
                             ApprovalType = ApprovalType.BERTINGKAT,
@@ -3675,6 +3651,7 @@ namespace Reston.Pinata.WebService.Controllers
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
                         _repository.ChangeStatusPersetujuanPemenang(id, StatusPengajuanPemenang.APPROVED, UserId());
+                        SendEmailPemenang(nRiwayatDokumen.PengadaanId.Value);
                     }
                     try
                     {
@@ -3785,29 +3762,30 @@ namespace Reston.Pinata.WebService.Controllers
        
         private void SendEmailPemenang(Guid PengadaanId)
         {
+            var pengadaan= _repository.GetPengadaanByiD(PengadaanId);
             var oKandidat = _repository.getKandidatPengadaan(PengadaanId, UserId());
             var oPemenang = _repository.getPemenangPengadaan(PengadaanId, UserId());
             var oKalah = oKandidat.Except(oPemenang);
             foreach (var item in oPemenang)
             {
-                string html = "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_YTH"].ToString() + "</p>";
-                html = html + "<p>" + item.NamaVendor + "</p>";
-                html = html + "<br/>";
-                html = html + "<p>" + BodyEmailPemenang + "</p>";
-                html = html + "<br/><br/>";
-                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER1"].ToString() + "</p>";
-                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER2"].ToString() + "</p>";
+                string html = System.Configuration.ConfigurationManager.AppSettings["MAIL_KALAH_BODY"].ToString();
+                var noMenang = _repository.GenerateNoDOKUMEN(UserId(), System.Configuration.ConfigurationManager.AppSettings["KODE_MENANG"].ToString(), TipeNoDokumen.MEANANG);
+                html = html.Replace("{2}", noMenang);
+                html = html.Replace("{1}", Common.ConvertDateToIndoDate(DateTime.Now));
+                html = html.Replace("{3}", item.NamaVendor);
+                html = html.Replace("{4}", item.Alamat);
+                html = html.Replace("{0}", pengadaan.Judul);
                 sendMail(item.NamaVendor, item.Email, html, SubjeckEmailPemenang);
             }
             foreach (var item in oKalah)
             {
-                string html = "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_YTH"].ToString() + "</p>";
-                html = html + "<p>" + item.NamaVendor + "</p>";
-                html = html + "<br/>";
-                html = html + "<p>" + BodyEmailkalah + "</p>";
-                html = html + "<br/><br/>";
-                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER1"].ToString() + "</p>";
-                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER2"].ToString() + "</p>";
+                string html = System.Configuration.ConfigurationManager.AppSettings["MAIL_KALAH_BODY"].ToString();
+                var noKalah = _repository.GenerateNoDOKUMEN(UserId(), System.Configuration.ConfigurationManager.AppSettings["KODE_KALAH"].ToString(), TipeNoDokumen.KALAH);
+                html=html.Replace("{2}",noKalah);
+                html = html.Replace("{1}", Common.ConvertDateToIndoDate(DateTime.Now));
+                html = html.Replace("{3}", item.NamaVendor);
+                html = html.Replace("{4}", item.Alamat);
+                html = html.Replace("{0}", pengadaan.Judul);
                 sendMail(item.NamaVendor, item.Email, html, SubjeckEmailKalah);
             }
         }
