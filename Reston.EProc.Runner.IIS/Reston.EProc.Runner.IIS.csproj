@@ -141,6 +141,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Configuration\Configuration.txt" />
+    <Content Include="data\menu-direksi.json" />
+    <Content Include="Download\Report\Template\SPK2.docx" />
     <Content Include="Download\Report\Temp\index.html" />
     <Content Include="eproc.config">
       <SubType>Designer</SubType>
@@ -1875,8 +1877,6 @@
     <Content Include="DataSource\PO.xss">
       <DependentUpon>PO.xsd</DependentUpon>
     </Content>
-    <Content Include="data\menu-direksi.json" />
-    <Content Include="Download\Report\Template\SPK2.docx" />
     <Content Include="Download\Report\Template\BERITA ACARA BUKA AMPLOP - Copy %282%29.docx" />
     <Content Include="Download\Report\Template\BERITA ACARA RAPAT KLARIFIKASI DAN NEGOSIASI - Copy %282%29.docx" />
     <Content Include="Download\Report\Template\NOTA BERSAMA Usulan Pemenang - Copy.docx" />
@@ -1890,6 +1890,8 @@
     </Content>
     <None Include="Properties\PublishProfiles\efe.pubxml" />
     <None Include="Properties\PublishProfiles\eproc-mtf.pubxml" />
+    <None Include="Properties\PublishProfiles\eproc1.pubxml" />
+    <None Include="Properties\PublishProfiles\eproc2.pubxml" />
     <None Include="Properties\PublishProfiles\mtf-eproc.pubxml" />
     <None Include="Properties\PublishProfiles\Reston.Eproc.pubxml" />
     <None Include="Properties\PublishProfiles\SRVR.pubxml" />

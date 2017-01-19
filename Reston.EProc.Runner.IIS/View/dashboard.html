@@ -161,9 +161,12 @@
 
                                             </tr>
                                             <tr>
+                                                <td class="rata_kiri text-bold">Persetujuan Approval User Terkait</td>
+                                                <td class="tengah text-bold"><a href="#" id="approval-user-terkait">0</a></td>
+                                            </tr>
+                                            <tr>
                                                 <td class="rata_kiri text-bold">Proyek Monitoring</td>
                                                 <td class="tengah text-bold"><a href="sistem-monitoring.html" id="monitor-selection"></a></td>
-
                                             </tr>
                                         </table>
                                     </div>
@@ -398,7 +401,6 @@
             $.ajax({
                 url: "api/Dashboard/GetPIC?from=&to=",
                 success: function (data) {
-                    console.log(data);
                     for (var i in data) {
                         var html = '<li><a class="btn btn-app">' +
                               '<b style="font-size: 20px">' + data[i].Jumlah + '</b><br/>' +

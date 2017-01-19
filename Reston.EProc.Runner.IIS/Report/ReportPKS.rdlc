@@ -471,7 +471,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -488,6 +488,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -719,7 +720,7 @@
         <Top>1.06125in</Top>
         <Left>0.58209in</Left>
         <Height>0.96876in</Height>
-        <Width>13.28125in</Width>
+        <Width>13.28126in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
