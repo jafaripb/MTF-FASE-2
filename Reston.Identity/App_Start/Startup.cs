@@ -53,8 +53,8 @@ namespace IdLdap
 
                 var idSvrFactory = IdFactory.Configure(IdLdapConstants.Configuration.IdLdapConnectionString);
 
-               
-                idSvrFactory.Register(new Registration<PrincipalContext>(resolver => new PrincipalContext(ContextType.ApplicationDirectory, 
+                bool UseAppDir = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["LDAP_APPDIR"]);
+                idSvrFactory.Register(new Registration<PrincipalContext>(resolver => new PrincipalContext(UseAppDir ? ContextType.ApplicationDirectory : ContextType.Domain, 
                 IdLdapConstants.LdapConfiguration.Host, 
                 IdLdapConstants.LdapConfiguration.ContextNaming, 
                 IdLdapConstants.LdapConfiguration.Username, 
