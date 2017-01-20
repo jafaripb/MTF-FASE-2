@@ -9,7 +9,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Laporan Purchase Order PT Mandiri Tunas FInance Thn.2017</Value>
+                <Value>Laporan PKS PT Mandiri Tunas FInance Thn.2017</Value>
                 <Style>
                   <FontSize>9pt</FontSize>
                   <FontWeight>Bold</FontWeight>
@@ -40,34 +40,25 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.33333in</Width>
+              <Width>0.40625in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.44792in</Width>
+              <Width>2.89583in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.3125in</Width>
+              <Width>2.32292in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.89583in</Width>
+              <Width>2.32292in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.125in</Width>
+              <Width>1.79167in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.82292in</Width>
+              <Width>2.09375in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.69792in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.61458in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.69792in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>2.07292in</Width>
+              <Width>1.71875in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -111,14 +102,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox77">
+                    <Textbox Name="Textbox4">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>No PO</Value>
+                              <Value>Project</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -129,7 +120,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox77</rd:DefaultName>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -146,14 +137,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox73">
+                    <Textbox Name="Textbox6">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Prihal</Value>
+                              <Value>Vendor Pelaksanaan</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -164,112 +155,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox73</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox75">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Nama Supplier</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox75</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox5">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>PIC</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox5</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox81">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Nilai PO</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox81</rd:DefaultName>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -293,7 +179,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Tanggal PO</Value>
+                              <Value>Klasifikasi Pekerjaan</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -328,7 +214,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Tanggal DO</Value>
+                              <Value>Tanggal Mulai</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -363,7 +249,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Tanggal Invoice</Value>
+                              <Value>Tanggal Selesai</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -398,7 +284,33 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Tanggal Finance</Value>
+                              <Value>Progress</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Pelaksanaan</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>(%)</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -464,21 +376,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="NoPO">
+                    <Textbox Name="Pengadaan">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!NoPO.Value</Value>
+                              <Value>=Fields!Pengadaan.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>NoPO</rd:DefaultName>
+                      <rd:DefaultName>Pengadaan</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -491,37 +405,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Prihal">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Prihal.Value</Value>
-                              <Style />
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Prihal</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -559,14 +443,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="PICName">
+                    <Textbox Name="Klasifikasi">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!PICName.Value</Value>
+                              <Value>=Fields!Klasifikasi.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -575,7 +459,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>PICName</rd:DefaultName>
+                      <rd:DefaultName>Klasifikasi</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -592,23 +476,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="NilaiPO">
+                    <Textbox Name="TanggalMulai">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!NilaiPO.Value</Value>
+                              <Value>=Fields!TanggalMulai.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Center</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>NilaiPO</rd:DefaultName>
+                      <rd:DefaultName>TanggalMulai</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -625,14 +509,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TanggalPO">
+                    <Textbox Name="TanggalSelesai">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TanggalPO.Value</Value>
+                              <Value>=Fields!TanggalSelesai.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -641,7 +525,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TanggalPO</rd:DefaultName>
+                      <rd:DefaultName>TanggalSelesai</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -658,14 +542,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TanggalDO">
+                    <Textbox Name="Progress">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TanggalDO.Value</Value>
+                              <Value>=Fields!Progress.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -674,73 +558,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TanggalDO</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="TanggalInvoice">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!TanggalInvoice.Value</Value>
-                              <Style />
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>TanggalInvoice</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="TanggalFinance">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!TanggalFinance.Value</Value>
-                              <Style />
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>TanggalFinance</rd:DefaultName>
+                      <rd:DefaultName>Progress</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -768,9 +586,6 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
-            <TablixMember />
-            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -783,11 +598,11 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>POReportDetail</DataSetName>
+        <DataSetName>Monitoring</DataSetName>
         <Top>1.06125in</Top>
         <Left>0.58209in</Left>
         <Height>0.96876in</Height>
-        <Width>17.02084in</Width>
+        <Width>13.55208in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -818,7 +633,7 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="POReportDetail">
+    <DataSet Name="Monitoring">
       <Query>
         <DataSourceName>datasetxx</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
@@ -828,51 +643,35 @@
           <DataField>Id</DataField>
           <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
-        <Field Name="NoPO">
-          <DataField>NoPO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Prihal">
-          <DataField>Prihal</DataField>
+        <Field Name="Pengadaan">
+          <DataField>Pengadaan</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Vendor">
           <DataField>Vendor</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="PICName">
-          <DataField>PICName</DataField>
+        <Field Name="Klasifikasi">
+          <DataField>Klasifikasi</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Divisi">
-          <DataField>Divisi</DataField>
+        <Field Name="TanggalMulai">
+          <DataField>TanggalMulai</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="NilaiPO">
-          <DataField>NilaiPO</DataField>
+        <Field Name="TanggalSelesai">
+          <DataField>TanggalSelesai</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="TanggalPO">
-          <DataField>TanggalPO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TanggalDO">
-          <DataField>TanggalDO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TanggalInvoice">
-          <DataField>TanggalInvoice</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TanggalFinance">
-          <DataField>TanggalFinance</DataField>
+        <Field Name="Progress">
+          <DataField>Progress</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>PO</rd:DataSetName>
         <rd:SchemaPath>D:\JOB\RESTON BISNIS SOLUSI\mtf\MTF-FASE-2\Reston.EProc.Runner.IIS\DataSource\PO.xsd</rd:SchemaPath>
-        <rd:TableName>ReportPO</rd:TableName>
+        <rd:TableName>ReportMonitoring</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />

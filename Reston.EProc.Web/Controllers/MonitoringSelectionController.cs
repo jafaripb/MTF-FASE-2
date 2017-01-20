@@ -18,6 +18,8 @@ using System.Web.Http;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http.Headers;
+using Microsoft.Reporting.WebForms;
+using System.Reflection;
 
 namespace Reston.EProc.Web.Controllers
 {
@@ -25,6 +27,7 @@ namespace Reston.EProc.Web.Controllers
     {
 
         private string FILE_DOKUMEN_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_DOCPRO"];
+        private string FILE_REPORT_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_REPORT_PATH"];
 
         private IMoritoringRepo _repository;
 
@@ -77,7 +80,7 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataListProyekDetailMonitoringPembayaran(search, start, length, Id));
         }
 
- public IHttpActionResult ListProyekRekanan()
+        public IHttpActionResult ListProyekRekanan()
         {
             string search = HttpContext.Current.Request["search"].ToString();
             int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
@@ -363,6 +366,91 @@ namespace Reston.EProc.Web.Controllers
                 }
             }
             return null;
+        }
+
+        // Report Monitoring
+        public HttpResponseMessage ReportMonitoring(string dari, string sampai)
+        {
+            try
+            {
+                LocalReport lr = new LocalReport();
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+                path = Path.Combine(path, "ReportMonitoring.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    lr.ReportPath = path;
+                }
+
+                else
+                {
+                    //return View("Index");
+                }
+                var oDari = Common.ConvertDate(dari, "dd/MM/yyyy");
+                var oSampai = Common.ConvertDate(sampai, "dd/MM/yyyy");
+
+                var Monitoring = _repository.GetReportMonitoring(oDari, oSampai, UserId());
+
+                ReportDataSource rd = new ReportDataSource("Monitoring", Monitoring);
+                lr.DataSources.Add(rd);
+                string param1 = "";
+                string filename = "";
+                string param2 = "";
+                string paramSemester = "";
+                string paramTahunAjaran = "";
+
+
+                string reportType = "doc";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+
+                string[] streamids = null;
+                String extension = null;
+                Byte[] bytes = null;
+                Warning[] warnings;
+
+                bytes = lr.Render("Excel", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(bytes);
+
+                result.Content = new StreamContent(stream);
+
+                //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Report-Monitoring" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                };
+
+                return result;
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                result.Content = new StringContent(sb.ToString());
+
+                return result;
+                //Display or log the error based on your application.
+            }
         }
     }
 }

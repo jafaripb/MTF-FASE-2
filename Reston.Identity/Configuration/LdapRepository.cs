@@ -22,7 +22,22 @@ namespace IdLdap.Configuration
 
         public UserPrincipal FindUser(string searchterm)
         {
-            return UserPrincipal.FindByIdentity(_AuthLdapConnect,IdentityType.SamAccountName , searchterm);
+            //return UserPrincipal.FindByIdentity(_AuthLdapConnect,IdentityType.SamAccountName , searchterm);
+            var appBAse = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            var path = appBAse + @"\log\login.txt";
+            System.IO.File.AppendAllText(path, "finduser " + _AuthLdapConnect.UserName + Environment.NewLine);
+            try
+            {
+                var userprincipl = UserPrincipal.FindByIdentity(_AuthLdapConnect, IdentityType.SamAccountName, searchterm);
+
+                System.IO.File.AppendAllText(path, "userprincipl " + userprincipl.SamAccountName.ToString() + Environment.NewLine);
+                return userprincipl;
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.AppendAllText(path, "errr " + ex.ToString() + Environment.NewLine);
+                return new UserPrincipal(_AuthLdapConnect);
+            }
         }
 
      

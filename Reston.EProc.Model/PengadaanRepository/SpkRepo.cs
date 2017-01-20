@@ -31,8 +31,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         DokumenSpk getDokSpk(Guid id);
         RiwayatDokumenSpk AddRiwayatDokumenSpk(RiwayatDokumenSpk dtRiwayatDokumenSpk, Guid UserId);
         List<VWDokumenSPK> GetListDokumenSpk(Guid Id);
-       
-
+        List<VWReportSpk> GetReportSPK(DateTime? dari, DateTime? sampai, Guid UserId);
     }
     public class SpkRepo : ISpkRepo
     {
@@ -429,6 +428,27 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
         }
 
+        public List<VWReportSpk> GetReportSPK(DateTime? dari, DateTime? sampai, Guid UserId)
+        {
+            var oReport = (from b in ctx.Spk
+                           join c in ctx.PemenangPengadaans on b.PemenangPengadaanId equals c.Id
+                           join d in ctx.Vendors on c.VendorId equals d.Id
+                           join e in ctx.Pengadaans on c.PengadaanId equals e.Id
+                           join f in ctx.PersonilPengadaans on e.Id equals f.PengadaanId
+                           where b.CreateOn >= dari && b.CreateOn <= sampai && f.tipe == "pic"//c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
+                           select new VWReportSpk
+                           {
+                               NoSpk = b.NoSPk,
+                               Title = e.Judul,
+                               Vendor = d.Nama,
+                               PIC = f.Nama,
+                               Divisi = e.UnitKerjaPemohon,
+                               TanggalSPK = b.TanggalSPK.ToString(),
+                               NilaiSPK = b.NilaiSPK.ToString(),
+
+                           }).Distinct().ToList();
+            return oReport;
+        }
     }
 }
 

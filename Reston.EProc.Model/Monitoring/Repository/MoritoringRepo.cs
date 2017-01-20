@@ -37,6 +37,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         DataTableViewMonitoring GetDataMonitoringSelectionSelesai(string search, int start, int length, StatusSeleksi? status);
         DataTableViewMonitoring GetDataMonitoringSelectionDraf(string search, int start, int length, StatusSeleksi? status);
         DataTableViewMonitoring GetDataMonitoringSelectionSedangBerjalan(string search, int start, int length, StatusSeleksi? status);
+        List<VWReportMonitoring> GetReportMonitoring(DateTime? dari, DateTime? sampai, Guid UserId);
     }
 
     public class MonitoringRepo : IMoritoringRepo
@@ -120,12 +121,12 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
         public DataTableViewProyekSistemMonitoring GetDataListProyekMonitoring(string search, int start, int length, Klasifikasi? dklasifikasi)
         {
-             search = search == null ? "" : search;
+            search = search == null ? "" : search;
             DataTableViewProyekSistemMonitoring dt = new DataTableViewProyekSistemMonitoring();
             
-            dt.recordsTotal = ctx.RencanaProyeks.Count();
-            dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search)).Count();
-            var data = ctx.RencanaProyeks.Where(d=>d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search)).OrderByDescending(d=>d.CreatedOn).Select(
+            dt.recordsTotal = ctx.RencanaProyeks.Where(d =>d.Status== "dijalankan").Count();
+            dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "dijalankan").Count();
+            var data = ctx.RencanaProyeks.Where(d=>d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "dijalankan").OrderByDescending(d=>d.CreatedOn).Select(
                 d=>new ViewProyekSistemMonitoring(){
                     NoPengadaan = d.Spk.PemenangPengadaan.Pengadaan.NoPengadaan,
                     id = d.Id,
@@ -642,6 +643,27 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
             return rkm;
         }
-     
+
+        public List<VWReportMonitoring> GetReportMonitoring(DateTime? dari, DateTime? sampai, Guid UserId)
+        {
+            try {
+                var oReport = (from b in ctx.RencanaProyeks
+                               where b.StartDate >= dari && b.StartDate <= sampai //c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
+                               select new VWReportMonitoring
+                               {
+                                   Pengadaan = b.Spk.PemenangPengadaan.Pengadaan.Judul,
+                                   Vendor = b.Spk.PemenangPengadaan.Vendor.Nama,
+                                   Klasifikasi = b.Spk.PemenangPengadaan.Pengadaan.JenisPekerjaan,
+                                   TanggalMulai = b.StartDate.ToString(),
+                                   TanggalSelesai = b.EndDate.ToString(),
+                                   Progress = b.TahapanProyeks.Where(d=>d.ProyekId == b.Id).Count()==0?0:b.TahapanProyeks.Where(d=>d.ProyekId==b.Id).Sum(d=>(d.Progress*d.BobotPekerjaan)/100),
+                               }).Distinct().ToList();
+                return oReport;
+            }
+            catch (Exception ex)
+            {
+                return new List<VWReportMonitoring>();
+            }
+        }
     }
 }

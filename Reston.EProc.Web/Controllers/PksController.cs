@@ -24,7 +24,8 @@ using Reston.Helper;
 using Reston.Helper.Util;
 using Reston.Helper.Model;
 using System.Web;
-
+using Microsoft.Reporting.WebForms;
+using System.Reflection;
 
 namespace Reston.Pinata.WebService.Controllers
 {
@@ -35,7 +36,9 @@ namespace Reston.Pinata.WebService.Controllers
         private IPengadaanRepo _repoPengadaan;
         private string DocumentType = "PKS";
         private string FILE_DOKUMEN_PKS_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_DOKUMEN_PKS_PATH"];
-        
+
+        private string FILE_REPORT_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_REPORT_PATH"];
+
         public PksController()
         {
             _repository = new PksRepo(new JimbisContext());
@@ -618,7 +621,90 @@ namespace Reston.Pinata.WebService.Controllers
             
         }
 
-       
+        // Report PKS
+        public HttpResponseMessage ReportPKS(string dari, string sampai)
+        {
+            try
+            {
+                LocalReport lr = new LocalReport();
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+                path = Path.Combine(path, "ReportPKS.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    lr.ReportPath = path;
+                }
+
+                else
+                {
+                    //return View("Index");
+                }
+                var oDari = Common.ConvertDate(dari, "dd/MM/yyyy");
+                var oSampai = Common.ConvertDate(sampai, "dd/MM/yyyy");
+
+                var PKS = _repository.GetReportPKS(oDari, oSampai, UserId());
+
+                ReportDataSource rd = new ReportDataSource("PKS", PKS);
+                lr.DataSources.Add(rd);
+                string param1 = "";
+                string filename = "";
+                string param2 = "";
+                string paramSemester = "";
+                string paramTahunAjaran = "";
+
+
+                string reportType = "doc";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+
+                string[] streamids = null;
+                String extension = null;
+                Byte[] bytes = null;
+                Warning[] warnings;
+
+                bytes = lr.Render("Excel", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(bytes);
+
+                result.Content = new StreamContent(stream);
+
+                //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Report-PKS" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                };
+
+                return result;
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                result.Content = new StringContent(sb.ToString());
+
+                return result;
+                //Display or log the error based on your application.
+            }
+        }
     }
     
 }

@@ -147,7 +147,7 @@
                                     <div class="col-md-12">
                                         <div class="nav-tabs-custom">
                                             <ul class="nav nav-tabs">
-                                                <li class="active"><a href="#seleksi" data-toggle="tab">Semua</a></li>
+                                                <li class="active"><a href="#seleksi" data-toggle="tab">Seleksi</a></li>
                                                 <li><a href="#draf" data-toggle="tab">Draf</a></li>
                                                 <li><a href="#sedang_berjalan" data-toggle="tab">Sedang Berjalan</a></li>
                                                 <li><a href="#selesai" data-toggle="tab">Selesai</a></li>
@@ -532,7 +532,7 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            return ' <a href="pengadaan-terbuka-detail.html#' + row.Id + '" id="" class="btn btn-sm btn-success "> Review </a> ';
+                            return ' <a href="monitoring-proyek-add.html?id-pengadaan=' + row.Id + '" id="" class="btn btn-sm btn-success "> Review </a> ';
                         },
                         "targets": 8,
                         "orderable": false

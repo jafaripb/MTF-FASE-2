@@ -1603,57 +1603,25 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             private global::System.Data.DataColumn columnId;
             
+            private global::System.Data.DataColumn columnNoPO;
+            
             private global::System.Data.DataColumn columnPrihal;
             
             private global::System.Data.DataColumn columnVendor;
             
-            private global::System.Data.DataColumn columnUP;
+            private global::System.Data.DataColumn columnPICName;
             
-            private global::System.Data.DataColumn columnNoPO;
-            
-            private global::System.Data.DataColumn columnTanggalPO;
+            private global::System.Data.DataColumn columnDivisi;
             
             private global::System.Data.DataColumn columnNilaiPO;
             
-            private global::System.Data.DataColumn columnTanggalPOstr;
+            private global::System.Data.DataColumn columnTanggalPO;
             
-            private global::System.Data.DataColumn columnAlmatBarangUp;
+            private global::System.Data.DataColumn columnTanggalDO;
             
-            private global::System.Data.DataColumn columnRekening;
+            private global::System.Data.DataColumn columnTanggalInvoice;
             
-            private global::System.Data.DataColumn columnAtasNama;
-            
-            private global::System.Data.DataColumn columnBank;
-            
-            private global::System.Data.DataColumn columnTelpBarang;
-            
-            private global::System.Data.DataColumn columnKwitansiUp;
-            
-            private global::System.Data.DataColumn columnTotal;
-            
-            private global::System.Data.DataColumn columnTTD1;
-            
-            private global::System.Data.DataColumn columnTTD2;
-            
-            private global::System.Data.DataColumn columnTTD3;
-            
-            private global::System.Data.DataColumn columnTTD4;
-            
-            private global::System.Data.DataColumn columnPeriodeDari;
-            
-            private global::System.Data.DataColumn columnPeriodeDaristr;
-            
-            private global::System.Data.DataColumn columnPeriodeSampai;
-            
-            private global::System.Data.DataColumn columnPeriodeSampaistr;
-            
-            private global::System.Data.DataColumn columnAlamatKwitansi;
-            
-            private global::System.Data.DataColumn columnNPWP;
-            
-            private global::System.Data.DataColumn columnAlamatPengirimanKwitansi;
-            
-            private global::System.Data.DataColumn columnUpPengirimanBarang;
+            private global::System.Data.DataColumn columnTanggalFinance;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -1698,6 +1666,14 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NoPOColumn {
+                get {
+                    return this.columnNoPO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn PrihalColumn {
                 get {
                     return this.columnPrihal;
@@ -1714,25 +1690,17 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn UPColumn {
+            public global::System.Data.DataColumn PICNameColumn {
                 get {
-                    return this.columnUP;
+                    return this.columnPICName;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NoPOColumn {
+            public global::System.Data.DataColumn DivisiColumn {
                 get {
-                    return this.columnNoPO;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn TanggalPOColumn {
-                get {
-                    return this.columnTanggalPO;
+                    return this.columnDivisi;
                 }
             }
             
@@ -1746,161 +1714,33 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn TanggalPOstrColumn {
+            public global::System.Data.DataColumn TanggalPOColumn {
                 get {
-                    return this.columnTanggalPOstr;
+                    return this.columnTanggalPO;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn AlmatBarangUpColumn {
+            public global::System.Data.DataColumn TanggalDOColumn {
                 get {
-                    return this.columnAlmatBarangUp;
+                    return this.columnTanggalDO;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn RekeningColumn {
+            public global::System.Data.DataColumn TanggalInvoiceColumn {
                 get {
-                    return this.columnRekening;
+                    return this.columnTanggalInvoice;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn AtasNamaColumn {
+            public global::System.Data.DataColumn TanggalFinanceColumn {
                 get {
-                    return this.columnAtasNama;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn BankColumn {
-                get {
-                    return this.columnBank;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn TelpBarangColumn {
-                get {
-                    return this.columnTelpBarang;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn KwitansiUpColumn {
-                get {
-                    return this.columnKwitansiUp;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn TotalColumn {
-                get {
-                    return this.columnTotal;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn TTD1Column {
-                get {
-                    return this.columnTTD1;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn TTD2Column {
-                get {
-                    return this.columnTTD2;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn TTD3Column {
-                get {
-                    return this.columnTTD3;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn TTD4Column {
-                get {
-                    return this.columnTTD4;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PeriodeDariColumn {
-                get {
-                    return this.columnPeriodeDari;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PeriodeDaristrColumn {
-                get {
-                    return this.columnPeriodeDaristr;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PeriodeSampaiColumn {
-                get {
-                    return this.columnPeriodeSampai;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PeriodeSampaistrColumn {
-                get {
-                    return this.columnPeriodeSampaistr;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn AlamatKwitansiColumn {
-                get {
-                    return this.columnAlamatKwitansi;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NPWPColumn {
-                get {
-                    return this.columnNPWP;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn AlamatPengirimanKwitansiColumn {
-                get {
-                    return this.columnAlamatPengirimanKwitansi;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn UpPengirimanBarangColumn {
-                get {
-                    return this.columnUpPengirimanBarang;
+                    return this.columnTanggalFinance;
                 }
             }
             
@@ -1941,63 +1781,20 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ReportPORow AddReportPORow(
-                        System.Guid Id, 
-                        string Prihal, 
-                        string Vendor, 
-                        string UP, 
-                        string NoPO, 
-                        string TanggalPO, 
-                        string NilaiPO, 
-                        string TanggalPOstr, 
-                        string AlmatBarangUp, 
-                        string Rekening, 
-                        string AtasNama, 
-                        string Bank, 
-                        string TelpBarang, 
-                        string KwitansiUp, 
-                        string Total, 
-                        string TTD1, 
-                        string TTD2, 
-                        string TTD3, 
-                        string TTD4, 
-                        string PeriodeDari, 
-                        string PeriodeDaristr, 
-                        string PeriodeSampai, 
-                        string PeriodeSampaistr, 
-                        string AlamatKwitansi, 
-                        string NPWP, 
-                        string AlamatPengirimanKwitansi, 
-                        string UpPengirimanBarang) {
+            public ReportPORow AddReportPORow(System.Guid Id, string NoPO, string Prihal, string Vendor, string PICName, string Divisi, string NilaiPO, string TanggalPO, string TanggalDO, string TanggalInvoice, string TanggalFinance) {
                 ReportPORow rowReportPORow = ((ReportPORow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Id,
+                        NoPO,
                         Prihal,
                         Vendor,
-                        UP,
-                        NoPO,
-                        TanggalPO,
+                        PICName,
+                        Divisi,
                         NilaiPO,
-                        TanggalPOstr,
-                        AlmatBarangUp,
-                        Rekening,
-                        AtasNama,
-                        Bank,
-                        TelpBarang,
-                        KwitansiUp,
-                        Total,
-                        TTD1,
-                        TTD2,
-                        TTD3,
-                        TTD4,
-                        PeriodeDari,
-                        PeriodeDaristr,
-                        PeriodeSampai,
-                        PeriodeSampaistr,
-                        AlamatKwitansi,
-                        NPWP,
-                        AlamatPengirimanKwitansi,
-                        UpPengirimanBarang};
+                        TanggalPO,
+                        TanggalDO,
+                        TanggalInvoice,
+                        TanggalFinance};
                 rowReportPORow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReportPORow);
                 return rowReportPORow;
@@ -2021,32 +1818,16 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
                 this.columnId = base.Columns["Id"];
+                this.columnNoPO = base.Columns["NoPO"];
                 this.columnPrihal = base.Columns["Prihal"];
                 this.columnVendor = base.Columns["Vendor"];
-                this.columnUP = base.Columns["UP"];
-                this.columnNoPO = base.Columns["NoPO"];
-                this.columnTanggalPO = base.Columns["TanggalPO"];
+                this.columnPICName = base.Columns["PICName"];
+                this.columnDivisi = base.Columns["Divisi"];
                 this.columnNilaiPO = base.Columns["NilaiPO"];
-                this.columnTanggalPOstr = base.Columns["TanggalPOstr"];
-                this.columnAlmatBarangUp = base.Columns["AlmatBarangUp"];
-                this.columnRekening = base.Columns["Rekening"];
-                this.columnAtasNama = base.Columns["AtasNama"];
-                this.columnBank = base.Columns["Bank"];
-                this.columnTelpBarang = base.Columns["TelpBarang"];
-                this.columnKwitansiUp = base.Columns["KwitansiUp"];
-                this.columnTotal = base.Columns["Total"];
-                this.columnTTD1 = base.Columns["TTD1"];
-                this.columnTTD2 = base.Columns["TTD2"];
-                this.columnTTD3 = base.Columns["TTD3"];
-                this.columnTTD4 = base.Columns["TTD4"];
-                this.columnPeriodeDari = base.Columns["PeriodeDari"];
-                this.columnPeriodeDaristr = base.Columns["PeriodeDaristr"];
-                this.columnPeriodeSampai = base.Columns["PeriodeSampai"];
-                this.columnPeriodeSampaistr = base.Columns["PeriodeSampaistr"];
-                this.columnAlamatKwitansi = base.Columns["AlamatKwitansi"];
-                this.columnNPWP = base.Columns["NPWP"];
-                this.columnAlamatPengirimanKwitansi = base.Columns["AlamatPengirimanKwitansi"];
-                this.columnUpPengirimanBarang = base.Columns["UpPengirimanBarang"];
+                this.columnTanggalPO = base.Columns["TanggalPO"];
+                this.columnTanggalDO = base.Columns["TanggalDO"];
+                this.columnTanggalInvoice = base.Columns["TanggalInvoice"];
+                this.columnTanggalFinance = base.Columns["TanggalFinance"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2054,58 +1835,26 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             private void InitClass() {
                 this.columnId = new global::System.Data.DataColumn("Id", typeof(global::System.Guid), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnId);
+                this.columnNoPO = new global::System.Data.DataColumn("NoPO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNoPO);
                 this.columnPrihal = new global::System.Data.DataColumn("Prihal", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPrihal);
                 this.columnVendor = new global::System.Data.DataColumn("Vendor", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVendor);
-                this.columnUP = new global::System.Data.DataColumn("UP", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnUP);
-                this.columnNoPO = new global::System.Data.DataColumn("NoPO", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNoPO);
-                this.columnTanggalPO = new global::System.Data.DataColumn("TanggalPO", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTanggalPO);
+                this.columnPICName = new global::System.Data.DataColumn("PICName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPICName);
+                this.columnDivisi = new global::System.Data.DataColumn("Divisi", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDivisi);
                 this.columnNilaiPO = new global::System.Data.DataColumn("NilaiPO", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNilaiPO);
-                this.columnTanggalPOstr = new global::System.Data.DataColumn("TanggalPOstr", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTanggalPOstr);
-                this.columnAlmatBarangUp = new global::System.Data.DataColumn("AlmatBarangUp", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnAlmatBarangUp);
-                this.columnRekening = new global::System.Data.DataColumn("Rekening", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRekening);
-                this.columnAtasNama = new global::System.Data.DataColumn("AtasNama", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnAtasNama);
-                this.columnBank = new global::System.Data.DataColumn("Bank", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnBank);
-                this.columnTelpBarang = new global::System.Data.DataColumn("TelpBarang", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTelpBarang);
-                this.columnKwitansiUp = new global::System.Data.DataColumn("KwitansiUp", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnKwitansiUp);
-                this.columnTotal = new global::System.Data.DataColumn("Total", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTotal);
-                this.columnTTD1 = new global::System.Data.DataColumn("TTD1", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTTD1);
-                this.columnTTD2 = new global::System.Data.DataColumn("TTD2", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTTD2);
-                this.columnTTD3 = new global::System.Data.DataColumn("TTD3", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTTD3);
-                this.columnTTD4 = new global::System.Data.DataColumn("TTD4", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTTD4);
-                this.columnPeriodeDari = new global::System.Data.DataColumn("PeriodeDari", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPeriodeDari);
-                this.columnPeriodeDaristr = new global::System.Data.DataColumn("PeriodeDaristr", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPeriodeDaristr);
-                this.columnPeriodeSampai = new global::System.Data.DataColumn("PeriodeSampai", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPeriodeSampai);
-                this.columnPeriodeSampaistr = new global::System.Data.DataColumn("PeriodeSampaistr", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPeriodeSampaistr);
-                this.columnAlamatKwitansi = new global::System.Data.DataColumn("AlamatKwitansi", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnAlamatKwitansi);
-                this.columnNPWP = new global::System.Data.DataColumn("NPWP", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNPWP);
-                this.columnAlamatPengirimanKwitansi = new global::System.Data.DataColumn("AlamatPengirimanKwitansi", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnAlamatPengirimanKwitansi);
-                this.columnUpPengirimanBarang = new global::System.Data.DataColumn("UpPengirimanBarang", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnUpPengirimanBarang);
+                this.columnTanggalPO = new global::System.Data.DataColumn("TanggalPO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTanggalPO);
+                this.columnTanggalDO = new global::System.Data.DataColumn("TanggalDO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTanggalDO);
+                this.columnTanggalInvoice = new global::System.Data.DataColumn("TanggalInvoice", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTanggalInvoice);
+                this.columnTanggalFinance = new global::System.Data.DataColumn("TanggalFinance", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTanggalFinance);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, false));
                 this.columnId.Unique = true;
@@ -2993,19 +2742,17 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             private global::System.Data.DataColumn columnId;
             
-            private global::System.Data.DataColumn columnProject;
+            private global::System.Data.DataColumn columnPengadaan;
             
-            private global::System.Data.DataColumn columnVendorPelaksana;
+            private global::System.Data.DataColumn columnVendor;
             
-            private global::System.Data.DataColumn columnKlarifikasiPekerjaan;
+            private global::System.Data.DataColumn columnKlasifikasi;
             
-            private global::System.Data.DataColumn columnStartDate;
+            private global::System.Data.DataColumn columnTanggalMulai;
             
-            private global::System.Data.DataColumn columnEndDate;
+            private global::System.Data.DataColumn columnTanggalSelesai;
             
-            private global::System.Data.DataColumn columnNamaPekerjaan;
-            
-            private global::System.Data.DataColumn columnProgressPekerjaan;
+            private global::System.Data.DataColumn columnProgress;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -3050,57 +2797,49 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ProjectColumn {
+            public global::System.Data.DataColumn PengadaanColumn {
                 get {
-                    return this.columnProject;
+                    return this.columnPengadaan;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn VendorPelaksanaColumn {
+            public global::System.Data.DataColumn VendorColumn {
                 get {
-                    return this.columnVendorPelaksana;
+                    return this.columnVendor;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn KlarifikasiPekerjaanColumn {
+            public global::System.Data.DataColumn KlasifikasiColumn {
                 get {
-                    return this.columnKlarifikasiPekerjaan;
+                    return this.columnKlasifikasi;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn StartDateColumn {
+            public global::System.Data.DataColumn TanggalMulaiColumn {
                 get {
-                    return this.columnStartDate;
+                    return this.columnTanggalMulai;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn EndDateColumn {
+            public global::System.Data.DataColumn TanggalSelesaiColumn {
                 get {
-                    return this.columnEndDate;
+                    return this.columnTanggalSelesai;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NamaPekerjaanColumn {
+            public global::System.Data.DataColumn ProgressColumn {
                 get {
-                    return this.columnNamaPekerjaan;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ProgressPekerjaanColumn {
-                get {
-                    return this.columnProgressPekerjaan;
+                    return this.columnProgress;
                 }
             }
             
@@ -3141,17 +2880,16 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ReportMonitoringRow AddReportMonitoringRow(System.Guid Id, string Project, string VendorPelaksana, string KlarifikasiPekerjaan, string StartDate, string EndDate, string NamaPekerjaan, string ProgressPekerjaan) {
+            public ReportMonitoringRow AddReportMonitoringRow(System.Guid Id, string Pengadaan, string Vendor, string Klasifikasi, string TanggalMulai, string TanggalSelesai, string Progress) {
                 ReportMonitoringRow rowReportMonitoringRow = ((ReportMonitoringRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Id,
-                        Project,
-                        VendorPelaksana,
-                        KlarifikasiPekerjaan,
-                        StartDate,
-                        EndDate,
-                        NamaPekerjaan,
-                        ProgressPekerjaan};
+                        Pengadaan,
+                        Vendor,
+                        Klasifikasi,
+                        TanggalMulai,
+                        TanggalSelesai,
+                        Progress};
                 rowReportMonitoringRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReportMonitoringRow);
                 return rowReportMonitoringRow;
@@ -3175,13 +2913,12 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
                 this.columnId = base.Columns["Id"];
-                this.columnProject = base.Columns["Project"];
-                this.columnVendorPelaksana = base.Columns["VendorPelaksana"];
-                this.columnKlarifikasiPekerjaan = base.Columns["KlarifikasiPekerjaan"];
-                this.columnStartDate = base.Columns["StartDate"];
-                this.columnEndDate = base.Columns["EndDate"];
-                this.columnNamaPekerjaan = base.Columns["NamaPekerjaan"];
-                this.columnProgressPekerjaan = base.Columns["ProgressPekerjaan"];
+                this.columnPengadaan = base.Columns["Pengadaan"];
+                this.columnVendor = base.Columns["Vendor"];
+                this.columnKlasifikasi = base.Columns["Klasifikasi"];
+                this.columnTanggalMulai = base.Columns["TanggalMulai"];
+                this.columnTanggalSelesai = base.Columns["TanggalSelesai"];
+                this.columnProgress = base.Columns["Progress"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3189,30 +2926,27 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             private void InitClass() {
                 this.columnId = new global::System.Data.DataColumn("Id", typeof(global::System.Guid), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnId);
-                this.columnProject = new global::System.Data.DataColumn("Project", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnProject);
-                this.columnVendorPelaksana = new global::System.Data.DataColumn("VendorPelaksana", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnVendorPelaksana);
-                this.columnKlarifikasiPekerjaan = new global::System.Data.DataColumn("KlarifikasiPekerjaan", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnKlarifikasiPekerjaan);
-                this.columnStartDate = new global::System.Data.DataColumn("StartDate", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnStartDate);
-                this.columnEndDate = new global::System.Data.DataColumn("EndDate", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEndDate);
-                this.columnNamaPekerjaan = new global::System.Data.DataColumn("NamaPekerjaan", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNamaPekerjaan);
-                this.columnProgressPekerjaan = new global::System.Data.DataColumn("ProgressPekerjaan", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnProgressPekerjaan);
+                this.columnPengadaan = new global::System.Data.DataColumn("Pengadaan", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPengadaan);
+                this.columnVendor = new global::System.Data.DataColumn("Vendor", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnVendor);
+                this.columnKlasifikasi = new global::System.Data.DataColumn("Klasifikasi", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnKlasifikasi);
+                this.columnTanggalMulai = new global::System.Data.DataColumn("TanggalMulai", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTanggalMulai);
+                this.columnTanggalSelesai = new global::System.Data.DataColumn("TanggalSelesai", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTanggalSelesai);
+                this.columnProgress = new global::System.Data.DataColumn("Progress", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnProgress);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, false));
                 this.columnId.Unique = true;
-                this.columnProject.Caption = "Prihal";
-                this.columnVendorPelaksana.Caption = "Vendor";
-                this.columnKlarifikasiPekerjaan.Caption = "UP";
-                this.columnStartDate.Caption = "NoPO";
-                this.columnEndDate.Caption = "TanggalPO";
-                this.columnNamaPekerjaan.Caption = "TanggalPOstr";
-                this.columnProgressPekerjaan.Caption = "AlmatBarangUp";
+                this.columnPengadaan.Caption = "NamaBarang";
+                this.columnVendor.Caption = "Kode";
+                this.columnKlasifikasi.Caption = "Banyak";
+                this.columnTanggalMulai.Caption = "Satuan";
+                this.columnTanggalSelesai.Caption = "PIC";
+                this.columnProgress.Caption = "Divisi";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4661,6 +4395,22 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string NoPO {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportPO.NoPOColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NoPO\' in table \'ReportPO\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportPO.NoPOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Prihal {
                 get {
                     try {
@@ -4693,49 +4443,33 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string UP {
+            public string PICName {
                 get {
                     try {
-                        return ((string)(this[this.tableReportPO.UPColumn]));
+                        return ((string)(this[this.tableReportPO.PICNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'UP\' in table \'ReportPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'PICName\' in table \'ReportPO\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportPO.UPColumn] = value;
+                    this[this.tableReportPO.PICNameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NoPO {
+            public string Divisi {
                 get {
                     try {
-                        return ((string)(this[this.tableReportPO.NoPOColumn]));
+                        return ((string)(this[this.tableReportPO.DivisiColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NoPO\' in table \'ReportPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Divisi\' in table \'ReportPO\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportPO.NoPOColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string TanggalPO {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.TanggalPOColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TanggalPO\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.TanggalPOColumn] = value;
+                    this[this.tableReportPO.DivisiColumn] = value;
                 }
             }
             
@@ -4757,321 +4491,65 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string TanggalPOstr {
+            public string TanggalPO {
                 get {
                     try {
-                        return ((string)(this[this.tableReportPO.TanggalPOstrColumn]));
+                        return ((string)(this[this.tableReportPO.TanggalPOColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TanggalPOstr\' in table \'ReportPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'TanggalPO\' in table \'ReportPO\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportPO.TanggalPOstrColumn] = value;
+                    this[this.tableReportPO.TanggalPOColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string AlmatBarangUp {
+            public string TanggalDO {
                 get {
                     try {
-                        return ((string)(this[this.tableReportPO.AlmatBarangUpColumn]));
+                        return ((string)(this[this.tableReportPO.TanggalDOColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'AlmatBarangUp\' in table \'ReportPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'TanggalDO\' in table \'ReportPO\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportPO.AlmatBarangUpColumn] = value;
+                    this[this.tableReportPO.TanggalDOColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Rekening {
+            public string TanggalInvoice {
                 get {
                     try {
-                        return ((string)(this[this.tableReportPO.RekeningColumn]));
+                        return ((string)(this[this.tableReportPO.TanggalInvoiceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Rekening\' in table \'ReportPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'TanggalInvoice\' in table \'ReportPO\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportPO.RekeningColumn] = value;
+                    this[this.tableReportPO.TanggalInvoiceColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string AtasNama {
+            public string TanggalFinance {
                 get {
                     try {
-                        return ((string)(this[this.tableReportPO.AtasNamaColumn]));
+                        return ((string)(this[this.tableReportPO.TanggalFinanceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'AtasNama\' in table \'ReportPO\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'TanggalFinance\' in table \'ReportPO\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportPO.AtasNamaColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Bank {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.BankColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Bank\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.BankColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string TelpBarang {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.TelpBarangColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TelpBarang\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.TelpBarangColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string KwitansiUp {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.KwitansiUpColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'KwitansiUp\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.KwitansiUpColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Total {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.TotalColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Total\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.TotalColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string TTD1 {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.TTD1Column]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TTD1\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.TTD1Column] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string TTD2 {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.TTD2Column]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TTD2\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.TTD2Column] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string TTD3 {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.TTD3Column]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TTD3\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.TTD3Column] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string TTD4 {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.TTD4Column]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TTD4\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.TTD4Column] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PeriodeDari {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.PeriodeDariColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PeriodeDari\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.PeriodeDariColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PeriodeDaristr {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.PeriodeDaristrColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PeriodeDaristr\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.PeriodeDaristrColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PeriodeSampai {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.PeriodeSampaiColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PeriodeSampai\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.PeriodeSampaiColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PeriodeSampaistr {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.PeriodeSampaistrColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PeriodeSampaistr\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.PeriodeSampaistrColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string AlamatKwitansi {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.AlamatKwitansiColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'AlamatKwitansi\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.AlamatKwitansiColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NPWP {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.NPWPColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NPWP\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.NPWPColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string AlamatPengirimanKwitansi {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.AlamatPengirimanKwitansiColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'AlamatPengirimanKwitansi\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.AlamatPengirimanKwitansiColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string UpPengirimanBarang {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportPO.UpPengirimanBarangColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'UpPengirimanBarang\' in table \'ReportPO\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportPO.UpPengirimanBarangColumn] = value;
+                    this[this.tableReportPO.TanggalFinanceColumn] = value;
                 }
             }
             
@@ -5085,6 +4563,18 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetIdNull() {
                 this[this.tableReportPO.IdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNoPONull() {
+                return this.IsNull(this.tableReportPO.NoPOColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNoPONull() {
+                this[this.tableReportPO.NoPOColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5113,38 +4603,26 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsUPNull() {
-                return this.IsNull(this.tableReportPO.UPColumn);
+            public bool IsPICNameNull() {
+                return this.IsNull(this.tableReportPO.PICNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetUPNull() {
-                this[this.tableReportPO.UPColumn] = global::System.Convert.DBNull;
+            public void SetPICNameNull() {
+                this[this.tableReportPO.PICNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNoPONull() {
-                return this.IsNull(this.tableReportPO.NoPOColumn);
+            public bool IsDivisiNull() {
+                return this.IsNull(this.tableReportPO.DivisiColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNoPONull() {
-                this[this.tableReportPO.NoPOColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsTanggalPONull() {
-                return this.IsNull(this.tableReportPO.TanggalPOColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetTanggalPONull() {
-                this[this.tableReportPO.TanggalPOColumn] = global::System.Convert.DBNull;
+            public void SetDivisiNull() {
+                this[this.tableReportPO.DivisiColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5161,242 +4639,50 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsTanggalPOstrNull() {
-                return this.IsNull(this.tableReportPO.TanggalPOstrColumn);
+            public bool IsTanggalPONull() {
+                return this.IsNull(this.tableReportPO.TanggalPOColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetTanggalPOstrNull() {
-                this[this.tableReportPO.TanggalPOstrColumn] = global::System.Convert.DBNull;
+            public void SetTanggalPONull() {
+                this[this.tableReportPO.TanggalPOColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsAlmatBarangUpNull() {
-                return this.IsNull(this.tableReportPO.AlmatBarangUpColumn);
+            public bool IsTanggalDONull() {
+                return this.IsNull(this.tableReportPO.TanggalDOColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetAlmatBarangUpNull() {
-                this[this.tableReportPO.AlmatBarangUpColumn] = global::System.Convert.DBNull;
+            public void SetTanggalDONull() {
+                this[this.tableReportPO.TanggalDOColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsRekeningNull() {
-                return this.IsNull(this.tableReportPO.RekeningColumn);
+            public bool IsTanggalInvoiceNull() {
+                return this.IsNull(this.tableReportPO.TanggalInvoiceColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetRekeningNull() {
-                this[this.tableReportPO.RekeningColumn] = global::System.Convert.DBNull;
+            public void SetTanggalInvoiceNull() {
+                this[this.tableReportPO.TanggalInvoiceColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsAtasNamaNull() {
-                return this.IsNull(this.tableReportPO.AtasNamaColumn);
+            public bool IsTanggalFinanceNull() {
+                return this.IsNull(this.tableReportPO.TanggalFinanceColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetAtasNamaNull() {
-                this[this.tableReportPO.AtasNamaColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsBankNull() {
-                return this.IsNull(this.tableReportPO.BankColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetBankNull() {
-                this[this.tableReportPO.BankColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsTelpBarangNull() {
-                return this.IsNull(this.tableReportPO.TelpBarangColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetTelpBarangNull() {
-                this[this.tableReportPO.TelpBarangColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsKwitansiUpNull() {
-                return this.IsNull(this.tableReportPO.KwitansiUpColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetKwitansiUpNull() {
-                this[this.tableReportPO.KwitansiUpColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsTotalNull() {
-                return this.IsNull(this.tableReportPO.TotalColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetTotalNull() {
-                this[this.tableReportPO.TotalColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsTTD1Null() {
-                return this.IsNull(this.tableReportPO.TTD1Column);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetTTD1Null() {
-                this[this.tableReportPO.TTD1Column] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsTTD2Null() {
-                return this.IsNull(this.tableReportPO.TTD2Column);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetTTD2Null() {
-                this[this.tableReportPO.TTD2Column] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsTTD3Null() {
-                return this.IsNull(this.tableReportPO.TTD3Column);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetTTD3Null() {
-                this[this.tableReportPO.TTD3Column] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsTTD4Null() {
-                return this.IsNull(this.tableReportPO.TTD4Column);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetTTD4Null() {
-                this[this.tableReportPO.TTD4Column] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPeriodeDariNull() {
-                return this.IsNull(this.tableReportPO.PeriodeDariColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPeriodeDariNull() {
-                this[this.tableReportPO.PeriodeDariColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPeriodeDaristrNull() {
-                return this.IsNull(this.tableReportPO.PeriodeDaristrColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPeriodeDaristrNull() {
-                this[this.tableReportPO.PeriodeDaristrColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPeriodeSampaiNull() {
-                return this.IsNull(this.tableReportPO.PeriodeSampaiColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPeriodeSampaiNull() {
-                this[this.tableReportPO.PeriodeSampaiColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPeriodeSampaistrNull() {
-                return this.IsNull(this.tableReportPO.PeriodeSampaistrColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPeriodeSampaistrNull() {
-                this[this.tableReportPO.PeriodeSampaistrColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsAlamatKwitansiNull() {
-                return this.IsNull(this.tableReportPO.AlamatKwitansiColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetAlamatKwitansiNull() {
-                this[this.tableReportPO.AlamatKwitansiColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNPWPNull() {
-                return this.IsNull(this.tableReportPO.NPWPColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNPWPNull() {
-                this[this.tableReportPO.NPWPColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsAlamatPengirimanKwitansiNull() {
-                return this.IsNull(this.tableReportPO.AlamatPengirimanKwitansiColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetAlamatPengirimanKwitansiNull() {
-                this[this.tableReportPO.AlamatPengirimanKwitansiColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsUpPengirimanBarangNull() {
-                return this.IsNull(this.tableReportPO.UpPengirimanBarangColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetUpPengirimanBarangNull() {
-                this[this.tableReportPO.UpPengirimanBarangColumn] = global::System.Convert.DBNull;
+            public void SetTanggalFinanceNull() {
+                this[this.tableReportPO.TanggalFinanceColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -5994,114 +5280,97 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Project {
+            public string Pengadaan {
                 get {
                     try {
-                        return ((string)(this[this.tableReportMonitoring.ProjectColumn]));
+                        return ((string)(this[this.tableReportMonitoring.PengadaanColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Project\' in table \'ReportMonitoring\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Pengadaan\' in table \'ReportMonitoring\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportMonitoring.ProjectColumn] = value;
+                    this[this.tableReportMonitoring.PengadaanColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string VendorPelaksana {
+            public string Vendor {
                 get {
                     try {
-                        return ((string)(this[this.tableReportMonitoring.VendorPelaksanaColumn]));
+                        return ((string)(this[this.tableReportMonitoring.VendorColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'VendorPelaksana\' in table \'ReportMonitoring\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Vendor\' in table \'ReportMonitoring\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportMonitoring.VendorPelaksanaColumn] = value;
+                    this[this.tableReportMonitoring.VendorColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string KlarifikasiPekerjaan {
+            public string Klasifikasi {
                 get {
                     try {
-                        return ((string)(this[this.tableReportMonitoring.KlarifikasiPekerjaanColumn]));
+                        return ((string)(this[this.tableReportMonitoring.KlasifikasiColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'KlarifikasiPekerjaan\' in table \'ReportMonitoring\' is DBNull" +
-                                ".", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Klasifikasi\' in table \'ReportMonitoring\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportMonitoring.KlarifikasiPekerjaanColumn] = value;
+                    this[this.tableReportMonitoring.KlasifikasiColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string StartDate {
+            public string TanggalMulai {
                 get {
                     try {
-                        return ((string)(this[this.tableReportMonitoring.StartDateColumn]));
+                        return ((string)(this[this.tableReportMonitoring.TanggalMulaiColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'StartDate\' in table \'ReportMonitoring\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'TanggalMulai\' in table \'ReportMonitoring\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportMonitoring.StartDateColumn] = value;
+                    this[this.tableReportMonitoring.TanggalMulaiColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string EndDate {
+            public string TanggalSelesai {
                 get {
                     try {
-                        return ((string)(this[this.tableReportMonitoring.EndDateColumn]));
+                        return ((string)(this[this.tableReportMonitoring.TanggalSelesaiColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'EndDate\' in table \'ReportMonitoring\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'TanggalSelesai\' in table \'ReportMonitoring\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportMonitoring.EndDateColumn] = value;
+                    this[this.tableReportMonitoring.TanggalSelesaiColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NamaPekerjaan {
+            public string Progress {
                 get {
                     try {
-                        return ((string)(this[this.tableReportMonitoring.NamaPekerjaanColumn]));
+                        return ((string)(this[this.tableReportMonitoring.ProgressColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NamaPekerjaan\' in table \'ReportMonitoring\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Progress\' in table \'ReportMonitoring\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportMonitoring.NamaPekerjaanColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string ProgressPekerjaan {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportMonitoring.ProgressPekerjaanColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ProgressPekerjaan\' in table \'ReportMonitoring\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportMonitoring.ProgressPekerjaanColumn] = value;
+                    this[this.tableReportMonitoring.ProgressColumn] = value;
                 }
             }
             
@@ -6119,86 +5388,74 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsProjectNull() {
-                return this.IsNull(this.tableReportMonitoring.ProjectColumn);
+            public bool IsPengadaanNull() {
+                return this.IsNull(this.tableReportMonitoring.PengadaanColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetProjectNull() {
-                this[this.tableReportMonitoring.ProjectColumn] = global::System.Convert.DBNull;
+            public void SetPengadaanNull() {
+                this[this.tableReportMonitoring.PengadaanColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsVendorPelaksanaNull() {
-                return this.IsNull(this.tableReportMonitoring.VendorPelaksanaColumn);
+            public bool IsVendorNull() {
+                return this.IsNull(this.tableReportMonitoring.VendorColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetVendorPelaksanaNull() {
-                this[this.tableReportMonitoring.VendorPelaksanaColumn] = global::System.Convert.DBNull;
+            public void SetVendorNull() {
+                this[this.tableReportMonitoring.VendorColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsKlarifikasiPekerjaanNull() {
-                return this.IsNull(this.tableReportMonitoring.KlarifikasiPekerjaanColumn);
+            public bool IsKlasifikasiNull() {
+                return this.IsNull(this.tableReportMonitoring.KlasifikasiColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetKlarifikasiPekerjaanNull() {
-                this[this.tableReportMonitoring.KlarifikasiPekerjaanColumn] = global::System.Convert.DBNull;
+            public void SetKlasifikasiNull() {
+                this[this.tableReportMonitoring.KlasifikasiColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsStartDateNull() {
-                return this.IsNull(this.tableReportMonitoring.StartDateColumn);
+            public bool IsTanggalMulaiNull() {
+                return this.IsNull(this.tableReportMonitoring.TanggalMulaiColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetStartDateNull() {
-                this[this.tableReportMonitoring.StartDateColumn] = global::System.Convert.DBNull;
+            public void SetTanggalMulaiNull() {
+                this[this.tableReportMonitoring.TanggalMulaiColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsEndDateNull() {
-                return this.IsNull(this.tableReportMonitoring.EndDateColumn);
+            public bool IsTanggalSelesaiNull() {
+                return this.IsNull(this.tableReportMonitoring.TanggalSelesaiColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetEndDateNull() {
-                this[this.tableReportMonitoring.EndDateColumn] = global::System.Convert.DBNull;
+            public void SetTanggalSelesaiNull() {
+                this[this.tableReportMonitoring.TanggalSelesaiColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNamaPekerjaanNull() {
-                return this.IsNull(this.tableReportMonitoring.NamaPekerjaanColumn);
+            public bool IsProgressNull() {
+                return this.IsNull(this.tableReportMonitoring.ProgressColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNamaPekerjaanNull() {
-                this[this.tableReportMonitoring.NamaPekerjaanColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsProgressPekerjaanNull() {
-                return this.IsNull(this.tableReportMonitoring.ProgressPekerjaanColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetProgressPekerjaanNull() {
-                this[this.tableReportMonitoring.ProgressPekerjaanColumn] = global::System.Convert.DBNull;
+            public void SetProgressNull() {
+                this[this.tableReportMonitoring.ProgressColumn] = global::System.Convert.DBNull;
             }
         }
         

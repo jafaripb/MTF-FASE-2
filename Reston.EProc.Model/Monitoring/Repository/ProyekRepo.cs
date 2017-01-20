@@ -103,23 +103,48 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         // Ambil Data Proyek
         public ViewProyekPerencanaan GetDataProyek(Guid SpkId)
         {
-           var data = ctx.Spk.Where(d => d.Id == SpkId).Select(d => new ViewProyekPerencanaan
+           var cek = ctx.RencanaProyeks.Where(d => d.Id == SpkId).FirstOrDefault();
+            if(cek != null)
             {
-                //Id = d.Id,
-                Judul = d.PemenangPengadaan.Pengadaan.Judul,
-                NoPengadaan = d.PemenangPengadaan.Pengadaan.NoPengadaan,
-                NOSPK = d.NoSPk,
-                NilaiKontrak = d.NilaiSPK,
-                Pelaksana = d.PemenangPengadaan.Vendor.Nama,
-                //PIC = d.Spk.NoSPk != null ? d.PICProyeks.Select(dd => new ViewPIC { Id = dd.Id, NamaPIC = dd.Nama }).ToList() : null
-            }).FirstOrDefault();
-            if (ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault() != null)
-            {
-                data.Id = ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault().Id;
-                data.TanggalMulai = ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault().StartDate;
-                data.TanggalSelesai = ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault().EndDate;
+                var data = ctx.Spk.Where(d => d.Id == cek.SpkId).Select(d => new ViewProyekPerencanaan
+                    {
+                        Judul = d.PemenangPengadaan.Pengadaan.Judul,
+                        NoPengadaan = d.PemenangPengadaan.Pengadaan.NoPengadaan,
+                        NOSPK = d.NoSPk,
+                        NilaiKontrak = d.NilaiSPK,
+                        Pelaksana = d.PemenangPengadaan.Vendor.Nama,
+                    }).FirstOrDefault();
+
+                if (ctx.RencanaProyeks.Where(dd => dd.SpkId == cek.SpkId).FirstOrDefault() != null)
+                {
+                    data.Id = ctx.RencanaProyeks.Where(dd => dd.SpkId == cek.SpkId).FirstOrDefault().Id;
+                    data.TanggalMulai = ctx.RencanaProyeks.Where(dd => dd.SpkId == cek.SpkId).FirstOrDefault().StartDate;
+                    data.TanggalSelesai = ctx.RencanaProyeks.Where(dd => dd.SpkId == cek.SpkId).FirstOrDefault().EndDate;
+                }
+
+                return data;
             }
-            return data;
+            else
+            {
+                var data = ctx.Spk.Where(d => d.Id == SpkId).Select(d => new ViewProyekPerencanaan
+                {
+                    //Id = d.Id,
+                    Judul = d.PemenangPengadaan.Pengadaan.Judul,
+                    NoPengadaan = d.PemenangPengadaan.Pengadaan.NoPengadaan,
+                    NOSPK = d.NoSPk,
+                    NilaiKontrak = d.NilaiSPK,
+                    Pelaksana = d.PemenangPengadaan.Vendor.Nama,
+                    //PIC = d.Spk.NoSPk != null ? d.PICProyeks.Select(dd => new ViewPIC { Id = dd.Id, NamaPIC = dd.Nama }).ToList() : null
+                }).FirstOrDefault();
+                if (ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault() != null)
+                {
+                    data.Id = ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault().Id;
+                    data.TanggalMulai = ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault().StartDate;
+                    data.TanggalSelesai = ctx.RencanaProyeks.Where(dd => dd.SpkId == SpkId).FirstOrDefault().EndDate;
+                }
+
+                return data;
+            }
         }
 
         // Get Catatan
@@ -355,11 +380,19 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rm = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.SpkId == ProyekId).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId).FirstOrDefault();
 
                 if (odata != null)
                 {
-                    rm.message = "Data Berhasil Disimpan";
+                    odata.StartDate = xStartDate;
+                    odata.EndDate = xEndDate;
+                    odata.Status = "Draf";
+                    odata.ModifiedBy = UserId;
+                    odata.ModifiedOn = DateTime.Now;
+                    
+                    ctx.SaveChanges(UserId.ToString());
+                    rm.status = HttpStatusCode.OK;
+                    rm.message = "Data Berhasil Dirubah";
                 }
                 else if(xStartDate == null)
                 {
