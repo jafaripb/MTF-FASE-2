@@ -2966,19 +2966,19 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             private global::System.Data.DataColumn columnId;
             
-            private global::System.Data.DataColumn columnProject;
+            private global::System.Data.DataColumn columnSpkId;
+            
+            private global::System.Data.DataColumn columnNamaPekerjaan;
             
             private global::System.Data.DataColumn columnVendorPelaksana;
             
-            private global::System.Data.DataColumn columnKlarifikasiPekerjaan;
+            private global::System.Data.DataColumn columnKlasifikasiPekerjaan;
             
             private global::System.Data.DataColumn columnStartDate;
             
             private global::System.Data.DataColumn columnEndDate;
             
-            private global::System.Data.DataColumn columnNamaPekerjaan;
-            
-            private global::System.Data.DataColumn columnProgressPekerjaan;
+            private global::System.Data.DataColumn columnProgressPelaksanaan;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -3023,9 +3023,17 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ProjectColumn {
+            public global::System.Data.DataColumn SpkIdColumn {
                 get {
-                    return this.columnProject;
+                    return this.columnSpkId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NamaPekerjaanColumn {
+                get {
+                    return this.columnNamaPekerjaan;
                 }
             }
             
@@ -3039,9 +3047,9 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn KlarifikasiPekerjaanColumn {
+            public global::System.Data.DataColumn KlasifikasiPekerjaanColumn {
                 get {
-                    return this.columnKlarifikasiPekerjaan;
+                    return this.columnKlasifikasiPekerjaan;
                 }
             }
             
@@ -3063,17 +3071,9 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NamaPekerjaanColumn {
+            public global::System.Data.DataColumn ProgressPelaksanaanColumn {
                 get {
-                    return this.columnNamaPekerjaan;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ProgressPekerjaanColumn {
-                get {
-                    return this.columnProgressPekerjaan;
+                    return this.columnProgressPelaksanaan;
                 }
             }
             
@@ -3114,17 +3114,17 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ReportMonitoringRow AddReportMonitoringRow(System.Guid Id, string Project, string VendorPelaksana, string KlarifikasiPekerjaan, string StartDate, string EndDate, string NamaPekerjaan, string ProgressPekerjaan) {
+            public ReportMonitoringRow AddReportMonitoringRow(System.Guid Id, string SpkId, string NamaPekerjaan, string VendorPelaksana, string KlasifikasiPekerjaan, string StartDate, string EndDate, string ProgressPelaksanaan) {
                 ReportMonitoringRow rowReportMonitoringRow = ((ReportMonitoringRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Id,
-                        Project,
+                        SpkId,
+                        NamaPekerjaan,
                         VendorPelaksana,
-                        KlarifikasiPekerjaan,
+                        KlasifikasiPekerjaan,
                         StartDate,
                         EndDate,
-                        NamaPekerjaan,
-                        ProgressPekerjaan};
+                        ProgressPelaksanaan};
                 rowReportMonitoringRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReportMonitoringRow);
                 return rowReportMonitoringRow;
@@ -3148,13 +3148,13 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
                 this.columnId = base.Columns["Id"];
-                this.columnProject = base.Columns["Project"];
+                this.columnSpkId = base.Columns["SpkId"];
+                this.columnNamaPekerjaan = base.Columns["NamaPekerjaan"];
                 this.columnVendorPelaksana = base.Columns["VendorPelaksana"];
-                this.columnKlarifikasiPekerjaan = base.Columns["KlarifikasiPekerjaan"];
+                this.columnKlasifikasiPekerjaan = base.Columns["KlasifikasiPekerjaan"];
                 this.columnStartDate = base.Columns["StartDate"];
                 this.columnEndDate = base.Columns["EndDate"];
-                this.columnNamaPekerjaan = base.Columns["NamaPekerjaan"];
-                this.columnProgressPekerjaan = base.Columns["ProgressPekerjaan"];
+                this.columnProgressPelaksanaan = base.Columns["ProgressPelaksanaan"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3162,30 +3162,29 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             private void InitClass() {
                 this.columnId = new global::System.Data.DataColumn("Id", typeof(global::System.Guid), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnId);
-                this.columnProject = new global::System.Data.DataColumn("Project", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnProject);
+                this.columnSpkId = new global::System.Data.DataColumn("SpkId", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSpkId);
+                this.columnNamaPekerjaan = new global::System.Data.DataColumn("NamaPekerjaan", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNamaPekerjaan);
                 this.columnVendorPelaksana = new global::System.Data.DataColumn("VendorPelaksana", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVendorPelaksana);
-                this.columnKlarifikasiPekerjaan = new global::System.Data.DataColumn("KlarifikasiPekerjaan", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnKlarifikasiPekerjaan);
+                this.columnKlasifikasiPekerjaan = new global::System.Data.DataColumn("KlasifikasiPekerjaan", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnKlasifikasiPekerjaan);
                 this.columnStartDate = new global::System.Data.DataColumn("StartDate", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnStartDate);
                 this.columnEndDate = new global::System.Data.DataColumn("EndDate", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEndDate);
-                this.columnNamaPekerjaan = new global::System.Data.DataColumn("NamaPekerjaan", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNamaPekerjaan);
-                this.columnProgressPekerjaan = new global::System.Data.DataColumn("ProgressPekerjaan", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnProgressPekerjaan);
+                this.columnProgressPelaksanaan = new global::System.Data.DataColumn("ProgressPelaksanaan", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnProgressPelaksanaan);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, false));
                 this.columnId.Unique = true;
-                this.columnProject.Caption = "Prihal";
+                this.columnSpkId.Caption = "Prihal";
                 this.columnVendorPelaksana.Caption = "Vendor";
-                this.columnKlarifikasiPekerjaan.Caption = "UP";
+                this.columnKlasifikasiPekerjaan.Caption = "UP";
                 this.columnStartDate.Caption = "NoPO";
                 this.columnEndDate.Caption = "TanggalPO";
-                this.columnNamaPekerjaan.Caption = "TanggalPOstr";
-                this.columnProgressPekerjaan.Caption = "AlmatBarangUp";
+                this.columnProgressPelaksanaan.Caption = "TanggalPOstr";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5911,17 +5910,33 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Project {
+            public string SpkId {
                 get {
                     try {
-                        return ((string)(this[this.tableReportMonitoring.ProjectColumn]));
+                        return ((string)(this[this.tableReportMonitoring.SpkIdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Project\' in table \'ReportMonitoring\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'SpkId\' in table \'ReportMonitoring\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReportMonitoring.ProjectColumn] = value;
+                    this[this.tableReportMonitoring.SpkIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string NamaPekerjaan {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportMonitoring.NamaPekerjaanColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NamaPekerjaan\' in table \'ReportMonitoring\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportMonitoring.NamaPekerjaanColumn] = value;
                 }
             }
             
@@ -5943,18 +5958,18 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string KlarifikasiPekerjaan {
+            public string KlasifikasiPekerjaan {
                 get {
                     try {
-                        return ((string)(this[this.tableReportMonitoring.KlarifikasiPekerjaanColumn]));
+                        return ((string)(this[this.tableReportMonitoring.KlasifikasiPekerjaanColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'KlarifikasiPekerjaan\' in table \'ReportMonitoring\' is DBNull" +
+                        throw new global::System.Data.StrongTypingException("The value for column \'KlasifikasiPekerjaan\' in table \'ReportMonitoring\' is DBNull" +
                                 ".", e);
                     }
                 }
                 set {
-                    this[this.tableReportMonitoring.KlarifikasiPekerjaanColumn] = value;
+                    this[this.tableReportMonitoring.KlasifikasiPekerjaanColumn] = value;
                 }
             }
             
@@ -5992,33 +6007,18 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NamaPekerjaan {
+            public string ProgressPelaksanaan {
                 get {
                     try {
-                        return ((string)(this[this.tableReportMonitoring.NamaPekerjaanColumn]));
+                        return ((string)(this[this.tableReportMonitoring.ProgressPelaksanaanColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NamaPekerjaan\' in table \'ReportMonitoring\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'ProgressPelaksanaan\' in table \'ReportMonitoring\' is DBNull." +
+                                "", e);
                     }
                 }
                 set {
-                    this[this.tableReportMonitoring.NamaPekerjaanColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string ProgressPekerjaan {
-                get {
-                    try {
-                        return ((string)(this[this.tableReportMonitoring.ProgressPekerjaanColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ProgressPekerjaan\' in table \'ReportMonitoring\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReportMonitoring.ProgressPekerjaanColumn] = value;
+                    this[this.tableReportMonitoring.ProgressPelaksanaanColumn] = value;
                 }
             }
             
@@ -6036,14 +6036,26 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsProjectNull() {
-                return this.IsNull(this.tableReportMonitoring.ProjectColumn);
+            public bool IsSpkIdNull() {
+                return this.IsNull(this.tableReportMonitoring.SpkIdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetProjectNull() {
-                this[this.tableReportMonitoring.ProjectColumn] = global::System.Convert.DBNull;
+            public void SetSpkIdNull() {
+                this[this.tableReportMonitoring.SpkIdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNamaPekerjaanNull() {
+                return this.IsNull(this.tableReportMonitoring.NamaPekerjaanColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNamaPekerjaanNull() {
+                this[this.tableReportMonitoring.NamaPekerjaanColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6060,14 +6072,14 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsKlarifikasiPekerjaanNull() {
-                return this.IsNull(this.tableReportMonitoring.KlarifikasiPekerjaanColumn);
+            public bool IsKlasifikasiPekerjaanNull() {
+                return this.IsNull(this.tableReportMonitoring.KlasifikasiPekerjaanColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetKlarifikasiPekerjaanNull() {
-                this[this.tableReportMonitoring.KlarifikasiPekerjaanColumn] = global::System.Convert.DBNull;
+            public void SetKlasifikasiPekerjaanNull() {
+                this[this.tableReportMonitoring.KlasifikasiPekerjaanColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6096,26 +6108,14 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNamaPekerjaanNull() {
-                return this.IsNull(this.tableReportMonitoring.NamaPekerjaanColumn);
+            public bool IsProgressPelaksanaanNull() {
+                return this.IsNull(this.tableReportMonitoring.ProgressPelaksanaanColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNamaPekerjaanNull() {
-                this[this.tableReportMonitoring.NamaPekerjaanColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsProgressPekerjaanNull() {
-                return this.IsNull(this.tableReportMonitoring.ProgressPekerjaanColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetProgressPekerjaanNull() {
-                this[this.tableReportMonitoring.ProgressPekerjaanColumn] = global::System.Convert.DBNull;
+            public void SetProgressPelaksanaanNull() {
+                this[this.tableReportMonitoring.ProgressPelaksanaanColumn] = global::System.Convert.DBNull;
             }
         }
         

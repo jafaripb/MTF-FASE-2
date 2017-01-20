@@ -12,7 +12,7 @@
   <xs:element name="PO" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="PO" msprop:Generator_UserDSName="PO">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="PoTable" msprop:Generator_TableClassName="PoTableDataTable" msprop:Generator_TableVarName="tablePoTable" msprop:Generator_RowChangedName="PoTableRowChanged" msprop:Generator_TablePropName="PoTable" msprop:Generator_RowDeletingName="PoTableRowDeleting" msprop:Generator_RowChangingName="PoTableRowChanging" msprop:Generator_RowEvHandlerName="PoTableRowChangeEventHandler" msprop:Generator_RowDeletedName="PoTableRowDeleted" msprop:Generator_RowClassName="PoTableRow" msprop:Generator_UserTableName="PoTable" msprop:Generator_RowEvArgName="PoTableRowChangeEvent">
+        <xs:element name="PoTable" msprop:Generator_TableClassName="PoTableDataTable" msprop:Generator_TableVarName="tablePoTable" msprop:Generator_TablePropName="PoTable" msprop:Generator_RowDeletingName="PoTableRowDeleting" msprop:Generator_RowChangingName="PoTableRowChanging" msprop:Generator_RowEvHandlerName="PoTableRowChangeEventHandler" msprop:Generator_RowDeletedName="PoTableRowDeleted" msprop:Generator_UserTableName="PoTable" msprop:Generator_RowChangedName="PoTableRowChanged" msprop:Generator_RowEvArgName="PoTableRowChangeEvent" msprop:Generator_RowClassName="PoTableRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Id" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:string" minOccurs="0" />
@@ -45,7 +45,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="PoDetailTable" msprop:Generator_TableClassName="PoDetailTableDataTable" msprop:Generator_TableVarName="tablePoDetailTable" msprop:Generator_RowChangedName="PoDetailTableRowChanged" msprop:Generator_TablePropName="PoDetailTable" msprop:Generator_RowDeletingName="PoDetailTableRowDeleting" msprop:Generator_RowChangingName="PoDetailTableRowChanging" msprop:Generator_RowEvHandlerName="PoDetailTableRowChangeEventHandler" msprop:Generator_RowDeletedName="PoDetailTableRowDeleted" msprop:Generator_RowClassName="PoDetailTableRow" msprop:Generator_UserTableName="PoDetailTable" msprop:Generator_RowEvArgName="PoDetailTableRowChangeEvent">
+        <xs:element name="PoDetailTable" msprop:Generator_TableClassName="PoDetailTableDataTable" msprop:Generator_TableVarName="tablePoDetailTable" msprop:Generator_TablePropName="PoDetailTable" msprop:Generator_RowDeletingName="PoDetailTableRowDeleting" msprop:Generator_RowChangingName="PoDetailTableRowChanging" msprop:Generator_RowEvHandlerName="PoDetailTableRowChangeEventHandler" msprop:Generator_RowDeletedName="PoDetailTableRowDeleted" msprop:Generator_UserTableName="PoDetailTable" msprop:Generator_RowChangedName="PoDetailTableRowChanged" msprop:Generator_RowEvArgName="PoDetailTableRowChangeEvent" msprop:Generator_RowClassName="PoDetailTableRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Id" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:string" minOccurs="0" />
@@ -69,7 +69,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="ReportPO" msprop:Generator_TableClassName="ReportPODataTable" msprop:Generator_TableVarName="tableReportPO" msprop:Generator_TablePropName="ReportPO" msprop:Generator_RowDeletingName="ReportPORowDeleting" msprop:Generator_RowChangingName="ReportPORowChanging" msprop:Generator_RowEvHandlerName="ReportPORowChangeEventHandler" msprop:Generator_RowDeletedName="ReportPORowDeleted" msprop:Generator_UserTableName="ReportPO" msprop:Generator_RowChangedName="ReportPORowChanged" msprop:Generator_RowEvArgName="ReportPORowChangeEvent" msprop:Generator_RowClassName="ReportPORow">
+        <xs:element name="ReportPO" msprop:Generator_TableClassName="ReportPODataTable" msprop:Generator_TableVarName="tableReportPO" msprop:Generator_RowChangedName="ReportPORowChanged" msprop:Generator_TablePropName="ReportPO" msprop:Generator_RowDeletingName="ReportPORowDeleting" msprop:Generator_RowChangingName="ReportPORowChanging" msprop:Generator_RowEvHandlerName="ReportPORowChangeEventHandler" msprop:Generator_RowDeletedName="ReportPORowDeleted" msprop:Generator_RowClassName="ReportPORow" msprop:Generator_UserTableName="ReportPO" msprop:Generator_RowEvArgName="ReportPORowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Id" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:string" minOccurs="0" />
@@ -102,7 +102,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="ReportPKS" msprop:Generator_TableClassName="ReportPKSDataTable" msprop:Generator_TableVarName="tableReportPKS" msprop:Generator_TablePropName="ReportPKS" msprop:Generator_RowDeletingName="ReportPKSRowDeleting" msprop:Generator_RowChangingName="ReportPKSRowChanging" msprop:Generator_RowEvHandlerName="ReportPKSRowChangeEventHandler" msprop:Generator_RowDeletedName="ReportPKSRowDeleted" msprop:Generator_UserTableName="ReportPKS" msprop:Generator_RowChangedName="ReportPKSRowChanged" msprop:Generator_RowEvArgName="ReportPKSRowChangeEvent" msprop:Generator_RowClassName="ReportPKSRow">
+        <xs:element name="ReportPKS" msprop:Generator_TableClassName="ReportPKSDataTable" msprop:Generator_TableVarName="tableReportPKS" msprop:Generator_RowChangedName="ReportPKSRowChanged" msprop:Generator_TablePropName="ReportPKS" msprop:Generator_RowDeletingName="ReportPKSRowDeleting" msprop:Generator_RowChangingName="ReportPKSRowChanging" msprop:Generator_RowEvHandlerName="ReportPKSRowChangeEventHandler" msprop:Generator_RowDeletedName="ReportPKSRowDeleted" msprop:Generator_RowClassName="ReportPKSRow" msprop:Generator_UserTableName="ReportPKS" msprop:Generator_RowEvArgName="ReportPKSRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Id" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:string" minOccurs="0" />
@@ -119,7 +119,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="ReportSPK" msprop:Generator_TableClassName="ReportSPKDataTable" msprop:Generator_TableVarName="tableReportSPK" msprop:Generator_RowChangedName="ReportSPKRowChanged" msprop:Generator_TablePropName="ReportSPK" msprop:Generator_RowDeletingName="ReportSPKRowDeleting" msprop:Generator_RowChangingName="ReportSPKRowChanging" msprop:Generator_RowEvHandlerName="ReportSPKRowChangeEventHandler" msprop:Generator_RowDeletedName="ReportSPKRowDeleted" msprop:Generator_RowClassName="ReportSPKRow" msprop:Generator_UserTableName="ReportSPK" msprop:Generator_RowEvArgName="ReportSPKRowChangeEvent">
+        <xs:element name="ReportSPK" msprop:Generator_TableClassName="ReportSPKDataTable" msprop:Generator_TableVarName="tableReportSPK" msprop:Generator_TablePropName="ReportSPK" msprop:Generator_RowDeletingName="ReportSPKRowDeleting" msprop:Generator_RowChangingName="ReportSPKRowChanging" msprop:Generator_RowEvHandlerName="ReportSPKRowChangeEventHandler" msprop:Generator_RowDeletedName="ReportSPKRowDeleted" msprop:Generator_UserTableName="ReportSPK" msprop:Generator_RowChangedName="ReportSPKRowChanged" msprop:Generator_RowEvArgName="ReportSPKRowChangeEvent" msprop:Generator_RowClassName="ReportSPKRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Id" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:string" minOccurs="0" />
@@ -128,6 +128,20 @@
               <xs:element name="TanggalSPK" msdata:Caption="Banyak" msprop:Generator_ColumnVarNameInTable="columnTanggalSPK" msprop:Generator_ColumnPropNameInRow="TanggalSPK" msprop:Generator_ColumnPropNameInTable="TanggalSPKColumn" msprop:Generator_UserColumnName="TanggalSPK" type="xs:string" minOccurs="0" />
               <xs:element name="NilaiSPK" msdata:Caption="Satuan" msprop:Generator_ColumnVarNameInTable="columnNilaiSPK" msprop:Generator_ColumnPropNameInRow="NilaiSPK" msprop:Generator_ColumnPropNameInTable="NilaiSPKColumn" msprop:Generator_UserColumnName="NilaiSPK" type="xs:string" minOccurs="0" />
               <xs:element name="Vendor" msdata:Caption="Harga" msprop:Generator_ColumnVarNameInTable="columnVendor" msprop:Generator_ColumnPropNameInRow="Vendor" msprop:Generator_ColumnPropNameInTable="VendorColumn" msprop:Generator_UserColumnName="Vendor" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ReportMonitoring" msprop:Generator_TableClassName="ReportMonitoringDataTable" msprop:Generator_TableVarName="tableReportMonitoring" msprop:Generator_TablePropName="ReportMonitoring" msprop:Generator_RowDeletingName="ReportMonitoringRowDeleting" msprop:Generator_RowChangingName="ReportMonitoringRowChanging" msprop:Generator_RowEvHandlerName="ReportMonitoringRowChangeEventHandler" msprop:Generator_RowDeletedName="ReportMonitoringRowDeleted" msprop:Generator_UserTableName="ReportMonitoring" msprop:Generator_RowChangedName="ReportMonitoringRowChanged" msprop:Generator_RowEvArgName="ReportMonitoringRowChangeEvent" msprop:Generator_RowClassName="ReportMonitoringRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:string" minOccurs="0" />
+              <xs:element name="SpkId" msdata:Caption="Prihal" msprop:Generator_ColumnVarNameInTable="columnSpkId" msprop:Generator_ColumnPropNameInRow="SpkId" msprop:Generator_ColumnPropNameInTable="SpkIdColumn" msprop:Generator_UserColumnName="SpkId" type="xs:string" minOccurs="0" />
+              <xs:element name="NamaPekerjaan" msprop:Generator_ColumnVarNameInTable="columnNamaPekerjaan" msprop:Generator_ColumnPropNameInRow="NamaPekerjaan" msprop:Generator_ColumnPropNameInTable="NamaPekerjaanColumn" msprop:Generator_UserColumnName="NamaPekerjaan" type="xs:string" minOccurs="0" />
+              <xs:element name="VendorPelaksana" msdata:Caption="Vendor" msprop:Generator_ColumnVarNameInTable="columnVendorPelaksana" msprop:Generator_ColumnPropNameInRow="VendorPelaksana" msprop:Generator_ColumnPropNameInTable="VendorPelaksanaColumn" msprop:Generator_UserColumnName="VendorPelaksana" type="xs:string" minOccurs="0" />
+              <xs:element name="KlasifikasiPekerjaan" msdata:Caption="UP" msprop:Generator_ColumnVarNameInTable="columnKlasifikasiPekerjaan" msprop:Generator_ColumnPropNameInRow="KlasifikasiPekerjaan" msprop:Generator_ColumnPropNameInTable="KlasifikasiPekerjaanColumn" msprop:Generator_UserColumnName="KlasifikasiPekerjaan" type="xs:string" minOccurs="0" />
+              <xs:element name="StartDate" msdata:Caption="NoPO" msprop:Generator_ColumnVarNameInTable="columnStartDate" msprop:Generator_ColumnPropNameInRow="StartDate" msprop:Generator_ColumnPropNameInTable="StartDateColumn" msprop:Generator_UserColumnName="StartDate" type="xs:string" minOccurs="0" />
+              <xs:element name="EndDate" msdata:Caption="TanggalPO" msprop:Generator_ColumnVarNameInTable="columnEndDate" msprop:Generator_ColumnPropNameInRow="EndDate" msprop:Generator_ColumnPropNameInTable="EndDateColumn" msprop:Generator_UserColumnName="EndDate" type="xs:string" minOccurs="0" />
+              <xs:element name="ProgressPelaksanaan" msdata:Caption="TanggalPOstr" msprop:Generator_ColumnVarNameInTable="columnProgressPelaksanaan" msprop:Generator_ColumnPropNameInRow="ProgressPelaksanaan" msprop:Generator_ColumnPropNameInTable="ProgressPelaksanaanColumn" msprop:Generator_UserColumnName="ProgressPelaksanaan" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -151,6 +165,10 @@
     </xs:unique>
     <xs:unique name="ReportSPK_Constraint1" msdata:ConstraintName="Constraint1">
       <xs:selector xpath=".//mstns:ReportSPK" />
+      <xs:field xpath="mstns:Id" />
+    </xs:unique>
+    <xs:unique name="ReportMonitoring_Constraint1" msdata:ConstraintName="Constraint1">
+      <xs:selector xpath=".//mstns:ReportMonitoring" />
       <xs:field xpath="mstns:Id" />
     </xs:unique>
   </xs:element>

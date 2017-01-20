@@ -153,7 +153,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         List<VWPOReportDetail> GetReportPO(DateTime? dari, DateTime? sampai, Guid UserId);
         List<VWReportPks> GetReportPKS(DateTime? dari, DateTime? sampai, Guid UserId);
         List<VWReportSpk> GetReportSPK(DateTime? dari, DateTime? sampai, Guid UserId);
-        
+        List<VWReportMonitoring> GetReportMonitoring(DateTime? dari, DateTime? sampai, Guid UserId);
         int PembatalanPengadaan(VWPembatalanPengadaan vwPembatalan, Guid UserId);
         List<VWStaffCharges> GetSummaryTotal(DateTime dari, DateTime sampai, int limit = Int32.MaxValue, int skip = 0);
         List<VWStaffCharges> GetStaffCharges(string charge, DateTime dari, DateTime sampai, int limit = Int32.MaxValue, int skip = 0);
@@ -5206,6 +5206,27 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                TanggalSPK = b.TanggalSPK.ToString(),
                                NilaiSPK = b.NilaiSPK.ToString(),
                                Vendor = d.Nama
+
+                           }).Distinct().ToList();
+            return oReport;
+        }
+
+        public List<VWReportMonitoring> GetReportMonitoring(DateTime? dari, DateTime? sampai, Guid UserId)
+        {
+            var oReport = (from b in ctx.RencanaProyeks
+                           //join c in ctx.PemenangPengadaans on b.PemenangPengadaanId equals c.Id
+                           //join d in ctx.Vendors on c.VendorId equals d.Id
+                           //join e in ctx.Pengadaans on c.PengadaanId equals e.Id
+                           where b.CreatedOn >= dari && b.CreatedOn <= sampai //c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
+                           select new VWReportMonitoring
+                           {
+                               id = b.Id,
+                               SpkId = b.SpkId,
+                               NamaPekerjaan = "a",
+                               VendorPelaksana = "a",
+                               KlasifikasiPekerjaan = "a",
+                               StartDate = b.StartDate,
+                               EndDate = b.EndDate,
 
                            }).Distinct().ToList();
             return oReport;

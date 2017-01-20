@@ -68,6 +68,8 @@ namespace IdLdap.Configuration
 
         public override async Task AuthenticateLocalAsync(IdentityServer3.Core.Models.LocalAuthenticationContext context)
         {
+            var appBAse = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            var path = appBAse + @"\log\login.txt";
             try
             {
                 var splitData = context.UserName.Split('#');
@@ -83,8 +85,7 @@ namespace IdLdap.Configuration
                 var message = context.SignInMessage;
 
                 context.AuthenticateResult = null;
-                var appBAse = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-                var path = appBAse + @"\log\login.txt";
+                
                 System.IO.File.AppendAllText(path, Environment.NewLine + DateTime.Now.ToString() + Environment.NewLine);
 
                 bool UseAppDir = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["LDAP_APPDIR"]);
@@ -161,6 +162,7 @@ namespace IdLdap.Configuration
             }
             catch (Exception ex)
             {
+                System.IO.File.AppendAllText(path, Environment.NewLine + DateTime.Now.ToString()+": "+ex.ToString() + Environment.NewLine);
                 context.AuthenticateResult = null;
             }
         }
