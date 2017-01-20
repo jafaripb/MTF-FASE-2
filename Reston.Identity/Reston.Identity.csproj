@@ -1031,6 +1031,8 @@
     </Content>
     <None Include="Properties\PublishProfiles\identity-mtf.pubxml" />
     <None Include="Properties\PublishProfiles\identity.pubxml" />
+    <None Include="Properties\PublishProfiles\identity1.pubxml" />
+    <None Include="Properties\PublishProfiles\identity2.pubxml" />
     <None Include="Properties\PublishProfiles\mtf-identity.pubxml" />
     <None Include="Properties\PublishProfiles\mtf-ldap.pubxml" />
     <None Include="Properties\PublishProfiles\release.identity.pubxml" />

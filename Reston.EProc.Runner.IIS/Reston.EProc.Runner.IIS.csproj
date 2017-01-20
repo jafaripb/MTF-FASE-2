@@ -2739,6 +2739,7 @@
     <EmbeddedResource Include="Report\po.rdlc" />
     <Content Include="Report\ReportPKS.rdlc" />
     <Content Include="Report\ReportSPK.rdlc" />
+    <Content Include="Report\ReportMonitoring.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Reston.EProc.Web\Reston.EProc.Web.csproj">
