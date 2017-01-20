@@ -140,5 +140,14 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public int recordsFiltered { get; set; }
         public List<ViewTableDetailPekerjaan> data { get; set; }
     }
-    
+
+    public class VWReportMonitoring
+    {
+        public string Pengadaan {get; set;}
+        public string Vendor { get; set; }
+        public string Klasifikasi { get; set; }
+        public string TanggalMulai { get; set; }
+        public string TanggalSelesai { get; set; }
+        public decimal Progress { get; set; }
+    }
 }

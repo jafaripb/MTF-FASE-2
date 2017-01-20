@@ -167,7 +167,6 @@ $(function () {
     });
 
     $("#table-podetail").on("click", ".pilih-pks", function () {
-        console.log($(this).attr("obj"));
         var obj = jQuery.parseJSON($(this).attr("obj"));       
         waitingDialog.showloading("Proses Harap Tunggu");
         $("#judul").val(obj.Judul);
@@ -188,6 +187,9 @@ $(function () {
         data.Vendor = $("#vendor").val();
         data.NoPO = $("#no-po").val();
         data.TanggalPOstr = moment($("#tanggal-po").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.TanggalDOstr = moment($("#tanggal-do").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.TanggalInvoicestr = moment($("#tanggal-invoice").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.TanggalFinancestr = moment($("#tanggal-kirim-finance").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
         data.NilaiPO = $("#nilai-po-hidden").val();
         data.UP = $("#up").val();
         data.PeriodeDaristr = moment($("#periode-dari").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
@@ -213,7 +215,6 @@ $(function () {
         data.pph = $("#pph").val();
         data.keterangan = $("#keterangan").val();
         save(data);
-        console.log(data);
     });   
 
     $(".Hapus").on("click", function () {
@@ -231,7 +232,7 @@ $(function () {
     $(".date").datetimepicker({
         format: "DD MMMM YYYY",
         locale: 'id',
-        useCurrent: true
+        useCurrent: true,
     });
 
     $("#banyak").on("change", function () {
@@ -316,6 +317,9 @@ function loadDetail(Id) {
         $("#vendor").val(data.Vendor);
         $("#no-po").val(data.NoPO);
         $("#tanggal-po").val(moment(data.TanggalPO).format("DD MMMM YYYY"));
+        $("#tanggal-do").val(moment(data.TanggalDO).format("DD MMMM YYYY"));
+        $("#tanggal-invoice").val(moment(data.TanggalInvoice).format("DD MMMM YYYY"));
+        $("#tanggal-kirim-finance").val(moment(data.TanggalFinance).format("DD MMMM YYYY"));
         $("#nilai-po-hidden").val(data.NilaiPO);
         $("#nilai-po").val(accounting.formatNumber(data.NilaiPO, { thousand: ".", decimal: ",", precision: 2 }));
         $("#up").val(data.UP);
