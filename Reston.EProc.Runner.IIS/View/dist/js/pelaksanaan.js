@@ -781,7 +781,6 @@ $(function () {
                         else {
                             id = $.parseJSON(item.xhr.response);
                         }
-                        console.log(myDropzoneBeritaAcaraBukaAmplop.files);
                         if (id == FileId) {
                             myDropzoneBeritaAcaraBukaAmplop.removeFile(item);
                         }
@@ -893,8 +892,6 @@ $(function () {
         if (StatusBtn==0) {
             var now = moment();
             var TimeMulai = moment($($(this).attr("attr1")).val(), ["D MMMM YYYY HH:mm"], "id");//.format("DD/MM/YYYY HH:mm");
-            console.log(now);
-            console.log(TimeMulai);
             //if (TimeMulai != "Invalid date") {
             //    if(TimeMulai>now)
                    $($(this).attr("attr1")).removeAttr("disabled");

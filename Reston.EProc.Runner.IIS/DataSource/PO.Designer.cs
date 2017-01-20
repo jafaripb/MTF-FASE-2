@@ -2649,6 +2649,10 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             private global::System.Data.DataColumn columnNilaiSPK;
             
+            private global::System.Data.DataColumn columnPIC;
+            
+            private global::System.Data.DataColumn columnDivisi;
+            
             private global::System.Data.DataColumn columnVendor;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2726,6 +2730,22 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PICColumn {
+                get {
+                    return this.columnPIC;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DivisiColumn {
+                get {
+                    return this.columnDivisi;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn VendorColumn {
                 get {
                     return this.columnVendor;
@@ -2769,7 +2789,7 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ReportSPKRow AddReportSPKRow(System.Guid Id, string Title, string NoSpk, string TanggalSPK, string NilaiSPK, string Vendor) {
+            public ReportSPKRow AddReportSPKRow(System.Guid Id, string Title, string NoSpk, string TanggalSPK, string NilaiSPK, string PIC, string Divisi, string Vendor) {
                 ReportSPKRow rowReportSPKRow = ((ReportSPKRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Id,
@@ -2777,6 +2797,8 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                         NoSpk,
                         TanggalSPK,
                         NilaiSPK,
+                        PIC,
+                        Divisi,
                         Vendor};
                 rowReportSPKRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReportSPKRow);
@@ -2805,6 +2827,8 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 this.columnNoSpk = base.Columns["NoSpk"];
                 this.columnTanggalSPK = base.Columns["TanggalSPK"];
                 this.columnNilaiSPK = base.Columns["NilaiSPK"];
+                this.columnPIC = base.Columns["PIC"];
+                this.columnDivisi = base.Columns["Divisi"];
                 this.columnVendor = base.Columns["Vendor"];
             }
             
@@ -2821,6 +2845,10 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 base.Columns.Add(this.columnTanggalSPK);
                 this.columnNilaiSPK = new global::System.Data.DataColumn("NilaiSPK", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNilaiSPK);
+                this.columnPIC = new global::System.Data.DataColumn("PIC", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPIC);
+                this.columnDivisi = new global::System.Data.DataColumn("Divisi", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDivisi);
                 this.columnVendor = new global::System.Data.DataColumn("Vendor", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVendor);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
@@ -2830,7 +2858,6 @@ namespace Reston.EProc.Runner.IIS.DataSource {
                 this.columnNoSpk.Caption = "Kode";
                 this.columnTanggalSPK.Caption = "Banyak";
                 this.columnNilaiSPK.Caption = "Satuan";
-                this.columnVendor.Caption = "Harga";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5791,6 +5818,38 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string PIC {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportSPK.PICColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PIC\' in table \'ReportSPK\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportSPK.PICColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Divisi {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportSPK.DivisiColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Divisi\' in table \'ReportSPK\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportSPK.DivisiColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Vendor {
                 get {
                     try {
@@ -5863,6 +5922,30 @@ namespace Reston.EProc.Runner.IIS.DataSource {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetNilaiSPKNull() {
                 this[this.tableReportSPK.NilaiSPKColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPICNull() {
+                return this.IsNull(this.tableReportSPK.PICColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPICNull() {
+                this[this.tableReportSPK.PICColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDivisiNull() {
+                return this.IsNull(this.tableReportSPK.DivisiColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDivisiNull() {
+                this[this.tableReportSPK.DivisiColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

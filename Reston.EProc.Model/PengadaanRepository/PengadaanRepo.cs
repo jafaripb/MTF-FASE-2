@@ -1049,7 +1049,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 PengadaanButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN).Count(),
                 PemenangButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.PersetujuanPemenangs.Where(dd=>dd.Status == StatusPengajuanPemenang.PENDING).Count()>0).Count(),
                 PemenangDiSetujui = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0).Count(),
-                MonitorSelection = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0).Count(),
+                MonitorSelection = ctx.RencanaProyeks.Where(d => d.Status == "dijalankan").Count(),
                 TotalSeluruhPersetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN).Count() + ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING).Count() > 0).Count()
             };
         }
@@ -5198,14 +5198,17 @@ namespace Reston.Pinata.Model.PengadaanRepository
                            join c in ctx.PemenangPengadaans on b.PemenangPengadaanId equals c.Id
                            join d in ctx.Vendors on c.VendorId equals d.Id
                            join e in ctx.Pengadaans on c.PengadaanId equals e.Id
-                           where b.CreateOn >= dari && b.CreateOn <= sampai //c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
+                           join f in ctx.PersonilPengadaans on e.Id equals f.PengadaanId
+                           where b.CreateOn >= dari && b.CreateOn <= sampai && f.tipe=="pic"//c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
                            select new VWReportSpk
                            {
                                NoSpk = b.NoSPk,
-                               Title = b.Title,
+                               Title = e.Judul,
+                               Vendor = d.Nama,
+                               PIC = f.Nama,
+                               Divisi = e.UnitKerjaPemohon,
                                TanggalSPK = b.TanggalSPK.ToString(),
                                NilaiSPK = b.NilaiSPK.ToString(),
-                               Vendor = d.Nama
 
                            }).Distinct().ToList();
             return oReport;

@@ -120,12 +120,12 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
         public DataTableViewProyekSistemMonitoring GetDataListProyekMonitoring(string search, int start, int length, Klasifikasi? dklasifikasi)
         {
-             search = search == null ? "" : search;
+            search = search == null ? "" : search;
             DataTableViewProyekSistemMonitoring dt = new DataTableViewProyekSistemMonitoring();
             
-            dt.recordsTotal = ctx.RencanaProyeks.Count();
-            dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search)).Count();
-            var data = ctx.RencanaProyeks.Where(d=>d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search)).OrderByDescending(d=>d.CreatedOn).Select(
+            dt.recordsTotal = ctx.RencanaProyeks.Where(d =>d.Status== "dijalankan").Count();
+            dt.recordsFiltered = ctx.RencanaProyeks.Where(d => d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "dijalankan").Count();
+            var data = ctx.RencanaProyeks.Where(d=>d.Spk.PemenangPengadaan.Pengadaan.Judul.Contains(search) && d.Status == "dijalankan").OrderByDescending(d=>d.CreatedOn).Select(
                 d=>new ViewProyekSistemMonitoring(){
                     NoPengadaan = d.Spk.PemenangPengadaan.Pengadaan.NoPengadaan,
                     id = d.Id,

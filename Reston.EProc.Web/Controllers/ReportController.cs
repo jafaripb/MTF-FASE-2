@@ -1362,7 +1362,7 @@ namespace Reston.Pinata.WebService.Controllers
                     doc.ReplaceText("{alamat}",vendor.Alamat.ToString());
                     doc.ReplaceText("{terbilang}",item.total==null?"": MyConverter.Terbilang(item.total.Value.ToString()) + " Rupiah");
                    // doc.SaveAs(OutFileNama);
-                    docM.InsertSection();
+                    //docM.InsertSection();
 
                     docM.InsertDocument(doc); //doc.SaveAs(OutFileNama);
                     streamx.Close();
