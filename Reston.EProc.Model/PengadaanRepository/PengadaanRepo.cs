@@ -975,25 +975,15 @@ namespace Reston.Pinata.Model.PengadaanRepository
         {
             DataTablePengadaan oData=new DataTablePengadaan();
             var dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status );
-            if (more == 1 && status == EStatusPengadaan.DISETUJUI) dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status >= status && d.Status != EStatusPengadaan.ARSIP && d.Status != EStatusPengadaan.DITOLAK && d.Status != EStatusPengadaan.DIBATALKAN);
+            if (more == 1 && status == EStatusPengadaan.DISETUJUI) dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status >= status && d.Status != EStatusPengadaan.ARSIP && d.Status != EStatusPengadaan.DITOLAK && d.Status != EStatusPengadaan.DIBATALKAN).OrderByDescending(d => d.CreatedOn);
             if (spk == 1 && status == EStatusPengadaan.PEMENANG)
             {
-                dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0);
+                dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0).OrderByDescending(d => d.CreatedOn);
             }
-           /* var TotalHps = (from bb in ctx.HargaKlarifikasiRekanans
-                            join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
-                            join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
-                            where dd.PengadaanId == dt.FirstOrDefault().Id && bb.VendorId == dt.FirstOrDefault().PemenangPengadaans.FirstOrDefault().Vendor.Id
-                            select new
-                            {
-                                harga = bb.harga,
-                                jumlah = cc.jumlah
-                            }).Sum(x => x.harga * x.jumlah);*/
-
-            if (spk == 0 && status == EStatusPengadaan.PEMENANG) dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status && d.PersetujuanPemenangs.Where(dd=>dd.Status == StatusPengajuanPemenang.PENDING).Count()>0);
+            if (spk == 0 && status == EStatusPengadaan.PEMENANG) dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING).Count() > 0).OrderByDescending(d => d.CreatedOn);
             oData.recordsFiltered=dt.Count();
             oData.recordsTotal = ctx.Pengadaans.Count();
-            oData.data = dt.OrderByDescending(d => d.CreatedOn).Take(limit).Skip(start).Select(d => new ViewPengadaan
+            oData.data = dt.Skip(start).Take(limit).Select(d => new ViewPengadaan
             {
                 Judul = d.Judul,
                 WorkflowTemplateId = d.WorkflowId,
@@ -1012,7 +1002,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 KandidatPengadaans = d.KandidatPengadaans.Select(dd => new VWKandidatPengadaan { Nama = dd.Vendor.Nama, Telepon = dd.Vendor.Telepon }).ToList(),
                 HPS = ctx.RKSHeaders.Where(dd => dd.PengadaanId == d.Id).FirstOrDefault() == null ? 0 : ctx.RKSHeaders.Where(dd => dd.PengadaanId == d.Id).FirstOrDefault().RKSDetails.Sum(dx => dx.hps * dx.jumlah == null ? 0 : dx.hps * dx.jumlah),
                 vendor = d.PemenangPengadaans.Select(dd => new VWVendor() {Id=dd.Vendor.Id,Nama=dd.Vendor.Nama }).ToList(),
-                Pemenang = dt.FirstOrDefault().PemenangPengadaans.FirstOrDefault().Vendor.Nama,
+                //Pemenang = dt.FirstOrDefault().PemenangPengadaans.FirstOrDefault().Vendor.Nama,
                 lstPemenang = d.PemenangPengadaans.Select(dd => dd.Vendor.Nama).ToList(),
                 PersonilPengadaans = d.PersonilPengadaans.Select(dd => new VWPersonilPengadaan { PersonilId = dd.PersonilId, Nama = dd.Nama, tipe = dd.tipe, Jabatan = dd.Jabatan }).ToList()
             }).ToList();
@@ -1032,8 +1022,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                    harga = bb.harga,
                                                    jumlah = cc.jumlah
                                                }).Sum(xx => xx.harga * xx.jumlah);
-
-                    hargaVendors += itemx.Nama + " (" + hargaPenawranVendor.Value.ToString("C", MyConverter.formatCurrencyIndoTanpaSymbol()) + ") ";
+                    string harga=hargaPenawranVendor==null?"-": hargaPenawranVendor.Value.ToString("C", MyConverter.formatCurrencyIndoTanpaSymbol()) ;
+                    hargaVendors += itemx.Nama + "( " + harga + " )";
                 }
                 item.HargaPemanang = hargaVendors;
             }
@@ -1950,6 +1940,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 Pengadaan mpengadaan = ctx.Pengadaans.Find(kandidat.PengadaanId);
                 if (mpengadaan == null) return kandidat;
+                int isTeam = ctx.PersonilPengadaans.Where(d => d.PengadaanId == mpengadaan.Id && d.PersonilId == UserId && (d.tipe == PengadaanConstants.StaffPeranan.PIC || d.tipe == PengadaanConstants.StaffPeranan.Tim)).ToList().Count() > 0 ? 1 : 0;
+                if (isTeam == 0) return kandidat;                
                 if (mpengadaan.Status != EStatusPengadaan.DRAFT) return kandidat;
                 KandidatPengadaan mKandidatPengadaan = ctx.KandidatPengadaans.Find(kandidat.Id);
                 if (mKandidatPengadaan != null)
@@ -1962,8 +1954,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 }
                 else
                 {
-                    mpengadaan.ModifiedBy = UserId;
-                    mpengadaan.ModifiedOn = DateTime.Now;
+                    kandidat.addKandidatType = addKandidatType.PICADDED;
                     ctx.KandidatPengadaans.Add(kandidat);
                     ctx.SaveChanges();
                     return kandidat;
@@ -1982,7 +1973,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 KandidatPengadaan MKandidatPengadaan = ctx.KandidatPengadaans.Find(Id);
                 Pengadaan mpengadaan = ctx.Pengadaans.Find(MKandidatPengadaan.PengadaanId);
                 if (mpengadaan == null) return 0;
-                if (mpengadaan.Status != EStatusPengadaan.DRAFT) return 0;
+                if (mpengadaan.PersonilPengadaans.Where(d => d.PersonilId == UserId && d.tipe == PengadaanConstants.StaffPeranan.PIC).FirstOrDefault() == null) return 0;
+                if (mpengadaan.Status != EStatusPengadaan.DRAFT && mpengadaan.AturanPengadaan == PengadaanConstants.AturanPengadaan.Tertutup) return 0;
+                if (mpengadaan.Status != EStatusPengadaan.DISETUJUI && mpengadaan.AturanPengadaan == PengadaanConstants.AturanPengadaan.Terbuka) return 0;
                 ctx.KandidatPengadaans.Remove(MKandidatPengadaan);
                 ctx.SaveChanges();
                 return 1;
@@ -5678,10 +5671,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                     && d.VendorId == oKandidatPengadaan.VendorId).FirstOrDefault();
             if (oldKandidatPengadaan == null)
             {
-                ctx.KandidatPengadaans.Add(oldKandidatPengadaan);
+                ctx.KandidatPengadaans.Add(oKandidatPengadaan);
+                ctx.SaveChanges(UserId.ToString());
+                
             }
-            ctx.SaveChanges(UserId.ToString());
-            return oldKandidatPengadaan;
+            return oKandidatPengadaan;
         }
 
         public List<Pengadaan> GetPengadaanAnnouncment()
@@ -5689,11 +5683,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return (from b in ctx.Pengadaans
                       join c in ctx.JadwalPengadaans on b.Id equals c.PengadaanId
                     where b.AturanPengadaan == "Pengadaan Terbuka" && c.Sampai >= DateTime.Now && c.Mulai <=DateTime.Now
-                     && b.GroupPengadaan==EGroupPengadaan.DALAMPELAKSANAAN
+                     && b.Status==EStatusPengadaan.DISETUJUI
                      select b).Distinct().ToList();
                       
-                      
-                      //ctx.Pengadaans.Where(d => d.AturanPengadaan == "Pengadaan Terbuka" && d.GroupPengadaan == EGroupPengadaan.DALAMPELAKSANAAN && d.JadwalPengadaans.Where(dd => dd.Sampai <= DateTime.Now && dd.Mulai >= DateTime.Now && dd.tipe == PengadaanConstants.Jadwal.Pendaftaran).Count() > 0).ToList();
         }
         #endregion
 

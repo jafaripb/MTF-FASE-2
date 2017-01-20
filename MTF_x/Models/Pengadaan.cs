@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MTF_x.Models
 {
-     [Table("Pengadaan", Schema="Pengadaan")]
+    [Table("Pengadaan", Schema="Pengadaan")]
     public class Pengadaan
     {
         [Key]
@@ -72,7 +72,6 @@ namespace MTF_x.Models
          public Guid? PengadaanId { get; set; }
      }
 
-
      [Table("JadwalPelaksanaan", Schema = "Pengadaan")]
      public class JadwalPelaksanaan
      {
@@ -114,7 +113,5 @@ namespace MTF_x.Models
      {
          PERLUPERHATIAN, DALAMPELAKSANAAN, BELUMTERJADWAL, ARSIP, ALL
      }
-
-   
 
 }

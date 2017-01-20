@@ -491,6 +491,7 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
+                var pks = _repository.get(id);
                 result = _workflowrepo.ApproveDokumen(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
                 if (!string.IsNullOrEmpty(result.Id))
                 {
@@ -501,7 +502,7 @@ namespace Reston.Pinata.WebService.Controllers
                     nRiwayatDokumen.UserId = UserId();
                     nRiwayatDokumen.ActionDate = DateTime.Now;
                     _repository.AddRiwayatDokumenPks(nRiwayatDokumen,UserId());
-                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id, pks.WorkflowId.Value);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
                         _repository.SetujuiPks(id,NoPks, UserId());

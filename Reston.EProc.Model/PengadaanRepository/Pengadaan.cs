@@ -112,8 +112,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Nullable<Guid> PengadaanId { get; set; }
         [ForeignKey("Vendor")]
         public Nullable<int> VendorId { get; set; }
+        public addKandidatType? addKandidatType { get; set; }
         public virtual Pengadaan Pengadaan { get; set; }
         public virtual Vendor Vendor { get; set; }
+    }
+
+    public enum addKandidatType
+    {
+        PICADDED=1,VENDORSELFADDED=2
     }
 
     [Table("KualifikasiKandidat", Schema = JimbisContext.PENGADAAN_SCHEMA_NAME)]

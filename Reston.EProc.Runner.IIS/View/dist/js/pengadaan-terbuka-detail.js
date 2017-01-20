@@ -760,9 +760,6 @@ $(function () {
         });
     });
 
-    $("#edit").on("click", function () {
-        window.location.replace("http://" + window.location.host + "/pengadaan-add.html#" + $("#pengadaanId").val());
-    });
     $(".Setujui").on("click", function () {
         $("#modal-setujui").modal("show");
     });
@@ -1248,7 +1245,6 @@ function renderDokumenDropzone(myDropzone, tipe) {
 }
 
 function hitungHPS(rksId,aturanPenawaran) {
-    if (aturanPenawaran == "Price Matching") {
         $.ajax({
             url: "Api/PengadaanE/getRks?Id=" + rksId
         }).done(function (data) {
@@ -1264,16 +1260,7 @@ function hitungHPS(rksId,aturanPenawaran) {
             }
             $("#hps").text(accounting.formatNumber(total, { thousand: "." }));
         });
-    }
-    else {
-        $.ajax({
-            url: "Api/PengadaanE/getTotalHps?Id=" + rksId,
-            method: "POST"
-        }).done(function (data) {
-            if (data.Total != null || data.Total != "")
-                $("#hps").text(accounting.formatNumber(data.Total, { thousand: "." }));
-        });
-    }
+   
 }
 
 function loadListKandidat(Id) {
