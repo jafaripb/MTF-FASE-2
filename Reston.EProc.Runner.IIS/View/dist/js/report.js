@@ -18,21 +18,28 @@ $(function () {
         var dari = moment($("#report_pks_dari").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
         var sampai = moment($("#report_pks_sampai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
 
-        downloadFileUsingForm("/api/report/ReportPKS?dari=" + dari + "&sampai=" + sampai);
+        downloadFileUsingForm("/api/PKS/ReportPKS?dari=" + dari + "&sampai=" + sampai);
     });
 
     $("#report_spk").on("click", function () {
         var dari = moment($("#report_spk_dari").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
         var sampai = moment($("#report_spk_sampai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
 
-        downloadFileUsingForm("/api/report/ReportSPK?dari=" + dari + "&sampai=" + sampai);
+        downloadFileUsingForm("/api/SPK/ReportSPK?dari=" + dari + "&sampai=" + sampai);
     });
 
     $("#report_po").on("click", function () {
         var dari = moment($("#report_po_dari").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
         var sampai = moment($("#report_po_sampai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
 
-        downloadFileUsingForm("/api/report/ReportPO?dari=" + dari + "&sampai=" + sampai);
+        downloadFileUsingForm("/api/PO/ReportPO?dari=" + dari + "&sampai=" + sampai);
+    });
+
+    $("#report_monitoring").on("click", function () {
+        var dari = moment($("#report_monitoring_dari").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        var sampai = moment($("#report_monitoring_sampai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+
+        downloadFileUsingForm("/api/MonitoringSelection/ReportMonitoring?dari=" + dari + "&sampai=" + sampai);
     });
 
     $("#report_monitoring").on("click", function () {

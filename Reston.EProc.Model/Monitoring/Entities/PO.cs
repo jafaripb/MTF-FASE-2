@@ -21,6 +21,9 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string Vendor { get; set; }
         public string NoPO { get; set; }
         public DateTime? TanggalPO { get; set; }
+        public DateTime? TanggalDO { get; set; }
+        public DateTime? TanggalInvoice { get; set; }
+        public DateTime? TanggalFinance { get; set; }
         public decimal? NilaiPO { get; set; }
         public string UP { get; set; }
         public DateTime? PeriodeDari { get; set; }
@@ -87,6 +90,12 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string NoPO { get; set; }
         public DateTime? TanggalPO { get; set; }
         public string TanggalPOstr { get; set; }
+        public DateTime? TanggalDO { get; set; }
+        public string TanggalDOstr { get; set; }
+        public DateTime? TanggalInvoice { get; set; }
+        public string TanggalInvoicestr { get; set; }
+        public DateTime? TanggalFinance { get; set; }
+        public string TanggalFinancestr { get; set; }
         public decimal? NilaiPO { get; set; }
         public string UP { get; set; }
         public DateTime? PeriodeDari { get; set; }
@@ -195,36 +204,17 @@ namespace Reston.Eproc.Model.Monitoring.Entities
     public class VWPOReportDetail
     {
         public Guid Id { get; set; }
+        public string NoPO { get; set; }
         public string Prihal { get; set; }
         public string Vendor { get; set; }
-        public string UP { get; set; }
-        public string NoPO { get; set; }
-        public string TanggalPO { get; set; }
-        public string TanggalPOstr { get; set; }
-        public string PeriodeDari { get; set; }
-        public string PeriodeDaristr { get; set; }
-        public string PeriodeSampai { get; set; }
-        public string PeriodeSampaistr { get; set; }
+        public Guid? PIC { get; set; }
+        public string PICName { get; set; }
+        public string Divisi { get; set; }
         public string NilaiPO { get; set; }
-        public string AlmatBarangUp { get; set; }
-        public string UpPengirimanBarang { get; set; }
-        public string Rekening { get; set; }
-        public string AtasNama { get; set; }
-        public string Bank { get; set; }
-        public string TelpBarang { get; set; }
-        public string AlamatKwitansi { get; set; }
-        public string NPWP { get; set; }
-        public string AlamatPengirimanKwitansi { get; set; }
-        public string KwitansiUp { get; set; }
-        public string Discount { get; set; }
-        public string PPN { get; set; }
-        public string PPH { get; set; }
-        public string DPP { get; set; }
-        public string Total { get; set; }
-        public string TTD1 { get; set; }
-        public string TTD2 { get; set; }
-        public string TTD3 { get; set; }
-        public string TTD4 { get; set; }
+        public string TanggalPO { get; set; }
+        public string TanggalDO { get; set; }
+        public string TanggalInvoice { get; set; }
+        public string TanggalFinance { get; set; }
     }
 
     [Table("DokumenPO", Schema = JimbisContext.PO_SCHEMA_NAME)]

@@ -30,6 +30,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         string GenerateNoPO( Guid UserId);
         PO get(Guid Id);
         DokumenPO GetDokumenPO(Guid Id);
+        List<VWPOReportDetail> GetReportPO(DateTime? dari, DateTime? sampai, Guid UserId);
     }
     public class PORepo : IPORepo
     {
@@ -110,6 +111,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     NoPO = d.NoPO,
                     Prihal = d.Prihal,
                     TanggalPO = d.TanggalPO,
+                    TanggalDO = d.TanggalPO,
+                    TanggalInvoice = d.TanggalInvoice,
+                    TanggalFinance = d.TanggalFinance,
                     Vendor = d.Vendor,
                     UP = d.UP,
                     CreatedId=d.CreatedBy
@@ -159,6 +163,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 Vendor = d.Vendor,
                 NoPO = d.NoPO,
                 TanggalPO = d.TanggalPO,
+                TanggalDO = d.TanggalDO,
+                TanggalInvoice = d.TanggalInvoice,
+                TanggalFinance = d.TanggalFinance,
                 NilaiPO = d.PODetail.Sum(dd => dd.Banyak * dd.Harga),
                 UP = d.UP,
                 PeriodeDari = d.PeriodeDari,
@@ -195,6 +202,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     data.Vendor = po.Vendor;
                     data.NoPO = po.NoPO;
                     data.TanggalPO = po.TanggalPO;
+                    data.TanggalDO = po.TanggalDO;
+                    data.TanggalInvoice = po.TanggalInvoice;
+                    data.TanggalFinance = po.TanggalFinance;
                     data.NilaiPO = po.NilaiPO;
                     data.UP = po.UP;
                     data.PeriodeDari = po.PeriodeDari;
@@ -421,10 +431,28 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
         }
 
-
         public DokumenPO GetDokumenPO(Guid Id)
         {
             return ctx.DokumenPO.Find(Id);
+        }
+
+        public List<VWPOReportDetail> GetReportPO(DateTime? dari, DateTime? sampai, Guid UserId)
+        {
+            var oReport = (from b in ctx.POs
+                           where b.TanggalPO >= dari && b.TanggalPO <= sampai //c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
+                           select new VWPOReportDetail
+                           {
+                               NoPO = b.NoPO,
+                               Prihal = b.Prihal,
+                               Vendor = b.Vendor,
+                               PIC = b.CreatedBy,
+                               NilaiPO = b.NilaiPO.Value.ToString(),
+                               TanggalPO = b.TanggalPO.ToString(),
+                               TanggalDO = b.TanggalDO.ToString(),
+                               TanggalInvoice = b.TanggalInvoice.ToString(),
+                               TanggalFinance = b.TanggalFinance.ToString(),
+                           }).Distinct().ToList();
+            return oReport;
         }
     }
 }

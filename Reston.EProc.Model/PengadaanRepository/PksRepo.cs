@@ -30,10 +30,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         Pks get(Guid id);
         DokumenPks getDokPks(Guid id);
         RiwayatDokumenPks AddRiwayatDokumenPks(RiwayatDokumenPks dtRiwayatDokumenPks, Guid UserId);
-
         List<VWDokumenPks> GetListDokumenPks(Guid Id,TipeBerkas tipe);
         ResultMessage saveCatatan(CatatanPks data);
         List<VWCatatanPks> ListCatatanPKs(Guid Id);
+        List<VWReportPks> GetReportPKS(DateTime? dari, DateTime? sampai, Guid UserId);
     }
     public class PksRepo : IPksRepo
     {
@@ -409,7 +409,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 };
             }
         }
-
         
         public List<VWCatatanPks> ListCatatanPKs(Guid Id)
         {
@@ -448,7 +447,25 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         }
 
+        public List<VWReportPks> GetReportPKS(DateTime? dari, DateTime? sampai, Guid UserId)
+        {
+            var oReport = (from b in ctx.Pks
+                           join c in ctx.PemenangPengadaans on b.PemenangPengadaanId equals c.Id
+                           join d in ctx.Vendors on c.VendorId equals d.Id
+                           join e in ctx.Pengadaans on c.PengadaanId equals e.Id
+                           where b.CreateOn >= dari && b.CreateOn <= sampai //c.tanggal >= dari && c.tanggal <= sampai// && c.Tipe == TipeBerkas.BeritaAcaraPenentuanPemenang
+                           select new VWReportPks
+                           {
+                               Vendor = d.Nama,
+                               Title = b.Title,
+                               NoPks = b.NoDokumen == null ? "" : b.NoDokumen,
+                               Divisi = e.UnitKerjaPemohon,
+                               TanggalAwal = b.TanggalMulai.ToString(),
+                               TanggalAkhir = b.TanggalSelesai.ToString()
 
+                           }).Distinct().ToList();
+            return oReport;
+        }
     }
 }
 
