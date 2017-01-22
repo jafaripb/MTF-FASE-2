@@ -239,7 +239,11 @@ namespace Reston.Pinata.WebService.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_staff,
+           IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_procurement_head,
+           IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_end_user,
+           IdLdapConstants.Roles.pRole_procurement_vendor, IdLdapConstants.App.Roles.IdLdapSuperAdminRole,
+           IdLdapConstants.App.Roles.IdLdapUserRole,IdLdapConstants.App.Roles.IdLdapApproverRole)]
         public RKSHeader getTotalHps(Guid Id)
         {
             return _repository.GetTotalHps(Id, UserId());
@@ -497,7 +501,8 @@ namespace Reston.Pinata.WebService.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         public  ViewPengadaan detailPengadaan(Guid Id)
         {
-            var ResultCurrentApprover = _workflowrepo.CurrentApproveUserSegOrder(Id);
+            var pengadaan = _repository.GetPengadaanByiD(Id);
+            var ResultCurrentApprover = _workflowrepo.CurrentApproveUserSegOrder(Id, pengadaan.WorkflowId.Value);
             Guid? ApproverId=null;
             if(!string.IsNullOrEmpty( ResultCurrentApprover.Id)){
                 ApproverId=new Guid( ResultCurrentApprover.Id.Split('#')[1]);
@@ -595,7 +600,8 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result=_workflowrepo.ApproveDokumen2(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                var pengadaan = _repository.GetPengadaanByiD(id);
+                result=_workflowrepo.ApproveDokumen2(id,pengadaan.WorkflowId.Value, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
                 if (!string.IsNullOrEmpty(result.Id))
                 {
                     RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
@@ -603,7 +609,7 @@ namespace Reston.Pinata.WebService.Controllers
                     nRiwayatDokumen.PengadaanId = id;
                     nRiwayatDokumen.UserId = UserId();
                     _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id, pengadaan.WorkflowId.Value);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
                         _repository.ChangeStatusPengadaan(id,EStatusPengadaan.DISETUJUI,UserId());
@@ -626,7 +632,8 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result = _workflowrepo.ApproveDokumen2(id, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                var pengadaan = _repository.GetPengadaanByiD(id);
+                result = _workflowrepo.ApproveDokumen2(id, pengadaan.WorkflowId.Value, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.APPROVED);
                 if (!string.IsNullOrEmpty(result.Id))
                 {
                     RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
@@ -635,9 +642,11 @@ namespace Reston.Pinata.WebService.Controllers
                     nRiwayatDokumen.PengadaanId = id;
                     nRiwayatDokumen.UserId = UserId();
                     _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id,pengadaan.WorkflowId.Value);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
+                        _repository.ChangeStatusPengadaan(id, EStatusPengadaan.DISETUJUI, UserId());
+
                         #region BuatAtauUpdateTamplate
                         var vwpengadaan = _repository.GetPengadaanByiD(id);
                         var DepHead = await listHead();
@@ -679,8 +688,7 @@ namespace Reston.Pinata.WebService.Controllers
                         var wokflowId = Convert.ToInt32(resultTemplate.Id);
                         #endregion
 
-                        _repository.ChangeStatusPengadaan(id, EStatusPengadaan.DISETUJUI, UserId());
-
+                        
                         PersetujuanPemenang ndata = new PersetujuanPemenang()
                         {
                             CreatedOn = DateTime.Now,
@@ -690,7 +698,7 @@ namespace Reston.Pinata.WebService.Controllers
                         };
                         _repository.SavePersetujuanPemenang(ndata, UserId());
                     }
-                    var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(id);
+                    var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(id,pengadaan.WorkflowId.Value);
                     try
                     {
                         await SendEmailToApprover(nextApprover.Id.Split('#')[1],id);
@@ -714,7 +722,9 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result = _workflowrepo.ApproveDokumen2(vwPenolakan.PenolakanId, UserId(), vwPenolakan.AlasanPenolakan, Reston.Helper.Model.WorkflowStatusState.REJECTED);
+
+                var pengadaan = _repository.GetPengadaanByiD(vwPenolakan.PenolakanId);
+                result = _workflowrepo.ApproveDokumen2(vwPenolakan.PenolakanId, pengadaan.WorkflowId.Value, UserId(), vwPenolakan.AlasanPenolakan, Reston.Helper.Model.WorkflowStatusState.REJECTED);
                 if (result.data != null)
                 {
                     if (result.data.DocumentStatus == Reston.Helper.Model.DocumentStatus.REJECTED)
@@ -727,7 +737,7 @@ namespace Reston.Pinata.WebService.Controllers
                         nRiwayatDokumen.Comment = vwPenolakan.AlasanPenolakan;
                         nRiwayatDokumen.UserId = UserId();
                         _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                        ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(vwPenolakan.PenolakanId);
+                        ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(vwPenolakan.PenolakanId, pengadaan.WorkflowId.Value);
                         if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                         {
                             _repository.ChangeStatusPengadaan(vwPenolakan.PenolakanId, EStatusPengadaan.DISETUJUI,UserId());
@@ -751,7 +761,9 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result = _workflowrepo.ApproveDokumen2(Id, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
+
+                var pengadaan = _repository.GetPengadaanByiD(Id);
+                result = _workflowrepo.ApproveDokumen2(Id,pengadaan.WorkflowId.Value, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
                 if (result.data != null)
                 {
                     if (result.data.DocumentStatus == Reston.Helper.Model.DocumentStatus.REJECTED)
@@ -764,12 +776,12 @@ namespace Reston.Pinata.WebService.Controllers
                     nRiwayatDokumen.Comment = Note;
                     nRiwayatDokumen.UserId = UserId();
                     _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(Id);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(Id, pengadaan.WorkflowId.Value);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
                         _repository.ChangeStatusPengadaan(Id, EStatusPengadaan.DISETUJUI, UserId());
                     }
-                    var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(Id);
+                    var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(Id,pengadaan.WorkflowId.Value);
                     try
                     {
                         await SendEmailToApprover(nextApprover.Id.Split('#')[1],Id);
@@ -929,7 +941,7 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public int sendMail(ViewSendEmail data)
+        public async Task<int> sendMail(ViewSendEmail data)
         {
             //sending email notification
 
@@ -944,7 +956,29 @@ namespace Reston.Pinata.WebService.Controllers
                 html = html + "<br/><br/>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_PENAWARAN_FOOTER1"].ToString() + "</p>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_PENAWARAN_FOOTER2"].ToString() + "</p>";
-                sendMail(item.Nama, item.email, html, judulSubjek);
+                try
+                {
+                    sendMail(item.Nama, item.email, html, judulSubjek);
+                }
+                catch { }
+            }
+            var pengdaan = _repository.GetPengadaanByiD(data.PengadaanId.Value);
+            foreach (var item in pengdaan.PersonilPengadaans)
+            {
+                string judulSubjek = System.Configuration.ConfigurationManager.AppSettings["MAIL_PENAWARAN_TITLE"].ToString();
+                string html = "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_PENAWARAN_YTH"].ToString() + "</p>";
+                html = html + "<p>" + item.Nama + "</p>";
+                html = html + "<br/>";
+                html = html + "<p>" + data.Surat + "</p>";
+                html = html + "<br/><br/>";
+                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_PENAWARAN_FOOTER1"].ToString() + "</p>";
+                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_PENAWARAN_FOOTER2"].ToString() + "</p>";
+                var user = await userDetail(item.PersonilId.ToString());
+                try
+                {
+                    sendMail(item.Nama, user.Email, html, judulSubjek);
+                }
+                catch { }
             }
             return 1;
         }
@@ -1003,7 +1037,6 @@ namespace Reston.Pinata.WebService.Controllers
             {
                 respon = HttpStatusCode.Forbidden;
                 message = "Erorr";
-                //Guid UserId = new Guid(((ClaimsIdentity)User.Identity).Claims.First().Value);
                 KandidatPengadaan result = _repository.saveKandidatPengadaan(kandidat, UserId());
                 respon = HttpStatusCode.OK;
                 message = "Sukses";
@@ -3299,7 +3332,9 @@ namespace Reston.Pinata.WebService.Controllers
                 var oAddMasterTemplateDetail = _workflowrepo.AddMasterTemplateDetail(oPengadaan.WorkflowId.Value, oDetailTempalte);
                 if (!string.IsNullOrEmpty(oAddMasterTemplateDetail.Id))
                 {
-                    result = _workflowrepo.ApproveDokumen2(id, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
+
+                    var pengadaan = _repository.GetPengadaanByiD(id);
+                    result = _workflowrepo.ApproveDokumen2(id, pengadaan.WorkflowId.Value, UserId(), "", Reston.Helper.Model.WorkflowStatusState.APPROVED);
                     if (!string.IsNullOrEmpty(result.Id))
                     {
                         RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
@@ -3308,7 +3343,7 @@ namespace Reston.Pinata.WebService.Controllers
                         nRiwayatDokumen.PengadaanId = id;
                         nRiwayatDokumen.UserId = UserId();
                         _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                        ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id);
+                        ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id, pengadaan.WorkflowId.Value);
                         if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                         {
                             #region BuatAtauUpdateTamplate
@@ -3637,7 +3672,8 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result = _workflowrepo.ApproveDokumen2(id, UserId(),Note, Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                var pengadaan = _repository.GetPengadaanByiD(id);
+                result = _workflowrepo.ApproveDokumen2(id, pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.APPROVED);
                 if (!string.IsNullOrEmpty(result.Id))
                 {
                     
@@ -3647,7 +3683,7 @@ namespace Reston.Pinata.WebService.Controllers
                     nRiwayatDokumen.PengadaanId = _repository.getPersetujuanPemenangById(id).PengadaanId;
                     nRiwayatDokumen.UserId = UserId();
                     _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id, pengadaan.WorkflowId.Value);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
                         _repository.ChangeStatusPersetujuanPemenang(id, StatusPengajuanPemenang.APPROVED, UserId());
@@ -3655,7 +3691,7 @@ namespace Reston.Pinata.WebService.Controllers
                     }
                     try
                     {
-                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(id);
+                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(id,pengadaan.WorkflowId.Value);
                         await SendEmailToApprover(nextApprover.Id.Split('#')[1], id);
                     }
                     catch { }
@@ -3677,7 +3713,9 @@ namespace Reston.Pinata.WebService.Controllers
             var result = new Reston.Helper.Util.ResultMessageWorkflowState();
             try
             {
-                result = _workflowrepo.ApproveDokumen2(Id, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
+
+                var pengadaan = _repository.GetPengadaanByiD(Id);
+                result = _workflowrepo.ApproveDokumen2(Id,pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
                 if (result.data != null)
                 {
                     if (result.data.DocumentStatus == Reston.Helper.Model.DocumentStatus.REJECTED)
@@ -3691,14 +3729,14 @@ namespace Reston.Pinata.WebService.Controllers
                     nRiwayatDokumen.Comment = Note;
                     nRiwayatDokumen.UserId = UserId();
                     _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(Id);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(Id, pengadaan.WorkflowId.Value);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
                         _repository.ChangeStatusPersetujuanPemenang(Id, StatusPengajuanPemenang.APPROVED, UserId());
                     }
                     try
                     {
-                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(Id);
+                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(Id,pengadaan.WorkflowId.Value);
                         await SendEmailToApprover(nextApprover.Id.Split('#')[1], Id);
                     }
                     catch { }
@@ -3729,7 +3767,9 @@ namespace Reston.Pinata.WebService.Controllers
                 var oAddMasterTemplateDetail = _workflowrepo.AddMasterTemplateDetail(oPersetujuanPemenang.WorkflowId.Value, oDetailTempalte);
                 if (!string.IsNullOrEmpty(oAddMasterTemplateDetail.Id))
                 {
-                    result = _workflowrepo.ApproveDokumen2(oPersetujuanPemenang.Id, UserId(),Note, Reston.Helper.Model.WorkflowStatusState.APPROVED);
+
+                    var pengadaan = _repository.GetPengadaanByiD(id);
+                    result = _workflowrepo.ApproveDokumen2(oPersetujuanPemenang.Id,pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value, UserId(),Note, Reston.Helper.Model.WorkflowStatusState.APPROVED);
                     if (!string.IsNullOrEmpty(result.Id))
                     {
                         RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
@@ -3738,7 +3778,7 @@ namespace Reston.Pinata.WebService.Controllers
                         nRiwayatDokumen.PengadaanId = oPersetujuanPemenang.PengadaanId;
                         nRiwayatDokumen.UserId = UserId();
                         _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                        ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(oPersetujuanPemenang.Id);
+                        ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(oPersetujuanPemenang.Id, pengadaan.WorkflowId.Value);
                         if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                         {
                             _repository.ChangeStatusPersetujuanPemenang(id, StatusPengajuanPemenang.APPROVED, UserId());
@@ -3746,7 +3786,7 @@ namespace Reston.Pinata.WebService.Controllers
                         }
                         try
                         {
-                            var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(id);
+                            var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(id,pengadaan.WorkflowId.Value);
                             await SendEmailToApprover(nextApprover.Id.Split('#')[1], id);
                         }
                         catch { }

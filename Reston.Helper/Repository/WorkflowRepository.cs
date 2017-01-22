@@ -14,13 +14,13 @@ namespace Reston.Helper.Repository
         ResultMessage PengajuanDokumen(Guid DocumentId, int WorkflowTemplateId, string DokumentType);
         ResultMessageWorkflowState ApproveDokumen(Guid DocumentId, Guid UserId, String Comment, WorkflowStatusState oWorkflowStatusState);
         //lnagusng reject ke user awal
-        ResultMessageWorkflowState ApproveDokumen2(Guid DocumentId, Guid UserId, String Comment, WorkflowStatusState oWorkflowStatusState);
+        ResultMessageWorkflowState ApproveDokumen2(Guid DocumentId,int WorkflowTemplateId, Guid UserId, String Comment, WorkflowStatusState oWorkflowStatusState);
        
         List<ViewWorkflowModel> ListDocumentWorkflow(Guid UserId,int WorkflowTemplateId, DocumentStatus documentStatus, string DokumenType, int length, int start);
         ResultMessageLstWorkflowApprovals ListWorkflowApprovalByDocumentId(Guid DocumentId, int length, int start);
         ResultMessageLstWorkflowApprovals ListWorkflowApprovalByWorkflowId(int Id, int length, int start);
-        ResultMessage CurrentApproveUserSegOrder(Guid DocumentId);
-        ViewWorkflowState StatusDocument(Guid DocumentId);
+        ResultMessage CurrentApproveUserSegOrder(Guid DocumentId, int workflowId);
+        ViewWorkflowState StatusDocument(Guid DocumentId, int WorkflowTemplateId);
         ResultMessage SaveWorkFlow(WorkflowMasterTemplate oViewWorkflowTemplate, Guid UserId);
         ResultMessage isLastApprover(Guid DocId, int TemplateId);
         ResultMessage PrevApprover(Guid DocId, int TemplateId);
@@ -132,7 +132,7 @@ namespace Reston.Helper.Repository
             int maxSegOrder = oWorkflowMasterTemplateDetail.Count();
 
             //cari user dan segorder yang sedang aktif
-            var WorflowState=CurrentApproveUserSegOrder(DocumentId);
+            var WorflowState = CurrentApproveUserSegOrder(DocumentId, oWorkflow.WorkflowMasterTemplateId);
             if (string.IsNullOrEmpty(WorflowState.Id))
             {
                 result.message = Message.ANY_ERROR;
@@ -219,11 +219,11 @@ namespace Reston.Helper.Repository
 
 
         //lnagusng reject ke user awal
-        public ResultMessageWorkflowState ApproveDokumen2(Guid DocumentId, Guid UserId, String Comment, WorkflowStatusState oWorkflowStatusState)
+        public ResultMessageWorkflowState ApproveDokumen2(Guid DocumentId, int WorkflowTemplateId, Guid UserId, String Comment, WorkflowStatusState oWorkflowStatusState)
         {
             ResultMessageWorkflowState result = new ResultMessageWorkflowState();
             //cek dolumen ada atau tidak dalam workflow
-            WorkflowState oWorkflow = ctx.WorkflowStates.Where(d => d.DocumentId == DocumentId).FirstOrDefault();
+            WorkflowState oWorkflow = ctx.WorkflowStates.Where(d => d.DocumentId == DocumentId && d.WorkflowMasterTemplateId == WorkflowTemplateId).FirstOrDefault();
             if (oWorkflow == null)
             {
                 result.message = Message.WORKFLOW_NO_STATE;
@@ -258,7 +258,7 @@ namespace Reston.Helper.Repository
             int maxSegOrder = oWorkflowMasterTemplateDetail.Count();
 
             //cari user dan segorder yang sedang aktif
-            var WorflowState = CurrentApproveUserSegOrder(DocumentId);
+            var WorflowState = CurrentApproveUserSegOrder(DocumentId, WorkflowTemplateId);
             if (string.IsNullOrEmpty(WorflowState.Id))
             {
                 result.message = Message.ANY_ERROR;
@@ -470,10 +470,10 @@ namespace Reston.Helper.Repository
             }
         }
 
-        public ResultMessage CurrentApproveUserSegOrder(Guid DocumentId)
+        public ResultMessage CurrentApproveUserSegOrder(Guid DocumentId,int workflowId)
         {
             ResultMessage objresult = new ResultMessage();
-            WorkflowState oWorkflow = ctx.WorkflowStates.Where(d => d.DocumentId == DocumentId).FirstOrDefault();
+            WorkflowState oWorkflow = ctx.WorkflowStates.Where(d => d.DocumentId == DocumentId && d.WorkflowMasterTemplateId==workflowId).FirstOrDefault();
             if (oWorkflow == null)
             {
                 objresult.message = Message.WORKFLOW_NO_STATE;
@@ -517,12 +517,13 @@ namespace Reston.Helper.Repository
             }
         }
 
-        public ViewWorkflowState StatusDocument(Guid DocumentId)
+        public ViewWorkflowState StatusDocument(Guid DocumentId, int WorkflowTemplateId)
         {
             ResultMessage objresult = new ResultMessage();           
             try
             {
-                ViewWorkflowState oWorkflow = ctx.WorkflowStates.Where(d => d.DocumentId == DocumentId).Select(d=> new ViewWorkflowState{
+                ViewWorkflowState oWorkflow = ctx.WorkflowStates.Where(d => d.DocumentId == DocumentId && d.WorkflowMasterTemplateId == WorkflowTemplateId).Select(d => new ViewWorkflowState
+                {
                                   Id=d.Id,
                                   CurrentSegOrder=d.CurrentSegOrder,
                                   CurrentStatus=d.CurrentStatus,
@@ -660,7 +661,8 @@ namespace Reston.Helper.Repository
             return result;
         }
 
-        public ResultMessage NextApprover(Guid DocId, int TemplateId) //atau curren aproval
+        //atau curren aproval
+        public ResultMessage NextApprover(Guid DocId, int TemplateId) 
         {
             try
             {

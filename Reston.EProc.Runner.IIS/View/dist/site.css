@@ -1058,6 +1058,10 @@ div.form-group label.title{
     font-size:10px;
 }
 
+.user-panel {
+    padding:20px;
+}
+
 .user-panel > .info {
     left: 10px;
 	line-height: 5px;

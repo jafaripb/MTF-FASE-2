@@ -231,7 +231,10 @@ $(function () {
     });
     $("body").on("click", ".detail-pengadaan", function () {
         var id = $(this).attr("attrId");
-        $(location).attr('href', '/pengadaan-detail.html#' + id);
+        var aturanPengadaan = $(this).attr("attrAturanPengadaan");
+        if (aturanPengadaan == "Pengadaan Terbuka") 
+            $(location).attr('href', '/pengadaan-terbuka-detail.html#' + id);
+        else $(location).attr('href', '/pengadaan-detail.html#' + id);
     });
     $(".perlu-perhatian").on("click", ".setujui", function () {
         var id = $(this).attr("attrId");
@@ -346,22 +349,22 @@ function renderData(data) {
         if (data[i].GroupPengadaan == 1) {
             if (data[i].AturanPengadaan == "Pengadaan Terbuka") {
                 html = html + '<a href="pengadaan-terbuka-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
-                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
+                html = html + '<span attrId="' + data[i].Id + '" attrAturanPengadaan="' + data[i].AturanPengadaan + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
                 }
             else {
                 html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
-                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
+                html = html + '<span attrId="' + data[i].Id + '" attrAturanPengadaan="' + data[i].AturanPengadaan + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
              }
          }
 
         if (data[i].GroupPengadaan == 2) {
             if (data[i].AturanPengadaan == "Pengadaan Terbuka") {
                 html = html + '<a href="pengadaan-terbuka-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
-                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
+                html = html + '<span attrId="' + data[i].Id + '"  attrAturanPengadaan="' + data[i].AturanPengadaan + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
             }
             else {
                 html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf ">' + data[i].Judul + ' </a>';
-                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
+                html = html + '<span attrId="' + data[i].Id + '"  attrAturanPengadaan="' + data[i].AturanPengadaan + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
             }
             if (data[i].Status == 0)
                 if (data[i].isCreated == 1 || data[i].isPIC == 1) {
@@ -372,11 +375,11 @@ function renderData(data) {
         if (data[i].GroupPengadaan == 3) {
             if (data[i].AturanPengadaan == "Pengadaan Terbuka") {
                 html = html + '<a href="pengadaan-terbuka-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
-                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
+                html = html + '<span attrId="' + data[i].Id + '"  attrAturanPengadaan="' + data[i].AturanPengadaan + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
             }
             else {
                 html = html + '<a href="pengadaan-detail.html#' + data[i].Id + '" class="product-title text-blue-mtf">' + data[i].Judul + ' </a>';
-                html = html + '<span attrId="' + data[i].Id + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
+                html = html + '<span attrId="' + data[i].Id + '"  attrAturanPengadaan="' + data[i].AturanPengadaan + '" class="label label-primary pull-right action detail-pengadaan">Detail </span>';
             }
        }
 

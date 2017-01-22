@@ -2394,7 +2394,7 @@ function getListKandidatPelaksanaan() {
         url: "Api/PengadaanE/getKehadiranAanwjzing?PengadaanId=" + $("#pengadaanId").val(),
         success: function (data) {            
             $.each(data, function (index, value) {
-                var html = '<div class="col-md-3">' +
+                var html = '<div class="col-md-3 ">' +
                       '<div class="box box-primary">' +
                           '<div class="box-tools pull-right vendor-check-box">';
                 if (value.hadir == 1)
@@ -2408,7 +2408,7 @@ function getListKandidatPelaksanaan() {
                     '</div>'+
                     '</div>';
                 $(".kehadiran-kandidat").append(html);
-                var html = '<div class="col-md-3">' +
+                var html = '<div class="col-md-3 kandidat-pendaftaran" attrId="' + value.Id + '"">' +
                       '<div class="box box-primary">' +
                        '<div class="box-body box-profile">' +
                             '<p class="profile-username title-header">' + value.NamaVendor +
@@ -2916,4 +2916,41 @@ $(function () {
             }
         });
     });
+    $("body").on("click", ".kandidat-pendaftaran", function () {
+        var _this = $(this);
+        var Id = _this.attr("attrId");
+        BootstrapDialog.show({
+            title: 'Konfirmasi',
+            message: 'Apakah Anda Yakin Ingin Mengahapus Vendor Ini?',
+            buttons: [{
+                label: 'Yes',
+                action: function (dialog) {
+                    hapusKandidat(Id, _this);
+                    dialog.close();
+                },
+            }, {
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                },
+            }]
+        });
+        
+    });
 });
+
+function hapusKandidat(Id, _this) {
+
+    $.ajax({
+        method: "POST",
+        url: "Api/PengadaanE/deleteKandidat?Id=" + Id
+
+    }).done(function (data) {
+        if (data.status == 200) {
+            _this.parent().remove();
+        }
+        else {
+            alert("error");
+        }
+    });
+}

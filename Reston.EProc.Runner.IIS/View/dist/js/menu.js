@@ -11,7 +11,7 @@ app.controller('side-menu', ['$scope', '$http', function ($scope, $http) {
 
 app.controller('user', ['$scope', '$http', function ($scope, $http) {
     $scope.user = {};
-    $http.get("data/user.json")
+    $http.get("Api/Header/User")
        .then(function (response) {
            $scope.user = response.data;
        });

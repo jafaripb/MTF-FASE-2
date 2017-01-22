@@ -10,6 +10,7 @@ using Reston.Pinata.Model.PengadaanRepository;
 using Reston.Pinata.Model;
 using Reston.Pinata.Model.Repository;
 using Model.Helper;
+using MTF_x.Helper;
 
 namespace MTF_x.Controllers
 {
@@ -58,34 +59,36 @@ namespace MTF_x.Controllers
                         where aturanpengadaan = 'Pengadaan Terbuka' and  x.Id in (select distinct pengadaanid from pengadaan.JadwalPengadaan 
                         where tipe='pendaftaran' and mulai <= getdate() and Sampai >= GETDATE())";
 
-           // sql = @"select * from  pengadaan.pengadaan x";
             var dt = context.Pengadaan.SqlQuery(sql).ToList();
             return View(dt);
         }
 
         public ActionResult Announcement()
         {
-            /* var sql = @"select * from  pengadaan.pengadaan x 
-                         where aturanpengadaan = 'Pengadaan Terbuka' and x.Id in 
-                         (
-                             select distinct pengadaanid from pengadaan.JadwalPengadaan 
-                             where tipe='pendaftaran' and Sampai < GETDATE()
-                         )";*/
-           // var sql = @"select * from  pengadaan.pengadaan x where aturanpengadaan = 'Pengadaan Terbuka' and GroupPengadaan='1'";
-           // var dt = context.Pengadaan.Where(d => d.AturanPengadaan== "Pengadaan Terbuka" & d.GroupPengadaan==MTF_x.Models.EGroupPengadaan.DALAMPELAKSANAAN).ToList(); //context.Pengadaan.SqlQuery(sql).ToList();
-           var dt = _repository.GetPengadaanAnnouncment();
-          /*  var list = new List<AnnouncementPengadaan>();
-            foreach (var pengadaan in dt)
-            {
-                var an = new AnnouncementPengadaan(pengadaan);
-                list.Add(an);    
-            }*/
+            var dt = _repository.GetPengadaanAnnouncment();
             return View(dt);
         }
 
         public ActionResult DetailData(Guid idGuid)
         {
-            var dt = context.Pengadaan.Find(idGuid);
+            ViewBag.ProcUrl = IdLdapConstants.Proc.Url;
+            
+            ViewBag.IsDaftar=0;
+            if (User.Identity.IsAuthenticated==true)
+            {
+                var userid = UserId();
+                var userVendor = _repositoryVendor.GetVendorByUser(UserId());
+                if (userVendor != null)
+                {
+                    var pengadaan = _repository.GetPengadaanByiD(idGuid);
+                    if (pengadaan != null)
+                    {
+                        var findVendor = pengadaan.KandidatPengadaans.Where(d => d.VendorId == userVendor.Id).FirstOrDefault();
+                        if (findVendor != null) ViewBag.IsDaftar = 1;
+                    }
+                }
+            }
+            var dt = _repository.GetPengadaanByiD(idGuid);
             return View(dt);
         }
 
@@ -95,6 +98,7 @@ namespace MTF_x.Controllers
             var oo = new KriteriaKualifikasi(dt);
             return View(oo);
         }
+        
         [Authorize]
         public ActionResult Daftar(Guid id)
         {
@@ -110,10 +114,11 @@ namespace MTF_x.Controllers
             KandidatPengadaan ndata = new KandidatPengadaan();
             ndata.PengadaanId=id;
             ndata.VendorId=vendor.Id;
+            ndata.addKandidatType = addKandidatType.VENDORSELFADDED;
             var result = _repository.addKandidatPilihanVendor(ndata, UserId());
-           if (result.Id == null) status = "Vendor Tidak Berhasil Mendaftar";
-           status = "Anda Berhasil Mendaftar";
-           ViewBag.status = status;
+            if (result.Id == null) status = "Vendor Tidak Berhasil Mendaftar";
+            status = "Anda Berhasil Mendaftar";
+            ViewBag.status = status;
             return View();
         }
     }
