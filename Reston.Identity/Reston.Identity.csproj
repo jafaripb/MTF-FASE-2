@@ -256,6 +256,17 @@
   <ItemGroup>
     <Content Include="Certificates\idsrv3test.pfx" />
     <Content Include="Content\app\app.bak.js" />
+    <Content Include="Content\app\css\animate-custom.css" />
+    <Content Include="Content\app\css\style.css" />
+    <Content Include="Content\app\images\background.jpg" />
+    <Content Include="Content\app\images\bg.jpg" />
+    <Content Include="Content\app\images\i1.png" />
+    <Content Include="Content\app\images\i2.png" />
+    <Content Include="Content\app\images\mail.png" />
+    <Content Include="Content\app\images\name.png" />
+    <Content Include="Content\app\images\password.png" />
+    <Content Include="Content\app\images\phone.png" />
+    <Content Include="Content\app\images\tick.png" />
     <Content Include="Content\app\loginn.html" />
     <Content Include="Content\app\redirect-login.js" />
     <Content Include="Content\app\app.css" />
