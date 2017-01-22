@@ -38,6 +38,9 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         DataTableViewMonitoring GetDataMonitoringSelectionDraf(string search, int start, int length, StatusSeleksi? status);
         DataTableViewMonitoring GetDataMonitoringSelectionSedangBerjalan(string search, int start, int length, StatusSeleksi? status);
         List<VWReportMonitoring> GetReportMonitoring(DateTime? dari, DateTime? sampai, Guid UserId);
+        List<VWReportPekerjaan> GetReportPekerjaan(Guid Id, Guid UserId);
+        List<VWReportPembayaran> GetReportPembayaran(Guid Id, Guid UserId);
+        List<VWReportPenilaianVendor> GetReportPenilaianVendor(Guid Id, Guid UserId);
     }
 
     public class MonitoringRepo : IMoritoringRepo
@@ -663,6 +666,73 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             catch (Exception ex)
             {
                 return new List<VWReportMonitoring>();
+            }
+        }
+
+        public List<VWReportPekerjaan> GetReportPekerjaan(Guid Id, Guid UserId) {
+            try
+            {
+                var oReport = (from b in ctx.RencanaProyeks
+                               join c in ctx.TahapanProyeks on b.Id equals c.ProyekId
+                               where b.Id == Id && c.JenisTahapan == "Pekerjaan"
+                               select new VWReportPekerjaan
+                               {
+                                   Pengadaan = b.Spk.PemenangPengadaan.Pengadaan.Judul,
+                                   Tahapan = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().NamaTahapan,
+                                   BobotPekerjaan = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().BobotPekerjaan.ToString() == null?"": b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().BobotPekerjaan.ToString(),
+                                   Progress = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).Count() == 0 ? 0 : b.TahapanProyeks.Where(d => d.ProyekId == b.Id).Sum(d => (d.Progress * d.BobotPekerjaan) / 100),
+                                   TanggalMulai = b.TahapanProyeks.Where(d=>d.ProyekId==b.Id).FirstOrDefault().TanggalMulai.ToString()==null?"": b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().TanggalMulai.ToString(),
+                                   TanggalSelesai = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().TanggalSelesai.ToString() == null ? "" : b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().TanggalSelesai.ToString(),
+                               }).Distinct().ToList();
+                return oReport;
+            }
+            catch (Exception ex)
+            {
+                return new List<VWReportPekerjaan>();
+            }
+        }
+
+        public List<VWReportPembayaran> GetReportPembayaran(Guid Id, Guid UserId)
+        {
+            try
+            {
+                var oReport = (from b in ctx.RencanaProyeks
+                               join c in ctx.TahapanProyeks on b.Id equals c.ProyekId
+                               where b.Id == Id && c.JenisTahapan == "Pembayaran"
+                               select new VWReportPembayaran
+                               {
+                                   Pengadaan = b.Spk.PemenangPengadaan.Pengadaan.Judul,
+                                   Tahapan = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().NamaTahapan,
+                                   Persen = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().PersenPembayaran.ToString() == null ? "" : b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().PersenPembayaran.ToString(),
+                                   NilaiKontrak = b.Spk.NilaiSPK.ToString(),
+                                   Status = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().StatusPembayaran == null ? "" : b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().StatusPembayaran,
+                                   TanggalPembayaran = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().TanggalPembayaran.ToString() == null ? "" : b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().TanggalPembayaran.ToString(),
+                               }).Distinct().ToList();
+                return oReport;
+            }
+            catch (Exception ex)
+            {
+                return new List<VWReportPembayaran>();
+            }
+        }
+
+        public List<VWReportPenilaianVendor> GetReportPenilaianVendor(Guid Id, Guid UserId)
+        {
+            try
+            {
+                var oReport = (from b in ctx.PenilaianVendorHeaders
+                               join c in ctx.RencanaProyeks on b.ProyekId equals c.Id
+                               where b.Id == Id 
+                               select new VWReportPenilaianVendor
+                               {
+                                   Vendor = c.Spk.PemenangPengadaan.Vendor.Nama,
+                                   Judul = c.Spk.PemenangPengadaan.Pengadaan.Judul,
+                               }).Distinct().ToList();
+                return oReport;
+            }
+            catch (Exception ex)
+            {
+                return new List<VWReportPenilaianVendor>();
             }
         }
     }

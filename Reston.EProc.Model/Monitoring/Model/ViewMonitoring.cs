@@ -150,4 +150,36 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public string TanggalSelesai { get; set; }
         public decimal Progress { get; set; }
     }
+
+    public class VWReportPekerjaan
+    {
+        public string Pengadaan { get; set; }
+        public string Tahapan { get; set; }
+        public string BobotPekerjaan { get; set; }
+        public decimal Progress { get; set; }
+        public string TanggalMulai { get; set; }
+        public string TanggalSelesai { get; set; }
+    }
+
+    public class VWReportPembayaran
+    {
+        public string Pengadaan { get; set; }
+        public string Tahapan { get; set; }
+        public string Persen { get; set; }
+        public string NilaiKontrak { get; set; }
+        public string Total { get; set; }
+        public string Status { get; set; }
+        public string TanggalPembayaran { get; set; }
+    }
+
+    public class VWReportPenilaianVendor
+    {
+        public string Vendor { get; set; }
+        public string Judul { get; set; }
+        public string Kriteria { get; set; }
+        public string Nilai { get; set; }
+        public string Catatan { get; set; }
+        public string Total { get; set; }
+        public string Ratarata { get; set; }
+    }
 }

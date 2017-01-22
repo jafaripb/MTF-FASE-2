@@ -457,7 +457,7 @@ function TambahProyekDrafPekerjaan() {
 function SimpanProyek() {
     var PengadaanId = $("#pengadaanId").val();
     var nNoKontrak = $("#no-spk").val();
-    var nStatus = "dijalankan";
+    var nStatus = "Dijalankan";
     $.ajax({
         method: "post",
         url: "api/Proyek/UbahStatusRencanaProyek",

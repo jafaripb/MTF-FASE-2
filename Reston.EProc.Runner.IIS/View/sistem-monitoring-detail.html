@@ -29,7 +29,6 @@
     <link href="dist/site.css" rel="stylesheet" />
     <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
     <link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
-    <link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" />
     <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
     <link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
     <link rel="stylesheet" href="dist/app.css">
@@ -137,6 +136,18 @@
                             <div class="box box-white">
                                 <div class="box-header with-border">
                                     <h3 class="box-title text-blue-mtf cursor-pointer repository">Sistem Monitoring</h3>
+                                    <div class="box-tools pull-right">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-social btn-bitbucket dropdown-toggle" data-toggle="dropdown">
+                                                <i class="fa  fa-print"></i>Cetak
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#" id="report-pekerjaan"><i class="fa  fa-print"></i>Report Pekerjaan</a></li>
+                                                <li><a href="#" id="report-pembayaran"><i class="fa  fa-print"></i>Report Pembayaran</a></li>
+                                                <li><a href="#" id="report-penilaian"><i class="fa  fa-print"></i>Report Penilaian Vendor</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
 									<div class="form-group col-md-12">
@@ -954,7 +965,6 @@
                 method: "post",
                 url: "api/MonitoringSelection/TampilJudulDetail?Id=" + ID,
                 success: function (d) {
-                    console.log(d);
                     // Tampil
                     $("#NamaProyek").text(d.NamaProyek);
                     $("#TanggalMulai").val(moment(d.TanggalMulai).format("DD MMMM YYYY"));
@@ -1424,7 +1434,6 @@
 
         function TampilDokumenPembayaran() {
             var id_tahapan = $('#id_tahapModalPembayaran').val();
-            console.log(id_tahapan);
             table_dokumen_pembayaran = $('#list-dokumen-pembayaran').DataTable({
                 "serverSide": true,
                 "searching": false,
@@ -1447,7 +1456,6 @@
                         "render": function (data, type, row) {
                             if (row.URL != null && row.URL != "") {
                                 var url = "api/MonitoringSelection/OpenFile?Id=" + row.Id;
-                                console.log(url);
                                 var html = '<div class="btn-group" style="margin-right:5px;">';
                                 html = html + ' <a class="btn btn-sm btn-block btn-primary" href="' + url + '"> Download </a> ';
                                 html = html + '<input type="hidden" class="NamaDokumen" value="' + row.NamaDokumen + '" >';
@@ -1584,7 +1592,6 @@
                         "render": function (data, type, row) {
                             if (row.URL != null && row.URL != "") {
                                 var url = "api/MonitoringSelection/OpenFile?Id=" + row.Id;
-                                console.log(url);
                                 var html = '<div class="btn-group" style="margin-right:5px;">';
                                 html = html + ' <a class="btn btn-sm btn-block btn-primary" href="' + url + '"> Download </a> ';
                                 html = html + '<input type="hidden" class="NamaDokumen" value="' + row.NamaDokumen + '" >';
@@ -2014,7 +2021,6 @@
 		        VendorId = $(this).find(".vendorid").val();
 		        arrobjPenilaian.push(objPenilaian);
 		        Total_nilai += parseInt($(this).find('.hasil_penilaian').val());
-		        console.log(Total_nilai);
 		    });
 		    objPenilaianHeader.proyekid = ID;
 		    objPenilaianHeader.VendorId = VendorId;
@@ -2022,7 +2028,6 @@
 		    objPenilaianHeader.Jumlah_penilaian = Jumlah_penilaian;
 		    objPenilaianHeader.Total_nilai = Total_nilai;
 		    objPenilaianHeader.PenilaianVendorDetails = arrobjPenilaian;
-		    console.log(objPenilaianHeader.Total_nilai);
 		    $.ajax({
 		        method: "POST",
 		        url: "Api/Proyek/SimpanNilai",
@@ -2449,7 +2454,6 @@
                 objPembayaran.TanggalPembayaran = $(this).find(".tanggal-pembayaran").val();
                 arrobjPembayaran.push(objPembayaran);
             });
-            console.log(arrobjPembayaran);
             //waitingDialog.showloading("Proses Harap Tunggu");
             $.ajax({
                 method: "POST",
@@ -2781,7 +2785,6 @@
 
 		$("#blacklist").on("click", function () {
 		    var vendorid = $("#vendorid").val();
-		    console.log(vendorid);
 		    $("#modal-daftarhitam").modal('show');
 		});
 
@@ -2799,6 +2802,21 @@
 		    });
 		}
 
+		$(function () {
+		    var id = gup('Id');
+
+		    $("#report-pekerjaan").on("click", function () {
+		        downloadFileUsingForm("/api/MonitoringSelection/ReportPekerjaan?Id="+id);
+		    });
+
+		    $("#report-pembayaran").on("click", function () {
+		        downloadFileUsingForm("/api/MonitoringSelection/ReportPembayaran?Id=" + id);
+		    });
+
+		    $("#report-penilaian").on("click", function () {
+		        downloadFileUsingForm("/api/MonitoringSelection/ReportPenilaian?Id=" + id);
+		    });
+		});
 
     </script>
 </body>

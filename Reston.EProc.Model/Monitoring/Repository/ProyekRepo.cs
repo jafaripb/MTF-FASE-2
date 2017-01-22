@@ -437,7 +437,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rm = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.SpkId == Id).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.Id == Id).FirstOrDefault();
 
                 if (odata != null)
                 {
