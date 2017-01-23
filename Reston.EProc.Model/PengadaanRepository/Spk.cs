@@ -106,17 +106,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string NilaiSPK { get; set; }
     }
 
-    public class VWReportMonitoring
-    {
-        public Guid id { get; set; }
-        public Guid? SpkId { get; set; }
-        public string NamaPekerjaan { get; set; }
-        public string VendorPelaksana { get; set; }
-        public string KlasifikasiPekerjaan { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public string ProgresPelaksanaan { get; set; }
-    }
+    
 
     public class VWSpk
     {
