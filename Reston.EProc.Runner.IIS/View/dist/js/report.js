@@ -41,13 +41,6 @@ $(function () {
 
         downloadFileUsingForm("/api/MonitoringSelection/ReportMonitoring?dari=" + dari + "&sampai=" + sampai);
     });
-
-    $("#report_monitoring").on("click", function () {
-        var dari = moment($("#report_monitoring_dari").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
-        var sampai = moment($("#report_monitoring_sampai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
-
-        downloadFileUsingForm("/api/report/ReportMonitoring?dari=" + dari + "&sampai=" + sampai);
-    });
 });
 
 function downloadFileUsingForm(url) {

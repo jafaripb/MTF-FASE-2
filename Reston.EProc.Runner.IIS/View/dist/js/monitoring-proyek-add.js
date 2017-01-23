@@ -457,7 +457,7 @@ function TambahProyekDrafPekerjaan() {
 function SimpanProyek() {
     var PengadaanId = $("#pengadaanId").val();
     var nNoKontrak = $("#no-spk").val();
-    var nStatus = "dijalankan";
+    var nStatus = "Dijalankan";
     $.ajax({
         method: "post",
         url: "api/Proyek/UbahStatusRencanaProyek",
@@ -677,7 +677,7 @@ $(function () {
             if (d.TanggalSelesai != null)
             $("#pendaftaran_sampai").val(moment(d.TanggalSelesai).format("DD MMMM YYYY"));
             //$("#isPIC").val(d.PIC[0].Id);
-            LoadListPersonil(d.PIC);
+            //LoadListPersonil(d.PIC);
         }
     })
 })
@@ -824,9 +824,6 @@ function isPersonileEksisPerPeran(idPersonil, elm) {
 function addLoadPersonil(item, el, ispic) {
     var peran = el.replace(".listperson-", "");
     var removeEL = '';
-    //if (ispic == 1) {
-    //    removeEL = '<span class="badge bg-red remove-person"><i class="fa fa-remove"></i></span>';
-    //}
     html = '<a class="btn btn-app">' +
         '<input type="hidden" class="list-personil" attrId="'
                        + item[0].Id + '" attr1="' + item[0].Id + '" attr2="'
@@ -840,10 +837,9 @@ function addLoadPersonil(item, el, ispic) {
 
 // date picker
 $(".dateJadwal").datetimepicker({
-    format: "DD MMMM YYYY HH:mm",
+    format: "DD MMMM YYYY",
     locale: 'id',
-    useCurrent: false,
-    minDate: Date.now()
+    useCurrent: false
 
 }).on('dp.change', function (e) {
     var jadwal = $(this).attr("name");

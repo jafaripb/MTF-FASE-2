@@ -452,5 +452,257 @@ namespace Reston.EProc.Web.Controllers
                 //Display or log the error based on your application.
             }
         }
+
+        // Report Pekerjaan
+        public HttpResponseMessage ReportPekerjaan(Guid Id)
+        {
+            try
+            {
+                LocalReport lr = new LocalReport();
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+                path = Path.Combine(path, "ReportPekerjaan.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    lr.ReportPath = path;
+                }
+
+                else
+                {
+                    //return View("Index");
+                }
+                var id = Id;
+
+                var Pekerjaan = _repository.GetReportPekerjaan(id, UserId());
+
+                ReportDataSource rd = new ReportDataSource("Pekerjaan", Pekerjaan);
+                lr.DataSources.Add(rd);
+                string param1 = "";
+                string filename = "";
+                string param2 = "";
+                string paramSemester = "";
+                string paramTahunAjaran = "";
+
+
+                string reportType = "doc";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+
+                string[] streamids = null;
+                String extension = null;
+                Byte[] bytes = null;
+                Warning[] warnings;
+
+                bytes = lr.Render("Excel", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(bytes);
+
+                result.Content = new StreamContent(stream);
+
+                //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Report-Progress-Pelaksanaan-Project" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                };
+
+                return result;
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                result.Content = new StringContent(sb.ToString());
+
+                return result;
+                //Display or log the error based on your application.
+            }
+        }
+
+        // Report Pembayaran
+        public HttpResponseMessage ReportPembayaran(Guid Id)
+        {
+            try
+            {
+                LocalReport lr = new LocalReport();
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+                path = Path.Combine(path, "ReportPembayaran.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    lr.ReportPath = path;
+                }
+
+                else
+                {
+                    //return View("Index");
+                }
+                var id = Id;
+
+                var Pembayaran = _repository.GetReportPembayaran(id, UserId());
+
+                ReportDataSource rd = new ReportDataSource("Pembayaran", Pembayaran);
+                lr.DataSources.Add(rd);
+                string param1 = "";
+                string filename = "";
+                string param2 = "";
+                string paramSemester = "";
+                string paramTahunAjaran = "";
+
+
+                string reportType = "doc";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+
+                string[] streamids = null;
+                String extension = null;
+                Byte[] bytes = null;
+                Warning[] warnings;
+
+                bytes = lr.Render("Excel", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(bytes);
+
+                result.Content = new StreamContent(stream);
+
+                //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Report-Pembayaran-Project" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                };
+
+                return result;
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                result.Content = new StringContent(sb.ToString());
+
+                return result;
+                //Display or log the error based on your application.
+            }
+        }
+
+        // Report Penilaian Vendor
+        public HttpResponseMessage ReportPenilaian(Guid Id)
+        {
+            try
+            {
+                LocalReport lr = new LocalReport();
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_REPORT_PATH;
+
+                path = Path.Combine(path, "ReportPenilaianVendor.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    lr.ReportPath = path;
+                }
+
+                else
+                {
+                    //return View("Index");
+                }
+                var id = Id;
+
+                var PenilaianVendor = _repository.GetReportPenilaianVendor(id, UserId());
+
+                ReportDataSource rd = new ReportDataSource("PenilaianVendor", PenilaianVendor);
+                lr.DataSources.Add(rd);
+                string param1 = "";
+                string filename = "";
+                string param2 = "";
+                string paramSemester = "";
+                string paramTahunAjaran = "";
+
+
+                string reportType = "doc";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+
+                string[] streamids = null;
+                String extension = null;
+                Byte[] bytes = null;
+                Warning[] warnings;
+
+                bytes = lr.Render("Excel", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(bytes);
+
+                result.Content = new StreamContent(stream);
+
+                //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Report-Nilai-Kinerja-Vendor" + UserId() + DateTime.Now.ToString("dd-MM-yy") + ".xls"
+                };
+
+                return result;
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                result.Content = new StringContent(sb.ToString());
+
+                return result;
+                //Display or log the error based on your application.
+            }
+        }
     }
 }
