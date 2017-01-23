@@ -35,7 +35,8 @@ namespace Reston.Pinata.Model
         public const string MONITORING_SCHEMA_NAME = "monitoring";
         public const string WORKFLOW_SCHEMA_NAME = "workflow";
         public const string PROYEK_SCHEMA_NAME = "proyek";
-        public const string PO_SCHEMA_NAME = "po"; 
+        public const string PO_SCHEMA_NAME = "po";
+        public const string MENU_SCHEMA_NAME = "menu"; 
 
         public JimbisContext()
             : base("name=JimbisEntities")
