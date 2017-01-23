@@ -3315,9 +3315,10 @@ namespace Reston.Pinata.WebService.Controllers
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public IHttpActionResult ListCount()
+        public async Task< IHttpActionResult> ListCount()
         {
-            return Json(_repository.ListCount());
+            var userApprover = await listUser(IdLdapConstants.Roles.pRole_approver);
+            return Json(_repository.ListCount(UserId(), userApprover));
         }
 
 
@@ -3952,7 +3953,7 @@ namespace Reston.Pinata.WebService.Controllers
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]    
-        public IHttpActionResult SavePersetujuanTerkait(Guid PengadanId,Guid UserId)
+        public async Task<IHttpActionResult> SavePersetujuanTerkait(Guid PengadanId,Guid UserId)
         {
             PersetujuanTerkait data = new PersetujuanTerkait()
             {
@@ -3960,6 +3961,11 @@ namespace Reston.Pinata.WebService.Controllers
                 UserId = UserId
             };
             var result = _repository.savePersetujuanTerkait(data);
+
+            if (string.IsNullOrEmpty(result.Id.ToString()))
+            {
+                await SendEmailToApprover(UserId.ToString(),PengadanId);
+            }            
             VWPersetujuanTerkait datax = new VWPersetujuanTerkait()
             {
                 Id = result.Id
@@ -3999,6 +4005,7 @@ namespace Reston.Pinata.WebService.Controllers
             };
             return Json(datax);
         }
+
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
