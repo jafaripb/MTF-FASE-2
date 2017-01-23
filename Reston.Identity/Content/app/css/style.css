@@ -38,7 +38,8 @@
 /*-- Index-Page-Styling --*/
 
 body {
-    background: url("../images/bg.jpg");
+    /*background: url("../images/bg.jpg");*/
+    background-color:white;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -62,7 +63,7 @@ h1 {
     font-family: 'sans-serif', sans-serif;
     font-size: 30px;
     font-weight: bold;
-    color: #FFF;
+    color: #013066;
     text-align: center;
 }
 
@@ -89,8 +90,8 @@ h1 {
     left: 48%;
     -ms-transform: translate(-40%, -40%);
     transform: translate(-40%, -40%);
-    color: #FFF;
-    font-family: 'Montserrat', sans-serif;
+    color: #013066;
+    font-family: 'sans-serif', sans-serif;
     font-size: 30px;
     line-height: 45px;
     width: 80%;
@@ -105,7 +106,7 @@ h1 {
     padding: 13px 40px;
     border-radius: 3px;
     font-size: 16px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'sans-serif', sans-serif;
     font-weight: bold;
     /*--w3layouts--*/
     /*--agileits--*/
@@ -131,7 +132,7 @@ h1 {
 
 .list ul li a {
     color: #EEE;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'sans-serif', sans-serif;
     font-size: 14px;
 }
 
@@ -145,7 +146,7 @@ a.hiddenanchor{
 }
 
 #wrapper h2 {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'sans-serif', sans-serif;
     font-size: 30px;
     margin-bottom: 30px;
     color: #FFF;
@@ -154,7 +155,7 @@ a.hiddenanchor{
 .send-button a {
     width: 50%;
     float: left;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'sans-serif', sans-serif;
     color: #E91E63;
     font-size: 14px;
     /*--w3layouts--*/
@@ -191,7 +192,7 @@ a.hiddenanchor{
 }
 
 p.change_link {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'sans-serif', sans-serif;
     color: #EEE;
     width: 100%;
     margin: 32px 0;
@@ -280,7 +281,7 @@ p.change_link {
 .social-icons p {
     color: #CCC;
     font-size: 12px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'sans-serif', sans-serif;
     margin-bottom: 15px;
 }
 
@@ -306,7 +307,7 @@ li.twt.w3ls {
 .social-icons ul li a span {
     vertical-align: middle;
     color: #fff;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'sans-serif', sans-serif;
     /*--w3layouts--*/
     /*--agileits--*/
     font-size: 15px;
