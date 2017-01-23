@@ -13,6 +13,7 @@ using System.Net.Http;
 using Reston.Helper;
 using System.IO;
 using System.Net;
+using Reston.Helper.Model;
 
 namespace IdLdap.Controllers
 {
@@ -61,20 +62,86 @@ namespace IdLdap.Controllers
             return Json("wtf", JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpGet]
         public ActionResult GetCaptchaImage(string k)
         {
-            CaptchaHelper c = new CaptchaHelper();
-            Guid g;
-
-            if (Guid.TryParse(k, out g))
+            try
             {
-                var ms = new MemoryStream();
-                (c.GenerateImage(g)).Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                CaptchaHelper c = new CaptchaHelper();
+                Guid g;
 
-                return File(ms.ToArray(), "image/png");
+                if (Guid.TryParse(k, out g))
+                {
+                    var ms = new MemoryStream();
+                    (c.GenerateImage(g)).Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+
+                    return File(ms.ToArray(), "image/png");
+                }
             }
-            return Json("error");
+            catch(Exception ex)
+            {
+                return Json(ex.ToString(),JsonRequestBehavior.AllowGet);
+            }
+            return  Json("sdsds",JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult createCaptca()
+        {
+            CaptchaHelper captcha = new CaptchaHelper();
+            try
+            {
+                CaptchaViewModel Generate = captcha.Generate();
+                return Json(Generate.Id.ToString(), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.ToString(), JsonRequestBehavior.AllowGet);
+            }
+            return  Json("sdsds",JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult insertCapcha()
+        {
+            HelperContext db = new HelperContext();
+            try
+            {
+                var data=new Captcha() { 
+                    Text="sdsdsd"
+                };
+                db.Captchas.Add(data);
+                db.SaveChanges();
+
+                return Json(data.Id.ToString(), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.ToString(), JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        [HttpGet]
+        public ActionResult getCapcha()
+        {
+            HelperContext db = new HelperContext();
+            IdentityContext cx = new IdentityContext();
+            try
+            {
+                var data = db.Captchas.FirstOrDefault();
+                //db.SaveChanges();
+
+                return Json(data.Id.ToString(), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.ToString(), JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        
     }
 
 

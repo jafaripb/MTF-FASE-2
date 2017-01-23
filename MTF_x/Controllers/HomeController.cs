@@ -25,8 +25,10 @@ namespace MTF_x.Controllers
             _repository = new PengadaanRepo(new JimbisContext());
             _repositoryVendor = new VendorRepo(new JimbisContext());
         }
+
         public ActionResult Index()
         {
+            ViewBag.ProcUrl = IdLdapConstants.Proc.Url;
             return View();
         }
 
@@ -37,17 +39,20 @@ namespace MTF_x.Controllers
         }
         public void Signout()
         {
+
             Request.GetOwinContext().Authentication.SignOut();
             Redirect(IdLdapConstants.IDM.Url);
         }
         public ActionResult About()
         {
+            ViewBag.ProcUrl = IdLdapConstants.Proc.Url;
             ViewBag.Message = "Your application description page.";
             return View();
         }
 
         public ActionResult Contact()
         {
+            ViewBag.ProcUrl = IdLdapConstants.Proc.Url;
             ViewBag.Message = "Your contact page.";
 
             return View();
@@ -55,6 +60,7 @@ namespace MTF_x.Controllers
 
         public ActionResult FindData()
         {
+            ViewBag.ProcUrl = IdLdapConstants.Proc.Url;
             var sql = @"select * from  pengadaan.pengadaan x 
                         where aturanpengadaan = 'Pengadaan Terbuka' and  x.Id in (select distinct pengadaanid from pengadaan.JadwalPengadaan 
                         where tipe='pendaftaran' and mulai <= getdate() and Sampai >= GETDATE())";
@@ -65,6 +71,7 @@ namespace MTF_x.Controllers
 
         public ActionResult Announcement()
         {
+            ViewBag.ProcUrl = IdLdapConstants.Proc.Url;
             var dt = _repository.GetPengadaanAnnouncment();
             return View(dt);
         }
@@ -94,6 +101,7 @@ namespace MTF_x.Controllers
 
         public ActionResult CriteriaQuality(Guid idGuid)
         {
+            ViewBag.ProcUrl = IdLdapConstants.Proc.Url;
             var dt = context.Pengadaan.Find(idGuid);
             var oo = new KriteriaKualifikasi(dt);
             return View(oo);
@@ -102,6 +110,7 @@ namespace MTF_x.Controllers
         [Authorize]
         public ActionResult Daftar(Guid id)
         {
+            ViewBag.ProcUrl = IdLdapConstants.Proc.Url;
             string status="";
             var pengadaan = _repository.GetPengadaan(id, UserId(), 0);
             var vendor = _repositoryVendor.GetVendorByUser(UserId());

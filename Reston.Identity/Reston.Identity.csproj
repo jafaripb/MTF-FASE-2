@@ -267,8 +267,6 @@
     <Content Include="Content\app\images\password.png" />
     <Content Include="Content\app\images\phone.png" />
     <Content Include="Content\app\images\tick.png" />
-    <Content Include="Content\app\login - Copy.html" />
-    <Content Include="Content\app\login-new.html" />
     <Content Include="Content\app\loginn.html" />
     <Content Include="Content\app\redirect-login.js" />
     <Content Include="Content\app\app.css" />
