@@ -30,7 +30,7 @@ namespace Reston.Pinata.Model.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            //Seeder.Seed(context);
+           // Seeder.Seed(context);
         }
     }
 }

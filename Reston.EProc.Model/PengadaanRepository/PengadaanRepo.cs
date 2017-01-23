@@ -206,6 +206,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         LewatTahapan SaveTahapan(LewatTahapan data, Guid UserId);
         List<LewatTahapan> getTahapan(Guid PengadaanId);
         PersetujuanTerkait savePersetujuanTerkait(PersetujuanTerkait data);
+        int deletePersetujuanTerkait(Guid Id, Guid UserId);
         PersetujuanTerkait TerkaitSetuju(PersetujuanTerkait data);
         List<PersetujuanTerkait> GetUserTerkait(Guid PengadaanId);
         string GenerateNoDOKUMEN(Guid UserId, string KODE, TipeNoDokumen tipe);
@@ -5659,6 +5660,21 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
 
             return data;
+        }
+
+        public int deletePersetujuanTerkait(Guid Id,Guid UserId)
+        {
+            try
+            {
+                var persetujuanTerkait = ctx.PersetujuanTerkait.Find(Id);
+                if (persetujuanTerkait == null) return 0;
+                var isPic = persetujuanTerkait.Pengadaan.PersonilPengadaans.Where(d => d.tipe == PengadaanConstants.StaffPeranan.PIC && d.PersonilId == UserId).FirstOrDefault() == null ? 0 : 1;
+                if (isPic == 0) return  0;
+                ctx.PersetujuanTerkait.Remove(persetujuanTerkait);
+                ctx.SaveChanges();
+                return 1;
+            }
+            catch { return 0; }
         }
        
         public PersetujuanTerkait TerkaitSetuju(PersetujuanTerkait data)

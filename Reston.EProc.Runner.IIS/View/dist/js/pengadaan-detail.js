@@ -725,7 +725,7 @@ function loadData(pengadaanId) {
         if (data.StatusName == "KLARIFIKASILANJUTAN") {
             // cekState("klarifikasi");
             $("#detail-klarifikasi-lanjutan").addClass("in");
-            $("#Status").text("Status Pengadaan : Klarifikasi");
+            $("#Status").text("Status Pengadaan : Klarifikasi Lanjutan");
 
             $("#tab-anwijzing").attr("data-toggle", "collapse");
             $("#tab-submit-penawaran").attr("data-toggle", "collapse");
@@ -795,6 +795,14 @@ function loadData(pengadaanId) {
         if (data.Approver == 1) {
             $(".Setujui").show();
             $(".Tolak").show();
+        }
+
+        if (data.isKlarifikasiLanjutan == 1) {
+            $(".panel-klarifikasi-lanjut").show()
+        }
+
+        if (data.isPenilaian == 1) {
+            $(".panel-penilaian").show()
         }
 
         cekStep();
