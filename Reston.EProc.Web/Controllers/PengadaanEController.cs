@@ -3936,19 +3936,19 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
       
-        public IHttpActionResult SavePersetujuanTerkait(Guid PengadanId,Guid UserId)
+        public async Task<IHttpActionResult> SavePersetujuanTerkait(Guid PengadanId,Guid UserId)
         {
             PersetujuanTerkait data = new PersetujuanTerkait()
             {
                 PengadaanId = PengadanId,
                 UserId = UserId
             };
+            var result = _repository.savePersetujuanTerkait(data);
 
             if (string.IsNullOrEmpty(result.Id.ToString()))
             {
-                SendEmailToApprover(UserId, PengadaanId);
-            }
-            var result = _repository.savePersetujuanTerkait(data);
+                await SendEmailToApprover(UserId.ToString(),PengadanId);
+            }            
             VWPersetujuanTerkait datax = new VWPersetujuanTerkait()
             {
                 Id = result.Id
