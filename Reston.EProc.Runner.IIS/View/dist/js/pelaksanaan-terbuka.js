@@ -2947,7 +2947,7 @@ function hapusKandidat(Id, _this) {
 
     }).done(function (data) {
         if (data.status == 200) {
-            _this.parent().remove();
+            _this.remove();
         }
         else {
             alert("error");

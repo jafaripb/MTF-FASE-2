@@ -200,7 +200,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         //pengadaan Terbuka
         KandidatPengadaan addKandidatPilihanVendor(KandidatPengadaan oKandidatPengadaan, Guid UserId);
-        List<Pengadaan> GetPengadaanAnnouncment();
+        List<ViewPengadaan> GetPengadaanAnnouncment();
         int CekBukaAmplopTahapan(Guid PengadaanId);
         //tambah tahapan
         LewatTahapan SaveTahapan(LewatTahapan data, Guid UserId);
@@ -5603,14 +5603,48 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return oKandidatPengadaan;
         }
 
-        public List<Pengadaan> GetPengadaanAnnouncment()
+        public List<ViewPengadaan> GetPengadaanAnnouncment()
         {
-            return (from b in ctx.Pengadaans
-                    join c in ctx.JadwalPengadaans on b.Id equals c.PengadaanId
-                    where b.AturanPengadaan == "Pengadaan Terbuka" && c.tipe==PengadaanConstants.Jadwal.Pendaftaran && c.Mulai>=DateTime.Now && DateTime.Now<=c.Sampai
-                     && b.Status==EStatusPengadaan.DISETUJUI
-                     select b).Distinct().ToList();
-                      
+
+           return ctx.Pengadaans.Where(b => b.Status == EStatusPengadaan.DISETUJUI).Select(b => new ViewPengadaan()
+            {
+                NoPengadaan=b.NoPengadaan,
+                Id = b.Id,
+                Judul = b.Judul,
+                AturanBerkas = b.AturanBerkas,
+                AturanPenawaran = b.AturanPenawaran,
+                AturanPengadaan = b.AturanPengadaan,
+                Keterangan = b.Keterangan,
+                Status = b.Status,
+                StatusName = b.Status.ToString(),
+                GroupPengadaan = b.GroupPengadaan,
+                JenisPekerjaan = b.JenisPekerjaan,
+                JenisPembelanjaan = b.JenisPembelanjaan,
+                MataUang = b.MataUang,
+                PeriodeAnggaran = b.PeriodeAnggaran,
+                NoCOA = b.NoCOA,
+                Pagu = b.Pagu,
+                Region = b.Region,
+                Provinsi = b.Provinsi,
+                KualifikasiRekan = b.KualifikasiRekan,
+                UnitKerjaPemohon = b.UnitKerjaPemohon,
+                TitleDokumenNotaInternal = b.TitleDokumenNotaInternal,
+                TitleDokumenLain = b.TitleDokumenLain,
+                TitleBerkasRujukanLain = b.TitleBerkasRujukanLain,
+                Mulai=b.JadwalPelaksanaans.Where(d=>d.statusPengadaan==EStatusPengadaan.DISETUJUI).FirstOrDefault()==null?b.JadwalPengadaans.Where(d=>d.tipe==PengadaanConstants.Jadwal.Pendaftaran).FirstOrDefault().Mulai:b.JadwalPelaksanaans.Where(d=>d.statusPengadaan==EStatusPengadaan.DISETUJUI).FirstOrDefault().Mulai,
+                Sampai = b.JadwalPelaksanaans.Where(d => d.statusPengadaan == EStatusPengadaan.DISETUJUI).FirstOrDefault() == null ? b.JadwalPengadaans.Where(d => d.tipe == PengadaanConstants.Jadwal.Pendaftaran).FirstOrDefault().Sampai : b.JadwalPelaksanaans.Where(d => d.statusPengadaan == EStatusPengadaan.DISETUJUI).FirstOrDefault().Sampai
+            }).Where(d=>d.Mulai >=DateTime.Now && DateTime.Now <=d.Sampai).ToList();
+            
+
+            //return (from b in ctx.Pengadaans
+            //        join c in ctx.JadwalPengadaans on b.Id equals c.PengadaanId
+            //        where b.AturanPengadaan == "Pengadaan Terbuka" && 
+            //        c.tipe==PengadaanConstants.Jadwal.Pendaftaran && c.Sampai >= DateTime.Now && c.Mulai <= DateTime.Now
+            //         && b.Status == EStatusPengadaan.DISETUJUI
+            //        select b).Distinct().ToList();
+            
+        
+             
         }
         #endregion
 

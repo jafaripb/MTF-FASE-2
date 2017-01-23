@@ -832,24 +832,38 @@ function loadKualifikas(kualifikasiKandidat) {
 
 function LoadKriteriaPembobotan(PengadaanId,xIsTeam) {
     $("#kreteriaPembobotan").html("");
-    $.ajax({
-        method: "POST",
-        url: "Api/PengadaanE/getKriteriaPembobotan?PengadaanId=" + PengadaanId,
-        success:function(data){
-            $.each(data, function (index, val) {
-                html = '<div class="row">' +
-			        '<div class="form-group col-md-4">' +
-				        '<label class="title">' + val.NamaKreteria + ':</label>';
-                if (xIsTeam == 1) html = html + '<input id="bobot-harga" attrId="' + val.Id + '" type="text" class="form-control input-bobot-pengadaan" value=' + val.Bobot + ' >';
-                else html = html + '<input id="bobot-harga" disabled="disabled" attrId="' + val.Id + '" type="text" class="form-control input-bobot-pengadaan" value=' + val.Bobot + ' >';
-                html=html+'</div>' +
-		         '</div>';	
-				$("#kreteriaPembobotan").append(html);
-            });
-        }
-    });
-
+    if (PengadaanId == "") {
+        $.ajax({
+            method: "POST",
+            url: "Api/PengadaanE/getKriteriaPembobotan",
+            success: function (data) {
+                RenderKriteria(data, xIsTeam)
+            }
+        });
+    }
+    else {
+        $.ajax({
+            method: "POST",
+            url: "Api/PengadaanE/getKriteriaPembobotan?PengadaanId=" + PengadaanId,
+            success: function (data) {
+                RenderKriteria(data, xIsTeam)
+            }
+        });
+    }
     
+}
+
+function RenderKriteria(data, xIsTeam) {
+    $.each(data, function (index, val) {
+        html = '<div class="row">' +
+            '<div class="form-group col-md-4">' +
+                '<label class="title">' + val.NamaKreteria + ':</label>';
+        if (xIsTeam == 1) html = html + '<input id="bobot-harga" attrId="' + val.Id + '" type="text" class="form-control input-bobot-pengadaan" value=' + val.Bobot + ' >';
+        else html = html + '<input id="bobot-harga" disabled="disabled" attrId="' + val.Id + '" type="text" class="form-control input-bobot-pengadaan" value=' + val.Bobot + ' >';
+        html = html + '</div>' +
+         '</div>';
+        $("#kreteriaPembobotan").append(html);
+    });
 }
 
 function addPembobotanPengadaan(el) {
@@ -1331,7 +1345,8 @@ $(function () {
             //$(".SimpanAjukan").show();
             $(".Simpan").show();
             //$(".Hapus").show();
-           // silensave(getHeaderPengadaan());//save dulu
+            // silensave(getHeaderPengadaan());//save dulu
+            LoadKriteriaPembobotan("", 1);
         }
     }
     // }
@@ -1657,27 +1672,29 @@ function aturanPenawaranView() {
     }
 }
 
-function renderDokumenDropzone(myDropzone,tipe) {
-    $.ajax({
-        url: "Api/PengadaanE/getDokumens?Id=" + $("#pengadaanId").val() + "&tipe=" + tipe,
-        success: function (data) {
-            for (var key in data) {
-                var file = {
-                    Id: data[key].Id, name: data[key].File, accepted: true,
-                    status: Dropzone.SUCCESS, processing: true, size: data[key].SizeFile
-                };
-                //thisDropzone.options.addedfile.call(thisDropzone, file);
-                myDropzone.emit("addedfile", file);
-                myDropzone.emit("complete", file);
-                myDropzone.files.push(file);
+function renderDokumenDropzone(myDropzone, tipe) {
+    if ($("#pengadaanId").val() != "") {
+        $.ajax({
+            url: "Api/PengadaanE/getDokumens?Id=" + $("#pengadaanId").val() + "&tipe=" + tipe,
+            success: function (data) {
+                for (var key in data) {
+                    var file = {
+                        Id: data[key].Id, name: data[key].File, accepted: true,
+                        status: Dropzone.SUCCESS, processing: true, size: data[key].SizeFile
+                    };
+                    //thisDropzone.options.addedfile.call(thisDropzone, file);
+                    myDropzone.emit("addedfile", file);
+                    myDropzone.emit("complete", file);
+                    myDropzone.files.push(file);
+                }
+            },
+            error: function (errormessage) {
+
+                //location.reload();
+
             }
-        },
-        error: function (errormessage) {
-
-            //location.reload();
-
-        }
-    });
+        });
+    }
 }
 
 function hitungHPS(rksId) {
