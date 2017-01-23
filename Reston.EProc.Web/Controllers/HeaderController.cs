@@ -73,61 +73,65 @@ namespace Reston.Pinata.WebService.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
          public async Task<List<Menu>> GetMenu()
          {
-
+            JimbisContext db=new JimbisContext();
 
              var userr = CurrentUser;
              // read file into a string and deserialize JSON to a type
              
              var roles = Roles();
-             if (roles.Contains(IdLdapConstants.App.Roles.IdLdapSuperAdminRole))
+             var menu = db.RoleMenu.Where(d => roles.Contains(d.Role)).Select(d=> new Menu()
              {
-                 Menu newMenu = new Menu { id = 2, css = "fa fa-user", url = IdLdapConstants.IDM.Url + "admin/userid", menu = "User Management" };
-                 var lstMenu = JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-admin.json"));
-                 lstMenu.Insert(1, newMenu);
-                lstMenu=cekdasboard(lstMenu);
-                return lstMenu;
-                 
-             }
-             else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementStaffRole) && roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementAdminRole))
-             {
-                var menu = JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-staff-admin.json"));
-               /* var dasbord = menu.Where(d => d.menu == "Dasboard").FirstOrDefault();
-                if (dasbord != null)
-                {
-                    dasbord.menu = dasbord.menu + "(10)";
-                }*/
-                return cekdasboard( menu);//JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-staff-admin.json"));
-             }
-             else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementHeadRole) || roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementManagerRole) || roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementStaffRole))
-             {
-                var lstMenu = JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu.json"));
-                lstMenu = cekdasboard(lstMenu);
-                return lstMenu;//JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu.json"));
-             }
-             else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapEndUserRole))
-             {
-                 return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-user.json"));
-             }
-             else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapComplianceRole))
-             {
-                 return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-compliance.json"));
-             }
-             else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapRekananTerdaftarRole))
-             {
-                 return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-vendor.json"));
-             }
-             else if (roles.Contains(IdLdapConstants.App.Roles.IdLdaplegal_direksi))
-             {
-                 return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-direksi.json"));
-             }
-             else if (roles.Contains(IdLdapConstants.App.Roles.IdLdaplegal_dirut))
-             {
-                 return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-direksi.json"));
-             }
-             else
-             {
-                 return new List<Menu>();
-             }
+                 id=d.Menu.Id,menu=d.Menu.menu,url=d.Menu.url,css=d.Menu.css
+             }).Distinct().ToList();
+             return cekdasboard(menu);
+             //if (roles.Contains(IdLdapConstants.App.Roles.IdLdapSuperAdminRole))
+             //{
+             //    Menu newMenu = new Menu { id = 2, css = "fa fa-user", url = IdLdapConstants.IDM.Url + "admin/userid", menu = "User Management" };
+             //    var lstMenu = JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-admin.json"));
+             //    lstMenu.Insert(1, newMenu);
+             //   lstMenu=cekdasboard(lstMenu);
+             //   return lstMenu;                 
+             //}
+             //else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementStaffRole) && roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementAdminRole))
+             //{
+             //   var menu = JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-staff-admin.json"));
+             //  /* var dasbord = menu.Where(d => d.menu == "Dasboard").FirstOrDefault();
+             //   if (dasbord != null)
+             //   {
+             //       dasbord.menu = dasbord.menu + "(10)";
+             //   }*/
+             //   return cekdasboard( menu);//JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-staff-admin.json"));
+             //}
+             //else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementHeadRole) || roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementManagerRole) || roles.Contains(IdLdapConstants.App.Roles.IdLdapProcurementStaffRole))
+             //{
+             //   var lstMenu = JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu.json"));
+             //   lstMenu = cekdasboard(lstMenu);
+             //   return lstMenu;//JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu.json"));
+             //}
+             //else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapEndUserRole))
+             //{
+             //    return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-user.json"));
+             //}
+             //else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapComplianceRole))
+             //{
+             //    return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-compliance.json"));
+             //}
+             //else if (roles.Contains(IdLdapConstants.App.Roles.IdLdapRekananTerdaftarRole))
+             //{
+             //    return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-vendor.json"));
+             //}
+             //else if (roles.Contains(IdLdapConstants.App.Roles.IdLdaplegal_direksi))
+             //{
+             //    return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-direksi.json"));
+             //}
+             //else if (roles.Contains(IdLdapConstants.App.Roles.IdLdaplegal_dirut))
+             //{
+             //    return JsonConvert.DeserializeObject<List<Menu>>(File.ReadAllText(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\data\menu-direksi.json"));
+             //}
+             //else
+             //{
+             //    return new List<Menu>();
+             //}
 
          }
 

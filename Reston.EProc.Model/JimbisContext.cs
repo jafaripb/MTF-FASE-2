@@ -9,6 +9,7 @@ using Reston.Pinata.Model.PengadaanRepository;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Infrastructure;
 using Reston.Eproc.Model.Monitoring.Entities;
+using Reston.Eproc.Model.Entities;
 
 namespace Reston.Pinata.Model
 {
@@ -35,7 +36,8 @@ namespace Reston.Pinata.Model
         public const string MONITORING_SCHEMA_NAME = "monitoring";
         public const string WORKFLOW_SCHEMA_NAME = "workflow";
         public const string PROYEK_SCHEMA_NAME = "proyek";
-        public const string PO_SCHEMA_NAME = "po"; 
+        public const string PO_SCHEMA_NAME = "po";
+        public const string MENU_SCHEMA_NAME = "menu"; 
 
         public JimbisContext()
             : base("name=JimbisEntities")
@@ -136,6 +138,9 @@ namespace Reston.Pinata.Model
         //
         public virtual DbSet<PersetujuanTerkait> PersetujuanTerkait { get; set; }
         
+        //menu
+        public virtual DbSet<Reston.Eproc.Model.Entities.Menu> Menu { get; set; }
+        public virtual DbSet<RoleMenu> RoleMenu { get; set; }
 
         public virtual DbSet<SysLog> SysLogs { get; set; }
         

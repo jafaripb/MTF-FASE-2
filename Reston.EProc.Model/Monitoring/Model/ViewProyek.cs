@@ -86,6 +86,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
     {
         public Guid Id { get; set; }
         public string NamaTahapan { get; set; }
+        public decimal BobotPekerjaan { get; set; }
         public DateTime? TanggalMulai { get; set; }
         public DateTime? TanggalSelesai { get; set; }
         public string JenisTahapan { get; set; }

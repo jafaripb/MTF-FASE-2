@@ -13,7 +13,9 @@ namespace Reston.Pinata.Model.Migrations
     {
         internal static void Seed(JimbisContext context)
         {
-            SeedReferenceDatas(context);
+            //SeedReferenceDatas(context);
+            SeedMenu(context);
+            SeedRoleMenu(context);
         }
 
         private static void SeedReferenceDatas(JimbisContext context)
@@ -293,6 +295,126 @@ namespace Reston.Pinata.Model.Migrations
             context.ReferenceDatas.AddRange(masterData);
             context.Produks.AddRange(produkData);
             context.KreteriaPembobotans.AddRange(kriteriaPembobotan);
+            context.SaveChanges();
+        }
+
+        private static void SeedMenu(JimbisContext context)
+        {
+            Reston.Eproc.Model.Entities.Menu[] menulst = new Reston.Eproc.Model.Entities.Menu[]{
+                new Reston.Eproc.Model.Entities.Menu{Id=1,menu="Dashboard",url="dashboard.html",css="fa fa-bar-chart"},
+                new Reston.Eproc.Model.Entities.Menu{Id=2,menu="Pengadaan-e",url="pengadaan-list.html",css="fa fa-cubes"},
+                new Reston.Eproc.Model.Entities.Menu{Id=3,menu="Repository HPS",url="repository-rks.html",css="fa fa-book"},
+                new Reston.Eproc.Model.Entities.Menu{Id=4,menu="Rekanan",url="rekanan.html",css="fa fa-vimeo"},
+                new Reston.Eproc.Model.Entities.Menu{Id=5,menu="Katalog-e",url="eCatalogue2.html",css="fa fa-book"},
+                new Reston.Eproc.Model.Entities.Menu{Id=6,menu="Report",url="report.html",css="fa fa-file-excel-o"},
+                new Reston.Eproc.Model.Entities.Menu{Id=7,menu="Sistem Monitoring",url="monitoring-selection.html",css="fa fa-tv"},
+                new Reston.Eproc.Model.Entities.Menu{Id=8,menu="PKS",url="pks.html",css="fa fa-pencil-square"},
+                new Reston.Eproc.Model.Entities.Menu{Id=9,menu="SPK / PO",url="spk.html",css="fa fa-pencil"},
+                new Reston.Eproc.Model.Entities.Menu{Id=10,menu="Budget Capex",url="anggaran.html",css="fa fa-money"},
+                 new Reston.Eproc.Model.Entities.Menu{Id=11,menu="Pengadaan-e",url="pengadaan-rekanan.html",css="fa fa-cubes"},
+                 new Reston.Eproc.Model.Entities.Menu{Id=12,menu="Profil Saya",url="rekanan-side-terdaftar.html",css="fa fa-user"},
+                 new Reston.Eproc.Model.Entities.Menu{Id=13,menu="Monitoring",url="rekanan-monitoring.html",css="fa fa-tv"},
+                 new Reston.Eproc.Model.Entities.Menu{Id=14,menu="User Management",url= IdLdapConstants.IDM.Url+"admin/userid",css="fa fa-user"},                 
+                new Reston.Eproc.Model.Entities.Menu{Id=15,menu="LogOut",url="Api/Header/Signout",css="fa fa-sign-out"}
+            };
+            context.Menu.AddRange(menulst);
+            context.SaveChanges();
+        }
+        private static void SeedRoleMenu(JimbisContext context)
+        {
+            
+            Reston.Eproc.Model.Entities.RoleMenu[] roleMenulst = new Reston.Eproc.Model.Entities.RoleMenu[]{
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_approver},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_compliance},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_direksi},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_dirut},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_procurement_admin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_procurement_end_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_procurement_head},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_procurement_manager},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_procurement_staff},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_procurement_superadmin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_procurement_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=15,Role=IdLdapConstants.Roles.pRole_procurement_vendor},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=1,Role=IdLdapConstants.Roles.pRole_approver},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=1,Role=IdLdapConstants.Roles.pRole_compliance},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=1,Role=IdLdapConstants.Roles.pRole_direksi},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=1,Role=IdLdapConstants.Roles.pRole_dirut},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=1,Role=IdLdapConstants.Roles.pRole_procurement_admin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=1,Role=IdLdapConstants.Roles.pRole_procurement_end_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=1,Role=IdLdapConstants.Roles.pRole_procurement_head},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=1,Role=IdLdapConstants.Roles.pRole_procurement_manager},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=1,Role=IdLdapConstants.Roles.pRole_procurement_staff},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=1,Role=IdLdapConstants.Roles.pRole_procurement_superadmin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=1,Role=IdLdapConstants.Roles.pRole_procurement_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=2,Role=IdLdapConstants.Roles.pRole_approver},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=2,Role=IdLdapConstants.Roles.pRole_compliance},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=2,Role=IdLdapConstants.Roles.pRole_direksi},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=2,Role=IdLdapConstants.Roles.pRole_dirut},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=2,Role=IdLdapConstants.Roles.pRole_procurement_admin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=2,Role=IdLdapConstants.Roles.pRole_procurement_end_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=2,Role=IdLdapConstants.Roles.pRole_procurement_head},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=2,Role=IdLdapConstants.Roles.pRole_procurement_manager},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=2,Role=IdLdapConstants.Roles.pRole_procurement_staff},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=2,Role=IdLdapConstants.Roles.pRole_procurement_superadmin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=2,Role=IdLdapConstants.Roles.pRole_procurement_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=3,Role=IdLdapConstants.Roles.pRole_procurement_admin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=3,Role=IdLdapConstants.Roles.pRole_procurement_end_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=3,Role=IdLdapConstants.Roles.pRole_procurement_head},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=3,Role=IdLdapConstants.Roles.pRole_procurement_manager},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=3,Role=IdLdapConstants.Roles.pRole_procurement_staff},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=3,Role=IdLdapConstants.Roles.pRole_procurement_superadmin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=3,Role=IdLdapConstants.Roles.pRole_procurement_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=4,Role=IdLdapConstants.Roles.pRole_procurement_admin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=4,Role=IdLdapConstants.Roles.pRole_procurement_end_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=4,Role=IdLdapConstants.Roles.pRole_procurement_head},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=4,Role=IdLdapConstants.Roles.pRole_procurement_manager},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=4,Role=IdLdapConstants.Roles.pRole_procurement_staff},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=4,Role=IdLdapConstants.Roles.pRole_procurement_superadmin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=4,Role=IdLdapConstants.Roles.pRole_procurement_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=5,Role=IdLdapConstants.Roles.pRole_procurement_admin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=5,Role=IdLdapConstants.Roles.pRole_procurement_end_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=5,Role=IdLdapConstants.Roles.pRole_procurement_head},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=5,Role=IdLdapConstants.Roles.pRole_procurement_manager},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=5,Role=IdLdapConstants.Roles.pRole_procurement_staff},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=5,Role=IdLdapConstants.Roles.pRole_procurement_superadmin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=5,Role=IdLdapConstants.Roles.pRole_procurement_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=6,Role=IdLdapConstants.Roles.pRole_procurement_admin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=6,Role=IdLdapConstants.Roles.pRole_procurement_end_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=6,Role=IdLdapConstants.Roles.pRole_procurement_head},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=6,Role=IdLdapConstants.Roles.pRole_procurement_manager},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=6,Role=IdLdapConstants.Roles.pRole_procurement_staff},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=6,Role=IdLdapConstants.Roles.pRole_procurement_superadmin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=6,Role=IdLdapConstants.Roles.pRole_procurement_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=6,Role=IdLdapConstants.Roles.pRole_procurement_admin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=6,Role=IdLdapConstants.Roles.pRole_procurement_end_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=7,Role=IdLdapConstants.Roles.pRole_procurement_head},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=7,Role=IdLdapConstants.Roles.pRole_procurement_manager},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=7,Role=IdLdapConstants.Roles.pRole_procurement_staff},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=7,Role=IdLdapConstants.Roles.pRole_procurement_superadmin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=7,Role=IdLdapConstants.Roles.pRole_procurement_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=8,Role=IdLdapConstants.Roles.pRole_procurement_head},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=8,Role=IdLdapConstants.Roles.pRole_procurement_manager},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=8,Role=IdLdapConstants.Roles.pRole_procurement_staff},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=8,Role=IdLdapConstants.Roles.pRole_procurement_superadmin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=8,Role=IdLdapConstants.Roles.pRole_procurement_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=9,Role=IdLdapConstants.Roles.pRole_procurement_head},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=9,Role=IdLdapConstants.Roles.pRole_procurement_manager},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=9,Role=IdLdapConstants.Roles.pRole_procurement_staff},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=9,Role=IdLdapConstants.Roles.pRole_procurement_superadmin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=9,Role=IdLdapConstants.Roles.pRole_procurement_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=10,Role=IdLdapConstants.Roles.pRole_procurement_head},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=10,Role=IdLdapConstants.Roles.pRole_procurement_manager},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=10,Role=IdLdapConstants.Roles.pRole_procurement_staff},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=10,Role=IdLdapConstants.Roles.pRole_procurement_superadmin},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=10,Role=IdLdapConstants.Roles.pRole_procurement_user},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=11,Role=IdLdapConstants.Roles.pRole_procurement_vendor},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=12,Role=IdLdapConstants.Roles.pRole_procurement_vendor},
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=13,Role=IdLdapConstants.Roles.pRole_procurement_vendor},                
+                new Reston.Eproc.Model.Entities.RoleMenu{MenuId=14,Role=IdLdapConstants.Roles.pRole_procurement_vendor}
+            };
+            
+            context.RoleMenu.AddRange(roleMenulst);
             context.SaveChanges();
         }
     }

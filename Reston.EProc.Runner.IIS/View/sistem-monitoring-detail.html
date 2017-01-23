@@ -1229,7 +1229,6 @@
                         "orderable": false
                     }
                 ],
-                "pageLength": 5,
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
@@ -2071,6 +2070,7 @@
 		        objMonitor.TanggalSelesai = $(this).find(".tanggal-selesai-tahapan").val();
 		        arrobjMonitor.push(objMonitor);
 		    });
+		    waitingDialog.showloading("Proses Harap Tunggu");
 		    $.ajax({
 		        method: "POST",
 		        url: "Api/MonitoringSelection/UpdateProgressPekerjaan",
@@ -2078,6 +2078,7 @@
 		        data: JSON.stringify(arrobjMonitor),
 		        contentType: 'application/json; charset=utf-8',
 		        success: function (data) {
+		            waitingDialog.hideloading();
 		            BootstrapDialog.show({
 		                title: 'Konfirmasi',
 		                message: data.message,

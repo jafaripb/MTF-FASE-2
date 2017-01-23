@@ -22,6 +22,7 @@ $(function () {
         },
         "columns": [
             { "data": "NamaTahapan" },
+            { "data": "BobotPekerjaan" },
             { "data": "TanggalMulai" },
             { "data": "TanggalSelesai" },
             { "data": "null" },
@@ -31,14 +32,14 @@ $(function () {
                 "render": function (data, type, row) {
                     return moment(row.TanggalMulai).format("DD MMMM YYYY");
                 },
-                "targets": 1,
+                "targets": 2,
                 "orderable": false
             },
             {
                 "render": function (data, type, row) {
                     return moment(row.TanggalSelesai).format("DD MMMM YYYY");
                 },
-                "targets": 2,
+                "targets": 3,
                 "orderable": false
             },
             {
@@ -46,7 +47,7 @@ $(function () {
                     return ' <a  tahapId="' + row.Id + '"  class="btn btn-xs btn-info tambah-dokumen-pekerjaan" title="Dokumen Pekerjaan"><span class="fa fa-cloud-upload"></span> Dokumen </a> ' +
                     ' <a tahapId="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
                 },
-                "targets": 3,
+                "targets": 4,
                 "orderable": false
             },
         ],

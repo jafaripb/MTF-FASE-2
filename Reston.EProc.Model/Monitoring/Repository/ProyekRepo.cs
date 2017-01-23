@@ -171,7 +171,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         ResultMessage rkm = new ResultMessage();
         try
         {
-            var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId).FirstOrDefault();
+            var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId || d.SpkId == ProyekId).FirstOrDefault();
             if(odata != null)
             {
                 TahapanProyek th = new TahapanProyek
@@ -206,7 +206,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rkk = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.SpkId == ProyekId || d.Id == ProyekId).FirstOrDefault();
                 if(odata != null)
                 {
                     var IdProyek = odata.Id;
@@ -217,7 +217,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                         var TotalBobotPekerjaanDb = ctx.TahapanProyeks.Where(d => d.ProyekId == IdProyek).Sum(d => d.BobotPekerjaan != 0 ? d.BobotPekerjaan : 0);
                         var TotalBobotSeluruh = TotalBobotPekerjaanDb + xBobotPekerjaan;
 
-                        if (TotalBobotPekerjaanDb <= 100)
+                        if (TotalBobotSeluruh <= 100)
                         {
                             TahapanProyek th = new TahapanProyek
                             {
@@ -381,7 +381,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rm = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId || d.SpkId == ProyekId).FirstOrDefault();
 
                 if (odata != null)
                 {
@@ -520,6 +520,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                     nViewListTahapanPekerjaan.NamaTahapan = item.NamaTahapan;
                     nViewListTahapanPekerjaan.TanggalMulai = item.TanggalMulai.Value;
                     nViewListTahapanPekerjaan.TanggalSelesai = item.TanggalSelesai.Value;
+                    nViewListTahapanPekerjaan.BobotPekerjaan = item.BobotPekerjaan;
                     nViewListTahapanPekerjaan.JenisTahapan = item.JenisTahapan;
                     vListTahapanPekerjaan.Add(nViewListTahapanPekerjaan);
                 }
@@ -547,6 +548,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                     nViewListTahapanPekerjaan.TanggalMulai = item.TanggalMulai.Value;
                     nViewListTahapanPekerjaan.TanggalSelesai = item.TanggalSelesai.Value;
                     nViewListTahapanPekerjaan.JenisTahapan = item.JenisTahapan;
+                    nViewListTahapanPekerjaan.BobotPekerjaan = item.BobotPekerjaan;
                     vListTahapanPekerjaan.Add(nViewListTahapanPekerjaan);
                 }
                 tp.data = vListTahapanPekerjaan;
