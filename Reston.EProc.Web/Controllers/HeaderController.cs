@@ -56,11 +56,12 @@ namespace Reston.Pinata.WebService.Controllers
             return HttpStatusCode.OK;
         }
 
-        private List<Menu> cekdasboard(List<Menu> menu)
+        private async Task<List<Menu>> cekdasboard(List<Menu> menu)
         {
             var dasbord = menu.Where(d => d.menu == "Dashboard").FirstOrDefault();
 
-            var total = _repository.ListCount();
+            var userApprover = await listUser(IdLdapConstants.Roles.pRole_approver);
+            var total = _repository.ListCount(UserId(), userApprover);
 
             if (dasbord != null)
             {
@@ -83,7 +84,7 @@ namespace Reston.Pinata.WebService.Controllers
              {
                  id=d.Menu.Id,menu=d.Menu.menu,url=d.Menu.url,css=d.Menu.css
              }).Distinct().ToList();
-             return cekdasboard(menu);
+             return await cekdasboard(menu);
              //if (roles.Contains(IdLdapConstants.App.Roles.IdLdapSuperAdminRole))
              //{
              //    Menu newMenu = new Menu { id = 2, css = "fa fa-user", url = IdLdapConstants.IDM.Url + "admin/userid", menu = "User Management" };

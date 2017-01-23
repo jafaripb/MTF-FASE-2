@@ -178,7 +178,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         //int AjukanWorkflow(Guid Id, Guid UserId, Guid WorkflowtemplateId);
         Reston.Helper.Util.ResultMessage saveReadyPersonil(Guid Id,int ready,Guid UserId);
         DataTablePengadaan List(string search, int start, int limit, EStatusPengadaan status, int more, int spk, List<Guid> userAprrove, Guid UserId);
-        VWCountListDokumen ListCount();
+        VWCountListDokumen ListCount(Guid userId, List<Guid> userAprrover);
         Reston.Helper.Util.ResultMessage CekPersetujuanPemenang(Guid Id, Guid UserId);
         Reston.Helper.Util.ResultMessage SavePersetujuanPemenang(PersetujuanPemenang oPersetujuanPemenang, Guid UserId);
         Reston.Helper.Util.ResultMessage DeletePersetujuanPemenang(Guid Id);
@@ -1047,16 +1047,29 @@ namespace Reston.Pinata.Model.PengadaanRepository
             return oData;
         }
 
-        public VWCountListDokumen ListCount()
+        public VWCountListDokumen ListCount(Guid userId, List<Guid> userAprrover)
         {
             return new VWCountListDokumen() {
-                PengadaanDiSetujui = ctx.Pengadaans.Where(d => d.Status >= EStatusPengadaan.DISETUJUI && d.Status != EStatusPengadaan.ARSIP && d.Status != EStatusPengadaan.DITOLAK && d.Status != EStatusPengadaan.DIBATALKAN).Count(),
-                PengadaanDiTolak = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.DITOLAK).Count(),
-                PengadaanButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN).Count(),
-                PemenangButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.PersetujuanPemenangs.Where(dd=>dd.Status == StatusPengajuanPemenang.PENDING).Count()>0).Count(),
-                PemenangDiSetujui = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0).Count(),
+                PengadaanDiSetujui = ctx.Pengadaans.Where(d => d.Status >= EStatusPengadaan.DISETUJUI 
+                    && d.Status != EStatusPengadaan.ARSIP && d.Status != EStatusPengadaan.DITOLAK 
+                    && d.Status != EStatusPengadaan.DIBATALKAN 
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count(),
+                PengadaanDiTolak = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.DITOLAK 
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count(),
+                PengadaanButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN
+                && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count(),
+                PemenangButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG 
+                    && d.PersetujuanPemenangs.Where(dd=>dd.Status == StatusPengajuanPemenang.PENDING
+                    && (d.PersonilPengadaans.Where(ddx => ddx.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(ddx => ddx.UserId == userId).Count() > 0)).Count()>0).Count(),
+                PemenangDiSetujui = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG 
+                    && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja 
+                        && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0
+                        && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count(),
                 MonitorSelection = ctx.RencanaProyeks.Where(d => d.Status == "dijalankan").Count(),
-                TotalSeluruhPersetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN).Count() + ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING).Count() > 0).Count()
+                TotalSeluruhPersetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN 
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count() + ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG 
+                        && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING).Count() > 0
+                        && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count()
             };
         }
 
