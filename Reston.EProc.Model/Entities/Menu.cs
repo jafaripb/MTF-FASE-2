@@ -9,7 +9,7 @@ using Reston.Pinata.Model;
 using Reston.Pinata.Model.JimbisModel;
 using Reston.Pinata.Model.PengadaanRepository;
 
-namespace Reston.Eproc.Model.Monitoring.Entities
+namespace Reston.Eproc.Model.Entities
 {
     [Table("Menu", Schema = JimbisContext.MENU_SCHEMA_NAME)]
     public class Menu
@@ -23,14 +23,14 @@ namespace Reston.Eproc.Model.Monitoring.Entities
         public string css { get; set; }
     }
 
-    [Table("UserMenu", Schema = JimbisContext.MENU_SCHEMA_NAME)]
-    public class Menu
+    [Table("RoleMenu", Schema = JimbisContext.MENU_SCHEMA_NAME)]
+    public class RoleMenu
     {
         [Key]
         public int Id { get; set; }
          [ForeignKey("Menu")]
         public int MenuId { get; set; }
-        public string UserRole { get; set; }
-        public virtual Menu PO { get; set; }
+        public string Role { get; set; }
+        public virtual Menu Menu { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using Reston.Pinata.Model.PengadaanRepository;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Infrastructure;
 using Reston.Eproc.Model.Monitoring.Entities;
+using Reston.Eproc.Model.Entities;
 
 namespace Reston.Pinata.Model
 {
@@ -137,6 +138,9 @@ namespace Reston.Pinata.Model
         //
         public virtual DbSet<PersetujuanTerkait> PersetujuanTerkait { get; set; }
         
+        //menu
+        public virtual DbSet<Reston.Eproc.Model.Entities.Menu> Menu { get; set; }
+        public virtual DbSet<RoleMenu> RoleMenu { get; set; }
 
         public virtual DbSet<SysLog> SysLogs { get; set; }
         

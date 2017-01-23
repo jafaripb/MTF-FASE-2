@@ -12,6 +12,8 @@ namespace Reston.Pinata.Model.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;// PengadaanConstants.RunSeeder;//PengadaanConstants.RunSeeder;
+
+           // Seed(new Reston.Pinata.Model.JimbisContext());
         }
 
         protected override void Seed(Reston.Pinata.Model.JimbisContext context)
@@ -28,7 +30,7 @@ namespace Reston.Pinata.Model.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-           // Seeder.Seed(context);
+            //Seeder.Seed(context);
         }
     }
 }

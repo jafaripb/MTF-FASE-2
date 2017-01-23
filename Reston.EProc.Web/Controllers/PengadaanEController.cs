@@ -502,12 +502,17 @@ namespace Reston.Pinata.WebService.Controllers
         public  ViewPengadaan detailPengadaan(Guid Id)
         {
             var pengadaan = _repository.GetPengadaanByiD(Id);
-            var ResultCurrentApprover = _workflowrepo.CurrentApproveUserSegOrder(Id, pengadaan.WorkflowId.Value);
-            Guid? ApproverId=null;
-            if(!string.IsNullOrEmpty( ResultCurrentApprover.Id)){
-                ApproverId=new Guid( ResultCurrentApprover.Id.Split('#')[1]);
+            int isAprrover = 0;
+            if (pengadaan.WorkflowId != null)
+            {
+                var ResultCurrentApprover = _workflowrepo.CurrentApproveUserSegOrder(Id, pengadaan.WorkflowId.Value);
+                Guid? ApproverId = null;
+                if (!string.IsNullOrEmpty(ResultCurrentApprover.Id))
+                {
+                    ApproverId = new Guid(ResultCurrentApprover.Id.Split('#')[1]);
+                }
+                 isAprrover = UserId() == ApproverId ? 1 : 0;
             }
-            int isAprrover=UserId()==ApproverId?1:0;
             return _repository.GetPengadaan(Id, UserId(), isAprrover);
         }
 
@@ -3241,7 +3246,8 @@ namespace Reston.Pinata.WebService.Controllers
             int more = Convert.ToInt32(HttpContext.Current.Request["more"].ToString());
             int spk = Convert.ToInt32(HttpContext.Current.Request["spk"].ToString());
             EStatusPengadaan status = (EStatusPengadaan)Convert.ToInt32(HttpContext.Current.Request["status"].ToString());
-            var data = _repository.List(search, start, length, status, more,spk);
+            var listUserApprover = await listUser(IdLdapConstants.Roles.pRole_approver);
+            var data = _repository.List(search, start, length, status, more, spk, listUserApprover,UserId());
             
             foreach (var item in data.data)
             {
