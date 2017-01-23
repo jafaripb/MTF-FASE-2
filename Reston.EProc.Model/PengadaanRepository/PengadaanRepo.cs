@@ -5606,8 +5606,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public List<Pengadaan> GetPengadaanAnnouncment()
         {
             return (from b in ctx.Pengadaans
-                      join c in ctx.JadwalPengadaans on b.Id equals c.PengadaanId
-                    where b.AturanPengadaan == "Pengadaan Terbuka" && c.Sampai >= DateTime.Now && c.Mulai <=DateTime.Now
+                    join c in ctx.JadwalPengadaans on b.Id equals c.PengadaanId
+                    where b.AturanPengadaan == "Pengadaan Terbuka" && c.tipe==PengadaanConstants.Jadwal.Pendaftaran && c.Mulai>=DateTime.Now && DateTime.Now<=c.Sampai
                      && b.Status==EStatusPengadaan.DISETUJUI
                      select b).Distinct().ToList();
                       
