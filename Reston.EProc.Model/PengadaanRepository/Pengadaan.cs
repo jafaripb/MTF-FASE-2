@@ -700,6 +700,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public Guid UserId { get; set; }
         public string Nama { get; set; }
         public int setuju { get; set; }
+        public int isthismine { get; set; }
     }
 
     public class VWLewatTahapan
