@@ -171,7 +171,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         ResultMessage rkm = new ResultMessage();
         try
         {
-            var odata = ctx.RencanaProyeks.Where(d => d.SpkId == ProyekId).FirstOrDefault();
+            var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId).FirstOrDefault();
             if(odata != null)
             {
                 TahapanProyek th = new TahapanProyek
@@ -206,7 +206,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rkk = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.SpkId == ProyekId).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId).FirstOrDefault();
                 if(odata != null)
                 {
                     var IdProyek = odata.Id;
@@ -233,6 +233,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                             ctx.TahapanProyeks.Add(th);
                             ctx.SaveChanges(UserId.ToString());
                             rkk.status = HttpStatusCode.OK;
+                            rkk.message = "Data Berhasil Di Simpan";
                         }
                         else
                         {
@@ -436,7 +437,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rm = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.SpkId == Id).FirstOrDefault();
+                var odata = ctx.RencanaProyeks.Where(d => d.Id == Id).FirstOrDefault();
 
                 if (odata != null)
                 {

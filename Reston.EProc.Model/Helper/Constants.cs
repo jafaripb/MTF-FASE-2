@@ -73,6 +73,13 @@ namespace Model.Helper
             public static string Aanwijzing = "Aanwijzing";
             public static string PengisianHarga = "PengisianHarga";
         }
+
+        public static class AturanPengadaan
+        {
+            public static string Terbuka = "Pengadaan Terbuka";
+            public static string Tertutup = "Pengadaan Tertutup";
+        }
+
         public static class StaffPeranan
         {
             public static string PIC = "pic";

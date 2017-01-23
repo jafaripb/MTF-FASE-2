@@ -152,6 +152,22 @@ namespace Reston.Pinata.WebService.Controllers
          }
      }
 
+     [Authorize]
+     [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+     public async Task<IHttpActionResult> User()
+     {
+         try
+         {
+             Userx user = await userDetail(UserId().ToString());
+             return Json(user);
+         }
+         catch
+         {
+             return Json("");
+         }
+     }
+
+
 
     }
 }

@@ -215,7 +215,7 @@
 
                                         <div class="form-group col-md-6">
                                             <label class="title" >Pagu</label>
-                                            <input type="text" class="form-control" name="Pagu">
+                                            <input type="text" class="form-control format-harga" name="Pagu">
                                         </div>
 
                                         <div id="BingkaiHps" class="form-group col-md-6">
@@ -810,22 +810,10 @@
     <script src="dropzone.js"></script>
     <script src="dist/js/menu.js"></script>
     <script>
-        // $(document).ajaxStop($.unblockUI);
-        // var app = angular.module("app", []);
         var table;
-        //Dropzone.options.DokumenNotaInternal = false;
-        //Dropzone.options.DokumenLain = false;
-        //Dropzone.options.BerkasRujukanLain = false;
-        //Dropzone.autoDiscover = false;
-
-
-
-
         $(function () {
+            $(".format-harga").number(true, 0, ",", ".");
             $("[name=HpsId]").number(true, 0, ",", ".");
-            //dropZoneInit("DokumenNotaInternal");
-            //dropZoneInit("DokumenLain");
-            //dropZoneInit("BerkasRujukanLain");
             $("#myNav").affix({
                 offset: {
                     top: 100

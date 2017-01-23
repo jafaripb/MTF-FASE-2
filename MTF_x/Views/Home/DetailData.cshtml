@@ -1,4 +1,4 @@
-﻿@model MTF_x.Models.Pengadaan
+﻿@model Reston.Pinata.Model.PengadaanRepository.Pengadaan
 
 @{
     ViewBag.Title = "DetailData";
@@ -20,12 +20,19 @@
                                 <div class="tab-pane active" id="pengadaan_barang">
                                 @if (!Request.IsAuthenticated){
                                     <div class="col-md-12" style="margin:20px 0px 20px 0px;">
-                                        <p>Untuk dapat mengikuti pekerjaan ini. Silahkan <a href="http://localhost:49559/registrasi.html" target="_blank" class="text-bold"> Registrasi</a> atau <a href="Login" target="_blank" class="text-bold"> Login</a> Perusahaan Anda.</p>
+                                        <p>Untuk dapat mengikuti pekerjaan ini. Silahkan <a href="@ViewBag.ProcUrl/registrasi.html" target="_blank" class="text-bold"> Registrasi</a> atau <a href="Login" target="_blank" class="text-bold"> Login</a> Perusahaan Anda.</p>
                                     </div>
                                 }
-                                 @if (Request.IsAuthenticated){
+                                 @if (Request.IsAuthenticated && ViewBag.IsDaftar==0){
+                                    
                                     <div class="col-md-12" style="margin:20px 0px 20px 0px;">
                                         <p>Klik Untuk Mendaftar Pengadaan ini <a href="Daftar?id=@Html.DisplayFor(p => p.Id)">Daftar</a></p>
+                                    </div>
+                                }
+                                 @if (Request.IsAuthenticated && ViewBag.IsDaftar==1){
+                                    
+                                    <div class="col-md-12" style="margin:20px 0px 20px 0px;">
+                                        <p>Anda Sudah Terdaftar Pada Pengadaan Ini</p>
                                     </div>
                                 }
 
@@ -42,10 +49,10 @@
                                             <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Tanggal Pembuatan</td>
                                             <td style="font-size:13px;" colspan="4"> @Html.DisplayFor(p => p.CreatedOn)</td>
                                         </tr>
-                                        <tr>
+                                      @*  <tr>
                                             <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Lingkup Pekerjaan</td>
-                                            <td style="font-size:13px;" colspan="4"> ??? </td>
-                                        </tr>
+                                            <td style="font-size:13px;" colspan="4">  @Html.DisplayFor(p => p.CreatedOn) </td>
+                                        </tr>*@
                                         <tr>
                                             <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Keterangan</td>
                                             <td style="font-size:13px;" colspan="4"> @Html.DisplayFor(p => p.Keterangan)</td>
@@ -64,14 +71,14 @@
                                             <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Lokasi</td>
                                             <td style="font-size:13px;" colspan="4">@Html.DisplayFor(p => p.Provinsi)</td>
                                         </tr>
-                                        <tr>
+                                     @*   <tr>
                                             <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Kualifikasi Perusahaan</td>
                                             <td style="font-size:13px;" colspan="4"> ?? </td>
                                         </tr>
                                         <tr>
                                             <td class="text-bold" style="background-color:#ccddff; font-size:13px;">Syarat Pekerjaan</td>
                                             <td style="font-size:13px;" colspan="4">  <a href="@Url.Action("CriteriaQuality","Home",new{idGuid=Model.Id})" target="_blank">Lihat Syarat Kualifikasi</a></td>
-                                        </tr>
+                                        </tr>*@
                                     </table>
                                 </div>
                             </div>

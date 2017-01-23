@@ -106,8 +106,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public string NilaiSPK { get; set; }
     }
 
-    
-
     public class VWSpk
     {
         public Guid Id { get; set; }
