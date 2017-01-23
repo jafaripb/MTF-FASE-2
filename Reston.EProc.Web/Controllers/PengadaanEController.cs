@@ -992,11 +992,11 @@ namespace Reston.Pinata.WebService.Controllers
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public int sendMailKlarifikasi(ViewSendEmail data)
+        public async Task< int> sendMailKlarifikasi(ViewSendEmail data)
         {
             //sending email notification
 
-            List<VWVendor> vendors = _repository.GetVendorsKlarifikasiByPengadaanId(data.PengadaanId.Value);
+            List<VWVendor> vendors = _repository.GetVendorsKlarifikasiByPengadaanId2(data.PengadaanId.Value);
             foreach (var item in vendors)
             {
                 string judulSubjek = System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_TITLE"].ToString();
@@ -1008,6 +1008,24 @@ namespace Reston.Pinata.WebService.Controllers
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER1"].ToString() + "</p>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER2"].ToString() + "</p>";
                 sendMail(item.Nama, item.email, html, judulSubjek);
+            }
+            var pengdaan = _repository.GetPengadaanByiD(data.PengadaanId.Value);
+            foreach (var item in pengdaan.PersonilPengadaans)
+            {
+                string judulSubjek = System.Configuration.ConfigurationManager.AppSettings["MAIL_PENAWARAN_TITLE"].ToString();
+                string html = "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_PENAWARAN_YTH"].ToString() + "</p>";
+                html = html + "<p>" + item.Nama + "</p>";
+                html = html + "<br/>";
+                html = html + "<p>" + data.Surat + "</p>";
+                html = html + "<br/><br/>";
+                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_PENAWARAN_FOOTER1"].ToString() + "</p>";
+                html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_PENAWARAN_FOOTER2"].ToString() + "</p>";
+                var user = await userDetail(item.PersonilId.ToString());
+                try
+                {
+                    sendMail(item.Nama, user.Email, html, judulSubjek);
+                }
+                catch { }
             }
             return 1;
         }
@@ -3933,8 +3951,7 @@ namespace Reston.Pinata.WebService.Controllers
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
-        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]    
         public IHttpActionResult SavePersetujuanTerkait(Guid PengadanId,Guid UserId)
         {
             PersetujuanTerkait data = new PersetujuanTerkait()
@@ -3951,6 +3968,18 @@ namespace Reston.Pinata.WebService.Controllers
 
             return Json(datax);
         }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public IHttpActionResult DeletePersetujuanTerkait(Guid Id)
+        {
+            var result = _repository.deletePersetujuanTerkait(Id,UserId());
+            return Json(result);
+        }
+        
+
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
@@ -3984,8 +4013,10 @@ namespace Reston.Pinata.WebService.Controllers
                 VWPersetujuanTerkait ndata = new VWPersetujuanTerkait();
                 ndata.Id = item.Id;
                 var user = await userDetail(item.UserId.ToString());
+                ndata.UserId = item.UserId;
                 ndata.Nama = user.Nama;
                 ndata.setuju = item.setuju == true ? 1 : 0;
+                ndata.isthismine = item.UserId == UserId() ? 1 : 0;
                 data.Add(ndata);
             }
 
