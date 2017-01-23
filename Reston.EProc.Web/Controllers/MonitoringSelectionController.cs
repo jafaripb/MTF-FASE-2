@@ -474,6 +474,15 @@ namespace Reston.EProc.Web.Controllers
                 var id = Id;
 
                 var Pekerjaan = _repository.GetReportPekerjaan(id, UserId());
+                int i = 0;
+                foreach (var item in Pekerjaan)
+                {
+                    if (i != 0)
+                    {
+                        item.Pengadaan = "";
+                    }
+                    i = 1;
+                }
 
                 ReportDataSource rd = new ReportDataSource("Pekerjaan", Pekerjaan);
                 lr.DataSources.Add(rd);
@@ -558,6 +567,15 @@ namespace Reston.EProc.Web.Controllers
                 var id = Id;
 
                 var Pembayaran = _repository.GetReportPembayaran(id, UserId());
+                int i = 0;
+                foreach (var item in Pembayaran)
+                {
+                    if (i != 0)
+                    {
+                        item.Pengadaan = "";
+                    }
+                    i = 1;
+                }
 
                 ReportDataSource rd = new ReportDataSource("Pembayaran", Pembayaran);
                 lr.DataSources.Add(rd);
@@ -642,6 +660,17 @@ namespace Reston.EProc.Web.Controllers
                 var id = Id;
 
                 var PenilaianVendor = _repository.GetReportPenilaianVendor(id, UserId());
+
+                int i = 0;
+                foreach (var item in PenilaianVendor)
+                {
+                    if (i != 0)
+                    {
+                        item.Judul = "";
+                        item.Vendor = "";
+                    }
+                    i = 1;
+                }
 
                 ReportDataSource rd = new ReportDataSource("PenilaianVendor", PenilaianVendor);
                 lr.DataSources.Add(rd);

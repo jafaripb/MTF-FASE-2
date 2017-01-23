@@ -155,8 +155,9 @@ namespace Reston.Eproc.Model.Monitoring.Model
     {
         public string Pengadaan { get; set; }
         public string Tahapan { get; set; }
-        public string BobotPekerjaan { get; set; }
+        public decimal BobotPekerjaan { get; set; }
         public decimal Progress { get; set; }
+        public decimal Penyelesaian { get; set; }
         public string TanggalMulai { get; set; }
         public string TanggalSelesai { get; set; }
     }
@@ -165,9 +166,9 @@ namespace Reston.Eproc.Model.Monitoring.Model
     {
         public string Pengadaan { get; set; }
         public string Tahapan { get; set; }
-        public string Persen { get; set; }
-        public string NilaiKontrak { get; set; }
-        public string Total { get; set; }
+        public decimal Persen { get; set; }
+        public decimal NilaiKontrak { get; set; }
+        public decimal Total { get; set; }
         public string Status { get; set; }
         public string TanggalPembayaran { get; set; }
     }

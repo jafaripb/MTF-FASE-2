@@ -672,18 +672,18 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         public List<VWReportPekerjaan> GetReportPekerjaan(Guid Id, Guid UserId) {
             try
             {
-                var oReport = (from b in ctx.RencanaProyeks
-                               join c in ctx.TahapanProyeks on b.Id equals c.ProyekId
-                               where b.Id == Id && c.JenisTahapan == "Pekerjaan"
+                var oReport = (from b in ctx.TahapanProyeks
+                               where b.ProyekId == Id && b.JenisTahapan == "Pekerjaan"
                                select new VWReportPekerjaan
                                {
-                                   Pengadaan = b.Spk.PemenangPengadaan.Pengadaan.Judul,
-                                   Tahapan = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().NamaTahapan,
-                                   BobotPekerjaan = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().BobotPekerjaan.ToString() == null?"": b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().BobotPekerjaan.ToString(),
-                                   Progress = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).Count() == 0 ? 0 : b.TahapanProyeks.Where(d => d.ProyekId == b.Id).Sum(d => (d.Progress * d.BobotPekerjaan) / 100),
-                                   TanggalMulai = b.TahapanProyeks.Where(d=>d.ProyekId==b.Id).FirstOrDefault().TanggalMulai.ToString()==null?"": b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().TanggalMulai.ToString(),
-                                   TanggalSelesai = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().TanggalSelesai.ToString() == null ? "" : b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().TanggalSelesai.ToString(),
-                               }).Distinct().ToList();
+                                   Pengadaan = b.RencanaProyek.Spk.PemenangPengadaan.Pengadaan.Judul,
+                                   Tahapan = b.NamaTahapan,
+                                   BobotPekerjaan = b.BobotPekerjaan,
+                                   Progress = b.Progress,
+                                   Penyelesaian = (b.Progress * b.BobotPekerjaan) / 100,
+                                   TanggalMulai = b.TanggalMulai.ToString(),
+                                   TanggalSelesai = b.TanggalSelesai.ToString(),
+                               }).ToList();
                 return oReport;
             }
             catch (Exception ex)
@@ -696,17 +696,16 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         {
             try
             {
-                var oReport = (from b in ctx.RencanaProyeks
-                               join c in ctx.TahapanProyeks on b.Id equals c.ProyekId
-                               where b.Id == Id && c.JenisTahapan == "Pembayaran"
+                var oReport = (from b in ctx.TahapanProyeks 
+                               where b.ProyekId == Id && b.JenisTahapan == "Pembayaran"
                                select new VWReportPembayaran
                                {
-                                   Pengadaan = b.Spk.PemenangPengadaan.Pengadaan.Judul,
-                                   Tahapan = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().NamaTahapan,
-                                   Persen = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().PersenPembayaran.ToString() == null ? "" : b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().PersenPembayaran.ToString(),
-                                   NilaiKontrak = b.Spk.NilaiSPK.ToString(),
-                                   Status = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().StatusPembayaran == null ? "" : b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().StatusPembayaran,
-                                   TanggalPembayaran = b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().TanggalPembayaran.ToString() == null ? "" : b.TahapanProyeks.Where(d => d.ProyekId == b.Id).FirstOrDefault().TanggalPembayaran.ToString(),
+                                   Pengadaan = b.RencanaProyek.Spk.PemenangPengadaan.Pengadaan.Judul,
+                                   Tahapan = b.NamaTahapan,
+                                   Persen = b.PersenPembayaran,
+                                   Total = (b.RencanaProyek.Spk.NilaiSPK.Value*b.PersenPembayaran)/100,
+                                   Status = b.StatusPembayaran,
+                                   TanggalPembayaran = b.TanggalPembayaran.ToString(),
                                }).Distinct().ToList();
                 return oReport;
             }
@@ -720,13 +719,15 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         {
             try
             {
-                var oReport = (from b in ctx.PenilaianVendorHeaders
-                               join c in ctx.RencanaProyeks on b.ProyekId equals c.Id
-                               where b.Id == Id 
+                var oReport = (from b in ctx.PenilaianVendorDetails
+                               where b.PenilaianVendorHeader.ProyekId == Id
                                select new VWReportPenilaianVendor
                                {
-                                   Vendor = c.Spk.PemenangPengadaan.Vendor.Nama,
-                                   Judul = c.Spk.PemenangPengadaan.Pengadaan.Judul,
+                                   Vendor = b.PenilaianVendorHeader.RencanaProyek.Spk.PemenangPengadaan.Vendor.Nama,
+                                   Judul = b.PenilaianVendorHeader.RencanaProyek.Spk.PemenangPengadaan.Pengadaan.Judul,
+                                   Kriteria = b.ReferenceData.LocalizedName,
+                                   Nilai = b.Nilai.ToString(),
+                                   Catatan = b.Catatan_item,
                                }).Distinct().ToList();
                 return oReport;
             }
