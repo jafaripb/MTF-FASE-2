@@ -55,12 +55,12 @@
                                 <label>Captca</label>
                                 <input type="text" name="captca" placeholder="Captca" ng-model="model.captca" required>
                                 <img src="http://localhost:7348/Home/GetCaptchaImage?k={{model.username}}" />
-                                <div class="" ng-show="model.allowRememberMe">
+                                <!--<div class="" ng-show="model.allowRememberMe">
                                     <div class="checkbox ">
                                         <input type="checkbox" value="1" id="checkbox1" ng-model="model.rememberMe">
                                         <label for="checkbox1">Biarkan saya tetap masuk.</label>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div ng-show="model.errorMessage">
                                     <div class="alert alert-danger" role="alert">
                                         <!--<button class="close" data-dismiss="alert"></button>-->
@@ -74,7 +74,7 @@
                                     </form>
                                     <div class="clear"></div>
                                 </div>
-                                <!--<br />-->
+                                <br />
                                 <!--<label>Sudah mendaftar tetapi belum mendapat akses ke sistem?</label><p class="send-button w3layouts agileits"><label><a href="http://localhost:49559/registrasi.html">Lacak status pengajuan Anda di sini.</a></label></p>-->
                                 <!--<div class="clear"></div>-->
                             </form>
