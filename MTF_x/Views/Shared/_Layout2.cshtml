@@ -77,8 +77,8 @@
                         <!--<li><a href="tanya-jawab.html">Tanya Jawab</a></li>-->
                         <li id="menu3"><a href="@Url.Action("Contact","Home")">Kontak Kami</a></li>
                         @if (!Request.IsAuthenticated){
-                        <li id="menu4"><a href="registrasi.html">Registrasi</a></li>
-                        <li id="menu5"><a href="#">Login</a></li>
+                        <li id="menu4"><a href="@ViewBag.ProcUrl/registrasi.html">Registrasi</a></li>
+                        <li id="menu5"><a href="Login">Login</a></li>
                         }
                         @if (Request.IsAuthenticated)
                         {

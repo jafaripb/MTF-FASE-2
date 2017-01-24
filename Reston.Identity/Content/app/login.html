@@ -25,13 +25,14 @@
     <![endif]-->
 </head>
 <body>
-    <h1 class="w3layouts agileits">MANDIRI TUNAS FINANCE</h1>
+    <img class="w3layouts agileits" src="{siteUrl}/content/app/images/logo-mtf.png" style="margin-left:70px;" width="250px;" height="100px;"/>
+    <!--<h1 class="w3layouts agileits"></h1>-->
 
     <div class="container w3layouts agileits">
         <div class="content-left w3layouts agileits">
-            <img src="{siteUrl}/content/app/images/background.jpg" width="100%" height="568px">
-            <p>Belum punya akun? <a href="http://localhost:49559/registrasi.html" style="color:dodgerblue">Daftar sebagai Rekanan Baru MTF.</a></p>
-            <a class="more w3layouts agileits" href="#">LEARN MORE</a>
+            <img src="" width="100%" height="566px"><!--{siteUrl}/content/app/images/background.jpg-->
+            <p>Belum punya akun? <a href="http://localhost:49559/registrasi.html" style="color:#013066">Daftar sebagai Rekanan Baru MTF.</a></p>
+            <!--<a class="more w3layouts agileits" href="#">LEARN MORE</a>-->
             <br /><br />
             <!--<label>Sudah mendaftar tetapi belum mendapat akses ke sistem?</label><p class="send-button w3layouts agileits"><label><a href="http://localhost:49559/registrasi.html">Lacak status pengajuan Anda di sini.</a></label></p>-->
         </div>
@@ -54,15 +55,15 @@
                                 <label>Captca</label>
                                 <input type="text" name="captca" placeholder="Captca" ng-model="model.captca" required>
                                 <img src="http://localhost:7348/Home/GetCaptchaImage?k={{model.username}}" />
-                                <div class="" ng-show="model.allowRememberMe">
+                                <!--<div class="" ng-show="model.allowRememberMe">
                                     <div class="checkbox ">
                                         <input type="checkbox" value="1" id="checkbox1" ng-model="model.rememberMe">
                                         <label for="checkbox1">Biarkan saya tetap masuk.</label>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div ng-show="model.errorMessage">
                                     <div class="alert alert-danger" role="alert">
-                                        <button class="close" data-dismiss="alert"></button>
+                                        <!--<button class="close" data-dismiss="alert"></button>-->
                                         <strong>Error : {{model.errorMessage}} </strong>
                                     </div>
                                 </div>
@@ -73,7 +74,7 @@
                                     </form>
                                     <div class="clear"></div>
                                 </div>
-                                <!--<br />-->
+                                <br />
                                 <!--<label>Sudah mendaftar tetapi belum mendapat akses ke sistem?</label><p class="send-button w3layouts agileits"><label><a href="http://localhost:49559/registrasi.html">Lacak status pengajuan Anda di sini.</a></label></p>-->
                                 <!--<div class="clear"></div>-->
                             </form>
@@ -89,7 +90,6 @@
     <!--<div class="footer w3layouts agileits">
         <p> &copy; 2016 Travel Agency Sign In Form. All Rights Reserved | Template by <a href="http://w3layouts.com" target="_blank">W3layouts</a></p>
     </div>-->
-
     <!-- END PAGE CONTAINER -->
     <!-- BEGIN VENDOR JS -->
     <script id='modelJson' type='application/json'>

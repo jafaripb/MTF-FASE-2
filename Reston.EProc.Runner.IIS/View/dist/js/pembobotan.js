@@ -38,23 +38,34 @@ $(function () {
 
 function LoadKriteriaPembobotan(PengadaanId) {
     $("#kreteriaPembobotan").html("");
-    $.ajax({
-        method: "POST",
-        url: "Api/PengadaanE/getKriteriaPembobotan?PengadaanId=" + PengadaanId,
-        success: function (data) {
-            $.each(data, function (index, val) {
-                html = '<div class="row">' +
-			        '<div class="form-group col-md-4">' +
-				        '<label style="font-size:small">' + val.NamaKreteria + '</label>' +
-				        '<input id="bobot-harga" attrId="' + val.Id + '" type="text" class="form-control input-bobot-pengadaan" value=' + val.Bobot + ' >' +
-			        '</div>' +
-		         '</div>';
-                $("#kreteriaPembobotan").append(html);
-
-
-            });
-        }
-    });
+    if (PengadaanId == "") {
+        $.ajax({
+            method: "POST",
+            url: "Api/PengadaanE/getKriteriaPembobotan",
+            success: function (data) {
+                RenderKriteria(data)
+            }
+        });
+    }
+    else {
+        $.ajax({
+            method: "POST",
+            url: "Api/PengadaanE/getKriteriaPembobotan?PengadaanId=" + PengadaanId,
+            success: function (data) {
+                RenderKriteria(data)
+            }
+        });
+    }
 }
 
-
+function RenderKriteria(data) {
+    $.each(data, function (index, val) {
+        html = '<div class="row">' +
+            '<div class="form-group col-md-4">' +
+                '<label style="font-size:small">' + val.NamaKreteria + '</label>' +
+                '<input id="bobot-harga" attrId="' + val.Id + '" type="text" class="form-control input-bobot-pengadaan" value=' + val.Bobot + ' >' +
+            '</div>' +
+         '</div>';
+        $("#kreteriaPembobotan").append(html);
+    });
+}
