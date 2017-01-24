@@ -328,7 +328,7 @@
                             var html = ''
                             var detailHtml = "";
                             var nexApprover = "";
-                            if (data.ApproverPersetujuanPemenang == 1) html += '<button class="setuju btn btn-flat btn-sm btn-primary" attrid="' + data.IdPersetujuanPemanang + '" >Setujui</button> <button class="tolak btn-flat btn-sm btn btn-danger" attrid="' + data.IdPersetujuanPemanang + '"  >Tolak</button>';
+                            if (data.ApproverPersetujuanPemenang == 1) html += '<button class="setuju btn btn-flat btn-sm btn-primary" attrid="' + data.Id + '" >Setujui</button> <button class="tolak btn-flat btn-sm btn btn-danger" attrid="' + data.Id + '"  >Tolak</button>';
                             if (data.lastApproverPersetujuanPemenang == "1" && data.ApproverPersetujuanPemenang == 1) nexApprover += ' <button class="next-approver btn btn-flat btn-sm btn-info" attrid="' + data.Id + '" >Ekalasi</button>';
                             if (data.AturanPengadaan == "Pengadaan Tertutup") detailHtml = ' <a href="pengadaan-detail.html#' + data.Id + '" class="product-title btn btn-success btn-sm btn-flat">Detail</a>';
                             else detailHtml = ' <a href="pengadaan-terbuka-detail.html#' + data.Id + '" class="btn btn-success btn-flat btn-sm product-title ">Detail</a>';

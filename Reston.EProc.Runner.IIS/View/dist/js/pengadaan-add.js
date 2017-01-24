@@ -844,7 +844,8 @@ function LoadKriteriaPembobotan(PengadaanId,xIsTeam) {
                 else html = html + '<input id="bobot-harga" disabled="disabled" attrId="' + val.Id + '" type="text" class="form-control input-bobot-pengadaan" value=' + val.Bobot + ' >';
                 html=html+'</div>' +
 		         '</div>';	
-				$("#kreteriaPembobotan").append(html);
+                $("#kreteriaPembobotan").append(html);
+                $("#lala").hide();
             });
         }
     });

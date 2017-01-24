@@ -3698,7 +3698,7 @@ namespace Reston.Pinata.WebService.Controllers
             try
             {
                 var pengadaan = _repository.GetPengadaanByiD(id);
-                result = _workflowrepo.ApproveDokumen2(id, pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.APPROVED);
+                result = _workflowrepo.ApproveDokumen2(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.APPROVED);
                 if (!string.IsNullOrEmpty(result.Id))
                 {
                     
@@ -3708,15 +3708,15 @@ namespace Reston.Pinata.WebService.Controllers
                     nRiwayatDokumen.PengadaanId = _repository.getPersetujuanPemenangById(id).PengadaanId;
                     nRiwayatDokumen.UserId = UserId();
                     _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(id, pengadaan.WorkflowId.Value);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.WorkflowId.Value);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
-                        _repository.ChangeStatusPersetujuanPemenang(id, StatusPengajuanPemenang.APPROVED, UserId());
+                        _repository.ChangeStatusPersetujuanPemenang(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, StatusPengajuanPemenang.APPROVED, UserId());
                         SendEmailPemenang(nRiwayatDokumen.PengadaanId.Value);
                     }
                     try
                     {
-                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(id,pengadaan.WorkflowId.Value);
+                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.WorkflowId.Value);
                         await SendEmailToApprover(nextApprover.Id.Split('#')[1], id);
                     }
                     catch { }
@@ -3740,12 +3740,12 @@ namespace Reston.Pinata.WebService.Controllers
             {
 
                 var pengadaan = _repository.GetPengadaanByiD(Id);
-                result = _workflowrepo.ApproveDokumen2(Id,pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
+                result = _workflowrepo.ApproveDokumen2(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value, UserId(), Note, Reston.Helper.Model.WorkflowStatusState.REJECTED);
                 if (result.data != null)
                 {
                     if (result.data.DocumentStatus == Reston.Helper.Model.DocumentStatus.REJECTED)
                     {
-                        _repository.ChangeStatusPersetujuanPemenang(Id, StatusPengajuanPemenang.REJECTED, UserId());
+                        _repository.ChangeStatusPersetujuanPemenang(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, StatusPengajuanPemenang.REJECTED, UserId());
                     
                     }
                     RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
@@ -3754,14 +3754,14 @@ namespace Reston.Pinata.WebService.Controllers
                     nRiwayatDokumen.Comment = Note;
                     nRiwayatDokumen.UserId = UserId();
                     _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(Id, pengadaan.WorkflowId.Value);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.WorkflowId.Value);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
                         _repository.ChangeStatusPersetujuanPemenang(Id, StatusPengajuanPemenang.APPROVED, UserId());
                     }
                     try
                     {
-                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(Id,pengadaan.WorkflowId.Value);
+                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.WorkflowId.Value);
                         await SendEmailToApprover(nextApprover.Id.Split('#')[1], Id);
                     }
                     catch { }
@@ -3962,13 +3962,13 @@ namespace Reston.Pinata.WebService.Controllers
             };
             var result = _repository.savePersetujuanTerkait(data);
 
-            if (string.IsNullOrEmpty(result.Id.ToString()))
+            if (!string.IsNullOrEmpty(result.Id.ToString()))
             {
                 await SendEmailToApprover(UserId.ToString(),PengadanId);
             }            
             VWPersetujuanTerkait datax = new VWPersetujuanTerkait()
             {
-                Id = result.Id
+                Id = result.Id,
             };
 
 

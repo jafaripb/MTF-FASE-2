@@ -2442,7 +2442,8 @@ $(function () {
             url: 'api/PengadaanE/SavePersetujuanTerkait?PengadanId=' + pengadaanId + "&UserId=" + userid,
             method: "GET",
             success: function (data) {
-                var message = data.message;
+                var message = "Gagal Save";
+                if (data.Id != "") message = "Save Sukses";
                 BootstrapDialog.show({
                     title: 'Konfirmasi',
                     message: message,
