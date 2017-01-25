@@ -798,12 +798,22 @@ function loadData(pengadaanId) {
         }
 
         if (data.isKlarifikasiLanjutan == 1) {
-            $(".panel-klarifikasi-lanjut").show()
+            $(".panel-klarifikasi-lanjut").show();
+            $("#tambah-klarifikasi-lanjut").prop("checked", true);
+        }
+        else {
+            $(".panel-klarifikasi-lanjut").hide();
+            $("#tambah-klarifikasi-lanjut").prop("checked", false);
+        }
+        if (data.isPenilaian == 1) {
+            $(".panel-penilaian").show();
+            $("#tambah-penilaian").prop("checked", true);
+        }
+        else {
+            $(".panel-penilaian").hide();
+            $("#tambah-penilaian").prop("checked", false);
         }
 
-        if (data.isPenilaian == 1) {
-            $(".panel-penilaian").show()
-        }
 
         cekStep();
         cekLewati();

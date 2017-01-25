@@ -15,9 +15,10 @@ $(function () {
         waitingDialog.showloading("Proses Harap Tunggu");
         var url = "Api/PengadaanE/addBeritaAcara";
         if (oBeritaAcara.Tipe == "SuratPerintahKerja") url = "Api/PengadaanE/addBeritaAcaraSpk";
+        if (oBeritaAcara.Tipe == "BeritaAcaraPenentuanPemenang") url = "Api/PengadaanE/addBeritaAcaraNota";
         $.ajax({
             method: "POST",
-            url: "Api/PengadaanE/addBeritaAcara",
+            url: url,
             dataType: "json",
             data: JSON.stringify(oBeritaAcara),
             contentType: 'application/json; charset=utf-8',

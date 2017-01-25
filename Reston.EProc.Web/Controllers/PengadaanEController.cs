@@ -3766,7 +3766,7 @@ namespace Reston.Pinata.WebService.Controllers
                     ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
-                        _repository.ChangeStatusPersetujuanPemenang(Id, StatusPengajuanPemenang.APPROVED, UserId());
+                        _repository.ChangeStatusPersetujuanPemenang(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, StatusPengajuanPemenang.APPROVED, UserId());
                     }
                     try
                     {

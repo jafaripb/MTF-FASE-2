@@ -72,7 +72,6 @@ $(function () {
             {
                 "render": function (data, type, row, meta) {
                     if (row.level == 0) {
-                        //console.log(meta.row)
                         //$("#example1 tr:eq(" + (meta.row+1) + ") td:eq(0)").attr("colspan", "7");
                         //$("#example1 tr:eq(" + (meta.row +1)+ ") td").not(":eq(0)").remove();
                         return '<input type="text" class="form-control item namaJudul" value="' + row.judul + '" style="font-weight:600; text-align:left; width:160px;">';
@@ -350,7 +349,6 @@ $(function () {
             if (before_grup != 0 && before_grup == current_grup && d.level == 1) {
                 subtotal = subtotal + parseFloat(d.total);
                 total = total + parseFloat(d.total);
-                console.log(subtotal);
             }
             else {
                 if (before_grup == 0 && d.level == 1) {
@@ -541,7 +539,6 @@ $(function () {
                                 spesifikasi: item.Spesifikasi
                             }
                         }))
-                        //console.log(data.aaData);
                         //return data.aaData;
                     }
                 });
@@ -618,7 +615,6 @@ $(function () {
         if ($("#idRks").val() != "") objRKSHeader.Id = $("#idRks").val();
         objRKSHeader.PengadaanId = $("#pengadaanId").val();
         objRKSHeader.RKSDetails = datatableToJson(table);
-        console.log(datatableToJson(table));
 
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
@@ -663,7 +659,6 @@ $(function () {
 $(function () {
 
     $(".save-template-hps").on("click", function () {
-        console.log("sdsd");
         $("#modal-save-rks").modal("show");       
     });
 
@@ -714,7 +709,6 @@ function datatableRepoRksToJson(table) {
     table.rows().every(function () {
         data.push(this.data());
     });
-    //console.log(JSON.stringify(data));
     return data;
 }
 
@@ -726,7 +720,6 @@ function addHeaderAfterSave() {
         var newData = {};
         newData = oldRowData;
         newData.RKSHeaderId = $("#idRks").val();
-        //console.log(newData)
         addNewData(baris, newData);
     });
     hitungHargaItemAwal();
@@ -801,27 +794,20 @@ function addItem(item) {
 function clearInputInRow(indexTr) {
     if (indexTr > 0) {
         var inputs = $("#example1 tbody tr:eq('" + (indexTr - 1) + "')").find("input").parent();
-        //  console.log(inputs);
         inputs.each(function () {
             var val = $(this).find("input").val();
             //var colIndex = $(this).parent().parent().children().index($(this).parent());
             //colIndex = $(this).parent().index();
-            //console.log($(this));
-            //console.log($(this).parent());
-            //console.log($(this).parent().index());
-            //console.log(colIndex + " " + indexTr);
             table.cell(indexTr, $(this).index()).data(val).draw();
         });
     }
 }
 function clearInputInRow2() {
-    //console.log($("#example1 tbody td").find("input"));
     var inputs = $("#example1 tbody td").find("input");
     inputs.each(function () {
         var val = $(this).val();
         var vlRow = $(this).parent().closest('tr')[0];
         //var rowIndex=vlRow
-        //console.log(vlRow.rowIndex);
         var colIndex = $(this).parent().parent().children().index($(this).parent());
         table.cell((vlRow.rowIndex - 1), colIndex).data(val).draw();
     });
@@ -874,7 +860,6 @@ function datatableToJson(table) {
         //odt.grup = odt.grup;
         //data.push(odt);
     });
-    //console.log(JSON.stringify(data));
     return data;
 }
 function loadDataRks(id) {
@@ -921,4 +906,3 @@ function loadData() {
         $("#region").val(data.Region)
     });
 }
-//console.log(id_rks);

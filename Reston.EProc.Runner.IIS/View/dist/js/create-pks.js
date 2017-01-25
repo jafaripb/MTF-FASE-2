@@ -67,7 +67,6 @@ $(function () {
                                  id = file.Id;
                              else
                                  id = $.parseJSON(file.xhr.response);
-                             console.log("sdsd");
                              $("#konfirmasiFile").attr("attr1", "DraftPKS");
                              $("#konfirmasiFile").attr("FileId", id);
                              $("#konfirmasiFile").modal("show");
@@ -327,7 +326,6 @@ $(function () {
     });
 
     $("#tbl-pengadaan").on("click", ".pilih-pengadaan", function () {
-        console.log($(this).attr("obj"));
         var obj = jQuery.parseJSON($(this).attr("obj"));
         waitingDialog.showloading("Proses Harap Tunggu");
         $("#judul").val(obj.Judul);
@@ -439,7 +437,6 @@ $(function () {
                         });
                     }
                     if (tipe == "AssignedPks") {
-                        console.log(item.xhr.response);
                         $.each(myDropzoneAssignedPks.files, function (index, item) {
                             var id = 0;
                             if (item.Id != undefined) {

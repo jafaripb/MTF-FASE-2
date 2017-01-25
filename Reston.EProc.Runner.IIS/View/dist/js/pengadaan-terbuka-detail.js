@@ -1056,7 +1056,7 @@ function loadData(pengadaanId) {
             $("#tab-klarifikasi").attr("data-toggle", "collapse");
 
             if (data.isUser == 1 && data.isTEAM == 0) {
-                $("#tab-klarifikasi").parent().parent().parent().remove();
+               // $("#tab-klarifikasi").parent().parent().parent().remove();
                 //$("#collapse5").remove();                
             }
             $(".jadwal-pendaftaran").remove();
@@ -1165,6 +1165,7 @@ function loadData(pengadaanId) {
             $(".panel-penilaian").hide();
             $("#tambah-penilaian").prop("checked", false);
         }
+
         //$("#lihatHps").on("click", function () {
         //    window.open("http://" + window.location.host + "/rks.html#" + $("#pengadaanId").val());
         //}); 

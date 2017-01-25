@@ -1889,7 +1889,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
 
             var pemenang = ctx.PemenangPengadaans.Where(d => d.PengadaanId == dokumenPengadaan.PengadaanId && d.VendorId == dokumenPengadaan.VendorId).FirstOrDefault();
-            if (pemenang != null)
+            if (pemenang != null && dokumenPengadaan.Tipe==TipeBerkas.SuratPerintahKerja)
             {
                 var oNoberita = ctx.BeritaAcaras.Where(d => d.PengadaanId == dokumenPengadaan.PengadaanId && d.VendorId == dokumenPengadaan.VendorId).FirstOrDefault();
                 if (oNoberita == null) return new DokumenPengadaan();
@@ -5289,9 +5289,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
             else
             {
-                dtJadwl.Mulai = from;
-                if (state != EStatusPengadaan.PEMENANG)
-                    dtJadwl.Sampai = to;
+
+                if (from != null && to != null)
+                {
+                    dtJadwl.Mulai = from;
+                    if (state != EStatusPengadaan.PEMENANG)
+                        dtJadwl.Sampai = to;
+                }
             }
             try
             {
