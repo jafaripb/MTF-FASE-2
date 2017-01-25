@@ -140,9 +140,9 @@
                                                     <th class="tengah">Pemenang</th>
                                                     <th class="tengah">Klasifikasi</th>
                                                     <th class="tengah">Status</th>
-                                                    <th>Approver Sebelumnya</th>
-                                                    <th>Approver Berikutnya</th>
-                                                    <th class="tengah">Disposisi</th>
+                                                    <!--<th>Approver Sebelumnya</th>
+                                                    <th>Approver Berikutnya</th>-->
+                                                    <!--<th class="tengah">Disposisi</th>-->
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -267,7 +267,7 @@
                     "type": 'POST',
                     "data": function (d) {
                         d.status = "8";
-                        d.more = "0";
+                        d.more = "1";
                         d.spk = "0";
                     }
                 },
@@ -284,9 +284,9 @@
                     { "data": "Pemenang" },
                     { "data": "JenisPekerjaan", "className": "tengah" },
                     { "data": "StatusPersetujuanPemenangName" },
-                     { "data": "PrevApproverPersetujuan" },
-                    { "data": "NextApproverPersetujuan" },
-                    { "data": null },
+                    // { "data": "PrevApproverPersetujuan" },
+                    //{ "data": "NextApproverPersetujuan" },
+                    //{ "data": null },
                     { "data": null }
                 ],
                 "columnDefs": [
@@ -312,16 +312,16 @@
                         "targets": 4,
                         "orderable": false
                     },
-                    {
-                        "render": function (data, type, row) {
-                            if (data.ApproverPersetujuanPemenang == 1) return '<textarea class="form-control" attrid="' + data.IdPersetujuanPemanang + '"></textarea>';
-                            else return "";
-                            //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
-                        },
+                    //{
+                    //    "render": function (data, type, row) {
+                    //        if (data.ApproverPersetujuanPemenang == 1) return '<textarea class="form-control" attrid="' + data.IdPersetujuanPemanang + '"></textarea>';
+                    //        else return "";
+                    //        //accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 })
+                    //    },
 
-                        "targets": 9,
-                        "orderable": false
-                    },
+                    //    "targets": 9,
+                    //    "orderable": false
+                    //},
 
                     {
                         "render": function (data, type, row) {
@@ -337,7 +337,7 @@
                             return html;
                         },
 
-                        "targets": 10,
+                        "targets": 7,//10
                         "orderable": false
                     }
                 ],

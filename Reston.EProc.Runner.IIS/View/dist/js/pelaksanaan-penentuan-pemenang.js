@@ -2,7 +2,7 @@
     $(".ajukan-pemenang").on("click", function () {
         BootstrapDialog.show({
             title: 'Ajukan Pemenang',
-            message: 'Dengan menekan tombal "lanjut" dokumen penentuan pemenang ini akan diajukan pada Departemen Head Pengadaaan untuk dimintai persetujuan',
+            message: 'Dengan menekan tombol "lanjut" dokumen penentuan pemenang ini akan diajukan pada Departemen Head Pengadaaan untuk dimintai persetujuan',
             buttons: [{
                 label: 'Lanjutkan',
                 action: function (dialog) {

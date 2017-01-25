@@ -1174,7 +1174,6 @@ function loadData(pengadaanId) {
 function cekStep() {
     $(".next-step").each(function (index) {
         var statusPengadaan = $("#StatusName").val();
-        console.log(statusPengadaan + " xx:" + $(this).attr("attrStatus"));
 
         if ($(this).attr("attrStatus") != statusPengadaan) {
             $(this).attr("disabled", "disabled");
