@@ -365,7 +365,7 @@ namespace Reston.Helper.Repository
                             });
                 if (start > 0) data.Skip(start);
                 if (length > 0) data.Take(length);
-
+                var xx = data.ToList();
                 return data.ToList();
             }
             catch (Exception ex)

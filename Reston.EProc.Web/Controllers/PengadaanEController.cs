@@ -3714,10 +3714,10 @@ namespace Reston.Pinata.WebService.Controllers
                     RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
                     nRiwayatDokumen.Status = "Dokumen Persetujuan Pemenang DiSetujui Oleh: " + CurrentUser.UserName;
                     nRiwayatDokumen.Comment = Note;
-                    nRiwayatDokumen.PengadaanId = _repository.getPersetujuanPemenangById(id).PengadaanId;
+                    nRiwayatDokumen.PengadaanId = id;
                     nRiwayatDokumen.UserId = UserId();
                     _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.WorkflowId.Value);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
                         _repository.ChangeStatusPersetujuanPemenang(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, StatusPengajuanPemenang.APPROVED, UserId());
@@ -3725,7 +3725,7 @@ namespace Reston.Pinata.WebService.Controllers
                     }
                     try
                     {
-                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.WorkflowId.Value);
+                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value);
                         await SendEmailToApprover(nextApprover.Id.Split('#')[1], id);
                     }
                     catch { }
@@ -3759,18 +3759,18 @@ namespace Reston.Pinata.WebService.Controllers
                     }
                     RiwayatDokumen nRiwayatDokumen = new RiwayatDokumen();
                     nRiwayatDokumen.Status = "Dokumen Persetujuan Ditolak Oleh: "+CurrentUser.UserName;
-                    nRiwayatDokumen.PengadaanId = _repository.getPersetujuanPemenangById(Id).PengadaanId;
+                    nRiwayatDokumen.PengadaanId = Id;
                     nRiwayatDokumen.Comment = Note;
                     nRiwayatDokumen.UserId = UserId();
                     _repository.AddRiwayatDokumen(nRiwayatDokumen);
-                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.WorkflowId.Value);
+                    ViewWorkflowState oViewWorkflowState = _workflowrepo.StatusDocument(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value);
                     if (oViewWorkflowState.DocumentStatus == DocumentStatus.APPROVED)
                     {
                         _repository.ChangeStatusPersetujuanPemenang(Id, StatusPengajuanPemenang.APPROVED, UserId());
                     }
                     try
                     {
-                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.WorkflowId.Value);
+                        var nextApprover = _workflowrepo.CurrentApproveUserSegOrder(pengadaan.PersetujuanPemenangs.FirstOrDefault().Id, pengadaan.PersetujuanPemenangs.FirstOrDefault().WorkflowId.Value);
                         await SendEmailToApprover(nextApprover.Id.Split('#')[1], Id);
                     }
                     catch { }
