@@ -663,8 +663,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                     where b.GroupPengadaan == groupstatus &&
                                         //(c.PersonilId == UserId
                                         //|| c.tipe == "tim" || c.tipe == "pic" || (c.tipe=="tim"||c.tipe=="pic")
-                                    (lstMenejer.Contains(UserId.Value) || (c.PersonilId == UserId) || b.CreatedBy == UserId || lstHead.Contains(UserId.Value)) //UserId == manajer)
-                                    && (b.Judul.Contains(search) || b.NoPengadaan.Contains(search)|| c.Pengadaan.PersetujuanTerkait.Where(d=>d.UserId==UserId).Count()>0)
+                                    (lstMenejer.Contains(UserId.Value) || (c.PersonilId == UserId) || b.CreatedBy == UserId || lstHead.Contains(UserId.Value) || c.Pengadaan.PersetujuanTerkait.Where(d => d.UserId == UserId).Count() > 0) //UserId == manajer)
+                                    && (b.Judul.Contains(search) || b.NoPengadaan.Contains(search))
                                     group b by new
                                     {
                                         b.Id,
@@ -994,8 +994,15 @@ namespace Reston.Pinata.Model.PengadaanRepository
             if (spk == 0 && status == EStatusPengadaan.PEMENANG)
             {
                 dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status 
-                    && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING).Count() > 0
+                    && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING ).Count() > 0
                     && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0));
+
+            }
+            if (more == 1 && status == EStatusPengadaan.PEMENANG)
+            {
+                dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status
+                    && d.PersetujuanPemenangs.Where(dd =>  dd.Status == StatusPengajuanPemenang.BELUMDIAJUKAN).Count() > 0
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0  || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0));
 
             }
             oData.recordsFiltered = dt.Count();
@@ -1067,6 +1074,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                         && dd.PengadaanId == d.Id).Count() > 0 && d.PersetujuanPemenangs.Count() > 0
                         && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count(),
                 MonitorSelection = ctx.RencanaProyeks.Where(d => d.Status == "dijalankan").Count(),
+                PersetujuanTerkait = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG
+                    && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.BELUMDIAJUKAN
+                    && (d.PersonilPengadaans.Where(ddx => ddx.PersonilId == userId).Count() > 0 || d.PersetujuanTerkait.Where(ddx => ddx.UserId == userId).Count() > 0)).Count() > 0).Count(),
                 TotalSeluruhPersetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN 
                     && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count() + ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG 
                         && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING).Count() > 0
