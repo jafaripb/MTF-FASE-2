@@ -574,6 +574,7 @@ function loadData(pengadaanId) {
         StatusPemenang(pengadaanId);
         if (data.isPIC == 0) {
             $(".action-pelaksanaan").attr("disabled", "disabled");
+            $(".bingkai-pic-pelaksanaan").remove();
             $("button.action-pelaksanaan").remove();
             $(".next-step").attr("disabled", "disabled");
             $(".lewati-tahapan").attr("disabled", "disabled");

@@ -991,6 +991,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     && d.PersetujuanPemenangs.Count() > 0
                     && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId)));
             }
+
             if (spk == 0 && status == EStatusPengadaan.PEMENANG)
             {
                 dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status 
@@ -5523,9 +5524,18 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 Pengadaan Mpengadaaan = ctx.Pengadaans.Find(PengadaanId);
 
-                var jumPersonil = Mpengadaaan.PersonilPengadaans.Where(d=>d.tipe!=PengadaanConstants.StaffPeranan.Tim).Count();
-                var jumTahapanPersetujuan = Mpengadaaan.PersetujuanTahapans.Where(d=>d.StatusPengadaan==EStatusPengadaan.BUKAAMPLOP).Count();
-                if (jumTahapanPersetujuan != jumPersonil) return 0;
+                var jumPersonil = Mpengadaaan.PersonilPengadaans.Where(d => d.tipe != PengadaanConstants.StaffPeranan.Tim).Select(d=>d.PersonilId).Distinct().ToList();
+                var jumTahapanPersetujuan = Mpengadaaan.PersetujuanTahapans.Where(d => d.StatusPengadaan == EStatusPengadaan.BUKAAMPLOP).Select(d=>d.UserId).Distinct().ToList();
+               // if (jumTahapanPersetujuan != jumPersonil) return 0;
+                var cekBukaAmplop = true;
+                foreach (var item in jumPersonil)
+                {
+                    if (!jumTahapanPersetujuan.Contains(item.Value))
+                    {
+                        cekBukaAmplop =false;   
+                    }
+                }
+                if (cekBukaAmplop == false) return 0;
                 var oKandidatPengadaan = ctx.KandidatPengadaans.Where(d => d.PengadaanId == Mpengadaaan.Id).ToList();
                 if (oKandidatPengadaan.Count() > 0)
                 {

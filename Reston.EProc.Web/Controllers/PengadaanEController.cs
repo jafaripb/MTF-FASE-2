@@ -3273,7 +3273,7 @@ namespace Reston.Pinata.WebService.Controllers
             int more = Convert.ToInt32(HttpContext.Current.Request["more"].ToString());
             int spk = Convert.ToInt32(HttpContext.Current.Request["spk"].ToString());
             EStatusPengadaan status = (EStatusPengadaan)Convert.ToInt32(HttpContext.Current.Request["status"].ToString());
-            var listUserApprover = await listUser(IdLdapConstants.Roles.pRole_approver);
+            var listUserApprover = await AllUser(IdLdapConstants.Roles.pRole_approver);
             var data = _repository.List(search, start, length, status, more, spk, listUserApprover,UserId());
             
             foreach (var item in data.data)
@@ -3699,7 +3699,7 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_approver)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task<Reston.Helper.Util.ResultMessageWorkflowState> persetujuanPemenangWithNote(Guid id, string Note)
         {
@@ -3740,7 +3740,7 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_approver)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task<Reston.Helper.Util.ResultMessageWorkflowState> PenolakanPemenangWithWorkflow(Guid Id, string Note)
         {
