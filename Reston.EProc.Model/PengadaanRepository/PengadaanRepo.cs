@@ -3687,6 +3687,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                         {
                                             Id = b.Id,
                                             harga = b.hps,
+                                            judul=b.judul,
                                             item = b.item,
                                             jumlah = b.jumlah,
                                             satuan = b.satuan,
@@ -3856,20 +3857,23 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
             List<VWVendorsHarga> vendors = new List<VWVendorsHarga>();
 
-            var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
-                                       where b.PengadaanId == PengadaanId
-                                       select b).Distinct().ToList();
+            //var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
+            //                           where b.PengadaanId == PengadaanId
+            //                           select b).Distinct().ToList();
+            var xKandidatPengadaans = (from b in ctx.HargaKlarifikasiRekanans
+                                       where b.RKSDetail.RKSHeader.PengadaanId == PengadaanId
+                                       select b.VendorId).Distinct().ToList();
             foreach (var item in xKandidatPengadaans)
             {
                 //into ps
                 //                from c in ps.DefaultIfEmpty()
                 VWVendorsHarga mVWVendorsHarga = new VWVendorsHarga();
-                mVWVendorsHarga.nama = ctx.Vendors.Find(item.VendorId).Nama;
+                mVWVendorsHarga.nama = ctx.Vendors.Find(item.Value).Nama;
 
                 mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiRekanans
                                          join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
                                          join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
-                                         where d.PengadaanId == PengadaanId && b.VendorId == item.VendorId
+                                         where d.PengadaanId == PengadaanId && b.VendorId == item.Value
                                          select new item
                                          {
                                              harga = b.harga,
@@ -3877,7 +3881,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                          }).ToList();
 
                 var oPembobotanPengadaanVendor = ctx.PembobotanPengadaanVendors.Where(
-                                   d => d.PengadaanId == PengadaanId && d.VendorId == item.VendorId).ToList();
+                                   d => d.PengadaanId == PengadaanId && d.VendorId == item.Value).ToList();
                 var totalNilaiKirteria = 0;
                 foreach (var itemKriteriaVendor in oPembobotanPengadaanVendor)
                 {
@@ -4089,14 +4093,20 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
             List<VWVendorsHarga> vendors = new List<VWVendorsHarga>();
 
-            var kandidatTerpilih = (from b in ctx.PelaksanaanPemilihanKandidats
-                                    where b.PengadaanId == PengadaanId
-                                    select b).ToList();
+            //var kandidatTerpilih = (from b in ctx.PelaksanaanPemilihanKandidats
+            //                        where b.PengadaanId == PengadaanId
+            //                        select b).ToList();
+            var kandidatTerpilih = (from b in ctx.HargaKlarifikasiRekanans
+                                    where b.RKSDetail.RKSHeader.PengadaanId == PengadaanId
+                                    select b.VendorId).Distinct().ToList();
             var lastItem = kandidatTerpilih.Last();
             foreach (var item in kandidatTerpilih)
             {
-                var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
-                                           where b.PengadaanId == PengadaanId && b.VendorId == item.VendorId
+                //var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
+                //                           where b.PengadaanId == PengadaanId && b.VendorId == item.VendorId
+                //                           select b).Distinct().FirstOrDefault();
+                var xKandidatPengadaans = (from b in ctx.HargaKlarifikasiRekanans
+                                           where b.RKSDetail.RKSHeader.PengadaanId == PengadaanId && b.VendorId == item.Value
                                            select b).Distinct().FirstOrDefault();
 
                 VWVendorsHarga mVWVendorsHarga = new VWVendorsHarga();
