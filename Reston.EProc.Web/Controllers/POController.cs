@@ -160,38 +160,38 @@ namespace Reston.Pinata.WebService.Controllers
                     }
                     catch { }
                 }
-                //if (!string.IsNullOrEmpty(data.TanggalDOstr))
-                //{
-                //    try
-                //    {
-                //        ndata.TanggalDO = Common.ConvertDate(data.TanggalDOstr, "dd/MM/yyyy");
-                //    }
-                //    catch { }
-                //}
-                //if (!string.IsNullOrEmpty(data.TanggalInvoicestr))
-                //{
-                //    try
-                //    {
-                //        ndata.TanggalInvoice = Common.ConvertDate(data.TanggalInvoicestr, "dd/MM/yyyy");
-                //    }
-                //    catch { }
-                //}
-                //if (!string.IsNullOrEmpty(data.TanggalFinancestr))
-                //{
-                //    try
-                //    {
-                //        ndata.TanggalFinance = Common.ConvertDate(data.TanggalFinancestr, "dd/MM/yyyy");
-                //    }
-                //    catch { }
-                //}
-                //if (!string.IsNullOrEmpty(data.PeriodeDaristr))
-                //{
-                //    try
-                //    {
-                //        ndata.PeriodeDari = Common.ConvertDate(data.PeriodeDaristr, "dd/MM/yyyy");
-                //    }
-                //    catch { }
-                //}
+                if (!string.IsNullOrEmpty(data.TanggalDOstr))
+                {
+                    try
+                    {
+                        ndata.TanggalDO = Common.ConvertDate(data.TanggalDOstr, "dd/MM/yyyy");
+                    }
+                    catch { }
+                }
+                if (!string.IsNullOrEmpty(data.TanggalInvoicestr))
+                {
+                    try
+                    {
+                        ndata.TanggalInvoice = Common.ConvertDate(data.TanggalInvoicestr, "dd/MM/yyyy");
+                    }
+                    catch { }
+                }
+                if (!string.IsNullOrEmpty(data.TanggalFinancestr))
+                {
+                    try
+                    {
+                        ndata.TanggalFinance = Common.ConvertDate(data.TanggalFinancestr, "dd/MM/yyyy");
+                    }
+                    catch { }
+                }
+                if (!string.IsNullOrEmpty(data.PeriodeDaristr))
+                {
+                    try
+                    {
+                        ndata.PeriodeDari = Common.ConvertDate(data.PeriodeDaristr, "dd/MM/yyyy");
+                    }
+                    catch { }
+                }
                 if (!string.IsNullOrEmpty(data.PeriodeSampaistr))
                 {
                     try
