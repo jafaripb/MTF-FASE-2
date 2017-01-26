@@ -3624,6 +3624,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                         {
                                             Id = b.Id,
                                             harga = b.hps,
+                                            judul=b.judul,
                                             item = b.item,
                                             jumlah = b.jumlah,
                                             satuan = b.satuan,
