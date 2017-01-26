@@ -200,7 +200,7 @@ namespace IdLdap.Controllers
             DataPageUsers dataPageUsers = new DataPageUsers();
 
             var dbContext = new IdentityContext();
-            var user = dbContext.Users.Where(d => d.IsLdapUser == true);
+            var user = dbContext.Users.AsQueryable();//.Where(d => d.IsLdapUser == true);
 
             if (!string.IsNullOrEmpty(filter))
                 user = user.Where(d => d.Claims.Select(x => x.ClaimValue).Contains(filter));
@@ -269,6 +269,7 @@ namespace IdLdap.Controllers
             userIdentity.Email = UserDetail.Email;
             userIdentity.Position = UserDetail.Position;
             userIdentity.LockoutEnabled = UserDetail.LockoutEnabled;
+            userIdentity.DisplayName = UserDetail.DisplayName;
 
             await _UserManager.UpdateAsync(userIdentity);
 
@@ -359,6 +360,7 @@ namespace IdLdap.Controllers
             {
                 IsLdapUser = false,
                 UserName = UserDetail.UserName,
+                DisplayName=UserDetail.DisplayName,
                 Email = UserDetail.Email,
 
             };

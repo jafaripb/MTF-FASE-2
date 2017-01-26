@@ -981,7 +981,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) 
                     && d.Status >= status && d.Status != EStatusPengadaan.ARSIP
                     && d.Status != EStatusPengadaan.DITOLAK && d.Status != EStatusPengadaan.DIBATALKAN
-                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0));
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) ));
             }
             if (spk == 1 && status == EStatusPengadaan.PEMENANG)
             {
@@ -989,13 +989,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     && d.Status == status 
                     && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 
                     && d.PersetujuanPemenangs.Count() > 0
-                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0));
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId)));
             }
             if (spk == 0 && status == EStatusPengadaan.PEMENANG)
             {
                 dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status 
                     && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING ).Count() > 0
-                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0));
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) ));
 
             }
             if (more == 1 && status == EStatusPengadaan.PEMENANG)
@@ -1032,25 +1032,29 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }).ToList();
               //  return oData;
 
-            foreach (var item in oData.data)
+            try
             {
-                var hargaVendors = "";
-                foreach (var itemx in item.vendor)
+                foreach (var item in oData.data)
                 {
-                    var hargaPenawranVendor = (from bb in ctx.HargaKlarifikasiRekanans
-                                               join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
-                                               join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
-                                               where dd.PengadaanId == item.Id && bb.VendorId == itemx.Id
-                                               select new item
-                                               {
-                                                   harga = bb.harga,
-                                                   jumlah = cc.jumlah
-                                               }).Sum(xx => xx.harga * xx.jumlah);
-                    string harga=hargaPenawranVendor==null?"-": hargaPenawranVendor.Value.ToString("C", MyConverter.formatCurrencyIndoTanpaSymbol()) ;
-                    hargaVendors += itemx.Nama + "( " + harga + " )";
+                    var hargaVendors = "";
+                    foreach (var itemx in item.vendor)
+                    {
+                        var hargaPenawranVendor = (from bb in ctx.HargaKlarifikasiRekanans
+                                                   join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                                   join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                                   where dd.PengadaanId == item.Id && bb.VendorId == itemx.Id
+                                                   select new item
+                                                   {
+                                                       harga = bb.harga,
+                                                       jumlah = cc.jumlah
+                                                   }).Sum(xx => xx.harga * xx.jumlah);
+                        string harga = hargaPenawranVendor == null ? "-" : hargaPenawranVendor.Value.ToString("C", MyConverter.formatCurrencyIndoTanpaSymbol());
+                        hargaVendors += itemx.Nama + "( " + harga + " )";
+                    }
+                    item.HargaPemanang = hargaVendors;
                 }
-                item.HargaPemanang = hargaVendors;
             }
+            catch { }
 
             return oData;
         }

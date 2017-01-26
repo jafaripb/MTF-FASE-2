@@ -23,7 +23,10 @@
         @Html.TextBoxFor(model => model.UserDetail.UserName, new { @class = "form-control", @placeholder = "Isikan Username Anda" })
     </div>
     @Html.ValidationMessageFor(model => model.UserDetail.UserName, null, new { @class = "text-danger", @style = "font-style:italic; font-size:12px" })
-
+    <div class="form-group">
+        <label>DisplayName :</label>
+        @Html.TextBoxFor(model => model.UserDetail.DisplayName, new { @class = "form-control", @placeholder = "DisplayName" })
+    </div>
     <div class="form-group">
         <label for="email">Password:</label>
         @Html.TextBoxFor(model => model.UserDetail.NewPassword, new { @class = "form-control", @type = "password", @placeholder = "Isi passoword" })

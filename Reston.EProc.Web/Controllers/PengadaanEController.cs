@@ -321,7 +321,7 @@ namespace Reston.Pinata.WebService.Controllers
         {
             var client = new HttpClient();
             HttpResponseMessage reply = await client.GetAsync(
-                    string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + start + "&limit=" + limit + "&filter=" + "&name=" + name));
+                    string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + start + "&limit=" + limit + "&filter=" +IdLdapConstants.Roles.pRole_procurement_staff+ "&name=" + name));
             return reply;
         }
 
