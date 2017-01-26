@@ -25,13 +25,13 @@
     <![endif]-->
 </head>
 <body>
-    <img class="w3layouts agileits" src="{siteUrl}/content/app/images/logo-mtf.png" style="margin-left:70px;" width="250px;" height="100px;"/>
+    <!--<img class="w3layouts agileits" src="{siteUrl}/content/app/images/logo-mtf.png" style="margin-left:70px;" width="250px;" height="100px;"/>-->
     <!--<h1 class="w3layouts agileits"></h1>-->
-
+    <br /><br />
     <div class="container w3layouts agileits">
         <div class="content-left w3layouts agileits">
-            <img src="" width="100%" height="566px"><!--{siteUrl}/content/app/images/background.jpg-->
-            <p>Belum punya akun? <a href="http://localhost:49559/registrasi.html" style="color:#013066">Daftar sebagai Rekanan Baru MTF.</a></p>
+            <img src="{siteUrl}/content/app/images/Left-bg.jpg" width="100%" height="593px"><!--{siteUrl}/content/app/images/background.jpg-->
+            <!--<p>Belum punya akun? <a href="http://localhost:49559/registrasi.html" style="color:#013066">Daftar sebagai Rekanan Baru MTF.</a></p>-->
             <!--<a class="more w3layouts agileits" href="#">LEARN MORE</a>-->
             <br /><br />
             <!--<label>Sudah mendaftar tetapi belum mendapat akses ke sistem?</label><p class="send-button w3layouts agileits"><label><a href="http://localhost:49559/registrasi.html">Lacak status pengajuan Anda di sini.</a></label></p>-->
@@ -44,37 +44,44 @@
                     <a class="hiddenanchor w3layouts agileits" id="toregister"></a>
                     <div id="wrapper">
                         <div id="login" class="animate w3layouts agileits form">
-                            <h2 class="w3layouts agileits">Sign In</h2>
+                            <div class="gambar">
+                                <img src="{siteUrl}/content/app/images/solusi-kredit.jpg" width="180px" height="100px;" />
+                            </div><br />
+                            <!--<h2 class="w3layouts agileits">Sign In</h2>-->
                             <form id="form-login" method="post" ng-submit="login.submit()" class="p-t-15" role="form" action="{{model.loginUrl}}">
                                 <anti-forgery-token token="model.antiForgery"></anti-forgery-token>
-                                <label>Login</label>
+                                <label style="font-weight:600; font-size:20px;">username</label><br />
                                 <input type="text" name="usernamex" placeholder="Username atau Ldap user" ng-model="model.usernamex" required="">
                                 <input type="hidden" name="username" class="form-control" value="{{model.usernamex}}#{{model.captca}}#{{model.username}}">
-                                <label>Password</label>
+                                <br />
+                                <label style="font-weight:600; font-size:20px;">password</label><br />
                                 <input type="password" name="password" ng-model="model.password" placeholder="Password" required="">
-                                <label>Captca</label>
+                                <br />
+                                <label style="font-weight:600; font-size:20px;">captcha</label><br />
                                 <input type="text" name="captca" placeholder="Captca" ng-model="model.captca" required>
-                                <img src="http://localhost:7348/Home/GetCaptchaImage?k={{model.username}}" />
+                                <br />
+                                <div class="send-button w3layouts agileits">
+                                    <input type="submit" value="login" />
+                                </div>
+                                <img src="http://localhost:7348/Home/GetCaptchaImage?k={{model.username}}" width="200px;" height="100px;" />
+
+                                <p><strong><a href="http://localhost:49559/registrasi.html">belum punya akun?</a></strong>daftar sebagai rekanan baru mtf.</p>
+                                <p>sudah mendaftar tetapi belum mendapat akses ke sistem?</p>
+                                <p><strong><a href="http://localhost:49559/registrasi.html">lacak status pengajuan</a><strong> anda disini</p>
+                                <div class="clear"></div>
+
                                 <!--<div class="" ng-show="model.allowRememberMe">
-                                    <div class="checkbox ">
-                                        <input type="checkbox" value="1" id="checkbox1" ng-model="model.rememberMe">
-                                        <label for="checkbox1">Biarkan saya tetap masuk.</label>
-                                    </div>
-                                </div>-->
+            <div class="checkbox ">
+                <input type="checkbox" value="1" id="checkbox1" ng-model="model.rememberMe">
+                <label for="checkbox1">Biarkan saya tetap masuk.</label>
+            </div>
+        </div>-->
                                 <div ng-show="model.errorMessage">
                                     <div class="alert alert-danger" role="alert">
                                         <!--<button class="close" data-dismiss="alert"></button>-->
                                         <strong>Error : {{model.errorMessage}} </strong>
                                     </div>
                                 </div>
-                                <div class="send-button w3layouts agileits">
-                                    <!--<p><a href="#">Lupa Password?</a></p>-->
-                                    <form>
-                                        <input type="submit" value="Masuk">
-                                    </form>
-                                    <div class="clear"></div>
-                                </div>
-                                <br />
                                 <!--<label>Sudah mendaftar tetapi belum mendapat akses ke sistem?</label><p class="send-button w3layouts agileits"><label><a href="http://localhost:49559/registrasi.html">Lacak status pengajuan Anda di sini.</a></label></p>-->
                                 <!--<div class="clear"></div>-->
                             </form>
