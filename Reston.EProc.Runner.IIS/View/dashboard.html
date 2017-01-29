@@ -518,6 +518,7 @@
             $("#pengadaan-disetujui").text(0);
             $("#persetujuan-pemenang").text(0);
             $("#pemenang-disetujui").text(0);
+            $("#approval-user-terkait").text(0);
             $("#monitor-selection").text(0);
             $.ajax({
                 url: 'api/PengadaanE/ListCount',
@@ -528,6 +529,7 @@
                         $("#pengadaan-disetujui").text(data.PengadaanDiSetujui);
                         $("#persetujuan-pemenang").text(data.PemenangButuhPerSetujuan);
                         $("#pemenang-disetujui").text(data.PemenangDiSetujui);
+                        $("#approval-user-terkait").text(data.PersetujuanTerkait);
                         $("#monitor-selection").text(data.MonitorSelection);
                     }
                 }

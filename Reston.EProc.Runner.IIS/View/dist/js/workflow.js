@@ -30,7 +30,12 @@ $(function () {
         "columnDefs": [
             {
                 "render": function (data, type, row) {
-                    return '<button type="button" class="btn button delete-user-pemenang" attrId="' + row.Id + '">Delete</button>';
+                    if ($("#isPIC").val() == 1) {
+                        return '<button type="button" class="btn button delete-user-pemenang" attrId="' + row.Id + '">Delete</button>';
+                    }
+                    else return "";
+
+                   
                 },
 
                 "targets": 2,

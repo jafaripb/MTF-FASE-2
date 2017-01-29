@@ -1079,8 +1079,12 @@ function isPemenangApproved(Id) {
             else {
                 $(".bingkai-spk").remove();
                 $(".bingkai-pengajuan-pemenang").show();
+
             }
-            if ($("#isPIC").val() != 1) $("#ajukan-pemenang").remove();
+            if ($("#isPIC").val() != 1) {
+                $(".action-pelaksanaan").remove();
+                $("#ajukan-pemenang").remove();
+            }
         },
         error: function (errormessage) {
             $("#isPemenangApproved").val(data);

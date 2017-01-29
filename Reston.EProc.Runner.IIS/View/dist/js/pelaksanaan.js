@@ -1962,7 +1962,7 @@ function getKlarifikasi() {
 function getKlarifikasiLanjutan() {
     $.ajax({
         method: "POST",
-         url: "Api/PengadaanE/GetJadwalPelaksanaan?PId=" + $("#pengadaanId").val() + "&status=" + 12,
+        url: "Api/PengadaanE/GetJadwalPelaksanaan?PId=" + $("#pengadaanId").val() + "&status=KLARIFIKASILANJUTAN",
         success: function (data) {
             $("#jadwal_klarifikasi_lanjutan").val(moment(data.Mulai).format("DD MMMM YYYY HH:mm"));
             $("#jadwal_klarifikasi_lanjutan_sampai").val(moment(data.Sampai).format("DD MMMM YYYY HH:mm"));
@@ -2121,7 +2121,7 @@ function generateUndanganKlarifikasi() {
 function generateUndanganKlarifikasiLanjutan() {
     $.ajax({
         method: "GET",
-        url: "Api/PengadaanE/GetJadwalPelaksanaan?PId=" + $("#pengadaanId").val() + "&status=" + $("#State").val(),
+        url: "Api/PengadaanE/GetJadwalPelaksanaan?PId=" + $("#pengadaanId").val() + "&status=KLARIFIKASILANJUTAN",
         success: function (data) {
             var html = "Panitia " + $("#judul").text() + " Untuk " + $("#UnitKerjaPemohon").text() +
            ". Mohon untuk Klarifikasi Lanjutan, penawaran kami tunggu paling lambat " + moment(data.Sampai).format("DD MMMM YYYY") + " sebelum pukul " + moment(data.Sampai).format("HH:mm") + "\n" +
