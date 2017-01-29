@@ -2001,12 +2001,13 @@ function getListKandidatPelaksanaan() {
         url: "Api/PengadaanE/getKehadiranAanwjzing?PengadaanId=" + $("#pengadaanId").val(),
         success: function (data) {            
             $.each(data, function (index, value) {
+                var isPic = $("#isPIC").val();
                 var html = '<div class="col-md-3">' +
                       '<div class="box box-primary">' +
-                          '<div class="box-tools pull-right vendor-check-box">';
+                          '<div class="box-tools pull-right vendor-check-box " >';
                 if (value.hadir == 1)
-                    html = html+'<input type="checkbox" class="absen-kandidat" checked VId="' + value.Id + '"/>';
-                else html = html+ '<input type="checkbox" class="absen-kandidat"  VId="' + value.Id + '"/>';
+                    html = html + '<input type="checkbox" class="absen-kandidat ' + (isPic == 0 ? "only-pic-disabled" : "") + '" checked VId="' + value.Id + '"/>';
+                else html = html + '<input type="checkbox" class="absen-kandidat ' + (isPic == 0 ? "only-pic-disabled" : "") + '"  VId="' + value.Id + '"/>';
                 html=html+'</div>'+
                        '<div class="box-body box-profile">'+
                             '<p class="profile-username title-header">' + value.NamaVendor +

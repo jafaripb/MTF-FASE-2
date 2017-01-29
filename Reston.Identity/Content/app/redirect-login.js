@@ -1,1 +1,6 @@
-﻿window.location.replace('http://localhost:7348');
+﻿
+(function () {
+    var url = document.getElementById("url").value;
+    window.location.replace(url);
+
+})();

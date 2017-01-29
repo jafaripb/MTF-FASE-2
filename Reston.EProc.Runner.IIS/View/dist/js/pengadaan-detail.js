@@ -580,8 +580,14 @@ function loadData(pengadaanId) {
             $(".lewati-tahapan").attr("disabled", "disabled");
         }
 
-        if (data.isPIC == 1) {
+        if (data.isPIC == 0) {
             //$(".addPerson").show();
+            $(".only-pic").remove();
+            $(".only-pic-disabled").attr("disabled", "disabled");
+        }
+
+        if (data.isTEAM == 0 && data.isPIC == 0 && data.isController==0) {
+            $(".only-ga-team").remove();
         }
 
         if (data.GroupPengadaan == 3) {
