@@ -61,10 +61,40 @@ namespace Reston.Pinata.Model.PengadaanRepository
             if (oSpk == null)
             {
                 
-                var TotalHargaKandidat = spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault() == null ? null :
-                           spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().RKSDetails.Where(dd =>
-                               dd.RKSHeaderId == spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().Id)
-                               .Sum(dx => dx.HargaKlarifikasiRekanan.Where(ddx => ddx.RKSDetailId == dx.Id).FirstOrDefault() == null ? 0 : dx.HargaKlarifikasiRekanan.Where(ddx => ddx.RKSDetailId == dx.Id).FirstOrDefault().harga * dx.jumlah);
+                //var TotalHargaKandidat = spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault() == null ? null :
+                //           spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().RKSDetails.Where(dd =>
+                //               dd.RKSHeaderId == spk.PemenangPengadaan.Pengadaan.RKSHeaders.FirstOrDefault().Id)
+                //               .Sum(dx => dx.HargaKlarifikasiRekanan.Where(ddx => ddx.RKSDetailId == dx.Id).FirstOrDefault() == null ? 0 : dx.HargaKlarifikasiRekanan.Where(ddx => ddx.RKSDetailId == dx.Id).FirstOrDefault().harga * dx.jumlah);
+                decimal? TotalHargaKandidat = 0;
+                var nhargavendorLanjutan=(from b in ctx.HargaKlarifikasiLanLanjutans
+                 join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
+                 join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
+                                  where d.PengadaanId == spk.PemenangPengadaan.Pengadaan.Id && b.VendorId == spk.PemenangPengadaan.VendorId
+                 select new item
+                 {
+                     Id = c.Id,
+                     harga = b.harga,
+                     jumlah = c.jumlah
+                 }).ToList();
+                var nhargavendorKlarifikasi = (from b in ctx.HargaKlarifikasiRekanans
+                                    join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
+                                    join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
+                                    where d.PengadaanId == spk.PemenangPengadaan.Pengadaan.Id && b.VendorId == spk.PemenangPengadaan.VendorId
+                                    select new item
+                                    {
+                                        Id = c.Id,
+                                        harga = b.harga,
+                                        jumlah = c.jumlah
+                                    }).ToList();
+
+                if (nhargavendorLanjutan.Count() > 0)
+                {
+                    TotalHargaKandidat = nhargavendorLanjutan.Sum(d => d.harga * d.jumlah);
+                }
+                else
+                {
+                    TotalHargaKandidat = nhargavendorKlarifikasi.Sum(d => d.harga * d.jumlah);
+                }
                 spk.CreateOn = DateTime.Now;
                 spk.CreateBy = UserId;
                 spk.NilaiSPK = TotalHargaKandidat;
@@ -119,7 +149,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             DataTableSpkTemplate dtTable = new DataTableSpkTemplate();
             if (limit > 0)
             {
-                var data = ctx.Spk.AsQueryable();
+                var data = ctx.Spk.Where(d=>d.NoSPk!=null).AsQueryable();
                 dtTable.recordsTotal = data.Count();
                 if (!string.IsNullOrEmpty(klasifikasi))
                 {

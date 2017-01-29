@@ -981,7 +981,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) 
                     && d.Status >= status && d.Status != EStatusPengadaan.ARSIP
                     && d.Status != EStatusPengadaan.DITOLAK && d.Status != EStatusPengadaan.DIBATALKAN
-                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0));
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) ));
             }
             if (spk == 1 && status == EStatusPengadaan.PEMENANG)
             {
@@ -989,13 +989,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     && d.Status == status 
                     && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 
                     && d.PersetujuanPemenangs.Count() > 0
-                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0));
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId)));
             }
+
             if (spk == 0 && status == EStatusPengadaan.PEMENANG)
             {
                 dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status 
                     && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING ).Count() > 0
-                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0));
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) ));
 
             }
             if (more == 1 && status == EStatusPengadaan.PEMENANG)
@@ -1032,25 +1033,29 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }).ToList();
               //  return oData;
 
-            foreach (var item in oData.data)
+            try
             {
-                var hargaVendors = "";
-                foreach (var itemx in item.vendor)
+                foreach (var item in oData.data)
                 {
-                    var hargaPenawranVendor = (from bb in ctx.HargaKlarifikasiRekanans
-                                               join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
-                                               join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
-                                               where dd.PengadaanId == item.Id && bb.VendorId == itemx.Id
-                                               select new item
-                                               {
-                                                   harga = bb.harga,
-                                                   jumlah = cc.jumlah
-                                               }).Sum(xx => xx.harga * xx.jumlah);
-                    string harga=hargaPenawranVendor==null?"-": hargaPenawranVendor.Value.ToString("C", MyConverter.formatCurrencyIndoTanpaSymbol()) ;
-                    hargaVendors += itemx.Nama + "( " + harga + " )";
+                    var hargaVendors = "";
+                    foreach (var itemx in item.vendor)
+                    {
+                        var hargaPenawranVendor = (from bb in ctx.HargaKlarifikasiRekanans
+                                                   join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                                   join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                                   where dd.PengadaanId == item.Id && bb.VendorId == itemx.Id
+                                                   select new item
+                                                   {
+                                                       harga = bb.harga,
+                                                       jumlah = cc.jumlah
+                                                   }).Sum(xx => xx.harga * xx.jumlah);
+                        string harga = hargaPenawranVendor == null ? "-" : hargaPenawranVendor.Value.ToString("C", MyConverter.formatCurrencyIndoTanpaSymbol());
+                        hargaVendors += itemx.Nama + "( " + harga + " )";
+                    }
+                    item.HargaPemanang = hargaVendors;
                 }
-                item.HargaPemanang = hargaVendors;
             }
+            catch { }
 
             return oData;
         }
@@ -1889,7 +1894,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
 
             var pemenang = ctx.PemenangPengadaans.Where(d => d.PengadaanId == dokumenPengadaan.PengadaanId && d.VendorId == dokumenPengadaan.VendorId).FirstOrDefault();
-            if (pemenang != null)
+            if (pemenang != null && dokumenPengadaan.Tipe==TipeBerkas.SuratPerintahKerja)
             {
                 var oNoberita = ctx.BeritaAcaras.Where(d => d.PengadaanId == dokumenPengadaan.PengadaanId && d.VendorId == dokumenPengadaan.VendorId).FirstOrDefault();
                 if (oNoberita == null) return new DokumenPengadaan();
@@ -3620,6 +3625,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                         {
                                             Id = b.Id,
                                             harga = b.hps,
+                                            judul=b.judul,
                                             item = b.item,
                                             jumlah = b.jumlah,
                                             satuan = b.satuan,
@@ -3687,6 +3693,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                         {
                                             Id = b.Id,
                                             harga = b.hps,
+                                            judul=b.judul,
                                             item = b.item,
                                             jumlah = b.jumlah,
                                             satuan = b.satuan,
@@ -3856,20 +3863,23 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
             List<VWVendorsHarga> vendors = new List<VWVendorsHarga>();
 
-            var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
-                                       where b.PengadaanId == PengadaanId
-                                       select b).Distinct().ToList();
+            //var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
+            //                           where b.PengadaanId == PengadaanId
+            //                           select b).Distinct().ToList();
+            var xKandidatPengadaans = (from b in ctx.HargaKlarifikasiRekanans
+                                       where b.RKSDetail.RKSHeader.PengadaanId == PengadaanId
+                                       select b.VendorId).Distinct().ToList();
             foreach (var item in xKandidatPengadaans)
             {
                 //into ps
                 //                from c in ps.DefaultIfEmpty()
                 VWVendorsHarga mVWVendorsHarga = new VWVendorsHarga();
-                mVWVendorsHarga.nama = ctx.Vendors.Find(item.VendorId).Nama;
+                mVWVendorsHarga.nama = ctx.Vendors.Find(item.Value).Nama;
 
                 mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiRekanans
                                          join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
                                          join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
-                                         where d.PengadaanId == PengadaanId && b.VendorId == item.VendorId
+                                         where d.PengadaanId == PengadaanId && b.VendorId == item.Value
                                          select new item
                                          {
                                              harga = b.harga,
@@ -3877,7 +3887,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                          }).ToList();
 
                 var oPembobotanPengadaanVendor = ctx.PembobotanPengadaanVendors.Where(
-                                   d => d.PengadaanId == PengadaanId && d.VendorId == item.VendorId).ToList();
+                                   d => d.PengadaanId == PengadaanId && d.VendorId == item.Value).ToList();
                 var totalNilaiKirteria = 0;
                 foreach (var itemKriteriaVendor in oPembobotanPengadaanVendor)
                 {
@@ -4089,14 +4099,20 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
             List<VWVendorsHarga> vendors = new List<VWVendorsHarga>();
 
-            var kandidatTerpilih = (from b in ctx.PelaksanaanPemilihanKandidats
-                                    where b.PengadaanId == PengadaanId
-                                    select b).ToList();
+            //var kandidatTerpilih = (from b in ctx.PelaksanaanPemilihanKandidats
+            //                        where b.PengadaanId == PengadaanId
+            //                        select b).ToList();
+            var kandidatTerpilih = (from b in ctx.HargaKlarifikasiRekanans
+                                    where b.RKSDetail.RKSHeader.PengadaanId == PengadaanId
+                                    select b.VendorId).Distinct().ToList();
             var lastItem = kandidatTerpilih.Last();
             foreach (var item in kandidatTerpilih)
             {
-                var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
-                                           where b.PengadaanId == PengadaanId && b.VendorId == item.VendorId
+                //var xKandidatPengadaans = (from b in ctx.PelaksanaanPemilihanKandidats
+                //                           where b.PengadaanId == PengadaanId && b.VendorId == item.VendorId
+                //                           select b).Distinct().FirstOrDefault();
+                var xKandidatPengadaans = (from b in ctx.HargaKlarifikasiRekanans
+                                           where b.RKSDetail.RKSHeader.PengadaanId == PengadaanId && b.VendorId == item.Value
                                            select b).Distinct().FirstOrDefault();
 
                 VWVendorsHarga mVWVendorsHarga = new VWVendorsHarga();
@@ -5289,9 +5305,13 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
             else
             {
-                dtJadwl.Mulai = from;
-                if (state != EStatusPengadaan.PEMENANG)
-                    dtJadwl.Sampai = to;
+
+                if (from != null && to != null)
+                {
+                    dtJadwl.Mulai = from;
+                    if (state != EStatusPengadaan.PEMENANG)
+                        dtJadwl.Sampai = to;
+                }
             }
             try
             {
@@ -5504,9 +5524,18 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 Pengadaan Mpengadaaan = ctx.Pengadaans.Find(PengadaanId);
 
-                var jumPersonil = Mpengadaaan.PersonilPengadaans.Where(d=>d.tipe!=PengadaanConstants.StaffPeranan.Tim).Count();
-                var jumTahapanPersetujuan = Mpengadaaan.PersetujuanTahapans.Where(d=>d.StatusPengadaan==EStatusPengadaan.BUKAAMPLOP).Count();
-                if (jumTahapanPersetujuan != jumPersonil) return 0;
+                var jumPersonil = Mpengadaaan.PersonilPengadaans.Where(d => d.tipe != PengadaanConstants.StaffPeranan.Tim).Select(d=>d.PersonilId).Distinct().ToList();
+                var jumTahapanPersetujuan = Mpengadaaan.PersetujuanTahapans.Where(d => d.StatusPengadaan == EStatusPengadaan.BUKAAMPLOP).Select(d=>d.UserId).Distinct().ToList();
+               // if (jumTahapanPersetujuan != jumPersonil) return 0;
+                var cekBukaAmplop = true;
+                foreach (var item in jumPersonil)
+                {
+                    if (!jumTahapanPersetujuan.Contains(item.Value))
+                    {
+                        cekBukaAmplop =false;   
+                    }
+                }
+                if (cekBukaAmplop == false) return 0;
                 var oKandidatPengadaan = ctx.KandidatPengadaans.Where(d => d.PengadaanId == Mpengadaaan.Id).ToList();
                 if (oKandidatPengadaan.Count() > 0)
                 {

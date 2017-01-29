@@ -200,7 +200,7 @@ namespace IdLdap.Controllers
             DataPageUsers dataPageUsers = new DataPageUsers();
 
             var dbContext = new IdentityContext();
-            var user = dbContext.Users.Where(d => d.IsLdapUser == true);
+            var user = dbContext.Users.AsQueryable();//.Where(d => d.IsLdapUser == true);
 
             if (!string.IsNullOrEmpty(filter))
                 user = user.Where(d => d.Claims.Select(x => x.ClaimValue).Contains(filter));
@@ -215,6 +215,30 @@ namespace IdLdap.Controllers
                 jabatan=d.Position
             }).OrderBy(d => d.Nama).Skip(start).Take(limit).ToList();
             
+            return Json(dataPageUsers, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> AllUser(string filter, string name)
+        {
+            var s = User;
+            DataPageUsers dataPageUsers = new DataPageUsers();
+
+            var dbContext = new IdentityContext();
+            var user = dbContext.Users.AsQueryable();//.Where(d => d.IsLdapUser == true);
+
+            if (!string.IsNullOrEmpty(filter))
+                user = user.Where(d => d.Claims.Select(x => x.ClaimValue).Contains(filter));
+            if (!string.IsNullOrEmpty(name))
+                user = user.Where(d => d.UserName.Contains(name));
+            dataPageUsers.totalRecord = user.Count();
+            dataPageUsers.Users = user.Select(d => new Userx
+            {
+                PersonilId = d.Id,
+                Nama = d.DisplayName,
+                tlp = d.PhoneNumber,
+                jabatan = d.Position
+            }).OrderBy(d => d.Nama).ToList();
+
             return Json(dataPageUsers, JsonRequestBehavior.AllowGet);
         }
 
@@ -269,6 +293,7 @@ namespace IdLdap.Controllers
             userIdentity.Email = UserDetail.Email;
             userIdentity.Position = UserDetail.Position;
             userIdentity.LockoutEnabled = UserDetail.LockoutEnabled;
+            userIdentity.DisplayName = UserDetail.DisplayName;
 
             await _UserManager.UpdateAsync(userIdentity);
 
@@ -359,6 +384,7 @@ namespace IdLdap.Controllers
             {
                 IsLdapUser = false,
                 UserName = UserDetail.UserName,
+                DisplayName=UserDetail.DisplayName,
                 Email = UserDetail.Email,
 
             };

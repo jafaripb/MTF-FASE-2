@@ -619,13 +619,13 @@
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label class="title">Tanggal Buka Amplop</label>
-                                                                                <input id="next-buka-amplop-dari" type="text" class="form-control dateJadwal">
+                                                                                <input id="next-buka-amplop-dari" type="text" class="form-control action-pelaksanaan dateJadwal">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label class="title">s/d</label>
-                                                                                <input id="next-buka-amplop-sampai" type="text" class="form-control dateJadwal">
+                                                                                <input id="next-buka-amplop-sampai" type="text" class="form-control action-pelaksanaan dateJadwal">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -688,7 +688,7 @@
                                                                     <div class="row">
                                                                         <div class="col-md-2">
                                                                             <div class="form-group">
-                                                                                <a class="btn btn-success lihat-penilaian"> Lihat Harga Penawaran Rekanan</a>
+                                                                                <a class="btn btn-success lihat-penilaian-buka-amplop"> Lihat Harga Penawaran Rekanan</a>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -847,18 +847,31 @@
                                                                     </div>
                                                                     <hr />
                                                                     <div class="row">
+                                                                        <div class="col-md-2">
+                                                                            <div class="form-group">
+                                                                                <button id="btn-next-klarifikasi" class="btn btn-success pull-left next-step" attrstatus="KLARIFIKASI" eldari="#next-pemenang-dari" elsampai="#next-pemenang-sampai" disabled="disabled">NextStep</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2">
+                                                                            <div class="form-group">
+                                                                                <input type="checkbox" id="tambah-klarifikasi-lanjut" />
+                                                                                <label>Tambah Tahap Klarifikasi Lanjut</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2">
+                                                                            <div class="form-group">
+                                                                                <input type="checkbox" id="tambah-penilaian" />
+                                                                                <label>Tambah Tahap Penilaian</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--<div class="row">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label class="title">Penentuan Pemenang</label>
                                                                                 <input id="next-pemenang-dari" type="text" class="form-control dateJadwal">
                                                                             </div>
                                                                         </div>
-                                                                     <!--   <div class="col-md-4">
-                                                                            <div class="form-group" style="display:none">
-                                                                                <label class="title">s/d</label>
-                                                                                <input id="next-pemenang-sampai" type="text" class="form-control dateJadwal">elSampai="#next-pemenang-sampai"
-                                                                            </div>
-                                                                        </div>-->
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-2">
@@ -878,7 +891,7 @@
                                                                                 <label>Tambah Tahap Penilaian</label>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                    </div>-->
                                                                 </div>
                                                             </div>
                                                         </div>                                                        <!--klarifikasi & negoisasi lanjutan-->
@@ -886,7 +899,7 @@
                                                             <div class="box-header with-border">
                                                                 <h4 class="box-title text-blue-mtf">
                                                                     <a id="tab-klarifikasi-lanjutan" data-parent="#accordion" href="#detail-klarifikasi-lanjutan">
-                                                                        Klarifikasi & Negoisasi Lanjutan
+                                                                        Klarifikasi & Negosiasi Lanjutan
                                                                     </a>
                                                                     <label id="klarifikasi_lanjutan" style="font-size:0.8em"></label>
                                                                 </h4>
@@ -1160,6 +1173,68 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
+                                                                    <div class="row bingkai-persetujuan-terkait">
+                                                                        <div class="col-md-10">
+                                                                            <div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="form-group">
+                                                                                        <button class="btn btn-success pull-left add-user-terkait action-pelaksanaan">Pilih User Approval Terkait</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <br />
+                                                                            <div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="form-group">
+                                                                                        <label>User Approval Terkait </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row list-user-terkait">
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="bingkai-pengajuan-pemenang" style="display:none">
+                                                                        <div class="row">
+                                                                            <div class="col-md-10">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-8">
+                                                                                        <div class="form-group">
+                                                                                            <label class="title">List User Approver Persetujuan Pemenang:</label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-2">
+                                                                                <button class="btn btn-success pull-left pilih-user-approver-pemenang action-pelaksanaan ">Pilih User</button>
+
+                                                                            </div>
+                                                                            <div class="col-md-2">
+                                                                                <button class="btn btn-success pull-left save-workflow-pemenang action-pelaksanaan">Save Workflow</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-10">
+
+                                                                                <table class="table table-bordered table-striped table-responsive" id="tbl_apporval_pemenang" style="margin-top:20px; ">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th>User</th>
+                                                                                            <th>Jabatan</th>
+                                                                                            <th></th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody></tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
                                                                     <div class="row bingkai-pengajuan-pemenang" style="display:none">
                                                                           <div class="col-md-10">
                                                                              <div class="row">
@@ -1314,6 +1389,39 @@
 
             </section><!-- /.content -->
         </div>
+        
+        <!-- Modal -->
+        <div class="modal" id="users_modal" role="dialog" aria-hidden="true">
+            <input type="hidden" id="next-userid" />
+            <input type="hidden" id="note_user" />
+            <input type="hidden" id="Hidden1" />
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="TitleKonfirmasi">User List</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered table-striped table-responsive" id="user_table" style="margin-top:20px; ">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>User</th>
+                                    <th>Jabatan</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-default adduserterkai" data-toggle="tooltip" title="Pilih">Pilih </a>
+                        <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
 
         <aside class="control-sidebar control-sidebar-light control-sidebar-open" id="side-kanan">
             <!-- Create the tabs -->
@@ -1558,6 +1666,7 @@
     <script src="dist/js/rubah-personil.js"></script>
     <script src="dist/js/riwayat-pengadaan.js"></script>
     <script src="dist/js/pelaksanaan-penentuan-pemenang.js"></script>
+    <script src="dist/js/workflow.js"></script>
    
     <script></script>
 </body>

@@ -1438,7 +1438,7 @@ $(function () {
 
     });
 
-    // getAanwijzing();
+     getAanwijzing();
     getPendaftaran();
     getJadwal();
 
@@ -2084,23 +2084,14 @@ function getBukaAmplop() {
         method: "POST",
         url: "Api/PengadaanE/GetBukaAmplop?PId=" + $("#pengadaanId").val(),
         success: function (data) {
-            if (data.Mulai != null && data.Mulai!="")
-                $("#buka_amplop_re").val(moment(data.Mulai).format("DD MMMM YYYY HH:mm"));
-            if (data.Sampai != null && data.Sampai != "")
-                $("#buka_amplop_sampai_re").val(moment(data.Sampai).format("DD MMMM YYYY HH:mm"));
-            if (data.Sampai != null && data.Sampai != "" && data.Mulai != null && data.Mulai != "")
-                $("#buka_amplop_aktual").html("( " + moment(data.Mulai).format("DD MMMM YYYY HH:mm") + " s/d " + moment(data.Sampai).format("DD MMMM YYYY HH:mm") + " )");
-            if (data.Sampai != null && data.Sampai != "") {
-                $("#buka_amplop_aktual").html("( " + moment(data.Mulai).format("DD MMMM YYYY HH:mm") + " s/d - )");
+            $("#buka_amplop_re").val(moment(data.Mulai).format("DD MMMM YYYY HH:mm"));
+            $("#buka_amplop_sampai_re").val(moment(data.Sampai).format("DD MMMM YYYY HH:mm"));
+            $("#buka_amplop_aktual").html("( " + moment(data.Mulai).format("DD MMMM YYYY HH:mm") + " s/d " + moment(data.Sampai).format("DD MMMM YYYY HH:mm") + " )");
+            if (data.Id != "00000000-0000-0000-0000-000000000000") {
+                //if (isGuid(data.Id)) {
+                //    $("#aanwijzingPId").val(data.Id);
+                //}
             }
-            if (data.Mulai != null && data.Mulai != "") {
-                $("#buka_amplop_aktual").html("( - s/d " + moment(data.Sampai).format("DD MMMM YYYY HH:mm") + " )");
-            }
-            //if (data.Id != "00000000-0000-0000-0000-000000000000") {
-            //    //if (isGuid(data.Id)) {
-            //    //    $("#aanwijzingPId").val(data.Id);
-            //    //}
-            //}
         },
         error: function (errormessage) {
             alert("gagal");
@@ -2226,7 +2217,7 @@ function getKlarifikasi() {
 function getKlarifikasiLanjutan() {
     $.ajax({
         method: "POST",
-        url: "Api/PengadaanE/GetJadwalPelaksanaan?PId=" + $("#pengadaanId").val() + "&status=" + 12,
+        url: "Api/PengadaanE/GetJadwalPelaksanaan?PId=" + $("#pengadaanId").val() + "&status=KLARIFIKASILANJUTAN",
         success: function (data) {
             $("#jadwal_klarifikasi_lanjutan").val(moment(data.Mulai).format("DD MMMM YYYY HH:mm"));
             $("#jadwal_klarifikasi_lanjutan_sampai").val(moment(data.Sampai).format("DD MMMM YYYY HH:mm"));
@@ -2520,26 +2511,26 @@ function generateUndanganKlarifikasi() {
     });
 }
 
-function generateUndanganKlarifikasi() {
-    $.ajax({
-        method: "POST",
-        url: "Api/PengadaanE/GetKlarifikasi?PId=" + $("#pengadaanId").val(),
-        success: function (data) {
-            var html = "Panitia " + $("#judul").text() + " Untuk " + $("#UnitKerjaPemohon").text() +
-            ". Mohon untuk Klarifikasi harga, penawaran kami tunggu paling lambat " + moment(data.Sampai).format("DD MMMM YYYY") + " sebelum pukul " + moment(data.Sampai).format("HH:mm") + "\n" +
-            "Demikian kami sampaikan. Terimakasi atas perhatiannya serta kerjasamanya.";
-            var div = $("#mKlarifikasi").val(html);
-        },
-        error: function (errormessage) {
-            // alert("gagal");
-        }
-    });
-}
+//function generateUndanganKlarifikasi() {
+//    $.ajax({
+//        method: "POST",
+//        url: "Api/PengadaanE/GetKlarifikasi?PId=" + $("#pengadaanId").val(),
+//        success: function (data) {
+//            var html = "Panitia " + $("#judul").text() + " Untuk " + $("#UnitKerjaPemohon").text() +
+//            ". Mohon untuk Klarifikasi harga, penawaran kami tunggu paling lambat " + moment(data.Sampai).format("DD MMMM YYYY") + " sebelum pukul " + moment(data.Sampai).format("HH:mm") + "\n" +
+//            "Demikian kami sampaikan. Terimakasi atas perhatiannya serta kerjasamanya.";
+//            var div = $("#mKlarifikasi").val(html);
+//        },
+//        error: function (errormessage) {
+//            // alert("gagal");
+//        }
+//    });
+//}
 
 function generateUndanganKlarifikasiLanjutan() {
     $.ajax({
         method: "GET",
-        url: "Api/PengadaanE/GetJadwalPelaksanaan?PId=" + $("#pengadaanId").val() + "&status=" + $("#State").val(),
+        url: "Api/PengadaanE/GetJadwalPelaksanaan?PId=" + $("#pengadaanId").val() + "&status=KLARIFIKASILANJUTAN",
         success: function (data) {
             var html = "Panitia " + $("#judul").text() + " Untuk " + $("#UnitKerjaPemohon").text() +
            ". Mohon untuk Klarifikasi Lanjutan, penawaran kami tunggu paling lambat " + moment(data.Sampai).format("DD MMMM YYYY") + " sebelum pukul " + moment(data.Sampai).format("HH:mm") + "\n" +
@@ -2879,7 +2870,7 @@ $(function () {
 
 });
 
-function renderUserTerkait() {
+function renderUserTerkait2() {
     var pengadaanId = $("#pengadaanId").val();
     $.ajax({
         url: 'api/PengadaanE/UserTerkait?PengadanId=' + pengadaanId,
@@ -2898,6 +2889,45 @@ function renderUserTerkait() {
                '</div>';
                 if (data[i].setuju == 0) cekStatus = 0;
             };
+            $(".list-user-terkait").html("");
+            $(".list-user-terkait").append(html);
+            if (cekStatus == 0) $(".ajukan-pemenang").hide();
+        }
+    });
+}
+
+function renderUserTerkait() {
+    var pengadaanId = $("#pengadaanId").val();
+    $.ajax({
+        url: 'api/PengadaanE/UserTerkait?PengadanId=' + pengadaanId,
+        method: "GET",
+        success: function (data) {
+            var html = "";
+            var cekStatus = 1;
+            var html = "<table class='table table-bordered table-striped table-responsive'><thead>";
+            html += "<th>User Name</th>";
+            html += "<th>Status</th>";
+            html += "<th></th>";
+            html += "</thead>";
+            html += "<tbody>";
+            var isPic = $("#isPIC").val();
+            for (var i in data) {
+                html += "<tr><td>" + data[i].Nama + "</td>";
+                html += "<td>" + (data[i].setuju == 0 ? "Tidak Setuju" : "Setuju") + "</td>";
+                html += "<td>" + (data[i].isthismine == 1 ? (data[i].setuju == 0 ? "<button class='btn btn-default click-user-terkait '>Setuju</button>" : "") : "") + (isPic == 1 ? "<button class='btn btn-default hapus-user-terkait' attrId='" + data[i].Id + "'>Hapus</button>" : "") + "</td></tr>";
+
+                /*  var class_status = data[i].setuju == 0 ? "btn-danger" : "btn-success";
+                  var class_pin = data[i].setuju == 0 ? "glyphicon-pushpin" : "glyphicon-ok";
+                  html += '<div class="col-md-3">' +
+                      '<div class="form-group">' +
+                         '<button class="btn ' + class_status +
+                             ' btn-block click-user-terkait"><i class="glyphicon ' + class_pin + '"></i>' + data[i].Nama + '</button>' +
+                     '</div>' +
+                 '</div>';*/
+                if (data[i].setuju == 0) cekStatus = 0;
+
+            };
+            html += "</tbody></table>";
             $(".list-user-terkait").html("");
             $(".list-user-terkait").append(html);
             if (cekStatus == 0) $(".ajukan-pemenang").hide();

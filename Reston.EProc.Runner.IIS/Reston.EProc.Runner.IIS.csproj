@@ -1872,6 +1872,7 @@
     <Content Include="Download\Report\Template\SPK2.docx" />
     <None Include="Properties\PublishProfiles\efe.pubxml" />
     <None Include="Properties\PublishProfiles\eproc-mtf.pubxml" />
+    <None Include="Properties\PublishProfiles\eproc.pubxml" />
     <None Include="Properties\PublishProfiles\mtf-eproc.pubxml" />
     <None Include="Properties\PublishProfiles\Reston.Eproc.pubxml" />
     <None Include="Properties\PublishProfiles\SRVR.pubxml" />

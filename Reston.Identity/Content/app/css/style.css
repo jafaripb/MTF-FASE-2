@@ -38,8 +38,8 @@
 /*-- Index-Page-Styling --*/
 
 body {
-    /*background: url("../images/bg.jpg");*/
-    background-color:white;
+    background: url("../images/background.jpg");
+    /*background-color:white;*/
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -57,6 +57,14 @@ body a {
     -o-transition:0.5s all;
     -ms-transition:0.5s all;
     text-decoration: none;
+}
+
+p {
+    color: #013066;
+    font-size:13px;
+}
+strong{
+    font-weight:600;
 }
 
 h1 {
@@ -80,6 +88,12 @@ h1 {
 .content-left {
     position: relative;
 }
+
+#login {
+    background-image:url("../images/Right-bg.jpg") ;
+    background-repeat: no-repeat;
+}
+
 .content-left img{
     /*height:574px;*/
 }
@@ -165,30 +179,30 @@ a.hiddenanchor{
 
 #wrapper label {
     font-family: sans-serif, sans-serif;
-    color: #fff;
+    color: #013066;
     font-size: 14px;
 }
 
 #wrapper input[type="text"], #wrapper input[type="password"] {
-    width: 89%;
-    color: #fff;
+    width: 70%;
+    color: #013066;
     font-family: 'sans-serif', sans-serif;
     font-weight: 300;
     margin: 10px 0 20px;
     font-size: 14px;
     letter-spacing: 1px;
     padding: 10px 5px 10px 40px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid #013066;
     background: transparent;
     outline: none;
 }
 
 #wrapper input[type="text"] {
-    background: url("../images/mail.png") no-repeat 13px 13px;
+    /*background: url("../images/mail.png") no-repeat 13px 13px;*/
 }
 
 #wrapper input[type="password"] {
-    background: url("../images/password.png") no-repeat 13px 13px;
+    /*background: url("../images/password.png") no-repeat 13px 13px;*/
 }
 
 p.change_link {
@@ -211,9 +225,9 @@ p.change_link {
 /*--w3layouts--*/
 /*--agileits--*/
 #register, #login{
-    position: absolute;
-    padding: 64px;
-    background: #272727;
+    /*position: absolute;
+    padding: 64px;*/
+    /*background: #fff;*/
 }
 
 #register{  
@@ -262,12 +276,12 @@ p.change_link {
 /*--agileits--*/
 .send-button input[type="submit"] {
     float: right;
-    background-color: #6641dc;
-    padding: 15px 40px;
+    background-color: #013066;
+    padding: 12px 30px;
     border: none;
     outline: none;
     border-radius: 3px;
-    font-size: 15px;
+    font-size: 20px;
     color: #FFF;
     font-family: 'sans-serif', sans-serif;
     cursor: pointer;
@@ -291,7 +305,7 @@ p.change_link {
 }
 
 li.fb.w3ls {
-    background-color: #43619f;
+    background-color: #013066;
     margin-left: 65px;
 }
 
@@ -371,7 +385,10 @@ li.twt.w3ls {
 
 /*-- Index-Page-Styling --*/
 
-
+.gambar{
+    width:100%;
+    text-align:center;
+}
 
 
 
@@ -411,7 +428,7 @@ li.twt.w3ls {
     /*--w3layouts--*/
     /*--agileits--*/
     div#login {
-        padding: 50px;
+        padding: 20px 50px 50px 50px;
     }
 }
 
@@ -479,16 +496,16 @@ li.twt.w3ls {
         padding: 8px 5px 8px 40px;
     }
     #wrapper input[type="text"].name {
-        background: url("../images/name.png") no-repeat 13px 10px;
+        /*background: url("../images/name.png") no-repeat 13px 10px;*/
     }
     #wrapper input[type="text"].phone {
-        background: url("../images/phone.png") no-repeat 13px 10px;
+        /*background: url("../images/phone.png") no-repeat 13px 10px;*/
     }
     #wrapper input[type="text"] {
-        background: url("../images/mail.png") no-repeat 13px 10px;
+        /*background: url("../images/mail.png") no-repeat 13px 10px;*/
     }
     #wrapper input[type="password"] {
-        background: url("../images/password.png") no-repeat 13px 10px;
+        /*background: url("../images/password.png") no-repeat 13px 10px;*/
     }
 }
 

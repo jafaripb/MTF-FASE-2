@@ -574,6 +574,7 @@ function loadData(pengadaanId) {
         StatusPemenang(pengadaanId);
         if (data.isPIC == 0) {
             $(".action-pelaksanaan").attr("disabled", "disabled");
+            $(".bingkai-pic-pelaksanaan").remove();
             $("button.action-pelaksanaan").remove();
             $(".next-step").attr("disabled", "disabled");
             $(".lewati-tahapan").attr("disabled", "disabled");
@@ -798,12 +799,22 @@ function loadData(pengadaanId) {
         }
 
         if (data.isKlarifikasiLanjutan == 1) {
-            $(".panel-klarifikasi-lanjut").show()
+            $(".panel-klarifikasi-lanjut").show();
+            $("#tambah-klarifikasi-lanjut").prop("checked", true);
+        }
+        else {
+            $(".panel-klarifikasi-lanjut").hide();
+            $("#tambah-klarifikasi-lanjut").prop("checked", false);
+        }
+        if (data.isPenilaian == 1) {
+            $(".panel-penilaian").show();
+            $("#tambah-penilaian").prop("checked", true);
+        }
+        else {
+            $(".panel-penilaian").hide();
+            $("#tambah-penilaian").prop("checked", false);
         }
 
-        if (data.isPenilaian == 1) {
-            $(".panel-penilaian").show()
-        }
 
         cekStep();
         cekLewati();
