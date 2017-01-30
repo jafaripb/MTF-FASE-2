@@ -1094,6 +1094,8 @@
                         document.getElementById("waktu-persen").style.color = "green";
                         document.getElementById("sisa-hari").style.color = "green";
                     }
+
+                    hitung();
                 }
             })
         });
@@ -1270,6 +1272,8 @@
         });
 
         function hitung() {
+            //hitung();
+            //hitung_pembayaran();
             var totalBobot = 0;
             var totalSelesai = 0;
             $("#example1 tbody tr").each(function () {
@@ -1930,14 +1934,29 @@
                                     html = html + '<div class="input-group-addon">';
                                     html = html + '<i class="fa fa-calendar"></i>';
                                     html = html + '</div>';
-                                    html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
-
+                                    //html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+                                    if (row.TanggalPembayaran == null) {
+                                        var harini = new Date();
+                                        //$(".tanggal-pembayaran").val(moment(harini).format("MM/DD/YYYY"));
+                                        html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(harini).format("MM/DD/YYYY") + '">';
+                                    }
+                                    else {
+                                        html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+                                    }
                                     html = html + '</div>';
                                     return html;
                                 }
                             }
                         },
                         "targets": 4,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var html = "<input type='hidden' name='total-nilai-kontrak-table' id='total-nilai-kontrak-table' class='total-nilai-kontrak-table' value='"+row.TotalNilaiKontrak+"'>";
+                            return html;
+                        },
+                        "targets": 5,
                         "orderable": false
                     },
                 ],
@@ -1957,6 +1976,7 @@
 
         $("#example2").on("change input propertychange", ".total_pembayaran", function () {
             hitung_pembayaran();
+            savePembayaran();
         });
 
         function addNewData(table, baris, newdata)
@@ -1988,11 +2008,12 @@
                 oldRowData.PersenPembayaran = 0;
             }
             addNewData(table_tahapan_pembayaran, elRow.index(), oldRowData);
+            savePembayaran();
         });
 
         function hitung_pembayaran() {
             var totalPersen = 0;
-            var totalKontrak = parseFloat($("[name=nilai-kontrak2]").val());
+            //var totalKontrak = parseFloat($("[name=nilai-kontrak2]").val());
             var index = 0;
             
             $("#example2 tbody tr").each(function () {
@@ -2004,7 +2025,7 @@
                     $(this).find(".total_pembayaran").text("0");
                     return false;
                 }
-                var hasil = (parseFloat($(this).find(".persen_pembayaran").val()) / 100) * totalKontrak;
+                var hasil = (parseFloat($(this).find(".persen_pembayaran").val()) / 100) * parseFloat($(this).find(".total-nilai-kotrak-table").val());
                 if (hasil > 0)
                     $(this).find(".total_pembayaran").text("Rp. " + numberWithCommas(hasil));
                 else $(this).find(".total_pembayaran").text(0);
@@ -2478,7 +2499,8 @@
                 objPembayaran.TanggalPembayaran = $(this).find(".tanggal-pembayaran").val();
                 arrobjPembayaran.push(objPembayaran);
             });
-            //waitingDialog.showloading("Proses Harap Tunggu");
+		    //waitingDialog.showloading("Proses Harap Tunggu");
+            waitingDialog.showloading("Proses Harap Tunggu");
             $.ajax({
                 method: "POST",
                 url: "Api/MonitoringSelection/UpdateProgressPembayaran",
@@ -2486,6 +2508,7 @@
                 data: JSON.stringify(arrobjPembayaran),
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
+                    waitingDialog.hideloading();
                     table_tahapan_pembayaran.draw();
                     BootstrapDialog.show({
                         title: 'Konfirmasi',
@@ -2499,6 +2522,7 @@
                     });
                     table_tahapan_pembayaran.ajax.reload();
                     $("#SimpanModalKonfirmasiDokumen").modal('hide');
+                    window.location.reload();
                 },
             });
         }

@@ -54,6 +54,7 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public decimal Total { get; set; }
         public string Status { get; set; }
         public string StatusProyek { get; set; }
+        public decimal TotalNilaiKontrak { get; set; }
         public Nullable<DateTime> TanggalPembayaran { get; set; }
 
     }
