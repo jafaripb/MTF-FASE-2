@@ -84,6 +84,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 vt.Status = item.StatusPembayaran;
                 vt.TanggalPembayaran = item.TanggalPembayaran;
                 vt.StatusProyek = statusproyek;
+                vt.TotalNilaiKontrak = ctx.RencanaProyeks.Where(d => d.Id == Id).FirstOrDefault().Spk.NilaiSPK.Value;
 
                 LstnViewTableDetailPembayaran.Add(vt);
             }
@@ -312,7 +313,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 VendorId = odata.Spk.PemenangPengadaan.VendorId.Value,
                 StatusLockTahapan = odata.StatusLockTahapan,
                 UserId = UserId,
-                TipeUser = odata.Spk.PemenangPengadaan.Pengadaan.PersonilPengadaans.Where(d => d.PersonilId == UserId).FirstOrDefault().tipe
+                TipeUser = odata.Spk.PemenangPengadaan.Pengadaan.PersonilPengadaans.Where(d => d.PersonilId == UserId).FirstOrDefault() == null ? "" : odata.Spk.PemenangPengadaan.Pengadaan.PersonilPengadaans.Where(d => d.PersonilId == UserId).FirstOrDefault().tipe
             };
         }
 
