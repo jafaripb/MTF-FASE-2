@@ -50,6 +50,12 @@
                             <!--<h2 class="w3layouts agileits">Sign In</h2>-->
                             <form id="form-login" method="post" ng-submit="login.submit()" class="p-t-15" role="form" action="{{model.loginUrl}}">
                                 <anti-forgery-token token="model.antiForgery"></anti-forgery-token>
+                                 <div ng-show="model.errorMessage">
+                                    <div class="alert alert-danger" role="alert">
+                                        <!--<button class="close" data-dismiss="alert"></button>-->
+                                        <strong>Error : {{model.errorMessage}} </strong>
+                                    </div>
+                                </div>
                                 <label style="font-weight:600; font-size:20px;">username</label><br />
                                 <input type="text" name="usernamex" placeholder="Username atau Ldap user" ng-model="model.usernamex" required="">
                                 <input type="hidden" name="username" class="form-control" value="{{model.usernamex}}#{{model.captca}}#{{model.username}}">
@@ -76,12 +82,7 @@
                 <label for="checkbox1">Biarkan saya tetap masuk.</label>
             </div>
         </div>-->
-                                <div ng-show="model.errorMessage">
-                                    <div class="alert alert-danger" role="alert">
-                                        <!--<button class="close" data-dismiss="alert"></button>-->
-                                        <strong>Error : {{model.errorMessage}} </strong>
-                                    </div>
-                                </div>
+                               
                                 <!--<label>Sudah mendaftar tetapi belum mendapat akses ke sistem?</label><p class="send-button w3layouts agileits"><label><a href="http://localhost:49559/registrasi.html">Lacak status pengajuan Anda di sini.</a></label></p>-->
                                 <!--<div class="clear"></div>-->
                             </form>

@@ -2397,7 +2397,7 @@ $(function () {
         },
         "columns": [
             { "data": null },
-            { "data": "Nama" },
+            { "data": "FullName" },
             { "data": "jabatan" }
         ],
         "columnDefs": [

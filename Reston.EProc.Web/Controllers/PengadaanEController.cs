@@ -4097,7 +4097,7 @@ namespace Reston.Pinata.WebService.Controllers
                 ndata.Id = item.Id;
                 var user = await userDetail(item.UserId.ToString());
                 ndata.UserId = item.UserId;
-                ndata.Nama = user.Nama;
+                ndata.Nama = user.FullName;
                 ndata.setuju = item.setuju == true ? 1 : 0;
                 ndata.isthismine = item.UserId == UserId() ? 1 : 0;
                 data.Add(ndata);

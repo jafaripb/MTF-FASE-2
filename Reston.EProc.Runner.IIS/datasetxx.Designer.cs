@@ -309,6 +309,8 @@ namespace Reston.EProc.Runner.IIS {
             
             private global::System.Data.DataColumn columnPIC;
             
+            private global::System.Data.DataColumn columnKlasrifikasiLanjut;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ReportPengadaanDataTable() {
@@ -464,6 +466,14 @@ namespace Reston.EProc.Runner.IIS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn KlasrifikasiLanjutColumn {
+                get {
+                    return this.columnKlasrifikasiLanjut;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -499,7 +509,23 @@ namespace Reston.EProc.Runner.IIS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ReportPengadaanRow AddReportPengadaanRow(System.Guid PengadaanId, string Judul, decimal hps, decimal realitas, decimal efisiensi, string Pemenang, System.DateTime Aanwjzing, System.DateTime PembukaanAmplop, System.DateTime Klasrifikasi, System.DateTime Scoring, System.DateTime NotaPemenang, System.DateTime SPK, string User, string WaktuPelaksanaan, string PIC) {
+            public ReportPengadaanRow AddReportPengadaanRow(
+                        System.Guid PengadaanId, 
+                        string Judul, 
+                        decimal hps, 
+                        decimal realitas, 
+                        decimal efisiensi, 
+                        string Pemenang, 
+                        System.DateTime Aanwjzing, 
+                        System.DateTime PembukaanAmplop, 
+                        System.DateTime Klasrifikasi, 
+                        System.DateTime Scoring, 
+                        System.DateTime NotaPemenang, 
+                        System.DateTime SPK, 
+                        string User, 
+                        string WaktuPelaksanaan, 
+                        string PIC, 
+                        System.DateTime KlasrifikasiLanjut) {
                 ReportPengadaanRow rowReportPengadaanRow = ((ReportPengadaanRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PengadaanId,
@@ -516,7 +542,8 @@ namespace Reston.EProc.Runner.IIS {
                         SPK,
                         User,
                         WaktuPelaksanaan,
-                        PIC};
+                        PIC,
+                        KlasrifikasiLanjut};
                 rowReportPengadaanRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReportPengadaanRow);
                 return rowReportPengadaanRow;
@@ -554,6 +581,7 @@ namespace Reston.EProc.Runner.IIS {
                 this.columnUser = base.Columns["User"];
                 this.columnWaktuPelaksanaan = base.Columns["WaktuPelaksanaan"];
                 this.columnPIC = base.Columns["PIC"];
+                this.columnKlasrifikasiLanjut = base.Columns["KlasrifikasiLanjut"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -589,6 +617,8 @@ namespace Reston.EProc.Runner.IIS {
                 base.Columns.Add(this.columnWaktuPelaksanaan);
                 this.columnPIC = new global::System.Data.DataColumn("PIC", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPIC);
+                this.columnKlasrifikasiLanjut = new global::System.Data.DataColumn("KlasrifikasiLanjut", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnKlasrifikasiLanjut);
                 this.columnJudul.MaxLength = 2147483647;
                 this.columnPemenang.MaxLength = 2147483647;
                 this.columnUser.MaxLength = 2147483647;
@@ -974,6 +1004,22 @@ namespace Reston.EProc.Runner.IIS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public System.DateTime KlasrifikasiLanjut {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableReportPengadaan.KlasrifikasiLanjutColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'KlasrifikasiLanjut\' in table \'ReportPengadaan\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportPengadaan.KlasrifikasiLanjutColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsPengadaanIdNull() {
                 return this.IsNull(this.tableReportPengadaan.PengadaanIdColumn);
             }
@@ -1150,6 +1196,18 @@ namespace Reston.EProc.Runner.IIS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetPICNull() {
                 this[this.tableReportPengadaan.PICColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsKlasrifikasiLanjutNull() {
+                return this.IsNull(this.tableReportPengadaan.KlasrifikasiLanjutColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetKlasrifikasiLanjutNull() {
+                this[this.tableReportPengadaan.KlasrifikasiLanjutColumn] = global::System.Convert.DBNull;
             }
         }
         

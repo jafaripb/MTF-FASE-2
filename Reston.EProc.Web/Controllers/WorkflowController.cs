@@ -99,7 +99,7 @@ namespace Reston.Pinata.WebService.Controllers
                   VWWorkflowDetail dt = new VWWorkflowDetail();
                   Userx userdetail =await userDetail(item.UserId.ToString());
                   dt.jabatan = userdetail.jabatan;
-                  dt.Nama = userdetail.Nama;
+                  dt.Nama = userdetail.FullName;
                   dt.Id = item.Id;
                   dt.PersonilId = item.UserId.ToString();
                   lstdt.Add(dt);

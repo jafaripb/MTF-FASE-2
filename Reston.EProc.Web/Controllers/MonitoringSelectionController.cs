@@ -37,7 +37,10 @@ namespace Reston.EProc.Web.Controllers
         {
             _repository = new MonitoringRepo(new JimbisContext());
         }
-
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult ListProyek()
         {
             string search = HttpContext.Current.Request["search"].ToString();
@@ -69,7 +72,10 @@ namespace Reston.EProc.Web.Controllers
             }
             return result;
         }
-
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult ListProyekDetailMonitoringPembayaran()
         {
             string search = HttpContext.Current.Request["search"].ToString();
@@ -80,6 +86,8 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataListProyekDetailMonitoringPembayaran(search, start, length, Id));
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_vendor)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult ListProyekRekanan()
         {
             string search = HttpContext.Current.Request["search"].ToString();
@@ -96,6 +104,10 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataListProyekMonitoringRekanan(search, start, length, dklasifikasi, UserId()));
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult ListProyekDetailMonitoring()
         {
             string search = HttpContext.Current.Request["search"].ToString();
@@ -113,6 +125,10 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataListProyekDetailMonitoring(search, start, length, Id, dklasifikasi));
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult TampilJudulDetail()
         {
             Guid ProyekId = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
@@ -120,12 +136,19 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDetailProyek(ProyekId, UserId()));
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult TampilJudul()
         {
             return Json(_repository.GetResumeProyek());
         }
 
-        
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult List()
         {
             string search = HttpContext.Current.Request["search"].ToString();
@@ -142,6 +165,10 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataMonitoringSelection(search, start, length, dStatusSeleksi));
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult ListSedangBerjalan()
         {
             string search = HttpContext.Current.Request["search"].ToString();
@@ -158,6 +185,10 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataMonitoringSelectionSedangBerjalan(search, start, length, dStatusSeleksi));
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult ListSelesai()
         {
             string search = HttpContext.Current.Request["search"].ToString();
@@ -174,6 +205,10 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataMonitoringSelectionSelesai(search, start, length, dStatusSeleksi));
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult ListDraf()
         {
             string search = HttpContext.Current.Request["search"].ToString();
@@ -190,6 +225,10 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetDataMonitoringSelectionDraf(search, start, length, dStatusSeleksi));
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public ResultMessage toFinish()
         {
             Guid xProyekId = Guid.Parse(HttpContext.Current.Request["aIdProyek"].ToString());
@@ -210,6 +249,10 @@ namespace Reston.EProc.Web.Controllers
             return _repository.toTidakDimonitor(spkid, status, UserId());
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public ResultMessage toDisable()
         {
             Guid xProyekId = Guid.Parse(HttpContext.Current.Request["aIdProyek"].ToString());
@@ -218,6 +261,10 @@ namespace Reston.EProc.Web.Controllers
             return _repository.toDisableRepo(xProyekId, xStatus, UserId());
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public ResultMessage toEnable()
         {
             Guid xProyekId = Guid.Parse(HttpContext.Current.Request["aIdProyek"].ToString());
@@ -226,6 +273,10 @@ namespace Reston.EProc.Web.Controllers
             return _repository.toEnableRepo(xProyekId, xStatus, UserId());
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public ResultMessage Add()
         {
             Guid PengadaanId = Guid.Parse(HttpContext.Current.Request["aPengadaanId"].ToString());
@@ -238,8 +289,6 @@ namespace Reston.EProc.Web.Controllers
             return _repository.Save(PengadaanId, dStatusMonitoring, dStatusSeleksi,UserId());
         }
 
-        //-----------------------------------
-        // Update Progres Monitoring Selection
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
@@ -369,6 +418,10 @@ namespace Reston.EProc.Web.Controllers
             return null;
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         // Report Monitoring
         public HttpResponseMessage ReportMonitoring(string dari, string sampai)
         {
@@ -454,6 +507,10 @@ namespace Reston.EProc.Web.Controllers
             }
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         // Report Pekerjaan
         public HttpResponseMessage ReportPekerjaan(Guid Id)
         {
@@ -547,6 +604,10 @@ namespace Reston.EProc.Web.Controllers
             }
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         // Report Pembayaran
         public HttpResponseMessage ReportPembayaran(Guid Id)
         {
@@ -640,6 +701,10 @@ namespace Reston.EProc.Web.Controllers
             }
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         // Report Penilaian Vendor
         public HttpResponseMessage ReportPenilaian(Guid Id)
         {
