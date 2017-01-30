@@ -1247,19 +1247,22 @@ namespace Reston.Pinata.WebService.Controllers
 
                     doc.ReplaceText("{kandidat_pemenang}", item.NamaVendor );
                     doc.ReplaceText("{total_pengadaan}",item.total==null?"": item.total.Value.ToString("C", MyConverter.formatCurrencyIndo()) );
-
-                    docM.InsertParagraph();
-                    docM.InsertParagraph();
-                    docM.InsertParagraph();
+                    
                     //tambah tabel persetujuan tahapan
                     var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.PEMENANG, doc);
 
                     table3.Alignment = Alignment.center;
-                    doc.InsertTable(table3);
+                    foreach (var paragraph in doc.Paragraphs)
+                    {
+                        paragraph.FindAll("{tabel_persetujuan}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
 
+                    }
+                    doc.ReplaceText("{tabel_persetujuan}", "");
+                    // 
                     //end
-
+                    
                     docM.InsertDocument(doc); //doc.SaveAs(OutFileNama);
+                    docM.InsertSection();
                     streamx.Close();
                 }
                 catch
@@ -1267,13 +1270,31 @@ namespace Reston.Pinata.WebService.Controllers
                     streamx.Close();
                 }
             }
-            docM.InsertParagraph();
-            //tambah tabel disposisi
-            var tblDisposisi = await getTableDisposisi(pengadaan.Id, EStatusPengadaan.PEMENANG, docM);
-            tblDisposisi.Alignment = Alignment.center;
-            docM.InsertTable(tblDisposisi);
-           
-           
+            string fileNameDisposisi = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\NOTA BERSAMA Usulan Pemenang Disposisi.docx";
+            var streamxDisposisi = new FileStream(fileNameDisposisi, FileMode.Open);
+
+            try
+            {
+               var docDisposisi = DocX.Load(streamxDisposisi);
+
+
+                var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraPenentuanPemenang, UserId());
+                docDisposisi.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
+                docDisposisi.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara == null ? "" : BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
+                         " " + BeritaAcara.tanggal.Value.Year);
+                //tambah tabel disposisi
+                var tblDisposisi = await getTableDisposisi(pengadaan.Id, EStatusPengadaan.PEMENANG, docM);
+                tblDisposisi.Alignment = Alignment.center;
+                foreach (var paragraph in docDisposisi.Paragraphs)
+                {
+                    paragraph.FindAll("{table_disposisi}").ForEach(index => paragraph.InsertTableBeforeSelf(tblDisposisi));
+
+                }
+                docDisposisi.ReplaceText("{table_disposisi}", "");
+                docM.InsertDocument(docDisposisi);
+                streamxDisposisi.Close();
+            }
+            catch { streamxDisposisi.Close(); }
             docM.SaveAs(OutFileNama);
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(OutFileNama, FileMode.Open);
