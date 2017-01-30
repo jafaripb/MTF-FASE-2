@@ -5160,7 +5160,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 item.NotaPemenang = getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraPenentuanPemenang, UserId) == null ? null :
                     getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraPenentuanPemenang, UserId).tanggal;
                 item.SPK = getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.SuratPerintahKerja, UserId) == null ? null :
-                getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.SuratPerintahKerja, UserId).tanggal;
+                    getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.SuratPerintahKerja, UserId).tanggal;
+                item.KlasrifikasiLanjut = getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraKlarifikasiLanjutan, UserId) == null ? null :
+                    getBeritaAcaraByTipe(item.PengadaanId.Value, TipeBerkas.BeritaAcaraKlarifikasiLanjutan, UserId).tanggal;
+
             }
             return oReport;
         }

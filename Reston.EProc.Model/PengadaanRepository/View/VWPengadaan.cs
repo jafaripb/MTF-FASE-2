@@ -320,6 +320,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<DateTime> Aanwjzing { get; set; }
         public Nullable<DateTime> PembukaanAmplop { get; set; }
         public Nullable<DateTime> Klasrifikasi { get; set; }
+        public Nullable<DateTime> KlasrifikasiLanjut { get; set; }
         public Nullable<DateTime> Scoring { get; set; }
         public Nullable<DateTime> NotaPemenang { get; set; }
         public Nullable<DateTime> SPK { get; set; }
