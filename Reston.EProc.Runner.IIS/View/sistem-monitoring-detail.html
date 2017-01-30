@@ -958,6 +958,7 @@
 
         // Tampil Judul Detail
         $(function () {
+
             var ID = gup("Id");
             $("#ProyekId").val(ID);
 
@@ -965,6 +966,28 @@
                 method: "post",
                 url: "api/MonitoringSelection/TampilJudulDetail?Id=" + ID,
                 success: function (d) {
+                    // Pengecekan untuk Aksi
+                    if (d.TipeUser != "pic")
+                    {
+                        //alert("pic");
+                        if (d.TipeUser != "controller")
+                        {
+                            //alert("controller");
+                            if (d.TipeUser != "staff")
+                            {
+                                //alert("hhhhhhh");
+                                $("#Tambah-Pekerjaan").hide();
+                                $("#disable-tahapan").hide();
+                                $("#Simpan").hide();
+                                $("#Tambah-Pembayaran").hide();
+                                $("#simpan-pembayaran").hide();
+                                $("#simpan-nilai-konfirmasi").hide();
+                                $("#finish").hide();
+                                $("#blacklist").hide();
+                            }
+                        }
+                    }
+
                     // Tampil
                     $("#NamaProyek").text(d.NamaProyek);
                     $("#TanggalMulai").val(moment(d.TanggalMulai).format("DD MMMM YYYY"));

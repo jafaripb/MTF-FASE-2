@@ -376,51 +376,62 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         }
 
         // Simpan Rencana Proyek
-        public ResultMessage SimpanRencanaProyekRepo(Guid ProyekId, string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate)
+        public ResultMessage SimpanRencanaProyekRepo(Guid SpkId, string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate)
         {
             ResultMessage rm = new ResultMessage();
             try
             {
-                var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId || d.SpkId == ProyekId).FirstOrDefault();
+                var idPengadaan = ctx.Spk.Where(d => d.Id == SpkId).FirstOrDefault().PemenangPengadaan.PengadaanId;
 
-                if (odata != null)
+                var cekisPIC = ctx.PersonilPengadaans.Where(d => d.PengadaanId == idPengadaan && d.PersonilId == UserId).FirstOrDefault();
+
+                if(cekisPIC.tipe == "pic")
                 {
-                    odata.StartDate = xStartDate;
-                    odata.EndDate = xEndDate;
-                    odata.Status = "Draf";
-                    odata.ModifiedBy = UserId;
-                    odata.ModifiedOn = DateTime.Now;
-                    
-                    ctx.SaveChanges(UserId.ToString());
-                    rm.status = HttpStatusCode.OK;
-                    rm.message = "Data Berhasil Dirubah";
-                }
-                else if(xStartDate == null)
-                {
-                    rm.message = "Tanggal Mulai Tidak Boleh Kosong";
-                }
-                else if(xEndDate == null)
-                {
-                    rm.message = "Tanggal Selesai Tidak Boleh Kosong";
+                    var odata = ctx.RencanaProyeks.Where(d => d.Id == SpkId || d.SpkId == SpkId).FirstOrDefault();
+
+                    if (odata != null)
+                    {
+                        odata.StartDate = xStartDate;
+                        odata.EndDate = xEndDate;
+                        odata.Status = "Draf";
+                        odata.ModifiedBy = UserId;
+                        odata.ModifiedOn = DateTime.Now;
+
+                        ctx.SaveChanges(UserId.ToString());
+                        rm.status = HttpStatusCode.OK;
+                        rm.message = "Data Berhasil Dirubah";
+                    }
+                    else if (xStartDate == null)
+                    {
+                        rm.message = "Tanggal Mulai Tidak Boleh Kosong";
+                    }
+                    else if (xEndDate == null)
+                    {
+                        rm.message = "Tanggal Selesai Tidak Boleh Kosong";
+                    }
+                    else
+                    {
+                        RencanaProyek m2 = new RencanaProyek
+                        {
+                            //Id = odata.Id,
+                            SpkId = SpkId,
+                            StartDate = xStartDate,
+                            EndDate = xEndDate,
+                            Status = "Draf",
+                            CreatedBy = UserId,
+                            CreatedOn = DateTime.Now,
+                            StatusLockTahapan = "DIBUKA"
+                        };
+
+                        ctx.RencanaProyeks.Add(m2);
+                        ctx.SaveChanges(UserId.ToString());
+                        rm.status = HttpStatusCode.OK;
+                        rm.message = "Data Berhasil Dirubah";
+                    }
                 }
                 else
                 {
-                    RencanaProyek m2 = new RencanaProyek
-                    {
-                        //Id = odata.Id,
-                        SpkId=ProyekId,
-                        StartDate = xStartDate,
-                        EndDate = xEndDate,
-                        Status = "Draf",
-                        CreatedBy = UserId,
-                        CreatedOn = DateTime.Now,
-                        StatusLockTahapan = "DIBUKA"
-                    };
-
-                    ctx.RencanaProyeks.Add(m2);
-                    ctx.SaveChanges(UserId.ToString());
-                    rm.status = HttpStatusCode.OK;
-                    rm.message = "Data Berhasil Dirubah";
+                    rm.message = "Anda Tidak Memiliki Hak Akses";
                 }
             }
             catch (Exception ex)
