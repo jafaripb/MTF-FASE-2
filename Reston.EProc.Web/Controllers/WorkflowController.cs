@@ -68,7 +68,8 @@ namespace Reston.Pinata.WebService.Controllers
 
       [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                           IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                           IdLdapConstants.Roles.pRole_procurement_manager,
+                                           IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
       [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
       public async Task< IHttpActionResult> List()
       {
@@ -206,7 +207,9 @@ namespace Reston.Pinata.WebService.Controllers
 
       [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                           IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                           IdLdapConstants.Roles.pRole_procurement_manager,
+                                           IdLdapConstants.Roles.pRole_compliance,
+                                            IdLdapConstants.Roles.pRole_direksi)]
       public async Task<IHttpActionResult> ListUser()// ListUser(int start, int limit)
       {
           var client = new HttpClient();
@@ -236,7 +239,10 @@ namespace Reston.Pinata.WebService.Controllers
 
       }
 
-
+     [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
+                                          IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                           IdLdapConstants.Roles.pRole_procurement_manager,
+                                           IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
       public async Task<IHttpActionResult> ListHistoryPersetujuanPemenang(Guid Id)
       {
           var pengadaan = _repopengdaan.GetPengadaanByiD(Id);
