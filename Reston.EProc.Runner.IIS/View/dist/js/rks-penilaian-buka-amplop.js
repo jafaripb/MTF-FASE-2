@@ -37,7 +37,6 @@ function sortCol(e, idx) {
     row_index = oldOrder.slice(firstIndexProcessed, row_data.length);
     for (var i in oldOrder)
         if ($.inArray(oldOrder[i],model.locked) != -1) oldOrder[i] = -1;
-    console.log(oldOrder);
     //bubbleSortodif(row_data_processed, sortDir, row_index); //0 asc, else desc
     bubbleSort2(row_data_processed, sortDir, row_index); //0 asc, else desc
     var newOrder = [0, 1, 2, 3, 4];
@@ -60,13 +59,11 @@ function showHideVendor(el,i){
 }
 
 function lockUnlockVendor(el, i) {
-    //console.log('wehew');
     table.colReorder.reset();
     $e = $(el);
     $indicator = $e.prev();
     $box = $e.parent().parent().parent();
     var index = i + firstIndexProcessed;
-//    console.log("lock/unlock index: " + i);
     if ($e.is(':checked')) {
         model.locked.push(index);
         $indicator.removeClass('fa-lock').addClass('fa-unlock');
@@ -97,11 +94,6 @@ function gotoVendor() {
 function setShowedColModels() {
     model.showed = [];
     var e = $(".s-checkbox:checked");//.is('checked');
-    //console.log(e);
-    //for (var i in e) {
-    //    model.showed.push($(e[i]).data('idx'));
-    //}
-    //console.log(model.showed);
 }
 
 function bubbleSortodif(arr, dir, arr_idx) {
@@ -109,21 +101,15 @@ function bubbleSortodif(arr, dir, arr_idx) {
     var temp_idx=0;
     for (i = 0; i < arr.length - 1; i++) {
         if ($.inArray(arr_idx[i],model.locked) == -1) {
-            //console.log(model.locked);
-            //console.log(arr_idx[i]);
             if ($.inArray(arr_idx[i + 1], model.locked) == -1 && ((dir == 0 && arr[i] > arr[i + 1]) || (dir != 0 && arr[i] < arr[i + 1]))) {
                 arrayValueSwap(arr, i, i + 1);
                 arrayValueSwap(arr_idx, i, i + 1);
-                console.log("1st if: i = " + i);
                 i = i - 2;
             }
             else {
-                console.log("1st else: i = " + i);
                 var j = i+1;
                 while (j < arr.length && $.inArray(arr_idx[j], model.locked) != -1) {
                     j++;
-
-                    console.log("      somewhat j: j = " + j);
                 }
                 if (j < arr.length) {
                     if (((dir == 0 && arr[i] > arr[j]) || (dir != 0 && arr[i] < arr[j]))){
@@ -200,7 +186,6 @@ function generateTable(pengadaanId) {
         url: 'Api/PengadaanE/getRKSPenilaian?PId=' + pengadaanId,
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             bcde = data;
             LoadRekananPembobotan();
             //header table
@@ -239,7 +224,6 @@ function generateTable(pengadaanId) {
                 }
                 for (var j in data.vendors) {
                     var totItemInVendor = data.vendors[j].items.length;
-                   // console.log(totItemInVendor+" "+i);
                     if(i>=totItemInVendor)  
                         str_row += '<td></td>';
                     else
@@ -606,10 +590,7 @@ function datatableToJson(table) {
             itemObj.jumlah = d.jumlah;
             itemObj.hps = d.hps;
             data.push(itemObj);
-            // console.log(d);
         });
-
-        //console.log(JSON.stringify(data));
         return data;
     }
 function loadData(pengadaanId) {
@@ -622,6 +603,9 @@ function loadData(pengadaanId) {
             $("#judul").text(data.Judul);
             $("#deskripsi").text(data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
             $("#keterangan").text(data.Keterangan);
+            if (data.isTEAM == 0 && data.isPIC == 0 && data.isController == 0) {
+                $(".only-ga-team").remove();
+            }
         });
        LoadKriteriaPembobotan(pengadaanId);
     }

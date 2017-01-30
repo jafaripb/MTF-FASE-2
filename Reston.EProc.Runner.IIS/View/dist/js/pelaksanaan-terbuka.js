@@ -2905,7 +2905,7 @@ function renderUserTerkait() {
             var html = "";
             var cekStatus = 1;
             var html = "<table class='table table-bordered table-striped table-responsive'><thead>";
-            html += "<th>User Name</th>";
+            html += "<th>Approval</th>";
             html += "<th>Status</th>";
             html += "<th></th>";
             html += "</thead>";

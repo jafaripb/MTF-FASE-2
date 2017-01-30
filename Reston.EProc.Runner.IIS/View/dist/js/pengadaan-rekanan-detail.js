@@ -326,8 +326,6 @@ function loadData(pengadaanId) {
             $("#collapseOne").addClass("in");
         }
 
-       
-
         if (data.Status == 7) {
             //$("#Status").text("Submit Penawaran");
             $("#tab-klarifikasi-rekanan").attr("data-toggle", "collapse");
