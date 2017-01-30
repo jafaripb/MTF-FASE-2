@@ -768,6 +768,10 @@ li.twt.w3ls {
     }
 }
 
+.alert-danger{
+	font-size: 12px;
+	color:red;
+}
 
 
 /*--- Responsive Code ---*/

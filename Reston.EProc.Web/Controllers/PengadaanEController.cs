@@ -316,7 +316,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                             IdLdapConstants.Roles.pRole_direksi)]
         public async Task<HttpResponseMessage> getUsers(int start, int limit, string name)
         {
             var client = new HttpClient();
@@ -498,7 +499,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager,
+                                             IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         public  ViewPengadaan detailPengadaan(Guid Id)
         {
@@ -812,7 +814,10 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, 
+                                             IdLdapConstants.Roles.pRole_compliance, 
+                                             IdLdapConstants.Roles.pRole_procurement_vendor,
+                                             IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWDokumenPengadaan> getDokumens(TipeBerkas tipe, Guid Id)
         {
@@ -821,7 +826,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                             IdLdapConstants.Roles.pRole_procurement_vendor, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task<List<VWRiwayatDokumen>> riwayatDokumen(Guid Id)
         {
@@ -1137,7 +1143,9 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, 
+                                             IdLdapConstants.Roles.pRole_compliance,
+                                             IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWKandidatPengadaan> GetKandidats(Guid PId)
         {
@@ -1504,7 +1512,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                              IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public JadwalPelaksanaan GetPelaksanaanAanwijzings(Guid PId)
         {
@@ -1523,7 +1532,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager,
+                                             IdLdapConstants.Roles.pRole_compliance,IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWKehadiranKandidatAanwijzing> getKehadiranAanwjzing(Guid PengadaanId)
         {
@@ -1833,7 +1843,10 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, 
+                                             IdLdapConstants.Roles.pRole_compliance, 
+                                             IdLdapConstants.Roles.pRole_procurement_vendor,
+                                              IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public JadwalPelaksanaan GetKlarifikasi(Guid PId)
         {
@@ -1883,7 +1896,10 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
+                                            IdLdapConstants.Roles.pRole_procurement_manager, 
+                                            IdLdapConstants.Roles.pRole_compliance,
+                                            IdLdapConstants.Roles.pRole_procurement_vendor,
+                                             IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public JadwalPelaksanaan GetJadwalPelaksanaan(Guid PId,EStatusPengadaan status)
         {
@@ -1935,7 +1951,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                             IdLdapConstants.Roles.pRole_direksi)]
         [HttpPost]
         public JadwalPelaksanaan GetPemenang(Guid PId)
         {
@@ -2095,7 +2112,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager,
+                                             IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWPErsetujuanBukaAmplop> getPersetujuanBukaAmplop(Guid PengadaanId)
         {
@@ -2256,7 +2274,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                              IdLdapConstants.Roles.pRole_procurement_manager,
+                                              IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWRekananSubmitHarga> GetRekananSubmit(Guid PId)
         {
@@ -2267,7 +2286,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                              IdLdapConstants.Roles.pRole_procurement_manager,
+                                              IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWRekananPenilaian> GetRekananPenilaian(Guid PId)
         {
@@ -2277,7 +2297,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                              IdLdapConstants.Roles.pRole_procurement_manager,
+                                              IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWRekananPenilaian> GetRekananPenilaian2(Guid PId)
         {
@@ -2538,7 +2559,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager,
+                                             IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWRekananSubmitHarga> GetRekananKlarifikasiSubmit(Guid PId)
         {
@@ -2548,7 +2570,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager,
+                                             IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWRekananSubmitHarga> GetRekananKlarifikasiSubmitLanjutan(Guid PId)
         {
@@ -2558,7 +2581,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                              IdLdapConstants.Roles.pRole_procurement_manager,
+                                              IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWRekananPenilaian> GetRekananKlarifikasiPenilaian(Guid PId)
         {
@@ -2568,7 +2592,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                              IdLdapConstants.Roles.pRole_procurement_manager,
+                                              IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWRekananPenilaian> GetRekananKlarifikasiPenilaianLanjutan(Guid PId)
         {
@@ -2578,7 +2603,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                              IdLdapConstants.Roles.pRole_procurement_manager,
+                                              IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWRekananPenilaian> GetPemenangPengadaan(Guid PId)
         {
@@ -2589,7 +2615,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                               IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWRekananPenilaian> GetAllKandidatPengadaan(Guid PId)
         {
@@ -2932,7 +2959,9 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, 
+                                             IdLdapConstants.Roles.pRole_compliance,
+                                             IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public List<VWBeritaAcaraEnd> GetBeritaAcara(Guid PId)
         {
@@ -3054,7 +3083,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                              IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                              IdLdapConstants.Roles.pRole_procurement_manager,
+                                              IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public int CurrentStatePengadaan(Guid Id)
         {
@@ -3090,7 +3120,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager,
+                                             IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public int isSpkUploaded(Guid Id)
         {
@@ -3362,7 +3393,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                            IdLdapConstants.Roles.pRole_procurement_manager,
+                                            IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         public async Task<IHttpActionResult> ListUsersDireksi()
         {
             string search = HttpContext.Current.Request["search[value]"].ToString();
@@ -3498,7 +3530,9 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager,
+                                             IdLdapConstants.Roles.pRole_compliance,
+                                             IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public int isApprovePemenang(Guid Id)
         {
@@ -3655,7 +3689,7 @@ namespace Reston.Pinata.WebService.Controllers
                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public async Task<ResultMessage> ajukanDokPemenang(Guid Id)
+        public ResultMessage ajukanDokPemenang(Guid Id)
         {
             HttpStatusCode respon = HttpStatusCode.NotFound;
             string message = "";
@@ -3719,7 +3753,9 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                            IdLdapConstants.Roles.pRole_procurement_manager, 
+                                            IdLdapConstants.Roles.pRole_compliance,
+                                            IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult StatusPemenang(Guid pengadaanId)
         {
@@ -3955,7 +3991,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                            IdLdapConstants.Roles.pRole_procurement_manager,
+                                            IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task<IHttpActionResult> GetPersetujuanTahapan(Guid PengadaanId, string status)
         {
@@ -4047,7 +4084,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                            IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]      
         public async Task< IHttpActionResult> UserTerkait(Guid PengadanId)
         {
@@ -4059,7 +4097,7 @@ namespace Reston.Pinata.WebService.Controllers
                 ndata.Id = item.Id;
                 var user = await userDetail(item.UserId.ToString());
                 ndata.UserId = item.UserId;
-                ndata.Nama = user.Nama;
+                ndata.Nama = user.FullName;
                 ndata.setuju = item.setuju == true ? 1 : 0;
                 ndata.isthismine = item.UserId == UserId() ? 1 : 0;
                 data.Add(ndata);

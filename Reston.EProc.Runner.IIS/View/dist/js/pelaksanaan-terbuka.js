@@ -2793,7 +2793,7 @@ $(function () {
         "serverSide": true,
         "searching": true,
         "ajax": {
-            "url": 'api/Pengadaane/ListUsers',
+            "url": 'api/Pengadaane/ListUsersDireksi',
             "type": 'POST',
             "data": function (d) {
                 d.status = "1";
@@ -2802,13 +2802,13 @@ $(function () {
         },
         "columns": [
             { "data": null },
-            { "data": "Nama" },
+            { "data": "FullName" },
             { "data": "jabatan" }
         ],
         "columnDefs": [
             {
                 "render": function (data, type, row) {
-                    return '<input type="checkbox" class="check-user" attrId="' + data.PersonilId + '" />';
+                    return '<button type="button" class="btn btn-button pilih-user" attrId="' + data.PersonilId + '" >Pilih</button>';
                 },
 
                 "targets": 0,
@@ -2826,31 +2826,16 @@ $(function () {
 
 $(function () {
     renderUserTerkait();
-    $(".adduserterkai").on("click", function () {
-        var note = $("#note_user").val();
-
-        if ($("#user_table").find("input[type=checkbox]:checked").length != 1) {
-            BootstrapDialog.show({
-                title: 'Konfirmasi',
-                message: ' Wajib Pilih satu dipilih!',
-                buttons: [{
-                    label: 'Close',
-                    action: function (dialog) {
-                        dialog.close();
-
-                    }
-                }]
-            });
-            return false;
-        }
-
-        var userid = $("#user_table").find("input[type=checkbox]:checked").attr("attrid");
+    $("body").on("click", ".pilih-user", function () {
+        var userId = $(this).attr("attrId");
         var pengadaanId = $("#pengadaanId").val();
         $.ajax({
-            url: 'api/PengadaanE/SavePersetujuanTerkait?PengadanId=' + pengadaanId + "&UserId=" + userid,
+            url: 'api/PengadaanE/SavePersetujuanTerkait?PengadanId=' + pengadaanId + "&UserId=" + userId,
             method: "GET",
             success: function (data) {
-                var message = data.message;
+                $("#users_modal").modal("hide");
+                var message = "Gagal Save";
+                if (data.Id != "") message = "Save Sukses";
                 BootstrapDialog.show({
                     title: 'Konfirmasi',
                     message: message,
@@ -2861,14 +2846,14 @@ $(function () {
                         }
                     }]
                 });
-                renderUserTerkait();
 
-                $("#users_modal").modal("close");
+                renderUserTerkait();
             }
         });
     });
 
 });
+
 
 function renderUserTerkait2() {
     var pengadaanId = $("#pengadaanId").val();
@@ -2905,7 +2890,7 @@ function renderUserTerkait() {
             var html = "";
             var cekStatus = 1;
             var html = "<table class='table table-bordered table-striped table-responsive'><thead>";
-            html += "<th>User Name</th>";
+            html += "<th>Approval</th>";
             html += "<th>Status</th>";
             html += "<th></th>";
             html += "</thead>";

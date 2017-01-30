@@ -94,17 +94,21 @@ $(function () {
         var data = $(this).attr("odata");
         var obj = jQuery.parseJSON(data);
         tbl_apporval_pemenang.row.add(obj).draw();
-        console.log(obj);
+        //console.log(obj);
         
+        var data = datatableToJson(tbl_apporval_pemenang);
 
-        
+        SaveWorkflowPemenang(data, $("#pengadaanId").val());
+        $("#user-approver").modal("hide");
     });
     $("body").on("click", ".delete-user-pemenang", function () {
         var vl = $(this).closest('tr')[0];
         
 
         tbl_apporval_pemenang.row(vl.rowIndex-1).remove().draw();
-       
+        var data = datatableToJson(tbl_apporval_pemenang);
+
+        SaveWorkflowPemenang(data, $("#pengadaanId").val());
     });
 
     $(".pilih-user-approver-pemenang").on("click", function () {

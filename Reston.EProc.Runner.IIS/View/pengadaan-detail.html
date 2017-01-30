@@ -338,17 +338,17 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <label>PIC</label>
+                                                        <label>PIC GA & Procurement</label>
                                                         <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px;display:none" class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                             <i class="fa fa-plus"></i>
-                                                            Rubah PIC
+                                                            Ubah PIC GA & Procurement
                                                         </a>
                                                         <div class="listperson-pic">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <label>Tim</label>
+                                                        <label>Tim GA & Procurement</label>
                                                         <div class="listperson-tim">
                                                         </div>
                                                     </div>
@@ -374,7 +374,7 @@
                                                 <div class="box-body">
                                                     <div class="box-group" id="accordion">
                                                         <!--aanwjing-->
-                                                        <div class="panel box box-primary">
+                                                        <div class="panel box box-primary remove-direksi">
                                                             <div class="box-header with-border">
                                                                 <h4 class="box-title text-blue-mtf">
                                                                     <a id="tab-anwijzing" data-parent="#accordion" href="#collapseOne">
@@ -383,7 +383,7 @@
                                                                     <label id="aanwijzing_aktual" style="font-size:0.8em"></label>
                                                                 </h4>
                                                                 <button attr1="#aanwijzing_pelaksanaan" attr2="aanwijzing_pelaksanaan" attr3="aanwijzing_pelaksanaan" style="float:right;margin-left:10px" class="btn btn-success ubah-jadwal jadwal-aanwijzing action-pelaksanaan"><i class="fa fa-fw fa-calendar"></i>Ubah</button>
-                                                                <input type="text" disabled="" value="12/02/2016" id="aanwijzing_pelaksanaan" style=" float:right;width:20%" class="form-control dateJadwal jadwal-aanwijzing ">
+                                                                <input type="text" disabled="" value="12/02/2016" id="aanwijzing_pelaksanaan" style="float:right;width:20%" class="form-control dateJadwal jadwal-aanwijzing ">
                                                             </div>
                                                             <div id="collapseOne" class="panel-collapse collapse">
                                                                 <div class="box-body">
@@ -488,7 +488,7 @@
                                                             </div>
                                                         </div>
                                                         <!--submit penawaran-->
-                                                        <div class="panel box box-primary">
+                                                        <div class="panel box box-primary remove-direksi">
                                                             <div class="box-header with-border">
                                                                 <h4 class="box-title text-blue-mtf">
                                                                     <a id="tab-submit-penawaran" data-parent="#accordion" href="#collapseTwo">
@@ -548,7 +548,7 @@
                                                             </div>
                                                         </div>
                                                         <!--buka amplop-->
-                                                        <div class="panel box box-primary">
+                                                        <div class="panel box box-primary remove-direksi">
                                                             <div class="box-header with-border">
                                                                 <h4 class="box-title text-blue-mtf">
                                                                     <a id="tab-buka-amplop" data-parent="#accordion" href="#collapseThree">
@@ -604,7 +604,7 @@
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-10">
-                                                                            <div class="row">
+                                                                            <div class="row only-ga-team">
                                                                                 <div class="col-md-8">
                                                                                     <div class="form-group">
                                                                                         <label class="title">Tanggal Berita Acara</label>
@@ -615,7 +615,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="row">
+                                                                            <div class="row only-ga-team">
                                                                                 <div class="col-md-8">
                                                                                     <div class="form-group ">
                                                                                         <label class="title">Unggah Berita Acara</label>
@@ -624,7 +624,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-2">
+                                                                        <div class="col-md-2 only-ga-team">
                                                                             <div class="form-group">
                                                                                 <label class="title">
                                                                                     Unduh Berita Acara
@@ -666,7 +666,7 @@
                                                             </div>
                                                         </div>
                                                         <!--klarifikasi & negoisasi-->
-                                                        <div class="panel box box-primary">
+                                                        <div class="panel box box-primary remove-direksi">
                                                             <div class="box-header with-border">
                                                                 <h4 class="box-title text-blue-mtf">
                                                                     <a id="tab-klarifikasi" data-parent="#accordion" href="#collapse5">
@@ -799,7 +799,7 @@
                                                             </div>
                                                         </div>
                                                         <!--klarifikasi & negoisasi lanjutan-->
-                                                        <div class="panel box box-primary panel-klarifikasi-lanjut" style="display:none">
+                                                        <div class="panel box box-primary panel-klarifikasi-lanjut remove-direksi" style="display:none">
                                                             <div class="box-header with-border">
                                                                 <h4 class="box-title text-blue-mtf">
                                                                     <a id="tab-klarifikasi-lanjutan" data-parent="#accordion" href="#detail-klarifikasi-lanjutan">
@@ -918,7 +918,7 @@
                                                             </div>
                                                         </div>
                                                         <!--penilaian-->
-                                                        <div class="panel box box-primary panel-penilaian" style="display:none">
+                                                        <div class="panel box box-primary panel-penilaian remove-direksi" style="display:none">
                                                             <div class="box-header with-border">
                                                                 <h4 class="box-title text-blue-mtf">
                                                                     <a id="tab-penilaian-kandidat" data-parent="#accordion" href="#collapse4">
@@ -1119,9 +1119,9 @@
                                                                                 <button class="btn btn-success pull-left pilih-user-approver-pemenang action-pelaksanaan ">Pilih User</button>
 
                                                                             </div>
-                                                                            <div class="col-md-2">
+                                                                           <!-- <div class="col-md-2">
                                                                                 <button class="btn btn-success pull-left save-workflow-pemenang action-pelaksanaan">Save Workflow</button>
-                                                                            </div>
+                                                                            </div>-->
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col-md-10">
@@ -1525,7 +1525,6 @@
                 </table>
 	          </div>
 	          <div class="modal-footer">
-                  <a class="btn btn-default adduserterkai" data-toggle="tooltip" title="Pilih" >Pilih </a>	
 		        <button type="button" class="btn btn-default " data-dismiss="modal" >Close</button>		
 	          </div>
 	        </div><!-- /.modal-content -->

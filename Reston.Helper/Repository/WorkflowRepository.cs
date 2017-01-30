@@ -32,6 +32,7 @@ namespace Reston.Helper.Repository
         ResultMessage SaveHeader(WorkflowMasterTemplate data, Guid UserId);
         ResultMessage SaveDetail(WorkflowMasterTemplateDetail data);
         WorkflowMasterTemplate getHeader(int Id);
+        List<WorkflowApproval> getWorflowByWorkflowId(int worflowId);
     }
     public class WorkflowRepository : IWorkflowRepository
     {
@@ -815,7 +816,15 @@ namespace Reston.Helper.Repository
                 };
             }
         }
-
+        
+        public List< WorkflowApproval> getWorflowByWorkflowId(int worflowId)
+        {
+            return (from b in ctx.WorkflowApprovals
+                        join c in ctx.WorkflowStates on b.WorkflowStateId equals c.Id
+                        join d in ctx.WorkflowMasterTemplates on c.WorkflowMasterTemplateId equals d.Id
+                        where d.Id == worflowId && b.WorkflowStatusStateCode == WorkflowStatusState.APPROVED
+                        select b).ToList();
+        }
     }
 
     
