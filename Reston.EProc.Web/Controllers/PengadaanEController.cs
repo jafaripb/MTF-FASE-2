@@ -513,7 +513,11 @@ namespace Reston.Pinata.WebService.Controllers
                 }
                  isAprrover = UserId() == ApproverId ? 1 : 0;
             }
-            return _repository.GetPengadaan(Id, UserId(), isAprrover);
+            var detailPengadaan= _repository.GetPengadaan(Id, UserId(), isAprrover);
+            var Direksi=Roles().Where(d=>d.Contains(IdLdapConstants.Roles.pRole_direksi));
+            if(Direksi.Count()>0)detailPengadaan.isDireksi=1;
+            else detailPengadaan.isDireksi=0;
+            return detailPengadaan;
         }
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_vendor)]

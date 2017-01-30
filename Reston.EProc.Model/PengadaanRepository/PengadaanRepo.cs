@@ -4635,7 +4635,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
         {
             Pengadaan Mpengadaaan = ctx.Pengadaans.Find(oPelaksanaanPemilihanKandidat.PengadaanId);
             PersonilPengadaan picPersonil = ctx.PersonilPengadaans.Where(d => d.PersonilId == UserId && d.tipe == "pic" && d.PengadaanId == oPelaksanaanPemilihanKandidat.PengadaanId).FirstOrDefault();
-            if (picPersonil == null) return new PelaksanaanPemilihanKandidat();
+            if (picPersonil == null)
+            {
+                var iscreated = ctx.PersonilPengadaans.Where(d => d.Pengadaan.CreatedBy == UserId && d.PengadaanId == oPelaksanaanPemilihanKandidat.PengadaanId).FirstOrDefault();
+                if(iscreated==null) return new PelaksanaanPemilihanKandidat();
+            }
             PelaksanaanPemilihanKandidat oldoPelaksanaanPemilihanKandidat =
                     ctx.PelaksanaanPemilihanKandidats.Where(d => d.PengadaanId == oPelaksanaanPemilihanKandidat.PengadaanId
                                     && d.VendorId == oPelaksanaanPemilihanKandidat.VendorId).FirstOrDefault();
