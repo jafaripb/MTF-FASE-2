@@ -822,6 +822,7 @@
 
         // Tampil Judul Detail
         $(function () {
+            hitung();
             var ID = gup("Id");
             $("#ProyekId").val(ID);
 
@@ -1174,7 +1175,7 @@
             if (cektotal < 50) {
                 document.getElementById("input-persen-selesai-perwaktu").style.backgroundColor = "red";
                 $("[id=penjelasan-status]").text("Progres Pekerjaan Sangat Lambat");
-                $("[id=input-persen-selesai-perwaktu]").blink();
+                //$("[id=input-persen-selesai-perwaktu]").blink();
             }
         }
 
@@ -1763,8 +1764,15 @@
                                     html = html + '<div class="input-group-addon">';
                                     html = html + '<i class="fa fa-calendar"></i>';
                                     html = html + '</div>';
-                                    html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
-
+                                    //html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+                                    if (row.TanggalPembayaran == null) {
+                                        var harini = new Date();
+                                        //$(".tanggal-pembayaran").val(moment(harini).format("MM/DD/YYYY"));
+                                        html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(harini).format("MM/DD/YYYY") + '">';
+                                    }
+                                    else {
+                                        html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+                                    }
                                     html = html + '</div>';
                                     return html;
                                 }
@@ -1820,6 +1828,7 @@
                 oldRowData.PersenPembayaran = 0;
             }
             addNewData(table_tahapan_pembayaran, elRow.index(), oldRowData);
+            savePembayaran();
         });
 
         function hitung_pembayaran() {
@@ -2014,8 +2023,8 @@
                 objPembayaran.TanggalPembayaran = $(this).find(".tanggal-pembayaran").val();
                 arrobjPembayaran.push(objPembayaran);
             });
-            //console.log(arrobjPembayaran);
             //waitingDialog.showloading("Proses Harap Tunggu");
+            waitingDialog.showloading("Proses Harap Tunggu");
             $.ajax({
                 method: "POST",
                 url: "Api/MonitoringSelection/UpdateProgressPembayaran",
@@ -2023,6 +2032,8 @@
                 data: JSON.stringify(arrobjPembayaran),
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
+                    waitingDialog.hideloading();
+                    table_tahapan_pembayaran.draw();
                     BootstrapDialog.show({
                         title: 'Konfirmasi',
                         message: data.message,
@@ -2033,9 +2044,9 @@
                             }
                         }]
                     });
-                    $("#SimpanModalKonfirmasiDokumen").modal('hide');
-
                     table_tahapan_pembayaran.ajax.reload();
+                    $("#SimpanModalKonfirmasiDokumen").modal('hide');
+                    window.location.reload();
                 },
             });
         }
@@ -2071,7 +2082,10 @@
                     aJenisTahapan: nJenisTahapan
                 },
                 success: function (d) {
-
+                    $("#tanggal-pekerjaan-mulai").val("");
+                    $("#tanggal-pekerjaan-selesai").val("");
+                    $("#bobot-pekerjaan").val("");
+                    $("#nama-pekerjaan").val("");
                     BootstrapDialog.show({
                         title: 'Konfirmasi',
                         message: d.message,
