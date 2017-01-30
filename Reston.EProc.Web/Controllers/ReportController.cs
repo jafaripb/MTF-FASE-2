@@ -25,6 +25,7 @@ using System.Drawing;
 using Microsoft.Reporting.WebForms;
 using System.Reflection;
 using System.Xml.Linq;
+using Reston.Helper.Repository;
 
 namespace Reston.Pinata.WebService.Controllers
 {
@@ -32,6 +33,7 @@ namespace Reston.Pinata.WebService.Controllers
     {
         private IPengadaanRepo _repository;
         private IRksRepo _rksrepo;
+        private IWorkflowRepository _workflowrepo;
         internal ResultMessage result = new ResultMessage();
         private string FILE_TEMP_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_TEMP"];
         private string FILE_DOKUMEN_PATH = System.Configuration.ConfigurationManager.AppSettings["FILE_UPLOAD_DOC"];
@@ -40,6 +42,7 @@ namespace Reston.Pinata.WebService.Controllers
         {
             _repository = new PengadaanRepo(new JimbisContext());
             _rksrepo = new RksRepo(new JimbisContext());
+            _workflowrepo = new WorkflowRepository(new Reston.Helper.HelperContext());
         }
 
         public ReportController(PengadaanRepo repository)
@@ -321,6 +324,49 @@ namespace Reston.Pinata.WebService.Controllers
             return table2;
         }
 
+
+        private async Task<Table> getTableDisposisi(Guid PengadaanId, EStatusPengadaan status, DocX doc)
+        {
+            var pengadaan2 = _repository.GetPengadaanByiD(PengadaanId);
+
+            var worflowDetail = _workflowrepo.getWorflowByWorkflowId(pengadaan2.PersetujuanPemenangs.LastOrDefault().WorkflowId.Value);
+
+            var table2 = doc.AddTable(worflowDetail.Count() + 1, 2);
+            Border WhiteBorder = new Border(BorderStyle.Tcbs_single, BorderSize.four, 1, Color.Black);
+            table2.SetBorder(TableBorderType.Bottom, WhiteBorder);
+            table2.SetBorder(TableBorderType.Left, WhiteBorder);
+            table2.SetBorder(TableBorderType.Right, WhiteBorder);
+            table2.SetBorder(TableBorderType.Top, WhiteBorder);
+            table2.SetBorder(TableBorderType.InsideV, WhiteBorder);
+            table2.SetBorder(TableBorderType.InsideH, WhiteBorder);
+            int rowIndex = 0;
+
+            table2.Rows[rowIndex].Cells[0].Paragraphs.First().Append("Nama");
+            table2.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+            table2.Rows[rowIndex].Cells[0].Paragraphs.First().Alignment = Alignment.center;
+            table2.Rows[rowIndex].Cells[0].Width = 500;
+            table2.Rows[rowIndex].Cells[1].Paragraphs.First().Append("Disposisi");
+            table2.Rows[rowIndex].Cells[1].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+            table2.Rows[rowIndex].Cells[1].Paragraphs.First().Alignment = Alignment.center;
+            table2.Rows[rowIndex].Cells[1].Width = 500;
+            rowIndex++;
+            foreach (var item in worflowDetail)
+            {
+                var user = await userDetail(item.UserId.ToString());
+                table2.Rows[rowIndex].Cells[0].Paragraphs.First().Append(user.FullName);
+                table2.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                table2.Rows[rowIndex].Cells[0].Width = 500;
+                table2.Rows[rowIndex].Cells[1].Paragraphs.First().Append(item.Comment);
+                table2.Rows[rowIndex].Cells[1].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                table2.Rows[rowIndex].Cells[1].Width = 500;
+                rowIndex++;
+            }
+
+            return table2;
+        }
+
+
+        
         [Authorize]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public HttpResponseMessage BerkasDaftarRapat(Guid Id)
@@ -360,6 +406,9 @@ namespace Reston.Pinata.WebService.Controllers
             return result;
         }
 
+          [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,IdLdapConstants.Roles.pRole_approver)]
         public HttpResponseMessage ReportPengadaan(string dari, string sampai)
         {
             try
@@ -1170,7 +1219,8 @@ namespace Reston.Pinata.WebService.Controllers
             foreach (var item in pemenangx)
             {
                 var streamx = new FileStream(fileName, FileMode.Open);
-                var BeritaAcara = _repository.getBeritaAcaraByTipeandVendor(Id, TipeBerkas.BeritaAcaraPenentuanPemenang,item.VendorId.Value, UserId());
+               // var BeritaAcara = _repository.getBeritaAcaraByTipeandVendor(Id, TipeBerkas.BeritaAcaraPenentuanPemenang,item.VendorId.Value, UserId());
+                var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraPenentuanPemenang, UserId());
             
                 try
                 {                   
@@ -1197,8 +1247,18 @@ namespace Reston.Pinata.WebService.Controllers
 
                     doc.ReplaceText("{kandidat_pemenang}", item.NamaVendor );
                     doc.ReplaceText("{total_pengadaan}",item.total==null?"": item.total.Value.ToString("C", MyConverter.formatCurrencyIndo()) );
-                    //docM.InsertSection();
-                                        
+
+                    docM.InsertParagraph();
+                    docM.InsertParagraph();
+                    docM.InsertParagraph();
+                    //tambah tabel persetujuan tahapan
+                    var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.PEMENANG, doc);
+
+                    table3.Alignment = Alignment.center;
+                    doc.InsertTable(table3);
+
+                    //end
+
                     docM.InsertDocument(doc); //doc.SaveAs(OutFileNama);
                     streamx.Close();
                 }
@@ -1207,20 +1267,13 @@ namespace Reston.Pinata.WebService.Controllers
                     streamx.Close();
                 }
             }
-
-            //tambah tabel persetujuan tahapan
-            var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.PEMENANG, docM);
-
-            table3.Alignment = Alignment.center;
-            //table.AutoFit = AutoFit.Contents;
-
-            foreach (var paragraph in docM.Paragraphs)
-            {
-                paragraph.FindAll("{table3}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
-
-            }
-            docM.ReplaceText("{table3}", "");
-            //end
+            docM.InsertParagraph();
+            //tambah tabel disposisi
+            var tblDisposisi = await getTableDisposisi(pengadaan.Id, EStatusPengadaan.PEMENANG, docM);
+            tblDisposisi.Alignment = Alignment.center;
+            docM.InsertTable(tblDisposisi);
+           
+           
             docM.SaveAs(OutFileNama);
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(OutFileNama, FileMode.Open);
