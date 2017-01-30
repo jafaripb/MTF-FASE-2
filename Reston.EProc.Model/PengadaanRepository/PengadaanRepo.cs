@@ -1986,7 +1986,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 Pengadaan mpengadaan = ctx.Pengadaans.Find(kandidat.PengadaanId);
                 if (mpengadaan == null) return kandidat;
                 int isTeam = ctx.PersonilPengadaans.Where(d => d.PengadaanId == mpengadaan.Id && d.PersonilId == UserId && (d.tipe == PengadaanConstants.StaffPeranan.PIC || d.tipe == PengadaanConstants.StaffPeranan.Tim)).ToList().Count() > 0 ? 1 : 0;
-                if (isTeam == 0) return kandidat;                
+                if (isTeam == 0)
+                {
+                   if(mpengadaan.CreatedBy!=UserId)return kandidat;
+                }
                 if (mpengadaan.Status != EStatusPengadaan.DRAFT) return kandidat;
                 KandidatPengadaan mKandidatPengadaan = ctx.KandidatPengadaans.Find(kandidat.Id);
                 if (mKandidatPengadaan != null)
