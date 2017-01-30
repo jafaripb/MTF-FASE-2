@@ -918,6 +918,10 @@ function loadData(pengadaanId) {
             $(".only-ga-team").remove();
         }
 
+        if (data.isDireksi == 1) {
+            $(".remove-direksi").remove();
+        }
+
         if (data.GroupPengadaan == 3) {
             $(".action-pelaksanaan").remove();
             $(".dateJadwal").remove();

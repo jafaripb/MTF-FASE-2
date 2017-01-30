@@ -116,7 +116,8 @@ namespace Reston.Eproc.Model.Monitoring.Model
         public string StatusProyek { get; set; }
         public string StatusLockTahapan { get; set; }
         public int VendorId { get; set; }
-
+        public Guid UserId { get; set; }
+        public string TipeUser { get; set; }
     }
 
     // -----------------------------------------------------------------------------------------------------------------------------

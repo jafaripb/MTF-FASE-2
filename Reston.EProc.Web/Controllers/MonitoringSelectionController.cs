@@ -117,7 +117,7 @@ namespace Reston.EProc.Web.Controllers
         {
             Guid ProyekId = Guid.Parse(HttpContext.Current.Request["Id"].ToString());
 
-            return Json(_repository.GetDetailProyek(ProyekId));
+            return Json(_repository.GetDetailProyek(ProyekId, UserId()));
         }
 
         public IHttpActionResult TampilJudul()
@@ -125,6 +125,7 @@ namespace Reston.EProc.Web.Controllers
             return Json(_repository.GetResumeProyek());
         }
 
+        
         public IHttpActionResult List()
         {
             string search = HttpContext.Current.Request["search"].ToString();

@@ -981,7 +981,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) 
                     && d.Status >= status && d.Status != EStatusPengadaan.ARSIP
                     && d.Status != EStatusPengadaan.DITOLAK && d.Status != EStatusPengadaan.DIBATALKAN
-                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) ));
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0));
             }
             if (spk == 1 && status == EStatusPengadaan.PEMENANG)
             {
@@ -989,14 +989,14 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     && d.Status == status 
                     && d.DokumenPengadaans.Where(dd => dd.Tipe == TipeBerkas.SuratPerintahKerja && dd.PengadaanId == d.Id).Count() > 0 
                     && d.PersetujuanPemenangs.Count() > 0
-                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId)));
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0));
             }
 
             if (spk == 0 && status == EStatusPengadaan.PEMENANG)
             {
                 dt = ctx.Pengadaans.Where(d => d.Judul.Contains(search) && d.Status == status 
                     && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING ).Count() > 0
-                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) ));
+                    && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId)|| d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0 ));
 
             }
             if (more == 1 && status == EStatusPengadaan.PEMENANG)

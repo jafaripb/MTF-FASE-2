@@ -25,7 +25,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         DataTableViewProyekDetailMonitoring GetDataListProyekDetailMonitoring(string search, int start, int length,Guid Id, Klasifikasi? dklasifikasi);
         ResultMessage Save(Guid PengadaanId, StatusMonitored nStatusMonitoring, StatusSeleksi nStatusSeleksi,Guid UserId);
         ViewResumeProyek GetResumeProyek();
-        ViewDetailMonitoring GetDetailProyek(Guid ProyekId);
+        ViewDetailMonitoring GetDetailProyek(Guid ProyekId, Guid UserId);
         ResultMessage SimpanProgresPekerjaan(List<TahapanProyek> Tahapan, Guid UserId);
         ResultMessage SimpanProgresPembayaran(List<TahapanProyek> Tahapan, Guid UserId);
         ResultMessage saveDokumenProyeks(Guid DokumenId,string NamaFileSave,string extension, Guid UserId);
@@ -294,7 +294,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             };
         }
 
-        public ViewDetailMonitoring GetDetailProyek(Guid ProyekId)
+        public ViewDetailMonitoring GetDetailProyek(Guid ProyekId, Guid UserId)
         {
             var odata = ctx.RencanaProyeks.Where(d => d.Id == ProyekId).FirstOrDefault();
             //var NamaProyek = ctx.Pengadaans.Where(d => d.Id == odata.PengadaanId).FirstOrDefault().Judul;
@@ -310,7 +310,9 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 NilaiKontrak = odata.Spk.NilaiSPK,
                 StatusProyek = odata.Status,
                 VendorId = odata.Spk.PemenangPengadaan.VendorId.Value,
-                StatusLockTahapan = odata.StatusLockTahapan
+                StatusLockTahapan = odata.StatusLockTahapan,
+                UserId = UserId,
+                TipeUser = odata.Spk.PemenangPengadaan.Pengadaan.PersonilPengadaans.Where(d => d.PersonilId == UserId).FirstOrDefault().tipe
             };
         }
 
