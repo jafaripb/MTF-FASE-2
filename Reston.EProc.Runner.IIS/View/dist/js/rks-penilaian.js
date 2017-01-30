@@ -622,6 +622,11 @@ function loadData(pengadaanId) {
             $("#judul").text(data.Judul);
             $("#deskripsi").text(data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
             $("#keterangan").text(data.Keterangan);
+
+            if (data.isTEAM == 0 && data.isPIC == 0 && data.isController == 0) {
+                $(".only-ga-team").remove();
+                $(".only-ga-team-disabled").attr("disabled", "disabled");
+            }
         });
        LoadKriteriaPembobotan(pengadaanId);
     }
