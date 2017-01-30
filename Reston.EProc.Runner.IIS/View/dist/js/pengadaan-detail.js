@@ -588,7 +588,9 @@ function loadData(pengadaanId) {
 
         if (data.isTEAM == 0 && data.isPIC == 0 && data.isController==0) {
             $(".only-ga-team").remove();
+            $(".only-pic-disabled").remove();
         }
+
 
         if (data.isDireksi == 1) {
             $(".remove-direksi").remove();

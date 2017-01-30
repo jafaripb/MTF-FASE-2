@@ -413,8 +413,8 @@
                                                                             <div class="row only-ga-team">
                                                                                 <div class="col-md-8">
                                                                                     <div class="form-group ">
-                                                                                        <label class="title">Tanggal Berita Acara</label>
-                                                                                        <input id="input-ba-aanwijzing" type="text" class="form-control dateJadwalNoTime action-pelaksanaan">
+                                                                                        <label class="title only-pic-disabled">Tanggal Berita Acara</label>
+                                                                                        <input id="input-ba-aanwijzing" type="text" class="form-control dateJadwalNoTime only-pic-disabled">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <button class="btn btn-success pull-left save-tgl-ba action-pelaksanaan" attr1="input-ba-aanwijzing" attr2="BeritaAcaraAanwijzing">Simpan</button>
@@ -604,11 +604,11 @@
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-10">
-                                                                            <div class="row only-ga-team">
+                                                                            <div class="row ">
                                                                                 <div class="col-md-8">
                                                                                     <div class="form-group">
-                                                                                        <label class="title">Tanggal Berita Acara</label>
-                                                                                        <input id="input-ba-bukaamplop" type="text" class="form-control dateJadwalNoTime action-pelaksanaan">
+                                                                                        <label class="title only-pic-disabled">Tanggal Berita Acara</label>
+                                                                                        <input id="input-ba-bukaamplop" type="text" class="form-control dateJadwalNoTime only-pic-disabled">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <button class="btn btn-success pull-left save-tgl-ba action-pelaksanaan" attr1="input-ba-bukaamplop" attr2="BeritaAcaraBukaAmplop">Simpan</button>
@@ -719,8 +719,8 @@
                                                                             <div class="row only-ga-team">
                                                                                 <div class="col-md-4 ">
                                                                                     <div class="form-group">
-                                                                                        <label class="title">Tanggal Berita Acara</label>
-                                                                                        <input id="input-ba-klarifikasi" type="text" class="form-control dateJadwalNoTime action-pelaksanaan">
+                                                                                        <label class="title only-pic-disabled">Tanggal Berita Acara</label>
+                                                                                        <input id="input-ba-klarifikasi" type="text" class="form-control dateJadwalNoTime only-pic-disabled">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <button class="btn btn-success pull-left save-tgl-ba action-pelaksanaan" attr1="input-ba-klarifikasi" attr2="BeritaAcaraKlarifikasi">Simpan</button>
@@ -853,8 +853,8 @@
                                                                             <div class="row">
                                                                                 <div class="col-md-4 only-ga-team">
                                                                                     <div class="form-group">
-                                                                                        <label class="title">Tanggal Berita Acara</label>
-                                                                                        <input id="input-ba-klarifikasi-lanjutan" type="text" class="form-control dateJadwalNoTime action-pelaksanaan">
+                                                                                        <label class="title only-pic-disabled">Tanggal Berita Acara</label>
+                                                                                        <input id="input-ba-klarifikasi-lanjutan" type="text" class="form-control dateJadwalNoTime only-pic-disabled">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <button class="btn btn-success pull-left save-tgl-ba action-pelaksanaan" attr1="input-ba-klarifikasi-lanjutan" attr2="BeritaAcaraKlarifikasiLanjutan">Simpan</button>
@@ -878,9 +878,8 @@
                                                                                 </label>
                                                                             </div>
                                                                         </div>
-
                                                                     </div>
-                                                                    <div class="row">
+                                                                    <div class="row bingkai-pic-pelaksanaan">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group ">
                                                                                 <label class="title">Next Step</label>
@@ -888,7 +887,34 @@
                                                                         </div>
                                                                     </div>
                                                                     <hr />
-                                                                    <div class="row">
+                                                                    <div class="row bingkai-pic-pelaksanaan">
+                                                                        <div class="col-md-2">
+                                                                            <div class="form-group">
+                                                                                <button id="btn-next-klarifikasi-lanjutan" class="btn btn-success pull-left next-step " attrstatus="KLARIFIKASILANJUTAN" disabled="disabled">NextStep</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--<div class="col-md-2">
+                                                                            <div class="form-group">
+                                                                                <input type="checkbox" id="tambah-klarifikasi-lanjut" />
+                                                                                <label>Tambah Tahap Klarifikasi Lanjut</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2">
+                                                                            <div class="form-group">
+                                                                                <input type="checkbox" id="tambah-penilaian" />
+                                                                                <label>Tambah Tahap Penilaian</label>
+                                                                            </div>
+                                                                        </div>-->
+                                                                    </div>
+                                                                    <!--<div class="row only-ga-team">
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group ">
+                                                                                <label class="title">Next Step</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr />
+                                                                    <div class="row only-ga-team">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label class="title">Tanggal Penilaian</label>
@@ -902,18 +928,13 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row">
+                                                                    <div class="row only-ga-team">
                                                                         <div class="col-md-2">
                                                                             <div class="form-group">
                                                                                 <button class="btn btn-success pull-left next-step" attrStatus="KLARIFIKASILANJUTAN" elDari="#next-penilaian-dari" elSampai="#next-penilaian-sampai" disabled="disabled">Save&NextStep</button>
                                                                             </div>
                                                                         </div>
-                                                                        <!--<div class="col-md-2">
-                                                <div class="form-group">
-                                                    <button class="btn btn-success pull-left lewati-tahapan" disabled="disabled" attrStatus="KLARIFIKASILANJUTAN" elDari="#next-penilaian-dari" elSampai="#next-penilaian-sampai">Lewati Tahapan</button>
-                                                </div>
-                                            </div>-->
-                                                                    </div>
+                                                                    </div>-->
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -956,8 +977,8 @@
                                                                             <div class="row only-ga-team">
                                                                                 <div class="col-md-4">
                                                                                     <div class="form-group">
-                                                                                        <label class="title">Tanggal Berita Acara</label>
-                                                                                        <input id="input-ba-penilaian" type="text" class="form-control dateJadwalNoTime action-pelaksanaan">
+                                                                                        <label class="title only-pic-disabled">Tanggal Berita Acara</label>
+                                                                                        <input id="input-ba-penilaian" type="text" class="form-control dateJadwalNoTime only-pic-disabled">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <button class="btn btn-success pull-left save-tgl-ba action-pelaksanaan" attr1="input-ba-penilaian" attr2="BeritaAcaraPenilaian">Simpan</button>
@@ -982,7 +1003,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row only-ga-team">
+                                                                    <div class="row bingkai-pic-pelaksanaan">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group ">
                                                                                 <label class="title">Next Step</label>
@@ -991,12 +1012,12 @@
                                                                     </div>
                                                                     <hr />
                                                                     <div class="row only-ga-team">
-                                                                        <div class="col-md-4">
+                                                                        <!--<div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label class="title">Tanggal Pemenang</label>
                                                                                 <input id="next-pemenang-dari" type="text" class="form-control dateJadwal">
                                                                             </div>
-                                                                        </div>
+                                                                        </div>-->
                                                                         <div class="col-md-4">
                                                                             <div class="form-group" style="display:none">
                                                                                 <label class="title">s/d</label>
@@ -1004,10 +1025,10 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row only-ga-team">
+                                                                    <div class="row bingkai-pic-pelaksanaan">
                                                                         <div class="col-md-2">
                                                                             <div class="form-group">
-                                                                                <button id="btn-next-klarifikasi" class="btn btn-success pull-left next-step" attrStatus="PENILAIAN" elDari="#next-pemenang-dari" elSampai="#next-pemenang-sampai" disabled="disabled">Save&NextStep</button>
+                                                                                <button id="btn-next-klarifikasi" class="btn btn-success pull-left next-step" attrStatus="PENILAIAN" elDari="#next-pemenang-dari" elSampai="#next-pemenang-sampai" disabled="disabled">NextStep</button>
                                                                             </div>
                                                                         </div>
                                                                         <!--<div class="col-md-2">
@@ -1052,8 +1073,8 @@
                                                                             <div class="row only-ga-team">
                                                                                 <div class="col-md-4">
                                                                                     <div class="form-group">
-                                                                                        <label class="title">Tanggal Nota Pemenang</label>
-                                                                                        <input id="input-ba-nota" type="text" class="form-control dateJadwalNoTime action-pelaksanaan">
+                                                                                        <label class="title only-pic-disabled">Tanggal Nota Pemenang</label>
+                                                                                        <input id="input-ba-nota" type="text" class="form-control dateJadwalNoTime only-pic-disabled">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <button class="btn btn-success pull-left save-tgl-ba action-pelaksanaan" attr1="input-ba-nota" attr2="BeritaAcaraPenentuanPemenang">Simpan</button>
@@ -1158,8 +1179,8 @@
                                                                             <div class="row">
                                                                                 <div class="col-md-4">
                                                                                     <div class="form-group">
-                                                                                        <label class="title">Tanggal SPK</label>
-                                                                                        <input id="input-ba-spk" type="text" class="form-control dateJadwalNoTime action-pelaksanaan">
+                                                                                        <label class="title only-ga-team">Tanggal SPK</label>
+                                                                                        <input id="input-ba-spk" type="text" class="form-control dateJadwalNoTime only-pic-disabled">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <button class="btn btn-success pull-left save-tgl-ba action-pelaksanaan" attr1="input-ba-spk" attr2="SuratPerintahKerja">Simpan</button>
@@ -1168,14 +1189,14 @@
                                                                             </div>
                                                                             <div class="row">
                                                                                 <div class="col-md-12">
-                                                                                    <div class="form-group ">
+                                                                                    <div class="form-group">
                                                                                         <label class="title">Unggah Surat Perintah Kerja (SPK)</label>
                                                                                         <div id="SuratPerintahKerja" attr="SuratPerintahKerja" action="/api/PengadaanE/UploadFile?tipe=SuratPerintahKerja" class="dropzone"></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-2">
+                                                                        <div class="col-md-2 only-ga-team">
                                                                             <div class="form-group">
                                                                                 <label class="title">
                                                                                     Unduh Template Surat Perintah Kerja
