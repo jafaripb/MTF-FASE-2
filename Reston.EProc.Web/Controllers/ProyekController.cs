@@ -40,7 +40,7 @@ namespace Reston.EProc.Web.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult TampilTahapanPekerjaan()
         {
@@ -51,7 +51,7 @@ namespace Reston.EProc.Web.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult TampilTahapanPembayaran()
         {
@@ -84,7 +84,7 @@ namespace Reston.EProc.Web.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult TampilPenilaian()
         {
@@ -102,7 +102,7 @@ namespace Reston.EProc.Web.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult TampilNilai()
         {
@@ -226,7 +226,7 @@ namespace Reston.EProc.Web.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public IHttpActionResult SimpanTahapanPekerjaanRekanan()
         {

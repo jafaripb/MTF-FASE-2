@@ -326,6 +326,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                         };
                         ctx.TahapanProyeks.Add(th);
                         ctx.SaveChanges(UserId.ToString());
+                        rkk.status = HttpStatusCode.OK;
+                        rkk.message = "Tahapan Berhasil Ditambahkan";
 
                         var listTahapan = ctx.TahapanProyeks.Where(d => d.ProyekId == idproyek).ToList();
 
@@ -335,6 +337,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                             ctx.SaveChanges(UserId.ToString());
                             rkk.status = HttpStatusCode.OK;
+                            rkk.message = "Tahapan Berhasil Ditambahkan";
                         }
 
                         rkk.message = "Bobot Pekerjaan lebih dari 100 % Silahkan Isi Kembali Bobot Pekerjaan";
@@ -360,6 +363,7 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                         ctx.TahapanProyeks.Add(th);
                         ctx.SaveChanges(UserId.ToString());
                         rkk.status = HttpStatusCode.OK;
+                        rkk.message = "Tahapan Berhasil Ditambahkan";
                     }
                     else
                     {
