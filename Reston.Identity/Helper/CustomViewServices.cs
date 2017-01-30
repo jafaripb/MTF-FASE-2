@@ -122,7 +122,8 @@ namespace Reston.Identity.Helper
                 siteUrl = Microsoft.Security.Application.Encoder.HtmlEncode(address),
                 siteName = Microsoft.Security.Application.Encoder.HtmlEncode(model.SiteName),
                 model = Microsoft.Security.Application.Encoder.HtmlEncode(json),
-                clientName = clientName
+                clientName = clientName,                
+                procUrl=IdLdapConstants.Proc.Url
             });
 
             return Task.FromResult(StringToStream(html));

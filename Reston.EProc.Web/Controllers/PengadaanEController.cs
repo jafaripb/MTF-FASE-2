@@ -327,7 +327,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                             IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public int isCreatePengadaan()
         {
@@ -513,7 +514,11 @@ namespace Reston.Pinata.WebService.Controllers
                 }
                  isAprrover = UserId() == ApproverId ? 1 : 0;
             }
-            return _repository.GetPengadaan(Id, UserId(), isAprrover);
+            var detailPengadaan= _repository.GetPengadaan(Id, UserId(), isAprrover);
+            var Direksi=Roles().Where(d=>d.Contains(IdLdapConstants.Roles.pRole_direksi));
+            if(Direksi.Count()>0)detailPengadaan.isDireksi=1;
+            else detailPengadaan.isDireksi=0;
+            return detailPengadaan;
         }
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_vendor)]
@@ -564,7 +569,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                             IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         public async Task<DataPagePengadaan> getPengadaanList(int start, int length, EGroupPengadaan group, string search)
         {
@@ -577,8 +583,9 @@ namespace Reston.Pinata.WebService.Controllers
         }
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
-                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                     IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                     IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                     IdLdapConstants.Roles.pRole_direksi)]
         public List<ViewPengadaan> getPerhatianPengadaanList(int start, int length, string search)
         {
             //List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
@@ -3263,7 +3270,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                            IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task< IHttpActionResult> List()
         {
@@ -3322,7 +3330,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                            IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task< IHttpActionResult> ListCount()
         {
@@ -3342,6 +3351,26 @@ namespace Reston.Pinata.WebService.Controllers
             var client = new HttpClient();
             HttpResponseMessage reply = await client.GetAsync(
                     string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + start + "&limit=" + length + "&filter=" + "&name=" + search));
+            string masterDataContent = await reply.Content.ReadAsStringAsync();
+            var masterData = JsonConvert.DeserializeObject<DataPageUsers>(masterDataContent);
+            DataTableUsers dt = new DataTableUsers();
+            dt.recordsTotal = masterData.totalRecord == null ? 0 : masterData.totalRecord.Value;
+            dt.recordsFiltered = masterData.totalRecord == null ? 0 : masterData.totalRecord.Value;
+            dt.data = masterData.Users;
+            return Json(dt);
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
+        public async Task<IHttpActionResult> ListUsersDireksi()
+        {
+            string search = HttpContext.Current.Request["search[value]"].ToString();
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"].ToString());
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"].ToString());
+            var client = new HttpClient();
+            HttpResponseMessage reply = await client.GetAsync(
+                    string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + start + "&limit=" + length + "&filter="+IdLdapConstants.Roles.pRole_direksi + "&name=" + search));
             string masterDataContent = await reply.Content.ReadAsStringAsync();
             var masterData = JsonConvert.DeserializeObject<DataPageUsers>(masterDataContent);
             DataTableUsers dt = new DataTableUsers();
@@ -3699,7 +3728,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_approver)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_approver,
+                                             IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task<Reston.Helper.Util.ResultMessageWorkflowState> persetujuanPemenangWithNote(Guid id, string Note)
         {
@@ -3740,7 +3770,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_approver)]
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_compliance,
+                                             IdLdapConstants.Roles.pRole_approver, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task<Reston.Helper.Util.ResultMessageWorkflowState> PenolakanPemenangWithWorkflow(Guid Id, string Note)
         {
@@ -3786,7 +3817,8 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]      
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                             IdLdapConstants.Roles.pRole_direksi)]      
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task<Reston.Helper.Util.ResultMessageWorkflowState> persetujuanPemenangWithNextApprover(Guid id, string Note, Guid userId)
         {
@@ -3995,9 +4027,9 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
-        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                            IdLdapConstants.Roles.pRole_direksi)]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]      
         public IHttpActionResult TerkaitSetuju(Guid PengadanId)
         {
             PersetujuanTerkait data = new PersetujuanTerkait()
@@ -4016,8 +4048,7 @@ namespace Reston.Pinata.WebService.Controllers
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
-        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-      
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]      
         public async Task< IHttpActionResult> UserTerkait(Guid PengadanId)
         {
             var result = _repository.GetUserTerkait(PengadanId);

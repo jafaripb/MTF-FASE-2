@@ -1986,7 +1986,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 Pengadaan mpengadaan = ctx.Pengadaans.Find(kandidat.PengadaanId);
                 if (mpengadaan == null) return kandidat;
                 int isTeam = ctx.PersonilPengadaans.Where(d => d.PengadaanId == mpengadaan.Id && d.PersonilId == UserId && (d.tipe == PengadaanConstants.StaffPeranan.PIC || d.tipe == PengadaanConstants.StaffPeranan.Tim)).ToList().Count() > 0 ? 1 : 0;
-                if (isTeam == 0) return kandidat;                
+                if (isTeam == 0)
+                {
+                   if(mpengadaan.CreatedBy!=UserId)return kandidat;
+                }
                 if (mpengadaan.Status != EStatusPengadaan.DRAFT) return kandidat;
                 KandidatPengadaan mKandidatPengadaan = ctx.KandidatPengadaans.Find(kandidat.Id);
                 if (mKandidatPengadaan != null)
@@ -4635,7 +4638,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
         {
             Pengadaan Mpengadaaan = ctx.Pengadaans.Find(oPelaksanaanPemilihanKandidat.PengadaanId);
             PersonilPengadaan picPersonil = ctx.PersonilPengadaans.Where(d => d.PersonilId == UserId && d.tipe == "pic" && d.PengadaanId == oPelaksanaanPemilihanKandidat.PengadaanId).FirstOrDefault();
-            if (picPersonil == null) return new PelaksanaanPemilihanKandidat();
+            if (picPersonil == null)
+            {
+                var iscreated = ctx.PersonilPengadaans.Where(d => d.Pengadaan.CreatedBy == UserId && d.PengadaanId == oPelaksanaanPemilihanKandidat.PengadaanId).FirstOrDefault();
+                if(iscreated==null) return new PelaksanaanPemilihanKandidat();
+            }
             PelaksanaanPemilihanKandidat oldoPelaksanaanPemilihanKandidat =
                     ctx.PelaksanaanPemilihanKandidats.Where(d => d.PengadaanId == oPelaksanaanPemilihanKandidat.PengadaanId
                                     && d.VendorId == oPelaksanaanPemilihanKandidat.VendorId).FirstOrDefault();

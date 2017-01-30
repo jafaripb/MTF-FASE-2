@@ -83,6 +83,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<int> isController { get; set; }
         public Nullable<int> isCompliance { get; set; }
         public Nullable<int> isUser { get; set; }
+        public Nullable<int> isDireksi { get; set; }
 
         public Nullable<EStatusPengadaan> Status { get; set; }
         public string StatusName { get; set; }
