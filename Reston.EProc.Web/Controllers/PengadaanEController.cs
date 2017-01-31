@@ -517,10 +517,33 @@ namespace Reston.Pinata.WebService.Controllers
                  isAprrover = UserId() == ApproverId ? 1 : 0;
             }
             var detailPengadaan= _repository.GetPengadaan(Id, UserId(), isAprrover);
-            var Direksi=Roles().Where(d=>d.Contains(IdLdapConstants.Roles.pRole_direksi));
+            var Direksi = Roles().Where(d => d.Contains(IdLdapConstants.Roles.pRole_direksi) | d.Contains(IdLdapConstants.Roles.pRole_dirut));
+             
             if(Direksi.Count()>0)detailPengadaan.isDireksi=1;
             else detailPengadaan.isDireksi=0;
             return detailPengadaan;
+        }
+
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
+                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                             IdLdapConstants.Roles.pRole_procurement_manager,
+                                             IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        public int isDireksi()
+        {
+            try
+            {
+                var Direksi = Roles().Where(d => d.Contains(IdLdapConstants.Roles.pRole_direksi) || d.Contains(IdLdapConstants.Roles.pRole_dirut));
+
+                if (Direksi.Count() > 0)
+                {
+                    var isProcStafff = Roles().Where(d => d.Contains(IdLdapConstants.Roles.pRole_procurement_staff) ).Count()>0?1:0;
+                    if (isProcStafff == 1) return 0;
+                    return 1;
+                }
+                else return 0;
+            }
+            catch { return 0; }
         }
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_vendor)]
@@ -3317,43 +3340,47 @@ namespace Reston.Pinata.WebService.Controllers
             
             foreach (var item in data.data)
             {
-                if(item.Status==EStatusPengadaan.AJUKAN)
-                    if (item.WorkflowTemplateId != null && item.WorkflowTemplateId != 0)
-                    {
-                        List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), item.WorkflowTemplateId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
-                        if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.Approver = 1;
-                        item.lastApprover = _workflowrepo.isLastApprover(item.Id, item.WorkflowTemplateId.Value).Id;
-                        
-                    }
-                if(item.StatusPersetujuanPemenang==StatusPengajuanPemenang.PENDING)
-                    if (item.WorkflowPersetujuanPemenangTemplateId != null && item.WorkflowPersetujuanPemenangTemplateId != 0)
-                    {
-                        List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), item.WorkflowPersetujuanPemenangTemplateId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentTypePemenang, 0, 0);
-                        if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.ApproverPersetujuanPemenang = 1;
-                        item.lastApproverPersetujuanPemenang = _workflowrepo.isLastApprover(item.IdPersetujuanPemanang.Value, item.WorkflowPersetujuanPemenangTemplateId.Value).Id;
-                        if (item.WorkflowPersetujuanPemenangTemplateId != null)
-                        {
-                            var PrevUserId = _workflowrepo.PrevApprover(item.IdPersetujuanPemanang.Value, item.WorkflowPersetujuanPemenangTemplateId.Value).Id;
-                            if (PrevUserId != "0")
-                                item.PrevApproverPersetujuan = (await userDetail(PrevUserId)).Nama;
-                            else item.PrevApproverPersetujuan = "";
-                            var NextUserId = _workflowrepo.NextApprover(item.IdPersetujuanPemanang.Value, item.WorkflowPersetujuanPemenangTemplateId.Value).Id;
-                            if (NextUserId != "0")
-                                item.NextApproverPersetujuan = (await userDetail(NextUserId)).Nama;
-                            else item.NextApproverPersetujuan = "";
-                        }
-                    }
-                if (item.WorkflowTemplateId != null)
+                try
                 {
-                    var PrevUserId = _workflowrepo.PrevApprover(item.Id, item.WorkflowTemplateId.Value).Id;
-                    if (PrevUserId != "0")
-                        item.PrevApprover = (await userDetail(PrevUserId)).Nama;
-                    else item.PrevApprover = "";
-                    var NextUserId = _workflowrepo.NextApprover(item.Id, item.WorkflowTemplateId.Value).Id;
-                    if (NextUserId != "0")
-                        item.NextApprover = (await userDetail(NextUserId)).Nama;
-                    else item.NextApprover = "";
+                    if (item.Status == EStatusPengadaan.AJUKAN)
+                        if (item.WorkflowTemplateId != null && item.WorkflowTemplateId != 0)
+                        {
+                            List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), item.WorkflowTemplateId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentType, 0, 0);
+                            if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.Approver = 1;
+                            item.lastApprover = _workflowrepo.isLastApprover(item.Id, item.WorkflowTemplateId.Value).Id;
+
+                        }
+                    if (item.StatusPersetujuanPemenang == StatusPengajuanPemenang.PENDING)
+                        if (item.WorkflowPersetujuanPemenangTemplateId != null && item.WorkflowPersetujuanPemenangTemplateId != 0)
+                        {
+                            List<Reston.Helper.Model.ViewWorkflowModel> getDoc = _workflowrepo.ListDocumentWorkflow(UserId(), item.WorkflowPersetujuanPemenangTemplateId.Value, Reston.Helper.Model.DocumentStatus.PENGAJUAN, DocumentTypePemenang, 0, 0);
+                            if (getDoc.Where(d => d.CurrentUserId == UserId()).FirstOrDefault() != null) item.ApproverPersetujuanPemenang = 1;
+                            item.lastApproverPersetujuanPemenang = _workflowrepo.isLastApprover(item.IdPersetujuanPemanang.Value, item.WorkflowPersetujuanPemenangTemplateId.Value).Id;
+                            if (item.WorkflowPersetujuanPemenangTemplateId != null)
+                            {
+                                var PrevUserId = _workflowrepo.PrevApprover(item.IdPersetujuanPemanang.Value, item.WorkflowPersetujuanPemenangTemplateId.Value).Id;
+                                if (PrevUserId != "0")
+                                    item.PrevApproverPersetujuan = (await userDetail(PrevUserId)).Nama;
+                                else item.PrevApproverPersetujuan = "";
+                                var NextUserId = _workflowrepo.NextApprover(item.IdPersetujuanPemanang.Value, item.WorkflowPersetujuanPemenangTemplateId.Value).Id;
+                                if (NextUserId != "0")
+                                    item.NextApproverPersetujuan = (await userDetail(NextUserId)).Nama;
+                                else item.NextApproverPersetujuan = "";
+                            }
+                        }
+                    if (item.WorkflowTemplateId != null)
+                    {
+                        var PrevUserId = _workflowrepo.PrevApprover(item.Id, item.WorkflowTemplateId.Value).Id;
+                        if (PrevUserId != "0")
+                            item.PrevApprover = (await userDetail(PrevUserId)).Nama;
+                        else item.PrevApprover = "";
+                        var NextUserId = _workflowrepo.NextApprover(item.Id, item.WorkflowTemplateId.Value).Id;
+                        if (NextUserId != "0")
+                            item.NextApprover = (await userDetail(NextUserId)).Nama;
+                        else item.NextApprover = "";
+                    }
                 }
+                catch { }
             }
 
             return Json(data);

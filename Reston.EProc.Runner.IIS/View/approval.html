@@ -221,6 +221,17 @@
         var pengadaan_disetujui = 0;
         var monitor_selection = 0;
         $(function () {
+            $.ajax({
+                url: 'api/PengadaanE/isDireksi',
+                method: "GET",
+                success: function (data) {
+                    if (data == 1) {
+                        $("#persetujuan-pengadaan").closest('tr').remove();
+                        $("#persetujuan-pemenang").closest('tr').remove();
+                        $("#monitor-selection").closest('tr').remove();
+                    }
+                }
+            });
             $("#persetujuan-pengadaan").text(0);
             $("#pengadaan-disetujui").text(0);
             $("#persetujuan-pemenang").text(0);
