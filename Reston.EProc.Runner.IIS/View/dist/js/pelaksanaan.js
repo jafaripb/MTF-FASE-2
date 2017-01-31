@@ -1999,7 +1999,9 @@ function getListKandidatPelaksanaan() {
     $.ajax({
         method: "POST",
         url: "Api/PengadaanE/getKehadiranAanwjzing?PengadaanId=" + $("#pengadaanId").val(),
-        success: function (data) {            
+        success: function (data) {
+            $(".kehadiran-kandidat").html("");
+            $(".pendaftaran-kandidat").html("");
             $.each(data, function (index, value) {
                 var isPic = $("#isPIC").val();
                 var html = '<div class="col-md-3">' +

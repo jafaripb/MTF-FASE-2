@@ -170,7 +170,9 @@ function getListBeritaAcara() {
         url: "Api/PengadaanE/GetBeritaAcara?PId=" + $("#pengadaanId").val(),
         success: function (data) {
             $.each(data, function (index, value) {
-                if (value.Tipe == 3) 
+                if (value.Tipe == 13)
+                    $("#input-ba-pendaftaran").val(moment(value.tanggal).format("DD MMMM YYYY"));
+                if (value.Tipe == 3)
                     $("#input-ba-aanwijzing").val(moment(value.tanggal).format("DD MMMM YYYY"));
                 if (value.Tipe == 5)
                     $("#input-ba-bukaamplop").val(moment(value.tanggal).format("DD MMMM YYYY"));
