@@ -4913,7 +4913,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 newoNoDokumen.CreateOn = DateTime.Now;
                 newoNoDokumen.CreateBy = UserId;
                 newoNoDokumen.No = newNODok;
-                newoNoDokumen.tipe = TipeNoDokumen.SPK;
+                newoNoDokumen.tipe = tipe;
                 ctx.NoDokumenGenerators.Add(newoNoDokumen);
                 ctx.SaveChanges();
                 return newoNoDokumen.No;
@@ -4933,7 +4933,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 newoNoDokumen.CreateOn = DateTime.Now;
                 newoNoDokumen.CreateBy = UserId;
                 newoNoDokumen.No = newNoDokmen;
-                newoNoDokumen.tipe = TipeNoDokumen.SPK;
+                newoNoDokumen.tipe = tipe;
                 ctx.NoDokumenGenerators.Add(newoNoDokumen);
                 ctx.SaveChanges();
                 return newoNoDokumen.No;
