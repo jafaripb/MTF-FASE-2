@@ -547,7 +547,13 @@ function loadData(pengadaanId) {
             $("#deskripsi").text(data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
             $("#keterangan").text(data.Keterangan);
             LoadRekananPembobotan();
-            LoadKriteriaPembobotan(pengadaanId)
+            LoadKriteriaPembobotan(pengadaanId);
+
+            if (data.isTEAM == 0 && data.isPIC == 0 && data.isController == 0) {
+                $(".only-ga-team").remove();
+                $(".only-ga-team-disabled").attr("disabled", "disabled");
+            }
+
         });
     }
 function LoadKriteriaPembobotan(PengadaanId) {
@@ -559,7 +565,7 @@ function LoadKriteriaPembobotan(PengadaanId) {
                 html =
                     '<div class="form-group col-md-2">' +
                         '<label style="font-size:small">' + val.NamaKreteria + '</label>' +
-                        '<input  attrId="' + val.Id + '" type="text" class="form-control value-edit-bobot" value=' + (val.Bobot == null ? 0 : val.Bobot) + ' >' +
+                        '<input  attrId="' + val.Id + '" type="text" class="form-control value-edit-bobot only-ga-team-disabled" value=' + (val.Bobot == null ? 0 : val.Bobot) + ' >' +
                     '</div>';
                 $("#kreteriaPembobotan").append(html);
             });
@@ -591,7 +597,7 @@ function LoadRekananPembobotan() {
                                 }
                                 html = html + '<div class="form-group col-md-2">' +
                                         '<label style="font-size:small">' + 'Nilai Kriteria ' + val.NamaKreteria + '</label>' +
-                                        '<input attrId="' + val.Id + '" vendorId="' + valx.VendorId + '" type="text" class="form-control input-nilai-vendor" value=' + val.Nilai + ' placeholder="NIlai">' +
+                                        '<input attrId="' + val.Id + '" vendorId="' + valx.VendorId + '" type="text" class="form-control input-nilai-vendor only-ga-team-disabled" value=' + val.Nilai + ' placeholder="Nilai">' +
                                     '</div>';
                             });
                             $("#NilaiPembobotanRekanan").append(html);
