@@ -160,7 +160,7 @@
                                                        <th>Price</th>
                                                        <th>Price Source</th>
                                                        <th>User</th>
-                                                       <!--<th>Action</th>-->
+                                                       <th>Action</th>
                                                    </tr>
                                                </thead>
                                                <tbody></tbody>
@@ -295,6 +295,20 @@
                  generateTable(s, newreg);
                  //$("#hargaTerakhir").html(data.Currency + " " + data.HargaTerakhir.toLocaleString('id', { minimumFractionDigits: 2 }));
              });
+
+             $("#example1").on("click", ".edit-harga", function () {
+                 
+                 var index = $(this).closest('tr').index();
+                
+                 var data = table.row(index+1).data();
+                 $("[name=Harga]").val(data.Harga);
+                 $("#IdProduk").val(id);
+                 $("[name=Region]").val($("#region-detail").val());
+                 $("[name=Sumber]").val(data.Sumber);
+                 $("#HargaModal").modal("show");
+
+                 
+             });
          });
 
          function GetData() {
@@ -340,6 +354,12 @@
                         return '' + data.toLocaleString('id', { minimumFractionDigits: 2 });
                     },
                     "targets": 2,
+                    "orderable": false
+                }, {
+                    "render": function (data, type, row) {
+                        return '<button class="btn btn-button edit-harga" type="button" attrid="' + row.IdProduk + '" >edit</button>'
+                    },
+                    "targets": 5,
                     "orderable": false
                 }],
                 "paging": true,

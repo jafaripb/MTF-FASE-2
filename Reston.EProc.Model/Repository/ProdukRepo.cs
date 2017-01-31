@@ -50,7 +50,7 @@ namespace Reston.Pinata.Model.Repository
 
         }
 
-        public void SaveProduk(Produk p) {
+        public void SaveProduk(Produk p) {           
             ctx.Produks.Add(p);
             ctx.SaveChanges();
         }

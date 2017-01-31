@@ -217,6 +217,7 @@ namespace Reston.Pinata.WebService
             List<RiwayatHargaViewModel> rvm = (from a in rh
                                                select new RiwayatHargaViewModel()
                                                {
+                                                   IdProduk=a.Id,
                                                    Tanggal = a.Tanggal.ToString("yyyy-MM-dd"),
                                                    Harga = a.Harga,
                                                    Currency = a.Currency,
@@ -239,12 +240,28 @@ namespace Reston.Pinata.WebService
                 Tanggal = DateTime.Now,
                 User = CurrentUser.UserName
             };
+            if (model.IdProduk > 0) rh.Id = model.IdProduk;
             //different region creating new instance of produk 
             if (p.RiwayatHarga.LastOrDefault() != null && p.RiwayatHarga.LastOrDefault().Region != model.Region)
             {
 
             }
-            p.RiwayatHarga.Add(rh);
+            if (rh.Id > 0)
+            {
+
+                var old = p.RiwayatHarga.Where(d=>d.Id==rh.Id).FirstOrDefault();
+                if (old != null)
+                {
+                    old.Harga = rh.Harga;
+                    old.Region = rh.Region;
+                    old.Sumber = rh.Sumber;
+                    old.User = CurrentUser.UserName;
+                }
+            }
+            else
+            {
+                p.RiwayatHarga.Add(rh);
+            }
             _repository.Save();
             //return Json(true);
         }

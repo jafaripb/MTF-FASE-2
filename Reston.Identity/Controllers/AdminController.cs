@@ -315,6 +315,25 @@ namespace IdLdap.Controllers
             if(userIdentity == null)
                 throw new ApplicationException("User tidak terregister");
 
+            if (RoleUser.Where(d=>d.Name==IdLdapConstants.App.Roles.pRole_procurement_manager).Count()>0)
+            {
+                var dbContext = new IdentityContext();
+                var userss = dbContext.Users.Where(d => d.Claims.Select(x => x.ClaimValue).Contains(IdLdapConstants.App.Roles.pRole_procurement_manager));
+                foreach (var item in userss)
+                {
+                    await _UserManager.RemoveClaimAsync(item.Id, new Claim(IdLdapConstants.Claims.Role, IdLdapConstants.App.Roles.pRole_procurement_manager));
+                }
+            }
+            if (RoleUser.Where(d => d.Name == IdLdapConstants.App.Roles.pRole_procurement_head).Count() > 0)
+            {
+                var dbContext = new IdentityContext();
+                var userss = dbContext.Users.Where(d => d.Claims.Select(x => x.ClaimValue).Contains(IdLdapConstants.App.Roles.pRole_procurement_head));
+                foreach (var item in userss)
+                {
+                    await _UserManager.RemoveClaimAsync(item.Id, new Claim(IdLdapConstants.Claims.Role, IdLdapConstants.App.Roles.pRole_procurement_head));
+                }
+            }
+
             foreach (var item in RoleUser)
             {
                 await _UserManager.RemoveClaimAsync(userIdentity.Id, new Claim(IdLdapConstants.Claims.Role, item.Name));

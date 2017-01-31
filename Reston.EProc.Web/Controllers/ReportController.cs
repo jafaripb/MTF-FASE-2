@@ -923,9 +923,7 @@ namespace Reston.Pinata.WebService.Controllers
             var doc = DocX.Load(streamx);
 
             try
-            {
-
-
+            {                
                 doc.ReplaceText("{pengadaan_name}", pengadaan.Judul == null ? "" : pengadaan.Judul);
                 doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
                 doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
@@ -1001,9 +999,6 @@ namespace Reston.Pinata.WebService.Controllers
 
             return result;
         }
-
-
-
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
