@@ -1001,6 +1001,10 @@ $(function () {
         window.open("http://" + window.location.host + "/rks-penilaian.html#" + $("#pengadaanId").val());
     });
 
+    $(".lihat-penilaian-buka-amplop").on("click", function () {
+        window.open("http://" + window.location.host + "/rks-penilaian-buka-amplop.html#" + $("#pengadaanId").val());
+    });
+
     $(".lihat-klarifikasi").on("click", function () {
         window.open("http://" + window.location.host + "/rks-klarifikasi.html#" + $("#pengadaanId").val());
     });
@@ -2383,7 +2387,10 @@ function getListKandidatPelaksanaan() {
     $.ajax({
         method: "POST",
         url: "Api/PengadaanE/getKehadiranAanwjzing?PengadaanId=" + $("#pengadaanId").val(),
-        success: function (data) {            
+        success: function (data) {
+            $(".kehadiran-kandidat").html("");
+            $(".pendaftaran-kandidat").html("");
+            var isPic = $("#isPIC").val();
             $.each(data, function (index, value) {
                 var html = '<div class="col-md-3 ">' +
                       '<div class="box box-primary">' +
@@ -2407,6 +2414,7 @@ function getListKandidatPelaksanaan() {
                         '</div>' +
                     '</div>' +
                     '</div>';
+               
                 $(".pendaftaran-kandidat").append(html);
             });
         }
@@ -2802,7 +2810,7 @@ $(function () {
         },
         "columns": [
             { "data": null },
-            { "data": "FullName" },
+            { "data": "Nama" },
             { "data": "jabatan" }
         ],
         "columnDefs": [

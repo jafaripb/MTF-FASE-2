@@ -196,13 +196,13 @@ namespace Reston.Pinata.WebService.Controllers
                 //Tanggal
                 if (jadwalAanwijzing != null)
                 {
-                    doc.ReplaceText("{pengadaan_jadwal_hari}", Common.ConvertHari((int)jadwalAanwijzing.Mulai.Value.DayOfWeek));
-                    doc.ReplaceText("{pengadaan_jadwal_tanggal}", jadwalAanwijzing.Mulai.Value.Day.ToString() +
-                        " " + Common.ConvertNamaBulan(jadwalAanwijzing.Mulai.Value.Month) +
-                        " " + jadwalAanwijzing.Mulai.Value.Year.ToString());
-                    doc.ReplaceText("{tempat_tanggal}", ".............," + jadwalAanwijzing.Mulai.Value.Day.ToString() +
-                        " " + Common.ConvertNamaBulan(jadwalAanwijzing.Mulai.Value.Month) +
-                        " " + jadwalAanwijzing.Mulai.Value.Year.ToString());
+                    doc.ReplaceText("{pengadaan_jadwal_hari}", Common.ConvertHari((int)BeritaAcara.tanggal.Value.DayOfWeek));
+                    doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara.tanggal.Value.Day.ToString() +
+                        " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
+                        " " + BeritaAcara.tanggal.Value.Year.ToString());
+                    doc.ReplaceText("{tempat_tanggal}", ".............," + BeritaAcara.tanggal.Value.Day.ToString() +
+                        " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
+                        " " + BeritaAcara.tanggal.Value.Year.ToString());
                 }
                 else
                 {
