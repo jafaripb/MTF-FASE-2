@@ -319,29 +319,32 @@ function loadData(pengadaanId) {
         hitungTawaranRekanan($("#pengadaanId").val(), data.AturanPenawaran);
         loadJadwal(data.JadwalPengadaans);
         loadKualifikas(data.KualifikasiKandidats);
-       /* if ( data.Status>=4) {
+        if ( data.Status>=4) {
             //$("#Status").text("Submit Penawaran");
             $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
             //$("#Status").text("Submit Penawaran");
+
+            if ( data.Status==4) 
             $("#collapseOne").addClass("in");
         }
-        */
+        
 
-        if (data.Status == 7) {
+        if (data.Status >= 7) {
             //$("#Status").text("Submit Penawaran");
             $("#tab-klarifikasi-rekanan").attr("data-toggle", "collapse");
             $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
             //$("#Status").text("Submit Penawaran");
+            if ( data.Status==7) 
             $("#collapseTwo").addClass("in");
         }
 
-        if (data.Status == 6) {
+        if (data.Status >= 6) {
             //$("#Status").text("Submit Penawaran");
             $("#tab-klarifikasi-rekanan").attr("data-toggle", "collapse");
             $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
             $("#tab-klarifikasi-lanjutan-rekanan").attr("data-toggle", "collapse");
-
-            $("#panel-klarifikasi-lanjutan").addClass("in");
+            if (data.Status == 6)
+             $("#panel-klarifikasi-lanjutan").addClass("in");
         }
 
         if (data.Status == 12) {
@@ -349,7 +352,6 @@ function loadData(pengadaanId) {
             $("#tab-klarifikasi-rekanan").attr("data-toggle", "collapse");
             $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
             $("#tab-klarifikasi-lanjutan-rekanan").attr("data-toggle", "collapse");
-           
             $("#panel-klarifikasi-lanjutan").addClass("in");
         }
 
