@@ -324,7 +324,6 @@ namespace Reston.Pinata.WebService.Controllers
             return table2;
         }
 
-
         private async Task<Table> getTableDisposisi(Guid PengadaanId, EStatusPengadaan status, DocX doc)
         {
             var pengadaan2 = _repository.GetPengadaanByiD(PengadaanId);
@@ -365,8 +364,45 @@ namespace Reston.Pinata.WebService.Controllers
             return table2;
         }
 
+        private async Task<Table> getPemenangPengadaan(Guid Id, DocX doc)
+        {
+            var pemenang = _repository.getPemenangPengadaan(Id, UserId());
 
-        
+            var table2 = doc.AddTable(pemenang.Count() + 1, 2);
+            //Border WhiteBorder = new Border(BorderStyle.Tcbs_single, BorderSize.four, 1, Color.Black);
+            Border WhiteBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+            table2.SetBorder(TableBorderType.Bottom, WhiteBorder);
+            table2.SetBorder(TableBorderType.Left, WhiteBorder);
+            table2.SetBorder(TableBorderType.Right, WhiteBorder);
+            table2.SetBorder(TableBorderType.Top, WhiteBorder);
+            table2.SetBorder(TableBorderType.InsideV, WhiteBorder);
+            table2.SetBorder(TableBorderType.InsideH, WhiteBorder);
+            int rowIndex = 0;
+
+            //table2.Rows[rowIndex].Cells[0].Paragraphs.First().Append("Nama Pemenang");
+            //table2.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+            //table2.Rows[rowIndex].Cells[0].Paragraphs.First().Alignment = Alignment.center;
+            //table2.Rows[rowIndex].Cells[0].Width = 300;
+            //table2.Rows[rowIndex].Cells[1].Paragraphs.First().Append("Harga");
+            //table2.Rows[rowIndex].Cells[1].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+            //table2.Rows[rowIndex].Cells[1].Paragraphs.First().Alignment = Alignment.center;
+            //table2.Rows[rowIndex].Cells[1].Width = 200;
+            //rowIndex++;
+            foreach (var item in pemenang)
+            {
+                table2.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + item.NamaVendor);
+                table2.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                table2.Rows[rowIndex].Cells[0].Width = 200;
+                table2.Rows[rowIndex].Cells[1].Paragraphs.First().Append(item.total == null ? "" : item.total.Value.ToString("C", MyConverter.formatCurrencyIndo()));
+                table2.Rows[rowIndex].Cells[1].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                table2.Rows[rowIndex].Cells[1].Width = 200;
+                rowIndex++;
+            }
+
+            return table2;
+        }
+
+
         [Authorize]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public HttpResponseMessage BerkasDaftarRapat(Guid Id)
@@ -1215,90 +1251,61 @@ namespace Reston.Pinata.WebService.Controllers
             System.IO.MemoryStream ms2 = new System.IO.MemoryStream();
             var docM = DocX.Create(ms2);
             
-            var pemenangx = _repository.getPemenangPengadaan(Id, UserId());
-            foreach (var item in pemenangx)
+            string fileNameDisposisi = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\NOTA BERSAMA Usulan Pemenang Disposisi.docx";
+            //var streamxDisposisi = new FileStream(fileNameDisposisi, FileMode.Open);
+            var streamx = new FileStream(fileName, FileMode.Open);
+            try
             {
-                var streamx = new FileStream(fileName, FileMode.Open);
-               // var BeritaAcara = _repository.getBeritaAcaraByTipeandVendor(Id, TipeBerkas.BeritaAcaraPenentuanPemenang,item.VendorId.Value, UserId());
-                var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraPenentuanPemenang, UserId());
-            
-                try
-                {                   
                     var doc = DocX.Load(streamx);
-                    var BeritaAcaraKlarifikasi = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraKlarifikasi, UserId());
+                    var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraPenentuanPemenang, UserId());
 
-                    doc.ReplaceText("{pengadaan_name}", pengadaan.Judul == null ? "" : pengadaan.Judul);
                     doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
-                    doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
-                    doc.ReplaceText("{pengadaan_unit_pemohon}", pengadaan.UnitKerjaPemohon == null ? "" : pengadaan.UnitKerjaPemohon);
-                    doc.ReplaceText("{nomor_berita_acara_klarifikasi}", BeritaAcaraKlarifikasi == null ? "" : BeritaAcaraKlarifikasi.NoBeritaAcara);
-                    doc.ReplaceText("{tempat_tanggal}", "...............," + (BeritaAcara == null ? "................" :
-                            (BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) + " " +
-                            BeritaAcara.tanggal.Value.Year)));
-                    doc.ReplaceText("{tanggal_klarifikasi}", BeritaAcaraKlarifikasi == null ? "" : BeritaAcaraKlarifikasi.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcaraKlarifikasi.tanggal.Value.Month) +
-                          " " + BeritaAcaraKlarifikasi.tanggal.Value.Year);
-
-                    doc.ReplaceText("{pengadaan_jadwal_hari}", BeritaAcara == null ? "" : BeritaAcara.tanggal == null ? "" :
-                           Common.ConvertHari(BeritaAcara.tanggal.Value.Day));
                     doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara == null ? "" : BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
                           " " + BeritaAcara.tanggal.Value.Year);
+                    doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
 
+                    // Tambah Tabel Kandidat Pemenang
+                    var tblPemenang = await getPemenangPengadaan(Id, docM);
+                    tblPemenang.Alignment = Alignment.left;
+                    foreach (var paragraph in doc.Paragraphs)
+                    {
+                        paragraph.FindAll("{tabel_pemenang}").ForEach(index => paragraph.InsertTableBeforeSelf(tblPemenang));
 
+                    }
+                    doc.ReplaceText("{tabel_pemenang}", "");
 
-                    doc.ReplaceText("{kandidat_pemenang}", item.NamaVendor );
-                    doc.ReplaceText("{total_pengadaan}",item.total==null?"": item.total.Value.ToString("C", MyConverter.formatCurrencyIndo()) );
-                    
-                    //tambah tabel persetujuan tahapan
+                    // Tambah Tabel Disposisi
+                    var tblDisposisi = await getTableDisposisi(pengadaan.Id, EStatusPengadaan.PEMENANG, docM);
+                    tblDisposisi.Alignment = Alignment.center;
+                    foreach (var paragraph in doc.Paragraphs)
+                    {
+                        paragraph.FindAll("{table_disposisi}").ForEach(index => paragraph.InsertTableBeforeSelf(tblDisposisi));
+
+                    }
+                    doc.ReplaceText("{table_disposisi}", "");
+
+                    // Tambah Tabel Persetujuan Tahapan
                     var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.PEMENANG, doc);
 
                     table3.Alignment = Alignment.center;
+                    //table.AutoFit = AutoFit.Contents;
+
                     foreach (var paragraph in doc.Paragraphs)
                     {
                         paragraph.FindAll("{tabel_persetujuan}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
 
                     }
                     doc.ReplaceText("{tabel_persetujuan}", "");
-                    // 
                     //end
-                    
-                    docM.InsertDocument(doc); //doc.SaveAs(OutFileNama);
-                    docM.InsertSection();
+
+                    docM.InsertDocument(doc);
                     streamx.Close();
                 }
-                catch
-                {
-                    streamx.Close();
-                }
-            }
-            string fileNameDisposisi = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\NOTA BERSAMA Usulan Pemenang Disposisi.docx";
-            var streamxDisposisi = new FileStream(fileNameDisposisi, FileMode.Open);
-
-            try
-            {
-               var docDisposisi = DocX.Load(streamxDisposisi);
-
-
-                var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraPenentuanPemenang, UserId());
-                docDisposisi.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
-                docDisposisi.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara == null ? "" : BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
-                         " " + BeritaAcara.tanggal.Value.Year);
-                //tambah tabel disposisi
-                var tblDisposisi = await getTableDisposisi(pengadaan.Id, EStatusPengadaan.PEMENANG, docM);
-                tblDisposisi.Alignment = Alignment.center;
-                foreach (var paragraph in docDisposisi.Paragraphs)
-                {
-                    paragraph.FindAll("{table_disposisi}").ForEach(index => paragraph.InsertTableBeforeSelf(tblDisposisi));
-
-                }
-                docDisposisi.ReplaceText("{table_disposisi}", "");
-                docM.InsertDocument(docDisposisi);
-                streamxDisposisi.Close();
-            }
-            catch { streamxDisposisi.Close(); }
-            docM.SaveAs(OutFileNama);
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            var stream = new FileStream(OutFileNama, FileMode.Open);
-            result.Content = new StreamContent(stream);
+                catch { streamx.Close(); }
+                docM.SaveAs(OutFileNama);
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                var stream = new FileStream(OutFileNama, FileMode.Open);
+                result.Content = new StreamContent(stream);
             //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 

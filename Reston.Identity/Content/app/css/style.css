@@ -184,17 +184,21 @@ a.hiddenanchor{
 }
 
 #wrapper input[type="text"], #wrapper input[type="password"] {
-    width: 70%;
+    width: 60%;
     color: #013066;
     font-family: 'sans-serif', sans-serif;
     font-weight: 300;
     margin: 10px 0 20px;
     font-size: 14px;
     letter-spacing: 1px;
-    padding: 10px 5px 10px 40px;
+    padding: 9px 5px 9px 40px;
     border: 1px solid #013066;
     background: transparent;
     outline: none;
+}
+
+.captcha {
+    width: 30%!important;
 }
 
 #wrapper input[type="text"] {
@@ -277,11 +281,11 @@ p.change_link {
 .send-button input[type="submit"] {
     float: right;
     background-color: #013066;
-    padding: 12px 30px;
+    padding: 5px 30px;
     border: none;
     outline: none;
     border-radius: 3px;
-    font-size: 20px;
+    font-size: 18px;
     color: #FFF;
     font-family: 'sans-serif', sans-serif;
     cursor: pointer;
