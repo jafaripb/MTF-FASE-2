@@ -16,6 +16,7 @@ var COMPLIANCE ;//= 'http://localhost:49559/pengadaan-list.html';
 var HEAD ;//= 'http://localhost:49559/pengadaan-list.html';
 var DIREKSI;//= 'http://localhost:49559/dashboard.html';
 var DIRUT;//= 'http://localhost:49559/dashboard.html';
+var LEGAL;//= 'http://localhost:49559/dashboard.html';
 
 
 function getParameterByName(name, url) {
@@ -75,6 +76,9 @@ function cekLandingPage() {
                 window.location.replace(DIREKSI);
             }
 
+            if (data.message.indexOf("legal_admin" >= 0)) {
+                window.location.replace(LEGAL);
+            }
         }
 
     });
@@ -104,6 +108,7 @@ function cekLogin(cek) {
                     HEAD = PROC + 'dashboard.html';
                     DIREKSI = PROC + 'dashboard.html';
                     DIRUT = PROC + 'dashboard.html';
+                    LEGAL = PROC + 'dashboard.html';
                     ajaxCompleteProcess(e.statusCode());
                     if (e.status == 200 && cek == 1)
                         cekLandingPage();

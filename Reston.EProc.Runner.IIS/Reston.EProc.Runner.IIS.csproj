@@ -1874,6 +1874,7 @@
     </Content>
     <Content Include="data\menu-direksi.json" />
     <Content Include="Download\Report\Template\SPK2.docx" />
+    <Content Include="Download\Report\Template\BERITA ACARA RAPAT KLARIFIKASI DAN NEGOSIASI LANJUTAN.docx" />
     <None Include="Properties\PublishProfiles\efe.pubxml" />
     <None Include="Properties\PublishProfiles\eproc-mtf.pubxml" />
     <None Include="Properties\PublishProfiles\eproc.pubxml" />

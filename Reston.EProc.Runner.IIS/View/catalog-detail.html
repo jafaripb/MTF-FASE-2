@@ -200,6 +200,7 @@
 		<div class="modal-content">
             <form id="formTambahHarga" action="/api/Produk/TambahHarga" onsubmit="return validateFormRiwayat()" method="post">
                 <input type="hidden" id="IdProduk" name="IdProduk" />
+                <input type="hidden" id="id" name="id" />
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Penambahan Harga Baru</h4>
@@ -298,11 +299,9 @@
 
              $("#example1").on("click", ".edit-harga", function () {
                  
-                 var index = $(this).closest('tr').index();
-                
-                 var data = table.row(index+1).data();
+                 var data = JSON.parse($(this).attr("data"));
                  $("[name=Harga]").val(data.Harga);
-                 $("#IdProduk").val(id);
+                 $("#id").val(data.IdProduk);
                  $("[name=Region]").val($("#region-detail").val());
                  $("[name=Sumber]").val(data.Sumber);
                  $("#HargaModal").modal("show");
@@ -357,7 +356,7 @@
                     "orderable": false
                 }, {
                     "render": function (data, type, row) {
-                        return '<button class="btn btn-button edit-harga" type="button" attrid="' + row.IdProduk + '" >edit</button>'
+                        return "<button class='btn btn-button edit-harga' type='button' data='" + JSON.stringify(row)+ "' >edit</button>"
                     },
                     "targets": 5,
                     "orderable": false
@@ -453,7 +452,7 @@
 
          }
 
-        function TambahHargaModal() {
+         function TambahHargaModal() {
             $("#HargaModal").modal('show');
         }
 

@@ -461,9 +461,24 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                NoPks = b.NoDokumen == null ? "" : b.NoDokumen,
                                Divisi = e.UnitKerjaPemohon,
                                TanggalAwal = b.TanggalMulai.ToString(),
-                               TanggalAkhir = b.TanggalSelesai.ToString()
-
+                               TanggalAkhir = b.TanggalSelesai.ToString(),
+                               CreateOn=b.CreateOn,
+                               PengadaanId=b.PemenangPengadaan.PengadaanId,
+                               Id=b.Id
                            }).Distinct().ToList();
+            foreach (var item in oReport)
+            {
+                if (item.PksId == null) item.Adendum = "";
+                else
+                {
+                    var Pks = oReport.Where(d => d.PengadaanId == item.PengadaanId && d.PemenangPengadaanId == item.PengadaanId).OrderBy(d => d.CreateOn).ToList();
+                    if (Pks.Count() > 0)
+                    {
+                        int index = Pks.FindIndex(d => d.Id == item.Id);
+                        item.Adendum = (index+1).ToString();
+                    }
+                }
+            }
             return oReport;
         }
     }

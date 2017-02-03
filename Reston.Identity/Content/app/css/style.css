@@ -191,7 +191,7 @@ a.hiddenanchor{
     margin: 10px 0 20px;
     font-size: 14px;
     letter-spacing: 1px;
-    padding: 10px 5px 10px 40px;
+    padding: 10px 5px 10px 10px;
     border: 1px solid #013066;
     background: transparent;
     outline: none;
@@ -452,7 +452,7 @@ li.twt.w3ls {
         padding: 28px;
     }
     #wrapper input[type="text"], #wrapper input[type="password"] {
-        width: 90%;
+        width: 70%;
     }
 }
 
