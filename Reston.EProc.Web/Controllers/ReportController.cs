@@ -1032,7 +1032,7 @@ namespace Reston.Pinata.WebService.Controllers
 
 
                 //tambah tabel persetujuan tahapan
-                var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.KLARIFIKASI, doc);
+                var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.KLARIFIKASILANJUTAN, doc);
 
                 table3.Alignment = Alignment.center;
                 //table.AutoFit = AutoFit.Contents;
