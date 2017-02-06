@@ -948,9 +948,9 @@ namespace Reston.Pinata.WebService.Controllers
         {
             var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
             var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
-            string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\BERITA ACARA RAPAT KLARIFIKASI DAN NEGOSIASI LANJUTAN.docx";
-            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraKlarifikasiLanjutan, UserId());
-            string outputFileName = "Berkas-Klarifikasi-lanjutan-" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+            string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\BERITA ACARA RAPAT KLARIFIKASI DAN NEGOSIASI LANJUTAN new.docx";
+            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraKlarifikasi, UserId());
+            string outputFileName = "Berkas-Klarifikasi-Lanjutan" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
 
             string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
 
@@ -959,7 +959,7 @@ namespace Reston.Pinata.WebService.Controllers
             var doc = DocX.Load(streamx);
 
             try
-            {                
+            {
                 doc.ReplaceText("{pengadaan_name}", pengadaan.Judul == null ? "" : pengadaan.Judul);
                 doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
                 doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
@@ -973,36 +973,66 @@ namespace Reston.Pinata.WebService.Controllers
                        Common.ConvertHari(BeritaAcara.tanggal.Value.Day));
                 doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara == null ? "" : BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
                       " " + BeritaAcara.tanggal.Value.Year);
-                var kandidat = _repository.GetVendorsKlarifikasiByPengadaanId(Id);
-                var table = doc.AddTable(kandidat.Count(), 1);
-                Border BlankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
-                table.SetBorder(TableBorderType.Bottom, BlankBorder);
-                table.SetBorder(TableBorderType.Left, BlankBorder);
-                table.SetBorder(TableBorderType.Right, BlankBorder);
-                table.SetBorder(TableBorderType.Top, BlankBorder);
-                table.SetBorder(TableBorderType.InsideV, BlankBorder);
-                table.SetBorder(TableBorderType.InsideH, BlankBorder);
 
-                int rowIndex = 0;
-                foreach (var item in kandidat)
+                var kandidat = _repository.GetVendorsKlarifikasiByPengadaanId2(Id);
+                if (kandidat.Count() > 0)
                 {
-                    table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + item.Nama);
-                    table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
-                    table.Rows[rowIndex].Cells[0].Width = 550;
-                    rowIndex++;
+                    var table = doc.AddTable(kandidat.Count(), 1);
+                    Border BlankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                    table.SetBorder(TableBorderType.Bottom, BlankBorder);
+                    table.SetBorder(TableBorderType.Left, BlankBorder);
+                    table.SetBorder(TableBorderType.Right, BlankBorder);
+                    table.SetBorder(TableBorderType.Top, BlankBorder);
+                    table.SetBorder(TableBorderType.InsideV, BlankBorder);
+                    table.SetBorder(TableBorderType.InsideH, BlankBorder);
+
+                    int rowIndex = 0;
+                    foreach (var item in kandidat)
+                    {
+                        table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + item.Nama);
+                        table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                        table.Rows[rowIndex].Cells[0].Width = 550;
+                        rowIndex++;
+                    }
+
+                    table.Alignment = Alignment.left;
+                    foreach (var paragraph in doc.Paragraphs)
+                    {
+                        paragraph.FindAll("{vendor}").ForEach(index => paragraph.InsertTableBeforeSelf(table));
+                    }
+                    doc.ReplaceText("{vendor}", "");
                 }
 
-                table.Alignment = Alignment.center;
+                var panitia = _repository.getPersonilPengadaan(Id);
+                var tablePanitia = doc.AddTable(panitia.Count(), 1);
+                Border WhiteBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                tablePanitia.SetBorder(TableBorderType.Bottom, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.Left, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.Right, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.Top, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.InsideV, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.InsideH, WhiteBorder);
+                int rowIndex2 = 0;
+                foreach (var item in panitia)
+                {
+                    tablePanitia.Rows[rowIndex2].Cells[0].Paragraphs.First().Append((rowIndex2 + 1) + ". " + item.Nama);
+                    tablePanitia.Rows[rowIndex2].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                    tablePanitia.Rows[rowIndex2].Cells[0].Width = 500;
+                    rowIndex2++;
+                }
+
+                tablePanitia.Alignment = Alignment.left;
                 foreach (var paragraph in doc.Paragraphs)
                 {
-                    paragraph.FindAll("{vendor}").ForEach(index => paragraph.InsertTableBeforeSelf(table));
+                    paragraph.FindAll("{panitia}").ForEach(index => paragraph.InsertTableBeforeSelf(tablePanitia));
 
                 }
-                doc.ReplaceText("{vendor}", "");
+                doc.ReplaceText("{panitia}", "");
+                // End Panitia
 
 
                 //tambah tabel persetujuan tahapan
-                var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.KLARIFIKASILANJUTAN, doc);
+                var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.KLARIFIKASI, doc);
 
                 table3.Alignment = Alignment.center;
                 //table.AutoFit = AutoFit.Contents;
@@ -1035,200 +1065,417 @@ namespace Reston.Pinata.WebService.Controllers
 
             return result;
         }
+        //public async Task<HttpResponseMessage> BerkasKlarfikasiLanjutan(Guid Id)
+        //{
+        //    var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
+        //    var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
+        //    string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\BERITA ACARA RAPAT KLARIFIKASI DAN NEGOSIASI LANJUTAN.docx";
+        //    var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraKlarifikasiLanjutan, UserId());
+        //    string outputFileName = "Berkas-Klarifikasi-lanjutan-" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+
+        //    string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
+
+        //    var streamx = new FileStream(fileName, FileMode.Open);
+
+        //    var doc = DocX.Load(streamx);
+
+        //    try
+        //    {
+
+
+        //        doc.ReplaceText("{pengadaan_name}", pengadaan.Judul == null ? "" : pengadaan.Judul);
+        //        doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
+        //        doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
+        //        doc.ReplaceText("{pengadaan_unit_pemohon}", pengadaan.UnitKerjaPemohon == null ? "" : pengadaan.UnitKerjaPemohon);
+
+        //        doc.ReplaceText("{tempat_tanggal}", "...............," + (BeritaAcara == null ? "................" :
+        //                (BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) + " " +
+        //                BeritaAcara.tanggal.Value.Year)));
+
+        //        doc.ReplaceText("{pengadaan_jadwal_hari}", BeritaAcara == null ? "" :
+        //               Common.ConvertHari(BeritaAcara.tanggal.Value.Day));
+        //        doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara == null ? "" : BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
+        //              " " + BeritaAcara.tanggal.Value.Year);
+        //        var kandidat = _repository.GetVendorsKlarifikasiByPengadaanId(Id);
+        //        var table = doc.AddTable(kandidat.Count(), 1);
+        //        Border BlankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+        //        table.SetBorder(TableBorderType.Bottom, BlankBorder);
+        //        table.SetBorder(TableBorderType.Left, BlankBorder);
+        //        table.SetBorder(TableBorderType.Right, BlankBorder);
+        //        table.SetBorder(TableBorderType.Top, BlankBorder);
+        //        table.SetBorder(TableBorderType.InsideV, BlankBorder);
+        //        table.SetBorder(TableBorderType.InsideH, BlankBorder);
+
+        //        int rowIndex = 0;
+        //        foreach (var item in kandidat)
+        //        {
+        //            table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + item.Nama);
+        //            table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+        //            table.Rows[rowIndex].Cells[0].Width = 550;
+        //            rowIndex++;
+        //        }
+
+        //        table.Alignment = Alignment.center;
+        //        foreach (var paragraph in doc.Paragraphs)
+        //        {
+        //            paragraph.FindAll("{vendor}").ForEach(index => paragraph.InsertTableBeforeSelf(table));
+
+        //        }
+        //        doc.ReplaceText("{vendor}", "");
+
+
+        //        //tambah tabel persetujuan tahapan
+        //        var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.KLARIFIKASILANJUTAN, doc);
+
+        //        table3.Alignment = Alignment.center;
+        //        //table.AutoFit = AutoFit.Contents;
+
+        //        foreach (var paragraph in doc.Paragraphs)
+        //        {
+        //            paragraph.FindAll("{table3}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
+
+        //        }
+        //        doc.ReplaceText("{table3}", "");
+        //        //end
+
+        //        doc.SaveAs(OutFileNama);
+        //        streamx.Close();
+        //    }
+        //    catch
+        //    {
+        //        streamx.Close();
+        //    }
+        //    HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+        //    var stream = new FileStream(OutFileNama, FileMode.Open);
+        //    result.Content = new StreamContent(stream);
+        //    //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+        //    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+
+        //    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+        //    {
+        //        FileName = outputFileName
+        //    };
+
+        //    return result;
+        //}
+
+
+
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public async Task< HttpResponseMessage> BerkasPenilaian(Guid Id)
+        public async Task<HttpResponseMessage> BerkasPenilaian(Guid Id)
         {
-            ViewPengadaan pengadaan = this._repository.GetPengadaan(Id, base.UserId(), 0);
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\Berita Acara Penilaian.docx";
-            string str2 = "BA-Penilaian-" + base.UserId().ToString() + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
-            string filename = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + str2;
-            FileStream stream = new FileStream(path, FileMode.Open);
+            var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
+            var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
+            string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\Berita Acara Penilaian new.docx";
+            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraKlarifikasi, UserId());
+            string outputFileName = "Berkas-Klarifikasi-Lanjutan" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+
+            string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
+
+            var streamx = new FileStream(fileName, FileMode.Open);
+
+            var doc = DocX.Load(streamx);
+
             try
             {
-                BeritaAcara acara = this._repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraPenilaian, base.UserId());
-                DocX cx = DocX.Load(stream);
-                cx.ReplaceText("{pengadaan_name}", (pengadaan.Judul == null) ? "" : pengadaan.Judul, false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
-                cx.ReplaceText("{pengadaan_name_judul}", (pengadaan.Judul == null) ? "" : pengadaan.Judul.ToUpper(), false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
-                cx.ReplaceText("{nomor_berita_acara}", (acara == null) ? "" : acara.NoBeritaAcara, false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
-                cx.ReplaceText("{pengadaan_unit_pemohon}", (pengadaan.UnitKerjaPemohon == null) ? "" : pengadaan.UnitKerjaPemohon, false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
-                cx.ReplaceText("{tempat_tanggal}", "...............," + (acara == null ? "................" : Common.ConvertNamaBulan(acara.tanggal.Value.Month)));
-                cx.ReplaceText("{pengadaan_jadwal_hari}", (acara == null) ? "" : Common.ConvertHari(acara.tanggal.Value.Day), false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
-                cx.ReplaceText("{pengadaan_jadwal_tanggal}", (acara == null) ? "" : string.Concat(new object[] { acara.tanggal.Value.Day, " ", Common.ConvertNamaBulan(acara.tanggal.Value.Month), " ", acara.tanggal.Value.Year }), false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
-                List<VWPembobotanPengadaan> list = this._repository.getKriteriaPembobotan(Id);
-                string text = ((from d in list
-                                where d.NamaKreteria.Contains("Harga")
-                                select d).FirstOrDefault<VWPembobotanPengadaan>() == null) ? "0" : (from d in list
-                                                                                                    where d.NamaKreteria.Contains("Harga")
-                                                                                                    select d).FirstOrDefault<VWPembobotanPengadaan>().Bobot.ToString();
-                cx.ReplaceText("{harga}", text + "%", false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
-                string str5 = ((from d in list
-                                where d.NamaKreteria.Contains("Teknis")
-                                select d).FirstOrDefault<VWPembobotanPengadaan>() == null) ? "0" : (from d in list
-                                                                                                    where d.NamaKreteria.Contains("Teknis")
-                                                                                                    select d).FirstOrDefault<VWPembobotanPengadaan>().Bobot.ToString();
-                cx.ReplaceText("{teknis}", str5 + "%", false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
-                List<VWRekananPenilaian> source = this._repository.getKandidatPengadaan2(Id, base.UserId());
-                Table table = cx.AddTable(4, source.Count<VWRekananPenilaian>() + 3);
-                Border BlankBorder = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Black);
-                table.SetBorder(TableBorderType.Bottom, BlankBorder);
-                table.SetBorder(TableBorderType.Left, BlankBorder);
-                table.SetBorder(TableBorderType.Right, BlankBorder);
-                table.SetBorder(TableBorderType.Top, BlankBorder);
-                table.SetBorder(TableBorderType.InsideV, BlankBorder);
-                table.SetBorder(TableBorderType.InsideH, BlankBorder);
+                doc.ReplaceText("{pengadaan_name}", pengadaan.Judul == null ? "" : pengadaan.Judul);
+                doc.ReplaceText("{pengadaan_name_judul}", pengadaan.Judul == null ? "" : pengadaan.Judul.ToUpper());
+                doc.ReplaceText("{nomor_berita_acara}", BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara);
+                doc.ReplaceText("{pengadaan_unit_pemohon}", pengadaan.UnitKerjaPemohon == null ? "" : pengadaan.UnitKerjaPemohon);
 
-                table.Rows[0].Cells[0].Paragraphs.First<Paragraph>().Append("No");
-                table.Rows[0].Cells[0].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                table.Rows[0].Cells[0].Width = 10.0;
-                table.Rows[0].Cells[1].Paragraphs.First<Paragraph>().Append("Faktor");
-                table.Rows[0].Cells[1].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                table.Rows[0].Cells[2].Paragraphs.First<Paragraph>().Append("Bobot");
-                table.Rows[0].Cells[2].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                int num = 3;
-                foreach (VWRekananPenilaian penilaian in source)
-                {
-                    table.Rows[0].Cells[num].Paragraphs.First<Paragraph>().Append("Nilai " + penilaian.NamaVendor);
-                    table.Rows[0].Cells[num].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                    num++;
-                }
-                table.Rows[1].Cells[0].Paragraphs.First<Paragraph>().Append("1");
-                table.Rows[1].Cells[0].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                table.Rows[1].Cells[0].Width = 10.0;
-                table.Rows[1].Cells[1].Paragraphs.First<Paragraph>().Append("Teknis");
-                table.Rows[1].Cells[1].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                table.Rows[1].Cells[2].Paragraphs.First<Paragraph>().Append(str5);
-                table.Rows[1].Cells[2].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                num = 3;
-                foreach (VWRekananPenilaian penilaian in source)
-                {
-                    VWPembobotanPengadaanVendor vendor = (from d in this._repository.getPembobtanPengadaanVendor(Id, penilaian.VendorId.Value, base.UserId())
-                                                          where d.NamaKreteria.Contains("Teknis")
-                                                          select d).FirstOrDefault<VWPembobotanPengadaanVendor>();
-                    table.Rows[1].Cells[num].Paragraphs.First<Paragraph>().Append((vendor == null) ? "-" : vendor.Nilai.Value.ToString());
-                    table.Rows[1].Cells[num].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                    num++;
-                }
-                table.Rows[2].Cells[0].Paragraphs.First<Paragraph>().Append("2");
-                table.Rows[2].Cells[0].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                table.Rows[2].Cells[0].Width = 10.0;
-                table.Rows[2].Cells[1].Paragraphs.First<Paragraph>().Append("Harga");
-                table.Rows[2].Cells[1].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                table.Rows[2].Cells[2].Paragraphs.First<Paragraph>().Append(text);
-                table.Rows[2].Cells[2].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                num = 3;
-                foreach (VWRekananPenilaian penilaian in source)
-                {
-                    VWPembobotanPengadaanVendor vendor2 = (from d in this._repository.getPembobtanPengadaanVendor(Id, penilaian.VendorId.Value, base.UserId())
-                                                           where d.NamaKreteria.Contains("Harga")
-                                                           select d).FirstOrDefault<VWPembobotanPengadaanVendor>();
-                    table.Rows[2].Cells[num].Paragraphs.First<Paragraph>().Append((vendor2 == null) ? "-" : vendor2.Nilai.Value.ToString());
-                    table.Rows[2].Cells[num].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                    num++;
-                }
-                table.Rows[3].Cells[0].Paragraphs.First<Paragraph>().Append("");
-                table.Rows[3].Cells[0].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                table.Rows[3].Cells[0].Width = 10.0;
-                table.Rows[3].Cells[1].Paragraphs.First<Paragraph>().Append("");
-                table.Rows[3].Cells[1].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                table.Rows[3].Cells[2].Paragraphs.First<Paragraph>().Append("Score");
-                table.Rows[3].Cells[2].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                num = 3;
-                foreach (VWRekananPenilaian penilaian in source)
-                {
-                    List<VWPembobotanPengadaanVendor> list3 = this._repository.getPembobtanPengadaanVendor(Id, penilaian.VendorId.Value, base.UserId());
-                    int num2 = ((from d in list3
-                                 where d.NamaKreteria.Contains("Harga")
-                                 select d).FirstOrDefault<VWPembobotanPengadaanVendor>() == null) ? 0 : (from d in list3
-                                                                                                         where d.NamaKreteria.Contains("Harga")
-                                                                                                         select d).FirstOrDefault<VWPembobotanPengadaanVendor>().Nilai.Value;
-                    int num3 = ((from d in list3
-                                 where d.NamaKreteria.Contains("Harga")
-                                 select d).FirstOrDefault<VWPembobotanPengadaanVendor>() == null) ? 0 : (from d in list3
-                                                                                                         where d.NamaKreteria.Contains("Harga")
-                                                                                                         select d).FirstOrDefault<VWPembobotanPengadaanVendor>().Bobot.Value;
-                    int num4 = ((from d in list3
-                                 where d.NamaKreteria.Contains("Teknis")
-                                 select d).FirstOrDefault<VWPembobotanPengadaanVendor>() == null) ? 0 : (from d in list3
-                                                                                                         where d.NamaKreteria.Contains("Teknis")
-                                                                                                         select d).FirstOrDefault<VWPembobotanPengadaanVendor>().Nilai.Value;
-                    int num5 = ((from d in list3
-                                 where d.NamaKreteria.Contains("Teknis")
-                                 select d).FirstOrDefault<VWPembobotanPengadaanVendor>() == null) ? 0 : (from d in list3
-                                                                                                         where d.NamaKreteria.Contains("Teknis")
-                                                                                                         select d).FirstOrDefault<VWPembobotanPengadaanVendor>().Bobot.Value;
-                    int num6 = (num2 * num3) / 100;
-                    int num7 = (num4 * num5) / 100;
-                    int num8 = num6 + num7;
-                    table.Rows[3].Cells[num].Paragraphs.First<Paragraph>().Append(num8.ToString());
-                    table.Rows[3].Cells[num].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
-                    num++;
-                }
-                table.Alignment = Alignment.center;
-                //using (IEnumerator<Paragraph> enumerator2 = cx.Paragraphs.GetEnumerator())
-                //{
-                //    while (enumerator2.MoveNext())
-                //    {
-                //        Action<int> action = null;
-                //        Paragraph paragraph = enumerator2.Current;
-                //        if (action == null)
-                //        {
-                //            action = delegate(int index)
-                //            {
-                //                paragraph.InsertTableBeforeSelf(table);
-                //            };
-                //        }
-                //        paragraph.FindAll("{penilaian}").ForEach(action);
-                //    }
-                //}
-                System.IO.MemoryStream ms2 = new System.IO.MemoryStream();
-                DocX doc2 = DocX.Create(ms2);
+                doc.ReplaceText("{tempat_tanggal}", "...............," + (BeritaAcara == null ? "................" :
+                        (BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) + " " +
+                        BeritaAcara.tanggal.Value.Year)));
 
-                doc2.PageLayout.Orientation = Novacode.Orientation.Landscape;
-                Paragraph p = doc2.InsertParagraph();
-                p.Append("Lampiran").Bold();
-                p.Alignment = Alignment.left;
-                p.AppendLine();
-                Table t = doc2.InsertTable(table);
-                cx.InsertSection();
-                cx.InsertDocument(doc2);
-                //cx.ReplaceText("{penilaian}", "", false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
-               
+                doc.ReplaceText("{pengadaan_jadwal_hari}", BeritaAcara == null ? "" :
+                       Common.ConvertHari(BeritaAcara.tanggal.Value.Day));
+                doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara == null ? "" : BeritaAcara.tanggal.Value.Day + " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
+                      " " + BeritaAcara.tanggal.Value.Year);
+
+                var kandidat = _repository.GetVendorsKlarifikasiByPengadaanId2(Id);
+                if (kandidat.Count() > 0)
+                {
+                    var table = doc.AddTable(kandidat.Count(), 1);
+                    Border BlankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                    table.SetBorder(TableBorderType.Bottom, BlankBorder);
+                    table.SetBorder(TableBorderType.Left, BlankBorder);
+                    table.SetBorder(TableBorderType.Right, BlankBorder);
+                    table.SetBorder(TableBorderType.Top, BlankBorder);
+                    table.SetBorder(TableBorderType.InsideV, BlankBorder);
+                    table.SetBorder(TableBorderType.InsideH, BlankBorder);
+
+                    int rowIndex = 0;
+                    foreach (var item in kandidat)
+                    {
+                        table.Rows[rowIndex].Cells[0].Paragraphs.First().Append((rowIndex + 1) + ". " + item.Nama);
+                        table.Rows[rowIndex].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                        table.Rows[rowIndex].Cells[0].Width = 550;
+                        rowIndex++;
+                    }
+
+                    table.Alignment = Alignment.left;
+                    foreach (var paragraph in doc.Paragraphs)
+                    {
+                        paragraph.FindAll("{vendor}").ForEach(index => paragraph.InsertTableBeforeSelf(table));
+                    }
+                    doc.ReplaceText("{vendor}", "");
+                }
+
+                var panitia = _repository.getPersonilPengadaan(Id);
+                var tablePanitia = doc.AddTable(panitia.Count(), 1);
+                Border WhiteBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                tablePanitia.SetBorder(TableBorderType.Bottom, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.Left, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.Right, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.Top, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.InsideV, WhiteBorder);
+                tablePanitia.SetBorder(TableBorderType.InsideH, WhiteBorder);
+                int rowIndex2 = 0;
+                foreach (var item in panitia)
+                {
+                    tablePanitia.Rows[rowIndex2].Cells[0].Paragraphs.First().Append((rowIndex2 + 1) + ". " + item.Nama);
+                    tablePanitia.Rows[rowIndex2].Cells[0].Paragraphs.First().FontSize(11).Font(new FontFamily("Calibri"));
+                    tablePanitia.Rows[rowIndex2].Cells[0].Width = 500;
+                    rowIndex2++;
+                }
+
+                tablePanitia.Alignment = Alignment.left;
+                foreach (var paragraph in doc.Paragraphs)
+                {
+                    paragraph.FindAll("{panitia}").ForEach(index => paragraph.InsertTableBeforeSelf(tablePanitia));
+
+                }
+                doc.ReplaceText("{panitia}", "");
+                // End Panitia
+
+
                 //tambah tabel persetujuan tahapan
-                var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.PENILAIAN, cx);
+                var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.PENILAIAN, doc);
 
                 table3.Alignment = Alignment.center;
                 //table.AutoFit = AutoFit.Contents;
 
-                foreach (var paragraph in cx.Paragraphs)
+                foreach (var paragraph in doc.Paragraphs)
                 {
                     paragraph.FindAll("{table3}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
 
                 }
-                cx.ReplaceText("{table3}", "");
+                doc.ReplaceText("{table3}", "");
                 //end
-                
-                cx.SaveAs(filename);
-                stream.Close();
+
+                doc.SaveAs(OutFileNama);
+                streamx.Close();
             }
             catch
             {
-                stream.Close();
+                streamx.Close();
             }
-            HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.OK);
-            FileStream content = new FileStream(filename, FileMode.Open);
-            message.Content = new StreamContent(content);
-            message.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-            ContentDispositionHeaderValue value2 = new ContentDispositionHeaderValue("attachment")
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(OutFileNama, FileMode.Open);
+            result.Content = new StreamContent(stream);
+            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
             {
-                FileName = str2
+                FileName = outputFileName
             };
-            message.Content.Headers.ContentDisposition = value2;
-            return message;
+
+            return result;
         }
+        //public async Task< HttpResponseMessage> BerkasPenilaian(Guid Id)
+        //{
+        //    ViewPengadaan pengadaan = this._repository.GetPengadaan(Id, base.UserId(), 0);
+        //    string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\Berita Acara Penilaian new.docx";
+        //    string str2 = "BA-Penilaian-" + base.UserId().ToString() + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+        //    string filename = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + str2;
+        //    FileStream stream = new FileStream(path, FileMode.Open);
+        //    try
+        //    {
+        //        BeritaAcara acara = this._repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraPenilaian, base.UserId());
+        //        DocX cx = DocX.Load(stream);
+        //        cx.ReplaceText("{pengadaan_name}", (pengadaan.Judul == null) ? "" : pengadaan.Judul, false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
+        //        cx.ReplaceText("{pengadaan_name_judul}", (pengadaan.Judul == null) ? "" : pengadaan.Judul.ToUpper(), false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
+        //        cx.ReplaceText("{nomor_berita_acara}", (acara == null) ? "" : acara.NoBeritaAcara, false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
+        //        cx.ReplaceText("{pengadaan_unit_pemohon}", (pengadaan.UnitKerjaPemohon == null) ? "" : pengadaan.UnitKerjaPemohon, false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
+        //        cx.ReplaceText("{tempat_tanggal}", "...............," + (acara == null ? "................" : Common.ConvertNamaBulan(acara.tanggal.Value.Month)));
+        //        cx.ReplaceText("{pengadaan_jadwal_hari}", (acara == null) ? "" : Common.ConvertHari(acara.tanggal.Value.Day), false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
+        //        cx.ReplaceText("{pengadaan_jadwal_tanggal}", (acara == null) ? "" : string.Concat(new object[] { acara.tanggal.Value.Day, " ", Common.ConvertNamaBulan(acara.tanggal.Value.Month), " ", acara.tanggal.Value.Year }), false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
+        //        List<VWPembobotanPengadaan> list = this._repository.getKriteriaPembobotan(Id);
+        //        string text = ((from d in list
+        //                        where d.NamaKreteria.Contains("Harga")
+        //                        select d).FirstOrDefault<VWPembobotanPengadaan>() == null) ? "0" : (from d in list
+        //                                                                                            where d.NamaKreteria.Contains("Harga")
+        //                                                                                            select d).FirstOrDefault<VWPembobotanPengadaan>().Bobot.ToString();
+        //        cx.ReplaceText("{harga}", text + "%", false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
+        //        string str5 = ((from d in list
+        //                        where d.NamaKreteria.Contains("Teknis")
+        //                        select d).FirstOrDefault<VWPembobotanPengadaan>() == null) ? "0" : (from d in list
+        //                                                                                            where d.NamaKreteria.Contains("Teknis")
+        //                                                                                            select d).FirstOrDefault<VWPembobotanPengadaan>().Bobot.ToString();
+        //        cx.ReplaceText("{teknis}", str5 + "%", false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
+        //        List<VWRekananPenilaian> source = this._repository.getKandidatPengadaan2(Id, base.UserId());
+        //        Table table = cx.AddTable(4, source.Count<VWRekananPenilaian>() + 3);
+        //        Border BlankBorder = new Border(BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Black);
+        //        table.SetBorder(TableBorderType.Bottom, BlankBorder);
+        //        table.SetBorder(TableBorderType.Left, BlankBorder);
+        //        table.SetBorder(TableBorderType.Right, BlankBorder);
+        //        table.SetBorder(TableBorderType.Top, BlankBorder);
+        //        table.SetBorder(TableBorderType.InsideV, BlankBorder);
+        //        table.SetBorder(TableBorderType.InsideH, BlankBorder);
+
+        //        table.Rows[0].Cells[0].Paragraphs.First<Paragraph>().Append("No");
+        //        table.Rows[0].Cells[0].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        table.Rows[0].Cells[0].Width = 10.0;
+        //        table.Rows[0].Cells[1].Paragraphs.First<Paragraph>().Append("Faktor");
+        //        table.Rows[0].Cells[1].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        table.Rows[0].Cells[2].Paragraphs.First<Paragraph>().Append("Bobot");
+        //        table.Rows[0].Cells[2].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        int num = 3;
+        //        foreach (VWRekananPenilaian penilaian in source)
+        //        {
+        //            table.Rows[0].Cells[num].Paragraphs.First<Paragraph>().Append("Nilai " + penilaian.NamaVendor);
+        //            table.Rows[0].Cells[num].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //            num++;
+        //        }
+        //        table.Rows[1].Cells[0].Paragraphs.First<Paragraph>().Append("1");
+        //        table.Rows[1].Cells[0].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        table.Rows[1].Cells[0].Width = 10.0;
+        //        table.Rows[1].Cells[1].Paragraphs.First<Paragraph>().Append("Teknis");
+        //        table.Rows[1].Cells[1].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        table.Rows[1].Cells[2].Paragraphs.First<Paragraph>().Append(str5);
+        //        table.Rows[1].Cells[2].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        num = 3;
+        //        foreach (VWRekananPenilaian penilaian in source)
+        //        {
+        //            VWPembobotanPengadaanVendor vendor = (from d in this._repository.getPembobtanPengadaanVendor(Id, penilaian.VendorId.Value, base.UserId())
+        //                                                  where d.NamaKreteria.Contains("Teknis")
+        //                                                  select d).FirstOrDefault<VWPembobotanPengadaanVendor>();
+        //            table.Rows[1].Cells[num].Paragraphs.First<Paragraph>().Append((vendor == null) ? "-" : vendor.Nilai.Value.ToString());
+        //            table.Rows[1].Cells[num].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //            num++;
+        //        }
+        //        table.Rows[2].Cells[0].Paragraphs.First<Paragraph>().Append("2");
+        //        table.Rows[2].Cells[0].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        table.Rows[2].Cells[0].Width = 10.0;
+        //        table.Rows[2].Cells[1].Paragraphs.First<Paragraph>().Append("Harga");
+        //        table.Rows[2].Cells[1].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        table.Rows[2].Cells[2].Paragraphs.First<Paragraph>().Append(text);
+        //        table.Rows[2].Cells[2].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        num = 3;
+        //        foreach (VWRekananPenilaian penilaian in source)
+        //        {
+        //            VWPembobotanPengadaanVendor vendor2 = (from d in this._repository.getPembobtanPengadaanVendor(Id, penilaian.VendorId.Value, base.UserId())
+        //                                                   where d.NamaKreteria.Contains("Harga")
+        //                                                   select d).FirstOrDefault<VWPembobotanPengadaanVendor>();
+        //            table.Rows[2].Cells[num].Paragraphs.First<Paragraph>().Append((vendor2 == null) ? "-" : vendor2.Nilai.Value.ToString());
+        //            table.Rows[2].Cells[num].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //            num++;
+        //        }
+        //        table.Rows[3].Cells[0].Paragraphs.First<Paragraph>().Append("");
+        //        table.Rows[3].Cells[0].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        table.Rows[3].Cells[0].Width = 10.0;
+        //        table.Rows[3].Cells[1].Paragraphs.First<Paragraph>().Append("");
+        //        table.Rows[3].Cells[1].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        table.Rows[3].Cells[2].Paragraphs.First<Paragraph>().Append("Score");
+        //        table.Rows[3].Cells[2].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //        num = 3;
+        //        foreach (VWRekananPenilaian penilaian in source)
+        //        {
+        //            List<VWPembobotanPengadaanVendor> list3 = this._repository.getPembobtanPengadaanVendor(Id, penilaian.VendorId.Value, base.UserId());
+        //            int num2 = ((from d in list3
+        //                         where d.NamaKreteria.Contains("Harga")
+        //                         select d).FirstOrDefault<VWPembobotanPengadaanVendor>() == null) ? 0 : (from d in list3
+        //                                                                                                 where d.NamaKreteria.Contains("Harga")
+        //                                                                                                 select d).FirstOrDefault<VWPembobotanPengadaanVendor>().Nilai.Value;
+        //            int num3 = ((from d in list3
+        //                         where d.NamaKreteria.Contains("Harga")
+        //                         select d).FirstOrDefault<VWPembobotanPengadaanVendor>() == null) ? 0 : (from d in list3
+        //                                                                                                 where d.NamaKreteria.Contains("Harga")
+        //                                                                                                 select d).FirstOrDefault<VWPembobotanPengadaanVendor>().Bobot.Value;
+        //            int num4 = ((from d in list3
+        //                         where d.NamaKreteria.Contains("Teknis")
+        //                         select d).FirstOrDefault<VWPembobotanPengadaanVendor>() == null) ? 0 : (from d in list3
+        //                                                                                                 where d.NamaKreteria.Contains("Teknis")
+        //                                                                                                 select d).FirstOrDefault<VWPembobotanPengadaanVendor>().Nilai.Value;
+        //            int num5 = ((from d in list3
+        //                         where d.NamaKreteria.Contains("Teknis")
+        //                         select d).FirstOrDefault<VWPembobotanPengadaanVendor>() == null) ? 0 : (from d in list3
+        //                                                                                                 where d.NamaKreteria.Contains("Teknis")
+        //                                                                                                 select d).FirstOrDefault<VWPembobotanPengadaanVendor>().Bobot.Value;
+        //            int num6 = (num2 * num3) / 100;
+        //            int num7 = (num4 * num5) / 100;
+        //            int num8 = num6 + num7;
+        //            table.Rows[3].Cells[num].Paragraphs.First<Paragraph>().Append(num8.ToString());
+        //            table.Rows[3].Cells[num].Paragraphs.First<Paragraph>().FontSize(11.0).Font(new FontFamily("Calibri"));
+        //            num++;
+        //        }
+        //        table.Alignment = Alignment.center;
+        //        //using (IEnumerator<Paragraph> enumerator2 = cx.Paragraphs.GetEnumerator())
+        //        //{
+        //        //    while (enumerator2.MoveNext())
+        //        //    {
+        //        //        Action<int> action = null;
+        //        //        Paragraph paragraph = enumerator2.Current;
+        //        //        if (action == null)
+        //        //        {
+        //        //            action = delegate(int index)
+        //        //            {
+        //        //                paragraph.InsertTableBeforeSelf(table);
+        //        //            };
+        //        //        }
+        //        //        paragraph.FindAll("{penilaian}").ForEach(action);
+        //        //    }
+        //        //}
+        //        System.IO.MemoryStream ms2 = new System.IO.MemoryStream();
+        //        DocX doc2 = DocX.Create(ms2);
+
+        //        doc2.PageLayout.Orientation = Novacode.Orientation.Landscape;
+        //        Paragraph p = doc2.InsertParagraph();
+        //        p.Append("Lampiran").Bold();
+        //        p.Alignment = Alignment.left;
+        //        p.AppendLine();
+        //        Table t = doc2.InsertTable(table);
+        //        cx.InsertSection();
+        //        cx.InsertDocument(doc2);
+        //        //cx.ReplaceText("{penilaian}", "", false, RegexOptions.None, null, null, MatchFormattingOptions.SubsetMatch);
+               
+        //        //tambah tabel persetujuan tahapan
+        //        var table3 = await getTablePersetujuan(pengadaan.Id, EStatusPengadaan.PENILAIAN, cx);
+
+        //        table3.Alignment = Alignment.center;
+        //        //table.AutoFit = AutoFit.Contents;
+
+        //        foreach (var paragraph in cx.Paragraphs)
+        //        {
+        //            paragraph.FindAll("{table3}").ForEach(index => paragraph.InsertTableBeforeSelf(table3));
+
+        //        }
+        //        cx.ReplaceText("{table3}", "");
+        //        //end
+                
+        //        cx.SaveAs(filename);
+        //        stream.Close();
+        //    }
+        //    catch
+        //    {
+        //        stream.Close();
+        //    }
+        //    HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.OK);
+        //    FileStream content = new FileStream(filename, FileMode.Open);
+        //    message.Content = new StreamContent(content);
+        //    message.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        //    ContentDispositionHeaderValue value2 = new ContentDispositionHeaderValue("attachment")
+        //    {
+        //        FileName = str2
+        //    };
+        //    message.Content.Headers.ContentDisposition = value2;
+        //    return message;
+        //}
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
