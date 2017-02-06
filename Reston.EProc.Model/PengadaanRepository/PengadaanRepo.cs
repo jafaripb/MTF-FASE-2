@@ -1070,7 +1070,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 PengadaanDiTolak = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.DITOLAK 
                     && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count(),
                 PengadaanButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN
-                && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count(),
+                && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) )).Count(),
                 PemenangButuhPerSetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG 
                     && d.PersetujuanPemenangs.Where(dd=>dd.Status == StatusPengajuanPemenang.PENDING
                     && (d.PersonilPengadaans.Where(ddx => ddx.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(ddx => ddx.UserId == userId).Count() > 0)).Count()>0).Count(),
@@ -4913,7 +4913,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 newoNoDokumen.CreateOn = DateTime.Now;
                 newoNoDokumen.CreateBy = UserId;
                 newoNoDokumen.No = newNODok;
-                newoNoDokumen.tipe = TipeNoDokumen.SPK;
+                newoNoDokumen.tipe = tipe;
                 ctx.NoDokumenGenerators.Add(newoNoDokumen);
                 ctx.SaveChanges();
                 return newoNoDokumen.No;
@@ -4933,7 +4933,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 newoNoDokumen.CreateOn = DateTime.Now;
                 newoNoDokumen.CreateBy = UserId;
                 newoNoDokumen.No = newNoDokmen;
-                newoNoDokumen.tipe = TipeNoDokumen.SPK;
+                newoNoDokumen.tipe = tipe;
                 ctx.NoDokumenGenerators.Add(newoNoDokumen);
                 ctx.SaveChanges();
                 return newoNoDokumen.No;

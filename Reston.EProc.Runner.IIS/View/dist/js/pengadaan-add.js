@@ -419,7 +419,7 @@ function save(pengadaanHeader,attr1,status) {
                 loadData(data.Id);
             }
             else if (status == "Ajukan") {
-                window.location.replace("http://" + window.location.host + "/pengadaan-list.html");
+                //window.location.replace("http://" + window.location.host + "/pengadaan-list.html");
             }
         }
     });

@@ -181,6 +181,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public int isOwner { get; set; }
         public int Approver { get; set; }
         public string CreatedName { get; set; }
+        public DateTime? CreateOn { get; set; }
     }
 
     public enum StatusPks
