@@ -214,7 +214,6 @@
                         d.id = isGuid;
                         d.search = "";
                         d.klasifikasi = "";
-                        console.log(d);
                     },
                     "error": function (jqXHR, textStatus, errorThrown) {
                     }
@@ -274,7 +273,6 @@
                 method: "post",
                 url: "api/MonitoringSelection/TampilJudul",
                 success: function (d) {
-                    console.log(d);
                     $("[name=dalam-pelaksanaan]").text(d.ProyekDalamPelaksanaan);
                     $("[name=lewat-waktu]").text(d.ProyekLewatWaktuPelaksanaan);
                     $("[name=mendekati-waktu]").text(d.ProyekMendekatiWaktuPelaksanaan);

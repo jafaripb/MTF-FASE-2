@@ -28,7 +28,7 @@
     <![endif]-->
     <link rel="stylesheet" href="dist/site.css">
     <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
-    <link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" />
+    <!--<link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" />-->
     <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
     <script type="text/javascript" src="site.js"></script>
     <style>
@@ -334,7 +334,6 @@
                             $("#BankInfo").append('<li title="Nomor Rekening"> <span class="fa fa-bank"> </span> ' + data.BankInfo.NomorRekening + '</li>');
                         if (data.BankInfo.NamaRekening)
                             $("#BankInfo").append('<li title="Nama pada rekening"> <span class="fa fa-user"> </span> ' + data.BankInfo.NamaRekening + '</li>');
-                        console.log(data.StatusAkhir);
                         if (data.StatusAkhir == 'NEW')
                             $("#Status").html("<span class='label label-default'>BARU</span>");
                         else if (data.StatusAkhir == 'PASS_1')
@@ -431,7 +430,6 @@
                                                    ' <h3 class="box-title text-blue-mtf box-riwayat">SIUJK - ' + data.SIUJK.Nomor + '</h3></div>' +
                                                 '<div class="box-body">' +
                                                     '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>');
-                        console.log("PKP id: " + data.SIUJK.id);
                     }
                 },
                 complete: function (xhr, textStatus) {
@@ -492,7 +490,6 @@
             $.ajax({
                 url: "api/Dokumen/ViewFile2/" + id,
                 success: function (response) {
-                    console.log(response);
                     if (response.id != "") {
                         var bUrl = "/ViewerNotSupported.html?id=";
                         if (response.contentType.indexOf("image/") != -1)
