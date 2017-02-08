@@ -1085,7 +1085,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 TotalSeluruhPersetujuan = ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.AJUKAN 
                     && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count() + ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG 
                         && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.PENDING).Count() > 0
-                        && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count()
+                        && (d.PersonilPengadaans.Where(dd => dd.PersonilId == userId).Count() > 0 || userAprrover.Contains(userId) || d.PersetujuanTerkait.Where(dd => dd.UserId == userId).Count() > 0)).Count() + ctx.Pengadaans.Where(d => d.Status == EStatusPengadaan.PEMENANG
+                    && d.PersetujuanPemenangs.Where(dd => dd.Status == StatusPengajuanPemenang.BELUMDIAJUKAN
+                    && (d.PersonilPengadaans.Where(ddx => ddx.PersonilId == userId).Count() > 0 || d.PersetujuanTerkait.Where(ddx => ddx.UserId == userId).Count() > 0)).Count() > 0).Count()
             };
         }
 
