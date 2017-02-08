@@ -16,12 +16,12 @@ namespace Reston.Helper
     {
         
         public const string WORKFLOW_NO_TEMPLATE = "Tidak Ada Template Workflow";
-        public const string WORKFLOW_NO_STATE = "Dokument Tidak Berada Dalam State Apapun";
+        public const string WORKFLOW_NO_STATE = "Dokumen Tidak Berada Dalam State Apapun";
         public const string WORKFLOW_PENGAJUAN_SUKSES = "Dokumen Berhasil Di Ajukan";
-        public const string WORKFLOW_PENGAJUAN_GAGAL = "Dokumen GAGAL Di Ajukan";
-        public const string WORKFLOW_APPROVE_SUKSES = "Dokumen Berhasil DiApprove";
-        public const string WORKFLOW_REJECT_SUKSES = "Dokumen Berhasil DiREJECT";
-        public const string WORKFLOW_REJECT_GAGAL = "Dokumen Gagal DiREJECT";
+        public const string WORKFLOW_PENGAJUAN_GAGAL = "Dokumen Gagal Di Ajukan";
+        public const string WORKFLOW_APPROVE_SUKSES = "Dokumen Berhasil Di Approve";
+        public const string WORKFLOW_REJECT_SUKSES = "Dokumen Berhasil Di REJECT";
+        public const string WORKFLOW_REJECT_GAGAL = "Dokumen Gagal Di REJECT";
         public const string WORKFLOW_APPROVE_GAGAL = "Dokumen Gagal DiApprove";
         public const string WORKFLOW_STOP = "DOKUMEN TIDAK DALAM PERETUJUAN";
         public const string ANY_ERROR = "ERROR";

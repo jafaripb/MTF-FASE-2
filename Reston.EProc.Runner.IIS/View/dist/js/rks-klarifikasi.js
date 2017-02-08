@@ -3,7 +3,7 @@
 var table;
 
 var model = { showed: [], colIndex: -1, colOrder: [], locked:[] };
-var firstIndexProcessed = 5;//0-4 to be skipped on sorting col
+var firstIndexProcessed = 6;//0-4 to be skipped on sorting col
 
 function sortCol(e, idx) {
     var sortDir = 0;
