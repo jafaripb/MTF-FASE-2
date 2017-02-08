@@ -116,7 +116,10 @@ namespace Model.Helper
             public const string pRole_direksi = App.Roles.IdLdaplegal_direksi;
             public const string pRole_dirut = App.Roles.IdLdaplegal_dirut;
             public const string pRole_approver = App.Roles.IdLdapApproverRole;
-          
+
+            public class pRole_procurement_vendorAttribute : Attribute
+            {
+            }
         }
 
         public static class Id

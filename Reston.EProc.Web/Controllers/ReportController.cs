@@ -949,7 +949,7 @@ namespace Reston.Pinata.WebService.Controllers
             var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
             var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
             string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\BERITA ACARA RAPAT KLARIFIKASI DAN NEGOSIASI LANJUTAN new.docx";
-            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraKlarifikasi, UserId());
+            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraKlarifikasiLanjutan, UserId());
             string outputFileName = "Berkas-Klarifikasi-Lanjutan" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
 
             string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
@@ -1171,7 +1171,7 @@ namespace Reston.Pinata.WebService.Controllers
             var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
             var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
             string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\Berita Acara Penilaian new.docx";
-            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraKlarifikasi, UserId());
+            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraPenilaian, UserId());
             string outputFileName = "Berkas-Klarifikasi-Lanjutan" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
 
             string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;

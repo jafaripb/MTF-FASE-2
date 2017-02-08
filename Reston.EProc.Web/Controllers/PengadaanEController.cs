@@ -526,7 +526,7 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                             IdLdapConstants.Roles.pRole_procurement_manager,
+                                             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_procurement_vendor,
                                              IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         public int isDireksi()
@@ -3388,7 +3388,7 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,
                                            IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
-                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_vendor,
                                             IdLdapConstants.Roles.pRole_direksi)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task< IHttpActionResult> ListCount()
@@ -3970,8 +3970,8 @@ namespace Reston.Pinata.WebService.Controllers
                 html = html + "<br/>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_BODY_APPROVER"].ToString() + "</p>";
                 if(oPengadaan.AturanPengadaan=="terbuka")
-                    html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "pengadaan-terbuka-detail.html#" + oPengadaan .Id+ "' target='_blank'>" + oPengadaan.Judul + "</a></p>";
-                else html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "pengadaan-detail.html#" + oPengadaan.Id + "' target='_blank'>" + oPengadaan.Judul + "</a></p>";
+                    html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "dashboard.html#" +  "' target='_blank'>" +  "</a></p>";//oPengadaan.Id//oPengadaan.Judul + 
+                else html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "dashboard.html#" +  "' target='_blank'>" + "</a></p>";//oPengadaan.Id//oPengadaan.Judul + 
                 html = html + "<br/><br/>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER1"].ToString() + "</p>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER2"].ToString() + "</p>";

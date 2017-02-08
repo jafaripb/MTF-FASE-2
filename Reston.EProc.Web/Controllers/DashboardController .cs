@@ -27,6 +27,10 @@ using System.Reflection;
 
 namespace Reston.Pinata.WebService.Controllers
 {
+    [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_staff,
+             IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_procurement_head,
+             IdLdapConstants.Roles.pRole_compliance, IdLdapConstants.Roles.pRole_procurement_end_user,
+             IdLdapConstants.App.Roles.IdLdapSuperAdminRole)]
     public class DashboardController : BaseController
     {
         private IPengadaanRepo _repository;
@@ -48,6 +52,7 @@ namespace Reston.Pinata.WebService.Controllers
             List<VWReportPengadaan> lv = _repository.GetRepotPengadan(f, t, UserId());
             return Json(new{aaData = lv});
         }
+
 
         public IHttpActionResult GetProgress(DateTime? from, DateTime? to) {
             DateTime f = from ?? DateTime.Now.AddDays(-30);
