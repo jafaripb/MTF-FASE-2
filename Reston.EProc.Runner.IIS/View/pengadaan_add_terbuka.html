@@ -466,7 +466,7 @@
                                                 <!--<a id="addPerson-pic" class="addPerson" attr1=".listperson-pic" >Tambah PIC</a>-->
                                                 <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                     <i class="fa fa-plus"></i>
-                                                    Tambah PIC
+                                                    Tambah PIC GA & Procurement
                                                 </a>
                                             </label>
 
@@ -478,7 +478,7 @@
                                                 <!--<a id="addPerson-tim" class="addPerson" attr1=".listperson-tim" >Tambah Tim</a>-->
                                                 <a id="addPerson-tim" attr1=".listperson-tim" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                     <i class="fa fa-plus"></i>
-                                                    Tambah Tim
+                                                    Tambah Tim GA & Procurement
                                                 </a>
                                             </label>
                                             <div class="listperson-tim">
@@ -937,6 +937,7 @@
                 }
             }
             $scope.searchPerson = function () {
+                var jum = $(".pop-personil-list").find("li").length;
                 $http.get("api/pengadaane/getUsers?start=0&limit=5&name=" + $("#search").val())
                   .then(function (response) {
                       $scope.persons = response.data.Users;

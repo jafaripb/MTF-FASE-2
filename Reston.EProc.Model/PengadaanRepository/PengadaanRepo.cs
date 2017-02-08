@@ -94,6 +94,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
         int deleteKandidatPilihan(PelaksanaanPemilihanKandidat oPelaksanaanPemilihanKandidat, Guid UserId);
         JadwalPelaksanaan AddPelaksanaanKlarifikasi(JadwalPelaksanaan pelaksanaanKlarifikasi, Guid UserId);
         JadwalPelaksanaan getPelaksanaanKlarifikasi(Guid PengadaanId, Guid UserId);
+        JadwalPelaksanaan getPelaksanaanKlarifikasiLanjutan(Guid PengadaanId, Guid UserId);
         JadwalPelaksanaan AddPelaksanaanPemenang(JadwalPelaksanaan pelaksanaanPemenang, Guid UserId);
         JadwalPelaksanaan getPelaksanaanPemenang(Guid PengadaanId, Guid UserId);
 
@@ -2666,6 +2667,35 @@ namespace Reston.Pinata.Model.PengadaanRepository
             //return ctx.PelaksanaanBukaAmplops.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault();
         }
 
+        public JadwalPelaksanaan getPelaksanaanKlarifikasiLanjutan(Guid PengadaanId, Guid UserId)
+        {
+            JadwalPelaksanaan MjadwalPelaksanaan = ctx.JadwalPelaksanaans.Where(d => d.PengadaanId == PengadaanId
+                           && d.statusPengadaan == EStatusPengadaan.KLARIFIKASILANJUTAN).FirstOrDefault();
+            if (MjadwalPelaksanaan != null)
+            {
+                JadwalPelaksanaan MOJadwalPelaksanaan = new JadwalPelaksanaan();
+                MOJadwalPelaksanaan.Id = MjadwalPelaksanaan.Id;
+                MOJadwalPelaksanaan.PengadaanId = MjadwalPelaksanaan.PengadaanId;
+                MOJadwalPelaksanaan.Mulai = MjadwalPelaksanaan.Mulai;
+                MOJadwalPelaksanaan.Sampai = MjadwalPelaksanaan.Sampai;
+                return MOJadwalPelaksanaan;
+            }
+            else
+            {
+                JadwalPelaksanaan MOJadwalPelaksanaan = new JadwalPelaksanaan();
+                JadwalPengadaan Mjadawal = ctx.JadwalPengadaans.Where(d => d.PengadaanId == PengadaanId && d.tipe == PengadaanConstants.Jadwal.KlarifikasiLanjutan).FirstOrDefault();
+                if (Mjadawal != null)
+                {
+                    MOJadwalPelaksanaan.Mulai = Mjadawal.Mulai;
+                    MOJadwalPelaksanaan.Sampai = Mjadawal.Sampai;
+                    MOJadwalPelaksanaan.PengadaanId = PengadaanId;
+                    MOJadwalPelaksanaan.Pengadaan = null;
+                }
+                return MOJadwalPelaksanaan;
+            }
+            //return ctx.PelaksanaanBukaAmplops.Where(d => d.PengadaanId == PengadaanId).FirstOrDefault();
+        }
+
         public JadwalPelaksanaan AddPelaksanaanPemenang(JadwalPelaksanaan pelaksanaanPemenang, Guid UserId)
         {
             Pengadaan Mpengadaaan = ctx.Pengadaans.Find(pelaksanaanPemenang.PengadaanId);
@@ -2757,7 +2787,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 if (vendor==null) return 0;
                 if (MdokPengadaan == null) return 0;
                 Pengadaan oPengadaan = ctx.Pengadaans.Find(MdokPengadaan.PengadaanId);
-                if (MdokPengadaan.Tipe != TipeBerkas.BerkasRekanan && MdokPengadaan.Tipe != TipeBerkas.BerkasRekananKlarifikasi) return 0;
+                if (MdokPengadaan.Tipe != TipeBerkas.BerkasRekanan && MdokPengadaan.Tipe != TipeBerkas.BerkasRekananKlarifikasi && MdokPengadaan.Tipe != TipeBerkas.BerkasRekananKlarifikasiLanjutan) return 0;
                 if (MdokPengadaan.Tipe == TipeBerkas.BerkasRekanan)
                 {
                     if (oPengadaan.Status != EStatusPengadaan.SUBMITPENAWARAN) return 0;
@@ -2767,6 +2797,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 {
                     if (oPengadaan.Status != EStatusPengadaan.KLARIFIKASI) return 0;
                     cekStateKlarifikasi(oPengadaan.Id);
+                }
+                if (MdokPengadaan.Tipe == TipeBerkas.BerkasRekananKlarifikasiLanjutan)
+                {
+                    if (oPengadaan.Status != EStatusPengadaan.KLARIFIKASILANJUTAN) return 0;
+                    cekStateKlarifikasiLanjutan(oPengadaan.Id);
                 }
 
                 ctx.DokumenPengadaans.Remove(MdokPengadaan);
@@ -3069,6 +3104,33 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 //    ctx.JadwalPelaksanaans.Add(mmJadwalPelaksanaan);
                 //    ctx.SaveChanges();
                 //}
+                UpdateStatus(PengadaanId, EStatusPengadaan.PEMENANG);
+                return 1;
+            }
+        }
+
+        public int cekStateKlarifikasiLanjutan(Guid PengadaanId)
+        {
+            DateTime? KlarifikasiDate = new DateTime();
+            JadwalPelaksanaan MJadwalPelaksanaan = ctx.JadwalPelaksanaans
+                    .Where(d => d.statusPengadaan == EStatusPengadaan.KLARIFIKASILANJUTAN && d.PengadaanId == PengadaanId).FirstOrDefault();
+
+            if (MJadwalPelaksanaan == null)
+            {
+                JadwalPengadaan mJadwalPengadaan = ctx.JadwalPengadaans.Where(d => d.PengadaanId == PengadaanId &&
+                                    d.tipe == PengadaanConstants.Jadwal.KlarifikasiLanjutan).FirstOrDefault();
+                if (mJadwalPengadaan == null) return 0;
+                KlarifikasiDate = mJadwalPengadaan.Sampai;
+            }
+            else KlarifikasiDate = MJadwalPelaksanaan.Sampai;
+
+            if (KlarifikasiDate == null)
+            {
+                return 0;
+            }
+            if (DateTime.Now < KlarifikasiDate) return 0;
+            else
+            {
                 UpdateStatus(PengadaanId, EStatusPengadaan.PEMENANG);
                 return 1;
             }

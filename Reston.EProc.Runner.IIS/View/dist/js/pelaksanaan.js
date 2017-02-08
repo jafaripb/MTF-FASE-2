@@ -818,6 +818,24 @@ $(function () {
                         }
                     });
                 }
+
+                if (tipe == "BeritaAcaraKlarifikasiLanjutan") {
+
+                    $.each(myDropzoneBeritaAcaraKlarifikasiLanjutan.files, function (index, item) {
+                        var id = 0;
+                        if (item.Id != undefined) {
+                            id = item.Id;
+                        }
+                        else {
+                            id = $.parseJSON(item.xhr.response);
+                        }
+
+                        if (id == FileId) {
+                            myDropzoneBeritaAcaraKlarifikasiLanjutan.removeFile(item);
+                        }
+                    });
+                }
+
                 if (tipe == "LembarDisposisi") {
                     
                     $.each(myDropzoneLembarDisposisi.files, function (index, item) {

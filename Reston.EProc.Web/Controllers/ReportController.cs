@@ -947,9 +947,9 @@ namespace Reston.Pinata.WebService.Controllers
         public async Task<HttpResponseMessage> BerkasKlarfikasiLanjutan(Guid Id)
         {
             var pengadaan = _repository.GetPengadaan(Id, UserId(), 0);
-            var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
+            var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasiLanjutan(Id, UserId());
             string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\BERITA ACARA RAPAT KLARIFIKASI DAN NEGOSIASI LANJUTAN new.docx";
-            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraKlarifikasi, UserId());
+            var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraKlarifikasiLanjutan, UserId());
             string outputFileName = "Berkas-Klarifikasi-Lanjutan" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
 
             string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
