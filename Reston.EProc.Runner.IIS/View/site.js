@@ -5,18 +5,18 @@ var PROC = '';
 var UNAUTHORIZED_CODE = '403';
 var SUCCESS_CODE = '200';
 var ERROR_CODE = '0';
-var LOGIN_PAGE;// 'http://localhost:7348/';
-var HOME_PAGE;//= 'http://localhost:49559/';
-var ADMIN ;//= 'http://localhost:49559/master.html';
-var MANAGER ;//= 'http://localhost:49559/pengadaan-list.html';
-var STAFF;//= 'http://localhost:49559/dashboard.html';//pengadaan list
-var REKANAN ;//= 'http://localhost:49559/rekanan-side-terdaftar.html';
-var ENDUSER;//= 'http://localhost:49559/dashboard.html';//pengadaan list
-var COMPLIANCE ;//= 'http://localhost:49559/pengadaan-list.html';
-var HEAD ;//= 'http://localhost:49559/pengadaan-list.html';
-var DIREKSI;//= 'http://localhost:49559/dashboard.html';
-var DIRUT;//= 'http://localhost:49559/dashboard.html';
-var LEGAL;//= 'http://localhost:49559/dashboard.html';
+var LOGIN_PAGE = 'http://localhost:7348/';
+var HOME_PAGE = 'http://localhost:49559/';
+var ADMIN = 'http://localhost:49559/master.html';
+var MANAGER = 'http://localhost:49559/pengadaan-list.html';
+var STAFF= 'http://localhost:49559/dashboard.html';//pengadaan list
+var REKANAN = 'http://localhost:49559/rekanan-side-terdaftar.html';
+var ENDUSER = 'http://localhost:49559/dashboard.html';//pengadaan list
+var COMPLIANCE = 'http://localhost:49559/pengadaan-list.html';
+var HEAD = 'http://localhost:49559/pengadaan-list.html';
+var DIREKSI = 'http://localhost:49559/dashboard.html';
+var DIRUT = 'http://localhost:49559/dashboard.html';
+var LEGAL = 'http://localhost:49559/dashboard.html';
 
 
 function getParameterByName(name, url) {
