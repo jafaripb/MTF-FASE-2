@@ -1490,7 +1490,6 @@ $(function () {
         }).done(function (data) {
             if (data.Id == "1") {
                 if (tipe == "DokumenNotaInternal") {
-
                     $.each(myDropzoneDokumenNotaInternal.files, function (index, item) {
                         var id = 0;
                         if (item.Id != undefined) {
@@ -1506,7 +1505,7 @@ $(function () {
                         }
                     });
                 }
-                if (tipe == "DOKUMENLAIN") {
+                if (tipe == "DokumenLain") {
                     $.each(myDropzoneDokumenLain.files, function (index, item) {
                         var id = 0;
                         if (item.Id != undefined) {

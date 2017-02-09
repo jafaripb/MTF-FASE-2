@@ -297,6 +297,23 @@ $(function () {
                     });
                 }
             }
+            if (data.Id == "1") {
+                if (tipe == "BerkasRekananKlarifikasiLanjutan") {
+                    $.each(myDropzoneBerkasRekananKlarifikasiLanjutan.files, function (index, item) {
+                        var id = 0;
+                        if (item.Id != undefined) {
+                            id = item.Id;
+                        }
+                        else {
+                            id = $.parseJSON(item.xhr.response);
+                        }
+
+                        if (id == FileId) {
+                            myDropzoneBerkasRekananKlarifikasiLanjutan.removeFile(item);
+                        }
+                    });
+                }
+            }
             $("#konfirmasiFile").modal("hide");
         });
     });

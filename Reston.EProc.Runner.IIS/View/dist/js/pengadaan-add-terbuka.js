@@ -1505,7 +1505,7 @@ $(function () {
                         }
                     });
                 }
-                if (tipe == "DOKUMENLAIN") {
+                if (tipe == "DokumenLain") {
                     $.each(myDropzoneDokumenLain.files, function (index, item) {
                         var id = 0;
                         if (item.Id != undefined) {

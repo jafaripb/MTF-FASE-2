@@ -8,51 +8,51 @@ $(function () {
 
     });
    
-    var myDropzoneBeritaAcaraPendaftaran = new Dropzone("#BeritaAcaraPendaftaran",
-           {
-               url: $("#BeritaAcaraPendaftaran").attr("action") + "&id=" + $("#pengadaanId").val(),
-               maxFilesize: 10,
-               acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx,.docx",
-               accept: function (file, done) {
-                   if ($("#isPIC").val() == 1) {
-                       done();
-                   } else {
-                       BootstrapDialog.show({
-                           title: 'Konfirmasi',
-                           message: 'Anda Tidak Memiliki Akses!',
-                           buttons: [{
-                               label: 'Close',
-                               action: function (dialog) {
-                                   myDropzoneBeritaAcaraPendaftaran.removeFile(file);
-                                   dialog.close();
-                               }
-                           }]
-                       });
-                   }
-               },
-               init: function () {
-                   this.on("addedfile", function (file) {
-                       file.previewElement.addEventListener("click", function () {
-                           var id = 0;
-                           if (file.Id != undefined)
-                               id = file.Id
-                           else
-                               id = $.parseJSON(file.xhr.response)
-                           //viewFile(data.Id);
-                           $("#HapusFile").show();
-                           $("#konfirmasiFile").attr("attr1", "BeritaAcaraPendaftaran");
-                           $("#konfirmasiFile").attr("FileId", id);
-                           $("#konfirmasiFile").modal("show");
-                       });
-                   });
-                   this.on("success", function (file, responseText) {
-                   });
-               }
-           }
-       );
+    //var myDropzoneBeritaAcaraPendaftaran = new Dropzone("#BeritaAcaraPendaftaran",
+    //       {
+    //           url: $("#BeritaAcaraPendaftaran").attr("action") + "&id=" + $("#pengadaanId").val(),
+    //           maxFilesize: 10,
+    //           acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx,.docx",
+    //           accept: function (file, done) {
+    //               if ($("#isPIC").val() == 1) {
+    //                   done();
+    //               } else {
+    //                   BootstrapDialog.show({
+    //                       title: 'Konfirmasi',
+    //                       message: 'Anda Tidak Memiliki Akses!',
+    //                       buttons: [{
+    //                           label: 'Close',
+    //                           action: function (dialog) {
+    //                               myDropzoneBeritaAcaraPendaftaran.removeFile(file);
+    //                               dialog.close();
+    //                           }
+    //                       }]
+    //                   });
+    //               }
+    //           },
+    //           init: function () {
+    //               this.on("addedfile", function (file) {
+    //                   file.previewElement.addEventListener("click", function () {
+    //                       var id = 0;
+    //                       if (file.Id != undefined)
+    //                           id = file.Id
+    //                       else
+    //                           id = $.parseJSON(file.xhr.response)
+    //                       //viewFile(data.Id);
+    //                       $("#HapusFile").show();
+    //                       $("#konfirmasiFile").attr("attr1", "BeritaAcaraPendaftaran");
+    //                       $("#konfirmasiFile").attr("FileId", id);
+    //                       $("#konfirmasiFile").modal("show");
+    //                   });
+    //               });
+    //               this.on("success", function (file, responseText) {
+    //               });
+    //           }
+    //       }
+    //   );
 
-    renderDokumenDropzone(myDropzoneBeritaAcaraPendaftaran, "BeritaAcaraPendaftaran");
-    Dropzone.options.BeritaAcaraPendaftaran = false;
+    //renderDokumenDropzone(myDropzoneBeritaAcaraPendaftaran, "BeritaAcaraPendaftaran");
+    //Dropzone.options.BeritaAcaraPendaftaran = false;
 
     var myDropzoneBeritaAcaraAanwijzing = new Dropzone("#BeritaAcaraAanwijzing",
             {

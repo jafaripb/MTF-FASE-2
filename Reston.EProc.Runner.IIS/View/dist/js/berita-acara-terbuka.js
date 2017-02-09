@@ -180,6 +180,8 @@ function getListBeritaAcara() {
                     $("#input-ba-penilaian").val(moment(value.tanggal).format("DD MMMM YYYY"));
                 if (value.Tipe == 7)
                     $("#input-ba-klarifikasi").val(moment(value.tanggal).format("DD MMMM YYYY"));
+                if (value.Tipe == 17)
+                    $("#input-ba-klarifikasi-lanjutan").val(moment(value.tanggal).format("DD MMMM YYYY"));
                 if (value.Tipe == 8)
                     $("#input-ba-nota").val(moment(value.tanggal).format("DD MMMM YYYY"));
                 if (value.Tipe == 12)
