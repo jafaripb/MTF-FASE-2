@@ -1172,7 +1172,7 @@ namespace Reston.Pinata.WebService.Controllers
             var jadwalKlarifikasi = _repository.getPelaksanaanKlarifikasi(Id, UserId());
             string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\Berita Acara Penilaian new.docx";
             var BeritaAcara = _repository.getBeritaAcaraByTipe(Id, TipeBerkas.BeritaAcaraPenilaian, UserId());
-            string outputFileName = "Berkas-Klarifikasi-Lanjutan" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+            string outputFileName = "Berkas-Penilaian" + (BeritaAcara == null ? "" : BeritaAcara.NoBeritaAcara.Replace("/", "-")) + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
 
             string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
 

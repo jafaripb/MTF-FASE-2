@@ -389,6 +389,9 @@ $(function () {
                            if ($("#State").val() == 12) {
                                done();
                            }
+                           else if ($("#State").val() > 7) {
+                               done();
+                           }
                        }
                        else {
                            BootstrapDialog.show({
@@ -829,7 +832,7 @@ $(function () {
                         else {
                             id = $.parseJSON(item.xhr.response);
                         }
-
+                        console.log(item.xhr.response);
                         if (id == FileId) {
                             myDropzoneBeritaAcaraKlarifikasiLanjutan.removeFile(item);
                         }
@@ -2417,7 +2420,7 @@ $(function () {
         },
         "columns": [
             { "data": null },
-            { "data": "FullName" },
+            { "data": "Nama" },
             { "data": "jabatan" }
         ],
         "columnDefs": [
