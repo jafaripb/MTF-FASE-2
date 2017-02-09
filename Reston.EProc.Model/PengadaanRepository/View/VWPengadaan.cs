@@ -94,6 +94,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<DateTime> CreatedOn { get; set; }
         public Nullable<Guid> CreatedBy { get; set; }
         public Nullable<int> isMasukKlarifikasi { get; set; }
+        public Nullable<int> cekisMasukKlarifikasiLanjutan { get; set; }
         public List<RKSHeader> RKSHeaders { get; set; }
         public Nullable<int> WorkflowTemplateId { get; set; }
         public Nullable<int> WorkflowPersetujuanPemenangTemplateId { get; set; }

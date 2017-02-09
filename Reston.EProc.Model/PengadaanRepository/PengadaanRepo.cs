@@ -623,6 +623,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                                    where bb.PengadaanId == b.Id
                                                                    & bb.VendorId == oVendor.Id
                                                                    select bb).FirstOrDefault() == null ? 0 : 1,
+                                             cekisMasukKlarifikasiLanjutan = (from bb in ctx.PemenangPengadaans
+                                                                   where bb.PengadaanId == b.Id
+                                                                   & bb.VendorId == oVendor.Id
+                                                                   select bb).FirstOrDefault() == null ? 0 : 1,
                                              isKlarifikasiLanjutan = (from bb in ctx.LewatTahapans
                                                                        where bb.PengadaanId == b.Id && bb.Status == EStatusPengadaan.KLARIFIKASILANJUTAN
                                                                        select bb).Count() > 0 ? 1 : 0,
@@ -3221,51 +3225,57 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.KLARIFIKASILANJUTAN) return new List<VWRKSDetailRekanan>();
             }
-            foreach (var item in dlstHargaKlarifikasiRekanan)
+            var vendorId = ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id;
+            var cekLanjutan = ctx.PemenangPengadaans.Where(d => d.VendorId == vendorId && d.PengadaanId == PengadaanId).FirstOrDefault();
+
+            if (cekLanjutan != null)
             {
-                var vendorId = ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id;
-                HargaKlarifikasiLanLanjutan oldHargaKlarifikasiLanjutanRekanan = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.VendorId == vendorId && d.RKSDetailId == item.Id).FirstOrDefault();
-                //if (item.HargaRekananId != Guid.Empty && item.HargaRekananId != null)
-                if (oldHargaKlarifikasiLanjutanRekanan != null)
+                foreach (var item in dlstHargaKlarifikasiRekanan)
                 {
 
-                    oldHargaKlarifikasiLanjutanRekanan.harga = item.harga;
-                    oldHargaKlarifikasiLanjutanRekanan.keterangan = item.keterangan;
-                    ctx.SaveChanges();
-                    newLstVWRKSDetailRekanan.Add(new VWRKSDetailRekanan
+                    HargaKlarifikasiLanLanjutan oldHargaKlarifikasiLanjutanRekanan = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.VendorId == vendorId && d.RKSDetailId == item.Id).FirstOrDefault();
+                    //if (item.HargaRekananId != Guid.Empty && item.HargaRekananId != null)
+                    if (oldHargaKlarifikasiLanjutanRekanan != null)
                     {
-                        Id = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().Id,
-                        item = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().item,
-                        ItemId = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().ItemId,
-                        jumlah = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? null : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().jumlah,
-                        satuan = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().satuan,
-                        harga = oldHargaKlarifikasiLanjutanRekanan.harga,
-                        HargaRekananId = oldHargaKlarifikasiLanjutanRekanan.Id,
-                        keterangan = oldHargaKlarifikasiLanjutanRekanan.keterangan
-                    });
-                }
-                else
-                {
-                    HargaKlarifikasiLanLanjutan newHargaKlarifikasiLanjutanRekanan = new HargaKlarifikasiLanLanjutan();
-                    newHargaKlarifikasiLanjutanRekanan.harga = item.harga;
-                    newHargaKlarifikasiLanjutanRekanan.keterangan = item.keterangan;
-                    newHargaKlarifikasiLanjutanRekanan.RKSDetailId = item.Id;
-                    newHargaKlarifikasiLanjutanRekanan.VendorId = ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id; //3;//contoh vendor
-                    ctx.HargaKlarifikasiLanLanjutans.Add(newHargaKlarifikasiLanjutanRekanan);
-                    ctx.SaveChanges();
-                    newLstVWRKSDetailRekanan.Add(new VWRKSDetailRekanan
-                    {
-                        Id = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().Id,
-                        item = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().item,
-                        ItemId = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().ItemId,
-                        jumlah = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? null : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().jumlah,
-                        satuan = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().satuan,
-                        harga = newHargaKlarifikasiLanjutanRekanan.harga,
-                        HargaRekananId = newHargaKlarifikasiLanjutanRekanan.Id,
-                        keterangan = newHargaKlarifikasiLanjutanRekanan.keterangan
-                    });
-                }
 
+                        oldHargaKlarifikasiLanjutanRekanan.harga = item.harga;
+                        oldHargaKlarifikasiLanjutanRekanan.keterangan = item.keterangan;
+                        ctx.SaveChanges();
+                        newLstVWRKSDetailRekanan.Add(new VWRKSDetailRekanan
+                        {
+                            Id = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().Id,
+                            item = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().item,
+                            ItemId = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().ItemId,
+                            jumlah = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? null : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().jumlah,
+                            satuan = ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == oldHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().satuan,
+                            harga = oldHargaKlarifikasiLanjutanRekanan.harga,
+                            HargaRekananId = oldHargaKlarifikasiLanjutanRekanan.Id,
+                            keterangan = oldHargaKlarifikasiLanjutanRekanan.keterangan
+                        });
+                    }
+                    else
+                    {
+                        HargaKlarifikasiLanLanjutan newHargaKlarifikasiLanjutanRekanan = new HargaKlarifikasiLanLanjutan();
+                        newHargaKlarifikasiLanjutanRekanan.harga = item.harga;
+                        newHargaKlarifikasiLanjutanRekanan.keterangan = item.keterangan;
+                        newHargaKlarifikasiLanjutanRekanan.RKSDetailId = item.Id;
+                        newHargaKlarifikasiLanjutanRekanan.VendorId = ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id; //3;//contoh vendor
+                        ctx.HargaKlarifikasiLanLanjutans.Add(newHargaKlarifikasiLanjutanRekanan);
+                        ctx.SaveChanges();
+                        newLstVWRKSDetailRekanan.Add(new VWRKSDetailRekanan
+                        {
+                            Id = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().Id,
+                            item = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().item,
+                            ItemId = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? Guid.Empty : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().ItemId,
+                            jumlah = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? null : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().jumlah,
+                            satuan = ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId) == null ? "" : ctx.RKSDetails.Where(d => d.Id == newHargaKlarifikasiLanjutanRekanan.RKSDetailId).FirstOrDefault().satuan,
+                            harga = newHargaKlarifikasiLanjutanRekanan.harga,
+                            HargaRekananId = newHargaKlarifikasiLanjutanRekanan.Id,
+                            keterangan = newHargaKlarifikasiLanjutanRekanan.keterangan
+                        });
+                    }
+
+                }
             }
 
             return newLstVWRKSDetailRekanan;

@@ -1,6 +1,7 @@
 ﻿var id_pengadaan = window.location.hash.replace("#", "");
 
 $(function () {
+
     if (isGuid(id_pengadaan)) {
         $("#pengadaanId").val(id_pengadaan);
         loadData(id_pengadaan);
@@ -345,6 +346,14 @@ function loadData(pengadaanId) {
             $("#tab-klarifikasi-lanjutan-rekanan").attr("data-toggle", "collapse");
             if (data.Status == 6)
              $("#panel-klarifikasi-lanjutan").addClass("in");
+        }
+
+        if (data.cekisMasukKlarifikasiLanjutan == 0)
+        {
+            //$("#panel-klarifikasi-lanjutan").attr("style", "display : none");
+            //$("#tab-klarifikasi-lanjutan-rekanan").attr("style", "display : none");
+            $("#panel-klarifikasi-lanjutan").remove();
+            $("#tab-klarifikasi-lanjutan-rekanan").remove();
         }
 
         if (data.Status == 12) {
