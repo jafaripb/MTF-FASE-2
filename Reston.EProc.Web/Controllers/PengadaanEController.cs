@@ -3970,8 +3970,8 @@ namespace Reston.Pinata.WebService.Controllers
                 html = html + "<br/>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_BODY_APPROVER"].ToString() + "</p>";
                 if(oPengadaan.AturanPengadaan=="terbuka")
-                    html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "dashboard.html#" +  "' target='_blank'>" +  "</a></p>";//oPengadaan.Id//oPengadaan.Judul + 
-                else html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "dashboard.html#" +  "' target='_blank'>" + "</a></p>";//oPengadaan.Id//oPengadaan.Judul + 
+                    html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "dashboard.html#" + "' target='_blank'>" + oPengadaan.Judul + "</a></p>";//oPengadaan.Id//oPengadaan.Judul + 
+                else html = html + "<p><a href='" + IdLdapConstants.Proc.Url + "dashboard.html#" + "' target='_blank'>" + oPengadaan.Judul + "</a></p>";//oPengadaan.Id//oPengadaan.Judul + 
                 html = html + "<br/><br/>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER1"].ToString() + "</p>";
                 html = html + "<p>" + System.Configuration.ConfigurationManager.AppSettings["MAIL_KLARIFIKASI_FOOTER2"].ToString() + "</p>";
