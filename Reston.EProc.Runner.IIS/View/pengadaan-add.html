@@ -916,6 +916,7 @@
                 }
             }
             $scope.searchPerson = function () {
+                var jum = $(".pop-personil-list").find("li").length;
                 $http.get("api/pengadaane/getUsers?start=0&limit=5&name=" + $("#search").val())
                   .then(function (response) {
                       $scope.persons = response.data.Users;
