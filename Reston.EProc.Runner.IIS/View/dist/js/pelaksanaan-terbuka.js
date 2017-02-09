@@ -314,80 +314,83 @@ $(function () {
     Dropzone.options.BeritaAcaraKlarifikasi = false;
 
     var myDropzoneBeritaAcaraKlarifikasiLanjutan = new Dropzone("#BeritaAcaraKlarifikasiLanjutan",
-          {
-              url: $("#BeritaAcaraKlarifikasiLanjutan").attr("action") + "&id=" + $("#pengadaanId").val(),
-              maxFilesize: 10,
-              acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
-              accept: function (file, done) {
-                  var jumFile = myDropzoneBeritaAcaraKlarifikasiLanjutan.files.length;
-                  if ($("#isPIC").val() == 1) {
-                      var cekRekananCheck = 0;
-                      $(".checkbox-pilih-pemenang").each(function () {
-                          if ($(this).prop('checked') == true) {
-                              cekRekananCheck = cekRekananCheck + 1;
-                          }
-                      });
-                      if (cekRekananCheck > 0) {
-                          if ($("#State").val() == 12) {
-                              done();
-                          }
-                      }
-                      else {
-                          BootstrapDialog.show({
-                              title: 'Konfirmasi',
-                              message: 'Anda Belum Memilih Kandidat Pemenang',
-                              buttons: [{
-                                  label: 'Close',
-                                  action: function (dialog) {
-                                      myDropzoneBeritaAcaraKlarifikasiLanjutan.removeFile(file);
-                                      dialog.close();
+           {
+               url: $("#BeritaAcaraKlarifikasiLanjutan").attr("action") + "&id=" + $("#pengadaanId").val(),
+               maxFilesize: 10,
+               acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
+               accept: function (file, done) {
+                   var jumFile = myDropzoneBeritaAcaraKlarifikasiLanjutan.files.length;
+                   if ($("#isPIC").val() == 1) {
+                       var cekRekananCheck = 0;
+                       $(".checkbox-pilih-pemenang").each(function () {
+                           if ($(this).prop('checked') == true) {
+                               cekRekananCheck = cekRekananCheck + 1;
+                           }
+                       });
+                       if (cekRekananCheck > 0) {
+                           if ($("#State").val() == 12) {
+                               done();
+                           }
+                           else if ($("#State").val() > 7) {
+                               done();
+                           }
+                       }
+                       else {
+                           BootstrapDialog.show({
+                               title: 'Konfirmasi',
+                               message: 'Anda Belum Memilih Kandidat Pemenang',
+                               buttons: [{
+                                   label: 'Close',
+                                   action: function (dialog) {
+                                       myDropzoneBeritaAcaraKlarifikasiLanjutan.removeFile(file);
+                                       dialog.close();
 
-                                  }
-                              }]
-                          });
-                      }
-                  }
-                  else {
-                      BootstrapDialog.show({
-                          title: 'Konfirmasi',
-                          message: 'Anda Tidak Memiliki Akses!',
-                          buttons: [{
-                              label: 'Close',
-                              action: function (dialog) {
-                                  myDropzoneBeritaAcaraKlarifikasiLanjutan.removeFile(file);
-                                  dialog.close();
-                              }
-                          }]
-                      });
-                  }
+                                   }
+                               }]
+                           });
+                       }
+                   }
+                   else {
+                       BootstrapDialog.show({
+                           title: 'Konfirmasi',
+                           message: 'Anda Tidak Memiliki Akses!',
+                           buttons: [{
+                               label: 'Close',
+                               action: function (dialog) {
+                                   myDropzoneBeritaAcaraKlarifikasiLanjutan.removeFile(file);
+                                   dialog.close();
+                               }
+                           }]
+                       });
+                   }
 
-                  //  }
-              },
-              init: function () {
-                  this.on("addedfile", function (file) {
-                      file.previewElement.addEventListener("click", function () {
-                          var id = 0;
-                          if (file.Id != undefined)
-                              id = file.Id;
-                          else
-                              id = $.parseJSON(file.xhr.response);
-                          //viewFile(data.Id);
-                          $("#HapusFile").show();
-                          $("#konfirmasiFile").attr("attr1", "BeritaAcaraKlarifikasiLanjutan");
-                          $("#konfirmasiFile").attr("FileId", id);
-                          $("#konfirmasiFile").modal("show");
-                      });
-                  });
-                  this.on("success", function (file, responseText) {
-                      // if($("#State").val()==7)
-                      //nextState("penentuan_pemenang");
-                  });
-                  //this.on("removedfile", function (file, responseText) {
-                  //    myDropzoneBeritaAcaraBukaAmplop.removeFile(file);
-                  //});
-              }
-          }
-      );
+                   //  }
+               },
+               init: function () {
+                   this.on("addedfile", function (file) {
+                       file.previewElement.addEventListener("click", function () {
+                           var id = 0;
+                           if (file.Id != undefined)
+                               id = file.Id;
+                           else
+                               id = $.parseJSON(file.xhr.response);
+                           //viewFile(data.Id);
+                           $("#HapusFile").show();
+                           $("#konfirmasiFile").attr("attr1", "BeritaAcaraKlarifikasiLanjutan");
+                           $("#konfirmasiFile").attr("FileId", id);
+                           $("#konfirmasiFile").modal("show");
+                       });
+                   });
+                   this.on("success", function (file, responseText) {
+                       // if($("#State").val()==7)
+                       //nextState("penentuan_pemenang");
+                   });
+                   //this.on("removedfile", function (file, responseText) {
+                   //    myDropzoneBeritaAcaraBukaAmplop.removeFile(file);
+                   //});
+               }
+           }
+       );
 
     renderDokumenDropzone(myDropzoneBeritaAcaraKlarifikasiLanjutan, "BeritaAcaraKlarifikasiLanjutan");
     Dropzone.options.BeritaAcaraKlarifikasiLanjutan = false;
@@ -474,11 +477,8 @@ $(function () {
                    }
                },
                init: function () {
-                   //console.log(this);
                    this.on("processing", function (file) {
                        //this.options.url = "";
-                       //console.log(this);
-                       //console.log(this.options.url);
                    });
                    this.on("addedfile", function (file) {
                        file.previewElement.addEventListener("click", function () {
@@ -646,49 +646,79 @@ $(function () {
     renderDokumenDropzone(myDropzoneSuratPerintahKerja, "SuratPerintahKerja");
     Dropzone.options.SuratPerintahKerja = false;
 
-    var myDropzoneBerkasSuratPerintahKerja = new Dropzone("#BerkasSuratPerintahKerja",
-          {
-              url: $("#BerkasSuratPerintahKerja").attr("action") + "&id=" + $("#pengadaanId").val(),
-              maxFilesize: 10,
-              acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
-              accept: function (file, done) {
-                  var jumFile = myDropzoneBerkasSuratPerintahKerja.files.length;
-                  if (jumFile > 1) {
-                      BootstrapDialog.show({
-                          title: 'Konfirmasi',
-                          message: 'Berkas Sudah Adda',
-                          buttons: [{
-                              label: 'Close',
-                              action: function (dialog) {
-                                  myDropzoneBerkasSuratPerintahKerja.removeFile(file);
-                                  dialog.close();
-                              }
-                          }]
-                      });
-                  } else {
-                      done();
-                  }
-              },
-              init: function () {
-                  this.on("addedfile", function (file) {
-                      file.previewElement.addEventListener("click", function () {
-                          var id = 0;
-                          if (file.Id != undefined)
-                              id = file.Id;
-                          else
-                              id = $.parseJSON(file.xhr.response);
-                          $("#HapusFile").show();
-                          $("#konfirmasiFile").attr("attr1", "SuratPerintahKerja");
-                          $("#konfirmasiFile").attr("FileId", id);
-                          $("#konfirmasiFile").modal("show");
-                      });
-                  });
-              }
-          }
-      );
+    var myDropzoneBeritaAcaraPenilaian = new Dropzone("#BeritaAcaraPenilaian",
+             {
+                 url: $("#BeritaAcaraPenilaian").attr("action") + "&id=" + $("#pengadaanId").val(),
+                 maxFilesize: 10,
+                 acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx,.docx",
+                 accept: function (file, done) {
+                     if ($("#isPIC").val() == 1) {
+                         var cekRekananCheck = 0;
+                         $(".checkbox-pilih-kandidat").each(function () {
+                             if ($(this).prop('checked') == true) {
+                                 cekRekananCheck = cekRekananCheck + 1;
+                             }
+                         });
+                         if (cekRekananCheck > 0) {
+                             if ($("#State").val() == 6)
+                                 done();
+                             else {
+                                 if ($("#State").val() > 6)
+                                     done();
+                             }
+                         }
+                         else {
+                             BootstrapDialog.show({
+                                 title: 'Konfirmasi',
+                                 message: 'Anda Belum Memilih Kandidat untuk Maju Ketahap Klarifikasi',
+                                 buttons: [{
+                                     label: 'Close',
+                                     action: function (dialog) {
+                                         myDropzoneBeritaAcaraPenilaian.removeFile(file);
+                                         dialog.close();
 
-    renderDokumenDropzone(myDropzoneBerkasSuratPerintahKerja, "SuratPerintahKerja");
-    Dropzone.options.BerkasSuratPerintahKerja = false;
+                                     }
+                                 }]
+                             });
+                         }
+                     } else {
+                         BootstrapDialog.show({
+                             title: 'Konfirmasi',
+                             message: 'Anda Tidak Memiliki Akses!',
+                             buttons: [{
+                                 label: 'Close',
+                                 action: function (dialog) {
+                                     myDropzoneBeritaAcaraPenilaian.removeFile(file);
+                                     dialog.close();
+                                 }
+                             }]
+                         });
+                     }
+                 },
+                 dictDefaultMessage: "Tidak Ada Dokumen",
+                 init: function () {
+                     this.on("addedfile", function (file) {
+                         file.previewElement.addEventListener("click", function () {
+                             var id = 0;
+                             if (file.Id != undefined)
+                                 id = file.Id
+                             else
+                                 id = $.parseJSON(file.xhr.response)
+                             //viewFile(data.Id);
+                             $("#HapusFile").show();
+                             $("#konfirmasiFile").attr("attr1", "BeritaAcaraPenilaian");
+                             $("#konfirmasiFile").attr("FileId", id);
+                             $("#konfirmasiFile").modal("show");
+                         });
+                     });
+                     this.on("success", function (file, responseText) {
+                     });
+                 }
+             }
+         );
+
+    renderDokumenDropzone(myDropzoneBeritaAcaraPenilaian, "BeritaAcaraPenilaian");
+    Dropzone.options.BeritaAcaraPenilaian = false;
 
     $("#HapusFile").on("click", function () {
         var tipe = $(this).parent().parent().parent().parent().attr("attr1");
@@ -741,6 +771,23 @@ $(function () {
 
                         if (id == FileId) {
                             myDropzoneBeritaAcaraKlarifikasi.removeFile(item);
+                        }
+                    });
+                }
+
+                if (tipe == "BeritaAcaraKlarifikasiLanjutan") {
+                    $.each(myDropzoneBeritaAcaraKlarifikasiLanjutan.files, function (index, item) {
+                        var id = 0;
+                        if (item.Id != undefined) {
+                            id = item.Id;
+                        }
+                        else {
+                            id = $.parseJSON(item.xhr.response);
+                        }
+
+                        
+                        if (id == FileId) {
+                            myDropzoneBeritaAcaraKlarifikasiLanjutan.removeFile(item);
                         }
                     });
                 }
