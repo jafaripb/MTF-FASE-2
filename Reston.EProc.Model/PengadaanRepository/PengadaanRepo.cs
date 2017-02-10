@@ -1042,20 +1042,48 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 foreach (var item in oData.data)
                 {
+                    var cekKlarifikasiLanjutx = cekKlarifikasiLanjut(item.Id);
                     var hargaVendors = "";
                     foreach (var itemx in item.vendor)
                     {
-                        var hargaPenawranVendor = (from bb in ctx.HargaKlarifikasiRekanans
-                                                   join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
-                                                   join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
-                                                   where dd.PengadaanId == item.Id && bb.VendorId == itemx.Id
-                                                   select new item
-                                                   {
-                                                       harga = bb.harga,
-                                                       jumlah = cc.jumlah
-                                                   }).Sum(xx => xx.harga * xx.jumlah);
-                        string harga = hargaPenawranVendor == null ? "-" : hargaPenawranVendor.Value.ToString("C", MyConverter.formatCurrencyIndoTanpaSymbol());
-                        hargaVendors += itemx.Nama + "( " + harga + " )";
+                        if (!cekKlarifikasiLanjutx)
+                        {
+                             var hargaPenawaranVendor = (from bb in ctx.HargaKlarifikasiRekanans
+                                          join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                          join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                          where dd.PengadaanId == item.Id && bb.VendorId == itemx.Id
+                                          select new item
+                                          {
+                                              harga = bb.harga,
+                                              jumlah = cc.jumlah
+                                          }).Sum(xx => xx.harga == null ? 0 : xx.harga * xx.jumlah);
+                            string harga = hargaPenawaranVendor == null ? "-" : hargaPenawaranVendor.Value.ToString("C", MyConverter.formatCurrencyIndoTanpaSymbol());
+                            hargaVendors += itemx.Nama + "( " + harga + " )";
+                        }
+                        else
+                        {
+                            var hargaPenawaranVendor = (from bb in ctx.HargaKlarifikasiLanLanjutans
+                                          join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                          join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                          where dd.PengadaanId == item.Id && bb.VendorId == itemx.Id
+                                          select new item
+                                          {
+                                              harga = bb.harga,
+                                              jumlah = cc.jumlah
+                                          }).Sum(xx => xx.harga == null ? 0 : xx.harga * xx.jumlah);
+                            string harga = hargaPenawaranVendor == null ? "-" : hargaPenawaranVendor.Value.ToString("C", MyConverter.formatCurrencyIndoTanpaSymbol());
+                            hargaVendors += itemx.Nama + "( " + harga + " )";
+                        }
+                        //var hargaPenawranVendor = (from bb in ctx.HargaKlarifikasiRekanans
+                        //                           join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                        //                           join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                        //                           where dd.PengadaanId == item.Id && bb.VendorId == itemx.Id
+                        //                           select new item
+                        //                           {
+                        //                               harga = bb.harga,
+                        //                               jumlah = cc.jumlah
+                        //                           }).Sum(xx => xx.harga * xx.jumlah);
+
                     }
                     item.HargaPemanang = hargaVendors;
                 }

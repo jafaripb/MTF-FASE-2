@@ -1165,7 +1165,6 @@ function getHeaderPengadaan() {
     viewPengadaan.JenisPekerjaan = $("[name=JenisPekerjaan]").val();
     if ($("#pengadaanId").val() != "") viewPengadaan.Id = $("#pengadaanId").val();
     return viewPengadaan;
-    console.log(viewPengadaan);
 }
 
 function save(pengadaanHeader, attr1, status) {
