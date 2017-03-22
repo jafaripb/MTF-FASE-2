@@ -215,7 +215,7 @@ $(function () {
 
     SetListRegion("[name=Region]");
 
-    $("#example1").on("change", ".item", function () {
+  /*  $("#example1").on("change", ".item", function () {
         var elRow = $(this).parent().closest("tr");
         var oldRowData = table.row(elRow.index()).data();
         var newRowData = {};
@@ -241,7 +241,7 @@ $(function () {
         //colectData();
         Hitung();
     });
-
+    */
     function Hitung() {
         var total = 0;
         var index = 0;

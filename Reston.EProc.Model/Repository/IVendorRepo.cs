@@ -11,7 +11,7 @@ namespace Reston.Pinata.Model.Repository
     {
         Vendor GetVendor(int id);
         Vendor GetVendorByUser(Guid id);
-        List<Vendor> GetVendors(ETipeVendor tipe, EStatusVendor status, int limit);
+        List<Vendor> GetVendors(ETipeVendor tipe, EStatusVendor status, int limit, string search);
         List<Vendor> GetAllVendor();
         int AddVendor(Vendor v);
         int CheckNomor(string no);

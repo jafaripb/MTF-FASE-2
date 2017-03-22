@@ -124,6 +124,8 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public List<ViewPengadaan> data { get; set; }
     }
 
+    
+
     public class VWVendor
     {
         public int? Id { get; set; }

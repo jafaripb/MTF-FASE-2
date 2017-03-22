@@ -27,13 +27,13 @@ namespace Reston.Pinata.Model.Repository
             return null;
         }
 
-        public List<RegVendor> GetVendors(ETipeVendor tipe, EStatusVendor status, int limit) {
-            if (limit > 0) { 
-                List<RegVendor> lv = 
-                ctx.RegVendors.Where(x => (tipe == ETipeVendor.NONE || x.TipeVendor == tipe) && (status == EStatusVendor.NONE || x.StatusAkhir == status))
-                    .OrderByDescending(x=>x.Id).Take(limit)
-                    .ToList();
-                return lv;
+        public List<RegVendor> GetVendors(ETipeVendor tipe, EStatusVendor status, int limit,string search) {
+            if (limit > 0) {
+                var lv =
+                ctx.RegVendors.Where(x => (tipe == ETipeVendor.NONE || x.TipeVendor == tipe) &&
+                    (status == EStatusVendor.NONE || x.StatusAkhir == status));
+                if (!string.IsNullOrEmpty(search)) lv = lv.Where(d => d.Nama.Contains(search)).OrderByDescending(x => x.Id).Take(limit);                    
+                return lv.ToList();
             }
             return new List<RegVendor>();
         }

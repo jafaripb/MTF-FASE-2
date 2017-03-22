@@ -52,7 +52,7 @@ namespace Reston.Pinata.WebService
             var lv =
             _repository.GetVendors(tipe != null ? (ETipeVendor)Enum.Parse(typeof(ETipeVendor), tipe) : ETipeVendor.NONE,
                 status != null ? (EStatusVendor)Enum.Parse(typeof(EStatusVendor), status) : EStatusVendor.NONE
-                , limit);
+                , limit,search);
             if (lv != null)
                 return lv.Where(x => search == null || x.Nama.ToLower().Contains(search.ToLower())).Select(x => new VendorViewModel() { id = x.Id, Nama = x.Nama, Alamat = x.Alamat, Telepon = x.Telepon, Email = x.Email, Website = x.Website, NoPengajuan = x.NoPengajuan }).ToList();
             return new List<VendorViewModel>();
