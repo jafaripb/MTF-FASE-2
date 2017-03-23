@@ -11,7 +11,7 @@
               <TextRun>
                 <Value>PURCHASE ORDER</Value>
                 <Style>
-                  <FontSize>12pt</FontSize>
+                  <FontSize>14pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -24,8 +24,8 @@
         <rd:DefaultName>Textbox2</rd:DefaultName>
         <Top>0.23958in</Top>
         <Left>6.2939in</Left>
-        <Height>0.20833in</Height>
-        <Width>1.73958in</Width>
+        <Height>0.27083in</Height>
+        <Width>2.30208in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -44,7 +44,9 @@
             <TextRuns>
               <TextRun>
                 <Value>Kepada Yth :</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style>
@@ -56,7 +58,7 @@
         <Top>1.09167in</Top>
         <Left>0.905in</Left>
         <Height>0.25in</Height>
-        <Width>1in</Width>
+        <Width>1.10416in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -77,6 +79,7 @@
               <TextRun>
                 <Value>=First(Fields!Vendor.Value, "PoDs")</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -106,10 +109,10 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.29762in</Width>
+              <Width>0.48086in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.67262in</Width>
+              <Width>0.78649in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>4.12874in</Width>
@@ -142,6 +145,7 @@
                             <TextRun>
                               <Value>NO</Value>
                               <Style>
+                                <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -176,6 +180,7 @@
                             <TextRun>
                               <Value>KODE</Value>
                               <Style>
+                                <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -210,6 +215,7 @@
                             <TextRun>
                               <Value>NAMA BARANG</Value>
                               <Style>
+                                <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -244,6 +250,7 @@
                             <TextRun>
                               <Value>Banyak</Value>
                               <Style>
+                                <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -278,6 +285,7 @@
                             <TextRun>
                               <Value>Satuan</Value>
                               <Style>
+                                <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -312,6 +320,7 @@
                             <TextRun>
                               <Value>Harga Satuan</Value>
                               <Style>
+                                <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -346,6 +355,7 @@
                             <TextRun>
                               <Value>Jumlah</Value>
                               <Style>
+                                <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -384,7 +394,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=RowNumber(nothing)</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -416,7 +428,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Kode.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -446,7 +460,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!NamaBarang.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -476,7 +492,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Banyak.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -508,7 +526,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Satuan.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -540,7 +560,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Harga.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -572,7 +594,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Jumlah.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -609,7 +633,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -641,7 +667,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -671,7 +699,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Keterangan.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -701,7 +731,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -733,7 +765,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -765,7 +799,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -797,7 +833,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -834,7 +872,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -867,7 +907,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -897,7 +939,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -927,7 +971,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -957,7 +1003,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -989,7 +1037,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1021,7 +1071,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1058,7 +1110,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1091,7 +1145,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1121,7 +1177,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>SUBTOTAL</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1151,7 +1209,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1181,7 +1241,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1213,7 +1275,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1245,7 +1309,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!SubTotal.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1282,7 +1348,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1315,7 +1383,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1345,7 +1415,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>DISCOUNT</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1375,11 +1447,15 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=First(Fields!Discount.Value, "PoDetailDs")</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                             <TextRun>
                               <Value>%</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1410,7 +1486,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1442,7 +1520,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1474,7 +1554,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!NilaiDiscount.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1511,7 +1593,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1544,7 +1628,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1574,7 +1660,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>DPP</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1604,7 +1692,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1636,7 +1726,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1668,7 +1760,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1700,7 +1794,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!NilaiDPP.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1737,7 +1833,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1770,7 +1868,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1800,7 +1900,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>PPH</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1830,11 +1932,15 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PPH.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                             <TextRun>
                               <Value>%</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1866,7 +1972,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1898,7 +2006,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1930,7 +2040,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!NilaiPPH.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1967,7 +2079,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2000,7 +2114,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -2030,7 +2146,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>PPN</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -2060,11 +2178,15 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=First(Fields!PPN.Value, "PoDetailDs")</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                             <TextRun>
                               <Value>%</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2095,7 +2217,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2127,7 +2251,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2159,7 +2285,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!NilaiPPN.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2196,7 +2324,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -2226,7 +2356,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -2256,7 +2388,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -2287,6 +2421,7 @@
                             <TextRun>
                               <Value>Total</Value>
                               <Style>
+                                <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -2322,7 +2457,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2354,7 +2491,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Total.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontSize>12pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2430,7 +2569,7 @@
         <Top>2.57291in</Top>
         <Left>0.905in</Left>
         <Height>2.5in</Height>
-        <Width>11.58112in</Width>
+        <Width>11.87823in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -2447,12 +2586,14 @@
               <TextRun>
                 <Value>No : </Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
               <TextRun>
                 <Value>=First(Fields!NoPO.Value, "PoDs")</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -2487,12 +2628,14 @@
               <TextRun>
                 <Value>UP : </Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
               <TextRun>
                 <Value>=First(Fields!UP.Value, "PoDs")</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -2527,12 +2670,14 @@
               <TextRun>
                 <Value>Perihal : </Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
               <TextRun>
                 <Value>=First(Fields!Prihal.Value, "PoDs")</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                   <TextDecoration>Underline</TextDecoration>
                 </Style>
@@ -2547,7 +2692,7 @@
         <Top>2.13541in</Top>
         <Left>0.905in</Left>
         <Height>0.25in</Height>
-        <Width>11.58112in</Width>
+        <Width>11.87823in</Width>
         <ZIndex>6</ZIndex>
         <Style>
           <Border>
@@ -2568,6 +2713,7 @@
               <TextRun>
                 <Value>Pengiriman Barang :</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -2579,7 +2725,7 @@
         <Top>6.05556in</Top>
         <Left>0.97304in</Left>
         <Height>0.25in</Height>
-        <Width>1.65625in</Width>
+        <Width>2.10904in</Width>
         <ZIndex>7</ZIndex>
         <Style>
           <Border>
@@ -2600,6 +2746,7 @@
               <TextRun>
                 <Value>1.</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -2632,6 +2779,7 @@
               <TextRun>
                 <Value>SEGERA</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -2663,7 +2811,9 @@
             <TextRuns>
               <TextRun>
                 <Value>Setelah Surat ini diterima</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -2673,7 +2823,7 @@
         <Top>6.62292in</Top>
         <Left>1.00916in</Left>
         <Height>0.25in</Height>
-        <Width>1.65625in</Width>
+        <Width>2.42708in</Width>
         <ZIndex>10</ZIndex>
         <Style>
           <Border>
@@ -2694,6 +2844,7 @@
               <TextRun>
                 <Value>2.</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -2726,6 +2877,7 @@
               <TextRun>
                 <Value>Cara dan Syarat Pembayaran :</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -2758,6 +2910,7 @@
               <TextRun>
                 <Value>Pembayaran dilakukan dengan transfer 100 % setelah barang dan invoice diterima dalam waktu 2 minggu ke :</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -2790,6 +2943,7 @@
               <TextRun>
                 <Value>Rek No:</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -2801,7 +2955,7 @@
         <Top>7.73611in</Top>
         <Left>9.01958in</Left>
         <Height>0.25in</Height>
-        <Width>0.65153in</Width>
+        <Width>0.73486in</Width>
         <ZIndex>14</ZIndex>
         <Style>
           <Border>
@@ -2822,6 +2976,7 @@
               <TextRun>
                 <Value>Atas Nama :</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -2833,7 +2988,7 @@
         <Top>7.73611in</Top>
         <Left>0.94666in</Left>
         <Height>0.25in</Height>
-        <Width>0.97569in</Width>
+        <Width>1.03124in</Width>
         <ZIndex>15</ZIndex>
         <Style>
           <Border>
@@ -2854,6 +3009,7 @@
               <TextRun>
                 <Value>Bank :</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -2865,7 +3021,7 @@
         <Top>7.73611in</Top>
         <Left>5.35291in</Left>
         <Height>0.25in</Height>
-        <Width>0.5in</Width>
+        <Width>0.65278in</Width>
         <ZIndex>16</ZIndex>
         <Style>
           <Border>
@@ -2885,7 +3041,9 @@
             <TextRuns>
               <TextRun>
                 <Value>Setelah barang diterima dengan baik dibuktikan dengan :</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -2915,7 +3073,9 @@
             <TextRuns>
               <TextRun>
                 <Value>a. Surat pembelian yang sudah ditanda tangani  oleh kedua belah pihak</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -2924,7 +3084,9 @@
             <TextRuns>
               <TextRun>
                 <Value>b. Tanda Terima / Berita Acara Serah Terima Barang</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -2933,8 +3095,8 @@
         <rd:DefaultName>Textbox56</rd:DefaultName>
         <Top>8.64931in</Top>
         <Left>0.94666in</Left>
-        <Height>0.40625in</Height>
-        <Width>4.69792in</Width>
+        <Height>0.49653in</Height>
+        <Width>6.9333in</Width>
         <ZIndex>18</ZIndex>
         <Style>
           <Border>
@@ -2954,7 +3116,9 @@
             <TextRuns>
               <TextRun>
                 <Value>c. Delivery Order</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -2963,7 +3127,9 @@
             <TextRuns>
               <TextRun>
                 <Value>b. Berita Acara Pekerjaan</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -2994,6 +3160,7 @@
               <TextRun>
                 <Value>3.</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3026,6 +3193,7 @@
               <TextRun>
                 <Value>Alamat Pengiriman Barang : </Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3058,6 +3226,7 @@
               <TextRun>
                 <Value>UP : </Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3069,7 +3238,7 @@
         <Top>10.2257in</Top>
         <Left>0.95916in</Left>
         <Height>0.25in</Height>
-        <Width>0.35417in</Width>
+        <Width>0.4267in</Width>
         <ZIndex>22</ZIndex>
         <Style>
           <Border>
@@ -3090,12 +3259,14 @@
               <TextRun>
                 <Value>TELP: </Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
               <TextRun>
                 <Value>=First(Fields!TelpBarang.Value, "PoDs")</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3128,6 +3299,7 @@
               <TextRun>
                 <Value>4.</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3160,6 +3332,7 @@
               <TextRun>
                 <Value>Kwintasi atas nama :</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3192,6 +3365,7 @@
               <TextRun>
                 <Value>NPWP :</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3203,7 +3377,7 @@
         <Top>11.46875in</Top>
         <Left>0.95916in</Left>
         <Height>0.25in</Height>
-        <Width>0.5868in</Width>
+        <Width>0.70139in</Width>
         <ZIndex>26</ZIndex>
         <Style>
           <Border>
@@ -3224,6 +3398,7 @@
               <TextRun>
                 <Value>5.</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3256,6 +3431,7 @@
               <TextRun>
                 <Value>Alamat Pengiriman Kwitansi :</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3288,12 +3464,14 @@
               <TextRun>
                 <Value>UP : </Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
               <TextRun>
                 <Value>=First(Fields!KwitansiUp.Value, "PoDs")</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3325,7 +3503,9 @@
             <TextRuns>
               <TextRun>
                 <Value>Demikian surat pengadaan barang ini  kami berikan  dengan nilai sebesar                                                                 untuk dapat segera dilakukan dengan sebaik-baiknya.</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3334,7 +3514,7 @@
         <rd:DefaultName>Textbox76</rd:DefaultName>
         <Top>12.97917in</Top>
         <Left>0.76124in</Left>
-        <Height>0.38542in</Height>
+        <Height>0.47222in</Height>
         <Width>11.20056in</Width>
         <ZIndex>30</ZIndex>
         <Style>
@@ -3355,18 +3535,22 @@
             <TextRuns>
               <TextRun>
                 <Value>Jakarta, </Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
               <TextRun>
                 <Value>=First(Fields!TanggalPOstr.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox78</rd:DefaultName>
-        <Top>13.43403in</Top>
+        <Top>13.49653in</Top>
         <Left>0.76124in</Left>
         <Height>0.25in</Height>
         <Width>2.02083in</Width>
@@ -3389,7 +3573,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!TTD1.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style>
@@ -3421,7 +3607,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!TTD2.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style>
@@ -3453,7 +3641,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!TTD3.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style>
@@ -3485,7 +3675,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!UP.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style>
@@ -3494,7 +3686,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox82</rd:DefaultName>
-        <Top>13.46528in</Top>
+        <Top>13.51528in</Top>
         <Left>9.79513in</Left>
         <Height>0.25in</Height>
         <Width>2.16667in</Width>
@@ -3517,7 +3709,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!Vendor.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style>
@@ -3526,7 +3720,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox83</rd:DefaultName>
-        <Top>14.87152in</Top>
+        <Top>14.84652in</Top>
         <Left>9.79512in</Left>
         <Height>0.25in</Height>
         <Width>2.16667in</Width>
@@ -3550,6 +3744,7 @@
               <TextRun>
                 <Value>Periode Sewa :</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3581,7 +3776,9 @@
             <TextRuns>
               <TextRun>
                 <Value>Dari tanggal : </Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3611,7 +3808,9 @@
             <TextRuns>
               <TextRun>
                 <Value>s/d</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3642,6 +3841,7 @@
               <TextRun>
                 <Value>=First(Fields!NPWP.Value, "PoDs")</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3651,9 +3851,9 @@
         </Paragraphs>
         <rd:DefaultName>NPWP</rd:DefaultName>
         <Top>11.46875in</Top>
-        <Left>1.61541in</Left>
+        <Left>1.72999in</Left>
         <Height>0.25in</Height>
-        <Width>5.13194in</Width>
+        <Width>5.01736in</Width>
         <ZIndex>40</ZIndex>
         <Style>
           <Border>
@@ -3673,7 +3873,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!AlamatKwitansi.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3703,7 +3905,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!AlmatBarangUp.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3733,7 +3937,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!AtasNama.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3763,7 +3969,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!Bank.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3771,9 +3979,9 @@
         </Paragraphs>
         <rd:DefaultName>Bank</rd:DefaultName>
         <Top>7.73611in</Top>
-        <Left>5.92236in</Left>
+        <Left>6.04736in</Left>
         <Height>0.46181in</Height>
-        <Width>3.09028in</Width>
+        <Width>2.96528in</Width>
         <ZIndex>44</ZIndex>
         <Style>
           <Border>
@@ -3793,7 +4001,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!Rekening.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3801,9 +4011,9 @@
         </Paragraphs>
         <rd:DefaultName>Rekening</rd:DefaultName>
         <Top>7.73611in</Top>
-        <Left>9.71278in</Left>
+        <Left>9.79513in</Left>
         <Height>0.25in</Height>
-        <Width>2.72819in</Width>
+        <Width>2.64584in</Width>
         <ZIndex>45</ZIndex>
         <Style>
           <Border>
@@ -3823,7 +4033,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!PeriodeDari.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3853,7 +4065,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!PeriodeSampai.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3883,7 +4097,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!AlamatPengirimanKwitansi.Value, "PoDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3926,6 +4142,7 @@
               <TextRun>
                 <Value>=First(Fields!UpPengirimanBarang.Value, "PoDs")</Value>
                 <Style>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -3935,9 +4152,9 @@
         </Paragraphs>
         <rd:DefaultName>UpPengirimanBarang</rd:DefaultName>
         <Top>10.2257in</Top>
-        <Left>1.355in</Left>
+        <Left>1.50044in</Left>
         <Height>0.25in</Height>
-        <Width>4.04166in</Width>
+        <Width>3.89622in</Width>
         <ZIndex>50</ZIndex>
         <Style>
           <Border>
@@ -3957,7 +4174,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!Total.Value, "PoDetailDs")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3965,7 +4184,7 @@
         </Paragraphs>
         <rd:DefaultName>NilaiPO</rd:DefaultName>
         <Top>12.97917in</Top>
-        <Left>5.3911in</Left>
+        <Left>6.2661in</Left>
         <Height>0.25in</Height>
         <Width>2.37499in</Width>
         <ZIndex>51</ZIndex>

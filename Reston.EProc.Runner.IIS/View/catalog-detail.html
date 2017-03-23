@@ -290,7 +290,6 @@
              SetListRegionDetail(s);
              GetData();
              SetListCurrency();
-
              $("#region-detail").change(function () {
                  var newreg = $("#region-detail").val();
                  generateChart(s, newreg);
@@ -303,6 +302,7 @@
                  var data = JSON.parse($(this).attr("data"));
                  $("[name=Harga]").val(data.Harga);
                  $("#id").val(data.IdProduk);
+                 $("[name=Currency]").val(data.Currency);
                  $("[name=Region]").val($("#region-detail").val());
                  $("[name=Sumber]").val(data.Sumber);
                  $("#HargaModal").modal("show");
