@@ -136,7 +136,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     data = data.Where(d => d.PO.Prihal.Contains(search));
                 }
                 dtTable.recordsFiltered = data.Count();
-                data = data.OrderByDescending(d => d.CreatedOn).Skip(start).Take(limit);
+                data = data.OrderBy(d => d.CreatedOn).Skip(start).Take(limit);
                 dtTable.data = data.Select(d => new VWPODetail
                 {
                     Id = d.Id,

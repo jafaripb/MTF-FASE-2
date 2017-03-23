@@ -41,7 +41,7 @@ namespace Reston.Pinata.Model.JimbisModel
 
         public decimal Harga { get; set; }
 
-        [MaxLength(4)]
+        [MaxLength(10)]
         public string Currency { get; set; }
 
         public string Region { get; set; }
