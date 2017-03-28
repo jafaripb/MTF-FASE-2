@@ -161,10 +161,18 @@ $(function () {
              },
              {
                  "render": function (data, type, row) {
+                     if (row.level == 0) {
+                         return '<a class="btn btn-xs btn-success sisip-item-bawah" attrJudul="' + row.judul + '" title="Tambah Item Bawah"><span class="fa fa-hand-o-down"></span></a>' +
+                                ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ';
+                     }
+                     if (row.level == 2) {
+                         return ' <a class="btn btn-xs btn-primary sisip-item-atas" attrJudul="' + row.judul + '" title="Tambah Item Atas"><span class="fa fa-hand-o-up"></span></a> ' +
+                                ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ';
+                     }
                      return ' <a class="btn btn-xs btn-primary sisip-item-atas" attrJudul="'+row.judul+'" title="Tambah Item Atas"><span class="fa fa-hand-o-up"></span></a> ' +
                          ' <a class="btn btn-xs btn-success sisip-item-bawah" attrJudul="' + row.judul + '" title="Tambah Item Bawah"><span class="fa fa-hand-o-down"></span></a> ' +
                          ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ' +
-                         ' <a class="btn btn-xs btn-warning hitung" title="Hitung"><span class="fa fa-pencil"></span></a>';
+                         ' <a class="btn btn-xs btn-warning hitung" title="Clear Row"><span class="fa fa-pencil"></span></a>';
                  },
                  "targets": 7,
                  "orderable": false
@@ -194,11 +202,16 @@ $(function () {
     });
     $().UItoTop({ easingType: 'easeOutQuart' });
 
+    $("#example1").on("click", ".hitung", function () {
+        alert("OK");
+    });
+
     $("#example1").on("click", ".remove-item", function () {
         var vl = $(this).closest('tr')[0];
         table.rows(vl).remove().draw();
         hitungHargaItem();
     });
+
     $("#example1").on("input propertychange paste", ".jmlItem", function (e) {
         var vl = $(this).closest('tr')[0];
         var rowIndex = $('#example1 tr').index(vl);
@@ -214,7 +227,7 @@ $(function () {
     });
 
     SetListRegion("[name=Region]");
-
+    
     $("#example1").on("change", ".item", function () {
         var elRow = $(this).parent().closest("tr");
         var oldRowData = table.row(elRow.index()).data();
@@ -227,18 +240,27 @@ $(function () {
             newRowData.hps = "";
             newRowData.keterangan = "";
         }
-        else {
+        else if (newRowData.judul == "undefined" || newRowData.judul=="") {
             var totalHarga = (parseFloat($(elRow).find(".jumlah").val()) * parseFloat($(elRow).find(".hps").val()));
-            newRowData.item = $(elRow).find(".namaItem").val();
-            newRowData.satuan = $(elRow).find(".satuan").val();
-            newRowData.jumlah = $(elRow).find(".jumlah").val();
-            newRowData.hps = $(elRow).find(".hps").val();
-            newRowData.keterangan = $(elRow).find(".keterangan").val();
-            newRowData.total = totalHarga;
+            if ($(elRow).find(".jumlah").val() == "") {
+                newRowData.jumlah = '1';
+                newRowData.total = totalHarga;
+            }
+            else if ($(elRow).find(".hps").val() == "0") {
+                newRowData.hps = $(elRow).find(".hps").val();
+                newRowData.jumlah = $(elRow).find(".jumlah").val();
+                newRowData.total = totalHarga;
+            }
+            else {
+                newRowData.item = $(elRow).find(".namaItem").val();
+                newRowData.satuan = $(elRow).find(".satuan").val();
+                newRowData.jumlah = $(elRow).find(".jumlah").val();
+                newRowData.hps = $(elRow).find(".hps").val();
+                newRowData.total = totalHarga;
+            }
         }
-        var el = $("#example1 tr td").find("input").find(".namaJudul[value=judul]");
         addNewData(elRow.index(), newRowData);
-        //colectData();
+        
         Hitung();
     });
 
@@ -388,7 +410,7 @@ $(function () {
     });
   
 
-    $("#example1").on('keydown.autocomplete', ".namaItem", function () {
+    $("#example1").on('click.autocomplete', ".namaItem", function () {
         $(this).autocomplete({
             //source: "data/item.txt",
             //source:"api/Produk/GetAllProduk",
@@ -417,8 +439,12 @@ $(function () {
                 var oldRowData = table.row(baris).data();
 
                 $(this).focus();
-                var newData = {};                
+                var newData = {};
+
                 newData.Id = oldRowData.Id;
+
+                newData.judul = ui.item.judul;
+
                 newData.ItemId = ui.item.ItemId;               
                 newData.RKSHeaderId = $("#idRks").val();
                 newData.hps = ui.item.harga;
