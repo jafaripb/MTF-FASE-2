@@ -688,8 +688,8 @@ namespace Reston.Pinata.WebService.Controllers
                         var vwpengadaan = _repository.GetPengadaanByiD(id);
                         var DepHead = await listHead();
                         var DepManager = await listGuidManager();
-                        var Direksi = await listUser(IdLdapConstants.Roles.pRole_direksi);
-                        var Dirut = await listUser(IdLdapConstants.Roles.pRole_dirut);
+                        var Direksi = await AllUser(IdLdapConstants.Roles.pRole_direksi);
+                        var Dirut = await AllUser(IdLdapConstants.Roles.pRole_dirut);
                         decimal? RKS = _repository.getRKSDetails(id, UserId()).Sum(d => d.hps * d.jumlah);
                         var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
                                 new WorkflowMasterTemplateDetail()
@@ -3393,7 +3393,7 @@ namespace Reston.Pinata.WebService.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task< IHttpActionResult> ListCount()
         {
-            var userApprover = await listUser(IdLdapConstants.Roles.pRole_approver);
+            var userApprover = await AllUser(IdLdapConstants.Roles.pRole_approver);
             return Json(_repository.ListCount(UserId(), userApprover));
         }
 
@@ -3472,8 +3472,8 @@ namespace Reston.Pinata.WebService.Controllers
                             var vwpengadaan = _repository.GetPengadaanByiD(id);
                             var DepHead = await listHead();
                             var DepManager = await listGuidManager();
-                            var Direksi = await listUser(IdLdapConstants.Roles.pRole_direksi);
-                            var Dirut = await listUser(IdLdapConstants.Roles.pRole_dirut);
+                            var Direksi = await AllUser(IdLdapConstants.Roles.pRole_direksi);
+                            var Dirut = await AllUser(IdLdapConstants.Roles.pRole_dirut);
                             decimal? RKS = _repository.getRKSDetails(id, UserId()).Sum(d => d.hps * d.jumlah);
                             var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
                                 new WorkflowMasterTemplateDetail()
@@ -3612,8 +3612,8 @@ namespace Reston.Pinata.WebService.Controllers
                 var vwpengadaan = _repository.GetPengadaanByiD(Id);
                 var DepHead = await listHead();
                 var DepManager = await listGuidManager();
-                var Direksi = await listUser(IdLdapConstants.Roles.pRole_direksi);
-                var Dirut = await listUser(IdLdapConstants.Roles.pRole_dirut);
+                var Direksi = await AllUser(IdLdapConstants.Roles.pRole_direksi);
+                var Dirut = await AllUser(IdLdapConstants.Roles.pRole_dirut);
                 var WorkflowMasterTemplateDetails = new List<WorkflowMasterTemplateDetail>(){
                                 new WorkflowMasterTemplateDetail()
                                     {

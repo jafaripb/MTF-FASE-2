@@ -5272,6 +5272,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         public List<VWStaffCharges> GetSummaryTotal(DateTime dari, DateTime sampai, int limit = Int32.MaxValue, int skip = 0)
         {
+
             var fPengadaan = ctx.Pengadaans
                 .Where(b => b.TanggalMenyetujui >= dari && b.TanggalMenyetujui <= sampai)
                 .OrderBy(x => x.TanggalMenyetujui)

@@ -215,9 +215,17 @@ $(function () {
 
     SetListRegion("[name=Region]");
 
-  /*  $("#example1").on("change", ".item", function () {
+    function onchange_kocak()
+    {
+        
+    }
+
+    $("#example1").on("change", ".item", function () {
+        console.log("masuk onchange");
         var elRow = $(this).parent().closest("tr");
         var oldRowData = table.row(elRow.index()).data();
+        console.log(elRow);
+        console.log(oldRowData);
         var newRowData = {};
         newRowData.judul = '' + $(elRow).find(".namaJudul").val();
         if (oldRowData.item == "") {
@@ -236,12 +244,16 @@ $(function () {
             newRowData.keterangan = $(elRow).find(".keterangan").val();
             newRowData.total = totalHarga;
         }
-        var el = $("#example1 tr td").find("input").find(".namaJudul[value=judul]");
+        console.log(newRowData);
+        //var el = $("#example1 tr td").find("input").find(".namaJudul[value=judul]");
+        //console.log(elRow);
+        //console.log(oldRowData);
         addNewData(elRow.index(), newRowData);
+        console.log("kena lo");
         //colectData();
         Hitung();
     });
-    */
+    
     function Hitung() {
         var total = 0;
         var index = 0;
@@ -315,6 +327,9 @@ $(function () {
     });
 
     $("#example1").on("click", ".sisip-item-bawah", function () {
+        console.log("kena sisip");
+        //onchange_kocak();
+
         var judul = $(this).attr('attrJudul');
         var newData = {};
         newData.RKSHeaderId = $("#idRks").val();
@@ -388,7 +403,7 @@ $(function () {
     });
   
 
-    $("#example1").on('keydown.autocomplete', ".namaItem", function () {
+    $("#example1").on('click.autocomplete', ".namaItem", function () {
         $(this).autocomplete({
             //source: "data/item.txt",
             //source:"api/Produk/GetAllProduk",
@@ -434,6 +449,7 @@ $(function () {
                 return false;
             }
         }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            //console.log('render', ul, item);
             var html = '<div class="vendor">' +
                     '<div class="box-typehead-content">' +
                       '<span class="box-typehead-title-auto">' + item.label + '</span>' +
@@ -479,7 +495,7 @@ $(function () {
         objRKSHeader.Klasifikasi = $("#Klasifikasi option:selected").val();
         objRKSHeader.Region = $("#region option:selected").val();
         objRKSHeader.RKSDetailTemplate = datatableToJson(table);
-        console.log(datatableToJson(table));
+        //console.log(datatableToJson(table));
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
             method: "POST",
