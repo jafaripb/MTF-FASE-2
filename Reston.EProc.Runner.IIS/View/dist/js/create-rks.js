@@ -202,7 +202,6 @@ $(function () {
     $().UItoTop({ easingType: 'easeOutQuart' });
 
     $("#example1").on("click", ".hitung", function () {
-        console.log("Clear");
         var row = $('#example1 tbody>tr:last').clone(true);
         $("td input:text", row).val("");
     });
@@ -232,6 +231,7 @@ $(function () {
     $("#example1").on("change", ".item", function () {
         var elRow = $(this).parent().closest("tr");
         var oldRowData = table.row(elRow.index()).data();
+        var totalHarga = (parseFloat($(elRow).find(".jumlah").val()) * parseFloat($(elRow).find(".hps").val()));
         var newRowData = {};
         newRowData.judul = '' + $(elRow).find(".namaJudul").val();
         if (oldRowData.item == "") {
@@ -241,11 +241,9 @@ $(function () {
             newRowData.hps = "";
             newRowData.keterangan = "";
         }
-        else if (newRowData.judul == "undefined" || newRowData.judul=="") {
-            var totalHarga = (parseFloat($(elRow).find(".jumlah").val()) * parseFloat($(elRow).find(".hps").val()));
+        else if (newRowData.judul == "undefined" || newRowData.judul == "") 
+        {
             if ($(elRow).find(".jumlah").val() == "") {
-                newRowData.jumlah = '1';
-                newRowData.total = totalHarga;
             }
             else if ($(elRow).find(".hps").val() == "0") {
                 newRowData.hps = $(elRow).find(".hps").val();
@@ -259,17 +257,17 @@ $(function () {
                 newRowData.keterangan = $(elRow).find(".keterangan").val();
                 newRowData.total = totalHarga;
             }
-            else {
-                newRowData.item = $(elRow).find(".namaItem").val();
-                newRowData.satuan = $(elRow).find(".satuan").val();
-                newRowData.jumlah = $(elRow).find(".jumlah").val();
-                newRowData.hps = $(elRow).find(".hps").val();
-                newRowData.keterangan = $(elRow).find(".keterangan").val();
-                newRowData.total = totalHarga;
-            }
+        }
+        else 
+        {
+            newRowData.item = $(elRow).find(".namaItem").val();
+            newRowData.satuan = $(elRow).find(".satuan").val();
+            newRowData.jumlah = $(elRow).find(".jumlah").val();
+            newRowData.hps = $(elRow).find(".hps").val();
+            newRowData.keterangan = $(elRow).find(".keterangan").val();
+            newRowData.total = totalHarga;
         }
         addNewData(elRow.index(), newRowData);
-        
         Hitung();
     });
 
@@ -650,7 +648,6 @@ function addItem(item) {
 function clearInputInRow(indexTr) {
     if (indexTr > 0) {
         var inputs = $("#example1 tbody tr:eq('" + (indexTr - 1) + "')").find("input").parent();
-        //  console.log(inputs);
         inputs.each(function () {
             var val = $(this).find("input").val();
             table.cell(indexTr, $(this).index()).data(val).draw();
@@ -659,7 +656,6 @@ function clearInputInRow(indexTr) {
 }
 
 function clearInputInRow2() {
-    //console.log($("#example1 tbody td").find("input"));
     var inputs = $("#example1 tbody td").find("input");
     inputs.each(function () {
         var val = $(this).val();
@@ -714,7 +710,6 @@ function datatableToJson(table) {
     table.rows().every(function () {
         data.push(this.data());
     });
-    //console.log(JSON.stringify(data));
     return data;
 }
 
@@ -729,5 +724,3 @@ function loadDataRks(id) {
         $("#region").val(data.Region);
     });
 }
-
-//console.log(id_rks);
