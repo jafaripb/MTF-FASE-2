@@ -161,10 +161,17 @@ $(function () {
              },
              {
                  "render": function (data, type, row) {
+                     if (row.level == 0) {
+                         return '<a class="btn btn-xs btn-success sisip-item-bawah" attrJudul="' + row.judul + '" title="Tambah Item Bawah"><span class="fa fa-hand-o-down"></span></a>' +
+                                ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ';
+                     }
+                     if (row.level == 2) {
+                         return ' <a class="btn btn-xs btn-primary sisip-item-atas" attrJudul="' + row.judul + '" title="Tambah Item Atas"><span class="fa fa-hand-o-up"></span></a> ' +
+                                ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ';
+                     }
                      return ' <a class="btn btn-xs btn-primary sisip-item-atas" attrJudul="'+row.judul+'" title="Tambah Item Atas"><span class="fa fa-hand-o-up"></span></a> ' +
                          ' <a class="btn btn-xs btn-success sisip-item-bawah" attrJudul="' + row.judul + '" title="Tambah Item Bawah"><span class="fa fa-hand-o-down"></span></a> ' +
-                         ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ' +
-                         ' <a class="btn btn-xs btn-warning hitung" title="Hitung"><span class="fa fa-pencil"></span></a>';
+                         ' <a class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a> ' ;
                  },
                  "targets": 7,
                  "orderable": false
@@ -194,11 +201,18 @@ $(function () {
     });
     $().UItoTop({ easingType: 'easeOutQuart' });
 
+    $("#example1").on("click", ".hitung", function () {
+        console.log("Clear");
+        var row = $('#example1 tbody>tr:last').clone(true);
+        $("td input:text", row).val("");
+    });
+
     $("#example1").on("click", ".remove-item", function () {
         var vl = $(this).closest('tr')[0];
         table.rows(vl).remove().draw();
         hitungHargaItem();
     });
+
     $("#example1").on("input propertychange paste", ".jmlItem", function (e) {
         var vl = $(this).closest('tr')[0];
         var rowIndex = $('#example1 tr').index(vl);
@@ -214,18 +228,10 @@ $(function () {
     });
 
     SetListRegion("[name=Region]");
-
-    function onchange_kocak()
-    {
-        
-    }
-
+    
     $("#example1").on("change", ".item", function () {
-        console.log("masuk onchange");
         var elRow = $(this).parent().closest("tr");
         var oldRowData = table.row(elRow.index()).data();
-        console.log(elRow);
-        console.log(oldRowData);
         var newRowData = {};
         newRowData.judul = '' + $(elRow).find(".namaJudul").val();
         if (oldRowData.item == "") {
@@ -235,25 +241,38 @@ $(function () {
             newRowData.hps = "";
             newRowData.keterangan = "";
         }
-        else {
+        else if (newRowData.judul == "undefined" || newRowData.judul=="") {
             var totalHarga = (parseFloat($(elRow).find(".jumlah").val()) * parseFloat($(elRow).find(".hps").val()));
-            newRowData.item = $(elRow).find(".namaItem").val();
-            newRowData.satuan = $(elRow).find(".satuan").val();
-            newRowData.jumlah = $(elRow).find(".jumlah").val();
-            newRowData.hps = $(elRow).find(".hps").val();
-            newRowData.keterangan = $(elRow).find(".keterangan").val();
-            newRowData.total = totalHarga;
+            if ($(elRow).find(".jumlah").val() == "") {
+                newRowData.jumlah = '1';
+                newRowData.total = totalHarga;
+            }
+            else if ($(elRow).find(".hps").val() == "0") {
+                newRowData.hps = $(elRow).find(".hps").val();
+                newRowData.jumlah = $(elRow).find(".jumlah").val();
+                newRowData.keterangan = $(elRow).find(".keterangan").val();
+                newRowData.total = totalHarga;
+            }
+            else if ($(elRow).find(".jumlah").val() != "" || $(elRow).find(".hps").val() != "0") {
+                newRowData.jumlah = $(elRow).find(".jumlah").val();
+                newRowData.hps = $(elRow).find(".hps").val();
+                newRowData.keterangan = $(elRow).find(".keterangan").val();
+                newRowData.total = totalHarga;
+            }
+            else {
+                newRowData.item = $(elRow).find(".namaItem").val();
+                newRowData.satuan = $(elRow).find(".satuan").val();
+                newRowData.jumlah = $(elRow).find(".jumlah").val();
+                newRowData.hps = $(elRow).find(".hps").val();
+                newRowData.keterangan = $(elRow).find(".keterangan").val();
+                newRowData.total = totalHarga;
+            }
         }
-        console.log(newRowData);
-        //var el = $("#example1 tr td").find("input").find(".namaJudul[value=judul]");
-        //console.log(elRow);
-        //console.log(oldRowData);
         addNewData(elRow.index(), newRowData);
-        console.log("kena lo");
-        //colectData();
+        
         Hitung();
     });
-    
+
     function Hitung() {
         var total = 0;
         var index = 0;
@@ -327,9 +346,6 @@ $(function () {
     });
 
     $("#example1").on("click", ".sisip-item-bawah", function () {
-        console.log("kena sisip");
-        //onchange_kocak();
-
         var judul = $(this).attr('attrJudul');
         var newData = {};
         newData.RKSHeaderId = $("#idRks").val();
@@ -432,8 +448,12 @@ $(function () {
                 var oldRowData = table.row(baris).data();
 
                 $(this).focus();
-                var newData = {};                
+                var newData = {};
+
                 newData.Id = oldRowData.Id;
+
+                newData.judul = ui.item.judul;
+
                 newData.ItemId = ui.item.ItemId;               
                 newData.RKSHeaderId = $("#idRks").val();
                 newData.hps = ui.item.harga;
@@ -449,7 +469,6 @@ $(function () {
                 return false;
             }
         }).data("ui-autocomplete")._renderItem = function (ul, item) {
-            //console.log('render', ul, item);
             var html = '<div class="vendor">' +
                     '<div class="box-typehead-content">' +
                       '<span class="box-typehead-title-auto">' + item.label + '</span>' +
@@ -495,7 +514,6 @@ $(function () {
         objRKSHeader.Klasifikasi = $("#Klasifikasi option:selected").val();
         objRKSHeader.Region = $("#region option:selected").val();
         objRKSHeader.RKSDetailTemplate = datatableToJson(table);
-        //console.log(datatableToJson(table));
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
             method: "POST",

@@ -351,7 +351,7 @@
                 "columnDefs": [
                 {
                     "render": function (data, type, row) {
-                        return '' + data.toLocaleString('id', { minimumFractionDigits: 2 });
+                        return '' + data.toLocaleString('id', { minimumFractionDigits: 6 });
                     },
                     "targets": 2,
                     "orderable": false
@@ -382,7 +382,7 @@
                      var csv = ConvertToCSV(data.aaData);
                      console.log("wew harga: " + data.aaData[data.aaData.length - 1].Harga);
                      $("#hargaCurrency").html(data.aaData[data.aaData.length - 1].Currency);
-                     $("#hargaTerakhir").html(" " + data.aaData[data.aaData.length - 1].Harga.toLocaleString('id', { minimumFractionDigits: 2 }));
+                     $("#hargaTerakhir").html(" " + data.aaData[data.aaData.length - 1].Harga.toLocaleString('id', { minimumFractionDigits: 6 }));
                      jim = csv;
                      //console.log(data);
                      $('#chart-0').highcharts({

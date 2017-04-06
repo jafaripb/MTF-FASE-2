@@ -243,10 +243,10 @@ namespace Reston.Pinata.WebService
             if (model.id > 0) rh.Id = model.id;
             //different region creating new instance of produk 
             if(p!=null)
-                if (p.RiwayatHarga.LastOrDefault() != null && p.RiwayatHarga.LastOrDefault().Region != model.Region)
-                {
+                //if (p.RiwayatHarga.LastOrDefault() != null && p.RiwayatHarga.LastOrDefault().Region != model.Region)
+                //{
 
-                }
+                //}
             if (rh.Id > 0)
             {
 

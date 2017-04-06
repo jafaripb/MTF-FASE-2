@@ -3429,7 +3429,8 @@ namespace Reston.Pinata.WebService.Controllers
             int start = Convert.ToInt32(HttpContext.Current.Request["start"].ToString());
             var client = new HttpClient();
             HttpResponseMessage reply = await client.GetAsync(
-                    string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + start + "&limit=" + length + "&filter="+IdLdapConstants.Roles.pRole_direksi + "&name=" + search));
+                    //string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + start + "&limit=" + length + "&filter="+IdLdapConstants.Roles.pRole_direksi + "&name=" + search));
+                    string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + start + "&limit=" + length + "&filter=" + IdLdapConstants.Roles.pRole_approver + "&name=" + search));
             string masterDataContent = await reply.Content.ReadAsStringAsync();
             var masterData = JsonConvert.DeserializeObject<DataPageUsers>(masterDataContent);
             DataTableUsers dt = new DataTableUsers();
