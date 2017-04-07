@@ -660,7 +660,7 @@ namespace Reston.Pinata.WebService.Controllers
             return result;
         }
 
-        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_direksi, IdLdapConstants.Roles.pRole_dirut,
                                             IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
                                              IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]

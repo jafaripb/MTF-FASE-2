@@ -229,6 +229,7 @@ $(function () {
     SetListRegion("[name=Region]");
     
     $("#example1").on("change", ".item", function () {
+        console.log("change");
         var elRow = $(this).parent().closest("tr");
         var oldRowData = table.row(elRow.index()).data();
         var totalHarga = (parseFloat($(elRow).find(".jumlah").val()) * parseFloat($(elRow).find(".hps").val()));
@@ -243,9 +244,11 @@ $(function () {
         }
         else if (newRowData.judul == "undefined" || newRowData.judul == "") 
         {
-            if ($(elRow).find(".jumlah").val() == "") {
+            if ($(elRow).find(".jumlah").val() == ""||$(elRow).find(".jumlah").val() == 0) {
+                console.log("jumlah");
             }
             else if ($(elRow).find(".hps").val() == "0") {
+                console.log("hps");
                 newRowData.hps = $(elRow).find(".hps").val();
                 newRowData.jumlah = $(elRow).find(".jumlah").val();
                 newRowData.keterangan = $(elRow).find(".keterangan").val();
@@ -267,6 +270,7 @@ $(function () {
             newRowData.keterangan = $(elRow).find(".keterangan").val();
             newRowData.total = totalHarga;
         }
+        console.log(newRowData);
         addNewData(elRow.index(), newRowData);
         Hitung();
     });
