@@ -224,7 +224,7 @@ namespace Reston.Pinata.WebService.Controllers
           client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
           HttpResponseMessage reply = await client.GetAsync(
-                  string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + start + "&limit=" + length + "&filter=" + tipe));
+                  string.Format("{0}/{1}", IdLdapConstants.IDM.Url, "admin/ListUser?start=" + start + "&limit=" + length + "&filter=" + IdLdapConstants.Roles.pRole_direksi));
           if (reply.IsSuccessStatusCode)
           {
               string masterDataContent = await reply.Content.ReadAsStringAsync();

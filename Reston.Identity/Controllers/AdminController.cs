@@ -28,6 +28,7 @@ namespace IdLdap.Controllers
         public AdminController()
         {
             bool UseAppDir = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["LDAP_APPDIR"]);
+
             _LdapRepository = new LdapRepository(new PrincipalContext(UseAppDir ? ContextType.ApplicationDirectory : ContextType.Domain,
                  IdLdapConstants.LdapConfiguration.Host,
                  IdLdapConstants.LdapConfiguration.ContextNaming,

@@ -53,6 +53,29 @@ namespace Reston.Pinata.WebService.ViewModels
         public IzinUsahaDokumenDetailViewModel SIUJK { get; set; }
     }
 
+    public class DataVendor
+    {
+        public Nullable<int> TotalRecord { get; set; }
+        public List<VWVendor2> data { get; set; }
+    }
+
+    public class VWVendor2
+    {
+        public int Id { get; set; }
+        public int TipeVendor { get; set; }
+        public string NomorVendor { get; set; }
+        public string Nama { get; set; }
+        public string Alamat { get; set; }
+        public string Provinsi { get; set; }
+        public string Kota { get; set; }
+        public string KodePos { get; set; }
+        public string Website { get; set; }
+        public string Email { get; set; }
+        public string Telepon { get; set; }
+        public string StatusAkhir { get; set; }
+        public string Owner { get; set; }
+    }
+
     public class VendorPersonViewModel
     {
         public string Nama { get; set; }

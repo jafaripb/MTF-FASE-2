@@ -5272,6 +5272,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         public List<VWStaffCharges> GetSummaryTotal(DateTime dari, DateTime sampai, int limit = Int32.MaxValue, int skip = 0)
         {
+
             var fPengadaan = ctx.Pengadaans
                 .Where(b => b.TanggalMenyetujui >= dari && b.TanggalMenyetujui <= sampai)
                 .OrderBy(x => x.TanggalMenyetujui)
@@ -5784,7 +5785,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 TitleBerkasRujukanLain = b.TitleBerkasRujukanLain,
                 Mulai=b.JadwalPelaksanaans.Where(d=>d.statusPengadaan==EStatusPengadaan.DISETUJUI).FirstOrDefault()==null?b.JadwalPengadaans.Where(d=>d.tipe==PengadaanConstants.Jadwal.Pendaftaran).FirstOrDefault().Mulai:b.JadwalPelaksanaans.Where(d=>d.statusPengadaan==EStatusPengadaan.DISETUJUI).FirstOrDefault().Mulai,
                 Sampai = b.JadwalPelaksanaans.Where(d => d.statusPengadaan == EStatusPengadaan.DISETUJUI).FirstOrDefault() == null ? b.JadwalPengadaans.Where(d => d.tipe == PengadaanConstants.Jadwal.Pendaftaran).FirstOrDefault().Sampai : b.JadwalPelaksanaans.Where(d => d.statusPengadaan == EStatusPengadaan.DISETUJUI).FirstOrDefault().Sampai
-            }).Where(d=>d.Mulai >=DateTime.Now && DateTime.Now <=d.Sampai).ToList();
+            }).Where(d =>d.Sampai >=DateTime.Now).ToList();
             
 
             //return (from b in ctx.Pengadaans

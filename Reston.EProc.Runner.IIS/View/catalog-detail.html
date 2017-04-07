@@ -212,7 +212,8 @@
                             <div class="row">
                                 <label class="col-sm-4 control-label">Harga Baru</label>
                                 <div class="col-sm-6">
-                                    <input name="Harga" type="number" class="form-control " placeholder="Harga">
+                                    <!--<input name="Harga" type="number" class="form-control " placeholder="Harga">-->
+                                    <input name="Harga" id="Harga" type="text" class="form-control " placeholder="Harga" onkeyup="myFunc(this.value)">
                                 </div>
                             </div>
                             <div class="row" style="margin-top:5px">
@@ -530,7 +531,6 @@
                   url: frm.attr('action'),
                   data: frm.serialize(),
                   success: function (data) {
-                      //alert('ok');
                       window.location.href = "catalog-detail.html?id=" + id;
                   },
                   complete: function (xhr, textStatus) {
@@ -547,6 +547,7 @@
           $('.form-validation-error').removeClass('form-validation-error');
           if ($("[name='Harga']").val() == '') {
               $("[name='Harga']").addClass('form-validation-error');
+              alert("Kocak");
               v = false;
           }
           if ($("[name='Currency']").val() == '') {
@@ -601,6 +602,13 @@
           }
       }
 
+         //test valid
+
+      $('#Harga').keyup(function () {
+          if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+              this.value = this.value.replace(/[^0-9\.]/g, '');
+          }
+      });
 	  
     </script>
 	<!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->

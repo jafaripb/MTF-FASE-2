@@ -297,6 +297,12 @@ namespace Reston.Pinata.Model
         }
         #endregion
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<RiwayatHarga>().Property(x => x.Harga).HasPrecision(18, 4);
+        }
 
     }
+
+    
 }
