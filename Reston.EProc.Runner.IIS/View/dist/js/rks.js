@@ -251,6 +251,7 @@ $(function () {
     $("#example1").on("change", ".item", function () {
         var elRow = $(this).parent().closest("tr");
         var oldRowData = table.row(elRow.index()).data();
+        var totalHarga = (parseFloat($(elRow).find(".jumlah").val()) * parseFloat($(elRow).find(".hps").val()));
         var newRowData = {};
         newRowData.judul = '' + $(elRow).find(".namaJudul").val();
         if (oldRowData.item == "") {
@@ -260,8 +261,23 @@ $(function () {
             newRowData.hps = "";
             newRowData.keterangan = "";
         }
+        else if (newRowData.judul == "undefined" || newRowData.judul == "") {
+            if ($(elRow).find(".jumlah").val() == "") {
+            }
+            else if ($(elRow).find(".hps").val() == "0") {
+                newRowData.hps = $(elRow).find(".hps").val();
+                newRowData.jumlah = $(elRow).find(".jumlah").val();
+                newRowData.keterangan = $(elRow).find(".keterangan").val();
+                newRowData.total = totalHarga;
+            }
+            else if ($(elRow).find(".jumlah").val() != "" || $(elRow).find(".hps").val() != "0") {
+                newRowData.jumlah = $(elRow).find(".jumlah").val();
+                newRowData.hps = $(elRow).find(".hps").val();
+                newRowData.keterangan = $(elRow).find(".keterangan").val();
+                newRowData.total = totalHarga;
+            }
+        }
         else {
-            var totalHarga = (parseFloat($(elRow).find(".jumlah").val()) * parseFloat($(elRow).find(".hps").val()));
             newRowData.item = $(elRow).find(".namaItem").val();
             newRowData.satuan = $(elRow).find(".satuan").val();
             newRowData.jumlah = $(elRow).find(".jumlah").val();
@@ -269,12 +285,11 @@ $(function () {
             newRowData.keterangan = $(elRow).find(".keterangan").val();
             newRowData.total = totalHarga;
         }
-        var el = $("#example1 tr td").find("input").find(".namaJudul[value=judul]");
         addNewData(elRow.index(), newRowData);
         Hitung();
     });
 
-    $("#example1").on('keydown.autocomplete', ".namaItem", function () {
+    $("#example1").on('click.autocomplete', ".namaItem", function () {
         $(this).autocomplete({
             //source: "data/item.txt",
             //source:"api/Produk/GetAllProduk",
@@ -304,7 +319,11 @@ $(function () {
 
                 $(this).focus();
                 var newData = {};
+
                 newData.Id = oldRowData.Id;
+
+                newData.judul = ui.item.judul;
+
                 newData.ItemId = ui.item.ItemId;
                 newData.RKSHeaderId = $("#idRks").val();
                 newData.hps = ui.item.harga;
