@@ -1222,3 +1222,30 @@ $("#anjukan-lanjutkan").on("click", function () {
     $("#modal-persetujuan").modal("hide");
     save(getHeaderPengadaan(), "", "Ajukan");
 });
+
+$("#kirim-email").on("click", function () {
+    var kirimemail = {};
+    kirimemail.Tipe = $(this).attr("attr2");
+    kirimemail.PengadaanId = $("#pengadaanId").val();
+    waitingDialog.showloading("Proses Harap Tunggu");
+    var url = "Api/PengadaanE/kirimemail";
+    if (kirimemail.Tipe == "SuratPerintahKerja") url = "Api/PengadaanE/kirimemail";
+    $.ajax({
+        method: "POST",
+        url: url,
+        dataType: "json",
+        data: JSON.stringify(kirimemail),
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            $(this).attr('checked', true);
+            getKandidatPemenang();
+            waitingDialog.hideloading();
+            waitingDialog.hideloading();
+            alert(data.message);
+        },
+        error: function (errormessage) {
+            $(this).attr('checked', false);
+            waitingDialog.hideloading();
+        }
+    });
+});
