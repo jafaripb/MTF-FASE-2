@@ -286,13 +286,35 @@ namespace Reston.Helper.Repository
             }
 
             //buat workflow approvel//workflowapproval adalah sejarah dokumen dalam proses persetujan
+            // ----- kodingan asli jafar
+            //WorkflowApproval oWorkflowApproval = new WorkflowApproval();
+            //oWorkflowApproval.WorkflowStateId = oWorkflow.Id;
+            //oWorkflowApproval.UserId = UserId;
+            //oWorkflowApproval.ActionDate = DateTime.Now;
+            //oWorkflowApproval.Comment = Comment;
+
+            //oWorkflowApproval.WorkflowStatusStateCode = oWorkflowStatusState;
+
+            // ------ end of kodingan asli jafar
+
+            // start harry style
             WorkflowApproval oWorkflowApproval = new WorkflowApproval();
+
             oWorkflowApproval.WorkflowStateId = oWorkflow.Id;
             oWorkflowApproval.UserId = UserId;
             oWorkflowApproval.ActionDate = DateTime.Now;
-            oWorkflowApproval.Comment = Comment;
+
+            if (oWorkflowStatusState == WorkflowStatusState.APPROVED)
+            {
+                oWorkflowApproval.Comment = "Menyetujui. Catatan : " + Comment;
+            }
+            else if (oWorkflowStatusState == WorkflowStatusState.REJECTED)
+            {
+                oWorkflowApproval.Comment = "Menolak. Catatan : " + Comment;
+            }
 
             oWorkflowApproval.WorkflowStatusStateCode = oWorkflowStatusState;
+            //end harry style
 
             if (oWorkflowStatusState == WorkflowStatusState.APPROVED)
             {
