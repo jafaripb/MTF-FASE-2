@@ -3938,8 +3938,11 @@ namespace Reston.Pinata.WebService.Controllers
             var oKalah = oKandidat.Except(oPemenang);
             foreach (var item in oPemenang)
             {
+                SubjeckEmailPemenang.Replace("{5}", pengadaan.Judul);
+
                 string html = System.Configuration.ConfigurationManager.AppSettings["MAIL_KALAH_BODY"].ToString();
                 var noMenang = _repository.GenerateNoDOKUMEN(UserId(), System.Configuration.ConfigurationManager.AppSettings["KODE_MENANG"].ToString(), TipeNoDokumen.MEANANG);
+                
                 html = html.Replace("{2}", noMenang);
                 html = html.Replace("{1}", Common.ConvertDateToIndoDate(DateTime.Now));
                 html = html.Replace("{3}", item.NamaVendor);
@@ -3949,9 +3952,12 @@ namespace Reston.Pinata.WebService.Controllers
             }
             foreach (var item in oKalah)
             {
+                SubjeckEmailKalah.Replace("{5}", pengadaan.Judul);
+
                 string html = System.Configuration.ConfigurationManager.AppSettings["MAIL_KALAH_BODY"].ToString();
                 var noKalah = _repository.GenerateNoDOKUMEN(UserId(), System.Configuration.ConfigurationManager.AppSettings["KODE_KALAH"].ToString(), TipeNoDokumen.KALAH);
-                html=html.Replace("{2}",noKalah);
+                html = html.Replace("{5}", pengadaan.Judul);
+                html =  html.Replace("{2}",noKalah);
                 html = html.Replace("{1}", Common.ConvertDateToIndoDate(DateTime.Now));
                 html = html.Replace("{3}", item.NamaVendor);
                 html = html.Replace("{4}", item.Alamat);

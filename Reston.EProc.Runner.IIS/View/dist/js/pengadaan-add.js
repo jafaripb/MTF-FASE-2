@@ -463,7 +463,6 @@ function getHeaderPengadaan() {
 
 function loadHeaderPengadaan(viewPengadaan) {
     var xPermision = viewPengadaan.isCreated == 1 ? 1 : viewPengadaan.isTEAM == 1 ? 1 : 0;
-    alert("kocak");
     LoadKriteriaPembobotan(viewPengadaan.Id, xPermision);
     if (viewPengadaan.Status == 0 || viewPengadaan.Status == 10) {
         if (viewPengadaan.isPIC == 1 && viewPengadaan.Status != 10) {
@@ -832,7 +831,6 @@ function loadKualifikas(kualifikasiKandidat) {
 }
 
 function LoadKriteriaPembobotan(PengadaanId, xIsTeam) {
-    alert("kocak");
     $("#kreteriaPembobotan").html("");
     $.ajax({
         method: "POST",

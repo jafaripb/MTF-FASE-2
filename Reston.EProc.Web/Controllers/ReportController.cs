@@ -133,7 +133,7 @@ namespace Reston.Pinata.WebService.Controllers
             var jadwalAanwijzing = _repository.getPelaksanaanAanwijing(Id);
             string fileName = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Template\Berita Acara Pemberian Penjelasan.docx";
 
-            string outputFileName = "BA-Aanwizjing-" + UserId().ToString() + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
+            string outputFileName = "BA-Aanwizjing-" + Id.ToString() + "-" + DateTime.Now.ToString("dd-MM-yy") + ".docx";
 
             string OutFileNama = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"Download\Report\Temp\" + outputFileName;
             // Create a document in memory:
@@ -196,7 +196,7 @@ namespace Reston.Pinata.WebService.Controllers
                 //Tanggal
                 if (jadwalAanwijzing != null)
                 {
-                    doc.ReplaceText("{pengadaan_jadwal_hari}", Common.ConvertHari((int)BeritaAcara.tanggal.Value.DayOfWeek));
+                    //doc.ReplaceText("{pengadaan_jadwal_hari}", Common.ConvertHari((int)BeritaAcara.tanggal.Value.DayOfWeek));
                     doc.ReplaceText("{pengadaan_jadwal_tanggal}", BeritaAcara.tanggal.Value.Day.ToString() +
                         " " + Common.ConvertNamaBulan(BeritaAcara.tanggal.Value.Month) +
                         " " + BeritaAcara.tanggal.Value.Year.ToString());
