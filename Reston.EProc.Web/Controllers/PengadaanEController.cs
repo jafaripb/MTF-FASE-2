@@ -2850,11 +2850,13 @@ namespace Reston.Pinata.WebService.Controllers
                     if(SaveSpk!=null)
                         lstSpk.Add(SaveSpk);
                 }
+                SendEmailPemenang(vwpengadaan.PengadaanId.Value);
                 return new ResultMessage()
                 {
                     status = HttpStatusCode.OK,
                     message = Common.SaveSukses()
                 };
+
             }
             catch(Exception ex)
             {
@@ -3932,10 +3934,11 @@ namespace Reston.Pinata.WebService.Controllers
        
         private void SendEmailPemenang(Guid PengadaanId)
         {
-            var pengadaan= _repository.GetPengadaanByiD(PengadaanId);
+            var pengadaan = _repository.GetPengadaanByiD(PengadaanId);
             var oKandidat = _repository.getKandidatPengadaan(PengadaanId, UserId());
             var oPemenang = _repository.getPemenangPengadaan(PengadaanId, UserId());
-            var oKalah = oKandidat.Except(oPemenang);
+            //var oKalah = oKandidat.Except(oPemenang);
+            var oKalah = oKandidat.Where(p => !oPemenang.Any(p2 => p2.VendorId == p.VendorId));
             foreach (var item in oPemenang)
             {
                 string html = System.Configuration.ConfigurationManager.AppSettings["MAIL_KALAH_BODY"].ToString();
@@ -3951,14 +3954,14 @@ namespace Reston.Pinata.WebService.Controllers
             {
                 string html = System.Configuration.ConfigurationManager.AppSettings["MAIL_KALAH_BODY"].ToString();
                 var noKalah = _repository.GenerateNoDOKUMEN(UserId(), System.Configuration.ConfigurationManager.AppSettings["KODE_KALAH"].ToString(), TipeNoDokumen.KALAH);
-                html=html.Replace("{2}",noKalah);
+                html = html.Replace("{2}", noKalah);
                 html = html.Replace("{1}", Common.ConvertDateToIndoDate(DateTime.Now));
                 html = html.Replace("{3}", item.NamaVendor);
                 html = html.Replace("{4}", item.Alamat);
                 html = html.Replace("{0}", pengadaan.Judul);
                 sendMail(item.NamaVendor, item.Email, html, SubjeckEmailKalah);
             }
-        }
+         }
 
         private async Task<int> SendEmailToApprover(string UserId,Guid PengadaanId)
         {
