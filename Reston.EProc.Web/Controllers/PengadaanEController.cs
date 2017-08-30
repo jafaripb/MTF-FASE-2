@@ -3948,7 +3948,7 @@ namespace Reston.Pinata.WebService.Controllers
                 html = html.Replace("{3}", item.NamaVendor);
                 html = html.Replace("{4}", item.Alamat);
                 html = html.Replace("{0}", pengadaan.Judul);
-                sendMail(item.NamaVendor, item.Email, html, SubjeckEmailPemenang);
+                //sendMail(item.NamaVendor, item.Email, html, SubjeckEmailPemenang);
             }
             foreach (var item in oKalah)
             {
@@ -3959,7 +3959,7 @@ namespace Reston.Pinata.WebService.Controllers
                 html = html.Replace("{3}", item.NamaVendor);
                 html = html.Replace("{4}", item.Alamat);
                 html = html.Replace("{0}", pengadaan.Judul);
-                sendMail(item.NamaVendor, item.Email, html, SubjeckEmailKalah);
+                //sendMail(item.NamaVendor, item.Email, html, SubjeckEmailKalah);
             }
          }
 
